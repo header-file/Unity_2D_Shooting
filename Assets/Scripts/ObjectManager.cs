@@ -1,0 +1,183 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ObjectManager : MonoBehaviour
+{
+    public GameObject Enemy_SPref;
+    public GameObject Enemy_MPref;
+    public GameObject Enemy_LPref;
+
+    public GameObject CoinPref;
+
+    public GameObject NormalPref;
+    public GameObject SpreadPref;
+    public GameObject MissilePref;
+    public GameObject LaserPref;
+    public GameObject ChargePref;
+
+    public GameObject SubWeaponPref;
+
+    GameObject[] Enemies_S;
+    GameObject[] Enemies_M;
+    GameObject[] Enemies_L;
+
+    GameObject[] Coins;
+
+    GameObject[] Normals;
+    GameObject[] Spreads;
+    GameObject[] Missiles;
+    GameObject[] Lasers;
+    GameObject[] Charges;
+
+    GameObject[] SubWeapons;
+
+    GameObject[] TargetPool;
+
+
+    public GameObject MakeObj(string Type)
+    {
+        switch(Type)
+        {
+            case "EnemyS":
+                TargetPool = Enemies_S;
+                break;
+
+            case "EnemyM":
+                TargetPool = Enemies_M;
+                break;
+
+            case "EnemyL":
+                TargetPool = Enemies_L;
+                break;
+
+            case "Coin":
+                TargetPool = Coins;
+                break;
+
+            case "Normal":
+                TargetPool = Normals;
+                break;
+
+            case "Spread":
+                TargetPool = Spreads;
+                break;
+
+            case "Missile":
+                TargetPool = Missiles;
+                break;
+
+            case "Laser":
+                TargetPool = Lasers;
+                break;
+
+            case "Charge":
+                TargetPool = Charges;
+                break;
+
+            case "SubWeapon":
+                TargetPool = SubWeapons;
+                break;
+        }
+
+        for (int i = 0; i < TargetPool.Length; i++)
+        {
+            if (!TargetPool[i].activeSelf)
+            {
+                TargetPool[i].SetActive(true);
+                return TargetPool[i];
+            }
+                
+        }
+
+        return null;
+    }
+
+    void Awake()
+    {
+        Enemies_S = new GameObject[20];
+        Enemies_M = new GameObject[10];
+        Enemies_L = new GameObject[10];
+
+        Coins = new GameObject[10];
+
+        Normals = new GameObject[40];
+        Spreads = new GameObject[40];
+        Missiles = new GameObject[20];
+        Lasers = new GameObject[10];
+        Charges = new GameObject[10];
+
+        SubWeapons = new GameObject[4];
+        
+        Generate();
+    }
+
+    void Generate()
+    {
+        for (int i = 0; i < Enemies_S.Length; i++)
+        {
+            Enemies_S[i] = Instantiate(Enemy_SPref);
+            Enemies_S[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Enemies_M.Length; i++)
+        {
+            Enemies_M[i] = Instantiate(Enemy_MPref);
+            Enemies_M[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Enemies_L.Length; i++)
+        {
+            Enemies_L[i] = Instantiate(Enemy_LPref);
+            Enemies_L[i].SetActive(false);
+        }
+
+
+        for (int i = 0; i < Coins.Length; i++)
+        {
+            Coins[i] = Instantiate(CoinPref);
+            Coins[i].SetActive(false);
+        }
+
+
+        for (int i = 0; i < Normals.Length; i++)
+        {
+            Normals[i] = Instantiate(NormalPref);
+            Normals[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Spreads.Length; i++)
+        {
+            Spreads[i] = Instantiate(SpreadPref);
+            Spreads[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Missiles.Length; i++)
+        {
+            Missiles[i] = Instantiate(MissilePref);
+            Missiles[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Lasers.Length; i++)
+        {
+            Lasers[i] = Instantiate(LaserPref);
+            Lasers[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Charges.Length; i++)
+        {
+            Charges[i] = Instantiate(ChargePref);
+            Charges[i].SetActive(false);
+        }
+
+
+        for (int i = 0; i < SubWeapons.Length; i++)
+        {
+            SubWeapons[i] = Instantiate(SubWeaponPref);
+            SubWeapon sub = SubWeapons[i].gameObject.GetComponent<SubWeapon>();
+            GameManager.Inst().SetSubWeapons(sub, i);
+            GameManager.Inst().SubWID[i] = SubWeapons[i].GetInstanceID();
+            SubWeapons[i].SetActive(false);
+        }
+    }
+}
