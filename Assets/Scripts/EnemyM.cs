@@ -6,12 +6,8 @@ public class EnemyM : Enemy
 {
     void Start()
     {
-        Speed = 12;
-        BeforeHP = CurHP = Health = 3;
-    }
-
-    void FixedUpdate()
-    {
-        transform.RotateAround(MidPoint, Vector3.forward, -Time.deltaTime * Speed);
+        Type = EnemyType.MEDIUM;
+        Speed = 1;
+        BeforeHP = CurHP = Health = 50;
     }
 }

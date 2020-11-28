@@ -6,7 +6,8 @@ public class EnemyL : Enemy
 {
     void Start()
     {
-        Speed = 6;
-        BeforeHP = CurHP = Health = 5;
+        Type = EnemyType.LARGE;
+        Speed = 0.5f;
+        BeforeHP = CurHP = Health = 10;
     }
 }

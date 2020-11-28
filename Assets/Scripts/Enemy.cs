@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+    public enum EnemyType
+    {
+        SMALL = 0,
+        MEDIUM = 1,
+        LARGE = 2
+    };
+
     GameManager Manager;
 
     public Sprite[] Sprites;
@@ -16,10 +23,18 @@ public class Enemy : MonoBehaviour
     protected float CurHP;
     protected float BeforeHP;
     protected Vector3 MidPoint;
+    protected EnemyType Type;
 
     SpriteRenderer SpriteRenderer;
+    HitArea HitArea;
 
     bool IsBarVisible;
+    Vector3 TargetPosition;
+
+    public int GetEnemyType() { return (int)Type; }
+    public Vector3 GetTargetPosition() { return TargetPosition; }
+
+    public void SetTargetPosition(Vector3 Pos) { TargetPosition = Pos; }
     
     
     void Awake()
@@ -33,18 +48,19 @@ public class Enemy : MonoBehaviour
         HP_Bar.fillAmount = 1.0f;
         Canvas.SetActive(false);
 
+        TargetPosition = Vector3.zero;
+
         GameObject manager = GameObject.Find("GameManager");
         Manager = manager.gameObject.GetComponent<GameManager>();
+
+        HitArea = transform.GetChild(1).GetComponent<HitArea>();
     }
 
     void FixedUpdate()
     {
-        transform.RotateAround(MidPoint, Vector3.forward, Time.deltaTime * Speed);
-
-        //Vector3 pos = transform.position;
-        //pos.x -= Speed * 00.01f;
-
-        //HP_Bar.fillAmount = Mathf.Lerp(BeforeHP / Health, CurHP / Health, Time.deltaTime);
+        //transform.RotateAround(MidPoint, Vector3.forward, Time.deltaTime * Speed);
+        Vector3 pos = Vector3.MoveTowards(transform.position, TargetPosition, Speed * Time.deltaTime);
+        transform.position = pos;
     }
 
     void OnHit(float Damage)
@@ -71,9 +87,11 @@ public class Enemy : MonoBehaviour
             GameObject coin = Manager.ObjManager.MakeObj("Coin");
             coin.transform.position = transform.position;
             Item_Coin ic = coin.gameObject.GetComponent<Item_Coin>();
-            ic.SetValue((int)Random.Range(Health, Health * 3));
+            ic.SetValue((int)Random.Range(Health, Health * 5));
 
+            CurHP = Health;
             gameObject.SetActive(false);
+
             GameManager.Inst().Camerashake.Vibrate(0.05f);
         }       
     }
@@ -109,6 +127,27 @@ public class Enemy : MonoBehaviour
             float dmg = bullet.GetDamage() * level;
 
             OnHit(dmg);
+        }
+        else if(collision.gameObject.name == "Bottom")
+        {
+            //GameManager.Inst().RedMask.gameObject.SetActive(true);
+            GameManager.Inst().RedMask.gameObject.GetComponent<RedMask>().SetIsAlert(true);
+
+            GameManager.Inst().Camerashake.Vibrate(0.05f);
+            
+            //아군 피격
+            for(int i = 0; i < 5; i++)
+            {
+                if (HitArea.HitObjects[i] == null)
+                    continue;
+                Debug.Log(HitArea.HitObjects[i].gameObject.name);
+                HitArea.HitObjects[i].GetComponent<SubWeapon>().Dead();
+                HitArea.HitObjects[i] = null;
+            }
+
+            //적 사망 처리
+            CurHP = Health;
+            gameObject.SetActive(false);
         }
     }
 

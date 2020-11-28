@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SubWeapon : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class SubWeapon : MonoBehaviour
 {
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
@@ -11,11 +11,16 @@ public class SubWeapon : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public GameObject ChargePos;
     public GameObject Arrow;
 
+    public Sprite[] Sprites;
+
+    SpriteRenderer SpriteRenderer;
+
     int BulletType;
     int DownCount;
     bool IsDown;
     bool IsEditMode;
     bool IsReload;
+    bool IsAlive;
     
 
     public int GetBulletType() { return BulletType; }
@@ -23,18 +28,24 @@ public class SubWeapon : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void SetBulletType(int T) { BulletType = T; }
     
     
-    void Start()
+    void Awake()
     {
-        BulletType = -1;
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+
+        BulletType = 0;
         DownCount = 0;
         IsDown = false;
         IsEditMode = false;
         IsReload = true;
         Arrow.SetActive(false);
+        IsAlive = true;
     }
 
     void Update()
     {
+        if (!IsAlive)
+            return;
+
         if (IsDown)
             DownCount++;
 
@@ -100,14 +111,21 @@ public class SubWeapon : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         IsReload = true;
     }
 
-    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+    public void Dead()
     {
-        IsDown = true;
+        if (!IsAlive)
+            return;
+
+        IsAlive = false;
+        SpriteRenderer.sprite = Sprites[1];
+
+        Invoke("ReturnDead", 3.0f);
     }
 
-    void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
+    public void ReturnDead()
     {
-        EndEditMode();
+        IsAlive = true;
+        SpriteRenderer.sprite = Sprites[0];
     }
 
     private void OnMouseDown()
