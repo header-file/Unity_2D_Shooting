@@ -14,6 +14,8 @@ public class Bullet : MonoBehaviour
         CHARGE = 4
     };
 
+    public static int MAXBULLETS = 5;
+
     protected float Damage;
 
     protected BulletType Type;

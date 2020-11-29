@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public ShootingManager ShtManager;
     public InputManager IptManager;
     public TextManager TxtManager;
+    public UIManager UiManager;
     public CameraShake Camerashake;
     public GameObject RedMask;
 

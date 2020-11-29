@@ -5,20 +5,35 @@ using UnityEngine.UI;
 
 public class TextManager : MonoBehaviour
 {
+    public GameObject[] BulletNames;
     public GameObject[] BulletLevels;
     public GameObject[] BulletPrices;
     public GameObject SubLevel;
     public GameObject SubPrice;
 
+    Text[] BNames;
     Text[] BLevels;
     Text[] BPrices;
+
+    public string GetBNames(int index) { return BNames[index].text; }
+    public string GetBLevels(int index) { return BLevels[index].text; }
+    public string GetBPrices(int index) { return BPrices[index].text; }
+
+    /*public void SetBNames(int index)
+    {
+        switch (index)
+        {
+
+        }
+    }*/
 
     public void SetBLevels(int index, int level)
     {
         if (level < 5)
-            BLevels[index].text = level.ToString();
+            BLevels[index].text = "Lv." + level.ToString();
         else
-            BLevels[index].text = "MAX";
+            BLevels[index].text = "Lv." + "MAX";
+
     }
     public void SetBPrices(int index, int price) { BPrices[index].text = price.ToString(); }
 
@@ -33,13 +48,29 @@ public class TextManager : MonoBehaviour
 
     void Awake()
     {
+        BNames = new Text[5];
         BLevels = new Text[5];
         BPrices = new Text[5];
 
-        for (int i = 0; i < 5; i++)
-        {    
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            BNames[i] = BulletNames[i].GetComponent<Text>();
             BLevels[i] = BulletLevels[i].GetComponent<Text>();
             BPrices[i] = BulletPrices[i].GetComponent<Text>();
+        }
+
+        BNames[0].text = "Normal";
+        BNames[1].text = "Spread";
+        BNames[2].text = "Missile";
+        BNames[3].text = "Laser";
+        BNames[4].text = "Charge";
+    }
+
+    void Start()
+    {
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            SetBLevels(i, GameManager.Inst().UpgManager.GetBData(i).GetPowerLevel());
         }
     }
 }
