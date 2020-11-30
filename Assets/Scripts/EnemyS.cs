@@ -8,6 +8,6 @@ public class EnemyS : Enemy
     {
         Type = EnemyType.SMALL;
         Speed = 2;
-        BeforeHP = CurHP = Health = 20;
+        BeforeHP = CurHP = Health = 6;
     }
 }

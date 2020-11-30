@@ -89,6 +89,20 @@ public class Enemy : MonoBehaviour
             Item_Coin ic = coin.gameObject.GetComponent<Item_Coin>();
             ic.SetValue((int)Random.Range(Health, Health * 5));
 
+            GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
+            explosion.transform.position = transform.position;
+
+            switch(Type)
+            {
+                case EnemyType.SMALL:
+                    explosion.transform.localScale = Vector3.one * 0.1f;
+                    break;
+
+                case EnemyType.MEDIUM:
+                    explosion.transform.localScale = Vector3.one * 0.5f;
+                    break;
+            }
+
             CurHP = Health;
             gameObject.SetActive(false);
 

@@ -18,6 +18,8 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject SubWeaponPref;
 
+    public GameObject ExplosionPref;
+
     GameObject[] Enemies_S;
     GameObject[] Enemies_M;
     GameObject[] Enemies_L;
@@ -31,6 +33,9 @@ public class ObjectManager : MonoBehaviour
     GameObject[] Charges;
 
     GameObject[] SubWeapons;
+
+    GameObject[] Explosions;
+
 
     GameObject[] TargetPool;
 
@@ -78,6 +83,10 @@ public class ObjectManager : MonoBehaviour
             case "SubWeapon":
                 TargetPool = SubWeapons;
                 break;
+
+            case "Explosion":
+                TargetPool = Explosions;
+                break;
         }
 
         for (int i = 0; i < TargetPool.Length; i++)
@@ -108,6 +117,8 @@ public class ObjectManager : MonoBehaviour
         Charges = new GameObject[10];
 
         SubWeapons = new GameObject[4];
+
+        Explosions = new GameObject[20];
         
         Generate();
     }
@@ -178,6 +189,13 @@ public class ObjectManager : MonoBehaviour
             GameManager.Inst().SetSubWeapons(sub, i);
             GameManager.Inst().SubWID[i] = SubWeapons[i].GetInstanceID();
             SubWeapons[i].SetActive(false);
+        }
+
+
+        for(int i = 0; i < Explosions.Length; i++)
+        {
+            Explosions[i] = Instantiate(ExplosionPref);
+            Explosions[i].SetActive(false);
         }
     }
 }

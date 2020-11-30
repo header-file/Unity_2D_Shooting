@@ -8,8 +8,9 @@ public class TextManager : MonoBehaviour
     public GameObject[] BulletNames;
     public GameObject[] BulletLevels;
     public GameObject[] BulletPrices;
-    public GameObject SubLevel;
+    //public GameObject SubLevel;
     public GameObject SubPrice;
+    public GameObject SubName;
 
     Text[] BNames;
     Text[] BLevels;
@@ -37,14 +38,15 @@ public class TextManager : MonoBehaviour
     }
     public void SetBPrices(int index, int price) { BPrices[index].text = price.ToString(); }
 
-    public void SetSLevel(int level)
+    /*public void SetSLevel(int level)
     {
         if (level < 4)
             SubLevel.GetComponent<Text>().text = level.ToString();
         else
             SubLevel.GetComponent<Text>().text = "MAX";
-    }
+    }*/
     public void SetSPrice(int price) { SubPrice.GetComponent<Text>().text = price.ToString(); }
+    public void SetSName(int index) { SubName.GetComponent<Text>().text = "Turret - 0" + (index + 1).ToString(); }
 
     void Awake()
     {

@@ -8,10 +8,12 @@ public class MainUI : MonoBehaviour
     public Button UpgradeBtn;
     public Canvas UpgradeUI;
     public Button ManageBtn;
+    public GameObject Arrows;
 
-    void Start()
+    void Awake()
     {
-        
+        for (int i = 0; i < 5; i++)
+            Arrows.transform.GetChild(i).gameObject.SetActive(false);
     }
 
     void Update()

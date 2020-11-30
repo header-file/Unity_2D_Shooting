@@ -286,8 +286,10 @@ public class UpgradeManager : MonoBehaviour
                     SubWeaponPrice = 0;
 
                 //UI
-                GameManager.Inst().TxtManager.SetSLevel(SubWeaponLevel);
+                //GameManager.Inst().TxtManager.SetSLevel(SubWeaponLevel);
                 GameManager.Inst().TxtManager.SetSPrice(SubWeaponPrice);
+                GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
+                GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
 
                 break;
         }
@@ -296,11 +298,12 @@ public class UpgradeManager : MonoBehaviour
     public void AddSW()
     {
         GameObject subWeapon = GameManager.Inst().ObjManager.MakeObj("SubWeapon");
-        Vector3 pos = SubPositions[SubWeaponLevel].transform.position;
+        int index = GameManager.Inst().UiManager.NewWindows[(int)UIManager.NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>().GetSelectedIndex();
+        Vector3 pos = SubPositions[index].transform.position;
         subWeapon.transform.position = pos;
         
-        Player player = GameObject.Find("Player").gameObject.GetComponent<Player>();
-        player.SetSubWeapon(subWeapon, SubWeaponLevel);
+        GameManager.Inst().Player.SetSubWeapon(subWeapon, index);
+        subWeapon.GetComponent<SubWeapon>().SetNumID(index);
     }
 
     public void Update()

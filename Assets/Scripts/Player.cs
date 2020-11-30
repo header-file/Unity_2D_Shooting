@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(1))
+        /*if (Input.GetMouseButtonUp(1))
         {
             BulletType++;
             //IsReload = true;
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
             if (BulletType >= 5)
                 BulletType = 0;
             Debug.Log(BulletType);
-        }
+        }*/
     }
 
     public void Rotate(Vector2 MousePos)
@@ -92,5 +92,10 @@ public class Player : MonoBehaviour
     void Reload()
     {
         IsReload = true;
+    }
+
+    void OnMouseDown()
+    {
+        GameManager.Inst().UiManager.OnClickManageBtn(2);
     }
 }

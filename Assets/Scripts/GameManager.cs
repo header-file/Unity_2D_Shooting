@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
             TxtManager.SetBPrices(i, UpgManager.GetBData(i).GetPrice());
         }
 
-        TxtManager.SetSLevel(UpgManager.GetSubWeaponLevel());
+        //TxtManager.SetSLevel(UpgManager.GetSubWeaponLevel());
         TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice());
     }
 }

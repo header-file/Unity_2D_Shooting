@@ -21,12 +21,13 @@ public class SubWeapon : MonoBehaviour
     bool IsEditMode;
     bool IsReload;
     bool IsAlive;
+    int NumID;
     
 
     public int GetBulletType() { return BulletType; }
     
     public void SetBulletType(int T) { BulletType = T; }
-    
+    public void SetNumID(int id) { NumID = id; }
     
     void Awake()
     {
@@ -43,19 +44,29 @@ public class SubWeapon : MonoBehaviour
 
     void Update()
     {
-        if (!IsAlive)
+        SetPosition();
+        
+         if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
             return;
 
         if (IsDown)
             DownCount++;
 
-        if (!IsEditMode && DownCount > 60)
-            StartEditMode();
+        if (!IsEditMode)
+        {
+            if( DownCount > 60)
+                StartEditMode();                
+        }
 
         if (IsEditMode)
             EditMode();
         else
             Fire();
+    }
+
+    void SetPosition()
+    {
+        transform.position = GameManager.Inst().UpgManager.SubPositions[NumID].transform.position;
     }
 
     void StartEditMode()
@@ -84,7 +95,7 @@ public class SubWeapon : MonoBehaviour
     {
         Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 MPos = new Vector2(MousePos.x, MousePos.y);
-
+        
         Vector2 pos = new Vector2(transform.position.x, transform.position.y);
         Vector2 norm = (MPos - pos) / Vector2.Distance(MPos, pos);
         float angle = Vector2.Angle(Vector2.up, norm);
@@ -117,6 +128,7 @@ public class SubWeapon : MonoBehaviour
             return;
 
         IsAlive = false;
+        IsDown = false;
         SpriteRenderer.sprite = Sprites[1];
 
         Invoke("ReturnDead", 3.0f);
@@ -135,6 +147,17 @@ public class SubWeapon : MonoBehaviour
 
     private void OnMouseUp()
     {
-        EndEditMode();
+        IsDown = false;
+        if (IsEditMode)
+            EndEditMode();
+        else
+        {
+            int id = NumID;
+            if (id > 1)
+                id++;
+                
+            GameManager.Inst().UiManager.OnClickManageBtn(id);
+        }
+            
     }
 }

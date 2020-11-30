@@ -8,6 +8,6 @@ public class EnemyM : Enemy
     {
         Type = EnemyType.MEDIUM;
         Speed = 1;
-        BeforeHP = CurHP = Health = 50;
+        BeforeHP = CurHP = Health = 15;
     }
 }
