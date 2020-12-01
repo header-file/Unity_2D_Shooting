@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
         
         IsReload = false;
         
-        GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject);
+        GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2);
 
         Invoke("Reload", GameManager.Inst().UpgManager.GetBData(BulletType).GetReloadTime());
     }

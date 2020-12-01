@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager Instance;
 
+    const int MAXCOLOR = 8;
+
     public ObjectManager ObjManager;
     public UpgradeManager UpgManager;
     public ShootingManager ShtManager;
@@ -22,18 +24,22 @@ public class GameManager : MonoBehaviour
     public int[] SubWID;
 
     SubWeapon[] SubWeapons;
+    Color[] Colors;
+    int[] ColorSelection;
 
     float SmallTime;
     float MediumTime;
     float LargeTime;
 
-
-    public void SetCoinText(int Coin) { CoinText.text = Coin.ToString(); }
-
+    
     public static GameManager Inst() { return Instance; }
     public SubWeapon GetSubweapons(int index) { return SubWeapons[index]; }
+    public Color GetColors(int index) { return Colors[index]; }
+    public int GetColorSelection(int index) { return ColorSelection[index]; }
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[index] = Sub; }
+    public void SetCoinText(int Coin) { CoinText.text = Coin.ToString(); }
+    public void SetColorSelection(int index, int val) { ColorSelection[index] = val; }
 
 
     void Awake()
@@ -61,6 +67,7 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("SpawnLarge", 0.0f, LargeTime);
 
         SetTexts();
+        SetColor();
     }
 
     void Update()
@@ -123,6 +130,17 @@ public class GameManager : MonoBehaviour
 
         //TxtManager.SetSLevel(UpgManager.GetSubWeaponLevel());
         TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice());
+    }
+
+    void SetColor()
+    {
+        Colors = new Color[MAXCOLOR];
+        for(int i = 0; i < MAXCOLOR; i++)
+            Colors[i] = UiManager.Color.transform.GetChild(i).gameObject.GetComponent<Image>().color;
+
+        ColorSelection = new int[5];
+        for (int i = 0; i < 5; i++)
+            ColorSelection[i] = 0;
     }
 }
 

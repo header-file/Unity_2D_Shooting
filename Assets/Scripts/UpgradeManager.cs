@@ -132,6 +132,7 @@ public class UpgradeManager : MonoBehaviour
                 //UI
                 GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.NORMAL, BData[(int)Bullet.BulletType.NORMAL].GetPowerLevel());
                 GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.NORMAL, BData[(int)Bullet.BulletType.NORMAL].GetPrice());
+                GameManager.Inst().UiManager.ShowDetail((int)Bullet.BulletType.NORMAL);
 
                 //특수 효과
                 if (BData[(int)Bullet.BulletType.NORMAL].GetPowerLevel() == 5)
@@ -155,6 +156,7 @@ public class UpgradeManager : MonoBehaviour
                 //UI
                 GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.SPREAD, BData[(int)Bullet.BulletType.SPREAD].GetPowerLevel());
                 GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.SPREAD, BData[(int)Bullet.BulletType.SPREAD].GetPrice());
+                GameManager.Inst().UiManager.ShowDetail((int)Bullet.BulletType.SPREAD);
 
                 //특수 효과
                 if (BData[(int)Bullet.BulletType.SPREAD].GetPowerLevel() == 3)
@@ -184,6 +186,7 @@ public class UpgradeManager : MonoBehaviour
                 //UI
                 GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.MISSILE, BData[(int)Bullet.BulletType.MISSILE].GetPowerLevel());
                 GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.MISSILE, BData[(int)Bullet.BulletType.MISSILE].GetPrice());
+                GameManager.Inst().UiManager.ShowDetail((int)Bullet.BulletType.MISSILE);
 
                 //특수 효과
                 if (BData[(int)Bullet.BulletType.MISSILE].GetPowerLevel() == 3)
@@ -218,6 +221,7 @@ public class UpgradeManager : MonoBehaviour
                 //UI
                 GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.LASER, BData[(int)Bullet.BulletType.LASER].GetPowerLevel());
                 GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.LASER, BData[(int)Bullet.BulletType.LASER].GetPrice());
+                GameManager.Inst().UiManager.ShowDetail((int)Bullet.BulletType.LASER);
 
                 //특수 효과
                 if (BData[(int)Bullet.BulletType.LASER].GetPowerLevel() == 3)
@@ -303,6 +307,8 @@ public class UpgradeManager : MonoBehaviour
         subWeapon.transform.position = pos;
         
         GameManager.Inst().Player.SetSubWeapon(subWeapon, index);
+        if (index > 1)
+            index++;
         subWeapon.GetComponent<SubWeapon>().SetNumID(index);
     }
 

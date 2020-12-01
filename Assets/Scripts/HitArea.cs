@@ -38,7 +38,7 @@ public class HitArea : MonoBehaviour
                 if (HitObjects[i] == collision.gameObject)
                 {
                     HitObjects[i] = null;
-                    Debug.Log(collision.gameObject.name);
+                    
                     //return;
                 }
             }

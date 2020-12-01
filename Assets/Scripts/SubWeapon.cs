@@ -66,7 +66,10 @@ public class SubWeapon : MonoBehaviour
 
     void SetPosition()
     {
-        transform.position = GameManager.Inst().UpgManager.SubPositions[NumID].transform.position;
+        int index = NumID;
+        if (index > 2)
+            index--;
+        transform.position = GameManager.Inst().UpgManager.SubPositions[index].transform.position;
     }
 
     void StartEditMode()
@@ -88,7 +91,6 @@ public class SubWeapon : MonoBehaviour
         DownCount = 0;
         Arrow.SetActive(false);
         GameManager.Inst().IptManager.SetIsAbleControl(true);
-        Debug.Log("Fin");
     }
 
     void EditMode()
@@ -112,7 +114,7 @@ public class SubWeapon : MonoBehaviour
 
         IsReload = false;
         
-        GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject);
+        GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID);
         
         Invoke("Reload", GameManager.Inst().UpgManager.GetBData(BulletType).GetReloadTime());
     }
@@ -152,11 +154,7 @@ public class SubWeapon : MonoBehaviour
             EndEditMode();
         else
         {
-            int id = NumID;
-            if (id > 1)
-                id++;
-                
-            GameManager.Inst().UiManager.OnClickManageBtn(id);
+            GameManager.Inst().UiManager.OnClickManageBtn(NumID);
         }
             
     }

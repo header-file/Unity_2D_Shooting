@@ -18,13 +18,11 @@ public class UIManager : MonoBehaviour
     public GameObject Turret;
     public GameObject Background;
     public GameObject Panel;
-    //public GameObject Weapon;
 
     //기능 구현용
     public GameObject MainUI;
-    //public GameObject Detail;
     public GameObject[] Slots;
-    //public GameObject BuySubWeapon;
+    public GameObject Color;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -48,7 +46,6 @@ public class UIManager : MonoBehaviour
 
     bool IsMoveUp;
     bool IsMoveDown;
-    bool IsShowingDetail;
     float Timer;
     float TickCount;
     int CurrentBulletType;
@@ -66,7 +63,6 @@ public class UIManager : MonoBehaviour
         TurretPosOrigin = Turret.transform.position;
         BackgroundPosOrigin = Background.transform.position;
         PanelPosOrigin = Panel.transform.position;
-        Debug.Log(TurretPosOrigin);
 
         PlayerPosUI = new Vector3(0.0f, 2.8f, 0.0f);
         SubWeaponPosUI = new Vector3(0.0f, PlayerPosUI.y - 0.24f, 0.0f);
@@ -79,7 +75,6 @@ public class UIManager : MonoBehaviour
 
         IsMoveUp = false;
         IsMoveDown = false;
-        IsShowingDetail = false;
         CurrentBulletType = -1;
 
         MainUi = MainUI.GetComponent<MainUI>();
@@ -96,9 +91,6 @@ public class UIManager : MonoBehaviour
             MoveUp();
         if (IsMoveDown)
             MoveDown();
-
-        if (IsShowingDetail)
-            ShowingDetail();
     }
 
     //UI Interact
@@ -143,11 +135,6 @@ public class UIManager : MonoBehaviour
 
             Time.timeScale = 1.0f;
         } 
-    }
-
-    void ShowingDetail()
-    {
-
     }
 
     public void SetSubWeaponInteratable(bool b)
@@ -247,5 +234,10 @@ public class UIManager : MonoBehaviour
 
         for(int i = 0; i < 5; i++)
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
+    }
+
+    public void OnClickColorBtn(int index)
+    {
+        GameManager.Inst().SetColorSelection(CurrentWeapon, index);
     }
 }

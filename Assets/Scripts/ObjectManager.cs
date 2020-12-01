@@ -110,11 +110,11 @@ public class ObjectManager : MonoBehaviour
 
         Coins = new GameObject[10];
 
-        Normals = new GameObject[40];
-        Spreads = new GameObject[40];
-        Missiles = new GameObject[20];
+        Normals = new GameObject[100];
+        Spreads = new GameObject[100];
+        Missiles = new GameObject[50];
         Lasers = new GameObject[10];
-        Charges = new GameObject[10];
+        Charges = new GameObject[20];
 
         SubWeapons = new GameObject[4];
 

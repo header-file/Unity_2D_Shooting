@@ -26,7 +26,7 @@ public class BuySubWeapon : MonoBehaviour
         gameObject.SetActive(true);
         Time.timeScale = 0.0f;
         SelectedIndex = index;
-        GameManager.Inst().TxtManager.SetBPrices(index, GameManager.Inst().UpgManager.GetSubWeaponPrice());
+        GameManager.Inst().TxtManager.SetSPrice(GameManager.Inst().UpgManager.GetSubWeaponPrice());
         GameManager.Inst().TxtManager.SetSName(index);
         
         if (!BuyBtn.IsInteractable())

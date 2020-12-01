@@ -154,7 +154,6 @@ public class Enemy : MonoBehaviour
             {
                 if (HitArea.HitObjects[i] == null)
                     continue;
-                Debug.Log(HitArea.HitObjects[i].gameObject.name);
                 HitArea.HitObjects[i].GetComponent<SubWeapon>().Dead();
                 HitArea.HitObjects[i] = null;
             }

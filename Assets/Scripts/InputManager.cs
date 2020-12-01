@@ -27,8 +27,6 @@ public class InputManager : MonoBehaviour
         if (!IsAbleControl)
             return;
 
-        Debug.Log("Drag");
-
         Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 MPos = new Vector2(MousePos.x, MousePos.y);
 
