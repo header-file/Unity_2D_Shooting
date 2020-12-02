@@ -6,6 +6,8 @@ public class InputManager : MonoBehaviour
 {
     public Player Player;
 
+    public Vector3 MousePosition;
+
     bool IsAbleControl;
     bool IsAbleSWControl;
 
@@ -27,21 +29,21 @@ public class InputManager : MonoBehaviour
         if (!IsAbleControl)
             return;
 
-        Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 MPos = new Vector2(MousePos.x, MousePos.y);
+        MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 MPos = new Vector2(MousePosition.x, MousePosition.y);
 
         Player.Rotate(MPos);
-        Player.Fire(MPos);
+        Player.Fire();
     }
 
-    void OnMouseOver()
+    /*void OnMouseOver()
     {
         if (!IsAbleControl)
             return;
 
-        Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 MPos = new Vector2(MousePos.x, MousePos.y);
+        MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 MPos = new Vector2(MousePosition.x, MousePosition.y);
 
        // Player.Rotate(MPos);
-    }
+    }*/
 }

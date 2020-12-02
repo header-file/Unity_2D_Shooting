@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
         SubWeapons = new SubWeapon[4];
         SubWID = new int[4];
 
+        Colors = new Color[MAXCOLOR];
+        ColorSelection = new int[5];
+
         SmallTime = 3.0f;
         MediumTime = 9.0f;
         LargeTime = 15.0f;
@@ -122,7 +125,7 @@ public class GameManager : MonoBehaviour
 
     void SetTexts()
     {
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < Bullet.MAXBULLETS; i++)
         {
             TxtManager.SetBLevels(i, UpgManager.GetBData(i).GetPowerLevel());
             TxtManager.SetBPrices(i, UpgManager.GetBData(i).GetPrice());
@@ -134,11 +137,10 @@ public class GameManager : MonoBehaviour
 
     void SetColor()
     {
-        Colors = new Color[MAXCOLOR];
         for(int i = 0; i < MAXCOLOR; i++)
             Colors[i] = UiManager.Color.transform.GetChild(i).gameObject.GetComponent<Image>().color;
 
-        ColorSelection = new int[5];
+        
         for (int i = 0; i < 5; i++)
             ColorSelection[i] = 0;
     }

@@ -7,7 +7,6 @@ public class MainUI : MonoBehaviour
 {
     public Button UpgradeBtn;
     public Canvas UpgradeUI;
-    public Button ManageBtn;
     public GameObject Arrows;
 
     void Awake()
@@ -35,13 +34,5 @@ public class MainUI : MonoBehaviour
     public void UpgradeBtnInteractable()
     {
         UpgradeBtn.interactable = true;
-    }
-
-    public void OnClickManageBtn()
-    {
-        ManageBtn.gameObject.SetActive(false);
-        Time.timeScale = 0.0f;
-
-        GameManager.Inst().IptManager.SetIsAbleControl(false);
     }
 }

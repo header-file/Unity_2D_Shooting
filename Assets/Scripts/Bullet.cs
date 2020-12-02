@@ -11,10 +11,11 @@ public class Bullet : MonoBehaviour
         SPREAD = 1,
         MISSILE = 2,
         LASER = 3,
-        CHARGE = 4
+        CHARGE = 4,
+        BOOMERANG = 5,
     };
 
-    public static int MAXBULLETS = 5;
+    public static int MAXBULLETS = 6;
 
     protected float Damage;
 

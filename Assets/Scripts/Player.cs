@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public GameObject[] SpreadPos;
     public GameObject LaserPos;
     public GameObject ChargePos;
+    public GameObject[] BoomerangPos;
 
     GameObject[] SubWeapons;
 
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour
         Coin = 9999999;
         
         IsReload = true;
-        BulletType = 0;
+        BulletType = 5;
 
         SubWeapons = new GameObject[4];
     }
@@ -77,7 +78,7 @@ public class Player : MonoBehaviour
     }
     
 
-    public void Fire(Vector2 MousePos)
+    public void Fire()
     {
         if(!IsReload)
             return;

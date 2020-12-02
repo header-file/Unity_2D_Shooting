@@ -15,7 +15,7 @@ public class ShootingManager : MonoBehaviour
 
     void Awake()
     {
-        Objs = new GameObject[5];
+        Objs = new GameObject[Bullet.MAXBULLETS];
         NormalPos = new GameObject[5];
         SpreadPos = new GameObject[5];
         LaserPos = new GameObject();
@@ -49,6 +49,10 @@ public class ShootingManager : MonoBehaviour
 
             case Bullet.BulletType.CHARGE:
                 Charge(power, color);
+                break;
+
+            case Bullet.BulletType.BOOMERANG:
+                Boomerang(power, color, Shooter);
                 break;
         }
     }
@@ -271,4 +275,26 @@ public class ShootingManager : MonoBehaviour
                 break;
         }
     }
+
+    void Boomerang(int Power, Color Color, GameObject Shooter)
+    {
+        switch (Power)
+        {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                Objs[0] = GameManager.Inst().ObjManager.MakeObj("Boomerang");
+                Objs[0].transform.position = NormalPos[0].transform.position;
+                Objs[0].transform.rotation = NormalPos[0].transform.rotation;
+
+                Boomerang bullet = Objs[0].gameObject.GetComponent<Boomerang>();
+                bullet.SetStartPos(Objs[0].transform.position);
+                bullet.SetTargetpos(GameManager.Inst().IptManager.MousePosition);
+                bullet.SetStart();
+                break;
+        }
+        }
 }

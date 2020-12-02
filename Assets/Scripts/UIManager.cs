@@ -64,11 +64,11 @@ public class UIManager : MonoBehaviour
         BackgroundPosOrigin = Background.transform.position;
         PanelPosOrigin = Panel.transform.position;
 
-        PlayerPosUI = new Vector3(0.0f, 2.8f, 0.0f);
+        PlayerPosUI = new Vector3(0.0f, 3.3f, 0.0f);
         SubWeaponPosUI = new Vector3(0.0f, PlayerPosUI.y - 0.24f, 0.0f);
-        TurretPosUI = new Vector3(0.0f, 5.65f, 90.0f);
+        TurretPosUI = new Vector3(0.0f, 6.15f, 90.0f);
         BackgroundPosUI = new Vector3(0.0f, PlayerPosUI.y + 3.3f, 0.0f);
-        PanelPosUI = new Vector3(0.0f, 1.5f, 90.0f);
+        PanelPosUI = new Vector3(0.0f, 2.0f, 90.0f);
 
         Timer = 0.0f;
         TickCount = 1.0f / 12.0f;
@@ -152,7 +152,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickManageBtn(int Type)
     {
-        MainUi.OnClickManageBtn();
+        Time.timeScale = 0.0f;
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
 
         CurrentWeapon = Type;
 

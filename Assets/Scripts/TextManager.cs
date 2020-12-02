@@ -7,18 +7,18 @@ public class TextManager : MonoBehaviour
 {
     public GameObject[] BulletNames;
     public GameObject[] BulletLevels;
-    public GameObject[] BulletPrices;
+    //public GameObject[] BulletPrices;
     //public GameObject SubLevel;
     public GameObject SubPrice;
     public GameObject SubName;
 
     Text[] BNames;
     Text[] BLevels;
-    Text[] BPrices;
+    string[] BPrices;
 
     public string GetBNames(int index) { return BNames[index].text; }
     public string GetBLevels(int index) { return BLevels[index].text; }
-    public string GetBPrices(int index) { return BPrices[index].text; }
+    public string GetBPrices(int index) { return BPrices[index]; }
 
     /*public void SetBNames(int index)
     {
@@ -36,7 +36,7 @@ public class TextManager : MonoBehaviour
             BLevels[index].text = "Lv." + "MAX";
 
     }
-    public void SetBPrices(int index, int price) { BPrices[index].text = price.ToString(); }
+    public void SetBPrices(int index, int price) { BPrices[index] = price.ToString(); }
 
     /*public void SetSLevel(int level)
     {
@@ -50,15 +50,15 @@ public class TextManager : MonoBehaviour
 
     void Awake()
     {
-        BNames = new Text[5];
-        BLevels = new Text[5];
-        BPrices = new Text[5];
+        BNames = new Text[Bullet.MAXBULLETS];
+        BLevels = new Text[Bullet.MAXBULLETS];
+        BPrices = new string[Bullet.MAXBULLETS];
 
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
         {
             BNames[i] = BulletNames[i].GetComponent<Text>();
             BLevels[i] = BulletLevels[i].GetComponent<Text>();
-            BPrices[i] = BulletPrices[i].GetComponent<Text>();
+            BPrices[i] = "0";
         }
 
         BNames[0].text = "Normal";
@@ -66,6 +66,7 @@ public class TextManager : MonoBehaviour
         BNames[2].text = "Missile";
         BNames[3].text = "Laser";
         BNames[4].text = "Charge";
+        BNames[5].text = "Boomerang";
     }
 
     void Start()

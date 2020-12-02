@@ -15,6 +15,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject MissilePref;
     public GameObject LaserPref;
     public GameObject ChargePref;
+    public GameObject BoomerangPref;
 
     public GameObject SubWeaponPref;
 
@@ -31,6 +32,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] Missiles;
     GameObject[] Lasers;
     GameObject[] Charges;
+    GameObject[] Boomerangs;
 
     GameObject[] SubWeapons;
 
@@ -80,6 +82,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = Charges;
                 break;
 
+            case "Boomerang":
+                TargetPool = Boomerangs;
+                break;
+
             case "SubWeapon":
                 TargetPool = SubWeapons;
                 break;
@@ -115,6 +121,7 @@ public class ObjectManager : MonoBehaviour
         Missiles = new GameObject[50];
         Lasers = new GameObject[10];
         Charges = new GameObject[20];
+        Boomerangs = new GameObject[20];
 
         SubWeapons = new GameObject[4];
 
@@ -179,6 +186,12 @@ public class ObjectManager : MonoBehaviour
         {
             Charges[i] = Instantiate(ChargePref);
             Charges[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Boomerangs.Length; i++)
+        {
+            Boomerangs[i] = Instantiate(BoomerangPref);
+            Boomerangs[i].SetActive(false);
         }
 
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
-    const int MAXBULLETS = 5;
     const int MaxSubWeaponLevel = 4;
 
     public enum UpgradeType
@@ -14,7 +13,8 @@ public class UpgradeManager : MonoBehaviour
         MISSILE = 2,
         LASER = 3,
         CHARGE = 4,
-        SUBWEAPON = 5
+        BOOMERANG = 5,
+        SUBWEAPON = 100
     };
 
     public struct BulletData
@@ -75,7 +75,7 @@ public class UpgradeManager : MonoBehaviour
 
     void Awake()
     {
-        BData = new BulletData[MAXBULLETS];
+        BData = new BulletData[Bullet.MAXBULLETS];
         for (int i = 0; i < BData.Length; i++)
             BData[i].ResetData();
 
@@ -101,12 +101,16 @@ public class UpgradeManager : MonoBehaviour
         BData[(int)Bullet.BulletType.CHARGE].SetSpeed(15.0f);
         BData[(int)Bullet.BulletType.CHARGE].SetReloadTime(2.0f);
         BData[(int)Bullet.BulletType.CHARGE].SetDuration(1.0f);
+
+        BData[(int)Bullet.BulletType.BOOMERANG].SetSpeed(2.0f);
+        BData[(int)Bullet.BulletType.BOOMERANG].SetReloadTime(2.0f);
+        BData[(int)Bullet.BulletType.BOOMERANG].SetDuration(3.0f);
     }
 
     void Start()
     {
         GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.NORMAL, BData[(int)Bullet.BulletType.NORMAL].GetPowerLevel());
-        GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.NORMAL, BData[(int)Bullet.BulletType.NORMAL].GetPrice());
+        //GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.NORMAL, BData[(int)Bullet.BulletType.NORMAL].GetPrice());
     }
 
     public void AddLevel(int UpgType)
@@ -266,6 +270,36 @@ public class UpgradeManager : MonoBehaviour
                 {
                     BData[(int)Bullet.BulletType.CHARGE].SetDuration(3.0f);
                     BData[(int)Bullet.BulletType.CHARGE].SetReloadTime(1.0f);
+                }
+
+                break;
+
+            case UpgradeType.BOOMERANG:
+                if (BData[(int)Bullet.BulletType.BOOMERANG].GetPowerLevel() >= BData[(int)Bullet.BulletType.BOOMERANG].GetMaxBulletLevel())
+
+                //가격
+                if (GameManager.Inst().Player.GetCoin() < BData[(int)Bullet.BulletType.BOOMERANG].GetPrice())
+                    return;
+                else
+                    GameManager.Inst().Player.MinusCoin(BData[(int)Bullet.BulletType.BOOMERANG].GetPrice());
+
+                //BData 처리
+                BData[(int)Bullet.BulletType.BOOMERANG].SetPowerLevel(BData[(int)Bullet.BulletType.BOOMERANG].GetPowerLevel() + 1);
+                BData[(int)Bullet.BulletType.BOOMERANG].SetPrice();
+
+                //UI
+                GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.BOOMERANG, BData[(int)Bullet.BulletType.BOOMERANG].GetPowerLevel());
+                GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.BOOMERANG, BData[(int)Bullet.BulletType.BOOMERANG].GetPrice());
+
+                //특수 효과
+                if (BData[(int)Bullet.BulletType.BOOMERANG].GetPowerLevel() == 3)
+                {
+                    BData[(int)Bullet.BulletType.BOOMERANG].SetDuration(4.0f);
+
+                }
+                else if (BData[(int)Bullet.BulletType.BOOMERANG].GetPowerLevel() == 5)
+                {
+                    BData[(int)Bullet.BulletType.BOOMERANG].SetDuration(5.0f);
                 }
 
                 break;
