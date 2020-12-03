@@ -69,11 +69,10 @@ public class Boomerang : Bullet
         {
             Timer = 1.0f;
             IsReturn = true;
-            Debug.Log("Change");
             //TargetPos = gameObject.transform.position;
         }
-        //Vector3.Distance(transform.position, StartPos) < 0.0001f
-        if (IsReturn && Timer >= 1.5f)
+        //
+        if (IsReturn && Vector3.Distance(transform.position, StartPos) < 0.0001f)
         {
             IsReturn = false;
             Timer = 0.0f;

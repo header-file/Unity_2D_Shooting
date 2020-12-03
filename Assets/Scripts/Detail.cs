@@ -30,7 +30,6 @@ public class Detail : MonoBehaviour
         string lv = GameManager.Inst().TxtManager.GetBLevels(BulletType);
         CurrentLevel.GetComponent<Text>().text = lv;
         Price.GetComponent<Text>().text = GameManager.Inst().TxtManager.GetBPrices(BulletType);
-        Debug.Log(Price.GetComponent<Text>().text);
 
         int level = GameManager.Inst().UpgManager.GetBData(BulletType).GetPowerLevel();
         if (level < 4)

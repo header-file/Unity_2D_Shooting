@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     public GameObject MainUI;
     public GameObject[] Slots;
     public GameObject Color;
+    public GameObject ScrollView;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -31,6 +32,7 @@ public class UIManager : MonoBehaviour
     Detail DetailUI;
     Slot[] SlotUI;
     BuySubWeapon BuySWUI;
+    LoopScroll ScrollViewUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -83,6 +85,7 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
             SlotUI[i] = Slots[i].GetComponent<Slot>();
         BuySWUI = NewWindows[(int)NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>();
+        ScrollViewUI = ScrollView.GetComponent<LoopScroll>();
     }
 
     void Update()
@@ -143,6 +146,43 @@ public class UIManager : MonoBehaviour
         Turret.transform.GetChild(BuySWUI.GetSelectedIndex()).GetChild(0).gameObject.SetActive(false);
     }
 
+    public void SelectBullet(int BulletType)
+    {
+        switch(CurrentWeapon)
+        {
+            case 2:
+                GameManager.Inst().Player.SetBulletType(BulletType);
+                break;
+
+            case 0:
+            case 1:
+            case 3:
+            case 4:
+                if (CurrentWeapon > 1)
+                    GameManager.Inst().GetSubweapons(CurrentWeapon - 1).SetBulletType(BulletType);
+                else
+                    GameManager.Inst().GetSubweapons(CurrentWeapon).SetBulletType(BulletType);
+                break;
+        }
+
+        CurrentBulletType = BulletType;
+
+        SetSlotDetail();
+    }
+
+    void SetSlotDetail()
+    {
+        //UI
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            Slots[i].transform.GetChild(1).gameObject.SetActive(false);
+            Slots[i].transform.GetChild(4).gameObject.SetActive(false);
+        }
+
+        Slots[CurrentBulletType].transform.GetChild(1).gameObject.SetActive(true);
+        Slots[CurrentBulletType].transform.GetChild(4).gameObject.SetActive(true);
+    }
+
 
     //Button Interact
     public void OnClickUpgradeBtn()
@@ -156,6 +196,7 @@ public class UIManager : MonoBehaviour
         GameManager.Inst().IptManager.SetIsAbleControl(false);
 
         CurrentWeapon = Type;
+        ScrollViewUI.SetCurrentCharacter(CurrentWeapon);
 
         if (!IsMoveUp)
             Timer = 0.0f;
@@ -165,13 +206,31 @@ public class UIManager : MonoBehaviour
         NewWindows[(int)NewWindowType.DETAIL].SetActive(false);
         NewWindows[(int)NewWindowType.BUYSUBWEAPON].SetActive(false);
         
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
-            SlotUI[i].SetSlotDetail(i);
-
         for (int i = 0; i < 5; i++)
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
         
         MainUi.Arrows.transform.GetChild(Type).gameObject.SetActive(true);
+
+        switch(CurrentWeapon)
+        {
+            case 2:
+                CurrentBulletType = GameManager.Inst().Player.GetBulletType();
+                break;
+
+            case 0:
+            case 1:
+            case 3:
+            case 4:
+                if (CurrentWeapon > 1)
+                    CurrentBulletType = GameManager.Inst().GetSubweapons(CurrentWeapon - 1).GetBulletType();
+                else
+                    CurrentBulletType = GameManager.Inst().GetSubweapons(CurrentWeapon).GetBulletType();
+                break;
+        }
+
+        SetSlotDetail();
+
+        ScrollViewUI.MoveToSelected(CurrentBulletType);
     }
 
     public void OnClickManageCancel()

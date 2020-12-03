@@ -24,7 +24,7 @@ public class ShootingManager : MonoBehaviour
 
     public void Shoot(Bullet.BulletType Type, GameObject Shooter, int ID)
     {
-        SetPos(Shooter);
+        SetPos(Shooter, ID);
 
         int power = GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
         Color color = GameManager.Inst().GetColors(GameManager.Inst().GetColorSelection(ID));
@@ -57,7 +57,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void SetPos(GameObject Shooter)
+    void SetPos(GameObject Shooter, int ID)
     {
         if(Shooter.gameObject.tag == "Player")
         {
@@ -73,21 +73,20 @@ public class ShootingManager : MonoBehaviour
         }
         else if (Shooter.gameObject.tag == "SubWeapon")
         {
-            for(int i = 0; i < 4; i++)
+            SubWeapon sub;
+            if (ID > 1)
+                sub = GameManager.Inst().GetSubweapons(ID - 1);
+            else
+                sub = GameManager.Inst().GetSubweapons(ID);
+            
+            for (int j = 0; j < 5; j++)
             {
-                SubWeapon sub = GameManager.Inst().GetSubweapons(i);
-                if (Shooter.gameObject.GetInstanceID() == GameManager.Inst().SubWID[i])
-                {
-                    for (int j = 0; j < 5; j++)
-                    {
-                        NormalPos[j] = sub.NormalPos[j];
-                        SpreadPos[j] = sub.SpreadPos[j];
-                    }
-
-                    LaserPos = sub.LaserPos;
-                    ChargePos = sub.ChargePos;
-                }
+                NormalPos[j] = sub.NormalPos[j];
+                SpreadPos[j] = sub.SpreadPos[j];
             }
+
+            LaserPos = sub.LaserPos;
+            ChargePos = sub.ChargePos;
         }
     }
 

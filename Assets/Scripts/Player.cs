@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public int GetBulletType() { return BulletType; }
 
     public void SetSubWeapon(GameObject obj, int index) { SubWeapons[index] = obj; }
+    public void SetBulletType(int type) { BulletType = type; }
 
     public void AddCoin(int c)
     {

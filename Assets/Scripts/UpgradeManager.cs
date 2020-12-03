@@ -103,7 +103,7 @@ public class UpgradeManager : MonoBehaviour
         BData[(int)Bullet.BulletType.CHARGE].SetDuration(1.0f);
 
         BData[(int)Bullet.BulletType.BOOMERANG].SetSpeed(2.0f);
-        BData[(int)Bullet.BulletType.BOOMERANG].SetReloadTime(2.0f);
+        BData[(int)Bullet.BulletType.BOOMERANG].SetReloadTime(1.5f);
         BData[(int)Bullet.BulletType.BOOMERANG].SetDuration(3.0f);
     }
 
@@ -339,8 +339,9 @@ public class UpgradeManager : MonoBehaviour
         int index = GameManager.Inst().UiManager.NewWindows[(int)UIManager.NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>().GetSelectedIndex();
         Vector3 pos = SubPositions[index].transform.position;
         subWeapon.transform.position = pos;
-        
-        GameManager.Inst().Player.SetSubWeapon(subWeapon, index);
+        SubWeapon sub = subWeapon.GetComponent<SubWeapon>();
+
+        GameManager.Inst().SetSubWeapons(sub, index);
         if (index > 1)
             index++;
         subWeapon.GetComponent<SubWeapon>().SetNumID(index);
