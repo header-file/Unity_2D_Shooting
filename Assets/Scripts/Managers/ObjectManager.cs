@@ -9,6 +9,9 @@ public class ObjectManager : MonoBehaviour
     public GameObject Enemy_LPref;
 
     public GameObject CoinPref;
+    public GameObject EqAttackPref;
+    public GameObject EqRangePref;
+    public GameObject EqSpeedPref;
 
     public GameObject NormalPref;
     public GameObject SpreadPref;
@@ -28,6 +31,9 @@ public class ObjectManager : MonoBehaviour
     GameObject[] Enemies_L;
 
     GameObject[] Coins;
+    GameObject[] EqAttacks;
+    GameObject[] EqRanges;
+    GameObject[] EqSpeeds;
 
     GameObject[] Normals;
     GameObject[] Spreads;
@@ -64,6 +70,18 @@ public class ObjectManager : MonoBehaviour
 
             case "Coin":
                 TargetPool = Coins;
+                break;
+
+            case "EqAttack":
+                TargetPool = EqAttacks;
+                break;
+
+            case "EqRange":
+                TargetPool = EqRanges;
+                break;
+
+            case "EqSpeed":
+                TargetPool = EqSpeeds;
                 break;
 
             case "Normal":
@@ -126,7 +144,10 @@ public class ObjectManager : MonoBehaviour
         Enemies_M = new GameObject[10];
         Enemies_L = new GameObject[10];
 
-        Coins = new GameObject[10];
+        Coins = new GameObject[30];
+        EqAttacks = new GameObject[10];
+        EqRanges = new GameObject[10];
+        EqSpeeds = new GameObject[10];
 
         Normals = new GameObject[100];
         Spreads = new GameObject[100];
@@ -169,6 +190,24 @@ public class ObjectManager : MonoBehaviour
         {
             Coins[i] = Instantiate(CoinPref);
             Coins[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqAttacks.Length; i++)
+        {
+            EqAttacks[i] = Instantiate(EqAttackPref);
+            EqAttacks[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqRanges.Length; i++)
+        {
+            EqRanges[i] = Instantiate(EqRangePref);
+            EqRanges[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqSpeeds.Length; i++)
+        {
+            EqSpeeds[i] = Instantiate(EqSpeedPref);
+            EqSpeeds[i].SetActive(false);
         }
 
 

@@ -8,7 +8,7 @@ public class Item : MonoBehaviour
     protected enum ItemType
     {
         COIN = 0,
-        POWER = 1,
+        EQUIPMENT = 1,
     }
 
     protected ItemType Type;
@@ -17,7 +17,7 @@ public class Item : MonoBehaviour
     Vector3 TargetPos;
     bool IsStart;
     GameObject Player;
-    //float Timer;
+
 
     public int GetItemType() { return (int)Type; }
     public int GetValue() { return Value; }
@@ -27,13 +27,16 @@ public class Item : MonoBehaviour
     void Awake()
     {
         Player = GameObject.Find("Player");
-        TargetPos = Player.transform.position;
 
-        IsStart = true;
-        //Timer = 0.0f;
+        IsStart = false;
     }
 
-    void StartAbsorb()
+    public void StartAbsorb()
+    {
+        Invoke("SetStartTrue", 1.0f);
+    }
+
+    void SetStartTrue()
     {
         IsStart = true;
     }
@@ -46,12 +49,12 @@ public class Item : MonoBehaviour
 
     void Absorb()
     {
-        transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 2.0f);
+        transform.position = Vector3.Lerp(transform.position, Player.transform.position, Time.deltaTime * 2.0f);
     }
 
     private void OnMouseOver()
     {
-        StartAbsorb();
+        SetStartTrue();
     }
 
     void OnTriggerEnter2D(Collider2D collision)

@@ -92,5 +92,8 @@ public class TextManager : MonoBehaviour
     {
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
             SetBLevels(i, GameManager.Inst().UpgManager.GetBData(i).GetPowerLevel());
+
+        for (int i = 0; i < 4; i++)
+            CoolTimes[i].SetActive(false);
     }
 }

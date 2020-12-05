@@ -12,8 +12,6 @@ public class Enemy : MonoBehaviour
         LARGE = 2
     };
 
-    GameManager Manager;
-
     public Sprite[] Sprites;
     public Image HP_Bar;
     public GameObject Canvas;
@@ -50,9 +48,6 @@ public class Enemy : MonoBehaviour
 
         TargetPosition = Vector3.zero;
 
-        GameObject manager = GameObject.Find("GameManager");
-        Manager = manager.gameObject.GetComponent<GameManager>();
-
         HitArea = transform.GetChild(1).GetComponent<HitArea>();
     }
 
@@ -84,10 +79,49 @@ public class Enemy : MonoBehaviour
 
         if (CurHP <= 0)
         {
-            GameObject coin = Manager.ObjManager.MakeObj("Coin");
-            coin.transform.position = transform.position;
-            Item_Coin ic = coin.gameObject.GetComponent<Item_Coin>();
-            ic.SetValue((int)Random.Range(Health, Health * 5));
+            int rand = (int)(Random.value * 4.0f);
+
+            if(rand >= 1)
+            {
+                GameObject coin = GameManager.Inst().ObjManager.MakeObj("Coin");
+                coin.transform.position = transform.position;
+
+                Item_Coin ic = coin.gameObject.GetComponent<Item_Coin>();
+                ic.SetValue((int)Random.Range(Health, Health * 5));
+                ic.StartAbsorb();
+            }
+            else
+            {
+                rand = (int)(Random.value * 3.0f);
+                Debug.Log(rand);
+                switch(rand)
+                {
+                    case 0:
+                        GameObject eqAtk = GameManager.Inst().ObjManager.MakeObj("EqAttack");
+                        eqAtk.transform.position = transform.position;
+                        Debug.Log("atk");
+                        Item_Equipment eqpAtk = eqAtk.GetComponent<Item_Equipment>();
+                        eqpAtk.StartAbsorb();
+                        //Set Rarity, EqValue, etc
+                        break;
+                    case 1:
+                        GameObject eqRng = GameManager.Inst().ObjManager.MakeObj("EqRange");
+                        eqRng.transform.position = transform.position;
+                        Debug.Log("rng");
+                        Item_Equipment eqpRng = eqRng.GetComponent<Item_Equipment>();
+                        eqpRng.StartAbsorb();
+                        //Set Rarity, EqValue, etc
+                        break;
+                    case 2:
+                        GameObject eqSpd = GameManager.Inst().ObjManager.MakeObj("EqSpeed");
+                        eqSpd.transform.position = transform.position;
+                        Debug.Log("spd");
+                        Item_Equipment eqpSpd = eqSpd.GetComponent<Item_Equipment>();
+                        eqpSpd.StartAbsorb();
+                        //Set Rarity, EqValue, etc
+                        break;
+                }
+            }
 
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
             explosion.transform.position = transform.position;

@@ -23,6 +23,8 @@ public class SubWeapon : MonoBehaviour
     bool IsAlive;
     int NumID;
     int CoolTime;
+
+    const int COOLTIME = 5;
     
 
     public int GetBulletType() { return BulletType; }
@@ -41,7 +43,7 @@ public class SubWeapon : MonoBehaviour
         IsReload = true;
         Arrow.SetActive(false);
         IsAlive = true;
-        CoolTime = 3;
+        CoolTime = 0;
     }
 
     void Update()
@@ -135,7 +137,15 @@ public class SubWeapon : MonoBehaviour
         IsDown = false;
         SpriteRenderer.sprite = Sprites[1];
 
-        InvokeRepeating("CheckDead", 0.0f, 1.0f);
+        CoolTime = COOLTIME;        
+
+        int id = NumID;
+        if (id > 1)
+            id--;
+        GameManager.Inst().TxtManager.CoolTimes[id].SetActive(true);
+        GameManager.Inst().TxtManager.SetCoolTimes(id, CoolTime);
+
+        InvokeRepeating("CheckDead", 1.0f, 1.0f);
     }
 
     public void CheckDead()
@@ -151,8 +161,10 @@ public class SubWeapon : MonoBehaviour
         {
             IsAlive = true;
             SpriteRenderer.sprite = Sprites[0];
-            CoolTime = 3;
+            CoolTime = COOLTIME;
             CancelInvoke("CheckDead");
+
+            GameManager.Inst().TxtManager.CoolTimes[id].SetActive(false);
         }
         
     }
