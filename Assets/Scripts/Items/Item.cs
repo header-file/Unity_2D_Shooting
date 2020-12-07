@@ -61,11 +61,14 @@ public class Item : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Player player = Player.GetComponent<Player>();
             switch (Type)
             {
                 case ItemType.COIN:
-                    player.AddCoin(Value);
+                    GameManager.Inst().Player.AddCoin(Value);
+                    break;
+
+                case ItemType.EQUIPMENT:
+                    GameManager.Inst().Player.AddItem(gameObject.GetComponent<Item_Equipment>());
                     break;
             }
 

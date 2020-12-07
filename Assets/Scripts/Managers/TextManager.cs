@@ -96,4 +96,14 @@ public class TextManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
             CoolTimes[i].SetActive(false);
     }
+
+    public void ShowDmgText(Vector3 pos, float dmg)
+    {
+        GameObject text = GameManager.Inst().ObjManager.MakeObj("DamageText");
+        text.transform.position = pos;
+        text.SetActive(true);
+        DamageText dmgText = text.GetComponent<DamageText>();
+        dmgText.SetText(dmg);
+        dmgText.SetIsStart(true);
+    }
 }

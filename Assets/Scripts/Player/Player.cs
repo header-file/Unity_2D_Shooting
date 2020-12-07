@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public int MAXINVENTORY = 20;
+
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
     public GameObject LaserPos;
@@ -11,6 +13,7 @@ public class Player : MonoBehaviour
     public GameObject[] BoomerangPos;
 
     GameObject[] SubWeapons;
+    Item_Equipment[] Inventory;
 
     bool IsReload;
     int Coin;
@@ -39,6 +42,19 @@ public class Player : MonoBehaviour
         GameManager.Inst().SetCoinText(Coin);
     }
 
+    public void AddItem(Item_Equipment item)
+    {
+        for(int i = 0; i < MAXINVENTORY; i++)
+        {
+            if (Inventory[i] == null)
+            {
+                Inventory[i] = item;
+                Debug.Log("Add " + item.name);
+                break;
+            }   
+        }
+    }
+
    void Awake()
     {
         Coin = 9999999;
@@ -47,6 +63,7 @@ public class Player : MonoBehaviour
         BulletType = 0;
 
         SubWeapons = new GameObject[4];
+        Inventory = new Item_Equipment[MAXINVENTORY];
     }
 
     void Start()

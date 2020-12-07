@@ -24,6 +24,8 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject SubWeaponPref;
 
+    public GameObject DmgTextPref;
+
     public GameObject ExplosionPref;
 
     GameObject[] Enemies_S;
@@ -45,6 +47,8 @@ public class ObjectManager : MonoBehaviour
     GameObject[] Pieces;
 
     GameObject[] SubWeapons;
+
+    GameObject[] DmgTexts;
 
     GameObject[] Explosions;
 
@@ -120,6 +124,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = SubWeapons;
                 break;
 
+            case "DamageText":
+                TargetPool = DmgTexts;
+                break;
+
             case "Explosion":
                 TargetPool = Explosions;
                 break;
@@ -159,6 +167,8 @@ public class ObjectManager : MonoBehaviour
         Pieces = new GameObject[100];
 
         SubWeapons = new GameObject[4];
+
+        DmgTexts = new GameObject[40];
 
         Explosions = new GameObject[20];
         
@@ -267,6 +277,13 @@ public class ObjectManager : MonoBehaviour
             GameManager.Inst().SetSubWeapons(sub, i);
             GameManager.Inst().SubWID[i] = SubWeapons[i].GetInstanceID();
             SubWeapons[i].SetActive(false);
+        }
+
+
+        for(int i = 0; i < DmgTexts.Length; i++)
+        {
+            DmgTexts[i] = Instantiate(DmgTextPref);
+            DmgTexts[i].SetActive(false);
         }
 
 

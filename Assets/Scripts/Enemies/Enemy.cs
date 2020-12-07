@@ -72,6 +72,9 @@ public class Enemy : MonoBehaviour
         CurHP -= Damage;
         HP_Bar.fillAmount = CurHP / Health;
 
+        //DamageText
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, Damage);
+
         //SlowGame();
 
         SpriteRenderer.sprite = Sprites[1];
@@ -93,13 +96,11 @@ public class Enemy : MonoBehaviour
             else
             {
                 rand = (int)(Random.value * 3.0f);
-                Debug.Log(rand);
                 switch(rand)
                 {
                     case 0:
                         GameObject eqAtk = GameManager.Inst().ObjManager.MakeObj("EqAttack");
                         eqAtk.transform.position = transform.position;
-                        Debug.Log("atk");
                         Item_Equipment eqpAtk = eqAtk.GetComponent<Item_Equipment>();
                         eqpAtk.StartAbsorb();
                         //Set Rarity, EqValue, etc
@@ -107,7 +108,6 @@ public class Enemy : MonoBehaviour
                     case 1:
                         GameObject eqRng = GameManager.Inst().ObjManager.MakeObj("EqRange");
                         eqRng.transform.position = transform.position;
-                        Debug.Log("rng");
                         Item_Equipment eqpRng = eqRng.GetComponent<Item_Equipment>();
                         eqpRng.StartAbsorb();
                         //Set Rarity, EqValue, etc
@@ -115,7 +115,6 @@ public class Enemy : MonoBehaviour
                     case 2:
                         GameObject eqSpd = GameManager.Inst().ObjManager.MakeObj("EqSpeed");
                         eqSpd.transform.position = transform.position;
-                        Debug.Log("spd");
                         Item_Equipment eqpSpd = eqSpd.GetComponent<Item_Equipment>();
                         eqpSpd.StartAbsorb();
                         //Set Rarity, EqValue, etc

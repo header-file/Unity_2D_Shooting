@@ -19,6 +19,8 @@ public class Item_Equipment : Item
         Unique = 3,
     }
 
+    protected Sprite Icon;
+
     protected EquipmentType EqType;
     protected Rarity Grade;
     protected float Eq_Value;
