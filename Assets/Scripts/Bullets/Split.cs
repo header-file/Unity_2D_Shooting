@@ -20,18 +20,18 @@ public class Split : Bullet
     public void OnSplit()
     {
         int level = GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
-        Color color = GameManager.Inst().GetColors(GameManager.Inst().GetColorSelection(ShooterID));
+        int colorIndex = GameManager.Inst().GetColorSelection(ShooterID);
 
-        switch(level)
+        switch (level)
         {
             case 1:
             case 2:
                 for(int i = 0; i < 2; i++)
                 {
-                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("Piece");
+                    GameObject obj = GameManager.Inst().ObjManager.MakeBullet("Piece", colorIndex);
                     obj.transform.position = SplitPositions[i].transform.position;
                     obj.transform.rotation = SplitPositions[i].transform.rotation;
-                    obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", color);
+                    //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", color);
 
                     Piece bullet = obj.GetComponent<Piece>();
                     bullet.Shoot(SplitPositions[i].transform.up);
@@ -41,10 +41,10 @@ public class Split : Bullet
             case 4:
                 for (int i = 2; i < 6; i++)
                 {
-                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("Piece");
+                    GameObject obj = GameManager.Inst().ObjManager.MakeBullet("Piece", colorIndex);
                     obj.transform.position = SplitPositions[i].transform.position;
                     obj.transform.rotation = SplitPositions[i].transform.rotation;
-                    obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", color);
+                    //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", color);
 
                     Piece bullet = obj.GetComponent<Piece>();
                     bullet.Shoot(SplitPositions[i].transform.up);
@@ -53,10 +53,10 @@ public class Split : Bullet
             case 5:
                 for (int i = 0; i < 6; i++)
                 {
-                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("Piece");
+                    GameObject obj = GameManager.Inst().ObjManager.MakeBullet("Piece", colorIndex);
                     obj.transform.position = SplitPositions[i].transform.position;
                     obj.transform.rotation = SplitPositions[i].transform.rotation;
-                    obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", color);
+                    //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", color);
 
                     Piece bullet = obj.GetComponent<Piece>();
                     bullet.Shoot(SplitPositions[i].transform.up);

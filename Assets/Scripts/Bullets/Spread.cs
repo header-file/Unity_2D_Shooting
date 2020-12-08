@@ -16,6 +16,7 @@ public class Spread : Bullet
     {
         Damage = 2.0f;
         Type = BulletType.SPREAD;
+        GetComponent<SpriteRenderer>().color = Color.white;
         //Damage *= (float)GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
         Duration = GameManager.Inst().UpgManager.GetBData((int)Type).GetDuration();
     }

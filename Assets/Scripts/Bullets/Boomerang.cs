@@ -32,6 +32,8 @@ public class Boomerang : Bullet
     {
         Damage = 2.0f;
         Type = BulletType.BOOMERANG;
+        GetComponent<SpriteRenderer>().color = Color.white;
+
         IsReturn = false;
         Timer = 0.0f;
         Duration = 2.0f;

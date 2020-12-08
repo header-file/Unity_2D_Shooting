@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     public GameObject[] Slots;
     public GameObject Color;
     public GameObject ScrollView;
+    public GameObject Inventory;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
     Slot[] SlotUI;
     BuySubWeapon BuySWUI;
     LoopScroll ScrollViewUI;
+    Inventory InventoryUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -86,6 +88,7 @@ public class UIManager : MonoBehaviour
             SlotUI[i] = Slots[i].GetComponent<Slot>();
         BuySWUI = NewWindows[(int)NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>();
         ScrollViewUI = ScrollView.GetComponent<LoopScroll>();
+        InventoryUI = Inventory.GetComponent<Inventory>();
     }
 
     void Update()
@@ -299,5 +302,21 @@ public class UIManager : MonoBehaviour
     public void OnClickColorBtn(int index)
     {
         GameManager.Inst().SetColorSelection(CurrentWeapon, index);
+    }
+
+    public void OnClickInventoryBtn()
+    {
+        InventoryUI.ShowInventory();
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+    }
+
+    public void OnClickInventoryBackBtn()
+    {
+        Inventory.SetActive(false);
+
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
     }
 }

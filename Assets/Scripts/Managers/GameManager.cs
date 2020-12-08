@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager Instance;
 
-    const int MAXCOLOR = 8;
+    public int MAXCOLOR = 8;
 
     public ObjectManager ObjManager;
     public UpgradeManager UpgManager;
@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour
         SmallTime = 3.0f;
         MediumTime = 9.0f;
         LargeTime = 15.0f;
+
+        SetColor();
     }
 
     void Start()
@@ -70,7 +72,6 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("SpawnLarge", 0.0f, LargeTime);
 
         SetTexts();
-        SetColor();
     }
 
     void Update()

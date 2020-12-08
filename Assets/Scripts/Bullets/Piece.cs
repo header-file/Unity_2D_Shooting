@@ -8,6 +8,7 @@ public class Piece : Bullet
     {
         Damage = 1.0f;
         Type = BulletType.SPLIT;
+        GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     void Update()

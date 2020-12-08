@@ -23,11 +23,10 @@ public class DamageText : MonoBehaviour
 
     void Update()
     {
-        if (IsStart)
-            Effect();
+        
     }
 
-    void Effect()
+    /*void Effect()
     {
         //Alpha = Mathf.Lerp(Alpha, 0.0f, Time.deltaTime * 2.0f);
         Alpha -= Time.deltaTime;
@@ -44,5 +43,5 @@ public class DamageText : MonoBehaviour
             Alpha = 1.0f;
             gameObject.SetActive(false);
         }
-    }
+    }*/
 }

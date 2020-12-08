@@ -8,6 +8,7 @@ public class Normal : Bullet
     {
         Damage = 1.0f;
         Type = BulletType.NORMAL;
+        GetComponent<SpriteRenderer>().color = Color.white;
         //Damage *= (float)GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
     }
 

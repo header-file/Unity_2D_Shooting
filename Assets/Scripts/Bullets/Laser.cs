@@ -11,6 +11,7 @@ public class Laser : Bullet
     {
         Damage = 8.0f;
         Type = BulletType.LASER;
+        GetComponent<SpriteRenderer>().color = Color.white;
         //Damage *= (float)GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
         IsStopped = false;
     }

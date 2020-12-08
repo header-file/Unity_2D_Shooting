@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
+    public Item_Equipment GetItem(int index) { return Inventory[index] != null ? Inventory[index] : null; }
 
     public int GetCoin() { return Coin; }
     public int GetBulletType() { return BulletType; }

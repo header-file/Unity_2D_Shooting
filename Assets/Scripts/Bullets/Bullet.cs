@@ -18,8 +18,9 @@ public class Bullet : MonoBehaviour
 
     public static int MAXBULLETS = 7;
 
-    protected float Damage;
+    public Color GlowColor;
 
+    protected float Damage;
     protected BulletType Type;
 
     public float GetDamage() { return Damage; }
@@ -27,7 +28,6 @@ public class Bullet : MonoBehaviour
 
     public void SetDamage(int PowerLevel) { Damage *= (float)PowerLevel; }
     public void SetBulletType(int t) { Type = (BulletType)t; }
-
     
     void Start()
     {

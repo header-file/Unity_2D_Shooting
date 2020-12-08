@@ -27,36 +27,37 @@ public class ShootingManager : MonoBehaviour
         SetPos(Shooter, ID);
 
         int power = GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
-        Color color = GameManager.Inst().GetColors(GameManager.Inst().GetColorSelection(ID));
+        //Color color = GameManager.Inst().GetColors(GameManager.Inst().GetColorSelection(ID));
+        int colorIndex = GameManager.Inst().GetColorSelection(ID);
 
-        switch(Type)
+        switch (Type)
         {
             case Bullet.BulletType.NORMAL:
-                Normal(power, color);
+                Normal(power, colorIndex);
                 break;
 
             case Bullet.BulletType.SPREAD:
-                Spread(power, color);
+                Spread(power, colorIndex);
                 break;
 
             case Bullet.BulletType.MISSILE:
-                Missile(power, color);
+                Missile(power, colorIndex);
                 break;
 
             case Bullet.BulletType.LASER:
-                Laser(power, color);
+                Laser(power, colorIndex);
                 break;
 
             case Bullet.BulletType.CHARGE:
-                Charge(power, color);
+                Charge(power, colorIndex);
                 break;
 
             case Bullet.BulletType.BOOMERANG:
-                Boomerang(power, color, Shooter);
+                Boomerang(power, colorIndex);
                 break;
 
             case Bullet.BulletType.SPLIT:
-                Split(power, color, ID);
+                Split(power, colorIndex, ID);
                 break;
         }
     }
@@ -94,7 +95,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Normal(int Power, Color Color)
+    void Normal(int Power, int Index)
     {
         Normal[] bullets = new Normal[5];
 
@@ -102,10 +103,10 @@ public class ShootingManager : MonoBehaviour
         {
             case 1:
             case 2:
-                Objs[0] = GameManager.Inst().ObjManager.MakeObj("Normal");
+                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                 Objs[0].transform.position = NormalPos[0].transform.position;
                 Objs[0].transform.rotation = NormalPos[0].transform.rotation;
-                Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                 Normal bullet = Objs[0].gameObject.GetComponent<Normal>();
                 bullet.Shoot(NormalPos[0].transform.up);
@@ -115,11 +116,11 @@ public class ShootingManager : MonoBehaviour
             case 4:
                 for(int i = 0; i < 3; i++)
                 {
-                    Objs[i] = GameManager.Inst().ObjManager.MakeObj("Normal");
+                    Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;
                     Objs[i].transform.rotation = NormalPos[i].transform.rotation;
                     Objs[i].transform.localScale = NormalPos[i].transform.localScale;
-                    Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                    //Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Normal>();
                     bullets[i].Shoot(NormalPos[0].transform.up);
@@ -129,11 +130,11 @@ public class ShootingManager : MonoBehaviour
             case 5:
                 for (int i = 0; i < 5; i++)
                 {
-                    Objs[i] = GameManager.Inst().ObjManager.MakeObj("Normal");
+                    Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;
                     Objs[i].transform.rotation = NormalPos[i].transform.rotation;
                     Objs[i].transform.localScale = NormalPos[i].transform.localScale;
-                    Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                    //Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Normal>();
                     bullets[i].Shoot(NormalPos[0].transform.up);
@@ -143,7 +144,7 @@ public class ShootingManager : MonoBehaviour
         
     }
 
-    void Spread(int Power, Color Color)
+    void Spread(int Power, int Index)
     {
         Spread[] bullets = new Spread[5];
         float duration = GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.SPREAD).GetDuration();
@@ -155,10 +156,10 @@ public class ShootingManager : MonoBehaviour
             case 3:
                 for(int i = 0; i < 3; i++)
                 {
-                    Objs[i] = GameManager.Inst().ObjManager.MakeObj("Spread");
+                    Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Spread", Index);
                     Objs[i].transform.position = SpreadPos[i].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
-                    Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                    //Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Spread>();
                     bullets[i].Shoot(SpreadPos[i].transform.up);
@@ -170,10 +171,10 @@ public class ShootingManager : MonoBehaviour
             case 5:
                 for (int i = 0; i < 5; i++)
                 {
-                    Objs[i] = GameManager.Inst().ObjManager.MakeObj("Spread");
+                    Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Spread", Index);
                     Objs[i].transform.position = SpreadPos[i].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
-                    Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                    //Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Spread>();
                     bullets[i].Shoot(SpreadPos[i].transform.up);
@@ -183,7 +184,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Missile(int Power, Color Color)
+    void Missile(int Power, int Index)
     {
         Missile[] bullets = new Missile[5];
         float rad = GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.MISSILE).GetDuration();
@@ -192,10 +193,10 @@ public class ShootingManager : MonoBehaviour
         {
             case 1:
             case 2:
-                Objs[0] = GameManager.Inst().ObjManager.MakeObj("Missile");
+                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
                 Objs[0].transform.position = SpreadPos[0].transform.position;
                 Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
-                Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                 bullets[0] = Objs[0].gameObject.GetComponent<Missile>();
                 bullets[0].ResetTarget();
@@ -207,10 +208,10 @@ public class ShootingManager : MonoBehaviour
             case 4:
                 for (int i = 0; i < 2; i++)
                 {
-                    Objs[i] = GameManager.Inst().ObjManager.MakeObj("Missile");
+                    Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
                     Objs[i].transform.position = SpreadPos[i + 1].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i + 1].transform.rotation;
-                    Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                    //Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                     bullets[i] = Objs[0].gameObject.GetComponent<Missile>();
                     bullets[i].ResetTarget();
@@ -222,10 +223,10 @@ public class ShootingManager : MonoBehaviour
             case 5:
                 for (int i = 0; i < 3; i++)
                 {
-                    Objs[i] = GameManager.Inst().ObjManager.MakeObj("Missile");
+                    Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
                     Objs[i].transform.position = SpreadPos[i].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
-                    Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                    //Objs[i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Missile>();
                     bullets[i].ResetTarget();
@@ -237,7 +238,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Laser(int Power, Color Color)
+    void Laser(int Power, int Index)
     {
         switch (Power)
         {
@@ -246,20 +247,20 @@ public class ShootingManager : MonoBehaviour
             case 3:
             case 4:
             case 5:
-                Objs[0] = GameManager.Inst().ObjManager.MakeObj("Laser");
+                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Laser", Index);
                 Vector3 scale = Objs[0].gameObject.transform.localScale;
                 scale.x = (0.5f * Power);
                 Objs[0].transform.localScale = scale;
                 Objs[0].transform.position = LaserPos.transform.position;
                 Objs[0].transform.rotation = LaserPos.transform.rotation;
-                Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                 Laser bullet = Objs[0].gameObject.GetComponent<Laser>();
                 break;
         }
     }
 
-    void Charge(int Power, Color Color)
+    void Charge(int Power, int Index)
     {
         switch (Power)
         {
@@ -268,10 +269,10 @@ public class ShootingManager : MonoBehaviour
             case 3:
             case 4:
             case 5:
-                Objs[0] = GameManager.Inst().ObjManager.MakeObj("Charge");
+                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Charge", Index);
                 Objs[0].transform.position = ChargePos.transform.position;
                 Objs[0].transform.rotation = ChargePos.transform.rotation;
-                Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                 Charge bullet = Objs[0].gameObject.GetComponent<Charge>();
                 bullet.SetChargePos(ChargePos);
@@ -280,7 +281,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Boomerang(int Power, Color Color, GameObject Shooter)
+    void Boomerang(int Power, int Index)
     {
         switch (Power)
         {
@@ -289,10 +290,10 @@ public class ShootingManager : MonoBehaviour
             case 3:
             case 4:
             case 5:
-                Objs[0] = GameManager.Inst().ObjManager.MakeObj("Boomerang");
+                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
                 Objs[0].transform.position = NormalPos[0].transform.position;
                 Objs[0].transform.rotation = NormalPos[0].transform.rotation;
-                Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                 Boomerang bullet = Objs[0].gameObject.GetComponent<Boomerang>();
                 bullet.SetStartPos(Objs[0].transform.position);
@@ -302,7 +303,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Split(int Power, Color Color, int ShooterID)
+    void Split(int Power, int Index, int ShooterID)
     {
         switch (Power)
         {
@@ -311,10 +312,10 @@ public class ShootingManager : MonoBehaviour
             case 3:
             case 4:
             case 5:
-                Objs[0] = GameManager.Inst().ObjManager.MakeObj("Split");
+                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Split", Index);
                 Objs[0].transform.position = NormalPos[0].transform.position;
                 Objs[0].transform.rotation = NormalPos[0].transform.rotation;
-                Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                 Split bullet = Objs[0].gameObject.GetComponent<Split>();
                 bullet.SetShooterID(ShooterID);

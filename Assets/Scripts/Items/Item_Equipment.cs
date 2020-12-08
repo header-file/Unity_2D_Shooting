@@ -19,15 +19,15 @@ public class Item_Equipment : Item
         Unique = 3,
     }
 
-    protected Sprite Icon;
-
     protected EquipmentType EqType;
     protected Rarity Grade;
     protected float Eq_Value;
+    protected Sprite Icon;
 
     public int GetEqType() { return (int)EqType; }
     public int GetRarity() { return (int)Grade; }
     public float GetEqValue() { return Eq_Value; }
+    public Sprite GetIcon() { return Icon; }
 
     public void SetRarity(int rarity) { Grade = (Rarity)rarity; }
     public void SetEqValue(float value) { Eq_Value = value; }

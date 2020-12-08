@@ -19,6 +19,7 @@ public class Charge : Bullet
     {
         Damage = 3.0f;
         Type = BulletType.CHARGE;
+        GetComponent<SpriteRenderer>().color = Color.white;
         //Damage *= (float)GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
         ChargeTime = 0.0f;
 

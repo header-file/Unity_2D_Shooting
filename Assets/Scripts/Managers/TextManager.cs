@@ -104,6 +104,8 @@ public class TextManager : MonoBehaviour
         text.SetActive(true);
         DamageText dmgText = text.GetComponent<DamageText>();
         dmgText.SetText(dmg);
-        dmgText.SetIsStart(true);
+
+        ActivationTimer timer = text.GetComponent<ActivationTimer>();
+        timer.IsStart = true;
     }
 }

@@ -21,6 +21,7 @@ public class Missile : Bullet
 
         Damage = 1.0f;
         Type = BulletType.MISSILE;
+        GetComponent<SpriteRenderer>().color = Color.white;
         //Damage *= (float)GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
         Speed = GameManager.Inst().UpgManager.GetBData((int)Type).GetSpeed();
         RotateSpeed = 200.0f;
