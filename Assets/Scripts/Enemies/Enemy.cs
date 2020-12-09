@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour
 
         if (CurHP <= 0)
         {
-            int rand = (int)(Random.value * 4.0f);
+            int rand = Random.Range(0, 5);
 
             if(rand >= 1)
             {
@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
                 ic.SetValue((int)Random.Range(Health, Health * 5));
                 ic.StartAbsorb();
             }
-            else
+            //else
             {
                 rand = (int)(Random.value * 3.0f);
                 switch(rand)
@@ -103,21 +103,24 @@ public class Enemy : MonoBehaviour
                         eqAtk.transform.position = transform.position;
                         Item_Equipment eqpAtk = eqAtk.GetComponent<Item_Equipment>();
                         eqpAtk.StartAbsorb();
-                        //Set Rarity, EqValue, etc
+                        
+                        eqpAtk.SetValues();
                         break;
                     case 1:
                         GameObject eqRng = GameManager.Inst().ObjManager.MakeObj("EqRange");
                         eqRng.transform.position = transform.position;
                         Item_Equipment eqpRng = eqRng.GetComponent<Item_Equipment>();
                         eqpRng.StartAbsorb();
-                        //Set Rarity, EqValue, etc
+
+                        eqpRng.SetValues();
                         break;
                     case 2:
                         GameObject eqSpd = GameManager.Inst().ObjManager.MakeObj("EqSpeed");
                         eqSpd.transform.position = transform.position;
                         Item_Equipment eqpSpd = eqSpd.GetComponent<Item_Equipment>();
                         eqpSpd.StartAbsorb();
-                        //Set Rarity, EqValue, etc
+
+                        eqpSpd.SetValues();
                         break;
                 }
             }
@@ -218,11 +221,6 @@ public class Enemy : MonoBehaviour
     {
         Canvas.SetActive(false);
         IsBarVisible = false;
-    }
-
-    private int SetCoinValue()
-    {
-        return (int)Random.Range(0.0f, Health * 3);
     }
 
     //void SlowGame()

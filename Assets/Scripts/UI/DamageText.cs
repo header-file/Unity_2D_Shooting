@@ -6,17 +6,11 @@ using UnityEngine.UI;
 public class DamageText : MonoBehaviour
 {
     TextMesh DmgText;
-
-    bool IsStart;
-    float Alpha;
-
+    
     public void SetText(float dmg) { DmgText.text = ((int)dmg).ToString(); }
-    public void SetIsStart(bool b) { IsStart = true; }
 
     void Awake()
     {
-        IsStart = false;
-        Alpha = 1.0f;
         DmgText = gameObject.GetComponent<TextMesh>();
         gameObject.GetComponent<MeshRenderer>().sortingOrder = 10;
     }

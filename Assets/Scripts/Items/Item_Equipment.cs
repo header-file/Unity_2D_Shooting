@@ -13,10 +13,11 @@ public class Item_Equipment : Item
 
     public enum Rarity
     {
-        Normal = 0,
-        Rare = 1,
-        Epic = 2,
-        Unique = 3,
+        WHITE = 0,
+        GREEN = 1,
+        BLUE = 2,
+        PURPLE = 3,
+        YELLOW = 4,
     }
 
     protected EquipmentType EqType;
@@ -29,6 +30,58 @@ public class Item_Equipment : Item
     public float GetEqValue() { return Eq_Value; }
     public Sprite GetIcon() { return Icon; }
 
+    public void SetEqType(int type) { EqType = (EquipmentType)type; } 
     public void SetRarity(int rarity) { Grade = (Rarity)rarity; }
     public void SetEqValue(float value) { Eq_Value = value; }
+    public void SetIcon(Sprite img) { Icon = img; }
+
+    public void SetValues()
+    {
+        Icon = GetComponent<SpriteRenderer>().sprite;
+
+        SetGrade();
+    }
+
+    void SetGrade()
+    {
+        int rand = Random.Range(0, 5);
+        switch(rand)
+        {
+            case 0:
+                Grade = Rarity.WHITE;
+                SetEqValue(rand);
+                break;
+
+            case 1:
+                Grade = Rarity.GREEN;
+                SetEqValue(rand);
+                break;
+
+            case 2:
+                Grade = Rarity.BLUE;
+                SetEqValue(rand);
+                break;
+
+            case 3:
+                Grade = Rarity.PURPLE;
+                SetEqValue(rand);
+                break;
+
+            case 4:
+                Grade = Rarity.YELLOW;
+                SetEqValue(rand);
+                break;
+        }
+    }
+
+    void SetEqValue(int num)
+    {
+        int min = num * 20 + 1;
+        int max = (num + 1) * 20 + 1;
+
+        int seed = (int)(Time.time * 1000.0f);
+        Random.InitState(seed);
+        int rand = Random.Range(min, max);
+        Eq_Value = rand;
+    }
 }

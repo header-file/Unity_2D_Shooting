@@ -2,9 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
-    public int MAXINVENTORY = 20;
+    public int MAXINVENTORY = 40;
+
+    public struct EqData
+    {
+        public Sprite Icon;
+        public int Type;
+        public int Rarity;
+        public float Value;
+
+        public EqData(Sprite icon, int type, int rarity, float value)
+        {
+            Icon = icon;
+            Type = type;
+            Rarity = rarity;
+            Value = value;
+        }
+    };
 
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
@@ -13,7 +30,7 @@ public class Player : MonoBehaviour
     public GameObject[] BoomerangPos;
 
     GameObject[] SubWeapons;
-    Item_Equipment[] Inventory;
+    EqData[] Inventory;
 
     bool IsReload;
     int Coin;
@@ -21,7 +38,7 @@ public class Player : MonoBehaviour
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
-    public Item_Equipment GetItem(int index) { return Inventory[index] != null ? Inventory[index] : null; }
+    public EqData GetItem(int index) { return Inventory[index];/* != null ? Inventory[index] : null; */}
 
     public int GetCoin() { return Coin; }
     public int GetBulletType() { return BulletType; }
@@ -47,16 +64,34 @@ public class Player : MonoBehaviour
     {
         for(int i = 0; i < MAXINVENTORY; i++)
         {
-            if (Inventory[i] == null)
+            if (Inventory[i].Icon == null)
             {
-                Inventory[i] = item;
-                Debug.Log("Add " + item.name);
+                Inventory[i].Icon = item.GetIcon();
+                Inventory[i].Type = item.GetEqType();
+                Inventory[i].Rarity = item.GetRarity();
+                Inventory[i].Value = item.GetEqValue();
+
                 break;
             }   
         }
     }
 
-   void Awake()
+    public void RemoveItem(int index)
+    {
+        for (int i = index + 1; i < MAXINVENTORY; i++)
+        {
+            if (Inventory[i].Icon == null)
+            {
+                Inventory[i] = new EqData();
+                break;
+            }
+                
+
+            Inventory[i - 1] = Inventory[i];
+        }
+    }
+
+    void Awake()
     {
         Coin = 9999999;
         
@@ -64,7 +99,9 @@ public class Player : MonoBehaviour
         BulletType = 0;
 
         SubWeapons = new GameObject[4];
-        Inventory = new Item_Equipment[MAXINVENTORY];
+        Inventory = new EqData[MAXINVENTORY];
+        for (int i = 0; i < MAXINVENTORY; i++)
+            Inventory[i] = new EqData(null, -1, -1, 0.0f);
     }
 
     void Start()
