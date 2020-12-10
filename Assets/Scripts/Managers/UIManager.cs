@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     public GameObject ScrollView;
     public GameObject Inventory;
     public GameObject InventoryDetail;
+    public GameObject Equip;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -37,6 +38,7 @@ public class UIManager : MonoBehaviour
     LoopScroll ScrollViewUI;
     Inventory InventoryUI;
     InventoryDetail InvDetailUI;
+    Equip EquipUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -92,6 +94,7 @@ public class UIManager : MonoBehaviour
         ScrollViewUI = ScrollView.GetComponent<LoopScroll>();
         InventoryUI = Inventory.GetComponent<Inventory>();
         InvDetailUI = InventoryDetail.GetComponent<InventoryDetail>();
+        EquipUI = Equip.GetComponent<Equip>();
     }
 
     void Update()
@@ -333,5 +336,37 @@ public class UIManager : MonoBehaviour
     public void OnClickInventoryDetailBackBtn()
     {
         InventoryDetail.SetActive(false);
+    }
+
+    public void OnClickEquipBtn()
+    {
+        Inventory.SetActive(false);
+        InventoryDetail.SetActive(false);
+        Equip.SetActive(true);
+
+        EquipUI.Show(CurrentBulletType);
+    }
+
+    public void OnClickEquipBackBtn()
+    {
+        Equip.SetActive(false);
+
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+    }
+
+    public void OnClickEquipSlotBtn(int index)
+    {
+        EquipUI.SortAsType(index);
+    }
+
+    public void OnClickEquipSelectBtn(int index)
+    {
+        EquipUI.Select(index, CurrentBulletType);
+    }
+
+    public void OnClickUnequipBtn()
+    {
+        EquipUI.Unequip();
     }
 }
