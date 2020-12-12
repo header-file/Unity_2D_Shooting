@@ -157,7 +157,8 @@ public class Enemy : MonoBehaviour
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float level = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetPowerLevel();
-            float dmg = bullet.GetDamage() * level;
+            float atk = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float dmg = bullet.GetDamage() * level * (1 + (atk / 100.0f));
             collision.gameObject.SetActive(false);
 
             OnHit(dmg);
@@ -166,7 +167,8 @@ public class Enemy : MonoBehaviour
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float level = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetPowerLevel();
-            float dmg = bullet.GetDamage() * level;
+            float atk = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float dmg = bullet.GetDamage() * level * (1 + (atk / 100.0f));
 
             OnHit(dmg);
         }
@@ -174,7 +176,8 @@ public class Enemy : MonoBehaviour
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float level = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetPowerLevel();
-            float dmg = bullet.GetDamage() * level;
+            float atk = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float dmg = bullet.GetDamage() * level * (1 + (atk / 100.0f));
 
             OnHit(dmg);
         }
@@ -182,7 +185,9 @@ public class Enemy : MonoBehaviour
         {
             Split bullet = collision.gameObject.GetComponent<Split>();
             float level = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetPowerLevel();
-            float dmg = bullet.GetDamage() * level;
+            float atk = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float dmg = bullet.GetDamage() * level * (1 + (atk / 100.0f));
+
             bullet.OnSplit();
             collision.gameObject.SetActive(false);
 
@@ -190,9 +195,7 @@ public class Enemy : MonoBehaviour
         }
         else if(collision.gameObject.name == "Bottom")
         {
-            //GameManager.Inst().RedMask.gameObject.SetActive(true);
             GameManager.Inst().RedMask.gameObject.GetComponent<RedMask>().SetIsAlert(true);
-
             GameManager.Inst().Camerashake.Vibrate(0.05f);
             
             //아군 피격

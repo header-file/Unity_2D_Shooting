@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3366418275670825866}
   - component: {fileID: 3366418275670825867}
   - component: {fileID: 3366418275670825864}
-  - component: {fileID: 3366418275670825860}
+  - component: {fileID: 155484749066717129}
   - component: {fileID: 3366418275670825861}
   m_Layer: 0
   m_Name: EquipAttack
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3366418275670825865}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.21, y: 5.12, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0297d290c58cad0429b249a0e84a3557, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b35131b417b1fa14a8a32f821eba62b3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31f9ad17139c96049b20d43d05c6d429, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,8 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b684ba3ec15b50541997cfac7760fd64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &3366418275670825860
-CircleCollider2D:
+--- !u!70 &155484749066717129
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,12 +106,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.16666667
+  m_Size: {x: 1, y: 2}
+  m_Direction: 0
 --- !u!50 &3366418275670825861
 Rigidbody2D:
   serializedVersion: 4

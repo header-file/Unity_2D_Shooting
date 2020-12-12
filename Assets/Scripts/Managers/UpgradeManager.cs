@@ -35,10 +35,16 @@ public class UpgradeManager : MonoBehaviour
         public void SetSpeed(float velocity) { Speed = velocity; }
         public void SetReloadTime(float Time) { ReloadTime = Time; }
         public void SetDuration(float Time) { Duration = Time; }
+        public void SetAtk(int atk) { Atk = atk; }
+        public void SetRng(int rng) { Rng = rng; }
+        public void SetSpd(int spd) { Spd = spd; }
         
         public int GetMaxBulletLevel() { return MaxBulletLevel; }
         public int GetPowerLevel() { return PowerLevel; }
         public int GetPrice() { return Price; }
+        public int GetAtk() { return Atk; }
+        public int GetRng() { return Rng; }
+        public int GetSpd() { return Spd; }
         public float GetSpeed() { return Speed; }
         public float GetReloadTime() { return ReloadTime; }
         public float GetDuration() { return Duration; }
@@ -62,6 +68,10 @@ public class UpgradeManager : MonoBehaviour
         float Speed;
         float ReloadTime;
         float Duration;
+
+        int Atk;
+        int Rng;
+        int Spd;
     };
 
     public GameObject[] SubPositions;

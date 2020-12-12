@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     public GameObject Inventory;
     public GameObject InventoryDetail;
     public GameObject Equip;
+    public GameObject ConfirmSwitch;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -362,11 +363,30 @@ public class UIManager : MonoBehaviour
 
     public void OnClickEquipSelectBtn(int index)
     {
-        EquipUI.Select(index, CurrentBulletType);
+        if (EquipUI.GetSelected(CurrentBulletType) == -1)
+            EquipUI.Select(index, CurrentBulletType);
+        else
+        {
+            EquipUI.ShowSwitch(index, CurrentBulletType);
+            ConfirmSwitch.SetActive(true);
+            EquipUI.SetSwichBuffer(index);
+        }
     }
 
     public void OnClickUnequipBtn()
     {
-        EquipUI.Unequip();
+        EquipUI.Unequip(CurrentBulletType);
+    }
+
+    public void OnClickSwitchBtn()
+    {
+        EquipUI.Switch(EquipUI.GetSwitchBuffer(), CurrentBulletType);
+        ConfirmSwitch.SetActive(false);
+    }
+
+    public void OnClickSwitchCancelBtn()
+    {
+        EquipUI.SetSwichBuffer(-1);
+        ConfirmSwitch.SetActive(false);
     }
 }
