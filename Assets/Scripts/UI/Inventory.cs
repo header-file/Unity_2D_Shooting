@@ -29,6 +29,16 @@ public class Inventory : MonoBehaviour
 
                 Sprite icon = eq.Icon;
                 InventoryUI[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = icon;
+
+                switch (eq.Type)
+                {
+                    case 0:
+                        InventoryUI[i].transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, 60.0f);
+                        break;
+                    case 2:
+                        InventoryUI[i].transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
+                        break;
+                }
             }
         }
     }

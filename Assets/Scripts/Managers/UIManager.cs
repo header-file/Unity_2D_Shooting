@@ -350,6 +350,9 @@ public class UIManager : MonoBehaviour
 
     public void OnClickEquipBackBtn()
     {
+        EquipUI.ResetMaterial();
+        EquipUI.SetIsShowingSwitch(false);
+        ConfirmSwitch.SetActive(false);
         Equip.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
@@ -367,6 +370,9 @@ public class UIManager : MonoBehaviour
             EquipUI.Select(index, CurrentBulletType);
         else
         {
+            if (EquipUI.GetSelected(CurrentBulletType) == EquipUI.GetIndices(index))
+                return;
+
             EquipUI.ShowSwitch(index, CurrentBulletType);
             ConfirmSwitch.SetActive(true);
             EquipUI.SetSwichBuffer(index);

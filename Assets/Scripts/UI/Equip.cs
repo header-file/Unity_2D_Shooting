@@ -10,9 +10,10 @@ public class Equip : MonoBehaviour
     public GameObject[] Gauges;
     public GameObject[] BulletImgs;
     public GameObject CurrentBuletImg;
-    public GameObject TypeText;
+    public GameObject[] TypeText;
     public GameObject BeforeText;
     public GameObject AfterText;
+    public Material MatBright;
     
     Player Player;
     Sprite OriginalSprite;
@@ -21,12 +22,19 @@ public class Equip : MonoBehaviour
     Color[] GaugeColors;
     int[,] Selected;
     int SwitchBuffer;
+    bool IsShowingSwitch;
+    int SelectedIndex;
+    Color GlowColor;
 
     
     public int GetSwitchBuffer() { return SwitchBuffer; }
     public int GetSelected(int currentBulletType) { return Selected[currentBulletType, SelectableType]; }
+    public int GetIndices(int index) { return Indices[index]; }
 
     public void SetSwichBuffer(int i) { SwitchBuffer = i; }
+    public void SetIsShowingSwitch(bool b) { IsShowingSwitch = b; }
+
+    public void ResetMaterial() { if (SelectedIndex > -1) Inventories.transform.GetChild(SelectedIndex).GetChild(0).GetChild(1).GetComponent<Image>().material = null; }
 
     void Start()
     {
@@ -51,10 +59,44 @@ public class Equip : MonoBehaviour
         }
 
         SwitchBuffer = -1;
-
+        IsShowingSwitch = false;
         gameObject.SetActive(false);
+        GlowColor = new Color(0.0f, 0.0f, 0.0f, 1.0f);
     }
 
+    void Update()
+    {
+        if(IsShowingSwitch)
+            Flickering();
+    }
+
+    void Flickering()
+    {
+        Inventories.transform.GetChild(SelectedIndex).GetChild(0).GetChild(1).GetComponent<Image>().material.SetColor("_GlowColor", GlowColor);
+        GlowColor.a -= 0.1f;
+
+        if (GlowColor.a < 0.0f)
+            GlowColor.a = 1.0f;
+
+        int before = (int)GameManager.Inst().Player.GetItem(Selected[GameManager.Inst().Player.GetBulletType(), SelectableType]).Value / 10; 
+        int after = (int)GameManager.Inst().Player.GetItem(Indices[SelectedIndex]).Value / 10;
+
+        for(int i = 1; i <= 10; i++)
+        {
+            if (before >= i && after >= i)
+                Gauges[SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = GaugeColors[SelectableType];
+            else if (before < i && after < i)
+                Gauges[SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = Color.white;
+            else if (before < i || after < i)
+            {
+                Color color = GaugeColors[SelectableType];
+                color.a = GlowColor.a;
+                Gauges[SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = color;
+            }
+            
+        }
+    }
+    //(before < i && after >= i) || (before >= i && after < i)
     public void Show(int CurrentBulletType)
     {
         ShowEquipDetail(CurrentBulletType);
@@ -130,37 +172,63 @@ public class Equip : MonoBehaviour
 
                 Sprite icon = eq.Icon;
                 Inventories.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<Image>().sprite = icon;
+
+                switch (eq.Type)
+                {
+                    case 0:
+                        Inventories.transform.GetChild(i).GetChild(0).GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f,  60.0f);
+                        break;
+                    case 1:
+                        Inventories.transform.GetChild(i).GetChild(0).GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                        break;
+                    case 2:
+                        Inventories.transform.GetChild(i).GetChild(0).GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
+                        break;
+                }
             }
         }
     }
 
     public void ShowSwitch(int index, int CurrentBulletType)
     {
-        Text text = TypeText.GetComponent<Text>();
-        switch (SelectableType)
+        for (int i = 0; i < 2; i++)
         {
-            case 0:
-                text.text = "ATK";
-                break;
-            case 1:
-                text.text = "RNG";
-                break;
-            case 2:
-                text.text = "SPD";
-                break;
+            Text text = TypeText[i].GetComponent<Text>();
+            switch (SelectableType)
+            {
+                case 0:
+                    text.text = "ATK";
+                    break;
+                case 1:
+                    text.text = "RNG";
+                    break;
+                case 2:
+                    text.text = "SPD";
+                    break;
+            }
+            text.color = GaugeColors[SelectableType];
         }
-        text.color = GaugeColors[SelectableType];
-
+        
         if (Selected[CurrentBulletType, SelectableType] != -1)
             BeforeText.GetComponent<Text>().text = GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, SelectableType]).Value.ToString();
         else
             BeforeText.GetComponent<Text>().text = "0";
         AfterText.GetComponent<Text>().text = GameManager.Inst().Player.GetItem(Indices[index]).Value.ToString();
+
+
+        ResetMaterial();
+
+        SelectedIndex = index;
+        Inventories.transform.GetChild(SelectedIndex).GetChild(0).GetChild(1).GetComponent<Image>().material = MatBright;
+        IsShowingSwitch = true;
     }
 
     public void SortAsType(int type)
     {
         SelectableType = type;
+
+        ResetMaterial();
+        SetIsShowingSwitch(false);
 
         int slotCount = 1;
 
@@ -179,6 +247,19 @@ public class Equip : MonoBehaviour
                 Inventories.transform.GetChild(slotCount).GetChild(0).gameObject.SetActive(true);
 
                 Inventories.transform.GetChild(slotCount).GetChild(0).GetChild(0).GetComponent<Image>().sprite = eq.Icon;
+
+                switch (eq.Type)
+                {
+                    case 0:
+                        Inventories.transform.GetChild(slotCount).GetChild(0).GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, 60.0f);
+                        break;
+                    case 1:
+                        Inventories.transform.GetChild(slotCount).GetChild(0).GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                        break;
+                    case 2:
+                        Inventories.transform.GetChild(slotCount).GetChild(0).GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
+                        break;
+                }
 
                 Indices[slotCount] = i;
                 slotCount++;
@@ -221,6 +302,9 @@ public class Equip : MonoBehaviour
                     break;
             }
         }
+
+        ResetMaterial();
+        SetIsShowingSwitch(false);
     }
 
     void PaintGauge(int type, float value)
