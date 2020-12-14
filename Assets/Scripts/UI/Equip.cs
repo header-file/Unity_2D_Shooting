@@ -24,6 +24,7 @@ public class Equip : MonoBehaviour
     int SwitchBuffer;
     bool IsShowingSwitch;
     int SelectedIndex;
+    int LastIndex;
     Color GlowColor;
 
     
@@ -39,9 +40,19 @@ public class Equip : MonoBehaviour
     void Start()
     {
         SelectableType = -1;
-        Indices = new int[GameManager.Inst().Player.MAXINVENTORY + 1];
-        for (int i = 0; i <= GameManager.Inst().Player.MAXINVENTORY; i++)
+        Player = GameManager.Inst().Player;
+
+        int maxInventory = Player.MAXINVENTORY;
+        Indices = new int[maxInventory + 1];
+        for (int i = 0; i <= maxInventory; i++)
+        {
             Indices[i] = -1;
+
+            InventorySlot slot = Inventories.transform.GetChild(i).GetComponent<InventorySlot>();
+            slot.SetIndex(i);
+            slot.SetType(1);
+        }
+            
 
         OriginalSprite = Buttons.transform.GetChild(0).gameObject.GetComponent<Image>().sprite;
 
@@ -61,6 +72,7 @@ public class Equip : MonoBehaviour
         SwitchBuffer = -1;
         IsShowingSwitch = false;
         gameObject.SetActive(false);
+        LastIndex = -1;
         GlowColor = new Color(0.0f, 0.0f, 0.0f, 1.0f);
     }
 
@@ -96,7 +108,7 @@ public class Equip : MonoBehaviour
             
         }
     }
-    //(before < i && after >= i) || (before >= i && after < i)
+    
     public void Show(int CurrentBulletType)
     {
         ShowEquipDetail(CurrentBulletType);
@@ -116,18 +128,26 @@ public class Equip : MonoBehaviour
 
             PaintGauge(0, value);
         }
+        else
+            PaintGauge(0, 0);
+
         if (Selected[CurrentBulletType, 1] != -1)
         {
             int value = (int)GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 1]).Value;
 
             PaintGauge(1, value);
         }
+        else
+            PaintGauge(0, 0);
+
         if (Selected[CurrentBulletType, 2] != -1)
         {
             int value = (int)GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 2]).Value;
 
             PaintGauge(2, value);
         }
+        else
+            PaintGauge(0, 0);
 
         //스페셜 할 예정
     }
@@ -137,10 +157,16 @@ public class Equip : MonoBehaviour
         if (Selected[CurrentBulletType, 0] != -1)
         {
             Sprite img = GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 0]).Icon;
-
+            Debug.Log(Selected[CurrentBulletType, 0]);
             Buttons.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             Buttons.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = img;
         }
+        else
+        {
+            Buttons.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            Buttons.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = OriginalSprite;
+        }
+
         if (Selected[CurrentBulletType, 1] != -1)
         {
             Sprite img = GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 1]).Icon;
@@ -148,6 +174,12 @@ public class Equip : MonoBehaviour
             Buttons.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
             Buttons.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = img;
         }
+        else
+        {
+            Buttons.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            Buttons.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = OriginalSprite;
+        }
+
         if (Selected[CurrentBulletType, 2] != -1)
         {
             Sprite img = GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 2]).Icon;
@@ -155,13 +187,18 @@ public class Equip : MonoBehaviour
             Buttons.transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
             Buttons.transform.GetChild(2).gameObject.GetComponent<Image>().sprite = img;
         }
+        else
+        {
+            Buttons.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            Buttons.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = OriginalSprite;
+        }
+
     }
 
     void ShowInventory()
     {
         SelectableType = -1;
-
-        Player = GameManager.Inst().Player;
+        
         for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
@@ -240,6 +277,9 @@ public class Equip : MonoBehaviour
 
         for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
+            //E마크
+            Inventories.transform.GetChild(i).GetChild(0).GetChild(2).gameObject.SetActive(false);
+
             Player.EqData eq = Player.GetItem(i);
             if(eq.Type == type)
             {
@@ -260,7 +300,9 @@ public class Equip : MonoBehaviour
                         Inventories.transform.GetChild(slotCount).GetChild(0).GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
                         break;
                 }
-
+                if(Selected[Player.GetBulletType(), SelectableType] == i)
+                    Inventories.transform.GetChild(slotCount).GetChild(0).GetChild(2).gameObject.SetActive(true);
+                
                 Indices[slotCount] = i;
                 slotCount++;
             }
@@ -280,6 +322,10 @@ public class Equip : MonoBehaviour
         {
             Buttons.transform.GetChild(SelectableType).GetChild(0).gameObject.SetActive(false);
             Buttons.transform.GetChild(SelectableType).gameObject.GetComponent<Image>().sprite = eq.Icon;
+
+            //E마크
+            Inventories.transform.GetChild(index).GetChild(0).GetChild(2).gameObject.SetActive(true);
+            LastIndex = index;
 
             PaintGauge(SelectableType, eq.Value);
 
@@ -318,9 +364,19 @@ public class Equip : MonoBehaviour
         }
     }
 
-    public void Switch(int index, int CurrnetBulletType)
+    public void Switch(int index, int CurrentBulletType)
     {
-        Select(index, CurrnetBulletType);
+        //E마크
+        Inventories.transform.GetChild(LastIndex).GetChild(0).GetChild(2).gameObject.SetActive(false);
+
+        Select(index, CurrentBulletType);
+    }
+
+    public void SwitchCancel()
+    {
+        ResetMaterial();
+        PaintGauge(SelectableType, GameManager.Inst().Player.GetItem(Selected[GameManager.Inst().Player.GetBulletType(), SelectableType]).Value);
+        SetIsShowingSwitch(false);
     }
 
     public void Unequip(int CurrentBulletType)
@@ -328,6 +384,9 @@ public class Equip : MonoBehaviour
         Buttons.transform.GetChild(SelectableType).GetChild(0).gameObject.SetActive(true);
         Buttons.transform.GetChild(SelectableType).gameObject.GetComponent<Image>().sprite = OriginalSprite;
 
+        //E마크
+        Inventories.transform.GetChild(LastIndex).GetChild(0).GetChild(2).gameObject.SetActive(false);
+        
         for (int i = 1; i <= 10; i++)
             Gauges[SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = Color.white;
 
@@ -337,7 +396,7 @@ public class Equip : MonoBehaviour
             if (Player.GetItem(i).GetEquip() == CurrentBulletType)
                 Player.GetItem(i).SetEquip(-1);
         }*/
-        if(Selected[CurrentBulletType, SelectableType] == CurrentBulletType)
+        if(Selected[CurrentBulletType, SelectableType] == Indices[LastIndex])
         {
             Player.GetItem(Selected[CurrentBulletType, SelectableType]).SetEquip(-1);
             Selected[CurrentBulletType, SelectableType] = -1;

@@ -344,7 +344,7 @@ public class UIManager : MonoBehaviour
         Inventory.SetActive(false);
         InventoryDetail.SetActive(false);
         Equip.SetActive(true);
-
+        
         EquipUI.Show(CurrentBulletType);
     }
 
@@ -393,6 +393,7 @@ public class UIManager : MonoBehaviour
     public void OnClickSwitchCancelBtn()
     {
         EquipUI.SetSwichBuffer(-1);
+        EquipUI.SwitchCancel();
         ConfirmSwitch.SetActive(false);
     }
 }
