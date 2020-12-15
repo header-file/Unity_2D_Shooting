@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
 
     public void AddItem(Item_Equipment item)
     {
-        for(int i = 0; i < MAXINVENTORY; i++)
+        for(int i = 1; i <= MAXINVENTORY; i++)
         {
             if (Inventory[i].Icon == null)
             {
@@ -104,8 +104,8 @@ public class Player : MonoBehaviour
         BulletType = 0;
 
         SubWeapons = new GameObject[4];
-        Inventory = new EqData[MAXINVENTORY];
-        for (int i = 0; i < MAXINVENTORY; i++)
+        Inventory = new EqData[MAXINVENTORY + 1];
+        for (int i = 1; i <= MAXINVENTORY; i++)
             Inventory[i] = new EqData(null, -1, -1, 0.0f, -1);
     }
 

@@ -59,6 +59,7 @@ public class UIManager : MonoBehaviour
     float TickCount;
     int CurrentBulletType;
     int CurrentWeapon;
+    bool IsEquip;
 
 
     public BuySubWeapon GetBuySWUI() { return BuySWUI; }
@@ -85,6 +86,7 @@ public class UIManager : MonoBehaviour
         IsMoveUp = false;
         IsMoveDown = false;
         CurrentBulletType = -1;
+        IsEquip = false;
 
         MainUi = MainUI.GetComponent<MainUI>();
         DetailUI = NewWindows[(int)NewWindowType.DETAIL].GetComponent<Detail>();
@@ -143,8 +145,11 @@ public class UIManager : MonoBehaviour
             for(int i = 0; i < NewWindows.Length; i++)
                 NewWindows[i].SetActive(false);
 
-            GameManager.Inst().IptManager.SetIsAbleControl(true);
-            GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+            if(!IsEquip)
+            {
+                GameManager.Inst().IptManager.SetIsAbleControl(true);
+                GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+            }
 
             Time.timeScale = 1.0f;
         } 
@@ -341,19 +346,25 @@ public class UIManager : MonoBehaviour
 
     public void OnClickEquipBtn()
     {
+        if (!IsMoveDown)
+            Timer = 0.0f;
+        IsMoveDown = true;
+
         Inventory.SetActive(false);
         InventoryDetail.SetActive(false);
         Equip.SetActive(true);
         
         EquipUI.Show(CurrentBulletType);
+        IsEquip = true;
     }
 
     public void OnClickEquipBackBtn()
     {
-        EquipUI.ResetMaterial();
+        EquipUI.DisableSelectedSlot();
         EquipUI.SetIsShowingSwitch(false);
         ConfirmSwitch.SetActive(false);
         Equip.SetActive(false);
+        IsEquip = false;
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -367,10 +378,14 @@ public class UIManager : MonoBehaviour
     public void OnClickEquipSelectBtn(int index)
     {
         if (EquipUI.GetSelected(CurrentBulletType) == -1)
+        {
+
             EquipUI.Select(index, CurrentBulletType);
+        }
+            
         else
         {
-            if (EquipUI.GetSelected(CurrentBulletType) == EquipUI.GetIndices(index))
+            if (EquipUI.GetSelected(CurrentBulletType) == index)
                 return;
 
             EquipUI.ShowSwitch(index, CurrentBulletType);

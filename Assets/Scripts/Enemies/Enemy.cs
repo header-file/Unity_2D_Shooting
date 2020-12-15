@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour
 
     bool IsBarVisible;
     Vector3 TargetPosition;
+    bool IsInvincible;
 
     public int GetEnemyType() { return (int)Type; }
     public Vector3 GetTargetPosition() { return TargetPosition; }
@@ -49,6 +50,8 @@ public class Enemy : MonoBehaviour
         TargetPosition = Vector3.zero;
 
         HitArea = transform.GetChild(1).GetComponent<HitArea>();
+
+        IsInvincible = false;
     }
 
     void FixedUpdate()
@@ -60,6 +63,9 @@ public class Enemy : MonoBehaviour
 
     void OnHit(float Damage)
     {
+        if (IsInvincible)
+            return;
+
         if (!IsBarVisible)
             ShowHPBar();
         else
@@ -78,6 +84,7 @@ public class Enemy : MonoBehaviour
         //SlowGame();
 
         SpriteRenderer.sprite = Sprites[1];
+        IsInvincible = true;
         Invoke("ReturnSprite", 0.1f);
 
         if (CurHP <= 0)
@@ -149,6 +156,7 @@ public class Enemy : MonoBehaviour
     void ReturnSprite()
     {
         SpriteRenderer.sprite = Sprites[0];
+        IsInvincible = false;
     }
 
     void OnTriggerEnter2D(Collider2D collision)

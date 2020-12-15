@@ -11,8 +11,8 @@ public class DamageText : MonoBehaviour
 
     void Awake()
     {
-        DmgText = gameObject.GetComponent<TextMesh>();
-        gameObject.GetComponent<MeshRenderer>().sortingOrder = 10;
+        DmgText = gameObject.transform.GetChild(0).GetComponent<TextMesh>();
+        gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().sortingOrder = 10;
     }
 
     void Update()

@@ -1,16 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
+    public GameObject EMark;
+    public GameObject Selected;
+    public GameObject Icon;
+
     int Index = 0;
     int Type = 0;
 
     public int GetIndex() { return Index; }
+    public GameObject GetIcon() { return Icon; }
 
     public void SetIndex(int i) { Index = i; }
     public void SetType(int t) { Type = t; }
+    public void SetEmark(bool b) { EMark.SetActive(b); }
+    public void SetSelected(bool b) { Selected.SetActive(b); }
+    public void SetIcon(Sprite icon) { Icon.GetComponent<Image>().sprite = icon; }
 
     public void OnClick()
     {
@@ -23,6 +32,5 @@ public class InventorySlot : MonoBehaviour
                 GameManager.Inst().UiManager.OnClickEquipSelectBtn(Index);
                 break;
         }
-        
     }
 }
