@@ -13,19 +13,14 @@ public class Player : MonoBehaviour
         public int Type;
         public int Rarity;
         public float Value;
-        int Equip;
 
-        public EqData(Sprite icon, int type, int rarity, float value, int equip)
+        public EqData(Sprite icon, int type, int rarity, float value)
         {
             Icon = icon;
             Type = type;
             Rarity = rarity;
             Value = value;
-            Equip = equip;
         }
-
-        public int GetEquip() { return Equip; }
-        public void SetEquip(int e) { Equip = e; }
     };
 
     public GameObject[] NormalPos;
@@ -104,9 +99,10 @@ public class Player : MonoBehaviour
         BulletType = 0;
 
         SubWeapons = new GameObject[4];
+        MAXINVENTORY = 40;
         Inventory = new EqData[MAXINVENTORY + 1];
         for (int i = 1; i <= MAXINVENTORY; i++)
-            Inventory[i] = new EqData(null, -1, -1, 0.0f, -1);
+            Inventory[i] = new EqData(null, -1, -1, 0.0f);
     }
 
     void Start()

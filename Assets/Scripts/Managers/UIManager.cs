@@ -347,8 +347,10 @@ public class UIManager : MonoBehaviour
     public void OnClickEquipBtn()
     {
         if (!IsMoveDown)
+        {
             Timer = 0.0f;
-        IsMoveDown = true;
+            IsMoveDown = true;
+        }
 
         Inventory.SetActive(false);
         InventoryDetail.SetActive(false);
@@ -377,12 +379,9 @@ public class UIManager : MonoBehaviour
 
     public void OnClickEquipSelectBtn(int index)
     {
-        if (EquipUI.GetSelected(CurrentBulletType) == -1)
-        {
-
-            EquipUI.Select(index, CurrentBulletType);
-        }
-            
+        if (EquipUI.GetSelected(CurrentBulletType) == -1 &&
+            !EquipUI.CheckAlreadyEquip(index))
+            EquipUI.Select(index, CurrentBulletType);            
         else
         {
             if (EquipUI.GetSelected(CurrentBulletType) == index)

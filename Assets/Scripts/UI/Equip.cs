@@ -17,7 +17,7 @@ public class Equip : MonoBehaviour
     
     Player Player;
     Sprite OriginalSprite;
-    int SelectableType;
+    Item_Equipment.EquipmentType SelectableType;
     //int[] Indices;
     Color[] GaugeColors;
     int[,] Selected;
@@ -27,10 +27,11 @@ public class Equip : MonoBehaviour
     int[,] LastIndex;
     Color GlowColor;
     bool IsBtoB;
+    int SwitchableBulletType;
 
     
     public int GetSwitchBuffer() { return SwitchBuffer; }
-    public int GetSelected(int currentBulletType) { return Selected[currentBulletType, SelectableType]; }
+    public int GetSelected(int currentBulletType) { return Selected[currentBulletType, (int)(int)SelectableType]; }
     //public int GetIndices(int index) { return Indices[index]; }
 
     public void SetSwichBuffer(int i) { SwitchBuffer = i; }
@@ -41,7 +42,7 @@ public class Equip : MonoBehaviour
     
     void Start()
     {
-        SelectableType = -1;
+        SelectableType = 0;
         Player = GameManager.Inst().Player;
 
         int maxInventory = Player.MAXINVENTORY;
@@ -86,6 +87,7 @@ public class Equip : MonoBehaviour
         GlowColor = new Color(0.0f, 0.0f, 0.0f, 1.0f);
         IsBtoB = false;
         SelectedIndex = -1;
+        SwitchableBulletType = -1;
     }
 
     void Update()
@@ -101,21 +103,23 @@ public class Equip : MonoBehaviour
         if (GlowColor.a < 0.0f)
             GlowColor.a = 1.0f;
 
-        int before = (int)GameManager.Inst().Player.GetItem(Selected[GameManager.Inst().Player.GetBulletType(), SelectableType]).Value / 10;
+        int before = 0;
+        if (Selected[GameManager.Inst().Player.GetBulletType(), (int)SelectableType] > -1)
+            before = (int)GameManager.Inst().Player.GetItem(Selected[GameManager.Inst().Player.GetBulletType(), (int)SelectableType]).Value / 10;
         //int after = (int)GameManager.Inst().Player.GetItem(Indices[SelectedIndex]).Value / 10;
         int after = (int)GameManager.Inst().Player.GetItem(SelectedIndex).Value / 10;
 
         for (int i = 1; i <= 10; i++)
         {
             if (before >= i && after >= i)
-                Gauges[SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = GaugeColors[SelectableType];
+                Gauges[(int)SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = GaugeColors[(int)SelectableType];
             else if (before < i && after < i)
-                Gauges[SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = Color.white;
+                Gauges[(int)SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = Color.white;
             else if (before < i || after < i)
             {
-                Color color = GaugeColors[SelectableType];
+                Color color = GaugeColors[(int)SelectableType];
                 color.a = GlowColor.a;
-                Gauges[SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = color;
+                Gauges[(int)SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = color;
             }
             
         }
@@ -134,7 +138,7 @@ public class Equip : MonoBehaviour
     {
         CurrentBuletImg.GetComponent<Image>().sprite = BulletImgs[CurrentBulletType].GetComponent<SpriteRenderer>().sprite;
 
-        if (Selected[CurrentBulletType, 0] != -1)
+        if (Selected[CurrentBulletType, 0] > -1)
         {
             int value = (int)GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 0]).Value;
 
@@ -143,30 +147,30 @@ public class Equip : MonoBehaviour
         else
             PaintGauge(0, 0);
 
-        if (Selected[CurrentBulletType, 1] != -1)
+        if (Selected[CurrentBulletType, 1] > -1)
         {
             int value = (int)GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 1]).Value;
 
             PaintGauge(1, value);
         }
         else
-            PaintGauge(0, 0);
+            PaintGauge(1, 0);
 
-        if (Selected[CurrentBulletType, 2] != -1)
+        if (Selected[CurrentBulletType, 2] > -1)
         {
             int value = (int)GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 2]).Value;
 
             PaintGauge(2, value);
         }
         else
-            PaintGauge(0, 0);
+            PaintGauge(2, 0);
 
         //스페셜 할 예정
     }
 
     void ShowEquipped(int CurrentBulletType)
     {
-        if (Selected[CurrentBulletType, 0] != -1)
+        if (Selected[CurrentBulletType, 0] > -1)
         {
             Sprite img = GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 0]).Icon;
             
@@ -179,7 +183,7 @@ public class Equip : MonoBehaviour
             Buttons.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = OriginalSprite;
         }
 
-        if (Selected[CurrentBulletType, 1] != -1)
+        if (Selected[CurrentBulletType, 1] > -1)
         {
             Sprite img = GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 1]).Icon;
 
@@ -188,11 +192,11 @@ public class Equip : MonoBehaviour
         }
         else
         {
-            Buttons.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
-            Buttons.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = OriginalSprite;
+            Buttons.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+            Buttons.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = OriginalSprite;
         }
 
-        if (Selected[CurrentBulletType, 2] != -1)
+        if (Selected[CurrentBulletType, 2] > -1)
         {
             Sprite img = GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, 2]).Icon;
 
@@ -201,15 +205,15 @@ public class Equip : MonoBehaviour
         }
         else
         {
-            Buttons.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
-            Buttons.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = OriginalSprite;
+            Buttons.transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
+            Buttons.transform.GetChild(2).gameObject.GetComponent<Image>().sprite = OriginalSprite;
         }
 
     }
 
     void ShowInventory()
     {
-        SelectableType = -1;
+        SelectableType = 0;
         
         for (int i = 1; i <= Player.MAXINVENTORY; i++)
         {
@@ -244,7 +248,7 @@ public class Equip : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             Text text = TypeText[i].GetComponent<Text>();
-            switch (SelectableType)
+            switch ((int)SelectableType)
             {
                 case 0:
                     text.text = "ATK";
@@ -256,11 +260,11 @@ public class Equip : MonoBehaviour
                     text.text = "SPD";
                     break;
             }
-            text.color = GaugeColors[SelectableType];
+            text.color = GaugeColors[(int)SelectableType];
         }
         
-        if (Selected[CurrentBulletType, SelectableType] != -1)
-            BeforeText.GetComponent<Text>().text = GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, SelectableType]).Value.ToString();
+        if (Selected[CurrentBulletType, (int)SelectableType] != -1)
+            BeforeText.GetComponent<Text>().text = GameManager.Inst().Player.GetItem(Selected[CurrentBulletType, (int)SelectableType]).Value.ToString();
         else
             BeforeText.GetComponent<Text>().text = "0";
         //AfterText.GetComponent<Text>().text = GameManager.Inst().Player.GetItem(Indices[index]).Value.ToString();
@@ -271,10 +275,11 @@ public class Equip : MonoBehaviour
         BulletText.GetComponent<Text>().text = "";
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
         {
-            //if(Selected[i, SelectableType] == Indices[index])
-            if (Selected[i, SelectableType] == index)
+            //if(Selected[i, (int)SelectableType] == Indices[index])
+            if (Selected[i, (int)SelectableType] == index)
             {
                 BulletText.GetComponent<Text>().text = GameManager.Inst().TxtManager.GetBNames(i);
+                SwitchableBulletType = i;
                 IsBtoB = true;
                 break;
             }
@@ -288,7 +293,7 @@ public class Equip : MonoBehaviour
 
     //public void SortAsType(int type)
     //{
-    //    SelectableType = type;
+    //    (int)SelectableType = type;
 
     //    SetIsShowingSwitch(false);
 
@@ -328,7 +333,7 @@ public class Equip : MonoBehaviour
     //            }
     //            for(int j = 0; j < Bullet.MAXBULLETS; j++)
     //            {
-    //                if (Selected[j, SelectableType] == i)
+    //                if (Selected[j, (int)SelectableType] == i)
     //                {
     //                    Inventories.transform.GetChild(slotCount).GetComponent<InventorySlot>().SetEmark(true);
     //                    break;
@@ -346,7 +351,7 @@ public class Equip : MonoBehaviour
     //}
     public void SortAsType(int type)
     {
-        SelectableType = type;
+        SelectableType = (Item_Equipment.EquipmentType)type;
 
         SetIsShowingSwitch(false);
 
@@ -379,7 +384,7 @@ public class Equip : MonoBehaviour
                     }
                     for (int j = 0; j < Bullet.MAXBULLETS; j++)
                     {
-                        if (Selected[j, SelectableType] == i)
+                        if (Selected[j, (int)SelectableType] == i)
                         {
                             Inventories.transform.GetChild(i).GetComponent<InventorySlot>().SetEmark(true);
                             break;
@@ -400,40 +405,41 @@ public class Equip : MonoBehaviour
 
     public void Select(int index, int CurrentBulletType)
     {
-        if (SelectableType < 0)
+        if ((int)SelectableType < 0)
             return;
 
-        //Player.EqData eq = Player.GetItem(Indices[index]);
         Player.EqData eq = Player.GetItem(index);
-        if (eq.Type == SelectableType)
+        if (eq.Type == (int)SelectableType)
         {
-            Buttons.transform.GetChild(SelectableType).GetChild(0).gameObject.SetActive(false);
-            Buttons.transform.GetChild(SelectableType).gameObject.GetComponent<Image>().sprite = eq.Icon;
-            Debug.Log(index);
+            Buttons.transform.GetChild((int)SelectableType).GetChild(0).gameObject.SetActive(false);
+            Buttons.transform.GetChild((int)SelectableType).gameObject.GetComponent<Image>().sprite = eq.Icon;
+            
             //E마크
             InventorySlot slot = Inventories.transform.GetChild(index).GetComponent<InventorySlot>();
             slot.SetEmark(true);
             slot.SetSelected(false);
-            LastIndex[CurrentBulletType, SelectableType] = index;
+            LastIndex[CurrentBulletType, (int)SelectableType] = index;
 
-            PaintGauge(SelectableType, eq.Value);
+            PaintGauge((int)SelectableType, eq.Value);
 
             //Detail에 데이터 적용
 
             //실제 총알에 데이터 적용
             //eq.SetEquip(CurrentBulletType);
-            //Selected[CurrentBulletType, SelectableType] = Indices[index];
-            Selected[CurrentBulletType, SelectableType] = index;
+            //Selected[CurrentBulletType, (int)SelectableType] = Indices[index];
+            Selected[CurrentBulletType, (int)SelectableType] = index;
+            Debug.Log(Selected[CurrentBulletType, (int)SelectableType]);
+            Debug.Log(CurrentBulletType);
 
             switch (SelectableType)
             {
-                case 0:
+                case Item_Equipment.EquipmentType.ATTACK:
                     GameManager.Inst().UpgManager.GetBData(CurrentBulletType).SetAtk((int)eq.Value);
                     break;
-                case 1:
+                case Item_Equipment.EquipmentType.RANGE:
                     GameManager.Inst().UpgManager.GetBData(CurrentBulletType).SetRng((int)eq.Value);
                     break;
-                case 2:
+                case Item_Equipment.EquipmentType.SPEED:
                     GameManager.Inst().UpgManager.GetBData(CurrentBulletType).SetSpd((int)eq.Value);
                     break;
             }
@@ -460,7 +466,7 @@ public class Equip : MonoBehaviour
         else
         {
             //E마크
-            Inventories.transform.GetChild(LastIndex[CurrentBulletType, SelectableType]).GetComponent<InventorySlot>().SetEmark(false);
+            Inventories.transform.GetChild(LastIndex[CurrentBulletType, (int)SelectableType]).GetComponent<InventorySlot>().SetEmark(false);
 
             Select(index, CurrentBulletType);
         }
@@ -469,42 +475,58 @@ public class Equip : MonoBehaviour
     public void SwitchCancel()
     {
         Inventories.transform.GetChild(SelectedIndex).GetComponent<InventorySlot>().SetSelected(false);
-        PaintGauge(SelectableType, GameManager.Inst().Player.GetItem(Selected[GameManager.Inst().Player.GetBulletType(), SelectableType]).Value);
+        if (Selected[GameManager.Inst().Player.GetBulletType(), (int)SelectableType] > -1)
+            PaintGauge((int)SelectableType, GameManager.Inst().Player.GetItem(Selected[GameManager.Inst().Player.GetBulletType(), (int)SelectableType]).Value);
+        else
+            PaintGauge((int)SelectableType, 0);
         SetIsShowingSwitch(false);
         IsBtoB = false;
     }
 
+    public bool CheckAlreadyEquip(int index)
+    {
+        for(int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            if (Selected[i, (int)SelectableType] == index)
+                return true;
+        }
+
+        SwitchableBulletType = -1;
+        return false;
+    }
+
     public void SwitchBtoB(int index, int CurrentBulletType)
     {
-
+        if(Selected[CurrentBulletType, (int)SelectableType] == -1)
+        {
+            Unequip(SwitchableBulletType);
+            Select(index, CurrentBulletType);
+        }
+        else
+        {
+            Select(Selected[CurrentBulletType, (int)SelectableType], SwitchableBulletType);
+            Select(index, CurrentBulletType);
+        }
     }
 
     public void Unequip(int CurrentBulletType)
     {
-        Buttons.transform.GetChild(SelectableType).GetChild(0).gameObject.SetActive(true);
-        Buttons.transform.GetChild(SelectableType).gameObject.GetComponent<Image>().sprite = OriginalSprite;
+        Buttons.transform.GetChild((int)SelectableType).GetChild(0).gameObject.SetActive(true);
+        Buttons.transform.GetChild((int)SelectableType).gameObject.GetComponent<Image>().sprite = OriginalSprite;
 
         //E마크
-        if(LastIndex[CurrentBulletType, SelectableType] > -1)
-            Inventories.transform.GetChild(LastIndex[CurrentBulletType, SelectableType]).GetComponent<InventorySlot>().SetEmark(false);
+        if(LastIndex[CurrentBulletType, (int)SelectableType] > -1)
+            Inventories.transform.GetChild(LastIndex[CurrentBulletType, (int)SelectableType]).GetComponent<InventorySlot>().SetEmark(false);
 
         for (int i = 1; i <= 10; i++)
-            Gauges[SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = Color.white;
+            Gauges[(int)SelectableType].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = Color.white;
+
+        //if(Selected[CurrentBulletType, (int)SelectableType] == Indices[LastIndex])
+        if (LastIndex[CurrentBulletType, (int)SelectableType] != -1 && Selected[CurrentBulletType, (int)SelectableType] == LastIndex[CurrentBulletType, (int)SelectableType])
+            Selected[CurrentBulletType, (int)SelectableType] = -1;
 
         //실제 총알에 데이터 적용
-        /*for (int i = 0; i < Player.MAXINVENTORY; i++)
-        {
-            if (Player.GetItem(i).GetEquip() == CurrentBulletType)
-                Player.GetItem(i).SetEquip(-1);
-        }*/
-        //if(Selected[CurrentBulletType, SelectableType] == Indices[LastIndex])
-        if (LastIndex[CurrentBulletType, SelectableType] != -1 && Selected[CurrentBulletType, SelectableType] == LastIndex[CurrentBulletType, SelectableType])
-        {
-            Player.GetItem(Selected[CurrentBulletType, SelectableType]).SetEquip(-1);
-            Selected[CurrentBulletType, SelectableType] = -1;
-        }            
-
-        switch (SelectableType)
+        switch ((int)SelectableType)
         {
             case 0:
                 GameManager.Inst().UpgManager.GetBData(CurrentBulletType).SetAtk(0);
