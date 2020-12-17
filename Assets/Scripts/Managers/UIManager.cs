@@ -355,8 +355,9 @@ public class UIManager : MonoBehaviour
         Inventory.SetActive(false);
         InventoryDetail.SetActive(false);
         Equip.SetActive(true);
-        
-        EquipUI.Show(CurrentBulletType);
+
+        EquipUI.SetCurBulletType(CurrentBulletType);
+        EquipUI.ShowUI();
         IsEquip = true;
     }
 
@@ -387,7 +388,7 @@ public class UIManager : MonoBehaviour
             if (EquipUI.GetSelected(CurrentBulletType) == index)
                 return;
 
-            EquipUI.ShowSwitch(index, CurrentBulletType);
+            EquipUI.ShowSwitch(index);
             ConfirmSwitch.SetActive(true);
             EquipUI.SetSwichBuffer(index);
         }
@@ -409,5 +410,10 @@ public class UIManager : MonoBehaviour
         EquipUI.SetSwichBuffer(-1);
         EquipUI.SwitchCancel();
         ConfirmSwitch.SetActive(false);
+    }
+
+    public void OnClickNextButton(bool IsNext)
+    {
+        EquipUI.Next(IsNext);
     }
 }
