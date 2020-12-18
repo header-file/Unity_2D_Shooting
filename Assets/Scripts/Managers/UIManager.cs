@@ -380,12 +380,12 @@ public class UIManager : MonoBehaviour
 
     public void OnClickEquipSelectBtn(int index)
     {
-        if (EquipUI.GetSelected(CurrentBulletType) == -1 &&
+        if (EquipUI.GetSelected(EquipUI.GetCurBulletType()) == -1 &&
             !EquipUI.CheckAlreadyEquip(index))
-            EquipUI.Select(index, CurrentBulletType);            
+            EquipUI.Select(index, EquipUI.GetCurBulletType());            
         else
         {
-            if (EquipUI.GetSelected(CurrentBulletType) == index)
+            if (EquipUI.GetSelected(EquipUI.GetCurBulletType()) == index)
                 return;
 
             EquipUI.ShowSwitch(index);
@@ -396,12 +396,12 @@ public class UIManager : MonoBehaviour
 
     public void OnClickUnequipBtn()
     {
-        EquipUI.Unequip(CurrentBulletType);
+        EquipUI.Unequip(EquipUI.GetCurBulletType());
     }
 
     public void OnClickSwitchBtn()
     {
-        EquipUI.Switch(EquipUI.GetSwitchBuffer(), CurrentBulletType);
+        EquipUI.Switch(EquipUI.GetSwitchBuffer(), EquipUI.GetCurBulletType());
         ConfirmSwitch.SetActive(false);
     }
 

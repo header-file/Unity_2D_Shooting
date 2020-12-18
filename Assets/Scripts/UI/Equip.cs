@@ -30,12 +30,14 @@ public class Equip : MonoBehaviour
     bool IsMoving;
     float MoveTimer;
     int CurBulletType;
+    int ShowBulletType;
     int[] SlotIndices;
     float[] SlotPoses;
     float TargetX;
 
     public int GetSwitchBuffer() { return SwitchBuffer; }
     public int GetSelected(int currentBulletType) { return Selected[currentBulletType, (int)(int)SelectableType]; }
+    public int GetCurBulletType() { return CurBulletType; }
 
     public void SetSwichBuffer(int i) { SwitchBuffer = i; }
     public void SetIsShowingSwitch(bool b) { IsShowingSwitch = b; }
@@ -102,6 +104,8 @@ public class Equip : MonoBehaviour
         SlotPoses[1] = 0.0f;
         SlotPoses[2] = 720.0f;
         TargetX = 0.0f;
+
+        ShowBulletType = 1;
     }
 
     void Update()
@@ -121,12 +125,12 @@ public class Equip : MonoBehaviour
             GlowColor.a = 1.0f;
 
         int before = 0;
-        if (Selected[GameManager.Inst().Player.GetBulletType(), (int)SelectableType] > -1)
-            before = (int)GameManager.Inst().Player.GetItem(Selected[GameManager.Inst().Player.GetBulletType(), (int)SelectableType]).Value / 10;
+        if (Selected[CurBulletType, (int)SelectableType] > -1)
+            before = (int)GameManager.Inst().Player.GetItem(Selected[CurBulletType, (int)SelectableType]).Value / 10;
 
         int after = (int)GameManager.Inst().Player.GetItem(SelectedIndex).Value / 10;
 
-        SwitchWindows.transform.GetChild(1).GetComponent<SwitchWindow>().FlickerGauge(before, after, (int)SelectableType, GaugeColors[(int)SelectableType], GlowColor.a);
+        SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().FlickerGauge(before, after, (int)SelectableType, GaugeColors[(int)SelectableType], GlowColor.a);
     }
 
     void Moving()
@@ -200,7 +204,7 @@ public class Equip : MonoBehaviour
         {
             if (Selected[BulletType, i] > -1)
             {
-                int value = (int)GameManager.Inst().Player.GetItem(Selected[BulletType, 0]).Value;
+                int value = (int)GameManager.Inst().Player.GetItem(Selected[BulletType, i]).Value;
 
                 PaintGauge(index, i, value);
             }
@@ -217,7 +221,7 @@ public class Equip : MonoBehaviour
         {
             if (Selected[BulletType, i] > -1)
             {
-                Sprite img = GameManager.Inst().Player.GetItem(Selected[BulletType, 0]).Icon;
+                Sprite img = GameManager.Inst().Player.GetItem(Selected[BulletType, i]).Icon;
 
                 SwitchWindows.transform.GetChild(index).GetComponent<SwitchWindow>().SetButtons(i, true, img);
             }
@@ -367,7 +371,17 @@ public class Equip : MonoBehaviour
         Player.EqData eq = Player.GetItem(index);
         if (eq.Type == (int)SelectableType)
         {
-            SwitchWindows.transform.GetChild(1).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, true, eq.Icon);
+            //Detail에 데이터 적용
+            for (int i = 0; i < 3; i++)
+            {
+                if (SlotIndices[i] == BulletType)
+                {
+                    SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, true, eq.Icon);
+                    PaintGauge(i, (int)SelectableType, eq.Value);
+                    break;
+                }
+            }
+            //SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, true, eq.Icon);
 
             //E마크
             InventorySlot slot = Inventories.transform.GetChild(index).GetComponent<InventorySlot>();
@@ -375,13 +389,10 @@ public class Equip : MonoBehaviour
             slot.SetSelected(false);
             LastIndex[BulletType, (int)SelectableType] = index;
 
-            //Detail에 데이터 적용
-            PaintGauge(1, (int)SelectableType, eq.Value);            
+            //PaintGauge(ShowBulletType, (int)SelectableType, eq.Value);            
 
             //실제 총알에 데이터 적용
             Selected[BulletType, (int)SelectableType] = index;
-            Debug.Log(Selected[BulletType, (int)SelectableType]);
-            Debug.Log(BulletType);
 
             switch (SelectableType)
             {
@@ -422,9 +433,9 @@ public class Equip : MonoBehaviour
     {
         Inventories.transform.GetChild(SelectedIndex).GetComponent<InventorySlot>().SetSelected(false);
         if (Selected[CurBulletType, (int)SelectableType] > -1)
-            PaintGauge(1, (int)SelectableType, GameManager.Inst().Player.GetItem(Selected[CurBulletType, (int)SelectableType]).Value);
+            PaintGauge(ShowBulletType, (int)SelectableType, GameManager.Inst().Player.GetItem(Selected[CurBulletType, (int)SelectableType]).Value);
         else
-            PaintGauge(1, (int)SelectableType, 0);
+            PaintGauge(ShowBulletType, (int)SelectableType, 0);
         SetIsShowingSwitch(false);
         IsBtoB = false;
     }
@@ -457,7 +468,8 @@ public class Equip : MonoBehaviour
 
     public void Unequip(int BulletType)
     {
-        SwitchWindows.transform.GetChild(1).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, false, OriginalSprite);
+        SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, false, OriginalSprite);
+        //PaintGauge(ShowBulletType, , 0.0f);
 
         //E마크
         if (LastIndex[BulletType, (int)SelectableType] > -1)
@@ -465,6 +477,16 @@ public class Equip : MonoBehaviour
 
         if (LastIndex[BulletType, (int)SelectableType] != -1 && Selected[BulletType, (int)SelectableType] == LastIndex[BulletType, (int)SelectableType])
             Selected[BulletType, (int)SelectableType] = -1;
+        
+        for(int i = 0; i < 3; i++)
+        {
+            if(SlotIndices[i] == BulletType)
+            {
+                SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, false, OriginalSprite);
+                PaintGauge(i, (int)SelectableType, 0.0f);
+                break;
+            }
+        }
 
         //실제 총알에 데이터 적용
         switch ((int)SelectableType)
@@ -488,39 +510,29 @@ public class Equip : MonoBehaviour
         if (IsNext)
         {
             CurBulletType++;
+            ShowBulletType++;
             TargetX -= 720.0f;
 
             if (CurBulletType >= Bullet.MAXBULLETS)
                 CurBulletType = 0;
+
+            if (ShowBulletType > 2)
+                ShowBulletType = 0;
         }
         else
         {
             CurBulletType--;
+            ShowBulletType--;
             TargetX += 720.0f;
 
             if (CurBulletType < 0)
                 CurBulletType = Bullet.MAXBULLETS - 1;
+
+            if (ShowBulletType < 0)
+                ShowBulletType = 2;
         }
-
-        //for (int i = 0; i < 3; i++)
-        //{
-        //    int type = CurBulletType + (i - 1);
-        //    JudgeSlotIndices(i, type);
-        //}
-
+        
         for (int i = 0; i < 2; i++)
             ArrowButtons.transform.GetChild(i).GetComponent<Button>().interactable = false;
-    }
-
-    void JudgeSlotIndices(int index, int BulletType)
-    {
-        if (BulletType >= Bullet.MAXBULLETS)
-            BulletType = 0;
-
-        if (BulletType < 0)
-            BulletType = Bullet.MAXBULLETS - 1;
-
-        SlotIndices[index] = BulletType;
-        Debug.Log(SlotIndices[index]);
     }
 }

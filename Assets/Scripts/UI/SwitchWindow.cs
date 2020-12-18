@@ -53,4 +53,9 @@ public class SwitchWindow : MonoBehaviour
             }
         }
     }
+
+    public void OnClickButton(int index)
+    {
+        GameManager.Inst().UiManager.OnClickEquipSlotBtn(index);
+    }
 }
