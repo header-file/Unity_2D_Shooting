@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     public GameObject InventoryDetail;
     public GameObject Equip;
     public GameObject ConfirmSwitch;
+    public GameObject Synthesis;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -40,6 +41,7 @@ public class UIManager : MonoBehaviour
     Inventory InventoryUI;
     InventoryDetail InvDetailUI;
     Equip EquipUI;
+    Synthesis SynthesisUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -98,6 +100,7 @@ public class UIManager : MonoBehaviour
         InventoryUI = Inventory.GetComponent<Inventory>();
         InvDetailUI = InventoryDetail.GetComponent<InventoryDetail>();
         EquipUI = Equip.GetComponent<Equip>();
+        SynthesisUI = Synthesis.GetComponent<Synthesis>();
     }
 
     void Update()
@@ -415,5 +418,40 @@ public class UIManager : MonoBehaviour
     public void OnClickNextButton(bool IsNext)
     {
         EquipUI.Next(IsNext);
+    }
+
+    public void OnClickSynthesisBtn()
+    {
+        Synthesis.SetActive(true);
+        SynthesisUI.ShowInventory();
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+    }
+
+    public void OnClickSynthesisBackBtn()
+    {
+        SynthesisUI.ResetSprites();
+        Synthesis.SetActive(false);
+
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+    }
+
+    public void OnClickSynthesisSlotBtn(int index)
+    {
+        SynthesisUI.SetCurrentIndex(index);
+
+        if (index > 0 && index < 3)
+            SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
+        //else if(index == 3)
+        //{
+
+        //}
+    }
+
+    public void OnClickSynthesisSelectBtn(int index)
+    {
+        SynthesisUI.SetButtons(index);
     }
 }

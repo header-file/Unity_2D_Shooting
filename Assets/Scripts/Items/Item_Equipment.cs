@@ -44,7 +44,7 @@ public class Item_Equipment : Item
 
     void SetGrade()
     {
-        int rand = Random.Range(0, 5);
+        int rand = Random.Range(0, 1);
         switch(rand)
         {
             case 0:

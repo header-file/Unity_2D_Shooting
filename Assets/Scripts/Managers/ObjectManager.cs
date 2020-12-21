@@ -194,7 +194,7 @@ public class ObjectManager : MonoBehaviour
         SubWeapons = new GameObject[4];
 
         DmgTexts = new GameObject[40];
-        InventorySlots = new GameObject[100];
+        InventorySlots = new GameObject[200];
 
         Explosions = new GameObject[20];
         

@@ -31,6 +31,9 @@ public class InventorySlot : MonoBehaviour
             case 1:
                 GameManager.Inst().UiManager.OnClickEquipSelectBtn(Index);
                 break;
+            case 2:
+                GameManager.Inst().UiManager.OnClickSynthesisSelectBtn(Index);
+                break;
         }
     }
 }
