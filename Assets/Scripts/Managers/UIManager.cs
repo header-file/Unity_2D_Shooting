@@ -442,12 +442,22 @@ public class UIManager : MonoBehaviour
     {
         SynthesisUI.SetCurrentIndex(index);
 
-        if (index > 0 && index < 3)
+        if (index == 0)
+            SynthesisUI.ShowInventory();
+        else if (index > 0 && index < 3)
             SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
-        //else if(index == 3)
-        //{
+        else if (index == 3)
+            SynthesisUI.ShowConfirmWindow();
+    }
 
-        //}
+    public void OnClickSynthesisConfirmBtn()
+    {
+        SynthesisUI.Synthesize();
+    }
+
+    public void OnClickSynthesisConfirmBackBtn()
+    {
+        SynthesisUI.CancelConfirm();
     }
 
     public void OnClickSynthesisSelectBtn(int index)

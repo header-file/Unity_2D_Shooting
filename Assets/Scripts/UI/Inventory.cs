@@ -32,7 +32,7 @@ public class Inventory : MonoBehaviour
         for (int i = 1; i <= Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
-            if (eq.Icon != null)
+            if (eq != null)
             {
                 Inventories.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
                 Inventories.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);

@@ -35,16 +35,18 @@ public class Item_Equipment : Item
     public void SetEqValue(float value) { Eq_Value = value; }
     public void SetIcon(Sprite img) { Icon = img; }
 
-    public void SetValues()
+    public void SetValues(int grade)
     {
         Icon = GetComponent<SpriteRenderer>().sprite;
 
-        SetGrade();
+        SetGrade(grade);
     }
 
-    void SetGrade()
+    void SetGrade(int grade)
     {
-        int rand = Random.Range(0, 1);
+        int rand = grade;
+        if (grade == -1)
+            rand = Random.Range(0, 1);
         switch(rand)
         {
             case 0:

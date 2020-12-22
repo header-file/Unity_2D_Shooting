@@ -26,6 +26,7 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject DmgTextPref;
     public GameObject InventorySlotPref;
+    public GameObject LinePref;
 
     public GameObject ExplosionPref;
 
@@ -51,6 +52,7 @@ public class ObjectManager : MonoBehaviour
 
     GameObject[] DmgTexts;
     GameObject[] InventorySlots;
+    GameObject[] Lines;
 
     GameObject[] Explosions;
 
@@ -153,6 +155,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = InventorySlots;
                 break;
 
+            case "Line":
+                TargetPool = Lines;
+                break;
+
             case "Explosion":
                 TargetPool = Explosions;
                 break;
@@ -195,6 +201,7 @@ public class ObjectManager : MonoBehaviour
 
         DmgTexts = new GameObject[40];
         InventorySlots = new GameObject[200];
+        Lines = new GameObject[3];
 
         Explosions = new GameObject[20];
         
@@ -350,6 +357,12 @@ public class ObjectManager : MonoBehaviour
         {
             InventorySlots[i] = Instantiate(InventorySlotPref);
             InventorySlots[i].SetActive(false);
+        }
+
+        for(int i = 0; i < Lines.Length; i++)
+        {
+            Lines[i] = Instantiate(LinePref);
+            Lines[i].SetActive(false);
         }
 
 

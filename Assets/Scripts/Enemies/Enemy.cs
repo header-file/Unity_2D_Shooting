@@ -102,34 +102,7 @@ public class Enemy : MonoBehaviour
             }
             //else
             {
-                rand = (int)(Random.value * 3.0f);
-                switch(rand)
-                {
-                    case 0:
-                        GameObject eqAtk = GameManager.Inst().ObjManager.MakeObj("EqAttack");
-                        eqAtk.transform.position = transform.position;
-                        Item_Equipment eqpAtk = eqAtk.GetComponent<Item_Equipment>();
-                        eqpAtk.StartAbsorb();
-                        
-                        eqpAtk.SetValues();
-                        break;
-                    case 1:
-                        GameObject eqRng = GameManager.Inst().ObjManager.MakeObj("EqRange");
-                        eqRng.transform.position = transform.position;
-                        Item_Equipment eqpRng = eqRng.GetComponent<Item_Equipment>();
-                        eqpRng.StartAbsorb();
-
-                        eqpRng.SetValues();
-                        break;
-                    case 2:
-                        GameObject eqSpd = GameManager.Inst().ObjManager.MakeObj("EqSpeed");
-                        eqSpd.transform.position = transform.position;
-                        Item_Equipment eqpSpd = eqSpd.GetComponent<Item_Equipment>();
-                        eqpSpd.StartAbsorb();
-
-                        eqpSpd.SetValues();
-                        break;
-                }
+                GameManager.Inst().MakeEquipment(-1, -1, transform);
             }
 
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");

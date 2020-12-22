@@ -7,19 +7,19 @@ public class Player : MonoBehaviour
 {
     public int MAXINVENTORY = 40;
 
-    public struct EqData
+    public class EqData
     {
         public Sprite Icon;
         public int Type;
         public int Rarity;
         public float Value;
 
-        public EqData(Sprite icon, int type, int rarity, float value)
+        public EqData()
         {
-            Icon = icon;
-            Type = type;
-            Rarity = rarity;
-            Value = value;
+            Icon = null;
+            Type = -1;
+            Rarity = -1;
+            Value = 0.0f;
         }
     };
 
@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
-    public EqData GetItem(int index) { return Inventory[index];/* != null ? Inventory[index] : null; */}
+    public EqData GetItem(int index) { return Inventory[index] != null ? Inventory[index] : null; }
 
     public int GetCoin() { return Coin; }
     public int GetBulletType() { return BulletType; }
@@ -64,8 +64,9 @@ public class Player : MonoBehaviour
     {
         for(int i = 1; i <= MAXINVENTORY; i++)
         {
-            if (Inventory[i].Icon == null)
+            if (Inventory[i] == null)
             {
+                Inventory[i] = new EqData();
                 Inventory[i].Icon = item.GetIcon();
                 Inventory[i].Type = item.GetEqType();
                 Inventory[i].Rarity = item.GetRarity();
@@ -78,16 +79,25 @@ public class Player : MonoBehaviour
 
     public void RemoveItem(int index)
     {
-        for (int i = index + 1; i < MAXINVENTORY; i++)
-        {
-            if (Inventory[i].Icon == null)
-            {
-                Inventory[i] = new EqData();
-                break;
-            }
-                
+        Inventory[index] = null;
+    }
 
-            Inventory[i - 1] = Inventory[i];
+    public void DragItem(int count)
+    {
+        for (int n = 1; n <= count; n++)
+        {
+            for (int i = 1; i < MAXINVENTORY; i++)
+            {
+                if (Inventory[i] == null)
+                {
+                    for (int j = i; j < MAXINVENTORY; j++)
+                        Inventory[j] = Inventory[j + 1];
+
+                    Inventory[MAXINVENTORY] = null;
+                }
+                else
+                    break;
+            }
         }
     }
 
@@ -102,7 +112,7 @@ public class Player : MonoBehaviour
         MAXINVENTORY = 40;
         Inventory = new EqData[MAXINVENTORY + 1];
         for (int i = 1; i <= MAXINVENTORY; i++)
-            Inventory[i] = new EqData(null, -1, -1, 0.0f);
+            Inventory[i] = null;
     }
 
     void Start()

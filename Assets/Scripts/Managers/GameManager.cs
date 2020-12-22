@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     float MediumTime;
     float LargeTime;
 
-    
+
     public static GameManager Inst() { return Instance; }
     public SubWeapon GetSubweapons(int index) { return SubWeapons[index]; }
     public Color GetColors(int index) { return Colors[index]; }
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
 
     void SetTexts()
     {
-        for(int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
         {
             TxtManager.SetBLevels(i, UpgManager.GetBData(i).GetPowerLevel());
             TxtManager.SetBPrices(i, UpgManager.GetBData(i).GetPrice());
@@ -138,12 +138,85 @@ public class GameManager : MonoBehaviour
 
     void SetColor()
     {
-        for(int i = 0; i < MAXCOLOR; i++)
+        for (int i = 0; i < MAXCOLOR; i++)
             Colors[i] = UiManager.Color.transform.GetChild(i).gameObject.GetComponent<Image>().color;
 
-        
+
         for (int i = 0; i < 5; i++)
             ColorSelection[i] = 0;
+    }
+
+    public void MakeEquipment(int num, int grade, Transform transform)
+    {
+        int rand = num;
+        if (rand == -1)
+            rand = (int)(Random.value * 3.0f);
+        switch (rand)
+        {
+            case 0:
+                GameObject eqAtk = ObjManager.MakeObj("EqAttack");
+                eqAtk.transform.position = transform.position;
+                Item_Equipment eqpAtk = eqAtk.GetComponent<Item_Equipment>();
+                eqpAtk.StartAbsorb();
+
+                eqpAtk.SetValues(grade);
+                break;
+            case 1:
+                GameObject eqRng = ObjManager.MakeObj("EqRange");
+                eqRng.transform.position = transform.position;
+                Item_Equipment eqpRng = eqRng.GetComponent<Item_Equipment>();
+                eqpRng.StartAbsorb();
+
+                eqpRng.SetValues(grade);
+                break;
+            case 2:
+                GameObject eqSpd = ObjManager.MakeObj("EqSpeed");
+                eqSpd.transform.position = transform.position;
+                Item_Equipment eqpSpd = eqSpd.GetComponent<Item_Equipment>();
+                eqpSpd.StartAbsorb();
+
+                eqpSpd.SetValues(grade);
+                break;
+        }
+    }
+
+    public Item_Equipment MakeEuipData(int num, int grade)
+    {
+        int rand = num;
+        if (rand == -1)
+            rand = (int)(Random.value * 3.0f);
+
+        GameObject eq;
+        Item_Equipment ieq = null;
+
+        switch (rand)
+        {
+            case 0:
+                eq = ObjManager.MakeObj("EqAttack");
+                ieq = eq.GetComponent<Item_Equipment>();
+                ieq.StartAbsorb();
+                ieq.SetValues(grade);
+                ieq.gameObject.SetActive(false);
+                break;
+
+            case 1:
+                eq = ObjManager.MakeObj("EqRange");
+                ieq = eq.GetComponent<Item_Equipment>();
+                ieq.StartAbsorb();
+                ieq.SetValues(grade);
+                ieq.gameObject.SetActive(false);
+                break;
+
+            case 2:
+                eq = ObjManager.MakeObj("EqSpeed");
+                ieq = eq.GetComponent<Item_Equipment>();
+                ieq.StartAbsorb();
+                ieq.SetValues(grade);
+                ieq.gameObject.SetActive(false);
+                break;
+        }
+
+        return ieq;
     }
 }
 
