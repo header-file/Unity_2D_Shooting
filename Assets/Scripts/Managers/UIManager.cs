@@ -464,4 +464,14 @@ public class UIManager : MonoBehaviour
     {
         SynthesisUI.SetButtons(index);
     }
+
+    public void OnClickSynthesisResultBackBtn()
+    {
+        SynthesisUI.CloseResult();
+    }
+
+    public void OnClickSelectDetailBackBtn()
+    {
+        SynthesisUI.CloseDetail();
+    }
 }

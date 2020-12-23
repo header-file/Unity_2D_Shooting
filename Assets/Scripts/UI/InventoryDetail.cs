@@ -57,7 +57,7 @@ public class InventoryDetail : MonoBehaviour
                 break;
         }
 
-        background.color = color;
+        background.material.SetColor("_GlowColor", color);
     }
 
     void SetTypeName(int type)

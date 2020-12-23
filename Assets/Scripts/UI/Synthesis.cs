@@ -12,6 +12,8 @@ public class Synthesis : MonoBehaviour
     public GameObject SuccessRate;
     public Text RateText;
     public GameObject ConfirmWindow;
+    public GameObject EquipDetail;
+    public GameObject SelectDetail;
 
     Player Player;
     Sprite OriginalSprite;
@@ -40,6 +42,8 @@ public class Synthesis : MonoBehaviour
         QuestionSprite = Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite;
         SuccessRate.SetActive(false);
         ConfirmWindow.SetActive(false);
+        EquipDetail.SetActive(false);
+        SelectDetail.SetActive(false);
 
         for (int i = 1; i <= Player.MAXINVENTORY; i++)
         {
@@ -113,6 +117,8 @@ public class Synthesis : MonoBehaviour
             Player.EqData eq = Player.GetItem(i);
             if (eq != null)
             {
+                Inventories.transform.GetChild(i).gameObject.SetActive(true);
+
                 Inventories.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
                 Inventories.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
 
@@ -220,11 +226,18 @@ public class Synthesis : MonoBehaviour
                     Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite = QuestionSprite;
                 }
             }
+            else
+            {
+                if (SelectedIndex[0] == -1)
+                    return;
+            }
 
             //ui
             SuccessRate.SetActive(false);
             Buttons[CurrentIndex].transform.GetChild(0).GetComponent<Image>().sprite = eq.Icon;
             InputTypes[CurrentIndex] = eq.Type;
+
+            ShowSelectDetail(eq);
 
             if(SelectedIndex[CurrentIndex] != -1)
                 Inventories.transform.GetChild(SelectedIndex[CurrentIndex]).GetComponent<InventorySlot>().Selected.SetActive(false);
@@ -288,9 +301,7 @@ public class Synthesis : MonoBehaviour
         int rarity = Player.GetItem(SelectedIndex[0]).Rarity;
         
         for (int i = 0; i < 3; i++)
-        {
             GameManager.Inst().Player.RemoveItem(SelectedIndex[i]);
-        }
         GameManager.Inst().Player.DragItem(3);
 
         int rand = Random.Range(0, 100);
@@ -299,13 +310,15 @@ public class Synthesis : MonoBehaviour
 
         rarity++;
         //GameManager.Inst().MakeEquipment(SynthType, rarity, Player.transform);
-        Player.AddItem(GameManager.Inst().MakeEuipData(SynthType, rarity));
+        int add = Player.AddItem(GameManager.Inst().MakeEuipData(SynthType, rarity));
         ShowInventory();
 
         //결과창
         ConfirmWindow.SetActive(false);
         ResetSprites();
 
+        EquipDetail.SetActive(true);
+        EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
     }
 
     public void ResetSprites()
@@ -317,9 +330,32 @@ public class Synthesis : MonoBehaviour
             if(SelectedIndex[i] > -1)
                 Inventories.transform.GetChild(SelectedIndex[i]).GetComponent<InventorySlot>().Selected.SetActive(false);
             SelectedIndex[i] = -1;
+            InputTypes[i] = -1;
         }
 
         SuccessRate.SetActive(false);
+        SelectDetail.SetActive(false);
+        EquipDetail.SetActive(false);
         Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite = QuestionSprite;
+    }
+
+    void ShowSelectDetail(Player.EqData eqData)
+    {
+        SelectDetail.SetActive(true);
+
+        int type = eqData.Type;
+        int value = (int)eqData.Value;
+
+        SelectDetail.GetComponent<SelectDetail>().SetDatas(type, value);
+    }
+
+    public void CloseResult()
+    {
+        EquipDetail.SetActive(false);
+    }
+
+    public void CloseDetail()
+    {
+        SelectDetail.SetActive(false);
     }
 }

@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
         GameManager.Inst().SetCoinText(Coin);
     }
 
-    public void AddItem(Item_Equipment item)
+    public int AddItem(Item_Equipment item)
     {
         for(int i = 1; i <= MAXINVENTORY; i++)
         {
@@ -72,9 +72,11 @@ public class Player : MonoBehaviour
                 Inventory[i].Rarity = item.GetRarity();
                 Inventory[i].Value = item.GetEqValue();
 
-                break;
+                return i;
             }   
         }
+
+        return -1;
     }
 
     public void RemoveItem(int index)
@@ -88,15 +90,16 @@ public class Player : MonoBehaviour
         {
             for (int i = 1; i < MAXINVENTORY; i++)
             {
-                if (Inventory[i] == null)
+                if (Inventory[i] != null)
+                    continue;
+                else 
                 {
                     for (int j = i; j < MAXINVENTORY; j++)
                         Inventory[j] = Inventory[j + 1];
 
                     Inventory[MAXINVENTORY] = null;
                 }
-                else
-                    break;
+                
             }
         }
     }
