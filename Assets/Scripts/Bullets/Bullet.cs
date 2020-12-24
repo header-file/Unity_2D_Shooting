@@ -20,13 +20,13 @@ public class Bullet : MonoBehaviour
 
     public Color GlowColor;
 
-    protected float Damage;
+    //protected float Damage;
     protected BulletType Type;
 
-    public float GetDamage() { return Damage; }
+    //public float GetDamage() { return Damage; }
     public int GetBulletType() { return (int)Type; }
 
-    public void SetDamage(int PowerLevel) { Damage *= (float)PowerLevel; }
+    //public void SetDamage(int PowerLevel, int Power) { Damage = PowerLevel * Power; }
     public void SetBulletType(int t) { Type = (BulletType)t; }
     
     void Start()

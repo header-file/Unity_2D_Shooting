@@ -19,7 +19,7 @@ public class Missile : Bullet
         InitPos = new Vector3(0.0f, 12.0f, 0.0f);
         Rig = GetComponent<Rigidbody2D>();
 
-        Damage = 1.0f;
+        //Damage = 1.0f;
         Type = BulletType.MISSILE;
         GetComponent<SpriteRenderer>().color = Color.white;
         //Damage *= (float)GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();

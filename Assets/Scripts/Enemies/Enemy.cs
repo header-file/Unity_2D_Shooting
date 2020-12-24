@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     protected float Health;
     protected float CurHP;
     protected float BeforeHP;
+    protected int Atk;
+    protected float AtkSpeed;
     protected Vector3 MidPoint;
     protected EnemyType Type;
 
@@ -34,6 +36,16 @@ public class Enemy : MonoBehaviour
     public Vector3 GetTargetPosition() { return TargetPosition; }
 
     public void SetTargetPosition(Vector3 Pos) { TargetPosition = Pos; }
+
+    public void SetDatas(List<Dictionary<string, object>> data, int type)
+    {
+        Type = (EnemyType)type;
+
+        BeforeHP = CurHP = Health = float.Parse(data[type]["HP"].ToString());
+        Speed = float.Parse(data[type]["Speed"].ToString());
+        Atk = int.Parse(data[type]["Atk"].ToString());
+        AtkSpeed = float.Parse(data[type]["AtkSpd"].ToString());
+    }
     
     
     void Awake()
@@ -137,9 +149,9 @@ public class Enemy : MonoBehaviour
         if(collision.gameObject.tag == "BlockBullet")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
-            float level = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetPowerLevel();
-            float atk = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
-            float dmg = bullet.GetDamage() * level * (1 + (atk / 100.0f));
+            float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
+            float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float dmg = damage * (1 + (atk / 100.0f));
             collision.gameObject.SetActive(false);
 
             OnHit(dmg);
@@ -147,27 +159,27 @@ public class Enemy : MonoBehaviour
         else if(collision.gameObject.tag == "Laser")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
-            float level = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetPowerLevel();
-            float atk = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
-            float dmg = bullet.GetDamage() * level * (1 + (atk / 100.0f));
+            float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
+            float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float dmg = damage * (1 + (atk / 100.0f));
 
             OnHit(dmg);
         }
         else if (collision.gameObject.tag == "PierceBullet")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
-            float level = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetPowerLevel();
-            float atk = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
-            float dmg = bullet.GetDamage() * level * (1 + (atk / 100.0f));
+            float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
+            float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float dmg = damage * (1 + (atk / 100.0f));
 
             OnHit(dmg);
         }
         else if (collision.gameObject.tag == "Split")
         {
             Split bullet = collision.gameObject.GetComponent<Split>();
-            float level = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetPowerLevel();
-            float atk = (float)GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
-            float dmg = bullet.GetDamage() * level * (1 + (atk / 100.0f));
+            float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
+            float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float dmg = damage * (1 + (atk / 100.0f));
 
             bullet.OnSplit();
             collision.gameObject.SetActive(false);

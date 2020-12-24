@@ -7,7 +7,5 @@ public class EnemyM : Enemy
     void Start()
     {
         Type = EnemyType.MEDIUM;
-        Speed = 1;
-        BeforeHP = CurHP = Health = 15;
     }
 }

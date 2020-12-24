@@ -17,7 +17,7 @@ public class Charge : Bullet
 
     void Awake()
     {
-        Damage = 3.0f;
+        //Damage = 3.0f;
         Type = BulletType.CHARGE;
         GetComponent<SpriteRenderer>().color = Color.white;
         //Damage *= (float)GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();

@@ -210,21 +210,26 @@ public class ObjectManager : MonoBehaviour
 
     void Generate()
     {
+        List<Dictionary<string, object>> data = CSVReader.Read("Datas/EnemyData");
+
         for (int i = 0; i < Enemies_S.Length; i++)
         {
             Enemies_S[i] = Instantiate(Enemy_SPref);
+            Enemies_S[i].GetComponent<Enemy>().SetDatas(data, 0);
             Enemies_S[i].SetActive(false);
         }
 
         for (int i = 0; i < Enemies_M.Length; i++)
         {
             Enemies_M[i] = Instantiate(Enemy_MPref);
+            Enemies_M[i].GetComponent<Enemy>().SetDatas(data, 1);
             Enemies_M[i].SetActive(false);
         }
 
         for (int i = 0; i < Enemies_L.Length; i++)
         {
             Enemies_L[i] = Instantiate(Enemy_LPref);
+            Enemies_L[i].GetComponent<Enemy>().SetDatas(data, 2);
             Enemies_L[i].SetActive(false);
         }
 

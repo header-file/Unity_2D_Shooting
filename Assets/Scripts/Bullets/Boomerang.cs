@@ -30,7 +30,7 @@ public class Boomerang : Bullet
 
     void Awake()
     {
-        Damage = 2.0f;
+        //Damage = 2.0f;
         Type = BulletType.BOOMERANG;
         GetComponent<SpriteRenderer>().color = Color.white;
 

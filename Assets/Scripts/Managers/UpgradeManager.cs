@@ -32,6 +32,7 @@ public class UpgradeManager : MonoBehaviour
             else
                 Price = 0;
         }
+        public void SetBaseDamage(int damage) { BaseDamage = damage; }
         public void SetSpeed(float velocity) { Speed = velocity; }
         public void SetReloadTime(float Time) { ReloadTime = Time; }
         public void SetDuration(float Time) { Duration = Time; }
@@ -48,22 +49,40 @@ public class UpgradeManager : MonoBehaviour
         public float GetSpeed() { return Speed; }
         public float GetReloadTime() { return ReloadTime; }
         public float GetDuration() { return Duration; }
+        public int GetDamage() { return PowerLevel * BaseDamage; }
         
         public void ResetData()
         {
-            SetPowerLevel(0);
+            PowerLevel = 0;
+            BaseDamage = 0;
 
             Price = 10;
 
             ReloadTime = 0.0f;
             Duration = 0.0f;
             Speed = 0.0f;
+
+            Atk = 0;
+            Rng = 0;
+            Spd = 0;
+        }
+
+        public void SetDatas(List<Dictionary<string, object>> data, int index)
+        {
+            BaseDamage = int.Parse(data[index]["BaseDamage"].ToString());
+            PowerLevel = int.Parse(data[index]["StartLevel"].ToString());
+            ReloadTime = float.Parse(data[index]["ReloadTime"].ToString());
+            Duration = float.Parse(data[index]["Duration"].ToString());
+            Speed = float.Parse(data[index]["Speed"].ToString());
+
+            SetPrice();
         }
 
         const int MaxBulletLevel = 5;
 
         int PowerLevel;
-        int Price;
+        int BaseDamage;
+        int Price;        
 
         float Speed;
         float ReloadTime;
@@ -86,39 +105,44 @@ public class UpgradeManager : MonoBehaviour
 
     void Awake()
     {
+        List<Dictionary<string, object>> data = CSVReader.Read("Datas/BulletData");
+
         BData = new BulletData[Bullet.MAXBULLETS];
         for (int i = 0; i < BData.Length; i++)
+        {
             BData[i].ResetData();
+            BData[i].SetDatas(data, i);
+        }
 
-        BData[(int)Bullet.BulletType.NORMAL].SetPowerLevel(1);
-        BData[(int)Bullet.BulletType.NORMAL].SetPrice();
         SubWeaponLevel = 0;
         SubWeaponPrice = 1000;
+        
+        //BData[(int)Bullet.BulletType.NORMAL].SetPowerLevel(1);
+        //BData[(int)Bullet.BulletType.NORMAL].SetPrice();
+        //BData[(int)Bullet.BulletType.NORMAL].SetSpeed(10.0f);
+        //BData[(int)Bullet.BulletType.NORMAL].SetReloadTime(0.5f);
 
-        BData[(int)Bullet.BulletType.NORMAL].SetSpeed(10.0f);
-        BData[(int)Bullet.BulletType.NORMAL].SetReloadTime(0.5f);
+        //BData[(int)Bullet.BulletType.SPREAD].SetSpeed(5.0f);
+        //BData[(int)Bullet.BulletType.SPREAD].SetReloadTime(1.0f);
+        //BData[(int)Bullet.BulletType.SPREAD].SetDuration(0.75f);
 
-        BData[(int)Bullet.BulletType.SPREAD].SetSpeed(5.0f);
-        BData[(int)Bullet.BulletType.SPREAD].SetReloadTime(1.0f);
-        BData[(int)Bullet.BulletType.SPREAD].SetDuration(0.75f);
+        //BData[(int)Bullet.BulletType.MISSILE].SetSpeed(3.0f);
+        //BData[(int)Bullet.BulletType.MISSILE].SetReloadTime(1.5f);
+        //BData[(int)Bullet.BulletType.MISSILE].SetDuration(2.0f);
 
-        BData[(int)Bullet.BulletType.MISSILE].SetSpeed(3.0f);
-        BData[(int)Bullet.BulletType.MISSILE].SetReloadTime(1.5f);
-        BData[(int)Bullet.BulletType.MISSILE].SetDuration(2.0f);
+        //BData[(int)Bullet.BulletType.LASER].SetReloadTime(5.0f);
+        //BData[(int)Bullet.BulletType.LASER].SetDuration(0.05f);
 
-        BData[(int)Bullet.BulletType.LASER].SetReloadTime(5.0f);
-        BData[(int)Bullet.BulletType.LASER].SetDuration(0.05f);
+        //BData[(int)Bullet.BulletType.CHARGE].SetSpeed(15.0f);
+        //BData[(int)Bullet.BulletType.CHARGE].SetReloadTime(2.0f);
+        //BData[(int)Bullet.BulletType.CHARGE].SetDuration(1.0f);
 
-        BData[(int)Bullet.BulletType.CHARGE].SetSpeed(15.0f);
-        BData[(int)Bullet.BulletType.CHARGE].SetReloadTime(2.0f);
-        BData[(int)Bullet.BulletType.CHARGE].SetDuration(1.0f);
+        //BData[(int)Bullet.BulletType.BOOMERANG].SetSpeed(2.0f);
+        //BData[(int)Bullet.BulletType.BOOMERANG].SetReloadTime(1.5f);
+        //BData[(int)Bullet.BulletType.BOOMERANG].SetDuration(3.0f);
 
-        BData[(int)Bullet.BulletType.BOOMERANG].SetSpeed(2.0f);
-        BData[(int)Bullet.BulletType.BOOMERANG].SetReloadTime(1.5f);
-        BData[(int)Bullet.BulletType.BOOMERANG].SetDuration(3.0f);
-
-        BData[(int)Bullet.BulletType.SPLIT].SetSpeed(5.0f);
-        BData[(int)Bullet.BulletType.SPLIT].SetReloadTime(2.0f);
+        //BData[(int)Bullet.BulletType.SPLIT].SetSpeed(5.0f);
+        //BData[(int)Bullet.BulletType.SPLIT].SetReloadTime(2.0f);
     }
 
     void Start()

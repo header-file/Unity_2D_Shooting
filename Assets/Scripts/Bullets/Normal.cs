@@ -6,7 +6,7 @@ public class Normal : Bullet
 {
     void Awake()
     {
-        Damage = 1.0f;
+        //Damage = 1.0f;
         Type = BulletType.NORMAL;
         GetComponent<SpriteRenderer>().color = Color.white;
         //Damage *= (float)GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();

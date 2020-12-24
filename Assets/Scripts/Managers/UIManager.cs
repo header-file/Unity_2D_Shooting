@@ -462,6 +462,9 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSynthesisSelectBtn(int index)
     {
+        if (EquipUI.CheckAlreadyEquipAll(index))
+            return;
+
         SynthesisUI.SetButtons(index);
     }
 

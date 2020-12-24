@@ -346,7 +346,7 @@ public class Synthesis : MonoBehaviour
         int type = eqData.Type;
         int value = (int)eqData.Value;
 
-        SelectDetail.GetComponent<SelectDetail>().SetDatas(type, value);
+        SelectDetail.GetComponent<SelectDetail>().SetDatas(type, value, Colors[InputTypes[CurrentIndex]]);
     }
 
     public void CloseResult()

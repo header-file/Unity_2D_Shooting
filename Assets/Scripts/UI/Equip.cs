@@ -452,6 +452,18 @@ public class Equip : MonoBehaviour
         return false;
     }
 
+    public bool CheckAlreadyEquipAll(int index)
+    {
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            for (int j = 0; j < 3; j++)
+                if (Selected[i, j] == index)
+                    return true;
+        }
+
+        return false;
+    }
+
     public void SwitchBtoB(int index, int BulletType)
     {
         if (Selected[BulletType, (int)SelectableType] == -1)
