@@ -14,6 +14,7 @@ public class Synthesis : MonoBehaviour
     public GameObject ConfirmWindow;
     public GameObject EquipDetail;
     public GameObject SelectDetail;
+    public GameObject UnequipConfirmWindow;
 
     Player Player;
     Sprite OriginalSprite;
@@ -29,9 +30,11 @@ public class Synthesis : MonoBehaviour
     int Rate;
     float Timer;
     int SynthType;
+    int UnequipIndex;
 
     public int GetGrade() { return Grade; }
     public int GetCurrentIndex() { return CurrentIndex; }
+    public int GetUnequipIndex() { return UnequipIndex; }
 
     public void SetCurrentIndex(int index) { CurrentIndex = index; }
 
@@ -44,6 +47,7 @@ public class Synthesis : MonoBehaviour
         ConfirmWindow.SetActive(false);
         EquipDetail.SetActive(false);
         SelectDetail.SetActive(false);
+        UnequipConfirmWindow.SetActive(false);
 
         for (int i = 1; i <= Player.MAXINVENTORY; i++)
         {
@@ -357,5 +361,17 @@ public class Synthesis : MonoBehaviour
     public void CloseDetail()
     {
         SelectDetail.SetActive(false);
+    }
+
+    public void ShowUnEquipConfirm(int index)
+    {
+        UnequipConfirmWindow.SetActive(true);
+
+        UnequipIndex = index;
+    }
+
+    public void CloseUnequip()
+    {
+        UnequipConfirmWindow.SetActive(false);
     }
 }

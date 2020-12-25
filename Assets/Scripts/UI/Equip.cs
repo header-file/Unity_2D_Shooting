@@ -464,6 +464,18 @@ public class Equip : MonoBehaviour
         return false;
     }
 
+    public int GetBulletType(int index)
+    {
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            for (int j = 0; j < 3; j++)
+                if (Selected[i, j] == index)
+                    return i;
+        }
+
+        return -1;
+    }
+
     public void SwitchBtoB(int index, int BulletType)
     {
         if (Selected[BulletType, (int)SelectableType] == -1)
@@ -502,6 +514,43 @@ public class Equip : MonoBehaviour
 
         //실제 총알에 데이터 적용
         switch ((int)SelectableType)
+        {
+            case 0:
+                GameManager.Inst().UpgManager.GetBData(BulletType).SetAtk(0);
+                break;
+            case 1:
+                GameManager.Inst().UpgManager.GetBData(BulletType).SetRng(0);
+                break;
+            case 2:
+                GameManager.Inst().UpgManager.GetBData(BulletType).SetSpd(0);
+                break;
+        }
+    }
+
+    public void Unequip(int BulletType, int EquipType)
+    {
+        SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons(EquipType, false, OriginalSprite);
+        //PaintGauge(ShowBulletType, , 0.0f);
+
+        //E마크
+        if (LastIndex[BulletType, EquipType] > -1)
+            Inventories.transform.GetChild(LastIndex[BulletType, EquipType]).GetComponent<InventorySlot>().SetEmark(false);
+
+        if (LastIndex[BulletType, EquipType] != -1 && Selected[BulletType, EquipType] == LastIndex[BulletType, EquipType])
+            Selected[BulletType, EquipType] = -1;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (SlotIndices[i] == BulletType)
+            {
+                SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>().SetButtons(EquipType, false, OriginalSprite);
+                PaintGauge(i, EquipType, 0.0f);
+                break;
+            }
+        }
+
+        //실제 총알에 데이터 적용
+        switch (EquipType)
         {
             case 0:
                 GameManager.Inst().UpgManager.GetBData(BulletType).SetAtk(0);

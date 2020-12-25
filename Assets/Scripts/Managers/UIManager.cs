@@ -463,9 +463,9 @@ public class UIManager : MonoBehaviour
     public void OnClickSynthesisSelectBtn(int index)
     {
         if (EquipUI.CheckAlreadyEquipAll(index))
-            return;
-
-        SynthesisUI.SetButtons(index);
+            SynthesisUI.ShowUnEquipConfirm(index);
+        else
+            SynthesisUI.SetButtons(index);
     }
 
     public void OnClickSynthesisResultBackBtn()
@@ -476,5 +476,22 @@ public class UIManager : MonoBehaviour
     public void OnClickSelectDetailBackBtn()
     {
         SynthesisUI.CloseDetail();
+    }
+
+    public void OnClickSynthesisUnequipBtn()
+    {
+        int index = SynthesisUI.GetUnequipIndex();
+        int bulletType = EquipUI.GetBulletType(index);
+        int equipType = GameManager.Inst().Player.GetItem(index).Type;
+
+        EquipUI.Unequip(bulletType, equipType);
+        SynthesisUI.SetButtons(index);
+
+        SynthesisUI.CloseUnequip();
+    }
+
+    public void OnClickUnequipConfirmBackBtn()
+    {
+        SynthesisUI.CloseUnequip();
     }
 }
