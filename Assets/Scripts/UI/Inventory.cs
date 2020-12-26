@@ -5,40 +5,37 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    public GameObject Inventories;
+    public GameObject InventoryArea;
+
+    InventoryScroll Inventories;
     Player Player;
     
 
     private void Start()
     {
         Player = GameManager.Inst().Player;
-
-        for (int i = 1; i <= Player.MAXINVENTORY; i++)
-        {
-            GameObject inventorySlot = GameManager.Inst().ObjManager.MakeObj("InventorySlot");
-            inventorySlot.transform.SetParent(Inventories.transform, false);
-            InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
-            slot.SetIndex(i);
-            slot.SetType(0);
-        }
-
+        
         gameObject.SetActive(false);
     }
 
     public void ShowInventory()
     {
         gameObject.SetActive(true);
+
+        Inventories = GameManager.Inst().Inventory.GetComponent<InventoryScroll>();
+        Inventories.transform.SetParent(InventoryArea.transform, false);
+        Inventories.SetSlotType(0);
         
         for (int i = 1; i <= Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
             if (eq != null)
             {
-                Inventories.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
-                Inventories.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
-
                 Sprite icon = eq.Icon;
-                InventorySlot slot = Inventories.transform.GetChild(i).GetComponent<InventorySlot>();
+                InventorySlot slot = Inventories.GetSlot(i);
+
+                slot.GetNotExist().SetActive(false);
+                slot.GetExist().SetActive(true);
                 slot.SetIcon(icon);
 
                 switch (eq.Type)

@@ -7,7 +7,7 @@ public class Synthesis : MonoBehaviour
 {
     public GameObject[] Buttons;
     public GameObject Lines;
-    public GameObject Inventories;
+    public GameObject InventoryArea;
     public Material[] Materials;
     public GameObject SuccessRate;
     public Text RateText;
@@ -17,6 +17,7 @@ public class Synthesis : MonoBehaviour
     public GameObject UnequipConfirmWindow;
 
     Player Player;
+    InventoryScroll Inventories;
     Sprite OriginalSprite;
     Sprite QuestionSprite;
     Color[] Colors;
@@ -49,14 +50,14 @@ public class Synthesis : MonoBehaviour
         SelectDetail.SetActive(false);
         UnequipConfirmWindow.SetActive(false);
 
-        for (int i = 1; i <= Player.MAXINVENTORY; i++)
-        {
-            GameObject inventorySlot = GameManager.Inst().ObjManager.MakeObj("InventorySlot");
-            inventorySlot.transform.SetParent(Inventories.transform, false);
-            InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
-            slot.SetIndex(i);
-            slot.SetType(2);
-        }
+        //for (int i = 1; i <= Player.MAXINVENTORY; i++)
+        //{
+        //    GameObject inventorySlot = GameManager.Inst().ObjManager.MakeObj("InventorySlot");
+        //    inventorySlot.transform.SetParent(Inventories.transform, false);
+        //    InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
+        //    slot.SetIndex(i);
+        //    slot.SetType(2);
+        //}
 
         Colors = new Color[3];
         Colors[0] = Color.red;
@@ -116,18 +117,21 @@ public class Synthesis : MonoBehaviour
 
     public void ShowInventory()
     {
+        Inventories = GameManager.Inst().Inventory.GetComponent<InventoryScroll>();
+        Inventories.transform.SetParent(InventoryArea.transform, false);
+        Inventories.SetSlotType(2);
+
         for (int i = 1; i <= Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
             if (eq != null)
             {
-                Inventories.transform.GetChild(i).gameObject.SetActive(true);
-
-                Inventories.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
-                Inventories.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
-
                 Sprite icon = eq.Icon;
-                InventorySlot slot = Inventories.transform.GetChild(i).GetComponent<InventorySlot>();
+                InventorySlot slot = Inventories.GetSlot(i);
+                slot.gameObject.SetActive(true);
+
+                slot.GetNotExist().SetActive(false);
+                slot.GetExist().SetActive(true);
                 slot.SetIcon(icon);
 
                 switch (eq.Type)
@@ -145,8 +149,10 @@ public class Synthesis : MonoBehaviour
             }
             else
             {
-                Inventories.transform.GetChild(i).GetChild(1).gameObject.SetActive(true);
-                Inventories.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+                InventorySlot slot = Inventories.GetSlot(i);
+
+                slot.GetNotExist().SetActive(true);
+                slot.GetExist().SetActive(false);
             }
         }
     }
@@ -163,13 +169,13 @@ public class Synthesis : MonoBehaviour
             {
                 if (eq.Rarity == grade)
                 {
-                    Inventories.transform.GetChild(i).gameObject.SetActive(true);
+                    Sprite icon = eq.Icon;
+                    InventorySlot slot = Inventories.GetSlot(i);
+                    slot.gameObject.SetActive(true);
 
-                    Inventories.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
-                    Inventories.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
-
-                    InventorySlot slot = Inventories.transform.GetChild(i).GetComponent<InventorySlot>();
-                    slot.SetIcon(eq.Icon);
+                    slot.GetNotExist().SetActive(false);
+                    slot.GetExist().SetActive(true);
+                    slot.SetIcon(icon);
 
                     switch (eq.Type)
                     {
@@ -185,7 +191,7 @@ public class Synthesis : MonoBehaviour
                     }
                 }
                 else
-                    Inventories.transform.GetChild(i).gameObject.SetActive(false);
+                    Inventories.GetSlot(i).gameObject.SetActive(false);
             }
             else
                 break;
@@ -223,7 +229,7 @@ public class Synthesis : MonoBehaviour
                         Buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = OriginalSprite;
                         Lines.transform.GetChild(i).GetComponent<Image>().material.SetColor("_GlowColor", Color.black);
                         if (SelectedIndex[i] > -1)
-                            Inventories.transform.GetChild(SelectedIndex[i]).GetComponent<InventorySlot>().Selected.SetActive(false);
+                            Inventories.GetSlot(SelectedIndex[i]).Selected.SetActive(false);
                         SelectedIndex[i] = -1;
                     }
                     
@@ -244,9 +250,9 @@ public class Synthesis : MonoBehaviour
             ShowSelectDetail(eq);
 
             if(SelectedIndex[CurrentIndex] != -1)
-                Inventories.transform.GetChild(SelectedIndex[CurrentIndex]).GetComponent<InventorySlot>().Selected.SetActive(false);
+                Inventories.GetSlot(SelectedIndex[CurrentIndex]).Selected.SetActive(false);
             SelectedIndex[CurrentIndex] = index;
-            Inventories.transform.GetChild(index).GetComponent<InventorySlot>().Selected.SetActive(true);
+            Inventories.GetSlot(index).Selected.SetActive(true);
 
             if(InputTypes[0] > -1 && InputTypes[1] > -1)
             {
@@ -332,7 +338,7 @@ public class Synthesis : MonoBehaviour
             Buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = OriginalSprite;
             Lines.transform.GetChild(i).GetComponent<Image>().material.SetColor("_GlowColor", Color.black);
             if(SelectedIndex[i] > -1)
-                Inventories.transform.GetChild(SelectedIndex[i]).GetComponent<InventorySlot>().Selected.SetActive(false);
+                Inventories.GetSlot(SelectedIndex[i]).Selected.SetActive(false);
             SelectedIndex[i] = -1;
             InputTypes[i] = -1;
         }

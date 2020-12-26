@@ -7,6 +7,8 @@ public class InventorySlot : MonoBehaviour
 {
     public GameObject EMark;
     public GameObject Selected;
+    public GameObject Exist;
+    public GameObject NotExist;
     public GameObject Icon;
 
     int Index = 0;
@@ -14,6 +16,8 @@ public class InventorySlot : MonoBehaviour
 
     public int GetIndex() { return Index; }
     public GameObject GetIcon() { return Icon; }
+    public GameObject GetExist() { return Exist; }
+    public GameObject GetNotExist() { return NotExist; }
 
     public void SetIndex(int i) { Index = i; }
     public void SetType(int t) { Type = t; }

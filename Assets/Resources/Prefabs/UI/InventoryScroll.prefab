@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 2223647913658699690}
   - component: {fileID: 89249727071914016}
   - component: {fileID: 3544210261657400815}
+  - component: {fileID: 2995499480233868024}
   m_Layer: 5
   m_Name: InventoryScroll
   m_TagString: Untagged
@@ -123,10 +124,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -450}
-  m_SizeDelta: {x: 560, y: 650}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2223647913658699690
 CanvasRenderer:
@@ -195,6 +196,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2995499480233868024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010631750374432772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c516824905dd1dd46be8fe290bfec95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Contents: {fileID: 7296090724607627948}
+  None: {fileID: 2310257577111962382}
 --- !u!1 &7296090724607627948
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +390,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee71522440530e5439c9514c2b022ced, type: 3}
+--- !u!1 &2310257577111962382 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1326174254267731750, guid: ee71522440530e5439c9514c2b022ced,
+    type: 3}
+  m_PrefabInstance: {fileID: 3632200874954869800}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6435882384556691159 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7726193018725614335, guid: ee71522440530e5439c9514c2b022ced,

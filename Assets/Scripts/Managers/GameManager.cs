@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public UIManager UiManager;
     public CameraShake Camerashake;
     public GameObject RedMask;
+    public GameObject Inventory;
 
     public Player Player;
     public Text CoinText;
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("SpawnLarge", 0.0f, LargeTime);
 
         SetTexts();
+        SetInventory();
     }
 
     void Update()
@@ -217,6 +219,19 @@ public class GameManager : MonoBehaviour
         }
 
         return ieq;
+    }
+
+    void SetInventory()
+    {
+        InventoryScroll inventory = Inventory.GetComponent<InventoryScroll>();
+        for (int i = 1; i <= Player.MAXINVENTORY; i++)
+        {
+            GameObject inventorySlot = GameManager.Inst().ObjManager.MakeObj("InventorySlot");
+            inventorySlot.transform.SetParent(inventory.Contents.transform, false);
+            InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
+            slot.SetIndex(i);
+            slot.SetType(-1);
+        }
     }
 }
 

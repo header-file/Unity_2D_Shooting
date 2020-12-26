@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Equip : MonoBehaviour
 {
-    public GameObject Inventories;
+    public GameObject InventoryArea;
     public GameObject[] BulletImgs;
     public GameObject[] TypeText;
     public GameObject BeforeText;
@@ -15,7 +15,8 @@ public class Equip : MonoBehaviour
     public GameObject ArrowButtons;
     public Sprite OriginalSprite;
 
-    Player Player;    
+    Player Player;
+    InventoryScroll Inventories;
     Item_Equipment.EquipmentType SelectableType;
     Color[] GaugeColors;
     Color GlowColor;
@@ -53,7 +54,7 @@ public class Equip : MonoBehaviour
 
         int maxInventory = Player.MAXINVENTORY;
         //Indices = new int[maxInventory + 1];
-        for (int i = 1; i <= maxInventory; i++)
+        /*for (int i = 1; i <= maxInventory; i++)
         {
             //Indices[i] = -1;
             GameObject inventorySlot = GameManager.Inst().ObjManager.MakeObj("InventorySlot");
@@ -62,7 +63,7 @@ public class Equip : MonoBehaviour
             InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
             slot.SetIndex(i);
             slot.SetType(1);
-        }
+        }*/
         
         GaugeColors = new Color[3];
         GaugeColors[0] = Color.red;
@@ -234,16 +235,20 @@ public class Equip : MonoBehaviour
     {
         SelectableType = 0;
 
+        Inventories = GameManager.Inst().Inventory.GetComponent<InventoryScroll>();
+        Inventories.transform.SetParent(InventoryArea.transform, false);
+        Inventories.SetSlotType(1);
+
         for (int i = 1; i <= Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
             if (eq != null)
             {
-                Inventories.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
-                Inventories.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
-
                 Sprite icon = eq.Icon;
-                InventorySlot slot = Inventories.transform.GetChild(i).GetComponent<InventorySlot>();
+                InventorySlot slot = Inventories.GetSlot(i);
+
+                slot.GetNotExist().SetActive(false);
+                slot.GetExist().SetActive(true);
                 slot.SetIcon(icon);
 
                 switch (eq.Type)
@@ -303,9 +308,10 @@ public class Equip : MonoBehaviour
             }
         }
         if (SelectedIndex > -1)
-            Inventories.transform.GetChild(SelectedIndex).GetComponent<InventorySlot>().SetSelected(false);
+            Inventories.GetSlot(SelectedIndex).SetSelected(false);
+
         SelectedIndex = index;
-        Inventories.transform.GetChild(index).GetComponent<InventorySlot>().SetSelected(true);
+        Inventories.GetSlot(index).SetSelected(true);
         IsShowingSwitch = true;
     }
 
@@ -322,12 +328,11 @@ public class Equip : MonoBehaviour
             {
                 if (eq.Type == type)
                 {
-                    Inventories.transform.GetChild(i).gameObject.SetActive(true);
+                    InventorySlot slot = Inventories.GetSlot(i);
+                    slot.gameObject.SetActive(true);
 
-                    Inventories.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
-                    Inventories.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
-
-                    InventorySlot slot = Inventories.transform.GetChild(i).GetComponent<InventorySlot>();
+                    slot.GetNotExist().gameObject.SetActive(false);
+                    slot.GetExist().gameObject.SetActive(true);
                     slot.SetIcon(eq.Icon);
 
                     switch (eq.Type)
@@ -346,20 +351,20 @@ public class Equip : MonoBehaviour
                     {
                         if (Selected[j, (int)SelectableType] == i)
                         {
-                            Inventories.transform.GetChild(i).GetComponent<InventorySlot>().SetEmark(true);
+                            slot.SetEmark(true);
                             break;
                         }
                     }
                 }
                 else
-                    Inventories.transform.GetChild(i).gameObject.SetActive(false);
+                    Inventories.GetSlot(i).gameObject.SetActive(false);
             }
             else
                 break;
 
         }
 
-        Inventories.transform.GetChild(0).gameObject.SetActive(true);
+        Inventories.None.SetActive(true);
     }
 
 
@@ -384,7 +389,7 @@ public class Equip : MonoBehaviour
             //SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, true, eq.Icon);
 
             //E마크
-            InventorySlot slot = Inventories.transform.GetChild(index).GetComponent<InventorySlot>();
+            InventorySlot slot = Inventories.GetSlot(index);
             slot.SetEmark(true);
             slot.SetSelected(false);
             LastIndex[BulletType, (int)SelectableType] = index;
@@ -423,7 +428,7 @@ public class Equip : MonoBehaviour
         else
         {
             //E마크
-            Inventories.transform.GetChild(LastIndex[BulletType, (int)SelectableType]).GetComponent<InventorySlot>().SetEmark(false);
+            Inventories.GetSlot(LastIndex[BulletType, (int)SelectableType]).SetEmark(false);
 
             Select(index, BulletType);
         }
@@ -431,7 +436,7 @@ public class Equip : MonoBehaviour
 
     public void SwitchCancel()
     {
-        Inventories.transform.GetChild(SelectedIndex).GetComponent<InventorySlot>().SetSelected(false);
+        Inventories.GetSlot(SelectedIndex).SetSelected(false);
         if (Selected[CurBulletType, (int)SelectableType] > -1)
             PaintGauge(ShowBulletType, (int)SelectableType, GameManager.Inst().Player.GetItem(Selected[CurBulletType, (int)SelectableType]).Value);
         else
@@ -497,7 +502,7 @@ public class Equip : MonoBehaviour
 
         //E마크
         if (LastIndex[BulletType, (int)SelectableType] > -1)
-            Inventories.transform.GetChild(LastIndex[BulletType, (int)SelectableType]).GetComponent<InventorySlot>().SetEmark(false);
+            Inventories.GetSlot(LastIndex[BulletType, (int)SelectableType]).SetEmark(false);
 
         if (LastIndex[BulletType, (int)SelectableType] != -1 && Selected[BulletType, (int)SelectableType] == LastIndex[BulletType, (int)SelectableType])
             Selected[BulletType, (int)SelectableType] = -1;
@@ -534,7 +539,7 @@ public class Equip : MonoBehaviour
 
         //E마크
         if (LastIndex[BulletType, EquipType] > -1)
-            Inventories.transform.GetChild(LastIndex[BulletType, EquipType]).GetComponent<InventorySlot>().SetEmark(false);
+            Inventories.GetSlot(LastIndex[BulletType, EquipType]).SetEmark(false);
 
         if (LastIndex[BulletType, EquipType] != -1 && Selected[BulletType, EquipType] == LastIndex[BulletType, EquipType])
             Selected[BulletType, EquipType] = -1;
