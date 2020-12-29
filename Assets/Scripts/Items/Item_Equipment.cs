@@ -44,10 +44,50 @@ public class Item_Equipment : Item
 
     void SetGrade(int grade)
     {
-        int rand = grade;
-        if (grade == -1)
-            rand = Random.Range(0, 1);
-        switch(rand)
+        int rand = grade * 100;
+        if (grade < 0)
+            rand = Random.Range(0, 100);
+
+        if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "WHITE") || grade == 0)
+        {
+            Grade = Rarity.WHITE;
+            SetEqValue(0);
+        }
+        else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "GREEN") || grade == 1)
+        {
+            Grade = Rarity.GREEN;
+            SetEqValue(1);
+        }
+        else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "BLUE") || grade == 2)
+        {
+            Grade = Rarity.BLUE;
+            SetEqValue(2);
+        }
+        else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "PURPLE") || grade == 3)
+        {
+            Grade = Rarity.PURPLE;
+            SetEqValue(3);
+        }
+        else if(rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "YELLOW") || grade == 4)
+        {
+            Grade = Rarity.YELLOW;
+            SetEqValue(4);
+        }
+    }
+
+    void SetEqValue(int num)
+    {
+        int min = num * 20 + 1;
+        int max = (num + 1) * 20 + 1;
+
+        int seed = (int)(Time.time * 1000.0f);
+        Random.InitState(seed);
+        int rand = Random.Range(min, max);
+        Eq_Value = rand;
+    }
+
+    /*
+         switch (rand)
         {
             case 0:
                 Grade = Rarity.WHITE;
@@ -74,16 +114,5 @@ public class Item_Equipment : Item
                 SetEqValue(rand);
                 break;
         }
-    }
-
-    void SetEqValue(int num)
-    {
-        int min = num * 20 + 1;
-        int max = (num + 1) * 20 + 1;
-
-        int seed = (int)(Time.time * 1000.0f);
-        Random.InitState(seed);
-        int rand = Random.Range(min, max);
-        Eq_Value = rand;
-    }
+     */
 }

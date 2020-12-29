@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public Text CoinText;
 
     public int[] SubWID;
+    public int Stage;
 
     SubWeapon[] SubWeapons;
     Color[] Colors;
@@ -32,11 +33,14 @@ public class GameManager : MonoBehaviour
     float MediumTime;
     float LargeTime;
 
+    List<Dictionary<string, object>> DropRateData;
+
 
     public static GameManager Inst() { return Instance; }
     public SubWeapon GetSubweapons(int index) { return SubWeapons[index]; }
     public Color GetColors(int index) { return Colors[index]; }
     public int GetColorSelection(int index) { return ColorSelection[index]; }
+    public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[index] = Sub; }
     public void SetCoinText(int Coin) { CoinText.text = Coin.ToString(); }
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
         LargeTime = 15.0f;
 
         SetColor();
+        Stage = 1;
     }
 
     void Start()
@@ -74,6 +79,7 @@ public class GameManager : MonoBehaviour
 
         SetTexts();
         SetInventory();
+        SetData();
     }
 
     void Update()
@@ -148,11 +154,18 @@ public class GameManager : MonoBehaviour
             ColorSelection[i] = 0;
     }
 
-    public void MakeEquipment(int num, int grade, Transform transform)
+    void SetData()
     {
-        int rand = num;
+        DropRateData = CSVReader.Read("Datas/DropRate");
+
+    }
+
+    public void MakeEquipment(int type, int grade, Transform transform)
+    {
+        int rand = type;
         if (rand == -1)
             rand = (int)(Random.value * 3.0f);
+
         switch (rand)
         {
             case 0:
