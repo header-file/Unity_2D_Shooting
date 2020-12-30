@@ -10,6 +10,7 @@ public class InventorySlot : MonoBehaviour
     public GameObject Exist;
     public GameObject NotExist;
     public GameObject Icon;
+    public GameObject Disable;
 
     int Index = 0;
     int Type = 0;
@@ -24,6 +25,20 @@ public class InventorySlot : MonoBehaviour
     public void SetEmark(bool b) { EMark.SetActive(b); }
     public void SetSelected(bool b) { Selected.SetActive(b); }
     public void SetIcon(Sprite icon) { Icon.GetComponent<Image>().sprite = icon; }
+
+    public void SetDisable(bool b)
+    {
+        if (b)
+        {
+            Disable.SetActive(true);
+            Exist.GetComponent<Button>().interactable = false;
+        }
+        else
+        {
+            Disable.SetActive(false);
+            Exist.GetComponent<Button>().interactable = true;
+        }
+    }
 
     public void OnClick()
     {

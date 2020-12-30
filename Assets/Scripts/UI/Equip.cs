@@ -184,6 +184,14 @@ public class Equip : MonoBehaviour
 
     public void ShowUI()
     {
+        SlotIndices[1] = CurBulletType;
+        SlotIndices[0] = CurBulletType - 1;
+        if (SlotIndices[0] < 0)
+            SlotIndices[0] = Bullet.MAXBULLETS - 1;
+        SlotIndices[2] = CurBulletType + 1;
+        if (SlotIndices[2] >= Bullet.MAXBULLETS)
+            SlotIndices[2] = 0;
+
         for (int i = 0; i < 3; i++)
             Show(SlotIndices[i], i);
 
@@ -239,7 +247,7 @@ public class Equip : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(1);
 
-        for (int i = 1; i <= Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
             if (eq != null)
@@ -321,7 +329,7 @@ public class Equip : MonoBehaviour
 
         SetIsShowingSwitch(false);
 
-        for (int i = 1; i <= Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
             if (eq != null)
@@ -600,5 +608,15 @@ public class Equip : MonoBehaviour
         
         for (int i = 0; i < 2; i++)
             ArrowButtons.transform.GetChild(i).GetComponent<Button>().interactable = false;
+    }
+
+    public void ResetSwitchWindows()
+    {
+        SwitchWindows.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        SwitchWindows.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition = new Vector2(-720.0f, 0.0f);
+        SwitchWindows.transform.GetChild(1).GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        SwitchWindows.transform.GetChild(2).GetComponent<RectTransform>().anchoredPosition = new Vector2(720.0f, 0.0f);
+
+        TargetX = 0.0f;
     }
 }

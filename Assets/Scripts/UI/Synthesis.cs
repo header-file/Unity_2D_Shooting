@@ -121,7 +121,7 @@ public class Synthesis : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(2);
 
-        for (int i = 1; i <= Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
             if (eq != null)
@@ -133,6 +133,7 @@ public class Synthesis : MonoBehaviour
                 slot.GetNotExist().SetActive(false);
                 slot.GetExist().SetActive(true);
                 slot.SetIcon(icon);
+                slot.SetDisable(false);
 
                 switch (eq.Type)
                 {
@@ -162,7 +163,9 @@ public class Synthesis : MonoBehaviour
         if (grade < 0)
             return;
 
-        for (int i = 1; i <= Player.MAXINVENTORY; i++)
+        Player.Sort(grade);
+
+        for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
             if (eq != null)
@@ -176,6 +179,10 @@ public class Synthesis : MonoBehaviour
                     slot.GetNotExist().SetActive(false);
                     slot.GetExist().SetActive(true);
                     slot.SetIcon(icon);
+                    slot.SetDisable(false);
+
+                    if (slot.Selected.activeSelf)
+                        SelectedIndex[0] = i;
 
                     switch (eq.Type)
                     {
@@ -191,13 +198,22 @@ public class Synthesis : MonoBehaviour
                     }
                 }
                 else
-                    Inventories.GetSlot(i).gameObject.SetActive(false);
+                {
+                    Sprite icon = eq.Icon;
+                    InventorySlot slot = Inventories.GetSlot(i);
+                    slot.gameObject.SetActive(true);
+
+                    slot.GetNotExist().SetActive(false);
+                    slot.GetExist().SetActive(true);
+                    slot.SetIcon(icon);
+                    slot.SetDisable(true);
+                    //Inventories.GetSlot(i).gameObject.SetActive(false);
+                }
+                    
             }
             else
                 break;
-
         }
-
         //Inventories.transform.GetChild(0).gameObject.SetActive(true);
     }
 
@@ -315,12 +331,13 @@ public class Synthesis : MonoBehaviour
         GameManager.Inst().Player.DragItem(3);
 
         int rand = Random.Range(0, 100);
-        if (rand >= Rate)
-            return;
+        if (rand < Rate)
+            rarity++;
 
-        rarity++;
         //GameManager.Inst().MakeEquipment(SynthType, rarity, Player.transform);
         int add = Player.AddItem(GameManager.Inst().MakeEuipData(SynthType, rarity));
+        EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
+        Player.Sort();
         ShowInventory();
 
         //결과창
@@ -328,7 +345,6 @@ public class Synthesis : MonoBehaviour
         ResetSprites();
 
         EquipDetail.SetActive(true);
-        EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
     }
 
     public void ResetSprites()
@@ -337,8 +353,8 @@ public class Synthesis : MonoBehaviour
         {
             Buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = OriginalSprite;
             Lines.transform.GetChild(i).GetComponent<Image>().material.SetColor("_GlowColor", Color.black);
-            if(SelectedIndex[i] > -1)
-                Inventories.GetSlot(SelectedIndex[i]).Selected.SetActive(false);
+            //if(SelectedIndex[i] > -1)
+            //    Inventories.GetSlot(SelectedIndex[i]).Selected.SetActive(false);
             SelectedIndex[i] = -1;
             InputTypes[i] = -1;
         }
@@ -347,6 +363,22 @@ public class Synthesis : MonoBehaviour
         SelectDetail.SetActive(false);
         EquipDetail.SetActive(false);
         Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite = QuestionSprite;
+
+        Player.Sort();
+        ResetDisable();
+    }
+
+    public void ResetDisable()
+    {
+        for (int i = 0; i < Player.MAXINVENTORY; i++)
+        {
+            if (Player.GetItem(i) != null)
+            {
+                Inventories.GetSlot(i).SetDisable(false);
+                Inventories.GetSlot(i).Selected.SetActive(false);
+            }
+                
+        }
     }
 
     void ShowSelectDetail(Player.EqData eqData)

@@ -69,6 +69,7 @@ public class Item : MonoBehaviour
 
                 case ItemType.EQUIPMENT:
                     GameManager.Inst().Player.AddItem(gameObject.GetComponent<Item_Equipment>());
+                    GameManager.Inst().Player.Sort();
                     break;
             }
 

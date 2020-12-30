@@ -7,7 +7,7 @@ public class InventoryScroll : MonoBehaviour
     public GameObject Contents;
     public GameObject None;
 
-    public InventorySlot GetSlot(int index) { return Contents.transform.GetChild(index).gameObject.GetComponent<InventorySlot>(); }
+    public InventorySlot GetSlot(int index) { return Contents.transform.GetChild(index + 1).gameObject.GetComponent<InventorySlot>(); }
 
     public void SetSlotIndex(int index)
     {

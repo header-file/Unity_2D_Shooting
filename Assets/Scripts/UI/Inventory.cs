@@ -26,7 +26,7 @@ public class Inventory : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(0);
         
-        for (int i = 1; i <= Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
             if (eq != null)

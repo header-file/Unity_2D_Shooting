@@ -367,6 +367,7 @@ public class UIManager : MonoBehaviour
     public void OnClickEquipBackBtn()
     {
         EquipUI.DisableSelectedSlot();
+        EquipUI.ResetSwitchWindows();
         EquipUI.SetIsShowingSwitch(false);
         ConfirmSwitch.SetActive(false);
         Equip.SetActive(false);
@@ -444,7 +445,7 @@ public class UIManager : MonoBehaviour
 
         if (index == 0)
             SynthesisUI.ShowInventory();
-        else if (index > 0 && index < 3)
+        else if (index == 1)
             SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
         else if (index == 3)
             SynthesisUI.ShowConfirmWindow();

@@ -1,25 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 public class Player : MonoBehaviour
 {
     public int MAXINVENTORY = 40;
 
-    public class EqData
+    public class EqData : IComparable
     {
         public Sprite Icon;
         public int Type;
         public int Rarity;
         public float Value;
-
+        
         public EqData()
         {
             Icon = null;
             Type = -1;
             Rarity = -1;
             Value = 0.0f;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (Rarity > (obj as EqData).Rarity)
+                return 1;
+            else if (Rarity == (obj as EqData).Rarity)
+            {
+                if (Type < (obj as EqData).Type)
+                    return 1;
+                else if (Type == (obj as EqData).Type)
+                    return 0;
+                else
+                    return -1;
+            }
+            else
+                return -1;
         }
     };
 
@@ -35,6 +53,7 @@ public class Player : MonoBehaviour
     bool IsReload;
     int Coin;
     int BulletType;
+    int InventorySize;
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
@@ -62,7 +81,7 @@ public class Player : MonoBehaviour
 
     public int AddItem(Item_Equipment item)
     {
-        for(int i = 1; i <= MAXINVENTORY; i++)
+        for(int i = 0; i < MAXINVENTORY; i++)
         {
             if (Inventory[i] == null)
             {
@@ -79,27 +98,145 @@ public class Player : MonoBehaviour
         return -1;
     }
 
+    public int AddItem(EqData item)
+    {
+        for (int i = 0; i < MAXINVENTORY; i++)
+        {
+            if (Inventory[i] == null)
+            {
+                Inventory[i] = new EqData();
+                Inventory[i].Icon = item.Icon;
+                Inventory[i].Type = item.Type;
+                Inventory[i].Rarity = item.Rarity;
+                Inventory[i].Value = item.Value;
+
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public void Sort()
+    {
+        Array.Sort(Inventory, 1, MAXINVENTORY);
+        Array.Reverse(Inventory);
+    }
+
+    public void Sort(int Rarity)
+    {
+        //for(int i = 0; i < MAXINVENTORY; i++)
+        //{
+        //    if (Inventory[i] == null)
+        //        return;
+
+        //    if(Inventory[i].Rarity == Rarity)
+        //    {
+        //        for(int j = i; j > 0; j--)
+        //        {
+        //            if(Inventory[j - 1].Rarity != Rarity)
+        //                Swap(Inventory[j], Inventory[j - 1], j);
+        //        }
+
+        //    }
+        //}
+
+        for (int i = 0; i < MAXINVENTORY; i++)
+        {
+            if (Inventory[i] == null)
+                return;
+
+            if (Inventory[i].Rarity != Rarity)
+            {
+                EqData data = DiscardItem(i);
+                DragItem(1);
+
+                AddItem(data);
+            }
+        }
+
+        Array.Reverse(Inventory);
+    }
+
+    void Swap(EqData a, EqData b, int j)
+    {
+        EqData temp = new EqData();
+        temp.Icon = a.Icon;
+        temp.Type = a.Type;
+        temp.Rarity = a.Rarity;
+        temp.Value = a.Value;
+
+        a.Icon = b.Icon;
+        a.Type = b.Type;
+        a.Rarity = b.Rarity;
+        a.Value = b.Value;
+
+        b.Icon = temp.Icon;
+        b.Type = temp.Type;
+        b.Rarity = temp.Rarity;
+        b.Value = temp.Value;
+
+        InventorySlot slot = GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j);
+        if (slot.Selected.activeSelf)
+        {
+            slot.Selected.SetActive(false);
+            GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j - 1).Selected.SetActive(true);
+        }
+
+        if(slot.EMark.activeSelf)
+        {
+            slot.EMark.SetActive(false);
+            GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j - 1).EMark.SetActive(true);
+        }
+    }
+
     public void RemoveItem(int index)
     {
         Inventory[index] = null;
+    }
+
+    public EqData DiscardItem(int index)
+    {
+        EqData e = new EqData();
+        e.Icon = Inventory[index].Icon;
+        e.Type = Inventory[index].Type;
+        e.Rarity = Inventory[index].Rarity;
+        e.Value = Inventory[index].Value;
+
+        Inventory[index] = null;
+
+        return e;
     }
 
     public void DragItem(int count)
     {
         for (int n = 1; n <= count; n++)
         {
-            for (int i = 1; i < MAXINVENTORY; i++)
+            for (int i = 0; i < MAXINVENTORY; i++)
             {
                 if (Inventory[i] != null)
                     continue;
                 else 
                 {
-                    for (int j = i; j < MAXINVENTORY; j++)
+                    for (int j = i; j < MAXINVENTORY - 1; j++)
+                    {
                         Inventory[j] = Inventory[j + 1];
+
+                        InventorySlot slot = GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j + 1);
+                        if (slot.Selected.activeSelf)
+                        {
+                            slot.Selected.SetActive(false);
+                            GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j).Selected.SetActive(true);
+                        }
+                        if (slot.EMark.activeSelf)
+                        {
+                            slot.EMark.SetActive(false);
+                            GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j).EMark.SetActive(true);
+                        }
+                    }
 
                     Inventory[MAXINVENTORY] = null;
                 }
-                
             }
         }
     }
@@ -116,6 +253,7 @@ public class Player : MonoBehaviour
         Inventory = new EqData[MAXINVENTORY + 1];
         for (int i = 1; i <= MAXINVENTORY; i++)
             Inventory[i] = null;
+        InventorySize = 0;
     }
 
     void Start()
