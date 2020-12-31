@@ -11,6 +11,8 @@ public class InventorySlot : MonoBehaviour
     public GameObject NotExist;
     public GameObject Icon;
     public GameObject Disable;
+    public Sprite[] Grades;
+    public GameObject Grade;
 
     int Index = 0;
     int Type = 0;
@@ -25,6 +27,7 @@ public class InventorySlot : MonoBehaviour
     public void SetEmark(bool b) { EMark.SetActive(b); }
     public void SetSelected(bool b) { Selected.SetActive(b); }
     public void SetIcon(Sprite icon) { Icon.GetComponent<Image>().sprite = icon; }
+    public void SetGradeSprite(int index) {  Grade.GetComponent<Image>().sprite = Grades[index]; }
 
     public void SetDisable(bool b)
     {
@@ -42,6 +45,7 @@ public class InventorySlot : MonoBehaviour
 
     public void OnClick()
     {
+        Debug.Log(Index);
         switch(Type)
         {
             case 0:

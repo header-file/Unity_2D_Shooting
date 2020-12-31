@@ -247,32 +247,7 @@ public class Equip : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(1);
 
-        for (int i = 0; i < Player.MAXINVENTORY; i++)
-        {
-            Player.EqData eq = Player.GetItem(i);
-            if (eq != null)
-            {
-                Sprite icon = eq.Icon;
-                InventorySlot slot = Inventories.GetSlot(i);
-
-                slot.GetNotExist().SetActive(false);
-                slot.GetExist().SetActive(true);
-                slot.SetIcon(icon);
-
-                switch (eq.Type)
-                {
-                    case 0:
-                        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 60.0f);
-                        break;
-                    case 1:
-                        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-                        break;
-                    case 2:
-                        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
-                        break;
-                }
-            }
-        }
+        Inventories.ShowInventory();
     }
 
     public void ShowSwitch(int index)

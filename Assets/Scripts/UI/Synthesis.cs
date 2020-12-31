@@ -27,6 +27,7 @@ public class Synthesis : MonoBehaviour
     int CurrentIndex;
     int[] InputTypes;
     int[] SelectedIndex;
+    int[] SelectedUIDs;
     bool IsAbleSynthesize;
     int Rate;
     float Timer;
@@ -68,6 +69,10 @@ public class Synthesis : MonoBehaviour
         SelectedIndex = new int[3];
         for (int i = 0; i < 3; i++)
             SelectedIndex[i] = -1;
+
+        SelectedUIDs = new int[3];
+        for (int i = 0; i < 3; i++)
+            SelectedUIDs[i] = -1;
 
         Grade = -1;
         CurrentIndex = -1;
@@ -121,41 +126,7 @@ public class Synthesis : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(2);
 
-        for (int i = 0; i < Player.MAXINVENTORY; i++)
-        {
-            Player.EqData eq = Player.GetItem(i);
-            if (eq != null)
-            {
-                Sprite icon = eq.Icon;
-                InventorySlot slot = Inventories.GetSlot(i);
-                slot.gameObject.SetActive(true);
-
-                slot.GetNotExist().SetActive(false);
-                slot.GetExist().SetActive(true);
-                slot.SetIcon(icon);
-                slot.SetDisable(false);
-
-                switch (eq.Type)
-                {
-                    case 0:
-                        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 60.0f);
-                        break;
-                    case 1:
-                        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-                        break;
-                    case 2:
-                        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
-                        break;
-                }
-            }
-            else
-            {
-                InventorySlot slot = Inventories.GetSlot(i);
-
-                slot.GetNotExist().SetActive(true);
-                slot.GetExist().SetActive(false);
-            }
-        }
+        Inventories.ShowInventory();
     }
 
     public void SortAsGrade(int grade)
@@ -168,6 +139,8 @@ public class Synthesis : MonoBehaviour
         for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
+            Inventories.GetSlot(i).Selected.SetActive(false);
+
             if (eq != null)
             {
                 if (eq.Rarity == grade)
@@ -180,6 +153,13 @@ public class Synthesis : MonoBehaviour
                     slot.GetExist().SetActive(true);
                     slot.SetIcon(icon);
                     slot.SetDisable(false);
+                    slot.SetGradeSprite(eq.Rarity);
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (eq.UID == SelectedUIDs[j])
+                            slot.Selected.SetActive(true);
+                    }
 
                     if (slot.Selected.activeSelf)
                         SelectedIndex[0] = i;
@@ -207,6 +187,7 @@ public class Synthesis : MonoBehaviour
                     slot.GetExist().SetActive(true);
                     slot.SetIcon(icon);
                     slot.SetDisable(true);
+                    slot.SetGradeSprite(eq.Rarity);
                     //Inventories.GetSlot(i).gameObject.SetActive(false);
                 }
                     
@@ -257,6 +238,9 @@ public class Synthesis : MonoBehaviour
                 if (SelectedIndex[0] == -1)
                     return;
             }
+
+            //UID
+            SelectedUIDs[CurrentIndex] = eq.UID;
 
             //ui
             SuccessRate.SetActive(false);

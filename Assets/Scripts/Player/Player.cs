@@ -14,6 +14,10 @@ public class Player : MonoBehaviour
         public int Type;
         public int Rarity;
         public float Value;
+        public int UID;
+
+        int Weight;
+        
         
         public EqData()
         {
@@ -21,21 +25,38 @@ public class Player : MonoBehaviour
             Type = -1;
             Rarity = -1;
             Value = 0.0f;
+            Weight = 0;
+            UID = 0;
         }
 
         public int CompareTo(object obj)
         {
-            if (Rarity > (obj as EqData).Rarity)
-                return 1;
-            else if (Rarity == (obj as EqData).Rarity)
+            Weight = 0;
+
+            if(GameManager.Inst().Player.InputGrade >= 0)
             {
-                if (Type < (obj as EqData).Type)
-                    return 1;
-                else if (Type == (obj as EqData).Type)
-                    return 0;
-                else
-                    return -1;
+                if (Rarity == GameManager.Inst().Player.InputGrade &&
+                    (obj as EqData).Rarity != GameManager.Inst().Player.InputGrade)
+                    Weight += 16;
+                else if (Rarity != GameManager.Inst().Player.InputGrade &&
+                    (obj as EqData).Rarity == GameManager.Inst().Player.InputGrade)
+                    Weight -= 16;
             }
+
+            if (Rarity > (obj as EqData).Rarity)
+                Weight += 8;
+            else if (Rarity < (obj as EqData).Rarity)
+                Weight -= 8;
+
+            if (Type < (obj as EqData).Type)
+                Weight += 4;
+            else if (Type > (obj as EqData).Type)
+                Weight -= 4;
+
+            if (Weight > 0)
+                return 1;
+            else if (Weight == 0)
+                return 0;
             else
                 return -1;
         }
@@ -53,7 +74,7 @@ public class Player : MonoBehaviour
     bool IsReload;
     int Coin;
     int BulletType;
-    int InventorySize;
+    int InputGrade;
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
@@ -90,7 +111,8 @@ public class Player : MonoBehaviour
                 Inventory[i].Type = item.GetEqType();
                 Inventory[i].Rarity = item.GetRarity();
                 Inventory[i].Value = item.GetEqValue();
-
+                Inventory[i].UID = item.GetUID();
+                Debug.Log("ADD");
                 return i;
             }   
         }
@@ -113,12 +135,13 @@ public class Player : MonoBehaviour
                 return i;
             }
         }
-
+        
         return -1;
     }
 
     public void Sort()
     {
+        InputGrade = -1;
         Array.Sort(Inventory, 1, MAXINVENTORY);
         Array.Reverse(Inventory);
     }
@@ -141,53 +164,45 @@ public class Player : MonoBehaviour
         //    }
         //}
 
-        for (int i = 0; i < MAXINVENTORY; i++)
-        {
-            if (Inventory[i] == null)
-                return;
-
-            if (Inventory[i].Rarity != Rarity)
-            {
-                EqData data = DiscardItem(i);
-                DragItem(1);
-
-                AddItem(data);
-            }
-        }
-
+        InputGrade = Rarity;
+        Array.Sort(Inventory);
         Array.Reverse(Inventory);
     }
 
-    void Swap(EqData a, EqData b, int j)
+    void Swap(int i, int j)
     {
-        EqData temp = new EqData();
-        temp.Icon = a.Icon;
-        temp.Type = a.Type;
-        temp.Rarity = a.Rarity;
-        temp.Value = a.Value;
-
-        a.Icon = b.Icon;
-        a.Type = b.Type;
-        a.Rarity = b.Rarity;
-        a.Value = b.Value;
-
-        b.Icon = temp.Icon;
-        b.Type = temp.Type;
-        b.Rarity = temp.Rarity;
-        b.Value = temp.Value;
-
-        InventorySlot slot = GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j);
-        if (slot.Selected.activeSelf)
+        if (Inventory[i] == null)
         {
-            slot.Selected.SetActive(false);
-            GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j - 1).Selected.SetActive(true);
+            Inventory[i] = Inventory[j];
+            Inventory[j] = null;
+        }
+        else if(Inventory[j] == null)
+        {
+            Inventory[j] = Inventory[i];
+            Inventory[i] = null;
+        }
+        else if(Inventory[i] != null && Inventory[j] != null)
+        {
+            EqData temp = new EqData();
+            temp = Inventory[i];
+            Inventory[i] = Inventory[j];
+            Inventory[j] = temp;
         }
 
-        if(slot.EMark.activeSelf)
-        {
-            slot.EMark.SetActive(false);
-            GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j - 1).EMark.SetActive(true);
-        }
+        //temp.Icon = a.Icon;
+        //temp.Type = a.Type;
+        //temp.Rarity = a.Rarity;
+        //temp.Value = a.Value;
+
+        //a.Icon = b.Icon;
+        //a.Type = b.Type;
+        //a.Rarity = b.Rarity;
+        //a.Value = b.Value;
+
+        //b.Icon = temp.Icon;
+        //b.Type = temp.Type;
+        //b.Rarity = temp.Rarity;
+        //b.Value = temp.Value;
     }
 
     public void RemoveItem(int index)
@@ -214,28 +229,33 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < MAXINVENTORY; i++)
             {
-                if (Inventory[i] != null)
+                if (Inventory[i] == null)
                     continue;
                 else 
                 {
-                    for (int j = i; j < MAXINVENTORY - 1; j++)
+                    InventoryScroll inven = GameManager.Inst().Inventory.GetComponent<InventoryScroll>();
+                    for (int j = i; j > 0; j--)
                     {
-                        Inventory[j] = Inventory[j + 1];
+                        if(Inventory[j - 1] == null)
+                        {
+                            //Swap(j - 1, j);
 
-                        InventorySlot slot = GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j + 1);
-                        if (slot.Selected.activeSelf)
-                        {
-                            slot.Selected.SetActive(false);
-                            GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j).Selected.SetActive(true);
-                        }
-                        if (slot.EMark.activeSelf)
-                        {
-                            slot.EMark.SetActive(false);
-                            GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j).EMark.SetActive(true);
+                            inven.MoveFront(j);
+                            //InventorySlot slot = GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j);
+                            //if (slot.Selected.activeSelf)
+                            //{
+                            //    slot.Selected.SetActive(false);
+                            //    GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j - 1).Selected.SetActive(true);
+                            //}
+                            //if (slot.EMark.activeSelf)
+                            //{
+                            //    slot.EMark.SetActive(false);
+                            //    GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j - 1).EMark.SetActive(true);
+                            //}
                         }
                     }
 
-                    Inventory[MAXINVENTORY] = null;
+                    //Inventory[MAXINVENTORY] = null;
                 }
             }
         }
@@ -253,7 +273,6 @@ public class Player : MonoBehaviour
         Inventory = new EqData[MAXINVENTORY + 1];
         for (int i = 1; i <= MAXINVENTORY; i++)
             Inventory[i] = null;
-        InventorySize = 0;
     }
 
     void Start()
@@ -305,6 +324,9 @@ public class Player : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (!GameManager.Inst().IptManager.GetIsAbleControl())
+            return;
+
         GameManager.Inst().UiManager.OnClickManageBtn(2);
     }
 }

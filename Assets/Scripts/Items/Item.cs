@@ -17,12 +17,15 @@ public class Item : MonoBehaviour
     Vector3 TargetPos;
     bool IsStart;
     GameObject Player;
+    int UID;
 
 
     public int GetItemType() { return (int)Type; }
     public int GetValue() { return Value; }
+    public int GetUID() { return UID; }
 
     public void SetValue(int v) { Value = v; }
+    public void SetUID(int id) { UID = id; }
 
     void Awake()
     {
