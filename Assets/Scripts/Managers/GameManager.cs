@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         LargeTime = 15.0f;
 
         SetColor();
-        Stage = 1;
+        Stage = 0;
 
         UIDCount = 0;
     }
