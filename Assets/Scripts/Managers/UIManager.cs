@@ -329,6 +329,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickInventoryBackBtn()
     {
+        InventoryUI.CloseInventory();
         Inventory.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);

@@ -1,47 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class InventoryScroll : MonoBehaviour
 {
     public GameObject Contents;
     public GameObject None;
 
-    public InventorySlot GetSlot(int index) { return Contents.transform.GetChild(index + 1).gameObject.GetComponent<InventorySlot>(); }
+    InventorySlot[] Slots;
 
-    public void SetSlotIndex(int index)
-    {
-        Contents.transform.GetChild(index + 1).GetComponent<InventorySlot>().SetIndex(index);
-    }
+    public InventorySlot GetSlot(int index) { return Slots[index]; /*return Contents.transform.GetChild(index + 1).gameObject.GetComponent<InventorySlot>();*/ }
+
+    public void SetInventory(int index, InventorySlot slot) { Slots[index] = slot; }
+
+    //public void SetSlotIndex(int index)
+    //{
+    //    Contents.transform.GetChild(index + 1).GetComponent<InventorySlot>().SetIndex(index);
+    //}
 
     public void SetSlotType(int type)
     {
         int max = GameManager.Inst().Player.MAXINVENTORY;
 
-        for (int i = 1; i <= max; i++)
-            Contents.transform.GetChild(i).GetComponent<InventorySlot>().SetType(type);
+        for (int i = 0; i < max; i++)
+            Contents.transform.GetChild(i + 1).GetComponent<InventorySlot>().SetType(type);
     }
 
-    public void MoveBack(int i)
+    void Start()
     {
-        Contents.transform.GetChild(i + 1).SetSiblingIndex(i + 2);
-        //GetSlot(i).SetIndex(i + 1);
-        //GetSlot(i + 1).SetIndex(i);
-    }
-
-    public void MoveFront(int i)
-    {
-        Contents.transform.GetChild(i + 1).SetSiblingIndex(i);
-        
-        //GetSlot(i).SetIndex(i - 1);
-        //GetSlot(i - 1).SetIndex(i);
+        Slots = new InventorySlot[GameManager.Inst().Player.MAXINVENTORY];
     }
 
     public void ShowInventory()
     {
-        int max = GameManager.Inst().Player.MAXINVENTORY;
-
-        for (int i = 0; i < max; i++)
+        for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
             if (eq != null)
@@ -54,6 +47,10 @@ public class InventoryScroll : MonoBehaviour
                 slot.SetIcon(icon);
                 slot.SetDisable(false);
                 slot.SetGradeSprite(eq.Rarity);
+
+                slot.SetItemRarity(eq.Rarity);
+                slot.SetItemType(eq.Type);
+                slot.SetItemUID(eq.UID);
 
                 switch (eq.Type)
                 {
@@ -74,7 +71,95 @@ public class InventoryScroll : MonoBehaviour
 
                 slot.GetNotExist().SetActive(true);
                 slot.GetExist().SetActive(false);
+
+                slot.SetItemRarity(-1);
+                slot.SetItemType(-1);
             }
         }
+
+        GameManager.Inst().Player.InputGrade = -1;
+
+        Sort();
+    }
+
+    public void Sort()
+    {
+        //QuickSort(Slots, 0, GameManager.Inst().Player.MAXINVENTORY - 1);
+        Array.Sort(Slots);
+        Array.Reverse(Slots);
+
+        for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+        {
+            for (int j = 0; j < GameManager.Inst().Player.MAXINVENTORY; j++)
+            {
+                if (GameManager.Inst().Player.GetItem(j) == null)
+                    continue;
+
+                if (Slots[i].GetItemUID() != -1 &&
+                    //Slots[i].GetItemUID() == GameManager.Inst().Player.GetItem(j).UID)
+                    Slots[i].GetItemUID() == Contents.transform.GetChild(j + 1).GetComponent<InventorySlot>().GetItemUID())
+                {
+                    Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
+                }
+            }
+        }
+    }
+
+    public void ResetInventory()
+    {
+        GameManager.Inst().Player.InputGrade = 10;
+
+        //QuickSort(Slots, 0, GameManager.Inst().Player.MAXINVENTORY - 1);
+        Array.Sort(Slots);
+        Array.Reverse(Slots);
+
+        int max = GameManager.Inst().Player.MAXINVENTORY;
+
+        for (int i = 0; i < max; i++)
+        {
+            for (int j = 0; j < max; j++)
+            {
+                if (GameManager.Inst().Player.GetItem(j) == null)
+                    continue;
+
+                if (Slots[i].GetItemUID() != -1 &&
+                    Slots[i].GetItemUID() == GameManager.Inst().Player.GetItem(j).UID)
+                {
+                    Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
+                }
+            }
+        }
+    }
+
+    void QuickSort(InventorySlot[] array, int p, int r)
+    {
+        if (p < r)
+        {
+            int q = Partition(array, p, r);
+            QuickSort(array, p, q - 1);
+            QuickSort(array, q + 1, r);
+        }
+    }
+
+    int Partition(InventorySlot[] array, int p, int r)
+    {
+        int q = p;
+        for (int j = p; j < r; j++)
+        {
+            if (array[j].CompareTo(array[r]) == -1)
+            {
+                Swap(array, q, j);
+                q++;
+            }
+        }
+        Swap(array, q, r);
+        return q;
+    }
+
+    void Swap(InventorySlot[] array, int beforeIndex, int foreIndex)
+    {
+        var tmp = array[beforeIndex];
+        array[beforeIndex] = array[foreIndex];
+        array[foreIndex] = tmp;
     }
 }

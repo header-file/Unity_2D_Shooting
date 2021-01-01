@@ -28,4 +28,9 @@ public class Inventory : MonoBehaviour
 
         Inventories.ShowInventory();
     }
+
+    public void CloseInventory()
+    {
+        Inventories.ResetInventory();
+    }
 }

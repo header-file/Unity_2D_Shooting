@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     public int MAXINVENTORY = 40;
 
-    public class EqData : IComparable
+    public class EqData //: IComparable
     {
         public Sprite Icon;
         public int Type;
@@ -29,37 +29,37 @@ public class Player : MonoBehaviour
             UID = 0;
         }
 
-        public int CompareTo(object obj)
-        {
-            Weight = 0;
+        //public int CompareTo(object obj)
+        //{
+        //    Weight = 0;
 
-            if(GameManager.Inst().Player.InputGrade >= 0)
-            {
-                if (Rarity == GameManager.Inst().Player.InputGrade &&
-                    (obj as EqData).Rarity != GameManager.Inst().Player.InputGrade)
-                    Weight += 16;
-                else if (Rarity != GameManager.Inst().Player.InputGrade &&
-                    (obj as EqData).Rarity == GameManager.Inst().Player.InputGrade)
-                    Weight -= 16;
-            }
+        //    if(GameManager.Inst().Player.InputGrade >= 0)
+        //    {
+        //        if (Rarity == GameManager.Inst().Player.InputGrade &&
+        //            (obj as EqData).Rarity != GameManager.Inst().Player.InputGrade)
+        //            Weight += 16;
+        //        else if (Rarity != GameManager.Inst().Player.InputGrade &&
+        //            (obj as EqData).Rarity == GameManager.Inst().Player.InputGrade)
+        //            Weight -= 16;
+        //    }
 
-            if (Rarity > (obj as EqData).Rarity)
-                Weight += 8;
-            else if (Rarity < (obj as EqData).Rarity)
-                Weight -= 8;
+        //    if (Rarity > (obj as EqData).Rarity)
+        //        Weight += 8;
+        //    else if (Rarity < (obj as EqData).Rarity)
+        //        Weight -= 8;
 
-            if (Type < (obj as EqData).Type)
-                Weight += 4;
-            else if (Type > (obj as EqData).Type)
-                Weight -= 4;
+        //    if (Type < (obj as EqData).Type)
+        //        Weight += 4;
+        //    else if (Type > (obj as EqData).Type)
+        //        Weight -= 4;
 
-            if (Weight > 0)
-                return 1;
-            else if (Weight == 0)
-                return 0;
-            else
-                return -1;
-        }
+        //    if (Weight > 0)
+        //        return 1;
+        //    else if (Weight == 0)
+        //        return 0;
+        //    else
+        //        return -1;
+        //}
     };
 
     public GameObject[] NormalPos;
@@ -68,13 +68,15 @@ public class Player : MonoBehaviour
     public GameObject ChargePos;
     public GameObject[] BoomerangPos;
 
+    public int InputGrade;
+
     GameObject[] SubWeapons;
     EqData[] Inventory;
 
     bool IsReload;
     int Coin;
     int BulletType;
-    int InputGrade;
+    
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
@@ -112,7 +114,7 @@ public class Player : MonoBehaviour
                 Inventory[i].Rarity = item.GetRarity();
                 Inventory[i].Value = item.GetEqValue();
                 Inventory[i].UID = item.GetUID();
-                Debug.Log("ADD");
+
                 return i;
             }   
         }
@@ -131,6 +133,7 @@ public class Player : MonoBehaviour
                 Inventory[i].Type = item.Type;
                 Inventory[i].Rarity = item.Rarity;
                 Inventory[i].Value = item.Value;
+                Inventory[i].UID = item.UID;
 
                 return i;
             }
@@ -139,35 +142,35 @@ public class Player : MonoBehaviour
         return -1;
     }
 
-    public void Sort()
-    {
-        InputGrade = -1;
-        Array.Sort(Inventory, 1, MAXINVENTORY);
-        Array.Reverse(Inventory);
-    }
+    //public void Sort()
+    //{
+    //    InputGrade = -1;
+    //    Array.Sort(Inventory);
+    //    Array.Reverse(Inventory);
+    //}
 
-    public void Sort(int Rarity)
-    {
-        //for(int i = 0; i < MAXINVENTORY; i++)
-        //{
-        //    if (Inventory[i] == null)
-        //        return;
+    //public void Sort(int Rarity)
+    //{
+    //    //for(int i = 0; i < MAXINVENTORY; i++)
+    //    //{
+    //    //    if (Inventory[i] == null)
+    //    //        return;
 
-        //    if(Inventory[i].Rarity == Rarity)
-        //    {
-        //        for(int j = i; j > 0; j--)
-        //        {
-        //            if(Inventory[j - 1].Rarity != Rarity)
-        //                Swap(Inventory[j], Inventory[j - 1], j);
-        //        }
+    //    //    if(Inventory[i].Rarity == Rarity)
+    //    //    {
+    //    //        for(int j = i; j > 0; j--)
+    //    //        {
+    //    //            if(Inventory[j - 1].Rarity != Rarity)
+    //    //                Swap(Inventory[j], Inventory[j - 1], j);
+    //    //        }
 
-        //    }
-        //}
+    //    //    }
+    //    //}
 
-        InputGrade = Rarity;
-        Array.Sort(Inventory);
-        Array.Reverse(Inventory);
-    }
+    //    InputGrade = Rarity;
+    //    Array.Sort(Inventory);
+    //    Array.Reverse(Inventory);
+    //}
 
     void Swap(int i, int j)
     {
@@ -238,9 +241,9 @@ public class Player : MonoBehaviour
                     {
                         if(Inventory[j - 1] == null)
                         {
-                            //Swap(j - 1, j);
+                            Swap(j - 1, j);
 
-                            inven.MoveFront(j);
+                            //inven.MoveFront(j);
                             //InventorySlot slot = GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j);
                             //if (slot.Selected.activeSelf)
                             //{
@@ -270,8 +273,8 @@ public class Player : MonoBehaviour
 
         SubWeapons = new GameObject[4];
         MAXINVENTORY = 40;
-        Inventory = new EqData[MAXINVENTORY + 1];
-        for (int i = 1; i <= MAXINVENTORY; i++)
+        Inventory = new EqData[MAXINVENTORY];
+        for (int i = 0; i < MAXINVENTORY; i++)
             Inventory[i] = null;
     }
 

@@ -247,6 +247,8 @@ public class GameManager : MonoBehaviour
             InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
             slot.SetIndex(i);
             slot.SetType(-1);
+            inventory.SetInventory(i, slot);
+            inventorySlot.name = i.ToString();
         }
     }
 }

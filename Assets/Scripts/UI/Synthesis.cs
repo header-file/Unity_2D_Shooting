@@ -134,7 +134,7 @@ public class Synthesis : MonoBehaviour
         if (grade < 0)
             return;
 
-        Player.Sort(grade);
+        //Player.Sort(grade);
 
         for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
@@ -188,6 +188,19 @@ public class Synthesis : MonoBehaviour
                     slot.SetIcon(icon);
                     slot.SetDisable(true);
                     slot.SetGradeSprite(eq.Rarity);
+
+                    switch (eq.Type)
+                    {
+                        case 0:
+                            slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 60.0f);
+                            break;
+                        case 1:
+                            slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                            break;
+                        case 2:
+                            slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
+                            break;
+                    }
                     //Inventories.GetSlot(i).gameObject.SetActive(false);
                 }
                     
@@ -196,6 +209,9 @@ public class Synthesis : MonoBehaviour
                 break;
         }
         //Inventories.transform.GetChild(0).gameObject.SetActive(true);
+        GameManager.Inst().Player.InputGrade = grade;
+
+        Inventories.Sort();
     }
 
     public void ShowConfirmWindow()
@@ -321,7 +337,7 @@ public class Synthesis : MonoBehaviour
         //GameManager.Inst().MakeEquipment(SynthType, rarity, Player.transform);
         int add = Player.AddItem(GameManager.Inst().MakeEuipData(SynthType, rarity));
         EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
-        Player.Sort();
+        //Player.Sort();
         ShowInventory();
 
         //결과창
@@ -348,7 +364,8 @@ public class Synthesis : MonoBehaviour
         EquipDetail.SetActive(false);
         Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite = QuestionSprite;
 
-        Player.Sort();
+        //Player.Sort();
+        Inventories.ShowInventory();
         ResetDisable();
     }
 

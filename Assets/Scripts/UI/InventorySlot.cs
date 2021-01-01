@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
-public class InventorySlot : MonoBehaviour
+public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
 {
     public GameObject EMark;
     public GameObject Selected;
@@ -17,10 +18,16 @@ public class InventorySlot : MonoBehaviour
     int Index = 0;
     int Type = 0;
 
+    int ItemRarity = -1;
+    int ItemType = -1;
+    int ItemUID = -1;
+    int Weight = 0;
+
     public int GetIndex() { return Index; }
     public GameObject GetIcon() { return Icon; }
     public GameObject GetExist() { return Exist; }
     public GameObject GetNotExist() { return NotExist; }
+    public int GetItemUID() { return ItemUID; }
 
     public void SetIndex(int i) { Index = i; }
     public void SetType(int t) { Type = t; }
@@ -28,6 +35,54 @@ public class InventorySlot : MonoBehaviour
     public void SetSelected(bool b) { Selected.SetActive(b); }
     public void SetIcon(Sprite icon) { Icon.GetComponent<Image>().sprite = icon; }
     public void SetGradeSprite(int index) {  Grade.GetComponent<Image>().sprite = Grades[index]; }
+    public void SetItemRarity(int rarity) { ItemRarity = rarity; }
+    public void SetItemType(int type) { ItemType = type; }
+    public void SetItemUID(int id) { ItemUID = id; }
+
+    public int CompareTo(InventorySlot obj)
+    {
+        Weight = 0;
+
+        if(GameManager.Inst().Player.InputGrade == 10)
+        {
+            if (int.Parse(gameObject.name) < int.Parse(obj.name))
+                Weight += 32;
+            else if (int.Parse(gameObject.name) > int.Parse(obj.name))
+                Weight -= 32;
+        }
+
+        if (GameManager.Inst().Player.InputGrade >= 0 && GameManager.Inst().Player.InputGrade < 10)
+        {
+            if (ItemRarity == GameManager.Inst().Player.InputGrade &&
+                obj.ItemRarity != GameManager.Inst().Player.InputGrade)
+                Weight += 16;
+            else if (ItemRarity != GameManager.Inst().Player.InputGrade &&
+                obj.ItemRarity == GameManager.Inst().Player.InputGrade)
+                Weight -= 16;
+        }
+
+        if (ItemRarity > obj.ItemRarity)
+            Weight += 8;
+        else if (ItemRarity < obj.ItemRarity)
+            Weight -= 8;
+
+        if (ItemType < obj.ItemType)
+            Weight += 4;
+        else if (ItemType > obj.ItemType)
+            Weight -= 4;
+
+        if (int.Parse(gameObject.name) < int.Parse(obj.name))
+            Weight += 2;
+        else if (int.Parse(gameObject.name) > int.Parse(obj.name))
+            Weight -= 2;
+
+        if (Weight > 0)
+            return 1;
+        else if (Weight == 0)
+            return 0;
+        else
+            return -1;
+    }
 
     public void SetDisable(bool b)
     {
