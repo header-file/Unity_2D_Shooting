@@ -424,6 +424,9 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSynthesisBtn()
     {
+        InventoryDetail.SetActive(false);
+        Inventory.SetActive(false);
+
         Synthesis.SetActive(true);
         SynthesisUI.ShowInventory();
 

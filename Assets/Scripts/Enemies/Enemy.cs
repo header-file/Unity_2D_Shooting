@@ -119,18 +119,7 @@ public class Enemy : MonoBehaviour
 
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
             explosion.transform.position = transform.position;
-
-            switch(Type)
-            {
-                case EnemyType.SMALL:
-                    explosion.transform.localScale = Vector3.one * 0.1f;
-                    break;
-
-                case EnemyType.MEDIUM:
-                    explosion.transform.localScale = Vector3.one * 0.5f;
-                    break;
-            }
-
+            
             CurHP = Health;
             gameObject.SetActive(false);
 
