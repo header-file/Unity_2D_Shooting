@@ -43,15 +43,23 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     {
         Weight = 0;
 
-        if(GameManager.Inst().Player.InputGrade == 10)
+        if (GameManager.Inst().Player.InputGrade > 10)
+        {
+            if (ItemType == GameManager.Inst().Player.InputGrade - 11 &&
+                obj.ItemType != GameManager.Inst().Player.InputGrade - 11)
+                Weight += 16;
+            else if (ItemType != GameManager.Inst().Player.InputGrade - 11 &&
+                obj.ItemType == GameManager.Inst().Player.InputGrade - 11)
+                Weight -= 16;
+        }
+        else if (GameManager.Inst().Player.InputGrade == 10)
         {
             if (int.Parse(gameObject.name) < int.Parse(obj.name))
-                Weight += 32;
+                Weight += 16;
             else if (int.Parse(gameObject.name) > int.Parse(obj.name))
-                Weight -= 32;
+                Weight -= 16;
         }
-
-        if (GameManager.Inst().Player.InputGrade >= 0 && GameManager.Inst().Player.InputGrade < 10)
+        else if (GameManager.Inst().Player.InputGrade >= 0 && GameManager.Inst().Player.InputGrade < 10)
         {
             if (ItemRarity == GameManager.Inst().Player.InputGrade &&
                 obj.ItemRarity != GameManager.Inst().Player.InputGrade)

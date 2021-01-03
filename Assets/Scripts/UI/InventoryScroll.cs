@@ -10,7 +10,10 @@ public class InventoryScroll : MonoBehaviour
 
     InventorySlot[] Slots;
 
+    int[] SwitchedIndices;
+
     public InventorySlot GetSlot(int index) { return Slots[index]; /*return Contents.transform.GetChild(index + 1).gameObject.GetComponent<InventorySlot>();*/ }
+    public int GetSwitchedIndex(int index) { return SwitchedIndices[index]; }
 
     public void SetInventory(int index, InventorySlot slot) { Slots[index] = slot; }
 
@@ -30,6 +33,9 @@ public class InventoryScroll : MonoBehaviour
     void Start()
     {
         Slots = new InventorySlot[GameManager.Inst().Player.MAXINVENTORY];
+        SwitchedIndices = new int[GameManager.Inst().Player.MAXINVENTORY];
+        for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+            SwitchedIndices[i] = i;
     }
 
     public void ShowInventory()
@@ -100,6 +106,8 @@ public class InventoryScroll : MonoBehaviour
                     Slots[i].GetItemUID() == Contents.transform.GetChild(j + 1).GetComponent<InventorySlot>().GetItemUID())
                 {
                     Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
+
+                    SwitchedIndices[j] = i;
                 }
             }
         }
@@ -128,6 +136,8 @@ public class InventoryScroll : MonoBehaviour
                     Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
                 }
             }
+
+            SwitchedIndices[i] = i;
         }
     }
 

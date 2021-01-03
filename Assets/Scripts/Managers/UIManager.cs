@@ -368,7 +368,7 @@ public class UIManager : MonoBehaviour
     public void OnClickEquipBackBtn()
     {
         EquipUI.DisableSelectedSlot();
-        EquipUI.ResetSwitchWindows();
+        EquipUI.Reset();
         EquipUI.SetIsShowingSwitch(false);
         ConfirmSwitch.SetActive(false);
         Equip.SetActive(false);
