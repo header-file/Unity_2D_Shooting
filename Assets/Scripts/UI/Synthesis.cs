@@ -126,6 +126,7 @@ public class Synthesis : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(2);
 
+        Inventories.ResetInventory();
         Inventories.ShowInventory();
     }
 
@@ -134,7 +135,7 @@ public class Synthesis : MonoBehaviour
         if (grade < 0)
             return;
 
-        //Player.Sort(grade);
+        Inventories.ResetInventory();
 
         for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
@@ -180,7 +181,7 @@ public class Synthesis : MonoBehaviour
                 else
                 {
                     Sprite icon = eq.Icon;
-                    InventorySlot slot = Inventories.GetSlot(i);
+                    InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(i));
                     slot.gameObject.SetActive(true);
 
                     slot.GetNotExist().SetActive(false);
@@ -226,6 +227,16 @@ public class Synthesis : MonoBehaviour
 
     public void SetButtons(int index)
     {
+        //기존에 선택된 장비랑 같은 장비일 때
+        for (int i = 0; i < 3; i++)
+        {
+            if (SelectedIndex[CurrentIndex] > -1)
+            {
+                if (CurrentIndex != i && index == SelectedIndex[i])
+                    return;
+            }
+        }
+
         Player.EqData eq = Player.GetItem(index);
         if (eq != null)
         {
@@ -242,7 +253,7 @@ public class Synthesis : MonoBehaviour
                         Buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = OriginalSprite;
                         Lines.transform.GetChild(i).GetComponent<Image>().material.SetColor("_GlowColor", Color.black);
                         if (SelectedIndex[i] > -1)
-                            Inventories.GetSlot(SelectedIndex[i]).Selected.SetActive(false);
+                            Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).SetChecked(false);
                         SelectedIndex[i] = -1;
                     }
                     
@@ -251,7 +262,7 @@ public class Synthesis : MonoBehaviour
             }
             else
             {
-                if (SelectedIndex[0] == -1)
+                if (SelectedIndex[0] <= -1)
                     return;
             }
 
@@ -266,11 +277,11 @@ public class Synthesis : MonoBehaviour
             ShowSelectDetail(eq);
 
             if(SelectedIndex[CurrentIndex] != -1)
-                Inventories.GetSlot(SelectedIndex[CurrentIndex]).Selected.SetActive(false);
+                Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[CurrentIndex])).SetChecked(false);
             SelectedIndex[CurrentIndex] = index;
-            Inventories.GetSlot(index).Selected.SetActive(true);
+            Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).SetChecked(true);
 
-            if(InputTypes[0] > -1 && InputTypes[1] > -1)
+            if (InputTypes[0] > -1 && InputTypes[1] > -1)
             {
                 if (InputTypes[0] == InputTypes[1])
                     Lines.transform.GetChild(0).GetComponent<Image>().material.SetColor("_GlowColor", Colors[InputTypes[0]]);
@@ -353,8 +364,12 @@ public class Synthesis : MonoBehaviour
         {
             Buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = OriginalSprite;
             Lines.transform.GetChild(i).GetComponent<Image>().material.SetColor("_GlowColor", Color.black);
-            //if(SelectedIndex[i] > -1)
-            //    Inventories.GetSlot(SelectedIndex[i]).Selected.SetActive(false);
+            if(SelectedIndex[i] > -1)
+            {
+                Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).SetSelected(false);
+                Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).SetChecked(false);
+            }
+                
             SelectedIndex[i] = -1;
             InputTypes[i] = -1;
         }
@@ -365,7 +380,7 @@ public class Synthesis : MonoBehaviour
         Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite = QuestionSprite;
 
         //Player.Sort();
-        Inventories.ShowInventory();
+        Inventories.ResetInventory();
         ResetDisable();
     }
 
@@ -374,10 +389,7 @@ public class Synthesis : MonoBehaviour
         for (int i = 0; i < Player.MAXINVENTORY; i++)
         {
             if (Player.GetItem(i) != null)
-            {
-                Inventories.GetSlot(i).SetDisable(false);
-                Inventories.GetSlot(i).Selected.SetActive(false);
-            }
+                Inventories.GetSlot(Inventories.GetSwitchedIndex(i)).SetDisable(false);
                 
         }
     }
@@ -400,6 +412,12 @@ public class Synthesis : MonoBehaviour
     public void CloseDetail()
     {
         SelectDetail.SetActive(false);
+
+        for(int i = 0; i < 3; i++)
+        {
+            if (SelectedIndex[i] > -1)
+                Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).SetSelected(false);
+        }
     }
 
     public void ShowUnEquipConfirm(int index)

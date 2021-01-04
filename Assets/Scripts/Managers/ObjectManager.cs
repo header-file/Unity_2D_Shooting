@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
+    public GameObject Pool;
+
     public GameObject Enemy_SPref;
     public GameObject Enemy_MPref;
     public GameObject Enemy_LPref;
@@ -216,6 +218,7 @@ public class ObjectManager : MonoBehaviour
         {
             Enemies_S[i] = Instantiate(Enemy_SPref);
             Enemies_S[i].GetComponent<Enemy>().SetDatas(data, 0);
+            Enemies_S[i].transform.SetParent(Pool.transform, false);
             Enemies_S[i].SetActive(false);
         }
 
@@ -223,6 +226,7 @@ public class ObjectManager : MonoBehaviour
         {
             Enemies_M[i] = Instantiate(Enemy_MPref);
             Enemies_M[i].GetComponent<Enemy>().SetDatas(data, 1);
+            Enemies_M[i].transform.SetParent(Pool.transform, false);
             Enemies_M[i].SetActive(false);
         }
 
@@ -230,6 +234,7 @@ public class ObjectManager : MonoBehaviour
         {
             Enemies_L[i] = Instantiate(Enemy_LPref);
             Enemies_L[i].GetComponent<Enemy>().SetDatas(data, 2);
+            Enemies_L[i].transform.SetParent(Pool.transform, false);
             Enemies_L[i].SetActive(false);
         }
 
@@ -237,24 +242,28 @@ public class ObjectManager : MonoBehaviour
         for (int i = 0; i < Coins.Length; i++)
         {
             Coins[i] = Instantiate(CoinPref);
+            Coins[i].transform.SetParent(Pool.transform, false);
             Coins[i].SetActive(false);
         }
 
         for (int i = 0; i < EqAttacks.Length; i++)
         {
             EqAttacks[i] = Instantiate(EqAttackPref);
+            EqAttacks[i].transform.SetParent(Pool.transform, false);
             EqAttacks[i].SetActive(false);
         }
 
         for (int i = 0; i < EqRanges.Length; i++)
         {
             EqRanges[i] = Instantiate(EqRangePref);
+            EqRanges[i].transform.SetParent(Pool.transform, false);
             EqRanges[i].SetActive(false);
         }
 
         for (int i = 0; i < EqSpeeds.Length; i++)
         {
             EqSpeeds[i] = Instantiate(EqSpeedPref);
+            EqSpeeds[i].transform.SetParent(Pool.transform, false);
             EqSpeeds[i].SetActive(false);
         }
 
@@ -267,6 +276,7 @@ public class ObjectManager : MonoBehaviour
             {
                 Normals[j, i] = Instantiate(NormalPref[j]);
                 Normals[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Normals[j, i].transform.SetParent(Pool.transform, false);
                 Normals[j, i].SetActive(false);
             }
         }
@@ -277,6 +287,7 @@ public class ObjectManager : MonoBehaviour
             {
                 Spreads[j, i] = Instantiate(SpreadPref[j]);
                 Spreads[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Spreads[j, i].transform.SetParent(Pool.transform, false);
                 Spreads[j, i].SetActive(false);
             }
         }
@@ -287,6 +298,7 @@ public class ObjectManager : MonoBehaviour
             {
                 Missiles[j, i] = Instantiate(MissilePref[j]);
                 Missiles[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Missiles[j, i].transform.SetParent(Pool.transform, false);
                 Missiles[j, i].SetActive(false);
             }
         }
@@ -297,6 +309,7 @@ public class ObjectManager : MonoBehaviour
             {
                 Lasers[j, i] = Instantiate(LaserPref[j]);
                 Lasers[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Lasers[j, i].transform.SetParent(Pool.transform, false);
                 Lasers[j, i].SetActive(false);
             }
         }
@@ -307,6 +320,7 @@ public class ObjectManager : MonoBehaviour
             {
                 Charges[j, i] = Instantiate(ChargePref[j]);
                 Charges[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Charges[j, i].transform.SetParent(Pool.transform, false);
                 Charges[j, i].SetActive(false);
             }
         }
@@ -317,6 +331,7 @@ public class ObjectManager : MonoBehaviour
             {
                 Boomerangs[j, i] = Instantiate(BoomerangPref[j]);
                 Boomerangs[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Boomerangs[j, i].transform.SetParent(Pool.transform, false);
                 Boomerangs[j, i].SetActive(false);
             }
         }
@@ -327,6 +342,7 @@ public class ObjectManager : MonoBehaviour
             {
                 Splits[j, i] = Instantiate(SplitPref[j]);
                 Splits[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Splits[j, i].transform.SetParent(Pool.transform, false);
                 Splits[j, i].SetActive(false);
             }
         }
@@ -337,6 +353,7 @@ public class ObjectManager : MonoBehaviour
             {
                 Pieces[j, i] = Instantiate(PiecePref[j]);
                 Pieces[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Pieces[j, i].transform.SetParent(Pool.transform, false);
                 Pieces[j, i].SetActive(false);
             }
         }
@@ -348,6 +365,7 @@ public class ObjectManager : MonoBehaviour
             SubWeapon sub = SubWeapons[i].gameObject.GetComponent<SubWeapon>();
             GameManager.Inst().SetSubWeapons(sub, i);
             GameManager.Inst().SubWID[i] = SubWeapons[i].GetInstanceID();
+            SubWeapons[i].transform.SetParent(Pool.transform, false);
             SubWeapons[i].SetActive(false);
         }
 
@@ -355,18 +373,21 @@ public class ObjectManager : MonoBehaviour
         for(int i = 0; i < DmgTexts.Length; i++)
         {
             DmgTexts[i] = Instantiate(DmgTextPref);
+            DmgTexts[i].transform.SetParent(Pool.transform, false);
             DmgTexts[i].SetActive(false);
         }
 
         for(int i = 0; i < InventorySlots.Length; i++)
         {
             InventorySlots[i] = Instantiate(InventorySlotPref);
+            InventorySlots[i].transform.SetParent(Pool.transform, false);
             InventorySlots[i].SetActive(false);
         }
 
         for(int i = 0; i < Lines.Length; i++)
         {
             Lines[i] = Instantiate(LinePref);
+            Lines[i].transform.SetParent(Pool.transform, false);
             Lines[i].SetActive(false);
         }
 
@@ -374,6 +395,7 @@ public class ObjectManager : MonoBehaviour
         for (int i = 0; i < Explosions.Length; i++)
         {
             Explosions[i] = Instantiate(ExplosionPref);
+            Explosions[i].transform.SetParent(Pool.transform, false);
             Explosions[i].SetActive(false);
         }
     }

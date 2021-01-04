@@ -106,10 +106,10 @@ public class InventoryScroll : MonoBehaviour
                     Slots[i].GetItemUID() == Contents.transform.GetChild(j + 1).GetComponent<InventorySlot>().GetItemUID())
                 {
                     Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
-
-                    SwitchedIndices[j] = i;
                 }
             }
+
+            SwitchedIndices[int.Parse(Slots[i].name)] = i;
         }
     }
 

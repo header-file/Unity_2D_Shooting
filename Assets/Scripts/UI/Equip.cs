@@ -50,12 +50,12 @@ public class Equip : MonoBehaviour
         if (SelectedIndex <= -1)
             return;
 
-        for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-        {
-            if (Inventories.GetSlot(i).GetItemUID() == GameManager.Inst().Player.GetItem(SelectedIndex).UID)
-                Inventories.GetSlot(i).SetSelected(false);
-        }
-        
+        //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+        //{
+        //    if (Inventories.GetSlot(i).GetItemUID() == GameManager.Inst().Player.GetItem(SelectedIndex).UID)
+        //        Inventories.GetSlot(i).SetSelected(false);
+        //}
+        Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex)).SetSelected(false);
     }
 
     void Start()
@@ -242,11 +242,12 @@ public class Equip : MonoBehaviour
             if (Selected[BulletType, i] > -1)
             {
                 Sprite img = GameManager.Inst().Player.GetItem(Selected[BulletType, i]).Icon;
+                int grade = GameManager.Inst().Player.GetItem(Selected[BulletType, i]).Rarity;
 
-                SwitchWindows.transform.GetChild(index).GetComponent<SwitchWindow>().SetButtons(i, true, img);
+                SwitchWindows.transform.GetChild(index).GetComponent<SwitchWindow>().SetButtons(i, true, img, grade);
             }
             else
-                SwitchWindows.transform.GetChild(index).GetComponent<SwitchWindow>().SetButtons(i, false, OriginalSprite);
+                SwitchWindows.transform.GetChild(index).GetComponent<SwitchWindow>().SetButtons(i, false, OriginalSprite, -1);
         }
     }
 
@@ -303,21 +304,23 @@ public class Equip : MonoBehaviour
         }
         if (SelectedIndex > -1)
         {
-            for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-            {
-                if (Inventories.GetSlot(i).GetItemUID() == GameManager.Inst().Player.GetItem(SelectedIndex).UID)
-                    Inventories.GetSlot(i).SetSelected(false);
-            }
+            //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+            //{
+            //    if (Inventories.GetSlot(i).GetItemUID() == GameManager.Inst().Player.GetItem(SelectedIndex).UID)
+            //        Inventories.GetSlot(i).SetSelected(false);
+            //}
+            Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex)).SetSelected(false);
         }
 
         SelectedIndex = index;
 
-        for(int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-        {
-            if(Inventories.GetSlot(i).GetItemUID() == GameManager.Inst().Player.GetItem(index).UID)
-                Inventories.GetSlot(i).SetSelected(true);
-        }
-        
+        //for(int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+        //{
+        //    if(Inventories.GetSlot(i).GetItemUID() == GameManager.Inst().Player.GetItem(index).UID)
+        //        Inventories.GetSlot(i).SetSelected(true);
+        //}
+        Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).SetSelected(true);
+
         IsShowingSwitch = true;
     }
 
@@ -414,7 +417,7 @@ public class Equip : MonoBehaviour
             {
                 if (SlotIndices[i] == BulletType)
                 {
-                    SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, true, eq.Icon);
+                    SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, true, eq.Icon, eq.Rarity);
                     PaintGauge(i, (int)SelectableType, eq.Value);
                     break;
                 }
@@ -424,16 +427,19 @@ public class Equip : MonoBehaviour
             LastIndex[BulletType, (int)SelectableType] = index;
 
             //E마크
-            for(int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-            {
-                InventorySlot slot = Inventories.GetSlot(i);
-                if (slot.GetItemUID() == eq.UID)
-                {
-                    slot.SetEmark(true);
-                    slot.SetSelected(false);
-                    break;
-                }
-            }            
+            //for(int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+            //{
+            //    InventorySlot slot = Inventories.GetSlot(i);
+            //    if (slot.GetItemUID() == eq.UID)
+            //    {
+            //        slot.SetEmark(true);
+            //        slot.SetSelected(false);
+            //        break;
+            //    }
+            //}
+            InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(index));
+            slot.SetEmark(true);
+            slot.SetSelected(false);
 
             //PaintGauge(ShowBulletType, (int)SelectableType, eq.Value);            
 
@@ -469,16 +475,19 @@ public class Equip : MonoBehaviour
         else
         {
             //E마크
-            for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-            {
-                InventorySlot slot = Inventories.GetSlot(i);
-                if (slot.GetItemUID() == GameManager.Inst().Player.GetItem(LastIndex[BulletType, (int)SelectableType]).UID)
-                {
-                    slot.SetEmark(false);
-                    slot.SetSelected(false);
-                    break;
-                }
-            }
+            //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+            //{
+            //    InventorySlot slot = Inventories.GetSlot(i);
+            //    if (slot.GetItemUID() == GameManager.Inst().Player.GetItem(LastIndex[BulletType, (int)SelectableType]).UID)
+            //    {
+            //        slot.SetEmark(false);
+            //        slot.SetSelected(false);
+            //        break;
+            //    }
+            //}
+            InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(LastIndex[BulletType, (int)SelectableType]));
+            slot.SetEmark(false);
+            slot.SetSelected(false);
 
             Select(index, BulletType);
         }
@@ -486,11 +495,12 @@ public class Equip : MonoBehaviour
 
     public void SwitchCancel()
     {
-        for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-        {
-            if (Inventories.GetSlot(i).GetItemUID() == GameManager.Inst().Player.GetItem(SelectedIndex).UID)
-                Inventories.GetSlot(i).SetSelected(false);
-        }
+        //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+        //{
+        //    if (Inventories.GetSlot(i).GetItemUID() == GameManager.Inst().Player.GetItem(SelectedIndex).UID)
+        //        Inventories.GetSlot(i).SetSelected(false);
+        //}
+        Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex)).SetSelected(false);
                 
         if (Selected[CurBulletType, (int)SelectableType] > -1)
             PaintGauge(ShowBulletType, (int)SelectableType, GameManager.Inst().Player.GetItem(Selected[CurBulletType, (int)SelectableType]).Value);
@@ -552,21 +562,22 @@ public class Equip : MonoBehaviour
 
     public void Unequip(int BulletType)
     {
-        SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, false, OriginalSprite);
+        SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, false, OriginalSprite, -1);
         //PaintGauge(ShowBulletType, , 0.0f);
 
         //E마크
         if (LastIndex[BulletType, (int)SelectableType] > -1)
         {
-            for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-            {
-                InventorySlot slot = Inventories.GetSlot(i);
-                if (slot.GetItemUID() == GameManager.Inst().Player.GetItem(LastIndex[BulletType, (int)SelectableType]).UID)
-                {
-                    slot.SetEmark(false);
-                    break;
-                }
-            }
+            //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+            //{
+            //    InventorySlot slot = Inventories.GetSlot(i);
+            //    if (slot.GetItemUID() == GameManager.Inst().Player.GetItem(LastIndex[BulletType, (int)SelectableType]).UID)
+            //    {
+            //        slot.SetEmark(false);
+            //        break;
+            //    }
+            //}
+            Inventories.GetSlot(Inventories.GetSwitchedIndex(LastIndex[BulletType, (int)SelectableType])).SetEmark(false);
         }
 
         if (LastIndex[BulletType, (int)SelectableType] != -1 && Selected[BulletType, (int)SelectableType] == LastIndex[BulletType, (int)SelectableType])
@@ -576,7 +587,7 @@ public class Equip : MonoBehaviour
         {
             if(SlotIndices[i] == BulletType)
             {
-                SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, false, OriginalSprite);
+                SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, false, OriginalSprite, -1);
                 PaintGauge(i, (int)SelectableType, 0.0f);
                 break;
             }
@@ -599,21 +610,22 @@ public class Equip : MonoBehaviour
 
     public void Unequip(int BulletType, int EquipType)
     {
-        SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons(EquipType, false, OriginalSprite);
+        SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons(EquipType, false, OriginalSprite, -1);
         //PaintGauge(ShowBulletType, , 0.0f);
 
         //E마크
         if (LastIndex[BulletType, EquipType] > -1)
         {
-            for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-            {
-                InventorySlot slot = Inventories.GetSlot(i);
-                if (slot.GetItemUID() == GameManager.Inst().Player.GetItem(LastIndex[BulletType, EquipType]).UID)
-                {
-                    slot.SetEmark(false);
-                    break;
-                }
-            }
+            //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+            //{
+            //    InventorySlot slot = Inventories.GetSlot(i);
+            //    if (slot.GetItemUID() == GameManager.Inst().Player.GetItem(LastIndex[BulletType, EquipType]).UID)
+            //    {
+            //        slot.SetEmark(false);
+            //        break;
+            //    }
+            //}
+            Inventories.GetSlot(Inventories.GetSwitchedIndex(LastIndex[BulletType, EquipType])).SetEmark(false);
         }
 
         if (LastIndex[BulletType, EquipType] != -1 && Selected[BulletType, EquipType] == LastIndex[BulletType, EquipType])
@@ -623,7 +635,7 @@ public class Equip : MonoBehaviour
         {
             if (SlotIndices[i] == BulletType)
             {
-                SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>().SetButtons(EquipType, false, OriginalSprite);
+                SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>().SetButtons(EquipType, false, OriginalSprite, -1);
                 PaintGauge(i, EquipType, 0.0f);
                 break;
             }
@@ -677,7 +689,7 @@ public class Equip : MonoBehaviour
             ArrowButtons.transform.GetChild(i).GetComponent<Button>().interactable = false;
     }
 
-    public void Reset()
+    public void ResetEquip()
     {
         SwitchWindows.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         SwitchWindows.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition = new Vector2(-720.0f, 0.0f);

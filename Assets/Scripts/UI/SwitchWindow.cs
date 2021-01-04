@@ -8,21 +8,26 @@ public class SwitchWindow : MonoBehaviour
     public GameObject[] Buttons;
     public GameObject[] Gauges;
     public Image CurrentBuletImg;
-
+    public GameObject[] Grades;
 
     public void SetCurrentBulletImg(Sprite sprite) { CurrentBuletImg.sprite = sprite; }
 
-    public void SetButtons(int index, bool b, Sprite img)
+    public void SetButtons(int index, bool b, Sprite img, int grade)
     {
         if(b)
         {
-            Buttons[index].transform.GetChild(0).gameObject.SetActive(false);
-            Buttons[index].transform.gameObject.GetComponent<Image>().sprite = img;
+            Buttons[index].transform.GetChild(2).gameObject.SetActive(false);
+            Buttons[index].transform.GetChild(1).GetComponent<Image>().sprite = img;
+
+            Grades[index].transform.GetChild(grade).gameObject.SetActive(true);
         }
         else
         {
-            Buttons[index].transform.GetChild(0).gameObject.SetActive(true);
-            Buttons[index].transform.gameObject.GetComponent<Image>().sprite = img;
+            Buttons[index].transform.GetChild(2).gameObject.SetActive(true);
+            Buttons[index].transform.GetChild(1).GetComponent<Image>().sprite = img;
+
+            for (int i = 0; i < 5; i++)
+                Grades[index].transform.GetChild(i).gameObject.SetActive(false);
         }
     }
 

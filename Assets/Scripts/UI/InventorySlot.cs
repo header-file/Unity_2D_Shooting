@@ -14,6 +14,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     public GameObject Disable;
     public Sprite[] Grades;
     public GameObject Grade;
+    public GameObject Checked;
 
     int Index = 0;
     int Type = 0;
@@ -33,6 +34,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     public void SetType(int t) { Type = t; }
     public void SetEmark(bool b) { EMark.SetActive(b); }
     public void SetSelected(bool b) { Selected.SetActive(b); }
+    public void SetChecked(bool b) { Checked.SetActive(b); }
     public void SetIcon(Sprite icon) { Icon.GetComponent<Image>().sprite = icon; }
     public void SetGradeSprite(int index) {  Grade.GetComponent<Image>().sprite = Grades[index]; }
     public void SetItemRarity(int rarity) { ItemRarity = rarity; }
@@ -59,7 +61,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
             else if (int.Parse(gameObject.name) > int.Parse(obj.name))
                 Weight -= 16;
         }
-        else if (GameManager.Inst().Player.InputGrade >= 0 && GameManager.Inst().Player.InputGrade < 10)
+        else if (GameManager.Inst().Player.InputGrade >= 0)
         {
             if (ItemRarity == GameManager.Inst().Player.InputGrade &&
                 obj.ItemRarity != GameManager.Inst().Player.InputGrade)
