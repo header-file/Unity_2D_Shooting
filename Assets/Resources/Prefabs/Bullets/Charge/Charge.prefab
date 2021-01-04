@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 5096001656881782263}
   - component: {fileID: 8549213878525828292}
   - component: {fileID: 8149898688013356945}
+  - component: {fileID: 1396892656413902004}
   m_Layer: 0
-  m_Name: Player Bullet 2
+  m_Name: Charge
   m_TagString: PierceBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,13 +74,13 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 4791531852031671115, guid: 4854c03c0de59db4e956fef7057407d3,
+  m_Sprite: {fileID: -3397944032635174822, guid: 0e47ea17439cdbb4eaec045acb60d192,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.16666667, y: 0.29166666}
+  m_Size: {x: 0.48, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -134,3 +135,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922516aca71a2dc49a5df20d6a86c0b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GlowColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &1396892656413902004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429405220833893478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b6a82c50630b8148b4a4c877f45d324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetTime: 3
+  IsStart: 0
