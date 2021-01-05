@@ -80,6 +80,7 @@ public class InventoryScroll : MonoBehaviour
 
                 slot.SetItemRarity(-1);
                 slot.SetItemType(-1);
+                slot.SetItemUID(-1);
             }
         }
 
@@ -98,14 +99,14 @@ public class InventoryScroll : MonoBehaviour
         {
             for (int j = 0; j < GameManager.Inst().Player.MAXINVENTORY; j++)
             {
-                if (GameManager.Inst().Player.GetItem(j) == null)
-                    continue;
+                if (Slots[i] == null)
+                    break;
 
                 if (Slots[i].GetItemUID() != -1 &&
-                    //Slots[i].GetItemUID() == GameManager.Inst().Player.GetItem(j).UID)
                     Slots[i].GetItemUID() == Contents.transform.GetChild(j + 1).GetComponent<InventorySlot>().GetItemUID())
                 {
                     Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
+                    break;
                 }
             }
 
@@ -141,35 +142,35 @@ public class InventoryScroll : MonoBehaviour
         }
     }
 
-    void QuickSort(InventorySlot[] array, int p, int r)
-    {
-        if (p < r)
-        {
-            int q = Partition(array, p, r);
-            QuickSort(array, p, q - 1);
-            QuickSort(array, q + 1, r);
-        }
-    }
+    //void QuickSort(InventorySlot[] array, int p, int r)
+    //{
+    //    if (p < r)
+    //    {
+    //        int q = Partition(array, p, r);
+    //        QuickSort(array, p, q - 1);
+    //        QuickSort(array, q + 1, r);
+    //    }
+    //}
 
-    int Partition(InventorySlot[] array, int p, int r)
-    {
-        int q = p;
-        for (int j = p; j < r; j++)
-        {
-            if (array[j].CompareTo(array[r]) == -1)
-            {
-                Swap(array, q, j);
-                q++;
-            }
-        }
-        Swap(array, q, r);
-        return q;
-    }
+    //int Partition(InventorySlot[] array, int p, int r)
+    //{
+    //    int q = p;
+    //    for (int j = p; j < r; j++)
+    //    {
+    //        if (array[j].CompareTo(array[r]) == -1)
+    //        {
+    //            Swap(array, q, j);
+    //            q++;
+    //        }
+    //    }
+    //    Swap(array, q, r);
+    //    return q;
+    //}
 
-    void Swap(InventorySlot[] array, int beforeIndex, int foreIndex)
-    {
-        var tmp = array[beforeIndex];
-        array[beforeIndex] = array[foreIndex];
-        array[foreIndex] = tmp;
-    }
+    //void Swap(InventorySlot[] array, int beforeIndex, int foreIndex)
+    //{
+    //    var tmp = array[beforeIndex];
+    //    array[beforeIndex] = array[foreIndex];
+    //    array[foreIndex] = tmp;
+    //}
 }

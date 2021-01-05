@@ -25,12 +25,22 @@ public class SubWeapon : MonoBehaviour
     int CoolTime;
 
     const int COOLTIME = 5;
-    
+    int MaxHP;
+    int CurHP;
 
     public int GetBulletType() { return BulletType; }
+    public int GetCurHP() { return CurHP; }
     
     public void SetBulletType(int T) { BulletType = T; }
     public void SetNumID(int id) { NumID = id; }
+
+    public void Damage(int damage)
+    {
+        CurHP -= damage;
+
+        if (CurHP <= 0)
+            Dead();
+    }
     
     void Awake()
     {
@@ -44,6 +54,8 @@ public class SubWeapon : MonoBehaviour
         Arrow.SetActive(false);
         IsAlive = true;
         CoolTime = 0;
+
+        MaxHP = CurHP = 100;
     }
 
     void Update()
@@ -137,7 +149,9 @@ public class SubWeapon : MonoBehaviour
         IsDown = false;
         SpriteRenderer.sprite = Sprites[1];
 
-        CoolTime = COOLTIME;        
+        CoolTime = COOLTIME;
+
+        CurHP = MaxHP;
 
         int id = NumID;
         if (id > 1)

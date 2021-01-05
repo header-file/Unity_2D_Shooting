@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
         }
 
         //TxtManager.SetSLevel(UpgManager.GetSubWeaponLevel());
-        TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice());
+        TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));
     }
 
     void SetColor()

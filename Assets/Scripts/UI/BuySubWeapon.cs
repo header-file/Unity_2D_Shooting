@@ -26,7 +26,9 @@ public class BuySubWeapon : MonoBehaviour
         gameObject.SetActive(true);
         //Time.timeScale = 0.0f;
         SelectedIndex = index;
-        GameManager.Inst().TxtManager.SetSPrice(GameManager.Inst().UpgManager.GetSubWeaponPrice());
+        GameManager.Inst().UpgManager.SetCurrentSubWeaponIndex(index);
+
+        GameManager.Inst().TxtManager.SetSPrice(GameManager.Inst().UpgManager.GetSubWeaponPrice(index));
         GameManager.Inst().TxtManager.SetSName(index);
         
         if (!BuyBtn.IsInteractable())
@@ -36,13 +38,12 @@ public class BuySubWeapon : MonoBehaviour
     public void Cancel()
     {
         SelectedIndex = -1;
-        Time.timeScale = 1.0f;
+        //Time.timeScale = 1.0f;
         gameObject.SetActive(false);
     }
 
     public void Buy()
     {
-        
         GameManager.Inst().UpgManager.AddLevel((int)UpgradeManager.UpgradeType.SUBWEAPON);
     }
 }

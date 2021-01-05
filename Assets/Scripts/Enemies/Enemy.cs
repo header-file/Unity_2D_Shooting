@@ -185,7 +185,7 @@ public class Enemy : MonoBehaviour
             {
                 if (HitArea.HitObjects[i] == null)
                     continue;
-                HitArea.HitObjects[i].GetComponent<SubWeapon>().Dead();
+                HitArea.HitObjects[i].GetComponent<SubWeapon>().Damage(Atk);
                 HitArea.HitObjects[i] = null;
             }
 

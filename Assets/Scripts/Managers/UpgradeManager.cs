@@ -96,12 +96,15 @@ public class UpgradeManager : MonoBehaviour
     public GameObject[] SubPositions;
 
     BulletData[] BData;
-    int SubWeaponLevel;
-    int SubWeaponPrice;
+    int[] SubWeaponLevel;
+    int[] SubWeaponPrice;
+    int CurrentSubWeaponIndex;
 
     public BulletData GetBData(int index) { return BData[index]; }
-    public int GetSubWeaponLevel() { return SubWeaponLevel; }
-    public int GetSubWeaponPrice() { return SubWeaponPrice; }
+    public int GetSubWeaponLevel(int index) { return SubWeaponLevel[index]; }
+    public int GetSubWeaponPrice(int index) { return SubWeaponPrice[index]; }
+
+    public void SetCurrentSubWeaponIndex(int selectedIndex) { CurrentSubWeaponIndex = selectedIndex; }
 
     void Awake()
     {
@@ -114,35 +117,14 @@ public class UpgradeManager : MonoBehaviour
             BData[i].SetDatas(data, i);
         }
 
-        SubWeaponLevel = 0;
-        SubWeaponPrice = 1000;
-        
-        //BData[(int)Bullet.BulletType.NORMAL].SetPowerLevel(1);
-        //BData[(int)Bullet.BulletType.NORMAL].SetPrice();
-        //BData[(int)Bullet.BulletType.NORMAL].SetSpeed(10.0f);
-        //BData[(int)Bullet.BulletType.NORMAL].SetReloadTime(0.5f);
-
-        //BData[(int)Bullet.BulletType.SPREAD].SetSpeed(5.0f);
-        //BData[(int)Bullet.BulletType.SPREAD].SetReloadTime(1.0f);
-        //BData[(int)Bullet.BulletType.SPREAD].SetDuration(0.75f);
-
-        //BData[(int)Bullet.BulletType.MISSILE].SetSpeed(3.0f);
-        //BData[(int)Bullet.BulletType.MISSILE].SetReloadTime(1.5f);
-        //BData[(int)Bullet.BulletType.MISSILE].SetDuration(2.0f);
-
-        //BData[(int)Bullet.BulletType.LASER].SetReloadTime(5.0f);
-        //BData[(int)Bullet.BulletType.LASER].SetDuration(0.05f);
-
-        //BData[(int)Bullet.BulletType.CHARGE].SetSpeed(15.0f);
-        //BData[(int)Bullet.BulletType.CHARGE].SetReloadTime(2.0f);
-        //BData[(int)Bullet.BulletType.CHARGE].SetDuration(1.0f);
-
-        //BData[(int)Bullet.BulletType.BOOMERANG].SetSpeed(2.0f);
-        //BData[(int)Bullet.BulletType.BOOMERANG].SetReloadTime(1.5f);
-        //BData[(int)Bullet.BulletType.BOOMERANG].SetDuration(3.0f);
-
-        //BData[(int)Bullet.BulletType.SPLIT].SetSpeed(5.0f);
-        //BData[(int)Bullet.BulletType.SPLIT].SetReloadTime(2.0f);
+        SubWeaponLevel = new int[4];
+        SubWeaponPrice = new int[4];
+        for(int i = 0; i < 4; i++)
+        {
+            SubWeaponLevel[i] = 0;
+            SubWeaponPrice[i] = 1000;
+        }
+        CurrentSubWeaponIndex = -1;
     }
 
     void Start()
@@ -373,27 +355,28 @@ public class UpgradeManager : MonoBehaviour
                 break;
 
             case UpgradeType.SUBWEAPON:
-                if (SubWeaponLevel >= MaxSubWeaponLevel)
+                if (SubWeaponLevel[CurrentSubWeaponIndex] >= MaxSubWeaponLevel)
                     return;
 
                 //가격
-                if (GameManager.Inst().Player.GetCoin() < SubWeaponPrice)
+                if (GameManager.Inst().Player.GetCoin() < SubWeaponPrice[CurrentSubWeaponIndex])
                     return;
                 else
-                    GameManager.Inst().Player.MinusCoin(SubWeaponPrice);
+                    GameManager.Inst().Player.MinusCoin(SubWeaponPrice[CurrentSubWeaponIndex]);
 
                 //BData 처리
-                AddSW();
+                if(SubWeaponLevel[CurrentSubWeaponIndex] == 0)
+                    AddSW();
 
-                SubWeaponLevel++;
-                if (SubWeaponLevel < 4)
-                    SubWeaponPrice = (int)Mathf.Pow(10, (float)(SubWeaponLevel + 3));
+                SubWeaponLevel[CurrentSubWeaponIndex]++;
+                if (SubWeaponLevel[CurrentSubWeaponIndex] < 4)
+                    SubWeaponPrice[CurrentSubWeaponIndex] = (int)Mathf.Pow(10, (float)(SubWeaponLevel[CurrentSubWeaponIndex] + 3));
                 else
-                    SubWeaponPrice = 0;
+                    SubWeaponPrice[CurrentSubWeaponIndex] = 0;
 
                 //UI
                 //GameManager.Inst().TxtManager.SetSLevel(SubWeaponLevel);
-                GameManager.Inst().TxtManager.SetSPrice(SubWeaponPrice);
+                GameManager.Inst().TxtManager.SetSPrice(SubWeaponPrice[CurrentSubWeaponIndex]);
                 GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
                 GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
 
@@ -404,12 +387,13 @@ public class UpgradeManager : MonoBehaviour
     public void AddSW()
     {
         GameObject subWeapon = GameManager.Inst().ObjManager.MakeObj("SubWeapon");
-        int index = GameManager.Inst().UiManager.NewWindows[(int)UIManager.NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>().GetSelectedIndex();
-        Vector3 pos = SubPositions[index].transform.position;
+        //int index = GameManager.Inst().UiManager.NewWindows[(int)UIManager.NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>().GetSelectedIndex();
+        int index = CurrentSubWeaponIndex;
+        Vector3 pos = SubPositions[CurrentSubWeaponIndex].transform.position;
         subWeapon.transform.position = pos;
         SubWeapon sub = subWeapon.GetComponent<SubWeapon>();
 
-        GameManager.Inst().SetSubWeapons(sub, index);
+        GameManager.Inst().SetSubWeapons(sub, CurrentSubWeaponIndex);
         if (index > 1)
             index++;
         subWeapon.GetComponent<SubWeapon>().SetNumID(index);

@@ -238,6 +238,9 @@ public class Synthesis : MonoBehaviour
         }
 
         Player.EqData eq = Player.GetItem(index);
+        if (eq.Rarity >= 4)
+            return;
+
         if (eq != null)
         {
             //첫번째 버튼일 때
