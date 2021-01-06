@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class SubWeapon : MonoBehaviour
@@ -10,6 +11,8 @@ public class SubWeapon : MonoBehaviour
     public GameObject LaserPos;
     public GameObject ChargePos;
     public GameObject Arrow;
+    public GameObject HPBarCanvas;
+    public Image HPBar;
 
     public Sprite[] Sprites;
 
@@ -33,13 +36,21 @@ public class SubWeapon : MonoBehaviour
     
     public void SetBulletType(int T) { BulletType = T; }
     public void SetNumID(int id) { NumID = id; }
+    public void SetHP(int hp) { CurHP = MaxHP = hp; }
 
     public void Damage(int damage)
     {
         CurHP -= damage;
 
+        HPBarCanvas.SetActive(true);
+        HPBar.fillAmount = (float)CurHP / (float)MaxHP;
+        Invoke("HideHPBar", 1.0f);
+
         if (CurHP <= 0)
+        {
+            HideHPBar();
             Dead();
+        }
     }
     
     void Awake()
@@ -55,7 +66,8 @@ public class SubWeapon : MonoBehaviour
         IsAlive = true;
         CoolTime = 0;
 
-        MaxHP = CurHP = 100;
+        MaxHP = CurHP = 0;
+        HPBar.fillAmount = 1.0f;
     }
 
     void Update()
@@ -180,7 +192,11 @@ public class SubWeapon : MonoBehaviour
 
             GameManager.Inst().TxtManager.CoolTimes[id].SetActive(false);
         }
-        
+    }
+
+    void HideHPBar()
+    {
+        HPBarCanvas.SetActive(false);
     }
 
     private void OnMouseDown()

@@ -16,8 +16,6 @@ public class Player : MonoBehaviour
         public float Value;
         public int UID;
 
-        int Weight;
-        
         
         public EqData()
         {
@@ -25,41 +23,9 @@ public class Player : MonoBehaviour
             Type = -1;
             Rarity = -1;
             Value = 0.0f;
-            Weight = 0;
             UID = 0;
         }
-
-        //public int CompareTo(object obj)
-        //{
-        //    Weight = 0;
-
-        //    if(GameManager.Inst().Player.InputGrade >= 0)
-        //    {
-        //        if (Rarity == GameManager.Inst().Player.InputGrade &&
-        //            (obj as EqData).Rarity != GameManager.Inst().Player.InputGrade)
-        //            Weight += 16;
-        //        else if (Rarity != GameManager.Inst().Player.InputGrade &&
-        //            (obj as EqData).Rarity == GameManager.Inst().Player.InputGrade)
-        //            Weight -= 16;
-        //    }
-
-        //    if (Rarity > (obj as EqData).Rarity)
-        //        Weight += 8;
-        //    else if (Rarity < (obj as EqData).Rarity)
-        //        Weight -= 8;
-
-        //    if (Type < (obj as EqData).Type)
-        //        Weight += 4;
-        //    else if (Type > (obj as EqData).Type)
-        //        Weight -= 4;
-
-        //    if (Weight > 0)
-        //        return 1;
-        //    else if (Weight == 0)
-        //        return 0;
-        //    else
-        //        return -1;
-        //}
+        
     };
 
     public GameObject[] NormalPos;

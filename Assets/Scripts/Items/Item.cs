@@ -13,9 +13,9 @@ public class Item : MonoBehaviour
 
     protected ItemType Type;
     protected int Value;
+    protected bool IsStart;
 
     Vector3 TargetPos;
-    bool IsStart;
     GameObject Player;
     int UID;
 
@@ -44,7 +44,7 @@ public class Item : MonoBehaviour
         IsStart = true;
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (IsStart)
             Absorb();
@@ -61,7 +61,7 @@ public class Item : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D collision)
-    {
+    { 
         if (collision.gameObject.tag == "Player")
         {
             switch (Type)
@@ -76,6 +76,7 @@ public class Item : MonoBehaviour
                     break;
             }
 
+            IsStart = false;
             gameObject.SetActive(false);
         }
     }

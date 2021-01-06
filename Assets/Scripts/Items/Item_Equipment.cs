@@ -88,6 +88,11 @@ public class Item_Equipment : Item
         Eq_Value = rand;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
+
     /*
          switch (rand)
         {

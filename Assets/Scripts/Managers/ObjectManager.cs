@@ -185,7 +185,7 @@ public class ObjectManager : MonoBehaviour
         Enemies_M = new GameObject[10];
         Enemies_L = new GameObject[10];
 
-        Coins = new GameObject[30];
+        Coins = new GameObject[100];
         EqAttacks = new GameObject[10];
         EqRanges = new GameObject[10];
         EqSpeeds = new GameObject[10];

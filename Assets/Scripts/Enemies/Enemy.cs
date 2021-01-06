@@ -103,14 +103,9 @@ public class Enemy : MonoBehaviour
         {
             int rand = Random.Range(0, 5);
 
-            if(rand >= 1)
+            if(rand >= 0)
             {
-                GameObject coin = GameManager.Inst().ObjManager.MakeObj("Coin");
-                coin.transform.position = transform.position;
-
-                Item_Coin ic = coin.gameObject.GetComponent<Item_Coin>();
-                ic.SetValue((int)Random.Range(Health, Health * 5));
-                ic.StartAbsorb();
+                MakeCoin();
             }
             //else
             {
@@ -125,6 +120,27 @@ public class Enemy : MonoBehaviour
 
             GameManager.Inst().Camerashake.Vibrate(0.05f);
         }       
+    }
+
+    void MakeCoin()
+    {
+        int rand = Random.Range(2, 5);
+
+        for(int i = 0; i <= rand; i++)
+        {
+            GameObject coin = GameManager.Inst().ObjManager.MakeObj("Coin");
+            coin.transform.position = transform.position;
+
+            Vector3 pos = transform.position;
+            pos.x += Mathf.Cos(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+            pos.y += Mathf.Sin(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+
+            Item_Coin ic = coin.gameObject.GetComponent<Item_Coin>();
+            ic.SetValue((int)Random.Range(Health * 0.1f, Health));
+            ic.SetTargetPosition(pos);
+            ic.SetIsScatter(true);
+            ic.InvokeAbsorb();
+        }
     }
 
     void ReturnSprite()

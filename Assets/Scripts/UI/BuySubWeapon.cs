@@ -19,6 +19,9 @@ public class BuySubWeapon : MonoBehaviour
     void Awake()
     {
         BuyBtn = BuyButton.GetComponent<Button>();
+
+        if (!BuyBtn.IsInteractable())
+            BuyBtn.interactable = true;
     }
 
     public void ShowBuy(int index)
@@ -30,9 +33,6 @@ public class BuySubWeapon : MonoBehaviour
 
         GameManager.Inst().TxtManager.SetSPrice(GameManager.Inst().UpgManager.GetSubWeaponPrice(index));
         GameManager.Inst().TxtManager.SetSName(index);
-        
-        if (!BuyBtn.IsInteractable())
-            BuyBtn.interactable = true;
     }
 
     public void Cancel()

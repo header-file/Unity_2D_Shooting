@@ -364,7 +364,7 @@ public class UpgradeManager : MonoBehaviour
                 else
                     GameManager.Inst().Player.MinusCoin(SubWeaponPrice[CurrentSubWeaponIndex]);
 
-                //BData 처리
+                //Data 처리
                 if(SubWeaponLevel[CurrentSubWeaponIndex] == 0)
                     AddSW();
 
@@ -374,10 +374,13 @@ public class UpgradeManager : MonoBehaviour
                 else
                     SubWeaponPrice[CurrentSubWeaponIndex] = 0;
 
+                GameManager.Inst().GetSubweapons(CurrentSubWeaponIndex).SetHP(10 * SubWeaponLevel[CurrentSubWeaponIndex]);
+
                 //UI
                 //GameManager.Inst().TxtManager.SetSLevel(SubWeaponLevel);
                 GameManager.Inst().TxtManager.SetSPrice(SubWeaponPrice[CurrentSubWeaponIndex]);
-                GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
+                if(SubWeaponLevel[CurrentSubWeaponIndex] >= 5)
+                    GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
                 GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
 
                 break;
