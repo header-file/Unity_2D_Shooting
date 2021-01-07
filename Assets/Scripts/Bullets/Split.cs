@@ -20,7 +20,7 @@ public class Split : Bullet
     public void OnSplit()
     {
         int level = GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
-        int colorIndex = GameManager.Inst().GetColorSelection(ShooterID);
+        int colorIndex = GameManager.Inst().ShtManager.GetColorSelection(ShooterID);
 
         switch (level)
         {

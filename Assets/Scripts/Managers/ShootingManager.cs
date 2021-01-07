@@ -5,13 +5,22 @@ using UnityEngine.UI;
 
 public class ShootingManager : MonoBehaviour
 {
+    public int MAXCOLOR = 8;
+
     GameObject[] NormalPos;
     GameObject[] SpreadPos;
     GameObject LaserPos;
     GameObject ChargePos;
 
     GameObject[] Objs;
-    
+    Color[] Colors;
+
+    int[] ColorSelection;
+
+    public Color GetColors(int index) { return Colors[index]; }
+    public int GetColorSelection(int index) { return ColorSelection[index]; }
+        
+    public void SetColorSelection(int index, int val) { ColorSelection[index] = val; }
 
     void Awake()
     {
@@ -20,6 +29,20 @@ public class ShootingManager : MonoBehaviour
         SpreadPos = new GameObject[5];
         LaserPos = new GameObject();
         ChargePos = new GameObject();
+
+        Colors = new Color[MAXCOLOR];
+        ColorSelection = new int[5];
+        SetColor();
+    }
+
+    void SetColor()
+    {
+        for (int i = 0; i < MAXCOLOR; i++)
+            Colors[i] = GameManager.Inst().UiManager.Colors[i].GetComponent<Image>().color;
+
+
+        for (int i = 0; i < 5; i++)
+            ColorSelection[i] = 0;
     }
 
     public void Shoot(Bullet.BulletType Type, GameObject Shooter, int ID)
@@ -27,8 +50,7 @@ public class ShootingManager : MonoBehaviour
         SetPos(Shooter, ID);
 
         int power = GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
-        //Color color = GameManager.Inst().GetColors(GameManager.Inst().GetColorSelection(ID));
-        int colorIndex = GameManager.Inst().GetColorSelection(ID);
+        int colorIndex = ColorSelection[ID];
 
         switch (Type)
         {

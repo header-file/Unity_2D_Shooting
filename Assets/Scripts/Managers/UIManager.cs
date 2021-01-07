@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour
     {
         WEAPON = 0,
         DETAIL = 1,
-        BUYSUBWEAPON = 2
+        BUYSUBWEAPON = 2,
+        INFO = 3
     };
 
     //움직임용
@@ -22,7 +23,7 @@ public class UIManager : MonoBehaviour
     //기능 구현용
     public GameObject MainUI;
     public GameObject[] Slots;
-    public GameObject Color;
+    public GameObject[] Colors;
     public GameObject ScrollView;
     public GameObject Inventory;
     public GameObject InventoryDetail;
@@ -32,6 +33,8 @@ public class UIManager : MonoBehaviour
 
     //새 윈도우
     public GameObject[] NewWindows;
+
+    public Sprite[] WeaponImages;
 
     MainUI MainUi;
     Detail DetailUI;
@@ -193,12 +196,12 @@ public class UIManager : MonoBehaviour
         //UI
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
         {
-            Slots[i].transform.GetChild(1).gameObject.SetActive(false);
-            Slots[i].transform.GetChild(4).gameObject.SetActive(false);
+            SlotUI[i].Selected.SetActive(false);
+            SlotUI[i].DetailBtn.gameObject.SetActive(false);
         }
 
-        Slots[CurrentBulletType].transform.GetChild(1).gameObject.SetActive(true);
-        Slots[CurrentBulletType].transform.GetChild(4).gameObject.SetActive(true);
+        SlotUI[CurrentBulletType].Selected.SetActive(true);
+        SlotUI[CurrentBulletType].DetailBtn.gameObject.SetActive(true);
     }
 
 
@@ -220,10 +223,11 @@ public class UIManager : MonoBehaviour
             Timer = 0.0f;
         IsMoveUp = true;
 
-        NewWindows[(int)NewWindowType.WEAPON].SetActive(true);
+        NewWindows[(int)NewWindowType.WEAPON].SetActive(false);
         NewWindows[(int)NewWindowType.DETAIL].SetActive(false);
         NewWindows[(int)NewWindowType.BUYSUBWEAPON].SetActive(false);
-        
+        NewWindows[(int)NewWindowType.INFO].SetActive(true);
+
         for (int i = 0; i < 5; i++)
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
         
@@ -246,9 +250,15 @@ public class UIManager : MonoBehaviour
                 break;
         }
 
-        SetSlotDetail();
+        NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().ShowInfo(Type, CurrentBulletType);
+    }
 
-        ScrollViewUI.MoveToSelected(CurrentBulletType);
+    public void ShowDetail(int Type)
+    {
+        NewWindows[(int)NewWindowType.WEAPON].SetActive(false);
+        NewWindows[(int)NewWindowType.DETAIL].SetActive(true);
+        DetailUI.SetBulletType(Type);
+        DetailUI.SetDetails();
     }
 
     public void OnClickManageCancel()
@@ -261,12 +271,17 @@ public class UIManager : MonoBehaviour
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
     }
 
-    public void ShowDetail(int Type)
+    public void OnClickToWeapon()
     {
-        NewWindows[(int)NewWindowType.WEAPON].SetActive(false);
-        NewWindows[(int)NewWindowType.DETAIL].SetActive(true);
-        DetailUI.SetBulletType(Type);
-        DetailUI.SetDetails();
+        NewWindows[(int)NewWindowType.INFO].SetActive(false);
+        NewWindows[(int)NewWindowType.WEAPON].SetActive(true);
+
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+            SlotUI[i].Show(i);
+
+        SetSlotDetail();
+
+        ScrollViewUI.MoveToSelected(CurrentBulletType);
     }
 
     public void OnClickDetailCancel()
@@ -290,6 +305,7 @@ public class UIManager : MonoBehaviour
         NewWindows[(int)NewWindowType.WEAPON].SetActive(false);
         NewWindows[(int)NewWindowType.DETAIL].SetActive(false);
         NewWindows[(int)NewWindowType.BUYSUBWEAPON].SetActive(true);
+        NewWindows[(int)NewWindowType.INFO].SetActive(false);
 
         for (int i = 0; i < 5; i++)
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
@@ -299,9 +315,14 @@ public class UIManager : MonoBehaviour
         MainUi.Arrows.transform.GetChild(index).gameObject.SetActive(true);
     }
 
-    public void OnClickBuyBtn()
+    public void OnClickBuySWBtn()
     {
         BuySWUI.Buy();
+    }
+
+    public void OnClickUpgradeSWBtn()
+    {
+        NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().Buy();
     }
 
     public void OnClickSubWeaponCancel()
@@ -316,7 +337,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickColorBtn(int index)
     {
-        GameManager.Inst().SetColorSelection(CurrentWeapon, index);
+        GameManager.Inst().ShtManager.SetColorSelection(CurrentWeapon, index);
+        NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().SetColorSelected(index);
     }
 
     public void OnClickInventoryBtn()

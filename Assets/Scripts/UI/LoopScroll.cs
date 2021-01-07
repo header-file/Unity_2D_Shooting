@@ -22,7 +22,6 @@ public class LoopScroll : MonoBehaviour
 
     public void SetCurrentCharacter(int i) { CurrentCharacter = i; }
 
-
     void Start()
     {
         SlotLength = Slots.Length;

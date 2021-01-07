@@ -100,7 +100,7 @@ public class ObjectManager : MonoBehaviour
                 break;
         }
 
-        for (int i = 0; i < TargetPools.Length / GameManager.Inst().MAXCOLOR; i++)
+        for (int i = 0; i < TargetPools.Length / GameManager.Inst().ShtManager.MAXCOLOR; i++)
         {
             if (!TargetPools[ColorIndex, i].activeSelf)
             {
@@ -206,7 +206,7 @@ public class ObjectManager : MonoBehaviour
         Lines = new GameObject[3];
 
         Explosions = new GameObject[20];
-        
+
         Generate();
     }
 
@@ -268,14 +268,14 @@ public class ObjectManager : MonoBehaviour
         }
 
 
-        int maxColor = GameManager.Inst().MAXCOLOR;
+        int maxColor = GameManager.Inst().ShtManager.MAXCOLOR;
         
         for (int j = 0; j < maxColor; j++)
         {
             for (int i = 0; i < Normals.Length / maxColor; i++)
             {
                 Normals[j, i] = Instantiate(NormalPref[j]);
-                Normals[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Normals[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Normals[j, i].transform.SetParent(Pool.transform, false);
                 Normals[j, i].SetActive(false);
             }
@@ -286,7 +286,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Spreads.Length / maxColor; i++)
             {
                 Spreads[j, i] = Instantiate(SpreadPref[j]);
-                Spreads[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Spreads[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Spreads[j, i].transform.SetParent(Pool.transform, false);
                 Spreads[j, i].SetActive(false);
             }
@@ -297,7 +297,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Missiles.Length / maxColor; i++)
             {
                 Missiles[j, i] = Instantiate(MissilePref[j]);
-                Missiles[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Missiles[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Missiles[j, i].transform.SetParent(Pool.transform, false);
                 Missiles[j, i].SetActive(false);
             }
@@ -308,7 +308,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Lasers.Length / maxColor; i++)
             {
                 Lasers[j, i] = Instantiate(LaserPref[j]);
-                Lasers[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Lasers[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Lasers[j, i].transform.SetParent(Pool.transform, false);
                 Lasers[j, i].SetActive(false);
             }
@@ -319,7 +319,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Charges.Length / maxColor; i++)
             {
                 Charges[j, i] = Instantiate(ChargePref[j]);
-                Charges[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Charges[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Charges[j, i].transform.SetParent(Pool.transform, false);
                 Charges[j, i].SetActive(false);
             }
@@ -330,7 +330,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Boomerangs.Length / maxColor; i++)
             {
                 Boomerangs[j, i] = Instantiate(BoomerangPref[j]);
-                Boomerangs[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Boomerangs[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Boomerangs[j, i].transform.SetParent(Pool.transform, false);
                 Boomerangs[j, i].SetActive(false);
             }
@@ -341,7 +341,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Splits.Length / maxColor; i++)
             {
                 Splits[j, i] = Instantiate(SplitPref[j]);
-                Splits[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Splits[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Splits[j, i].transform.SetParent(Pool.transform, false);
                 Splits[j, i].SetActive(false);
             }
@@ -352,7 +352,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Pieces.Length / maxColor; i++)
             {
                 Pieces[j, i] = Instantiate(PiecePref[j]);
-                Pieces[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().GetColors(j));
+                Pieces[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Pieces[j, i].transform.SetParent(Pool.transform, false);
                 Pieces[j, i].SetActive(false);
             }

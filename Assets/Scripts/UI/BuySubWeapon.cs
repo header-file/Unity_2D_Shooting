@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BuySubWeapon : MonoBehaviour
 {
     public GameObject BuyButton;
+    public Text PriceText;
 
     Button BuyBtn;
 
@@ -27,11 +28,15 @@ public class BuySubWeapon : MonoBehaviour
     public void ShowBuy(int index)
     {
         gameObject.SetActive(true);
-        //Time.timeScale = 0.0f;
+        PriceText.text = GameManager.Inst().UpgManager.GetSubWeaponBuyPrice().ToString();
+
+        if (!BuyBtn.IsInteractable())
+            BuyBtn.interactable = true;
+
         SelectedIndex = index;
         GameManager.Inst().UpgManager.SetCurrentSubWeaponIndex(index);
 
-        GameManager.Inst().TxtManager.SetSPrice(GameManager.Inst().UpgManager.GetSubWeaponPrice(index));
+        //GameManager.Inst().TxtManager.SetSPrice(GameManager.Inst().UpgManager.GetSubWeaponPrice(index));
         GameManager.Inst().TxtManager.SetSName(index);
     }
 
@@ -45,5 +50,7 @@ public class BuySubWeapon : MonoBehaviour
     public void Buy()
     {
         GameManager.Inst().UpgManager.AddLevel((int)UpgradeManager.UpgradeType.SUBWEAPON);
+        BuyBtn.interactable = false;
+        PriceText.text = GameManager.Inst().UpgManager.GetSubWeaponBuyPrice().ToString();
     }
 }

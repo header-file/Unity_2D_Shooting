@@ -15,17 +15,14 @@ public class TextManager : MonoBehaviour
     Text[] BLevels;
     string[] BPrices;
 
+    string[] SubNames;
+    string[] BulNames;
+
     public string GetBNames(int index) { return BNames[index].text; }
     public string GetBLevels(int index) { return BLevels[index].text; }
     public string GetBPrices(int index) { return BPrices[index]; }
-
-    /*public void SetBNames(int index)
-    {
-        switch (index)
-        {
-
-        }
-    }*/
+    public string GetBulNames(int index) { return BulNames[index]; }
+    public string GetSubNames(int index) { return SubNames[index]; }
 
     public void SetBLevels(int index, int level)
     {
@@ -36,15 +33,8 @@ public class TextManager : MonoBehaviour
 
     }
     public void SetBPrices(int index, int price) { BPrices[index] = price.ToString(); }
-    /*public void SetSLevel(int level)
-    {
-        if (level < 4)
-            SubLevel.GetComponent<Text>().text = level.ToString();
-        else
-            SubLevel.GetComponent<Text>().text = "MAX";
-    }*/
     public void SetSPrice(int price) { SubPrice.GetComponent<Text>().text = price.ToString(); }
-    public void SetSName(int index) { SubName.GetComponent<Text>().text = "Turret - 0" + (index + 1).ToString(); }
+    public void SetSName(int index) { SubName.GetComponent<Text>().text = SubNames[index]; }
     public void SetCoolTimes(int index, int time)
     {
         int min = time / 60;
@@ -72,20 +62,28 @@ public class TextManager : MonoBehaviour
         BLevels = new Text[Bullet.MAXBULLETS];
         BPrices = new string[Bullet.MAXBULLETS];
 
+        BulNames = new string[Bullet.MAXBULLETS];
+        BulNames[0] = "Normal";
+        BulNames[1] = "Spread";
+        BulNames[2] = "Missile";
+        BulNames[3] = "Laser";
+        BulNames[4] = "Charge";
+        BulNames[5] = "Boomerang";
+        BulNames[6] = "Split";
+
+        SubNames = new string[4];
+        for(int i = 0; i < 4; i++)
+           SubNames[i] = "Turret - 0" + (i + 1).ToString();
+
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
         {
             BNames[i] = BulletNames[i].GetComponent<Text>();
+            BNames[i].text = BulNames[i];
             BLevels[i] = BulletLevels[i].GetComponent<Text>();
             BPrices[i] = "0";
         }
 
-        BNames[0].text = "Normal";
-        BNames[1].text = "Spread";
-        BNames[2].text = "Missile";
-        BNames[3].text = "Laser";
-        BNames[4].text = "Charge";
-        BNames[5].text = "Boomerang";
-        BNames[6].text = "Split";
+        
     }
 
     void Start()

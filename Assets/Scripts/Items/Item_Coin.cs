@@ -37,7 +37,7 @@ public class Item_Coin : Item
 
             Rig.angularVelocity = RotateSpeed * val;
 
-            Rig.velocity = transform.up * 10.0f;
+            Rig.velocity = transform.up * 5.0f;
         }
     }
 

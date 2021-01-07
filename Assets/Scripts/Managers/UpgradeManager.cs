@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
-    const int MaxSubWeaponLevel = 4;
-
     public enum UpgradeType
     {
         NORMAL = 0,
@@ -95,14 +93,18 @@ public class UpgradeManager : MonoBehaviour
 
     public GameObject[] SubPositions;
 
+    public static int MAXSUBLEVEL = 5;
+
     BulletData[] BData;
     int[] SubWeaponLevel;
     int[] SubWeaponPrice;
+    int SubWeaponBuyPrice;
     int CurrentSubWeaponIndex;
 
     public BulletData GetBData(int index) { return BData[index]; }
     public int GetSubWeaponLevel(int index) { return SubWeaponLevel[index]; }
     public int GetSubWeaponPrice(int index) { return SubWeaponPrice[index]; }
+    public int GetSubWeaponBuyPrice() { return SubWeaponBuyPrice; }
 
     public void SetCurrentSubWeaponIndex(int selectedIndex) { CurrentSubWeaponIndex = selectedIndex; }
 
@@ -125,6 +127,7 @@ public class UpgradeManager : MonoBehaviour
             SubWeaponPrice[i] = 1000;
         }
         CurrentSubWeaponIndex = -1;
+        SubWeaponBuyPrice = 1000;
     }
 
     void Start()
@@ -355,22 +358,33 @@ public class UpgradeManager : MonoBehaviour
                 break;
 
             case UpgradeType.SUBWEAPON:
-                if (SubWeaponLevel[CurrentSubWeaponIndex] >= MaxSubWeaponLevel)
+                if (SubWeaponLevel[CurrentSubWeaponIndex] >= MAXSUBLEVEL)
                     return;
 
                 //가격
-                if (GameManager.Inst().Player.GetCoin() < SubWeaponPrice[CurrentSubWeaponIndex])
-                    return;
+                if (SubWeaponLevel[CurrentSubWeaponIndex] == 0)
+                {
+                    if (GameManager.Inst().Player.GetCoin() < SubWeaponBuyPrice)
+                        return;
+                    else
+                        GameManager.Inst().Player.MinusCoin(SubWeaponBuyPrice);
+                    SubWeaponBuyPrice *= 2;
+                    if (SubWeaponBuyPrice >= 8000)
+                        SubWeaponBuyPrice = 0;
+                    AddSW();
+                }
                 else
-                    GameManager.Inst().Player.MinusCoin(SubWeaponPrice[CurrentSubWeaponIndex]);
+                {
+                    if (GameManager.Inst().Player.GetCoin() < SubWeaponPrice[CurrentSubWeaponIndex])
+                        return;
+                    else
+                        GameManager.Inst().Player.MinusCoin(SubWeaponPrice[CurrentSubWeaponIndex]);
+                }
 
                 //Data 처리
-                if(SubWeaponLevel[CurrentSubWeaponIndex] == 0)
-                    AddSW();
-
                 SubWeaponLevel[CurrentSubWeaponIndex]++;
-                if (SubWeaponLevel[CurrentSubWeaponIndex] < 4)
-                    SubWeaponPrice[CurrentSubWeaponIndex] = (int)Mathf.Pow(10, (float)(SubWeaponLevel[CurrentSubWeaponIndex] + 3));
+                if (SubWeaponLevel[CurrentSubWeaponIndex] < 5)
+                    SubWeaponPrice[CurrentSubWeaponIndex] = (int)Mathf.Pow(10, (float)(SubWeaponLevel[CurrentSubWeaponIndex] + 2));
                 else
                     SubWeaponPrice[CurrentSubWeaponIndex] = 0;
 

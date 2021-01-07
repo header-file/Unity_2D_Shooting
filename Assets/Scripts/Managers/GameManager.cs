@@ -7,11 +7,9 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager Instance;
 
-    public int MAXCOLOR = 8;
-
+    public ShootingManager ShtManager;
     public ObjectManager ObjManager;
     public UpgradeManager UpgManager;
-    public ShootingManager ShtManager;
     public InputManager IptManager;
     public TextManager TxtManager;
     public UIManager UiManager;
@@ -26,8 +24,7 @@ public class GameManager : MonoBehaviour
     public int Stage;
 
     SubWeapon[] SubWeapons;
-    Color[] Colors;
-    int[] ColorSelection;
+    //int[] ColorSelection;
 
     float SmallTime;
     float MediumTime;
@@ -39,13 +36,10 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Inst() { return Instance; }
     public SubWeapon GetSubweapons(int index) { return SubWeapons[index]; }
-    public Color GetColors(int index) { return Colors[index]; }
-    public int GetColorSelection(int index) { return ColorSelection[index]; }
     public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[index] = Sub; }
     public void SetCoinText(int Coin) { CoinText.text = Coin.ToString(); }
-    public void SetColorSelection(int index, int val) { ColorSelection[index] = val; }
 
 
     void Awake()
@@ -60,14 +54,12 @@ public class GameManager : MonoBehaviour
         SubWeapons = new SubWeapon[4];
         SubWID = new int[4];
 
-        Colors = new Color[MAXCOLOR];
-        ColorSelection = new int[5];
+        //ColorSelection = new int[5];
 
         SmallTime = 3.0f;
         MediumTime = 9.0f;
         LargeTime = 15.0f;
 
-        SetColor();
         Stage = 0;
 
         UIDCount = 0;
@@ -145,16 +137,6 @@ public class GameManager : MonoBehaviour
 
         //TxtManager.SetSLevel(UpgManager.GetSubWeaponLevel());
         TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));
-    }
-
-    void SetColor()
-    {
-        for (int i = 0; i < MAXCOLOR; i++)
-            Colors[i] = UiManager.Color.transform.GetChild(i).gameObject.GetComponent<Image>().color;
-
-
-        for (int i = 0; i < 5; i++)
-            ColorSelection[i] = 0;
     }
 
     void SetData()
