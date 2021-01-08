@@ -69,7 +69,7 @@ public class TextManager : MonoBehaviour
         BulNames[3] = "Laser";
         BulNames[4] = "Charge";
         BulNames[5] = "Boomerang";
-        BulNames[6] = "Split";
+        BulNames[6] = "Chain";
 
         SubNames = new string[4];
         for(int i = 0; i < 4; i++)

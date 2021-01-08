@@ -78,8 +78,8 @@ public class ShootingManager : MonoBehaviour
                 Boomerang(power, colorIndex);
                 break;
 
-            case Bullet.BulletType.SPLIT:
-                Split(power, colorIndex, ID);
+            case Bullet.BulletType.CHAIN:
+                Chain(power, colorIndex, ID);
                 break;
         }
     }
@@ -325,7 +325,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Split(int Power, int Index, int ShooterID)
+    void Chain(int Power, int Index, int ShooterID)
     {
         switch (Power)
         {
@@ -334,13 +334,12 @@ public class ShootingManager : MonoBehaviour
             case 3:
             case 4:
             case 5:
-                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Split", Index);
+                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Chain", Index);
                 Objs[0].transform.position = NormalPos[0].transform.position;
                 Objs[0].transform.rotation = NormalPos[0].transform.rotation;
                 //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
-                Split bullet = Objs[0].gameObject.GetComponent<Split>();
-                bullet.SetShooterID(ShooterID);
+                Chain bullet = Objs[0].gameObject.GetComponent<Chain>();
                 bullet.Shoot(NormalPos[0].transform.up);
                 break;
         }

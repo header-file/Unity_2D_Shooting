@@ -14,7 +14,7 @@ public class Split : Bullet
     void Awake()
     {
         //Damage = 2.0f;
-        Type = BulletType.SPLIT;
+        //Type = BulletType.SPLIT;
     }
 
     public void OnSplit()

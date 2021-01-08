@@ -15,11 +15,7 @@ public class SearchArea : MonoBehaviour
 
     void Update()
     {
-        /*if(Parent.Target != null)
-            if (Parent.Target.gameObject.transform.position.x > 3.5f || Parent.Target.gameObject.transform.position.x < -3.5f ||
-                Parent.Target.gameObject.transform.position.y > 6.0f || Parent.Target.gameObject.transform.position.y < -6.0f)
-                Parent.Target = null;*/
-         if(Parent.Target != null && !Parent.Target.activeSelf)
+        if(Parent.Target != null && !Parent.Target.activeSelf)
             Parent.Target = null;
     }
 

@@ -13,7 +13,8 @@ public class Bullet : MonoBehaviour
         LASER = 3,
         CHARGE = 4,
         BOOMERANG = 5,
-        SPLIT = 6,
+        //SPLIT = 6,
+        CHAIN = 6,
     };
 
     public static int MAXBULLETS = 7;

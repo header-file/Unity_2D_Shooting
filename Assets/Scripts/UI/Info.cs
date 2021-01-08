@@ -12,15 +12,20 @@ public class Info : MonoBehaviour
     public Text WeaponName;
     public Image WeaponImage;
     public GameObject[] ColorSelected;
+    public GameObject[] ColorChips;
 
     int CharacterType;
 
     public void SetColorSelected(int index)
     {
         for (int i = 0; i < GameManager.Inst().ShtManager.MAXCOLOR; i++)
+        {
             ColorSelected[i].SetActive(false);
+            ColorChips[i].transform.localScale = Vector3.one;
+        }
 
         ColorSelected[index].SetActive(true);
+        ColorChips[index].transform.localScale = Vector3.one * 1.5f;
     }
 
     public void ShowInfo(int Type, int CurrentBulletType)
@@ -30,8 +35,12 @@ public class Info : MonoBehaviour
         WeaponImage.sprite = GameManager.Inst().UiManager.WeaponImages[CurrentBulletType];
 
         for (int i = 0; i < GameManager.Inst().ShtManager.MAXCOLOR; i++)
+        {
             ColorSelected[i].SetActive(false);
+            ColorChips[i].transform.localScale = Vector3.one;
+        }
         ColorSelected[GameManager.Inst().ShtManager.GetColorSelection(Type)].SetActive(true);
+        ColorChips[GameManager.Inst().ShtManager.GetColorSelection(Type)].transform.localScale = Vector3.one * 1.5f;
 
         if (Type == 2)
         {

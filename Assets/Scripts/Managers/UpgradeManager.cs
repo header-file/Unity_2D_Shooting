@@ -12,7 +12,7 @@ public class UpgradeManager : MonoBehaviour
         LASER = 3,
         CHARGE = 4,
         BOOMERANG = 5,
-        SPLIT = 6,
+        CHAIN = 6,
         SUBWEAPON = 100
     };
 
@@ -331,24 +331,24 @@ public class UpgradeManager : MonoBehaviour
 
                 break;
 
-            case UpgradeType.SPLIT:
-                if (BData[(int)Bullet.BulletType.SPLIT].GetPowerLevel() >= BData[(int)Bullet.BulletType.SPLIT].GetMaxBulletLevel())
+            case UpgradeType.CHAIN:
+                if (BData[(int)Bullet.BulletType.CHAIN].GetPowerLevel() >= BData[(int)Bullet.BulletType.CHAIN].GetMaxBulletLevel())
                     return;
 
                 //가격
-                if (GameManager.Inst().Player.GetCoin() < BData[(int)Bullet.BulletType.SPLIT].GetPrice())
+                if (GameManager.Inst().Player.GetCoin() < BData[(int)Bullet.BulletType.CHAIN].GetPrice())
                     return;
                 else
-                    GameManager.Inst().Player.MinusCoin(BData[(int)Bullet.BulletType.SPLIT].GetPrice());
+                    GameManager.Inst().Player.MinusCoin(BData[(int)Bullet.BulletType.CHAIN].GetPrice());
 
                 //BData 처리
-                BData[(int)Bullet.BulletType.SPLIT].SetPowerLevel(BData[(int)Bullet.BulletType.SPLIT].GetPowerLevel() + 1);
-                BData[(int)Bullet.BulletType.SPLIT].SetPrice();
+                BData[(int)Bullet.BulletType.CHAIN].SetPowerLevel(BData[(int)Bullet.BulletType.CHAIN].GetPowerLevel() + 1);
+                BData[(int)Bullet.BulletType.CHAIN].SetPrice();
 
                 //UI
-                GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.SPLIT, BData[(int)Bullet.BulletType.SPLIT].GetPowerLevel());
-                GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.SPLIT, BData[(int)Bullet.BulletType.SPLIT].GetPrice());
-                GameManager.Inst().UiManager.ShowDetail((int)Bullet.BulletType.SPLIT);
+                GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.CHAIN, BData[(int)Bullet.BulletType.CHAIN].GetPowerLevel());
+                GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.CHAIN, BData[(int)Bullet.BulletType.CHAIN].GetPrice());
+                GameManager.Inst().UiManager.ShowDetail((int)Bullet.BulletType.CHAIN);
 
                 //특수 효과
                 if (BData[(int)Bullet.BulletType.NORMAL].GetPowerLevel() == 3)

@@ -21,8 +21,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject[] LaserPref;
     public GameObject[] ChargePref;
     public GameObject[] BoomerangPref;
-    public GameObject[] SplitPref;
-    public GameObject[] PiecePref;
+    //public GameObject[] SplitPref;
+    public GameObject[] ChainPref;
 
     public GameObject SubWeaponPref;
 
@@ -47,8 +47,8 @@ public class ObjectManager : MonoBehaviour
     GameObject[,] Lasers;
     GameObject[,] Charges;
     GameObject[,] Boomerangs;
-    GameObject[,] Splits;
-    GameObject[,] Pieces;
+    //GameObject[,] Splits;
+    GameObject[,] Chains;
 
     GameObject[] SubWeapons;
 
@@ -91,13 +91,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPools = Boomerangs;
                 break;
 
-            case "Split":
-                TargetPools = Splits;
+            case "Chain":
+                TargetPools = Chains;
                 break;
 
-            case "Piece":
-                TargetPools = Pieces;
-                break;
         }
 
         for (int i = 0; i < TargetPools.Length / GameManager.Inst().ShtManager.MAXCOLOR; i++)
@@ -196,8 +193,7 @@ public class ObjectManager : MonoBehaviour
         Lasers = new GameObject[8, 10];
         Charges = new GameObject[8, 20];
         Boomerangs = new GameObject[8, 10];
-        Splits = new GameObject[8, 10];
-        Pieces = new GameObject[8, 100];
+        Chains = new GameObject[8, 10];
 
         SubWeapons = new GameObject[4];
 
@@ -338,26 +334,15 @@ public class ObjectManager : MonoBehaviour
 
         for (int j = 0; j < maxColor; j++)
         {
-            for (int i = 0; i < Splits.Length / maxColor; i++)
+            for (int i = 0; i < Chains.Length / maxColor; i++)
             {
-                Splits[j, i] = Instantiate(SplitPref[j]);
-                Splits[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
-                Splits[j, i].transform.SetParent(Pool.transform, false);
-                Splits[j, i].SetActive(false);
+                Chains[j, i] = Instantiate(ChainPref[j]);
+                Chains[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
+                Chains[j, i].transform.SetParent(Pool.transform, false);
+                Chains[j, i].SetActive(false);
             }
         }
-
-        for (int j = 0; j < maxColor; j++)
-        {
-            for (int i = 0; i < Pieces.Length / maxColor; i++)
-            {
-                Pieces[j, i] = Instantiate(PiecePref[j]);
-                Pieces[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
-                Pieces[j, i].transform.SetParent(Pool.transform, false);
-                Pieces[j, i].SetActive(false);
-            }
-        }
-
+       
 
         for (int i = 0; i < SubWeapons.Length; i++)
         {
