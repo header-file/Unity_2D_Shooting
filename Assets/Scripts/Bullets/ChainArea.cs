@@ -15,11 +15,13 @@ public class ChainArea : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            if(collision.gameObject.activeSelf)
-            {
-                if(Target != collision.gameObject)
-                    Target = collision.gameObject;
-            }   
+            Target = collision.gameObject;
         }   
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (Target == collision.gameObject)
+            Target = null;
     }
 }
