@@ -22,6 +22,7 @@ public class Chain : Bullet
         Timer = 0.0f;
         HitTimer = 0.0f;
         Rig = gameObject.GetComponent<Rigidbody2D>();
+        ChainArea.MaxEnemy = DeathCount;
     }
 
     void Update()
@@ -50,7 +51,7 @@ public class Chain : Bullet
         Rig.velocity = Vector2.zero;
         Rig.angularVelocity = 0.0f;
 
-        if (DeathCount <= 0)
+        if (DeathCount < 0)
             Die();
 
         SwitchTarget();
@@ -63,18 +64,28 @@ public class Chain : Bullet
         Timer = 0.0f;
 
         Vector2 dir = Vector3.Normalize(Target.transform.position - transform.position);
-        Rig.AddForce(dir * Speed, ForceMode2D.Impulse);
+        Rig.AddForce(dir * Speed * 1.5f, ForceMode2D.Impulse);
         
     }
 
+    //void SwitchTarget()
+    //{
+    //    if (ChainArea.Target == null || Target == ChainArea.Target)
+    //        Target = null;
+    //    else
+    //        Target = ChainArea.Target;
+
+    //    ChainArea.Target = null;
+    //}
+
     void SwitchTarget()
     {
-        if (ChainArea.Target == null || Target == ChainArea.Target)
+        if (ChainArea.Targets[3 - DeathCount] == null || Target == ChainArea.Targets[3 - DeathCount])
             Target = null;
         else
-            Target = ChainArea.Target;
+            Target = ChainArea.Targets[3 - DeathCount];
 
-        ChainArea.Target = null;
+        //ChainArea.Target = null;
     }
 
     public void Die()
@@ -83,7 +94,8 @@ public class Chain : Bullet
         Target = null;
         Timer = 0.0f;
         HitTimer = 0.0f;
-        ChainArea.Target = null;
+        //ChainArea.Target = null;
+        ChainArea.ResetTargets();
         gameObject.SetActive(false);
     }
 }

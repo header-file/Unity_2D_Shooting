@@ -4,24 +4,47 @@ using UnityEngine;
 
 public class ChainArea : MonoBehaviour
 {
-    public GameObject Target;
+    public GameObject[] Targets;
+    public int MaxEnemy = 0;
+
 
     void Awake()
     {
-        Target = null;
+        Targets = new GameObject[5];
+        for(int i = 0; i < 5; i++)
+            Targets[i] = null;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            Target = collision.gameObject;
+            for (int i = 0; i < MaxEnemy; i++)
+            {
+                if (Targets[i] == collision.gameObject)
+                    return;
+                else if (Targets[i] == null)
+                {
+                    Targets[i] = collision.gameObject;
+                    return;
+                } 
+            }
+                
         }   
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (Target == collision.gameObject)
-            Target = null;
+        for (int i = 0; i < MaxEnemy; i++)
+        {
+            if (Targets[i] == collision.gameObject)
+                Targets[i] = null;
+        }
+    }
+
+    public void ResetTargets()
+    {
+        for (int i = 0; i < MaxEnemy; i++)
+            Targets[i] = null;
     }
 }
