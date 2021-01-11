@@ -57,8 +57,10 @@ public class GameManager : MonoBehaviour
         //ColorSelection = new int[5];
 
         SmallTime = 3.0f;
-        MediumTime = 9.0f;
-        LargeTime = 15.0f;
+        //MediumTime = 9.0f;
+        //LargeTime = 15.0f;
+        MediumTime = 6.0f;
+        LargeTime = 8.0f;
 
         Stage = 0;
 

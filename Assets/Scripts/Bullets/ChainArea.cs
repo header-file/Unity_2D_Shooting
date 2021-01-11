@@ -21,7 +21,7 @@ public class ChainArea : MonoBehaviour
         {
             for (int i = 0; i < MaxEnemy; i++)
             {
-                if (Targets[i] == collision.gameObject)
+                if (Targets[i] == collision.gameObject || collision.gameObject.transform.position.y >= 6.0f)
                     return;
                 else if (Targets[i] == null)
                 {

@@ -151,6 +151,9 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "HitArea")
+            return;
+
         if (collision.gameObject.tag == "BlockBullet")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
@@ -183,6 +186,7 @@ public class Enemy : MonoBehaviour
         {
             Chain bullet = collision.gameObject.GetComponent<Chain>();
             bullet.HitEnemy();
+
             float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
             float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
             float dmg = damage * (1 + (atk / 100.0f));

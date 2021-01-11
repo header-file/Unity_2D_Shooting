@@ -15,7 +15,10 @@ public class HitArea : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "SubWeapon")
+        if (collision.gameObject.tag == "Enemy")
+            return;
+
+        if (collision.gameObject.tag == "SubWeapon")
         {
             for (int i = 0; i < 5; i++)
             {
@@ -31,6 +34,9 @@ public class HitArea : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "Enemy")
+            return;
+
         if (collision.gameObject.tag == "SubWeapon")
         {
             for (int i = 0; i < 5; i++)
