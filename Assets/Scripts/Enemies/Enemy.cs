@@ -185,7 +185,7 @@ public class Enemy : MonoBehaviour
         else if (collision.gameObject.tag == "Chain")
         {
             Chain bullet = collision.gameObject.GetComponent<Chain>();
-            bullet.HitEnemy();
+            bullet.HitEnemy(gameObject);
 
             float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
             float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();

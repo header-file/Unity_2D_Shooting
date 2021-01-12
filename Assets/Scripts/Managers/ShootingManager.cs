@@ -340,6 +340,7 @@ public class ShootingManager : MonoBehaviour
                 //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
                 Chain bullet = Objs[0].gameObject.GetComponent<Chain>();
+                bullet.ResetData();
                 bullet.Shoot(NormalPos[0].transform.up);
                 break;
         }

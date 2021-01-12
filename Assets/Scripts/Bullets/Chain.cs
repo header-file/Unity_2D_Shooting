@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Chain : Bullet
 {
-    public ChainArea ChainArea;
     public GameObject LinePref;
 
     GameObject Target;
@@ -19,7 +18,6 @@ public class Chain : Bullet
         DeathCount = (int)GameManager.Inst().UpgManager.GetBData((int)Type).GetDuration();
         Speed = GameManager.Inst().UpgManager.GetBData((int)Type).GetSpeed();
         Rig = gameObject.GetComponent<Rigidbody2D>();
-        ChainArea.MaxEnemy = DeathCount;
     }
 
     void Update()
@@ -31,17 +29,21 @@ public class Chain : Bullet
         }
     }
 
-    public void HitEnemy()
+    public void HitEnemy(GameObject enemy)
     {
         DeathCount--;
 
         Rig.velocity = Vector2.zero;
         Rig.angularVelocity = 0.0f;
 
-        if (DeathCount < 0)
+        if (DeathCount <= 0)
+        {
             Die();
+            return;
+        }
 
-        SwitchTarget();
+        Target = enemy;
+        CheckNearestEnemy();
         if (Target == null || !Target.activeSelf)
         {
             Die();
@@ -53,6 +55,30 @@ public class Chain : Bullet
         DrawLine();
     }
 
+    void CheckNearestEnemy()
+    {
+        GameObject[] enemies;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        GameObject closest = null;
+        float dist = 3.0f;
+
+        foreach(GameObject e in enemies)
+        {
+            if (Target == e)
+                continue;
+
+            float d = Vector3.Distance(transform.position, e.transform.position);
+            if (d < dist)
+            {
+                dist = d;
+                closest = e;
+            }
+        }
+
+        Target = closest;
+    }
+
     void DrawLine()
     {
         Vector3 v = Target.transform.position - transform.position;
@@ -61,7 +87,7 @@ public class Chain : Bullet
         Vector3 mid = (Target.transform.position + transform.position) / 2.0f;
         Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
         scale.x = Vector3.Distance(transform.position, Target.transform.position);
-        scale.y = 0.5f;
+        scale.y = 0.75f;
         Color glowColor = gameObject.GetComponent<SpriteRenderer>().material.GetColor("_GlowColor");
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
@@ -75,31 +101,18 @@ public class Chain : Bullet
         transform.position = Target.transform.position;
     }
 
-    //void SwitchTarget()
-    //{
-    //    if (ChainArea.Target == null || Target == ChainArea.Target)
-    //        Target = null;
-    //    else
-    //        Target = ChainArea.Target;
-
-    //    ChainArea.Target = null;
-    //}
-
-    void SwitchTarget()
-    {
-        if (ChainArea.Targets[3 - DeathCount] == null || Target == ChainArea.Targets[3 - DeathCount])
-            Target = null;
-        else
-            Target = ChainArea.Targets[3 - DeathCount];
-    }
-
-    public void Die()
+   public void Die()
     {
         DeathCount = (int)GameManager.Inst().UpgManager.GetBData((int)Type).GetDuration();
         Target = null;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-        //ChainArea.Target = null;
-        ChainArea.ResetTargets();
         gameObject.SetActive(false);
+    }
+
+    public void ResetData()
+    {
+        DeathCount = (int)GameManager.Inst().UpgManager.GetBData((int)Type).GetDuration();
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        Target = null;
     }
 }

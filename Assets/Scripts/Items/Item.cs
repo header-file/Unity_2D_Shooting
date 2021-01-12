@@ -68,6 +68,7 @@ public class Item : MonoBehaviour
             {
                 case ItemType.COIN:
                     GameManager.Inst().Player.AddCoin(Value);
+                    gameObject.GetComponent<Item_Coin>().ResetData();
                     break;
 
                 case ItemType.EQUIPMENT:

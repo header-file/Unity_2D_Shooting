@@ -7,6 +7,7 @@ public class Item_Coin : Item
    Rigidbody2D Rig;
 
     bool IsScatter = false;
+    bool IsAbsorb = false;
     Vector3 TargetPosition = Vector3.zero;
     float RotateSpeed;
 
@@ -24,9 +25,9 @@ public class Item_Coin : Item
 
     protected override void Update()
     {
-        //base.Update();
-
-        if (IsScatter)
+        if (IsAbsorb)
+            Absorb();
+        else if (IsScatter)
             Scatter();
         else
         {
@@ -48,13 +49,23 @@ public class Item_Coin : Item
         if (Vector3.Distance(transform.position, TargetPosition) <= 0.05f)
         {
             IsScatter = false;
-            //Absorb();
+            Invoke("Timeup", 3.5f);
         }
+    }
+
+    void Timeup()
+    {
+        IsAbsorb = true;
     }
 
     void Absorb()
     {
+        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.transform.position, Time.deltaTime * 1.0f);
+    }
+
+    public void ResetData()
+    {
+        IsAbsorb = false;
         IsScatter = false;
-        base.IsStart = true;
     }
 }
