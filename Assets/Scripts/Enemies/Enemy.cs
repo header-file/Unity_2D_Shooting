@@ -9,7 +9,8 @@ public class Enemy : MonoBehaviour
     {
         SMALL = 0,
         MEDIUM = 1,
-        LARGE = 2
+        LARGE = 2,
+        BOSS = 3,
     };
 
     public Sprite[] Sprites;
@@ -21,7 +22,6 @@ public class Enemy : MonoBehaviour
     protected float CurHP;
     protected float BeforeHP;
     protected int Atk;
-    protected float AtkSpeed;
     protected Vector3 MidPoint;
     protected EnemyType Type;
 
@@ -44,7 +44,6 @@ public class Enemy : MonoBehaviour
         BeforeHP = CurHP = Health = float.Parse(data[type]["HP"].ToString());
         Speed = float.Parse(data[type]["Speed"].ToString());
         Atk = int.Parse(data[type]["Atk"].ToString());
-        AtkSpeed = float.Parse(data[type]["AtkSpd"].ToString());
     }
     
     
@@ -56,19 +55,19 @@ public class Enemy : MonoBehaviour
         MidPoint = player.transform.position;
         
         IsBarVisible = false;
-        HP_Bar.fillAmount = 1.0f;
-        Canvas.SetActive(false);
+        if(HP_Bar != null)
+        {
+            HP_Bar.fillAmount = 1.0f;
+            Canvas.SetActive(false);
+            HitArea = transform.GetChild(1).GetComponent<HitArea>();
+        }
 
         TargetPosition = Vector3.zero;
-
-        HitArea = transform.GetChild(1).GetComponent<HitArea>();
-
         IsInvincible = false;
     }
 
     void FixedUpdate()
     {
-        //transform.RotateAround(MidPoint, Vector3.forward, Time.deltaTime * Speed);
         Vector3 pos = Vector3.MoveTowards(transform.position, TargetPosition, Speed * Time.deltaTime);
         transform.position = pos;
     }
@@ -78,25 +77,27 @@ public class Enemy : MonoBehaviour
         if (IsInvincible)
             return;
 
-        if (!IsBarVisible)
-            ShowHPBar();
-        else
-        {
-            CancelInvoke("HideHPBar");
-            Invoke("HideHPBar", 1.0f);
-        }
-
         BeforeHP = CurHP;
         CurHP -= Damage;
-        HP_Bar.fillAmount = CurHP / Health;
+
+        if (HP_Bar != null)
+        {
+            if (!IsBarVisible)
+                ShowHPBar();
+            else
+            {
+                CancelInvoke("HideHPBar");
+                Invoke("HideHPBar", 1.0f);
+            }
+
+            HP_Bar.fillAmount = CurHP / Health;
+        }
 
         //DamageText
         GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, Damage);
 
-        //SlowGame();
-
-        SpriteRenderer.sprite = Sprites[1];
         IsInvincible = true;
+        SpriteRenderer.sprite = Sprites[1];
         Invoke("ReturnSprite", 0.1f);
 
         if (CurHP <= 0)
@@ -119,6 +120,7 @@ public class Enemy : MonoBehaviour
             gameObject.SetActive(false);
 
             GameManager.Inst().Camerashake.Vibrate(0.05f);
+            GameManager.Inst().StgManager.AddBossCount();
         }       
     }
 
@@ -210,6 +212,8 @@ public class Enemy : MonoBehaviour
             //적 사망 처리
             CurHP = Health;
             gameObject.SetActive(false);
+
+            GameManager.Inst().Camerashake.Vibrate(0.05f);
         }
     }
 

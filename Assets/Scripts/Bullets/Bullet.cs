@@ -13,7 +13,6 @@ public class Bullet : MonoBehaviour
         LASER = 3,
         CHARGE = 4,
         BOOMERANG = 5,
-        //SPLIT = 6,
         CHAIN = 6,
     };
 
@@ -30,11 +29,6 @@ public class Bullet : MonoBehaviour
     //public void SetDamage(int PowerLevel, int Power) { Damage = PowerLevel * Power; }
     public void SetBulletType(int t) { Type = (BulletType)t; }
     
-    void Start()
-    {
-        
-    }
-
     public void Shoot(Vector2 Direction)
     {
         Rigidbody2D rig = GetComponent<Rigidbody2D>();

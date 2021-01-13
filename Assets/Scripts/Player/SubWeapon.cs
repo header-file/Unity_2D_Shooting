@@ -43,14 +43,10 @@ public class SubWeapon : MonoBehaviour
         CurHP -= damage;
 
         HPBarCanvas.SetActive(true);
-        HPBar.fillAmount = (float)CurHP / (float)MaxHP;
-        Invoke("HideHPBar", 1.0f);
+        HPBar.fillAmount = (float)CurHP / (float)MaxHP * 0.415f;
 
         if (CurHP <= 0)
-        {
-            HideHPBar();
             Dead();
-        }
     }
     
     void Awake()
@@ -67,7 +63,7 @@ public class SubWeapon : MonoBehaviour
         CoolTime = 0;
 
         MaxHP = CurHP = 0;
-        HPBar.fillAmount = 1.0f;
+        HPBar.fillAmount = 0.415f;
     }
 
     void Update()
@@ -192,11 +188,6 @@ public class SubWeapon : MonoBehaviour
 
             GameManager.Inst().TxtManager.CoolTimes[id].SetActive(false);
         }
-    }
-
-    void HideHPBar()
-    {
-        HPBarCanvas.SetActive(false);
     }
 
     private void OnMouseDown()

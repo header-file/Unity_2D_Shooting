@@ -9,6 +9,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject Enemy_SPref;
     public GameObject Enemy_MPref;
     public GameObject Enemy_LPref;
+    public GameObject Enemy_BPref;
 
     public GameObject CoinPref;
     public GameObject EqAttackPref;
@@ -35,6 +36,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] Enemies_S;
     GameObject[] Enemies_M;
     GameObject[] Enemies_L;
+    GameObject Enemy_B;
 
     GameObject[] Coins;
     GameObject[] EqAttacks;
@@ -126,6 +128,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = Enemies_L;
                 break;
 
+            case "EnemyB":
+                Enemy_B.SetActive(true);
+                return Enemy_B;
+
             case "Coin":
                 TargetPool = Coins;
                 break;
@@ -181,6 +187,7 @@ public class ObjectManager : MonoBehaviour
         Enemies_S = new GameObject[20];
         Enemies_M = new GameObject[10];
         Enemies_L = new GameObject[10];
+        Enemy_B = new GameObject();
 
         Coins = new GameObject[100];
         EqAttacks = new GameObject[10];
@@ -209,6 +216,7 @@ public class ObjectManager : MonoBehaviour
     void Generate()
     {
         List<Dictionary<string, object>> data = CSVReader.Read("Datas/EnemyData");
+        GameManager.Inst().StgManager.SetTimeData(data);
 
         for (int i = 0; i < Enemies_S.Length; i++)
         {
@@ -234,6 +242,10 @@ public class ObjectManager : MonoBehaviour
             Enemies_L[i].SetActive(false);
         }
 
+        Enemy_B = Instantiate(Enemy_BPref);
+        Enemy_B.GetComponent<Enemy>().SetDatas(data, 3);
+        Enemy_B.transform.SetParent(Pool.transform, false);
+        Enemy_B.SetActive(false);
 
         for (int i = 0; i < Coins.Length; i++)
         {

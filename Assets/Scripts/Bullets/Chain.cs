@@ -87,13 +87,14 @@ public class Chain : Bullet
         Vector3 mid = (Target.transform.position + transform.position) / 2.0f;
         Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
         scale.x = Vector3.Distance(transform.position, Target.transform.position);
-        scale.y = 0.75f;
+        scale.y = 1.0f;
         Color glowColor = gameObject.GetComponent<SpriteRenderer>().material.GetColor("_GlowColor");
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
         GameObject line = Instantiate(LinePref);
         line.transform.position = mid;
         line.transform.right = v;
+        scale.x *= line.transform.localScale.x;
         line.transform.localScale = scale;
         line.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", glowColor);
         line.GetComponent<ActivationTimer>().IsStart = true;

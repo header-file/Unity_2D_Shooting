@@ -50,27 +50,27 @@ public class Item_Equipment : Item
         if (grade < 0)
             rand = Random.Range(0, 100);
 
-        if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "WHITE") || grade == 0)
+        if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "WHITE") || grade == 0)
         {
             Grade = Rarity.WHITE;
             SetEqValue(0);
         }
-        else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "GREEN") || grade == 1)
+        else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "GREEN") || grade == 1)
         {
             Grade = Rarity.GREEN;
             SetEqValue(1);
         }
-        else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "BLUE") || grade == 2)
+        else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "BLUE") || grade == 2)
         {
             Grade = Rarity.BLUE;
             SetEqValue(2);
         }
-        else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "PURPLE") || grade == 3)
+        else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "PURPLE") || grade == 3)
         {
             Grade = Rarity.PURPLE;
             SetEqValue(3);
         }
-        else if(rand <= GameManager.Inst().GetDropRate(GameManager.Inst().Stage, "YELLOW") || grade == 4)
+        else if(rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "YELLOW") || grade == 4)
         {
             Grade = Rarity.YELLOW;
             SetEqValue(4);
