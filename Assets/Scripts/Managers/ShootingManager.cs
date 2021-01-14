@@ -277,7 +277,7 @@ public class ShootingManager : MonoBehaviour
                 Objs[0].transform.rotation = LaserPos.transform.rotation;
                 //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
 
-                Laser bullet = Objs[0].gameObject.GetComponent<Laser>();
+                //Laser bullet = Objs[0].gameObject.GetComponent<Laser>();
                 break;
         }
     }

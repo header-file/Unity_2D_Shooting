@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class EnemyB : Enemy
 {
+    public GameObject[] SpreadPoses;
+    public GameObject[] Arms;
+    public GameObject LaserPos;
+
+    bool IsReady;
     bool IsAbleAttack;
+    bool IsAttacking;
     Vector3 NowPosition;
     float Gyesu;
-    bool IsReady;
+    int OneWayCount;
+    int WayDir;
 
     void Start()
     {
         Type = EnemyType.BOSS;
         Gyesu = 0.1f;
         IsReady = false;
+        OneWayCount = 0;
+        WayDir = 0;
     }
 
     void FixedUpdate()
     {
-        if (IsAbleAttack)
+        if (IsAbleAttack || IsAttacking)
             return;
 
         if(IsReady)
@@ -27,7 +36,7 @@ public class EnemyB : Enemy
             pos.x += Speed * Gyesu;
             transform.position = pos;
 
-            if (transform.position.x >= 3.0f || transform.position.x <= -3.0f)
+            if (transform.position.x >= 2.0f || transform.position.x <= -2.0f)
                 Gyesu *= -1.0f;
         }
         else
@@ -37,7 +46,10 @@ public class EnemyB : Enemy
             transform.position = pos;
 
             if (transform.position.y <= 8.5f)
+            {
+                IsAbleAttack = true;
                 IsReady = true;
+            }
         }
     }
 
@@ -47,10 +59,11 @@ public class EnemyB : Enemy
             return;
 
         IsAbleAttack = false;
-
-        int rand = Random.Range(0, 4);
+        IsAttacking = true;
+        
         if (CurHP / Health > 0.25f)
         {
+            int rand = Random.Range(0, 3);
             switch (rand)
             {
                 case 0:
@@ -60,37 +73,84 @@ public class EnemyB : Enemy
                     Laser();
                     break;
                 case 2:
-                    BigBullet();
+                    WayDir = Random.Range(0, 3);
+                    ShotOneWay();
                     break;
                 case 3:
-                    ShotOneWay();
+                    BigBullet();
                     break;
             }
         }
         else
             LastSpurt();
 
-        Invoke("AbleAttack", 2.0f);
+        Invoke("AbleAttack", 4.0f);
+        Invoke("FinishAttacking", 1.0f);
     }
 
     void Spread()
     {
         Debug.Log("Spread");
+        for(int i = 0; i < 20; i++)
+        {
+            GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+            obj.transform.position = SpreadPoses[i].transform.position;
+            obj.transform.rotation = SpreadPoses[i].transform.rotation;
+            obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+
+            BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
+            bullet.Shoot(SpreadPoses[i].transform.up);
+        }
     }
 
     void Laser()
     {
         Debug.Log("Laser");
-    }
-
-    void BigBullet()
-    {
-        Debug.Log("BigBullet");
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
+        obj.transform.position = LaserPos.transform.position;
+        obj.transform.rotation = LaserPos.transform.rotation;
+        obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
     }
 
     void ShotOneWay()
     {
         Debug.Log("ShotOneWay");
+        
+        int index = 4 + 11 * WayDir;
+        if(index > 20)
+        {
+            for(int i = 1; i <= 2; i++)
+            {
+                GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                obj.transform.position = SpreadPoses[index - 11 * i].transform.position;
+                obj.transform.rotation = SpreadPoses[index - 11 * i].transform.rotation;
+                obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+
+                BossOneWay bullet = obj.gameObject.GetComponent<BossOneWay>();
+                bullet.Shoot(SpreadPoses[index - 11 * i].transform.up);
+            }
+        }
+        else
+        {
+            GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+            obj.transform.position = SpreadPoses[index].transform.position;
+            obj.transform.rotation = SpreadPoses[index].transform.rotation;
+            obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+
+            BossOneWay bullet = obj.gameObject.GetComponent<BossOneWay>();
+            bullet.Shoot(SpreadPoses[index].transform.up);
+        }
+
+        OneWayCount++;
+        if (OneWayCount < 3)
+            Invoke("ShotOneWay", 0.1f);
+        else
+            OneWayCount = 0;
+    }
+
+    void BigBullet()
+    {
+        Debug.Log("BigBullet");
     }
 
     void LastSpurt()
@@ -101,5 +161,10 @@ public class EnemyB : Enemy
     void AbleAttack()
     {
         IsAbleAttack = true;
+    }
+
+    void FinishAttacking()
+    {
+        IsAttacking = false;
     }
 }

@@ -22,7 +22,7 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
-        if (BossCount > 10)
+        if (BossCount > 3)
         {
             IsBoss = true;
             BossCount = 0;

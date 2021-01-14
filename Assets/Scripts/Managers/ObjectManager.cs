@@ -22,8 +22,11 @@ public class ObjectManager : MonoBehaviour
     public GameObject[] LaserPref;
     public GameObject[] ChargePref;
     public GameObject[] BoomerangPref;
-    //public GameObject[] SplitPref;
     public GameObject[] ChainPref;
+
+    public GameObject BossNormalPref;
+    public GameObject BossLaserPref;
+    public GameObject BossOneWayPref;
 
     public GameObject SubWeaponPref;
 
@@ -51,6 +54,10 @@ public class ObjectManager : MonoBehaviour
     GameObject[,] Boomerangs;
     //GameObject[,] Splits;
     GameObject[,] Chains;
+
+    GameObject[] BossNormals;
+    GameObject[] BossLasers;
+    GameObject[] BossOneWays;
 
     GameObject[] SubWeapons;
 
@@ -132,6 +139,18 @@ public class ObjectManager : MonoBehaviour
                 Enemy_B.SetActive(true);
                 return Enemy_B;
 
+            case "BossNormal":
+                TargetPool = BossNormals;
+                break;
+
+            case "BossLaser":
+                TargetPool = BossLasers;
+                break;
+
+            case "BossOneWay":
+                TargetPool = BossOneWays;
+                break;
+
             case "Coin":
                 TargetPool = Coins;
                 break;
@@ -202,6 +221,10 @@ public class ObjectManager : MonoBehaviour
         Boomerangs = new GameObject[8, 10];
         Chains = new GameObject[8, 10];
 
+        BossNormals = new GameObject[60];
+        BossLasers = new GameObject[3];
+        BossOneWays = new GameObject[15];
+
         SubWeapons = new GameObject[4];
 
         DmgTexts = new GameObject[40];
@@ -246,6 +269,27 @@ public class ObjectManager : MonoBehaviour
         Enemy_B.GetComponent<Enemy>().SetDatas(data, 3);
         Enemy_B.transform.SetParent(Pool.transform, false);
         Enemy_B.SetActive(false);
+
+        for(int i = 0; i < BossNormals.Length; i++)
+        {
+            BossNormals[i] = Instantiate(BossNormalPref);
+            BossNormals[i].transform.SetParent(Pool.transform, false);
+            BossNormals[i].SetActive(false);
+        }
+
+        for (int i = 0; i < BossLasers.Length; i++)
+        {
+            BossLasers[i] = Instantiate(BossLaserPref);
+            BossLasers[i].transform.SetParent(Pool.transform, false);
+            BossLasers[i].SetActive(false);
+        }
+
+        for (int i = 0; i < BossOneWays.Length; i++)
+        {
+            BossOneWays[i] = Instantiate(BossOneWayPref);
+            BossOneWays[i].transform.SetParent(Pool.transform, false);
+            BossOneWays[i].SetActive(false);
+        }
 
         for (int i = 0; i < Coins.Length; i++)
         {

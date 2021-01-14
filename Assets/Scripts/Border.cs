@@ -8,13 +8,14 @@ public class Border : MonoBehaviour
     {
         if (collision.gameObject.tag == "BlockBullet")
             collision.gameObject.SetActive(false);
-        else if(collision.gameObject.tag == "PierceBullet")
+        else if (collision.gameObject.tag == "PierceBullet")
         {
-            if(collision.gameObject.name != "Boomerang(Clone)")
+            if (collision.gameObject.name != "Boomerang(Clone)")
                 collision.gameObject.SetActive(false);
         }
         else if (collision.gameObject.tag == "Chain")
             collision.gameObject.GetComponent<Chain>().Die();
-            
+        else if (collision.gameObject.tag == "BossBullet")
+            collision.gameObject.SetActive(false);
     }
 }
