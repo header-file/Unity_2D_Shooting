@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour
         BeforeHP = CurHP;
         CurHP -= Damage;
 
-        if (HP_Bar != null)
+        if (Type != EnemyType.BOSS)
         {
             if (!IsBarVisible)
                 ShowHPBar();
@@ -91,6 +91,11 @@ public class Enemy : MonoBehaviour
             }
 
             HP_Bar.fillAmount = CurHP / Health;
+        }
+        else
+        {
+            GameManager.Inst().StgManager.HPBar.fillAmount = CurHP / Health;
+            GameManager.Inst().StgManager.HPBarText.text = CurHP.ToString() + "/" + Health.ToString();
         }
 
         //DamageText
@@ -117,10 +122,14 @@ public class Enemy : MonoBehaviour
             explosion.transform.position = transform.position;
             
             CurHP = Health;
-            gameObject.SetActive(false);
 
             GameManager.Inst().Camerashake.Vibrate(0.05f);
-            GameManager.Inst().StgManager.AddBossCount();
+            if (Type != EnemyType.BOSS)
+                GameManager.Inst().StgManager.AddBossCount();
+            else
+                GameManager.Inst().StgManager.RestartStage();
+
+            gameObject.SetActive(false);
         }       
     }
 

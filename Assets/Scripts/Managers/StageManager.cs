@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
+    public GameObject HPBarCanvas;
+    public Image HPBar;
+    public Text HPBarText;
+
     public int Stage = 0;
     public int BossCount;
 
@@ -18,6 +23,7 @@ public class StageManager : MonoBehaviour
     void Awake()
     {
         BossCount = 0;
+        HPBarCanvas.SetActive(false);
     }
 
     void Update()
@@ -70,6 +76,15 @@ public class StageManager : MonoBehaviour
         pos.y = 13.0f;
 
         enemy.transform.position = pos;
+
+        HPBarCanvas.SetActive(true);
+    }
+
+    public void RestartStage()
+    {
+        HPBarCanvas.SetActive(false);
+
+        SpawnEnemies();
     }
 
     void CancelEnemies()

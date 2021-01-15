@@ -7,6 +7,7 @@ public class EnemyB : Enemy
     public GameObject[] SpreadPoses;
     public GameObject[] Arms;
     public GameObject LaserPos;
+    public GameObject BigBulletPos;
 
     bool IsReady;
     bool IsAbleAttack;
@@ -61,7 +62,7 @@ public class EnemyB : Enemy
         IsAbleAttack = false;
         IsAttacking = true;
         
-        if (CurHP / Health > 0.25f)
+        if (CurHP / Health > 0.1f)
         {
             int rand = Random.Range(0, 3);
             switch (rand)
@@ -77,12 +78,12 @@ public class EnemyB : Enemy
                     ShotOneWay();
                     break;
                 case 3:
-                    BigBullet();
+                    //BigBullet();
                     break;
             }
         }
         else
-            LastSpurt();
+            BigBullet();
 
         Invoke("AbleAttack", 4.0f);
         Invoke("FinishAttacking", 1.0f);
@@ -90,7 +91,6 @@ public class EnemyB : Enemy
 
     void Spread()
     {
-        Debug.Log("Spread");
         for(int i = 0; i < 20; i++)
         {
             GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
@@ -105,7 +105,6 @@ public class EnemyB : Enemy
 
     void Laser()
     {
-        Debug.Log("Laser");
         GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
         obj.transform.position = LaserPos.transform.position;
         obj.transform.rotation = LaserPos.transform.rotation;
@@ -114,8 +113,6 @@ public class EnemyB : Enemy
 
     void ShotOneWay()
     {
-        Debug.Log("ShotOneWay");
-        
         int index = 4 + 11 * WayDir;
         if(index > 20)
         {
@@ -150,7 +147,14 @@ public class EnemyB : Enemy
 
     void BigBullet()
     {
-        Debug.Log("BigBullet");
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossBigBullet");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
+        obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+
+        BossBigBullet bbb = obj.GetComponent<BossBigBullet>();
+        bbb.SetHP(Health * 0.1f);
+        bbb.SetTargetPos(new Vector3(0.0f, 4.2f, 0.0f));
     }
 
     void LastSpurt()
