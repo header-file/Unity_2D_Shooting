@@ -29,7 +29,7 @@ public class BossBigBullet : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 0.25f);
             transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * 10.0f, Time.deltaTime * 0.25f);
 
-            if (Vector3.Distance(transform.position, TargetPos) <= 1.5f)
+            if (Vector3.Distance(transform.position, TargetPos) <= 1.2f)
             {
                 IsFinish = true;
                 Shot();

@@ -8,6 +8,7 @@ public class EnemyB : Enemy
     public GameObject[] Arms;
     public GameObject LaserPos;
     public GameObject BigBulletPos;
+    public Animator Anim;
 
     bool IsReady;
     bool IsAbleAttack;
@@ -37,7 +38,7 @@ public class EnemyB : Enemy
             pos.x += Speed * Gyesu;
             transform.position = pos;
 
-            if (transform.position.x >= 2.0f || transform.position.x <= -2.0f)
+            if (transform.position.x >= 1.0f || transform.position.x <= -1.0f)
                 Gyesu *= -1.0f;
         }
         else
@@ -46,9 +47,9 @@ public class EnemyB : Enemy
             pos.y -= Speed;
             transform.position = pos;
 
-            if (transform.position.y <= 8.5f)
+            if (transform.position.y < 8.9f)
             {
-                IsAbleAttack = true;
+                Invoke("AbleAttack", 1.0f);
                 IsReady = true;
             }
         }
@@ -68,10 +69,14 @@ public class EnemyB : Enemy
             switch (rand)
             {
                 case 0:
-                    Spread();
+                    Anim.SetTrigger("Attack1");
+                    Invoke("Spread", 0.38f);
+                    //Spread();
                     break;
                 case 1:
-                    Laser();
+                    Anim.SetTrigger("Attack2");
+                    Invoke("Laser", 0.34f);
+                    //Laser();
                     break;
                 case 2:
                     WayDir = Random.Range(0, 3);
@@ -83,15 +88,19 @@ public class EnemyB : Enemy
             }
         }
         else
-            BigBullet();
+        {
+            Anim.SetTrigger("Attack3");
+            Invoke("BigBullet", 0.9f);
+            //BigBullet();
+        }
 
         Invoke("AbleAttack", 4.0f);
-        Invoke("FinishAttacking", 1.0f);
+        Invoke("FinishAttacking", 2.0f);
     }
 
     void Spread()
     {
-        for(int i = 0; i < 20; i++)
+        for (int i = 0; i < 20; i++)
         {
             GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
             obj.transform.position = SpreadPoses[i].transform.position;
@@ -154,7 +163,7 @@ public class EnemyB : Enemy
 
         BossBigBullet bbb = obj.GetComponent<BossBigBullet>();
         bbb.SetHP(Health * 0.1f);
-        bbb.SetTargetPos(new Vector3(0.0f, 4.2f, 0.0f));
+        bbb.SetTargetPos(new Vector3(0.0f, 3.0f, 0.0f));
     }
 
     void LastSpurt()

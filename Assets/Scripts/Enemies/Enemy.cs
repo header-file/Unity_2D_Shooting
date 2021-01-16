@@ -91,19 +91,23 @@ public class Enemy : MonoBehaviour
             }
 
             HP_Bar.fillAmount = CurHP / Health;
+
+            SpriteRenderer.sprite = Sprites[1];
+            Invoke("ReturnSprite", 0.1f);
         }
         else
         {
             GameManager.Inst().StgManager.HPBar.fillAmount = CurHP / Health;
             GameManager.Inst().StgManager.HPBarText.text = CurHP.ToString() + "/" + Health.ToString();
+
+            //SpriteRenderer.sprite = Sprites[1];
+            Invoke("ReturnInvincible", 0.1f);
         }
 
         //DamageText
         GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, Damage);
 
         IsInvincible = true;
-        SpriteRenderer.sprite = Sprites[1];
-        Invoke("ReturnSprite", 0.1f);
 
         if (CurHP <= 0)
         {
@@ -157,6 +161,11 @@ public class Enemy : MonoBehaviour
     void ReturnSprite()
     {
         SpriteRenderer.sprite = Sprites[0];
+        ReturnInvincible();
+    }
+
+    void ReturnInvincible()
+    {
         IsInvincible = false;
     }
 
