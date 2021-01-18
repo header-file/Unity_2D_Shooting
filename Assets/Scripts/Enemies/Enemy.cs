@@ -113,13 +113,12 @@ public class Enemy : MonoBehaviour
         {
             int rand = Random.Range(0, 5);
 
-            if(rand >= 0)
-            {
+            if(rand >= 1)
                 MakeCoin();
-            }
-            //else
+            else
             {
-                GameManager.Inst().MakeEquipment(-1, -1, transform);
+                if (Type == EnemyType.BOSS)
+                    MakeCoin();
             }
 
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
@@ -133,13 +132,21 @@ public class Enemy : MonoBehaviour
             else
                 GameManager.Inst().StgManager.RestartStage();
 
-            gameObject.SetActive(false);
+            if (Type == EnemyType.BOSS)
+            {
+                gameObject.GetComponent<EnemyB>().Die();
+                GameManager.Inst().MakeEquipment(-1, -1, transform);
+            }
+            else
+                gameObject.SetActive(false);
         }       
     }
 
     void MakeCoin()
     {
-        int rand = Random.Range(2, 5);
+        int rand = Random.Range(2 + (int)Type, 5 + (int)Type);
+        if (Type == EnemyType.BOSS)
+            rand = Random.Range(10, 20);
 
         for(int i = 0; i <= rand; i++)
         {

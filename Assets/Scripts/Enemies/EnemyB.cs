@@ -71,19 +71,28 @@ public class EnemyB : Enemy
                 case 0:
                     Anim.SetTrigger("Attack1");
                     Invoke("Spread", 0.38f);
-                    //Spread();
                     break;
                 case 1:
                     Anim.SetTrigger("Attack2");
                     Invoke("Laser", 0.34f);
-                    //Laser();
                     break;
                 case 2:
                     WayDir = Random.Range(0, 3);
-                    ShotOneWay();
+                    switch(WayDir)
+                    {
+                        case 0:
+                            Anim.SetTrigger("Attack4R");
+                            break;
+                        case 1:
+                            Anim.SetTrigger("Attack4L");
+                            break;
+                        case 2:
+                            Anim.SetTrigger("Attack4");
+                            break;
+                    }
+                    Invoke("ShotOneWay", 0.41f);
                     break;
                 case 3:
-                    //BigBullet();
                     break;
             }
         }
@@ -91,11 +100,10 @@ public class EnemyB : Enemy
         {
             Anim.SetTrigger("Attack3");
             Invoke("BigBullet", 0.9f);
-            //BigBullet();
         }
 
         Invoke("AbleAttack", 4.0f);
-        Invoke("FinishAttacking", 2.0f);
+        Invoke("FinishAttacking", 2.25f);
     }
 
     void Spread()
@@ -179,5 +187,16 @@ public class EnemyB : Enemy
     void FinishAttacking()
     {
         IsAttacking = false;
+    }
+
+    public void Die()
+    {
+        Anim.SetTrigger("Die");
+        Invoke("Deactivate", 1.0f);
+    }
+
+    void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
 }

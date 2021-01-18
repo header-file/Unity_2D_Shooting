@@ -8,6 +8,8 @@ public class StageManager : MonoBehaviour
     public GameObject HPBarCanvas;
     public Image HPBar;
     public Text HPBarText;
+    public GameObject BossGauge;
+    public Image BossGaugeBar;
 
     public int Stage = 0;
     public int BossCount;
@@ -16,24 +18,38 @@ public class StageManager : MonoBehaviour
     float MediumTime;
     float LargeTime;
     bool IsBoss;
-
-    public void AddBossCount() { if (!IsBoss) BossCount++; }
+    int BossMax;
+    
     public void StartEnemy() { Invoke("SpawnEnemies", 2.0f); }
 
     void Awake()
     {
         BossCount = 0;
         HPBarCanvas.SetActive(false);
+        BossMax = 3;
+        BossGauge.SetActive(true);
     }
 
     void Update()
     {
-        if (BossCount > 3)
+        if (BossCount >= BossMax)
         {
             IsBoss = true;
+            BossGauge.SetActive(false);
             BossCount = 0;
+            BossGaugeBar.fillAmount = (float)BossCount / (float)BossMax;
             CancelEnemies();
             SpawnBoss();
+        }
+    }
+
+    public void AddBossCount()
+    {
+        if (!IsBoss)
+        {
+            BossCount++;
+
+            BossGaugeBar.fillAmount = (float)BossCount / (float)BossMax;
         }
     }
 
@@ -46,6 +62,8 @@ public class StageManager : MonoBehaviour
 
     void SpawnEnemies()
     {
+        BossGauge.SetActive(true);
+
         InvokeRepeating("SpawnSmall", 0.0f, SmallTime);
         InvokeRepeating("SpawnMedium", 0.0f, MediumTime);
         InvokeRepeating("SpawnLarge", 0.0f, LargeTime);
@@ -71,10 +89,9 @@ public class StageManager : MonoBehaviour
 
     void SpawnBoss()
     {
-        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyB").gameObject.GetComponent<Enemy>();
+        EnemyB enemy = GameManager.Inst().ObjManager.MakeObj("EnemyB").gameObject.GetComponent<EnemyB>();
         Vector3 pos = Vector3.zero;
         pos.y = 13.0f;
-
         enemy.transform.position = pos;
 
         HPBarCanvas.SetActive(true);

@@ -11,6 +11,7 @@ public class BossBigBullet : MonoBehaviour
     bool IsFinish;
     int ShotCount;
     bool IsInvincible;
+    bool IsShrink;
 
     public void SetTargetPos(Vector3 pos) { TargetPos = pos; }
     public void SetHP(float hp) { HP = hp; }
@@ -20,6 +21,7 @@ public class BossBigBullet : MonoBehaviour
         IsFinish = false;
         IsInvincible = false;
         ShotCount = 0;
+        IsShrink = false;
     }
 
     void Update()
@@ -27,10 +29,21 @@ public class BossBigBullet : MonoBehaviour
         if(!IsFinish)
         {
             transform.position = Vector3.Lerp(transform.position, TargetPos, Time.deltaTime * 0.25f);
-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * 10.0f, Time.deltaTime * 0.25f);
+
+            if(!IsShrink)
+                transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * 10.0f, Time.deltaTime * 0.5f);
+            else
+                transform.localScale = Vector3.Lerp(transform.localScale, transform.localScale - Vector3.one, Time.deltaTime * 0.5f);
+
+            ShotCount++;
+            if (ShotCount / 50 % 2 == 0)
+                IsShrink = false;
+            else
+                IsShrink = true;
 
             if (Vector3.Distance(transform.position, TargetPos) <= 1.2f)
             {
+                ShotCount = 0;
                 IsFinish = true;
                 Shot();
             }

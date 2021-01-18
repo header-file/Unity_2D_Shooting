@@ -3716,6 +3716,8 @@ MonoBehaviour:
   HPBarCanvas: {fileID: 1118611214}
   HPBar: {fileID: 1383247355}
   HPBarText: {fileID: 1986469844}
+  BossGauge: {fileID: 1410744499}
+  BossGaugeBar: {fileID: 1907259303}
   Stage: 0
   BossCount: 0
 --- !u!4 &761064007
@@ -7684,6 +7686,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5004403706982993367}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1410744499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4151106816987307888, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004403706982993367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1425008970
 GameObject:
   m_ObjectHideFlags: 0
@@ -10668,6 +10676,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1894537947}
   m_CullTransparentMesh: 0
+--- !u!114 &1907259303 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2258467918663481135, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004403706982993367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1909418531
 GameObject:
   m_ObjectHideFlags: 0
@@ -12801,6 +12821,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2258467918663481135, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258467918663481135, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_FillMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258467918663481135, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258467918663481135, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_FillOrigin
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2383196952819861808, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -13421,6 +13461,26 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3682191467885274595, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3682191467885274595, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3682191467885274595, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3682191467885274595, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3710275845750699143, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -13655,6 +13715,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071914408212178169, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_Name
+      value: Bar_Bg
       objectReference: {fileID: 0}
     - target: {fileID: 4098162962255911227, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}
