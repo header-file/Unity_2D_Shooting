@@ -28,6 +28,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject BossLaserPref;
     public GameObject BossOneWayPref;
     public GameObject BossBigBulletPref;
+    public GameObject BossBouncePref;
 
     public GameObject SubWeaponPref;
 
@@ -60,6 +61,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] BossLasers;
     GameObject[] BossOneWays;
     GameObject[] BossBigBullets;
+    GameObject[] BossBounces;
 
     GameObject[] SubWeapons;
 
@@ -157,6 +159,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = BossBigBullets;
                 break;
 
+            case "BossBounce":
+                TargetPool = BossBounces;
+                break;
+
             case "Coin":
                 TargetPool = Coins;
                 break;
@@ -231,6 +237,7 @@ public class ObjectManager : MonoBehaviour
         BossLasers = new GameObject[3];
         BossOneWays = new GameObject[15];
         BossBigBullets = new GameObject[3];
+        BossBounces = new GameObject[10];
 
         SubWeapons = new GameObject[4];
 
@@ -303,6 +310,13 @@ public class ObjectManager : MonoBehaviour
             BossBigBullets[i] = Instantiate(BossBigBulletPref);
             BossBigBullets[i].transform.SetParent(Pool.transform, false);
             BossBigBullets[i].SetActive(false);
+        }
+
+        for (int i = 0; i < BossBounces.Length; i++)
+        {
+            BossBounces[i] = Instantiate(BossBouncePref);
+            BossBounces[i].transform.SetParent(Pool.transform, false);
+            BossBounces[i].SetActive(false);
         }
 
         for (int i = 0; i < Coins.Length; i++)

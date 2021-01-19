@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BossLaser : Bullet
 {
-    Animator Anim;
-    int Damage;
+    public int Damage;
+
+    Animator Anim; 
     bool IsStopped;
 
     void Awake()

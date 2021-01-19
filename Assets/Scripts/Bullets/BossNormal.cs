@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossNormal : Bullet
 {
-    int Damage;
+    public int Damage;
 
     void Awake()
     {
