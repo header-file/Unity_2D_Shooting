@@ -13,11 +13,11 @@ public class StageManager : MonoBehaviour
 
     public int Stage = 0;
     public int BossCount;
+    public bool IsBoss;
 
     float SmallTime;
     float MediumTime;
     float LargeTime;
-    bool IsBoss;
     int BossMax;
     
     public void StartEnemy() { Invoke("SpawnEnemies", 2.0f); }
@@ -93,6 +93,7 @@ public class StageManager : MonoBehaviour
         Vector3 pos = Vector3.zero;
         pos.y = 13.0f;
         enemy.transform.position = pos;
+        enemy.ResetData();
 
         HPBarCanvas.SetActive(true);
     }

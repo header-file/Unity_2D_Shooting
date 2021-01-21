@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyB : Enemy
 {
+    public SpriteRenderer[] SpriteRenderers;
+    public Sprite[] Original;
+    public Sprite[] Hit;
     public GameObject[] SpreadPoses;
     public GameObject[] Arms;
     public GameObject LaserPos;
@@ -15,15 +18,14 @@ public class EnemyB : Enemy
     bool IsAttacking;
     Vector3 NowPosition;
     float Gyesu;
-    int OneWayCount;
     int WayDir;
+
 
     void Start()
     {
         Type = EnemyType.BOSS;
         Gyesu = 0.1f;
         IsReady = false;
-        OneWayCount = 0;
         WayDir = 0;
     }
 
@@ -43,10 +45,10 @@ public class EnemyB : Enemy
         }
         else
         {
-            Vector3 pos = transform.position;
+            Vector3 pos = gameObject.transform.position;
             pos.y -= Speed;
-            transform.position = pos;
-
+            gameObject.transform.position = pos;
+            
             if (transform.position.y < 8.9f)
             {
                 Invoke("AbleAttack", 1.0f);
@@ -241,5 +243,27 @@ public class EnemyB : Enemy
     void Deactivate()
     {
         gameObject.SetActive(false);
+    }
+
+    public void ResetData()
+    {
+        IsReady = false;
+        IsAbleAttack = false;
+        IsAttacking = false;
+    }
+
+
+    public void HitEffect()
+    {
+        for (int i = 0; i < 8; i++)
+            SpriteRenderers[i].sprite = Hit[i];
+
+        Invoke("ResetSprites", 0.1f);
+    }
+
+    void ResetSprites()
+    {
+        for (int i = 0; i < 8; i++)
+            SpriteRenderers[i].sprite = Original[i];
     }
 }

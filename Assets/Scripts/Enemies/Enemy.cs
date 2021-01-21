@@ -100,7 +100,7 @@ public class Enemy : MonoBehaviour
             GameManager.Inst().StgManager.HPBar.fillAmount = CurHP / Health;
             GameManager.Inst().StgManager.HPBarText.text = CurHP.ToString() + "/" + Health.ToString();
 
-            //SpriteRenderer.sprite = Sprites[1];
+            gameObject.GetComponent<EnemyB>().HitEffect();
             Invoke("ReturnInvincible", 0.1f);
         }
 
@@ -128,17 +128,18 @@ public class Enemy : MonoBehaviour
 
             GameManager.Inst().Camerashake.Vibrate(0.05f);
             if (Type != EnemyType.BOSS)
+            {
                 GameManager.Inst().StgManager.AddBossCount();
+                gameObject.SetActive(false);
+            }
             else
-                GameManager.Inst().StgManager.RestartStage();
-
-            if (Type == EnemyType.BOSS)
             {
                 gameObject.GetComponent<EnemyB>().Die();
                 GameManager.Inst().MakeEquipment(-1, -1, transform);
+
+                GameManager.Inst().StgManager.IsBoss = false;
+                GameManager.Inst().StgManager.RestartStage();
             }
-            else
-                gameObject.SetActive(false);
         }       
     }
 
