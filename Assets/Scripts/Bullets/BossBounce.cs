@@ -47,5 +47,10 @@ public class BossBounce : Bullet
         {
             collision.gameObject.GetComponent<SubWeapon>().Damage(Damage);
         }
+        else if(collision.gameObject.tag == "Player")
+        {
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = collision.gameObject.transform.position;
+        }
     }
 }

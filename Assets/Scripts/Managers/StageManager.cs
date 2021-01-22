@@ -10,6 +10,7 @@ public class StageManager : MonoBehaviour
     public Text HPBarText;
     public GameObject BossGauge;
     public Image BossGaugeBar;
+    public Animator WarningAnim;
 
     public int Stage = 0;
     public int BossCount;
@@ -39,7 +40,9 @@ public class StageManager : MonoBehaviour
             BossCount = 0;
             BossGaugeBar.fillAmount = (float)BossCount / (float)BossMax;
             CancelEnemies();
-            SpawnBoss();
+            WarningAnim.SetTrigger("Start");
+            Invoke("SpawnBoss", 2.5f);
+            GameManager.Inst().Player.BossMode();
         }
     }
 
@@ -101,6 +104,7 @@ public class StageManager : MonoBehaviour
     public void RestartStage()
     {
         HPBarCanvas.SetActive(false);
+        GameManager.Inst().Player.EndBossMode();
 
         SpawnEnemies();
     }

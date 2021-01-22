@@ -190,6 +190,9 @@ public class Enemy : MonoBehaviour
             float dmg = damage * (1 + (atk / 100.0f));
             collision.gameObject.SetActive(false);
 
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = bullet.transform.position;
+
             OnHit(dmg);
         }
         else if (collision.gameObject.tag == "Laser")
@@ -199,6 +202,12 @@ public class Enemy : MonoBehaviour
             float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
             float dmg = damage * (1 + (atk / 100.0f));
 
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            /*RaycastHit rayHit;
+            if (Physics.Raycast(bullet.transform.position, bullet.transform.up, out rayHit))
+                hit.transform.position = rayHit.point;*/
+            hit.transform.position = collision.gameObject.GetComponent<BoxCollider2D>().ClosestPoint(transform.position);
+
             OnHit(dmg);
         }
         else if (collision.gameObject.tag == "PierceBullet")
@@ -207,6 +216,9 @@ public class Enemy : MonoBehaviour
             float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
             float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
             float dmg = damage * (1 + (atk / 100.0f));
+
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = bullet.transform.position;
 
             OnHit(dmg);
         }
@@ -218,6 +230,9 @@ public class Enemy : MonoBehaviour
             float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
             float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
             float dmg = damage * (1 + (atk / 100.0f));
+
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = bullet.transform.position;
 
             OnHit(dmg);
         }

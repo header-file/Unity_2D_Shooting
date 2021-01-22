@@ -42,6 +42,9 @@ public class SubWeapon : MonoBehaviour
     {
         CurHP -= damage;
 
+        GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+        hit.transform.position = transform.position;
+
         HPBarCanvas.SetActive(true);
         HPBar.fillAmount = (float)CurHP / (float)MaxHP * 0.415f;
 

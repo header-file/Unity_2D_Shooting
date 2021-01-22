@@ -38,11 +38,13 @@ public class Player : MonoBehaviour
 
     GameObject[] SubWeapons;
     EqData[] Inventory;
+    Vector3 OriginalPos;
 
     bool IsReload;
     int Coin;
     int BulletType;
-    
+    bool IsMovable;
+
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
@@ -50,9 +52,24 @@ public class Player : MonoBehaviour
 
     public int GetCoin() { return Coin; }
     public int GetBulletType() { return BulletType; }
+    public bool GetIsMovable() { return IsMovable; }
 
     public void SetSubWeapon(GameObject obj, int index) { SubWeapons[index] = obj; }
     public void SetBulletType(int type) { BulletType = type; }
+
+    public void BossMode()
+    {
+        IsMovable = true;
+
+        gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
+    }
+
+    public void EndBossMode()
+    {
+        IsMovable = false;
+
+        InvokeRepeating("MoveBack", 0.0f, Time.deltaTime * 5.0f);
+    }
 
     public void AddCoin(int c)
     {
@@ -108,36 +125,6 @@ public class Player : MonoBehaviour
         return -1;
     }
 
-    //public void Sort()
-    //{
-    //    InputGrade = -1;
-    //    Array.Sort(Inventory);
-    //    Array.Reverse(Inventory);
-    //}
-
-    //public void Sort(int Rarity)
-    //{
-    //    //for(int i = 0; i < MAXINVENTORY; i++)
-    //    //{
-    //    //    if (Inventory[i] == null)
-    //    //        return;
-
-    //    //    if(Inventory[i].Rarity == Rarity)
-    //    //    {
-    //    //        for(int j = i; j > 0; j--)
-    //    //        {
-    //    //            if(Inventory[j - 1].Rarity != Rarity)
-    //    //                Swap(Inventory[j], Inventory[j - 1], j);
-    //    //        }
-
-    //    //    }
-    //    //}
-
-    //    InputGrade = Rarity;
-    //    Array.Sort(Inventory);
-    //    Array.Reverse(Inventory);
-    //}
-
     void Swap(int i, int j)
     {
         if (Inventory[i] == null)
@@ -157,21 +144,6 @@ public class Player : MonoBehaviour
             Inventory[i] = Inventory[j];
             Inventory[j] = temp;
         }
-
-        //temp.Icon = a.Icon;
-        //temp.Type = a.Type;
-        //temp.Rarity = a.Rarity;
-        //temp.Value = a.Value;
-
-        //a.Icon = b.Icon;
-        //a.Type = b.Type;
-        //a.Rarity = b.Rarity;
-        //a.Value = b.Value;
-
-        //b.Icon = temp.Icon;
-        //b.Type = temp.Type;
-        //b.Rarity = temp.Rarity;
-        //b.Value = temp.Value;
     }
 
     public void RemoveItem(int index)
@@ -223,8 +195,6 @@ public class Player : MonoBehaviour
                             //}
                         }
                     }
-
-                    //Inventory[MAXINVENTORY] = null;
                 }
             }
         }
@@ -242,6 +212,9 @@ public class Player : MonoBehaviour
         Inventory = new EqData[MAXINVENTORY];
         for (int i = 0; i < MAXINVENTORY; i++)
             Inventory[i] = null;
+
+        IsMovable = false;
+        OriginalPos = new Vector3(0.0f, 1.2f, 0.0f);
     }
 
     void Start()
@@ -251,15 +224,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        /*if (Input.GetMouseButtonUp(1))
-        {
-            BulletType++;
-            //IsReload = true;
-            
-            if (BulletType >= 5)
-                BulletType = 0;
-            Debug.Log(BulletType);
-        }*/
+        
     }
 
     public void Rotate(Vector2 MousePos)
@@ -272,7 +237,6 @@ public class Player : MonoBehaviour
         Quaternion rot = Quaternion.Euler(0.0f, 0.0f, angle);
         transform.rotation = rot;
     }
-    
 
     public void Fire()
     {
@@ -291,9 +255,17 @@ public class Player : MonoBehaviour
         IsReload = true;
     }
 
+    void MoveBack()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, OriginalPos, Time.deltaTime * 5.0f);
+
+        if (Vector3.Distance(transform.position, OriginalPos) <= 0.0001f)
+            CancelInvoke("MoveBack");
+    }
+
     void OnMouseDown()
     {
-        if (!GameManager.Inst().IptManager.GetIsAbleControl())
+        if (!GameManager.Inst().IptManager.GetIsAbleControl() || IsMovable)
             return;
 
         GameManager.Inst().UiManager.OnClickManageBtn(2);

@@ -37,6 +37,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject LinePref;
 
     public GameObject ExplosionPref;
+    public GameObject HitPref;
 
     GameObject[] Enemies_S;
     GameObject[] Enemies_M;
@@ -70,6 +71,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] Lines;
 
     GameObject[] Explosions;
+    GameObject[] Hits;
 
 
     GameObject[] TargetPool;
@@ -198,6 +200,10 @@ public class ObjectManager : MonoBehaviour
             case "Explosion":
                 TargetPool = Explosions;
                 break;
+
+            case "Hit":
+                TargetPool = Hits;
+                break;
         }
 
         for (int i = 0; i < TargetPool.Length; i++)
@@ -246,6 +252,7 @@ public class ObjectManager : MonoBehaviour
         Lines = new GameObject[3];
 
         Explosions = new GameObject[20];
+        Hits = new GameObject[20];
 
         Generate();
     }
@@ -466,6 +473,13 @@ public class ObjectManager : MonoBehaviour
             Explosions[i] = Instantiate(ExplosionPref);
             Explosions[i].transform.SetParent(Pool.transform, false);
             Explosions[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Hits.Length; i++)
+        {
+            Hits[i] = Instantiate(HitPref);
+            Hits[i].transform.SetParent(Pool.transform, false);
+            Hits[i].SetActive(false);
         }
     }
 }

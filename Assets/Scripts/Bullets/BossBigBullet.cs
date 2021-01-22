@@ -75,6 +75,9 @@ public class BossBigBullet : MonoBehaviour
         if(!IsInvincible)
             HP -= dmg;
 
+        GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+        hit.transform.position = gameObject.transform.position;
+
         GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, dmg);
 
         IsInvincible = true;

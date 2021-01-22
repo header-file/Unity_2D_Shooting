@@ -54,5 +54,10 @@ public class BossLaser : Bullet
         {
             collision.gameObject.GetComponent<SubWeapon>().Damage(Damage);
         }
+        else if (collision.gameObject.tag == "Player")
+        {
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = collision.gameObject.GetComponent<BoxCollider2D>().ClosestPoint(transform.position);
+        }
     }
 }

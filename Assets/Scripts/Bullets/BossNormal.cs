@@ -20,6 +20,11 @@ public class BossNormal : Bullet
             gameObject.SetActive(false);
         }
         else if(collision.gameObject.tag == "Player")
+        {
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = collision.gameObject.transform.position;
+
             gameObject.SetActive(false);
+        }
     }
 }
