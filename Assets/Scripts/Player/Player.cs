@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     public GameObject LaserPos;
     public GameObject ChargePos;
     public GameObject[] BoomerangPos;
+    public GameObject[] BossSubPoses;
 
     public int InputGrade;
 
@@ -62,13 +63,25 @@ public class Player : MonoBehaviour
         IsMovable = true;
 
         gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (GameManager.Inst().GetSubweapons(i) != null)
+                GameManager.Inst().GetSubweapons(i).BossMode();
+        }
     }
 
     public void EndBossMode()
     {
         IsMovable = false;
 
-        InvokeRepeating("MoveBack", 0.0f, Time.deltaTime * 5.0f);
+        InvokeRepeating("MoveBack", 0.0f, /*Time.deltaTime * 5.0f*/1.0f / 12.0f);
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (GameManager.Inst().GetSubweapons(i) != null)
+                GameManager.Inst().GetSubweapons(i).EndBossMode();
+        }
     }
 
     public void AddCoin(int c)

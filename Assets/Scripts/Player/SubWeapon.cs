@@ -24,6 +24,8 @@ public class SubWeapon : MonoBehaviour
     bool IsEditMode;
     bool IsReload;
     bool IsAlive;
+    bool IsBoss;
+    bool IsMoving;
     int NumID;
     int CoolTime;
 
@@ -37,6 +39,28 @@ public class SubWeapon : MonoBehaviour
     public void SetBulletType(int T) { BulletType = T; }
     public void SetNumID(int id) { NumID = id; }
     public void SetHP(int hp) { CurHP = MaxHP = hp; }
+
+    public void BossMode()
+    {
+        IsBoss = true;
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+    }
+
+    public void EndBossMode()
+    {
+        IsBoss = false;
+        IsMoving = true;
+
+        int index = NumID;
+        if (index > 2)
+            index--;
+        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position, Time.deltaTime * 5.0f);
+
+        if (Vector3.Distance(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position) > 0.001f)
+            Invoke("EndBossMode", 1.0f / 12.0f);
+        else
+            IsMoving = false;
+    }
 
     public void Damage(int damage)
     {
@@ -61,6 +85,7 @@ public class SubWeapon : MonoBehaviour
         IsDown = false;
         IsEditMode = false;
         IsReload = true;
+        IsMoving = false;
         Arrow.SetActive(false);
         IsAlive = true;
         CoolTime = 0;
@@ -71,7 +96,8 @@ public class SubWeapon : MonoBehaviour
 
     void Update()
     {
-        SetPosition();
+        if(!IsMoving)
+            SetPosition();
         
          if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
             return;
@@ -93,10 +119,21 @@ public class SubWeapon : MonoBehaviour
 
     void SetPosition()
     {
-        int index = NumID;
-        if (index > 2)
-            index--;
-        transform.position = GameManager.Inst().UpgManager.SubPositions[index].transform.position;
+        if(IsBoss)
+        {
+            int index = NumID;
+            if (index > 2)
+                index--;
+            transform.position = GameManager.Inst().Player.BossSubPoses[index].transform.position;
+        } 
+        else
+        {
+            int index = NumID;
+            if (index > 2)
+                index--;
+            transform.position = GameManager.Inst().UpgManager.SubPositions[index].transform.position;
+        }
+        
     }
 
     void StartEditMode()
@@ -161,9 +198,7 @@ public class SubWeapon : MonoBehaviour
         SpriteRenderer.sprite = Sprites[1];
 
         CoolTime = COOLTIME;
-
-        CurHP = MaxHP;
-
+        
         int id = NumID;
         if (id > 1)
             id--;
@@ -185,6 +220,8 @@ public class SubWeapon : MonoBehaviour
         if (CoolTime <= 0)
         {
             IsAlive = true;
+            CurHP = MaxHP;
+            HPBar.fillAmount = (float)CurHP / (float)MaxHP * 0.415f;
             SpriteRenderer.sprite = Sprites[0];
             CoolTime = COOLTIME;
             CancelInvoke("CheckDead");
@@ -204,9 +241,6 @@ public class SubWeapon : MonoBehaviour
         if (IsEditMode)
             EndEditMode();
         else
-        {
             GameManager.Inst().UiManager.OnClickManageBtn(NumID);
-        }
-            
     }
 }
