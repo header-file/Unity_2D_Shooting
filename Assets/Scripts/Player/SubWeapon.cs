@@ -54,10 +54,10 @@ public class SubWeapon : MonoBehaviour
         int index = NumID;
         if (index > 2)
             index--;
-        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position, Time.deltaTime * 5.0f);
+        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position, Time.deltaTime * 3.0f);
 
         if (Vector3.Distance(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position) > 0.001f)
-            Invoke("EndBossMode", 1.0f / 12.0f);
+            Invoke("EndBossMode", Time.deltaTime);
         else
             IsMoving = false;
     }

@@ -37,8 +37,17 @@ public class InputManager : MonoBehaviour
         else
         {
             MousePosition.z = 0.0f;
-            GameManager.Inst().Player.transform.position = Vector3.MoveTowards(GameManager.Inst().Player.transform.position, MousePosition, Time.deltaTime * 5.0f);
-            //GameManager.Inst().Player.transform.position = MousePosition;
+
+            if (GameManager.Inst().Player.transform.position.y <= 4.2f)
+                GameManager.Inst().Player.transform.position = Vector3.MoveTowards(GameManager.Inst().Player.transform.position, MousePosition, Time.deltaTime * 5.0f);
+            else
+            {
+                if(MousePosition.y > 4.2f)
+                    GameManager.Inst().Player.transform.position = Vector3.MoveTowards(GameManager.Inst().Player.transform.position, new Vector3(MousePosition.x, GameManager.Inst().Player.transform.position.y, MousePosition.z), Time.deltaTime * 5.0f);
+                else
+                    GameManager.Inst().Player.transform.position = Vector3.MoveTowards(GameManager.Inst().Player.transform.position, MousePosition, Time.deltaTime * 5.0f);
+            }
+                
         }
 
         Player.Fire();

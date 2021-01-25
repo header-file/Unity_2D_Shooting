@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
     {
         IsMovable = false;
 
-        InvokeRepeating("MoveBack", 0.0f, /*Time.deltaTime * 5.0f*/1.0f / 12.0f);
+        InvokeRepeating("MoveBack", 0.0f, Time.deltaTime);
 
         for (int i = 0; i < 4; i++)
         {
@@ -270,7 +270,7 @@ public class Player : MonoBehaviour
 
     void MoveBack()
     {
-        transform.position = Vector3.MoveTowards(transform.position, OriginalPos, Time.deltaTime * 5.0f);
+        transform.position = Vector3.MoveTowards(transform.position, OriginalPos, Time.deltaTime * 3.0f);
 
         if (Vector3.Distance(transform.position, OriginalPos) <= 0.0001f)
             CancelInvoke("MoveBack");
