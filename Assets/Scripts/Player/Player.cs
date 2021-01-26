@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     int Coin;
     int BulletType;
     bool IsMovable;
+    //bool IsShield;
 
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
@@ -227,6 +228,7 @@ public class Player : MonoBehaviour
             Inventory[i] = null;
 
         IsMovable = false;
+        //IsShield = false;
         OriginalPos = new Vector3(0.0f, 1.2f, 0.0f);
     }
 
@@ -274,6 +276,17 @@ public class Player : MonoBehaviour
 
         if (Vector3.Distance(transform.position, OriginalPos) <= 0.0001f)
             CancelInvoke("MoveBack");
+    }
+
+    public void Shield()
+    {
+        //IsShield = true;
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (GameManager.Inst().GetSubweapons(i) != null)
+                GameManager.Inst().GetSubweapons(i).ShowShield();
+        }
     }
 
     void OnMouseDown()

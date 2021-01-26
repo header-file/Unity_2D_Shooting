@@ -15,6 +15,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject EqAttackPref;
     public GameObject EqRangePref;
     public GameObject EqSpeedPref;
+    public GameObject ShieldPref;
 
     public GameObject[] NormalPref;
     public GameObject[] SpreadPref;
@@ -48,6 +49,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] EqAttacks;
     GameObject[] EqRanges;
     GameObject[] EqSpeeds;
+    GameObject[] Shields;
 
     GameObject[,] Normals;
     GameObject[,] Spreads;
@@ -180,6 +182,10 @@ public class ObjectManager : MonoBehaviour
             case "EqSpeed":
                 TargetPool = EqSpeeds;
                 break;
+
+            case "Shield":
+                TargetPool = Shields;
+                break;
             
             case "SubWeapon":
                 TargetPool = SubWeapons;
@@ -230,6 +236,7 @@ public class ObjectManager : MonoBehaviour
         EqAttacks = new GameObject[10];
         EqRanges = new GameObject[10];
         EqSpeeds = new GameObject[10];
+        Shields = new GameObject[5];
 
         Normals = new GameObject[8, 100];
         Spreads = new GameObject[8, 100];
@@ -352,6 +359,13 @@ public class ObjectManager : MonoBehaviour
             EqSpeeds[i] = Instantiate(EqSpeedPref);
             EqSpeeds[i].transform.SetParent(Pool.transform, false);
             EqSpeeds[i].SetActive(false);
+        }
+
+        for(int i = 0; i < Shields.Length; i++)
+        {
+            Shields[i] = Instantiate(ShieldPref);
+            Shields[i].transform.SetParent(Pool.transform, false);
+            Shields[i].SetActive(false);
         }
 
 

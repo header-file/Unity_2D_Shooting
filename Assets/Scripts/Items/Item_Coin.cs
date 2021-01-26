@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Item_Coin : Item
 {
-   Rigidbody2D Rig;
+    Rigidbody2D Rig;
 
     bool IsScatter = false;
     bool IsAbsorb = false;

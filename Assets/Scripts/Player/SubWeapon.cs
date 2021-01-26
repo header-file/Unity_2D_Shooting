@@ -13,6 +13,7 @@ public class SubWeapon : MonoBehaviour
     public GameObject Arrow;
     public GameObject HPBarCanvas;
     public Image HPBar;
+    public GameObject Shield;
 
     public Sprite[] Sprites;
 
@@ -26,6 +27,7 @@ public class SubWeapon : MonoBehaviour
     bool IsAlive;
     bool IsBoss;
     bool IsMoving;
+    bool IsShield;
     int NumID;
     int CoolTime;
 
@@ -39,6 +41,12 @@ public class SubWeapon : MonoBehaviour
     public void SetBulletType(int T) { BulletType = T; }
     public void SetNumID(int id) { NumID = id; }
     public void SetHP(int hp) { CurHP = MaxHP = hp; }
+
+    public void ShowShield()
+    {
+        IsShield = true;
+        Shield.SetActive(true);
+    }
 
     public void BossMode()
     {
@@ -64,6 +72,13 @@ public class SubWeapon : MonoBehaviour
 
     public void Damage(int damage)
     {
+        if(IsShield)
+        {
+            IsShield = false;
+            Shield.SetActive(false);
+            return;
+        }
+
         CurHP -= damage;
 
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");

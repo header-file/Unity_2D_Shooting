@@ -121,6 +121,13 @@ public class Enemy : MonoBehaviour
                     MakeCoin();
             }
 
+            if(Type == EnemyType.LARGE)
+            {
+                GameObject shield = GameManager.Inst().ObjManager.MakeObj("Shield");
+                shield.transform.position = transform.position;
+                shield.GetComponent<Item>().StartAbsorb();
+            }
+
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
             explosion.transform.position = transform.position;
             
