@@ -11,11 +11,15 @@ public class StageManager : MonoBehaviour
     public GameObject BossGauge;
     public Image BossGaugeBar;
     public Animator WarningAnim;
+    public GameObject Ground;
+    public GameObject Turrets;
 
     public int Stage = 0;
     public int BossCount;
     public bool IsBoss;
 
+    Vector3 Ground_Up;
+    Vector3 Ground_Down;
     float SmallTime;
     float MediumTime;
     float LargeTime;
@@ -29,6 +33,8 @@ public class StageManager : MonoBehaviour
         HPBarCanvas.SetActive(false);
         BossMax = 3;
         BossGauge.SetActive(true);
+        Ground_Up = new Vector3(0.0f, -0.31f, 0.0f);
+        Ground_Down = new Vector3(0.0f, -3.46f, 0.0f);
     }
 
     void Update()
@@ -43,6 +49,7 @@ public class StageManager : MonoBehaviour
             WarningAnim.SetTrigger("Start");
             Invoke("SpawnBoss", 2.5f);
             GameManager.Inst().Player.BossMode();
+            GroundDown();
         }
     }
 
@@ -105,6 +112,7 @@ public class StageManager : MonoBehaviour
     {
         HPBarCanvas.SetActive(false);
         GameManager.Inst().Player.EndBossMode();
+        GroundUp();
 
         SpawnEnemies();
     }
@@ -136,5 +144,25 @@ public class StageManager : MonoBehaviour
             angle *= -1;
         Quaternion rot = Quaternion.Euler(0.0f, 0.0f, angle);
         Enemy.transform.rotation = rot;
+    }
+
+    void GroundDown()
+    {
+        Ground.transform.position = Vector3.Lerp(Ground.transform.position, Ground_Down, Time.deltaTime * 5.0f);
+
+        Turrets.transform.position = Vector3.Lerp(Turrets.transform.position, new Vector3(0.0f, 1.8f, 90.0f), Time.deltaTime * 5.0f);
+
+        if (Vector3.Distance(Ground.transform.position, Ground_Down) > 0.001f)
+            Invoke("GroundDown", Time.deltaTime);
+    }
+
+    void GroundUp()
+    {
+        Ground.transform.position = Vector3.Lerp(Ground.transform.position, Ground_Up, Time.deltaTime * 5.0f);
+
+        Turrets.transform.position = Vector3.Lerp(Turrets.transform.position, new Vector3(0.0f, 4.0f, 90.0f), Time.deltaTime * 5.0f);
+
+        if (Vector3.Distance(Ground.transform.position, Ground_Up) > 0.001f)
+            Invoke("GroundUp", Time.deltaTime);
     }
 }

@@ -139,7 +139,10 @@ public class SubWeapon : MonoBehaviour
             int index = NumID;
             if (index > 2)
                 index--;
-            transform.position = GameManager.Inst().Player.BossSubPoses[index].transform.position;
+            float speed = 5.0f;
+            if (index == 0 || index == 3)
+                speed = 4.0f;
+            transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.BossSubPoses[index].transform.position, Time.deltaTime * speed);
         } 
         else
         {

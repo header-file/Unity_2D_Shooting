@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     public GameObject ChargePos;
     public GameObject[] BoomerangPos;
     public GameObject[] BossSubPoses;
+    public GameObject Booster;
 
     public int InputGrade;
 
@@ -64,6 +65,7 @@ public class Player : MonoBehaviour
         IsMovable = true;
 
         gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
+        Booster.SetActive(true);
 
         for (int i = 0; i < 4; i++)
         {
@@ -275,7 +277,10 @@ public class Player : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, OriginalPos, Time.deltaTime * 3.0f);
 
         if (Vector3.Distance(transform.position, OriginalPos) <= 0.0001f)
+        {
             CancelInvoke("MoveBack");
+            Booster.SetActive(false);
+        }
     }
 
     public void Shield()

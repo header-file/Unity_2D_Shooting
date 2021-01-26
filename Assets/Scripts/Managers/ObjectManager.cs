@@ -259,7 +259,7 @@ public class ObjectManager : MonoBehaviour
         Lines = new GameObject[3];
 
         Explosions = new GameObject[20];
-        Hits = new GameObject[20];
+        Hits = new GameObject[50];
 
         Generate();
     }
