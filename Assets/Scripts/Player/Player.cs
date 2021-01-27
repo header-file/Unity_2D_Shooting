@@ -66,6 +66,8 @@ public class Player : MonoBehaviour
 
         gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
         Booster.SetActive(true);
+        Booster.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color.red);
+        Booster.transform.GetChild(0).GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color.yellow);
 
         for (int i = 0; i < 4; i++)
         {

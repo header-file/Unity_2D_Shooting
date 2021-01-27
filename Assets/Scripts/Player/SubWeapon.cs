@@ -14,6 +14,7 @@ public class SubWeapon : MonoBehaviour
     public GameObject HPBarCanvas;
     public Image HPBar;
     public GameObject Shield;
+    public GameObject Booster;
 
     public Sprite[] Sprites;
 
@@ -52,6 +53,7 @@ public class SubWeapon : MonoBehaviour
     {
         IsBoss = true;
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        Booster.SetActive(true);
     }
 
     public void EndBossMode()
@@ -67,7 +69,10 @@ public class SubWeapon : MonoBehaviour
         if (Vector3.Distance(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position) > 0.001f)
             Invoke("EndBossMode", Time.deltaTime);
         else
+        {
             IsMoving = false;
+            Booster.SetActive(false);
+        }
     }
 
     public void Damage(int damage)

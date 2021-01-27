@@ -10,6 +10,7 @@ public class Item : MonoBehaviour
         COIN = 0,
         EQUIPMENT = 1,
         SHIELD = 2,
+        BOMB = 3,
     }
 
     protected ItemType Type;
@@ -77,6 +78,9 @@ public class Item : MonoBehaviour
                     break;
                 case ItemType.SHIELD:
                     GameManager.Inst().Player.Shield();
+                    break;
+                case ItemType.BOMB:
+                    gameObject.GetComponent<Item_Bomb>().Bomb();
                     break;
             }
 

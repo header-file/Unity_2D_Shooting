@@ -16,6 +16,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject EqRangePref;
     public GameObject EqSpeedPref;
     public GameObject ShieldPref;
+    public GameObject ItemBombPref;
+    public GameObject BombPref;
 
     public GameObject[] NormalPref;
     public GameObject[] SpreadPref;
@@ -50,6 +52,8 @@ public class ObjectManager : MonoBehaviour
     GameObject[] EqRanges;
     GameObject[] EqSpeeds;
     GameObject[] Shields;
+    GameObject[] ItemBombs;
+    GameObject[] Bombs;
 
     GameObject[,] Normals;
     GameObject[,] Spreads;
@@ -57,7 +61,6 @@ public class ObjectManager : MonoBehaviour
     GameObject[,] Lasers;
     GameObject[,] Charges;
     GameObject[,] Boomerangs;
-    //GameObject[,] Splits;
     GameObject[,] Chains;
 
     GameObject[] BossNormals;
@@ -186,6 +189,14 @@ public class ObjectManager : MonoBehaviour
             case "Shield":
                 TargetPool = Shields;
                 break;
+
+            case "ItemBomb":
+                TargetPool = ItemBombs;
+                break;
+
+            case "Bomb":
+                TargetPool = Bombs;
+                break;
             
             case "SubWeapon":
                 TargetPool = SubWeapons;
@@ -237,6 +248,8 @@ public class ObjectManager : MonoBehaviour
         EqRanges = new GameObject[10];
         EqSpeeds = new GameObject[10];
         Shields = new GameObject[5];
+        ItemBombs = new GameObject[5];
+        Bombs = new GameObject[5];
 
         Normals = new GameObject[8, 100];
         Spreads = new GameObject[8, 100];
@@ -366,6 +379,20 @@ public class ObjectManager : MonoBehaviour
             Shields[i] = Instantiate(ShieldPref);
             Shields[i].transform.SetParent(Pool.transform, false);
             Shields[i].SetActive(false);
+        }
+
+        for (int i = 0; i < ItemBombs.Length; i++)
+        {
+            ItemBombs[i] = Instantiate(ItemBombPref);
+            ItemBombs[i].transform.SetParent(Pool.transform, false);
+            ItemBombs[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Bombs.Length; i++)
+        {
+            Bombs[i] = Instantiate(BombPref);
+            Bombs[i].transform.SetParent(Pool.transform, false);
+            Bombs[i].SetActive(false);
         }
 
 

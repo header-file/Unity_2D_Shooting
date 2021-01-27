@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
         transform.position = pos;
     }
 
-    void OnHit(float Damage)
+    public void OnHit(float Damage)
     {
         if (IsInvincible)
             return;
@@ -123,9 +123,22 @@ public class Enemy : MonoBehaviour
 
             if(Type == EnemyType.LARGE)
             {
-                GameObject shield = GameManager.Inst().ObjManager.MakeObj("Shield");
-                shield.transform.position = transform.position;
-                shield.GetComponent<Item>().StartAbsorb();
+                rand = Random.Range(1, 2);
+                GameObject item;
+
+                switch (rand)
+                {
+                    case 0:
+                        item = GameManager.Inst().ObjManager.MakeObj("Shield");
+                        item.transform.position = transform.position;
+                        item.GetComponent<Item>().StartAbsorb();
+                        break;
+                    case 1:
+                        item = GameManager.Inst().ObjManager.MakeObj("ItemBomb");
+                        item.transform.position = transform.position;
+                        item.GetComponent<Item>().StartAbsorb();
+                        break;
+                }
             }
 
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");

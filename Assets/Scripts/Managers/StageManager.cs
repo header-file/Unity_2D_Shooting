@@ -31,7 +31,7 @@ public class StageManager : MonoBehaviour
     {
         BossCount = 0;
         HPBarCanvas.SetActive(false);
-        BossMax = 3;
+        BossMax = 10;
         BossGauge.SetActive(true);
         Ground_Up = new Vector3(0.0f, -0.31f, 0.0f);
         Ground_Down = new Vector3(0.0f, -3.46f, 0.0f);
