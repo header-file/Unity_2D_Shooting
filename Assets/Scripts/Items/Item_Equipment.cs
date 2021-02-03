@@ -54,26 +54,46 @@ public class Item_Equipment : Item
         {
             Grade = Rarity.WHITE;
             SetEqValue(0);
+
+            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopW");
+            pop.transform.position = transform.position;
+            pop.GetComponent<ActivationTimer>().IsStart = true;
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "GREEN") || grade == 1)
         {
             Grade = Rarity.GREEN;
             SetEqValue(1);
+
+            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopG");
+            pop.transform.position = transform.position;
+            pop.GetComponent<ActivationTimer>().IsStart = true;
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "BLUE") || grade == 2)
         {
             Grade = Rarity.BLUE;
             SetEqValue(2);
+
+            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopB");
+            pop.transform.position = transform.position;
+            pop.GetComponent<ActivationTimer>().IsStart = true;
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "PURPLE") || grade == 3)
         {
             Grade = Rarity.PURPLE;
             SetEqValue(3);
+
+            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopP");
+            pop.transform.position = transform.position;
+            pop.GetComponent<ActivationTimer>().IsStart = true;
         }
         else if(rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "YELLOW") || grade == 4)
         {
             Grade = Rarity.YELLOW;
             SetEqValue(4);
+
+            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopY");
+            pop.transform.position = transform.position;
+            pop.GetComponent<ActivationTimer>().IsStart = true;
         }
     }
 

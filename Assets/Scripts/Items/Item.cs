@@ -36,9 +36,9 @@ public class Item : MonoBehaviour
         IsStart = false;
     }
 
-    public void StartAbsorb()
+    public void StartAbsorb(float time)
     {
-        Invoke("SetStartTrue", 1.0f);
+        Invoke("SetStartTrue", time);
     }
 
     void SetStartTrue()

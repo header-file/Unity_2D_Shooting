@@ -123,7 +123,7 @@ public class Enemy : MonoBehaviour
 
             if(Type == EnemyType.LARGE)
             {
-                rand = Random.Range(1, 2);
+                rand = Random.Range(0, 2);
                 GameObject item;
 
                 switch (rand)
@@ -131,12 +131,12 @@ public class Enemy : MonoBehaviour
                     case 0:
                         item = GameManager.Inst().ObjManager.MakeObj("Shield");
                         item.transform.position = transform.position;
-                        item.GetComponent<Item>().StartAbsorb();
+                        item.GetComponent<Item>().StartAbsorb(1.0f);
                         break;
                     case 1:
                         item = GameManager.Inst().ObjManager.MakeObj("ItemBomb");
                         item.transform.position = transform.position;
-                        item.GetComponent<Item>().StartAbsorb();
+                        item.GetComponent<Item>().StartAbsorb(1.0f);
                         break;
                 }
             }
@@ -151,6 +151,10 @@ public class Enemy : MonoBehaviour
             {
                 GameManager.Inst().StgManager.AddBossCount();
                 gameObject.SetActive(false);
+
+                rand = Random.Range(0, 2);
+                if(rand > 0)
+                    GameManager.Inst().MakeEquipment(-1, -1, transform);
             }
             else
             {

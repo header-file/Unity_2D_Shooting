@@ -19,6 +19,7 @@ public class ActivationTimer : MonoBehaviour
             if (CurrentTime >= TargetTime)
             {
                 CurrentTime = 0.0f;
+                IsStart = false;
                 gameObject.SetActive(false);
             }
         }

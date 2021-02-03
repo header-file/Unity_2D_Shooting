@@ -55,6 +55,7 @@ public class ObjectManager : MonoBehaviour
     //Effect
     public GameObject ExplosionPref;
     public GameObject HitPref;
+    public GameObject[] EquipPopPref;
 
     GameObject[] Enemies_S;
     GameObject[] Enemies_M;
@@ -91,6 +92,11 @@ public class ObjectManager : MonoBehaviour
 
     GameObject[] Explosions;
     GameObject[] Hits;
+    GameObject[] EquipPopsW;
+    GameObject[] EquipPopsG;
+    GameObject[] EquipPopsB;
+    GameObject[] EquipPopsP;
+    GameObject[] EquipPopsY;
 
 
     GameObject[] TargetPool;
@@ -235,6 +241,26 @@ public class ObjectManager : MonoBehaviour
             case "Hit":
                 TargetPool = Hits;
                 break;
+
+            case "EquipPopW":
+                TargetPool = EquipPopsW;
+                break;
+
+            case "EquipPopG":
+                TargetPool = EquipPopsG;
+                break;
+
+            case "EquipPopB":
+                TargetPool = EquipPopsB;
+                break;
+
+            case "EquipPopP":
+                TargetPool = EquipPopsP;
+                break;
+
+            case "EquipPopY":
+                TargetPool = EquipPopsY;
+                break;
         }
 
         for (int i = 0; i < TargetPool.Length; i++)
@@ -287,6 +313,11 @@ public class ObjectManager : MonoBehaviour
 
         Explosions = new GameObject[20];
         Hits = new GameObject[50];
+        EquipPopsW = new GameObject[5];
+        EquipPopsG = new GameObject[5];
+        EquipPopsB = new GameObject[5];
+        EquipPopsP = new GameObject[5];
+        EquipPopsY = new GameObject[5];
 
         Generate();
     }
@@ -535,6 +566,41 @@ public class ObjectManager : MonoBehaviour
             Hits[i] = Instantiate(HitPref);
             Hits[i].transform.SetParent(EffectPool.transform, false);
             Hits[i].SetActive(false);
+        }
+
+        for(int i = 0; i < EquipPopsW.Length; i++)
+        {
+            EquipPopsW[i] = Instantiate(EquipPopPref[0]);
+            EquipPopsW[i].transform.SetParent(EffectPool.transform, false);
+            EquipPopsW[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EquipPopsG.Length; i++)
+        {
+            EquipPopsG[i] = Instantiate(EquipPopPref[1]);
+            EquipPopsG[i].transform.SetParent(EffectPool.transform, false);
+            EquipPopsG[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EquipPopsB.Length; i++)
+        {
+            EquipPopsB[i] = Instantiate(EquipPopPref[2]);
+            EquipPopsB[i].transform.SetParent(EffectPool.transform, false);
+            EquipPopsB[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EquipPopsP.Length; i++)
+        {
+            EquipPopsP[i] = Instantiate(EquipPopPref[3]);
+            EquipPopsP[i].transform.SetParent(EffectPool.transform, false);
+            EquipPopsP[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EquipPopsY.Length; i++)
+        {
+            EquipPopsY[i] = Instantiate(EquipPopPref[4]);
+            EquipPopsY[i].transform.SetParent(EffectPool.transform, false);
+            EquipPopsY[i].SetActive(false);
         }
     }
 }
