@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     public GameObject Equip;
     public GameObject ConfirmSwitch;
     public GameObject Synthesis;
+    public GameObject Resource;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -520,5 +521,13 @@ public class UIManager : MonoBehaviour
     public void OnClickUnequipConfirmBackBtn()
     {
         SynthesisUI.CloseUnequip();
+    }
+
+    public void OnClickResourceToggleBtn()
+    {
+        if (Resource.activeSelf)
+            Resource.SetActive(false);
+        else
+            Resource.SetActive(true);
     }
 }

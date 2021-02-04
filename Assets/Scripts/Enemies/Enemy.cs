@@ -120,6 +120,7 @@ public class Enemy : MonoBehaviour
                 if (Type == EnemyType.BOSS)
                     MakeCoin();
             }
+            MakeResource();
 
             if(Type == EnemyType.LARGE)
             {
@@ -187,6 +188,28 @@ public class Enemy : MonoBehaviour
             ic.SetTargetPosition(pos);
             ic.SetIsScatter(true);
             ic.InvokeAbsorb();
+        }
+    }
+
+    void MakeResource()
+    {
+        int rand = Random.Range(1 + (int)Type, 3 + (int)Type);
+        if (Type == EnemyType.BOSS)
+            rand = Random.Range(5, 8);
+
+        for(int i = 0; i < rand; i++)
+        {
+            Item_Resource resource = GameManager.Inst().ObjManager.MakeObj("Resource").GetComponent<Item_Resource>();
+            resource.transform.position = transform.position;
+
+            Vector3 pos = transform.position;
+            pos.x += Mathf.Cos(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+            pos.y += Mathf.Sin(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+
+            resource.SetValue(Random.Range(1, 3 + (int)Type));
+            resource.SetColor();
+            resource.TargetPosition = pos;
+            resource.IsScatter = true;
         }
     }
 

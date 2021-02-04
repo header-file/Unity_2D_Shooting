@@ -10,6 +10,7 @@ public class TextManager : MonoBehaviour
     public GameObject SubPrice;
     public GameObject SubName;
     public GameObject[] CoolTimes;
+    public Text[] Resources;
 
     Text[] BNames;
     Text[] BLevels;

@@ -234,6 +234,8 @@ public class Player : MonoBehaviour
         IsMovable = false;
         //IsShield = false;
         OriginalPos = new Vector3(0.0f, 1.2f, 0.0f);
+
+        //DontDestroyOnLoad(gameObject);
     }
 
     void Start()

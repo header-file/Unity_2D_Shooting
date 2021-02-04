@@ -11,6 +11,7 @@ public class Item : MonoBehaviour
         EQUIPMENT = 1,
         SHIELD = 2,
         BOMB = 3,
+        RESOURCE = 10,
     }
 
     protected ItemType Type;

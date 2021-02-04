@@ -27,6 +27,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject ShieldPref;
     public GameObject ItemBombPref;
     public GameObject BombPref;
+    public GameObject ResourcePref;
 
     //Player Bullet
     public GameObject[] NormalPref;
@@ -69,6 +70,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] Shields;
     GameObject[] ItemBombs;
     GameObject[] Bombs;
+    GameObject[] Resources;
 
     GameObject[,] Normals;
     GameObject[,] Spreads;
@@ -217,6 +219,10 @@ public class ObjectManager : MonoBehaviour
             case "Bomb":
                 TargetPool = Bombs;
                 break;
+
+            case "Resource":
+                TargetPool = Resources;
+                break;
             
             case "SubWeapon":
                 TargetPool = SubWeapons;
@@ -290,6 +296,7 @@ public class ObjectManager : MonoBehaviour
         Shields = new GameObject[5];
         ItemBombs = new GameObject[5];
         Bombs = new GameObject[5];
+        Resources = new GameObject[30];
 
         Normals = new GameObject[8, 100];
         Spreads = new GameObject[8, 100];
@@ -438,6 +445,13 @@ public class ObjectManager : MonoBehaviour
             Bombs[i] = Instantiate(BombPref);
             Bombs[i].transform.SetParent(ItemPool.transform, false);
             Bombs[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Resources.Length; i++)
+        {
+            Resources[i] = Instantiate(ResourcePref);
+            Resources[i].transform.SetParent(ItemPool.transform, false);
+            Resources[i].SetActive(false);
         }
 
 

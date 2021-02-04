@@ -23,13 +23,11 @@ public class GameManager : MonoBehaviour
     public Text CoinText;
 
     public int[] SubWID;
+    public int[] Resources;
 
     SubWeapon[] SubWeapons;
-    //int[] ColorSelection;
-
     
     int UIDCount;
-    bool IsBoss;
 
     List<Dictionary<string, object>> DropRateData;
 
@@ -40,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[index] = Sub; }
     public void SetCoinText(int Coin) { CoinText.text = Coin.ToString(); }
-
+    public void AddResource(int stage, int value) { Resources[stage - 1] += value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
 
     void Awake()
     {
@@ -51,13 +49,12 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
+        Resources = new int[StageManager.MAXSTAGES];
+
         SubWeapons = new SubWeapon[4];
         SubWID = new int[4];
-        
-        
 
         UIDCount = 0;
-        IsBoss = false;
     }
 
     void Start()
@@ -68,6 +65,7 @@ public class GameManager : MonoBehaviour
         SetTexts();
         SetInventory();
         SetData();
+        SetResources();
     }
 
     void Update()
@@ -83,7 +81,6 @@ public class GameManager : MonoBehaviour
             TxtManager.SetBPrices(i, UpgManager.GetBData(i).GetPrice());
         }
 
-        //TxtManager.SetSLevel(UpgManager.GetSubWeaponLevel());
         TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));
     }
 
@@ -91,6 +88,16 @@ public class GameManager : MonoBehaviour
     {
         DropRateData = CSVReader.Read("Datas/DropRate");
 
+
+    }
+
+    void SetResources()
+    {
+        for (int i = 0; i < StageManager.MAXSTAGES; i++)
+        {
+            Resources[i] = 0;
+            TxtManager.Resources[i].text = Resources[i].ToString();
+        }
     }
 
     public void MakeEquipment(int type, int grade, Transform transform)

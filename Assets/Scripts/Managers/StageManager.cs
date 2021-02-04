@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
+    public static int MAXSTAGES = 4;
+
     public GameObject HPBarCanvas;
     public Image HPBar;
     public Text HPBarText;
