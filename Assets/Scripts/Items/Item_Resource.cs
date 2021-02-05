@@ -19,8 +19,8 @@ public class Item_Resource : Item
         Type = ItemType.RESOURCE;
 
         Rig = GetComponent<Rigidbody2D>();
-        InitPos = new Vector3(-1.2f, 8.9f, 0.0f);
-        Speed = 5.0f;
+        InitPos = GameObject.Find("ResourceGoal").transform.position;
+        Speed = 8.0f;
     }
 
     protected override void Update()
@@ -33,10 +33,14 @@ public class Item_Resource : Item
 
     void Scatter()
     {
-        transform.position = Vector3.Lerp(transform.position, TargetPosition, Time.deltaTime * 2.0f);
+        transform.position = Vector3.Lerp(transform.position, TargetPosition, Time.deltaTime * 10.0f);
 
         if (Vector3.Distance(transform.position, TargetPosition) <= 0.001f)
+        {
             IsScatter = false;
+            transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+        }
+            
     }
 
     void Absorb()
@@ -46,7 +50,7 @@ public class Item_Resource : Item
 
         float val = Vector3.Cross(pointTarget, transform.up).z;
 
-        Rig.angularVelocity = 250.0f * val;
+        Rig.angularVelocity = 200.0f * val;
 
         Rig.velocity = transform.up * Speed;
     }
@@ -59,6 +63,7 @@ public class Item_Resource : Item
             stage = GameManager.Inst().StgManager.Stage;
 
         GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Colors[stage]);
+        GetComponent<SpriteRenderer>().material.SetFloat("_Intensity", 1.5f);
     }
 
     void OnMouseDrag()
@@ -69,7 +74,8 @@ public class Item_Resource : Item
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "BlockBullet" || collision.gameObject.tag == "PierceBullet" ||
-            collision.gameObject.tag == "Chain" || collision.gameObject.tag == "Laser")
+            collision.gameObject.tag == "Chain" || collision.gameObject.tag == "Laser" ||
+            collision.gameObject.tag == "Border")
             IsAbsorb = true;
         else if (collision.gameObject.name == "ResourceGoal")
         {
