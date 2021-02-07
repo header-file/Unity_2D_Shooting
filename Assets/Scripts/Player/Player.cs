@@ -28,6 +28,13 @@ public class Player : MonoBehaviour
         
     };
 
+    public Sprite[] Masks;
+    public Sprite[] Gras;
+    public Sprite[] Wps;
+    public SpriteMask Mask;
+    public SpriteRenderer Gra;
+    public SpriteRenderer Wp;
+
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
     public GameObject LaserPos;
@@ -58,7 +65,12 @@ public class Player : MonoBehaviour
     public bool GetIsMovable() { return IsMovable; }
 
     public void SetSubWeapon(GameObject obj, int index) { SubWeapons[index] = obj; }
-    public void SetBulletType(int type) { BulletType = type; }
+    public void SetBulletType(int type)
+    {
+        BulletType = type;
+        SetMask();
+        SetWp();
+    }
 
     public void BossMode()
     {
@@ -296,6 +308,21 @@ public class Player : MonoBehaviour
             if (GameManager.Inst().GetSubweapons(i) != null)
                 GameManager.Inst().GetSubweapons(i).ShowShield();
         }
+    }
+
+    public void SetMask()
+    {
+        Mask.sprite = Masks[BulletType];
+    }
+
+    public void SetGra(int index)
+    {
+        Gra.sprite = Gras[index];
+    }
+
+    public void SetWp()
+    {
+        Wp.sprite = Wps[BulletType];
     }
 
     void OnMouseDown()

@@ -413,7 +413,8 @@ public class UpgradeManager : MonoBehaviour
         GameManager.Inst().SetSubWeapons(sub, CurrentSubWeaponIndex);
         if (index > 1)
             index++;
-        subWeapon.GetComponent<SubWeapon>().SetNumID(index);
+        sub.SetNumID(index);
+        sub.SetSortingLyaer();
     }
 
     public void Update()

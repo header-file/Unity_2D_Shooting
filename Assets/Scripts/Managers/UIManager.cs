@@ -340,6 +340,16 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Inst().ShtManager.SetColorSelection(CurrentWeapon, index);
         NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().SetColorSelected(index);
+
+        if (CurrentWeapon == 2)
+            GameManager.Inst().Player.SetGra(index);
+        else
+        {
+            int idx = CurrentWeapon;
+            if (idx > 1)
+                idx--;
+            GameManager.Inst().GetSubweapons(idx).SetGra(index);
+        }
     }
 
     public void OnClickInventoryBtn()

@@ -6,6 +6,10 @@ using UnityEngine.EventSystems;
 
 public class SubWeapon : MonoBehaviour
 {
+    public SpriteMask Mask;
+    public SpriteRenderer Gra;
+    public SpriteRenderer Wp;
+
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
     public GameObject LaserPos;
@@ -39,9 +43,15 @@ public class SubWeapon : MonoBehaviour
     public int GetBulletType() { return BulletType; }
     public int GetCurHP() { return CurHP; }
     
-    public void SetBulletType(int T) { BulletType = T; }
     public void SetNumID(int id) { NumID = id; }
     public void SetHP(int hp) { CurHP = MaxHP = hp; }
+
+    public void SetBulletType(int T)
+    {
+        BulletType = T;
+        SetMask();
+        SetWp();
+    }
 
     public void ShowShield()
     {
@@ -159,6 +169,11 @@ public class SubWeapon : MonoBehaviour
         
     }
 
+    public void SetSortingLyaer()
+    {
+        
+    }
+
     void StartEditMode()
     {
         Time.timeScale = 0.1f;
@@ -251,6 +266,21 @@ public class SubWeapon : MonoBehaviour
 
             GameManager.Inst().TxtManager.CoolTimes[id].SetActive(false);
         }
+    }
+
+    public void SetMask()
+    {
+        Mask.sprite = GameManager.Inst().Player.Masks[BulletType];
+    }
+
+    public void SetGra(int index)
+    {
+        Gra.sprite = GameManager.Inst().Player.Gras[index];
+    }
+
+    public void SetWp()
+    {
+        Wp.sprite = GameManager.Inst().Player.Wps[BulletType];
     }
 
     private void OnMouseDown()
