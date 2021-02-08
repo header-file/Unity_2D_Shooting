@@ -39,6 +39,7 @@ public class Item_Resource : Item
         {
             IsScatter = false;
             transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+            Invoke("Add", 5.0f);
         }
             
     }
@@ -66,6 +67,18 @@ public class Item_Resource : Item
         GetComponent<SpriteRenderer>().material.SetFloat("_Intensity", 1.5f);
     }
 
+    void Add()
+    {
+        if (!gameObject.activeSelf)
+            return;
+
+        if (GameManager.Inst().StgManager.Stage == 0)
+            stage++;
+        GameManager.Inst().AddResource(stage, Value);
+        IsAbsorb = false;
+        gameObject.SetActive(false);
+    }
+
     void OnMouseDrag()
     {
         IsAbsorb = true;
@@ -78,12 +91,6 @@ public class Item_Resource : Item
             collision.gameObject.tag == "Border")
             IsAbsorb = true;
         else if (collision.gameObject.name == "ResourceGoal")
-        {
-            if (GameManager.Inst().StgManager.Stage == 0)
-                stage++;
-            GameManager.Inst().AddResource(stage, Value);
-            IsAbsorb = false;
-            gameObject.SetActive(false);
-        }
+            Add();
     }
 }

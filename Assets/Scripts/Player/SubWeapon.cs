@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Experimental.U2D.Animation;
 using UnityEngine.EventSystems;
 
 public class SubWeapon : MonoBehaviour
 {
-    public SpriteMask Mask;
-    public SpriteRenderer Gra;
-    public SpriteRenderer Wp;
+    public GameObject[] Skins;
 
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
@@ -49,8 +48,7 @@ public class SubWeapon : MonoBehaviour
     public void SetBulletType(int T)
     {
         BulletType = T;
-        SetMask();
-        SetWp();
+        SetSkin();
     }
 
     public void ShowShield()
@@ -268,19 +266,18 @@ public class SubWeapon : MonoBehaviour
         }
     }
 
-    public void SetMask()
+    public void SetSkin()
     {
-        Mask.sprite = GameManager.Inst().Player.Masks[BulletType];
+        //for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        //    Skins[i].SetActive(false);
+
+        //Skins[BulletType].SetActive(true);
     }
 
-    public void SetGra(int index)
+    public void SetSkinColor(int index)
     {
-        Gra.sprite = GameManager.Inst().Player.Gras[index];
-    }
-
-    public void SetWp()
-    {
-        Wp.sprite = GameManager.Inst().Player.Wps[BulletType];
+        //string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[index];
+        //Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
     }
 
     private void OnMouseDown()

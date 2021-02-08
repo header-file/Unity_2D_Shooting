@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.U2D.Animation;
 using System;
 
 
@@ -28,13 +29,10 @@ public class Player : MonoBehaviour
         
     };
 
-    public Sprite[] Masks;
-    public Sprite[] Gras;
-    public Sprite[] Wps;
-    public SpriteMask Mask;
-    public SpriteRenderer Gra;
-    public SpriteRenderer Wp;
-
+    public GameObject[] Skins;
+    public string[] Types;
+    public string[] Colors;
+    
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
     public GameObject LaserPos;
@@ -68,8 +66,7 @@ public class Player : MonoBehaviour
     public void SetBulletType(int type)
     {
         BulletType = type;
-        SetMask();
-        SetWp();
+        SetSkin();
     }
 
     public void BossMode()
@@ -310,21 +307,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SetMask()
+    public void SetSkin()
     {
-        Mask.sprite = Masks[BulletType];
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+            Skins[i].SetActive(false);
+
+        Skins[BulletType].SetActive(true);
+
+        string color = Types[BulletType] + Colors[GameManager.Inst().ShtManager.GetColorSelection(2)];
+        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(Types[BulletType], color);
     }
 
-    public void SetGra(int index)
+    public void SetSkinColor(int index)
     {
-        Gra.sprite = Gras[index];
+        string color = Types[BulletType] + Colors[index];
+        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(Types[BulletType], color);
     }
-
-    public void SetWp()
-    {
-        Wp.sprite = Wps[BulletType];
-    }
-
+    
     void OnMouseDown()
     {
         if (!GameManager.Inst().IptManager.GetIsAbleControl() || IsMovable)
