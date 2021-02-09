@@ -20,13 +20,13 @@ public class UpgradeManager : MonoBehaviour
     {
         public void SetPowerLevel(int Level)
         {
-            if (Level <= MaxBulletLevel)
+            if (Level <= MaxBulletLevel * (Rarity + 1))
                 PowerLevel = Level;
         }
         public void SetPrice()
         {
-            if (PowerLevel < MaxBulletLevel)
-                Price = (int)Mathf.Pow(10.0f, (float)(PowerLevel + 1));
+            if (PowerLevel < MaxBulletLevel * (Rarity + 1))
+                Price *= 2;
             else
                 Price = 0;
         }
@@ -38,7 +38,7 @@ public class UpgradeManager : MonoBehaviour
         public void SetRng(int rng) { Rng = rng; }
         public void SetSpd(int spd) { Spd = spd; }
         
-        public int GetMaxBulletLevel() { return MaxBulletLevel; }
+        public int GetMaxBulletLevel() { return MaxBulletLevel * (Rarity + 1); }
         public int GetPowerLevel() { return PowerLevel; }
         public int GetPrice() { return Price; }
         public int GetAtk() { return Atk; }
@@ -48,6 +48,7 @@ public class UpgradeManager : MonoBehaviour
         public float GetReloadTime() { return ReloadTime; }
         public float GetDuration() { return Duration; }
         public int GetDamage() { return PowerLevel * BaseDamage; }
+        public int GetRarity() { return Rarity; }
         
         public void ResetData()
         {
@@ -55,6 +56,7 @@ public class UpgradeManager : MonoBehaviour
             BaseDamage = 0;
 
             Price = 10;
+            Rarity = 0;
 
             ReloadTime = 0.0f;
             Duration = 0.0f;
@@ -76,11 +78,12 @@ public class UpgradeManager : MonoBehaviour
             SetPrice();
         }
 
-        const int MaxBulletLevel = 5;
+        const int MaxBulletLevel = 10;
 
         int PowerLevel;
         int BaseDamage;
-        int Price;        
+        int Price;
+        int Rarity;
 
         float Speed;
         float ReloadTime;

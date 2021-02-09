@@ -11,6 +11,7 @@ public class TextManager : MonoBehaviour
     public GameObject SubName;
     public GameObject[] CoolTimes;
     public Text[] Resources;
+    public Text BossTimer;
 
     Text[] BNames;
     Text[] BLevels;
@@ -27,7 +28,7 @@ public class TextManager : MonoBehaviour
 
     public void SetBLevels(int index, int level)
     {
-        if (level < 5)
+        if (level < GameManager.Inst().UpgManager.GetBData(index).GetMaxBulletLevel())
             BLevels[index].text = "Lv." + level.ToString();
         else
             BLevels[index].text = "Lv." + "MAX";
@@ -83,8 +84,6 @@ public class TextManager : MonoBehaviour
             BLevels[i] = BulletLevels[i].GetComponent<Text>();
             BPrices[i] = "0";
         }
-
-        
     }
 
     void Start()
@@ -94,6 +93,26 @@ public class TextManager : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
             CoolTimes[i].SetActive(false);
+    }
+
+    void FixedUpdate()
+    {
+        if (!GameManager.Inst().StgManager.IsBoss)
+            return;
+
+        float time = GameManager.Inst().StgManager.BossTimer;
+        time = (float)System.Math.Truncate((double)time * 100) / 100;
+        BossTimer.text = time.ToString();
+
+        GameManager.Inst().StgManager.BossTimer -= Time.deltaTime;
+
+        if(GameManager.Inst().StgManager.BossTimer <= 0)
+        {
+            GameManager.Inst().StgManager.Boss.Die();
+
+            GameManager.Inst().StgManager.IsBoss = false;
+            GameManager.Inst().StgManager.RestartStage();
+        }
     }
 
     public void ShowDmgText(Vector3 pos, float dmg)

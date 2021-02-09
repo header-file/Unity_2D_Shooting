@@ -162,6 +162,8 @@ public class Enemy : MonoBehaviour
                 gameObject.GetComponent<EnemyB>().Die();
                 GameManager.Inst().MakeEquipment(-1, -1, transform);
 
+                //Boss 사망 카운트 추가
+
                 GameManager.Inst().StgManager.IsBoss = false;
                 GameManager.Inst().StgManager.RestartStage();
             }

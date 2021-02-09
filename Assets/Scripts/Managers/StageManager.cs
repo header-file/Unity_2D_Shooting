@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class StageManager : MonoBehaviour
 {
     public static int MAXSTAGES = 4;
+    public static float MAXBOSSTIME = 30.0f;
 
     public GameObject HPBarCanvas;
     public Image HPBar;
@@ -19,6 +20,8 @@ public class StageManager : MonoBehaviour
     public int Stage = 0;
     public int BossCount;
     public bool IsBoss;
+    public float BossTimer;
+    public EnemyB Boss;
 
     Vector3 Ground_Up;
     Vector3 Ground_Down;
@@ -44,6 +47,7 @@ public class StageManager : MonoBehaviour
         if (BossCount >= BossMax)
         {
             IsBoss = true;
+            BossTimer = MAXBOSSTIME;
             BossGauge.SetActive(false);
             BossCount = 0;
             BossGaugeBar.fillAmount = (float)BossCount / (float)BossMax;
@@ -101,11 +105,11 @@ public class StageManager : MonoBehaviour
 
     void SpawnBoss()
     {
-        EnemyB enemy = GameManager.Inst().ObjManager.MakeObj("EnemyB").gameObject.GetComponent<EnemyB>();
+        Boss = GameManager.Inst().ObjManager.MakeObj("EnemyB").gameObject.GetComponent<EnemyB>();
         Vector3 pos = Vector3.zero;
         pos.y = 13.0f;
-        enemy.transform.position = pos;
-        enemy.ResetData();
+        Boss.transform.position = pos;
+        Boss.ResetData();
 
         HPBarCanvas.SetActive(true);
     }
