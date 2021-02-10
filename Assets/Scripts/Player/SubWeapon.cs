@@ -268,16 +268,22 @@ public class SubWeapon : MonoBehaviour
 
     public void SetSkin()
     {
-        //for (int i = 0; i < Bullet.MAXBULLETS; i++)
-        //    Skins[i].SetActive(false);
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+            Skins[i].SetActive(false);
 
-        //Skins[BulletType].SetActive(true);
+        Skins[BulletType].SetActive(true);
+
+        int id = NumID;
+        if (id >= 2)
+            id++;
+        string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[GameManager.Inst().ShtManager.GetColorSelection(id)];
+        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
     }
 
     public void SetSkinColor(int index)
     {
-        //string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[index];
-        //Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
+        string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[index];
+        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
     }
 
     private void OnMouseDown()

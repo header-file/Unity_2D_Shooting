@@ -39,7 +39,6 @@ public class Item_Resource : Item
         {
             IsScatter = false;
             transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
-            Invoke("Add", 5.0f);
         }
             
     }
@@ -81,6 +80,7 @@ public class Item_Resource : Item
 
     void OnMouseDrag()
     {
+        Invoke("Add", 5.0f);
         IsAbsorb = true;
     }
 
@@ -89,7 +89,10 @@ public class Item_Resource : Item
         if (collision.gameObject.tag == "BlockBullet" || collision.gameObject.tag == "PierceBullet" ||
             collision.gameObject.tag == "Chain" || collision.gameObject.tag == "Laser" ||
             collision.gameObject.tag == "Border")
+        {
+            Invoke("Add", 5.0f);
             IsAbsorb = true;
+        }
         else if (collision.gameObject.name == "ResourceGoal")
             Add();
     }

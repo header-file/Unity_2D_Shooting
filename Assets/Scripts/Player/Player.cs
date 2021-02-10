@@ -229,7 +229,7 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        Coin = 9999999;
+        Coin = 999999999;
         
         IsReload = true;
         BulletType = 0;

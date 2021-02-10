@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[index] = Sub; }
     public void SetCoinText(int Coin) { CoinText.text = Coin.ToString(); }
     public void AddResource(int stage, int value) { Resources[stage - 1] += value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
+    public void SubtractResource(int index, int value) { Resources[index] -= value; TxtManager.Resources[index].text = Resources[index].ToString(); }
 
     void Awake()
     {
@@ -95,7 +96,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < StageManager.MAXSTAGES; i++)
         {
-            Resources[i] = 0;
+            Resources[i] = 100;
             TxtManager.Resources[i].text = Resources[i].ToString();
         }
     }

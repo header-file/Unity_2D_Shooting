@@ -37,6 +37,8 @@ public class UpgradeManager : MonoBehaviour
         public void SetAtk(int atk) { Atk = atk; }
         public void SetRng(int rng) { Rng = rng; }
         public void SetSpd(int spd) { Spd = spd; }
+        public void SetPrice(int price) { Price = price; }
+        public void AddRarity() { Rarity++; }
         
         public int GetMaxBulletLevel() { return MaxBulletLevel * (Rarity + 1); }
         public int GetPowerLevel() { return PowerLevel; }
@@ -103,6 +105,7 @@ public class UpgradeManager : MonoBehaviour
     int[] SubWeaponPrice;
     int SubWeaponBuyPrice;
     int CurrentSubWeaponIndex;
+    int[,] ResourceData; 
 
     public BulletData GetBData(int index) { return BData[index]; }
     public int GetSubWeaponLevel(int index) { return SubWeaponLevel[index]; }
@@ -122,6 +125,11 @@ public class UpgradeManager : MonoBehaviour
             BData[i].SetDatas(data, i);
         }
 
+        data = CSVReader.Read("Datas/WpUpgradeData");
+        ResourceData = new int[5, StageManager.MAXSTAGES];
+        for (int i = 0; i < 5; i++)
+            SetResourceDatas(data, i);
+
         SubWeaponLevel = new int[4];
         SubWeaponPrice = new int[4];
         for(int i = 0; i < 4; i++)
@@ -136,12 +144,123 @@ public class UpgradeManager : MonoBehaviour
     void Start()
     {
         GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.NORMAL, BData[(int)Bullet.BulletType.NORMAL].GetPowerLevel());
-        //GameManager.Inst().TxtManager.SetBPrices((int)Bullet.BulletType.NORMAL, BData[(int)Bullet.BulletType.NORMAL].GetPrice());
+    }
+
+    void SetResourceDatas(List<Dictionary<string, object>> data, int rarity)
+    {
+        ResourceData[rarity, 0] = int.Parse(data[rarity]["A"].ToString());
+        ResourceData[rarity, 1] = int.Parse(data[rarity]["B"].ToString());
+        ResourceData[rarity, 2] = int.Parse(data[rarity]["C"].ToString());
+        ResourceData[rarity, 3] = int.Parse(data[rarity]["D"].ToString());
     }
 
     public void AddLevel(int UpgType)
     {
-        UpgradeType Type = (UpgradeType)UpgType;
+        if(UpgType < 100)
+        {
+            if (BData[UpgType].GetPowerLevel() > BData[UpgType].GetMaxBulletLevel())
+                return;
+            else if(BData[UpgType].GetPowerLevel() == BData[UpgType].GetMaxBulletLevel())   //레어도 상승
+            {
+                //가격
+                for(int i = 0; i < StageManager.MAXSTAGES; i++)
+                {
+                    if (GameManager.Inst().Resources[i] < ResourceData[BData[UpgType].GetRarity(), i])
+                        return;
+                }
+                for (int i = 0; i < StageManager.MAXSTAGES; i++)
+                    GameManager.Inst().SubtractResource(i, ResourceData[BData[UpgType].GetRarity(), i]);
+
+                //BData 처리
+                BData[UpgType].SetPowerLevel(0);
+                BData[UpgType].AddRarity();
+                BData[UpgType].SetPrice((int)Mathf.Pow(10.0f, BData[UpgType].GetRarity()));
+
+                //UI
+                GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
+                GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
+                GameManager.Inst().UiManager.ShowDetail(UpgType);
+
+                return;
+            }
+
+            //가격
+            if (GameManager.Inst().Player.GetCoin() < BData[UpgType].GetPrice())
+                return;
+            else
+                GameManager.Inst().Player.MinusCoin(BData[UpgType].GetPrice());
+
+            //BData 처리
+            BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() + 1);
+            BData[UpgType].SetPrice();
+
+            //UI
+            GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
+            GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
+            GameManager.Inst().UiManager.ShowDetail(UpgType);
+        }
+        else
+        {
+            if (SubWeaponLevel[CurrentSubWeaponIndex] >= MAXSUBLEVEL)
+                return;
+
+            //가격
+            if (SubWeaponLevel[CurrentSubWeaponIndex] == 0)
+            {
+                if (GameManager.Inst().Player.GetCoin() < SubWeaponBuyPrice)
+                    return;
+                else
+                    GameManager.Inst().Player.MinusCoin(SubWeaponBuyPrice);
+                SubWeaponBuyPrice *= 2;
+                if (SubWeaponBuyPrice >= 8000)
+                    SubWeaponBuyPrice = 0;
+                AddSW();
+            }
+            else
+            {
+                if (GameManager.Inst().Player.GetCoin() < SubWeaponPrice[CurrentSubWeaponIndex])
+                    return;
+                else
+                    GameManager.Inst().Player.MinusCoin(SubWeaponPrice[CurrentSubWeaponIndex]);
+            }
+
+            //Data 처리
+            SubWeaponLevel[CurrentSubWeaponIndex]++;
+            if (SubWeaponLevel[CurrentSubWeaponIndex] < 5)
+                SubWeaponPrice[CurrentSubWeaponIndex] = (int)Mathf.Pow(10, (float)(SubWeaponLevel[CurrentSubWeaponIndex] + 2));
+            else
+                SubWeaponPrice[CurrentSubWeaponIndex] = 0;
+
+            GameManager.Inst().GetSubweapons(CurrentSubWeaponIndex).SetHP(10 * SubWeaponLevel[CurrentSubWeaponIndex]);
+
+            //UI
+            //GameManager.Inst().TxtManager.SetSLevel(SubWeaponLevel);
+            GameManager.Inst().TxtManager.SetSPrice(SubWeaponPrice[CurrentSubWeaponIndex]);
+            if (SubWeaponLevel[CurrentSubWeaponIndex] >= 5)
+                GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
+            GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
+        }
+    }
+
+    public void AddSW()
+    {
+        GameObject subWeapon = GameManager.Inst().ObjManager.MakeObj("SubWeapon");
+        //int index = GameManager.Inst().UiManager.NewWindows[(int)UIManager.NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>().GetSelectedIndex();
+        int index = CurrentSubWeaponIndex;
+        Vector3 pos = SubPositions[CurrentSubWeaponIndex].transform.position;
+        subWeapon.transform.position = pos;
+        SubWeapon sub = subWeapon.GetComponent<SubWeapon>();
+
+        GameManager.Inst().SetSubWeapons(sub, CurrentSubWeaponIndex);
+        if (index > 1)
+            index++;
+        sub.SetNumID(index);
+        sub.SetSortingLyaer();
+    }
+}
+
+
+/*UpgradeType Type = (UpgradeType)UpgType;
 
         switch (Type)
         {
@@ -401,37 +520,4 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
 
                 break;
-        }
-    }
-
-    public void AddSW()
-    {
-        GameObject subWeapon = GameManager.Inst().ObjManager.MakeObj("SubWeapon");
-        //int index = GameManager.Inst().UiManager.NewWindows[(int)UIManager.NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>().GetSelectedIndex();
-        int index = CurrentSubWeaponIndex;
-        Vector3 pos = SubPositions[CurrentSubWeaponIndex].transform.position;
-        subWeapon.transform.position = pos;
-        SubWeapon sub = subWeapon.GetComponent<SubWeapon>();
-
-        GameManager.Inst().SetSubWeapons(sub, CurrentSubWeaponIndex);
-        if (index > 1)
-            index++;
-        sub.SetNumID(index);
-        sub.SetSortingLyaer();
-    }
-
-    public void Update()
-    {
-        /*Player player = GameObject.Find("Player").gameObject.GetComponent<Player>();
-        if (Input.GetMouseButtonUp(2))
-            AddLevel((UpgradeType)player.GetBulletType());
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
-            player
-        else if (Input.GetKeyUp(KeyCode.UpArrow))
-            AddLevel("SWLaser");
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
-            AddLevel("Laser");
-        if (Input.GetKeyUp(KeyCode.Space))
-            AddLevel(UpgradeType.SUBWEAPON);*/
-    }
-}
+        }*/

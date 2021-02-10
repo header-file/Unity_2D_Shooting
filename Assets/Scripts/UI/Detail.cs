@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Detail : MonoBehaviour
 {
+    public Image WpImg;
     public GameObject Name;
     public GameObject CurrentLevel;
     public GameObject NextLevel;
@@ -15,6 +16,7 @@ public class Detail : MonoBehaviour
 
     Sprite Coin;
     int BulletType;
+    Color[] Colors;
 
     public void SetBulletType(int Type) { BulletType = Type; }
 
@@ -22,14 +24,27 @@ public class Detail : MonoBehaviour
     {
         BulletType = -1;
         Coin = CoinImg.sprite;
+
+        Colors = new Color[5];
+        Colors[0] = Color.white;
+        Colors[1] = Color.green;
+        Colors[2] = Color.blue;
+        Colors[3] = new Color(1.0f, 0.0f, 1.0f);
+        Colors[4] = Color.yellow;
     }
 
     public void SetDetails()
     {
+        WpImg.sprite = GameManager.Inst().UiManager.WeaponImages[BulletType];
         Name.GetComponent<Text>().text = GameManager.Inst().TxtManager.GetBNames(BulletType);
         string lv = GameManager.Inst().TxtManager.GetBLevels(BulletType);
-        CurrentLevel.GetComponent<Text>().text = lv;
+        Text curLevel = CurrentLevel.GetComponent<Text>();
+        curLevel.text = lv;
+        int rarity = GameManager.Inst().UpgManager.GetBData(BulletType).GetRarity();
+        curLevel.color = Colors[rarity];
+
         Price.GetComponent<Text>().text = GameManager.Inst().TxtManager.GetBPrices(BulletType);
+        CoinImg.sprite = Coin;
 
         int level = GameManager.Inst().UpgManager.GetBData(BulletType).GetPowerLevel();
         if (level < GameManager.Inst().UpgManager.GetBData(BulletType).GetMaxBulletLevel() - 1)
@@ -38,27 +53,11 @@ public class Detail : MonoBehaviour
             NextLevel.GetComponent<Text>().text = "Lv" + "MAX";
         else
         {
-            int rarity = GameManager.Inst().UpgManager.GetBData(BulletType).GetRarity();
             if (rarity < 4)
             {
                 Text nextText = NextLevel.GetComponent<Text>();
                 nextText.text = "0";
-
-                switch (rarity)
-                {
-                    case 0:
-                        nextText.color = Color.green;
-                        break;
-                    case 1:
-                        nextText.color = Color.blue;
-                        break;
-                    case 2:
-                        nextText.color = new Color(1.0f, 0.0f, 1.0f);
-                        break;
-                    case 3:
-                        nextText.color = Color.yellow;
-                        break;
-                }
+                nextText.color = Colors[rarity + 1];                
 
                 CoinImg.sprite = ResourceImgs[rarity];
                 Price.GetComponent<Text>().text = "10";
