@@ -36,12 +36,14 @@ public class Detail : MonoBehaviour
     public void SetDetails()
     {
         WpImg.sprite = GameManager.Inst().UiManager.WeaponImages[BulletType];
-        Name.GetComponent<Text>().text = GameManager.Inst().TxtManager.GetBNames(BulletType);
+        Text nameText = Name.GetComponent<Text>();
+        nameText.text = GameManager.Inst().TxtManager.GetBNames(BulletType) + " + " + GameManager.Inst().UpgManager.GetBData(BulletType).GetPowerLevel();
         string lv = GameManager.Inst().TxtManager.GetBLevels(BulletType);
         Text curLevel = CurrentLevel.GetComponent<Text>();
         curLevel.text = lv;
         int rarity = GameManager.Inst().UpgManager.GetBData(BulletType).GetRarity();
         curLevel.color = Colors[rarity];
+        nameText.color = Colors[rarity];
 
         Price.GetComponent<Text>().text = GameManager.Inst().TxtManager.GetBPrices(BulletType);
         CoinImg.sprite = Coin;

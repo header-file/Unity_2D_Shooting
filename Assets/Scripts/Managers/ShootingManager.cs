@@ -262,87 +262,45 @@ public class ShootingManager : MonoBehaviour
 
     void Laser(int Power, int Index)
     {
-        switch (Power)
-        {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Laser", Index);
-                Vector3 scale = Objs[0].gameObject.transform.localScale;
-                scale.x = (0.5f * Power);
-                Objs[0].transform.localScale = scale;
-                Objs[0].transform.position = LaserPos.transform.position;
-                Objs[0].transform.rotation = LaserPos.transform.rotation;
-                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
-
-                //Laser bullet = Objs[0].gameObject.GetComponent<Laser>();
-                break;
-        }
+        Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Laser", Index);
+        Vector3 scale = Objs[0].gameObject.transform.localScale;
+        scale.x = (0.5f * Power);
+        Objs[0].transform.localScale = scale;
+        Objs[0].transform.position = LaserPos.transform.position;
+        Objs[0].transform.rotation = LaserPos.transform.rotation;
     }
 
     void Charge(int Power, int Index)
     {
-        switch (Power)
-        {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Charge", Index);
-                Objs[0].transform.position = ChargePos.transform.position;
-                Objs[0].transform.rotation = ChargePos.transform.rotation;
-                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+        Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Charge", Index);
+        Objs[0].transform.position = ChargePos.transform.position;
+        Objs[0].transform.rotation = ChargePos.transform.rotation;
 
-                Charge bullet = Objs[0].gameObject.GetComponent<Charge>();
-                bullet.SetChargePos(ChargePos);
-                bullet.StartCharge(GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.CHARGE).GetDuration());
-                break;
-        }
+        Charge bullet = Objs[0].gameObject.GetComponent<Charge>();
+        bullet.SetChargePos(ChargePos);
+        bullet.StartCharge(GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.CHARGE).GetDuration());
     }
 
     void Boomerang(int Power, int Index)
     {
-        switch (Power)
-        {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
-                Objs[0].transform.position = NormalPos[0].transform.position;
-                Objs[0].transform.rotation = NormalPos[0].transform.rotation;
-                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+        Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
+        Objs[0].transform.position = NormalPos[0].transform.position;
+        Objs[0].transform.rotation = NormalPos[0].transform.rotation;
 
-                Boomerang bullet = Objs[0].gameObject.GetComponent<Boomerang>();
-                bullet.SetStartPos(Objs[0].transform.position);
-                bullet.SetTargetpos(Objs[0].transform.position + NormalPos[0].transform.up/*GameManager.Inst().IptManager.MousePosition*/);
-                bullet.SetStart();
-                break;
-        }
+        Boomerang bullet = Objs[0].gameObject.GetComponent<Boomerang>();
+        bullet.SetStartPos(Objs[0].transform.position);
+        bullet.SetTargetpos(Objs[0].transform.position + NormalPos[0].transform.up/*GameManager.Inst().IptManager.MousePosition*/);
+        bullet.SetStart();
     }
 
     void Chain(int Power, int Index, int ShooterID)
     {
-        switch (Power)
-        {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Chain", Index);
-                Objs[0].transform.position = NormalPos[0].transform.position;
-                Objs[0].transform.rotation = NormalPos[0].transform.rotation;
-                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
+        Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Chain", Index);
+        Objs[0].transform.position = NormalPos[0].transform.position;
+        Objs[0].transform.rotation = NormalPos[0].transform.rotation;
 
-                Chain bullet = Objs[0].gameObject.GetComponent<Chain>();
-                bullet.ResetData();
-                bullet.Shoot(NormalPos[0].transform.up);
-                break;
-        }
+        Chain bullet = Objs[0].gameObject.GetComponent<Chain>();
+        bullet.ResetData();
+        bullet.Shoot(NormalPos[0].transform.up);
     }
 }

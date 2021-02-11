@@ -17,11 +17,7 @@ public class SubWeapon : MonoBehaviour
     public GameObject HPBarCanvas;
     public Image HPBar;
     public GameObject Shield;
-    public GameObject Booster;
-
-    public Sprite[] Sprites;
-
-    SpriteRenderer SpriteRenderer;
+    public GameObject Booster;    
 
     int BulletType;
     int DownCount;
@@ -106,8 +102,6 @@ public class SubWeapon : MonoBehaviour
     
     void Awake()
     {
-        SpriteRenderer = GetComponent<SpriteRenderer>();
-
         BulletType = 0;
         DownCount = 0;
         IsDown = false;
@@ -164,11 +158,6 @@ public class SubWeapon : MonoBehaviour
                 index--;
             transform.position = GameManager.Inst().UpgManager.SubPositions[index].transform.position;
         }
-        
-    }
-
-    public void SetSortingLyaer()
-    {
         
     }
 
@@ -231,7 +220,9 @@ public class SubWeapon : MonoBehaviour
 
         IsAlive = false;
         IsDown = false;
-        SpriteRenderer.sprite = Sprites[1];
+
+        string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[8];
+        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
 
         CoolTime = COOLTIME;
         
@@ -258,7 +249,10 @@ public class SubWeapon : MonoBehaviour
             IsAlive = true;
             CurHP = MaxHP;
             HPBar.fillAmount = (float)CurHP / (float)MaxHP * 0.415f;
-            SpriteRenderer.sprite = Sprites[0];
+
+            string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[GameManager.Inst().ShtManager.GetColorSelection(id)];
+            Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
+
             CoolTime = COOLTIME;
             CancelInvoke("CheckDead");
 

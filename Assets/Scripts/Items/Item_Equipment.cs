@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Item_Equipment : Item
 {
+    public static int MAXRARITY = 5;
+
     public enum EquipmentType
     {
         ATTACK = 0,

@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < StageManager.MAXSTAGES; i++)
         {
-            Resources[i] = 100;
+            Resources[i] = 10000;
             TxtManager.Resources[i].text = Resources[i].ToString();
         }
     }
