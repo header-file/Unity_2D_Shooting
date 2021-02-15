@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class SubWeapon : MonoBehaviour
 {
-    public GameObject[] Skins;
+    public SpriteResolver Skin;
 
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
@@ -221,8 +221,8 @@ public class SubWeapon : MonoBehaviour
         IsAlive = false;
         IsDown = false;
 
-        string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[8];
-        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
+        //string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[8];
+        //Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
 
         CoolTime = COOLTIME;
         
@@ -250,8 +250,8 @@ public class SubWeapon : MonoBehaviour
             CurHP = MaxHP;
             HPBar.fillAmount = (float)CurHP / (float)MaxHP * 0.415f;
 
-            string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[GameManager.Inst().ShtManager.GetColorSelection(id)];
-            Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
+            //string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[GameManager.Inst().ShtManager.GetColorSelection(id)];
+            //Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
 
             CoolTime = COOLTIME;
             CancelInvoke("CheckDead");
@@ -262,22 +262,12 @@ public class SubWeapon : MonoBehaviour
 
     public void SetSkin()
     {
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
-            Skins[i].SetActive(false);
-
-        Skins[BulletType].SetActive(true);
-
-        int id = NumID;
-        if (id >= 2)
-            id++;
-        string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[GameManager.Inst().ShtManager.GetColorSelection(id)];
-        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
+        Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[BulletType]);
     }
 
     public void SetSkinColor(int index)
     {
-        string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[index];
-        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
+        
     }
 
     private void OnMouseDown()

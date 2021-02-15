@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Equip : MonoBehaviour
 {
     public GameObject InventoryArea;
-    public GameObject[] BulletImgs;
     public GameObject[] TypeText;
     public GameObject BeforeText;
     public GameObject AfterText;
@@ -218,7 +217,7 @@ public class Equip : MonoBehaviour
 
     void ShowEquipDetail(int BulletType, int index)
     {
-        SwitchWindows.transform.GetChild(index).GetComponent<SwitchWindow>().SetCurrentBulletImg(BulletImgs[BulletType].GetComponent<SpriteRenderer>().sprite);
+        //SwitchWindows.transform.GetChild(index).GetComponent<SwitchWindow>().SetCurrentBulletImg(GameManager.Inst().UiManager.WeaponImages[BulletType]);
 
         for(int i = 0; i < 3; i++)
         {

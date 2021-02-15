@@ -29,9 +29,8 @@ public class Player : MonoBehaviour
         
     };
 
-    public GameObject[] Skins;
+    public SpriteResolver Skin;
     public string[] Types;
-    public string[] Colors;
     
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
@@ -309,19 +308,12 @@ public class Player : MonoBehaviour
 
     public void SetSkin()
     {
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
-            Skins[i].SetActive(false);
-
-        Skins[BulletType].SetActive(true);
-
-        string color = Types[BulletType] + Colors[GameManager.Inst().ShtManager.GetColorSelection(2)];
-        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(Types[BulletType], color);
+        Skin.SetCategoryAndLabel("Skin", Types[BulletType]);
     }
 
     public void SetSkinColor(int index)
     {
-        string color = Types[BulletType] + Colors[index];
-        Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(Types[BulletType], color);
+        GetComponent<Animator>().SetInteger("Color", ++index);
     }
     
     void OnMouseDown()

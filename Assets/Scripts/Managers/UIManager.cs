@@ -381,21 +381,35 @@ public class UIManager : MonoBehaviour
         InventoryDetail.SetActive(false);
     }
 
+    //public void OnClickEquipBtn()
+    //{
+    //    if (!IsMoveDown)
+    //    {
+    //        Timer = 0.0f;
+    //        IsMoveDown = true;
+    //    }
+
+    //    Inventory.SetActive(false);
+    //    InventoryDetail.SetActive(false);
+    //    Equip.SetActive(true);
+
+    //    EquipUI.SetCurBulletType(CurrentBulletType);
+    //    EquipUI.ShowUI();
+    //    IsEquip = true;
+    //}
+
     public void OnClickEquipBtn()
     {
-        if (!IsMoveDown)
-        {
-            Timer = 0.0f;
-            IsMoveDown = true;
-        }
-
         Inventory.SetActive(false);
         InventoryDetail.SetActive(false);
         Equip.SetActive(true);
 
-        EquipUI.SetCurBulletType(CurrentBulletType);
+        EquipUI.SetCurBulletType(GameManager.Inst().Player.GetBulletType());
         EquipUI.ShowUI();
         IsEquip = true;
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
     }
 
     public void OnClickEquipBackBtn()
