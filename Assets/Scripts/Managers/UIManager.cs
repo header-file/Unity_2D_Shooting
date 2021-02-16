@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
     public GameObject ConfirmSwitch;
     public GameObject Synthesis;
     public GameObject Resource;
+    public GameObject SideMenu;
+    public GameObject StageScroll;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -46,6 +48,7 @@ public class UIManager : MonoBehaviour
     InventoryDetail InvDetailUI;
     Equip EquipUI;
     Synthesis SynthesisUI;
+    SideMenu SideMenuUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -105,6 +108,7 @@ public class UIManager : MonoBehaviour
         InvDetailUI = InventoryDetail.GetComponent<InventoryDetail>();
         EquipUI = Equip.GetComponent<Equip>();
         SynthesisUI = Synthesis.GetComponent<Synthesis>();
+        SideMenuUI = SideMenu.GetComponent<SideMenu>();
     }
 
     void Update()
@@ -553,5 +557,37 @@ public class UIManager : MonoBehaviour
             Resource.SetActive(false);
         else
             Resource.SetActive(true);
+    }
+
+    public void OnClickSideBarBtn()
+    {
+        SideMenuUI.SideMenuOpen();
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+    }
+
+    public void OnClickSideBarBackBtn()
+    {
+        SideMenuUI.SideMenuClose();
+
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+    }
+   
+    public void OnClickSpaceBtn()
+    {
+        StageScroll.SetActive(true);
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+    }
+
+    public void OnClickSpaceBackBtn()
+    {
+        StageScroll.SetActive(false);
+
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
     }
 }
