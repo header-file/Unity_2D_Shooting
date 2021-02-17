@@ -49,37 +49,37 @@ public class ShootingManager : MonoBehaviour
     {
         SetPos(Shooter, ID);
 
-        int power = GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
+        int rarity = GameManager.Inst().UpgManager.GetBData((int)Type).GetRarity();
         int colorIndex = ColorSelection[ID];
 
         switch (Type)
         {
             case Bullet.BulletType.NORMAL:
-                Normal(power, colorIndex);
+                Normal(rarity, colorIndex);
                 break;
 
             case Bullet.BulletType.SPREAD:
-                Spread(power, colorIndex);
+                Spread(rarity, colorIndex);
                 break;
 
             case Bullet.BulletType.MISSILE:
-                Missile(power, colorIndex);
+                Missile(rarity, colorIndex);
                 break;
 
             case Bullet.BulletType.LASER:
-                Laser(power, colorIndex);
+                Laser(rarity, colorIndex);
                 break;
 
             case Bullet.BulletType.CHARGE:
-                Charge(power, colorIndex);
+                Charge(rarity, colorIndex);
                 break;
 
             case Bullet.BulletType.BOOMERANG:
-                Boomerang(power, colorIndex);
+                Boomerang(rarity, colorIndex);
                 break;
 
             case Bullet.BulletType.CHAIN:
-                Chain(power, colorIndex, ID);
+                Chain(rarity, colorIndex, ID);
                 break;
         }
     }
@@ -117,26 +117,16 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Normal(int Power, int Index)
+    void Normal(int Rarity, int Index)
     {
         Normal[] bullets = new Normal[5];
 
-        switch (Power)
+        switch (Rarity)
         {
-            case 1:
+            case 0:
             case 2:
-                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
-                Objs[0].transform.position = NormalPos[0].transform.position;
-                Objs[0].transform.rotation = NormalPos[0].transform.rotation;
-                //Objs[0].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color);
-
-                Normal bullet = Objs[0].gameObject.GetComponent<Normal>();
-                bullet.Shoot(NormalPos[0].transform.up);
-                break;
-
-            case 3:
             case 4:
-                for(int i = 0; i < 3; i++)
+                for (int i = 0; i <= Rarity; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;
@@ -149,8 +139,9 @@ public class ShootingManager : MonoBehaviour
                 }
                 break;
 
-            case 5:
-                for (int i = 0; i < 5; i++)
+            case 1:
+            case 3:
+                for(int i = 1; i <= Rarity + 1; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;
@@ -166,16 +157,16 @@ public class ShootingManager : MonoBehaviour
         
     }
 
-    void Spread(int Power, int Index)
+    void Spread(int Rarity, int Index)
     {
         Spread[] bullets = new Spread[5];
         float duration = GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.SPREAD).GetDuration();
 
-        switch (Power)
+        switch (Rarity)
         {
+            case 0:
             case 1:
             case 2:
-            case 3:
                 for(int i = 0; i < 3; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Spread", Index);
@@ -189,8 +180,8 @@ public class ShootingManager : MonoBehaviour
                 }
                 break;
 
+            case 3:
             case 4:
-            case 5:
                 for (int i = 0; i < 5; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Spread", Index);
@@ -206,15 +197,15 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Missile(int Power, int Index)
+    void Missile(int Rarity, int Index)
     {
         Missile[] bullets = new Missile[5];
         float rad = GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.MISSILE).GetDuration();
 
-        switch (Power)
+        switch (Rarity)
         {
+            case 0:
             case 1:
-            case 2:
                 Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
                 Objs[0].transform.position = SpreadPos[0].transform.position;
                 Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
@@ -226,8 +217,8 @@ public class ShootingManager : MonoBehaviour
                 bullets[0].SearchArea.GetComponent<SearchArea>().SetArea(rad);
                 bullets[0].Shoot(SpreadPos[0].transform.up);
                 break;
+            case 2:
             case 3:
-            case 4:
                 for (int i = 0; i < 2; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
@@ -242,7 +233,7 @@ public class ShootingManager : MonoBehaviour
                     bullets[i].Shoot(SpreadPos[0].transform.up);
                 }
                 break;
-            case 5:
+            case 4:
                 for (int i = 0; i < 3; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
@@ -260,17 +251,17 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Laser(int Power, int Index)
+    void Laser(int Rarity, int Index)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Laser", Index);
         Vector3 scale = Objs[0].gameObject.transform.localScale;
-        scale.x = (0.5f * Power);
+        scale.x = (0.5f * (Rarity + 1));
         Objs[0].transform.localScale = scale;
         Objs[0].transform.position = LaserPos.transform.position;
         Objs[0].transform.rotation = LaserPos.transform.rotation;
     }
 
-    void Charge(int Power, int Index)
+    void Charge(int Rarity, int Index)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Charge", Index);
         Objs[0].transform.position = ChargePos.transform.position;
@@ -281,7 +272,7 @@ public class ShootingManager : MonoBehaviour
         bullet.StartCharge(GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.CHARGE).GetDuration());
     }
 
-    void Boomerang(int Power, int Index)
+    void Boomerang(int Rarity, int Index)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
@@ -293,7 +284,7 @@ public class ShootingManager : MonoBehaviour
         bullet.SetStart();
     }
 
-    void Chain(int Power, int Index, int ShooterID)
+    void Chain(int Rarity, int Index, int ShooterID)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Chain", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;

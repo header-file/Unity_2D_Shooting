@@ -9,6 +9,7 @@ public class StageLoop : MonoBehaviour
     public RectTransform[] Slots;
     public RectTransform Center;
     public PlanetSlot[] Planets;
+    public Button LandingBtn;
 
     float[] Distances;
     float[] DistReposition;
@@ -76,11 +77,15 @@ public class StageLoop : MonoBehaviour
         float newY = Mathf.Lerp(Panel.anchoredPosition.y, position, Time.deltaTime * 10.0f);
         Vector2 newPosition = new Vector2(Panel.anchoredPosition.x, newY);
         Panel.anchoredPosition = newPosition;
+
+        if (Vector3.Distance(Panel.anchoredPosition, newPosition) < 0.001f)
+            LandingBtn.interactable = true;
     }
 
     public void StartDrag()
     {
         IsDragging = true;
+        LandingBtn.interactable = false;
     }
 
     public void Dragging(int index)
