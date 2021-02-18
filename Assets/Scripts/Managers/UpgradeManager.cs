@@ -192,6 +192,14 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
                 GameManager.Inst().UiManager.ShowDetail(UpgType);
 
+                //기타 능력치
+                if (BData[UpgType].GetBaseDamage() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetBaseDamage())
+                    BData[UpgType].SetBaseDamage(BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetBaseDamage());
+                if (BData[UpgType].GetReloadTime() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetReloadTime())
+                    BData[UpgType].SetReloadTime(BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetReloadTime());
+                if (BData[UpgType].GetDuration() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetDuration())
+                    BData[UpgType].SetDuration(BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetDuration());
+
                 return;
             }
 
@@ -204,16 +212,6 @@ public class UpgradeManager : MonoBehaviour
             //BData 처리
             BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() + 1);
             BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel()]);
-
-            //기타 능력치
-            if (BData[UpgType].GetBaseDamage() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetBaseDamage())
-                BData[UpgType].SetBaseDamage(BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetBaseDamage());
-            if (BData[UpgType].GetReloadTime() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetReloadTime())
-                BData[UpgType].SetReloadTime(BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetReloadTime());
-            if (BData[UpgType].GetDuration() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetDuration())
-                BData[UpgType].SetDuration(BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetDuration());
-            //if (BData[UpgType].GetSpeed() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetSpeed())
-            //    BData[UpgType].SetSpeed(BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetSpeed());
 
             //UI
             GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());

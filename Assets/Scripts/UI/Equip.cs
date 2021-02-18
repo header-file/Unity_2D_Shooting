@@ -409,6 +409,9 @@ public class Equip : MonoBehaviour
             return;
 
         Player.EqData eq = Player.GetItem(index);
+        if (GameManager.Inst().UpgManager.GetBData(CurBulletType).GetRarity() < eq.Rarity)
+            return;
+
         if (eq.Type == (int)SelectableType)
         {
             //Detail에 데이터 적용

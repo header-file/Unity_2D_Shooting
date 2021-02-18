@@ -78,7 +78,7 @@ public class Item_Resource : Item
         gameObject.SetActive(false);
     }
 
-    void OnMouseDrag()
+    void OnMouseDown()
     {
         Invoke("Add", 5.0f);
         IsAbsorb = true;

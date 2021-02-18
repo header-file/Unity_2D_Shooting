@@ -267,7 +267,7 @@ public class SubWeapon : MonoBehaviour
 
     public void SetSkinColor(int index)
     {
-        
+        GetComponent<Animator>().SetInteger("Color", ++index);
     }
 
     private void OnMouseDown()

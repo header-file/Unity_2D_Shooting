@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Slot : MonoBehaviour
 {
     public GameObject Selected;
+    public GameObject Locked;
+    public Text StageName;
     public Button DetailBtn;
     public Image Icon;
     public Text Name;
@@ -26,6 +28,12 @@ public class Slot : MonoBehaviour
         RectT = GetComponent<RectTransform>();
         Parent = transform.GetComponentInParent<RectTransform>();
         ParentInitPos = Parent.position;
+    }
+
+    void Start()
+    {
+        if (GameManager.Inst().StgManager.Stage == 0)
+            Locked.SetActive(false);
     }
 
     public void Show(int index)
