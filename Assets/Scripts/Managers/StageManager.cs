@@ -29,6 +29,7 @@ public class StageManager : MonoBehaviour
     float MediumTime;
     float LargeTime;
     int BossMax;
+    bool IsFeverMode;
     
     public void StartEnemy() { Invoke("SpawnEnemies", 2.0f); }
 
@@ -36,10 +37,11 @@ public class StageManager : MonoBehaviour
     {
         BossCount = 0;
         HPBarCanvas.SetActive(false);
-        BossMax = 10;
+        BossMax = 50;
         BossGauge.SetActive(true);
         Ground_Up = new Vector3(0.0f, -0.8f, 0.0f);
         Ground_Down = new Vector3(0.0f, -6.0f, 0.0f);
+        IsFeverMode = false;
     }
 
     void Update()
@@ -64,8 +66,13 @@ public class StageManager : MonoBehaviour
         if (!IsBoss)
         {
             BossCount++;
+            float percent = (float)BossCount / (float)BossMax;
+            BossGaugeBar.fillAmount = percent;
 
-            BossGaugeBar.fillAmount = (float)BossCount / (float)BossMax;
+            if (!IsFeverMode && percent >= 0.4f && percent < 0.6f)
+                FeverMode();
+            if (IsFeverMode && percent > 0.6f)
+                EndFeverMode();
         }
     }
 
@@ -150,6 +157,22 @@ public class StageManager : MonoBehaviour
             angle *= -1;
         Quaternion rot = Quaternion.Euler(0.0f, 0.0f, angle);
         Enemy.transform.rotation = rot;
+    }
+
+    void FeverMode()
+    {
+        IsFeverMode = true;
+        CancelEnemies();
+
+        InvokeRepeating("SpawnSmall", 0.0f, 0.25f);
+    }
+
+    void EndFeverMode()
+    {
+        IsFeverMode = false;
+        CancelEnemies();
+
+        SpawnEnemies();
     }
 
     void GroundDown()

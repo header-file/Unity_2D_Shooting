@@ -15,7 +15,6 @@ public class Boomerang : Bullet
     float Duration;
     float Speed;
 
-
     public void SetTargetpos(Vector3 pos)
     {
         Duration = GameManager.Inst().UpgManager.GetBData((int)BulletType.BOOMERANG).GetDuration();

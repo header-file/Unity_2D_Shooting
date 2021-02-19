@@ -155,13 +155,15 @@ public class ShootingManager : MonoBehaviour
 
     void Spread(int Rarity, int Index)
     {
-        Spread[] bullets = new Spread[5];
+        Spread[] bullets = new Spread[7];
         float duration = GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.SPREAD).GetDuration();
 
         switch (Rarity)
         {
             case 0:
-                for (int i = 0; i < 3; i++)
+            case 2:
+            case 4:
+                for (int i = 0; i < Rarity + 3; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Spread", Index);
                     Objs[i].transform.position = SpreadPos[i].transform.position;
@@ -174,30 +176,16 @@ public class ShootingManager : MonoBehaviour
                 break;
 
             case 1:
-            case 2:
-                for(int i = 3; i < 7; i++)
-                {
-                    Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Spread", Index);
-                    Objs[i].transform.position = SpreadPos[i].transform.position;
-                    Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
-
-                    bullets[i - 3] = Objs[i].gameObject.GetComponent<Spread>();
-                    bullets[i - 3].Shoot(SpreadPos[i].transform.up);
-                    bullets[i - 3].Invoke("Deactivate", duration);
-                }
-                break;
-
             case 3:
-            case 4:
-                for (int i = 0; i < 5; i++)
+                for (int i = 1; i <= Rarity + 3; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Spread", Index);
                     Objs[i].transform.position = SpreadPos[i].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
 
-                    bullets[i] = Objs[i].gameObject.GetComponent<Spread>();
-                    bullets[i].Shoot(SpreadPos[i].transform.up);
-                    bullets[i].Invoke("Deactivate", duration);
+                    bullets[i - 1] = Objs[i].gameObject.GetComponent<Spread>();
+                    bullets[i - 1].Shoot(SpreadPos[i].transform.up);
+                    bullets[i - 1].Invoke("Deactivate", duration);
                 }
                 break;
         }
@@ -211,7 +199,6 @@ public class ShootingManager : MonoBehaviour
         switch (Rarity)
         {
             case 0:
-            case 1:
                 Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
                 Objs[0].transform.position = SpreadPos[0].transform.position;
                 Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
@@ -223,8 +210,8 @@ public class ShootingManager : MonoBehaviour
                 bullets[0].Shoot(SpreadPos[0].transform.up);
                 break;
 
+            case 1:
             case 2:
-            case 3:
                 for (int i = 0; i < 2; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
@@ -239,6 +226,7 @@ public class ShootingManager : MonoBehaviour
                 }
                 break;
 
+            case 3:
             case 4:
                 for (int i = 0; i < 3; i++)
                 {
@@ -282,6 +270,11 @@ public class ShootingManager : MonoBehaviour
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
         Objs[0].transform.rotation = NormalPos[0].transform.rotation;
+        Objs[0].transform.localScale = Vector3.one;
+        if (Rarity == 4)
+            Objs[0].transform.localScale = Vector3.one * 2.0f;
+        else if(Rarity > 1)
+            Objs[0].transform.localScale = Vector3.one * 1.5f;
 
         Boomerang bullet = Objs[0].gameObject.GetComponent<Boomerang>();
         bullet.SetStartPos(Objs[0].transform.position);

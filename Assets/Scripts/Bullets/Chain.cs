@@ -61,7 +61,7 @@ public class Chain : Bullet
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         GameObject closest = null;
-        float dist = 3.0f;
+        float dist = GameManager.Inst().UpgManager.GetBData((int)BulletType.CHAIN).GetRarity() / 2 + 3;
 
         foreach(GameObject e in enemies)
         {
