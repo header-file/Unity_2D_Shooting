@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
     public GameObject Resource;
     public GameObject SideMenu;
     public GameObject StageScroll;
+    public GameObject InfoArea;
+    public GameObject EquipArea;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -40,7 +42,7 @@ public class UIManager : MonoBehaviour
     public Sprite[] WeaponImages;
 
     MainUI MainUi;
-    Detail DetailUI;
+    //Detail DetailUI;
     Slot[] SlotUI;
     BuySubWeapon BuySWUI;
     LoopScroll ScrollViewUI;
@@ -49,6 +51,7 @@ public class UIManager : MonoBehaviour
     Equip EquipUI;
     Synthesis SynthesisUI;
     SideMenu SideMenuUI;
+    InfoArea InfoAreaUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -94,11 +97,11 @@ public class UIManager : MonoBehaviour
 
         IsMoveUp = false;
         IsMoveDown = false;
-        CurrentBulletType = -1;
+        CurrentBulletType = 0;
         IsEquip = false;
 
         MainUi = MainUI.GetComponent<MainUI>();
-        DetailUI = NewWindows[(int)NewWindowType.DETAIL].GetComponent<Detail>();
+        //DetailUI = NewWindows[(int)NewWindowType.DETAIL].GetComponent<Detail>();
         SlotUI = new Slot[Bullet.MAXBULLETS];
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
             SlotUI[i] = Slots[i].GetComponent<Slot>();
@@ -109,6 +112,7 @@ public class UIManager : MonoBehaviour
         EquipUI = Equip.GetComponent<Equip>();
         SynthesisUI = Synthesis.GetComponent<Synthesis>();
         SideMenuUI = SideMenu.GetComponent<SideMenu>();
+        InfoAreaUI = InfoArea.GetComponent<InfoArea>();
     }
 
     void Update()
@@ -258,12 +262,16 @@ public class UIManager : MonoBehaviour
         NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().ShowInfo(Type, CurrentBulletType);
     }
 
-    public void ShowDetail(int Type)
+    //public void ShowDetail(int Type)
+    //{
+    //    NewWindows[(int)NewWindowType.WEAPON].SetActive(false);
+    //    NewWindows[(int)NewWindowType.DETAIL].SetActive(true);
+    //    DetailUI.SetBulletType(Type);
+    //    DetailUI.SetDetails();
+    //}
+    public void ShowInfoArea(int Type)
     {
-        NewWindows[(int)NewWindowType.WEAPON].SetActive(false);
-        NewWindows[(int)NewWindowType.DETAIL].SetActive(true);
-        DetailUI.SetBulletType(Type);
-        DetailUI.SetDetails();
+        InfoAreaUI.ShowDetail(Type);
     }
 
     public void OnClickManageCancel()
@@ -297,7 +305,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickBulletUpgradeBtn()
     {
-        DetailUI.OnClickUpgradeBtn();
+        //DetailUI.OnClickUpgradeBtn();
+        GameManager.Inst().UpgManager.AddLevel(CurrentBulletType);
     }
 
     public void OnClickSubWeapon(int index)
@@ -412,6 +421,10 @@ public class UIManager : MonoBehaviour
         EquipUI.ShowUI();
         IsEquip = true;
 
+        InfoArea.SetActive(true);
+        EquipArea.SetActive(false);
+        InfoAreaUI.ShowDetail(CurrentBulletType);
+
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
     }
@@ -427,6 +440,12 @@ public class UIManager : MonoBehaviour
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+    }
+
+    public void OnClickEquipAreaBtn()
+    {
+        InfoArea.SetActive(false);
+        EquipArea.SetActive(true);
     }
 
     public void OnClickEquipSlotBtn(int index)

@@ -17,7 +17,7 @@ public class SubWeapon : MonoBehaviour
     public GameObject HPBarCanvas;
     public Image HPBar;
     public GameObject Shield;
-    public GameObject Booster;    
+    public GameObject Booster; 
 
     int BulletType;
     int DownCount;
@@ -221,8 +221,7 @@ public class SubWeapon : MonoBehaviour
         IsAlive = false;
         IsDown = false;
 
-        //string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[8];
-        //Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
+        GetComponent<Animator>().SetInteger("Color", 0);
 
         CoolTime = COOLTIME;
         
@@ -250,14 +249,23 @@ public class SubWeapon : MonoBehaviour
             CurHP = MaxHP;
             HPBar.fillAmount = (float)CurHP / (float)MaxHP * 0.415f;
 
-            //string color = GameManager.Inst().Player.Types[BulletType] + GameManager.Inst().Player.Colors[GameManager.Inst().ShtManager.GetColorSelection(id)];
-            //Skins[BulletType].GetComponent<SpriteResolver>().SetCategoryAndLabel(GameManager.Inst().Player.Types[BulletType], color);
+            GetComponent<Animator>().SetTrigger("Revive");
+            Invoke("ReturnColor", 1.0f);
 
             CoolTime = COOLTIME;
             CancelInvoke("CheckDead");
 
             GameManager.Inst().TxtManager.CoolTimes[id].SetActive(false);
         }
+    }
+
+    void ReturnColor()
+    {
+        int id = NumID;
+        if (id > 1)
+            id--;
+
+        GetComponent<Animator>().SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(id) + 1);
     }
 
     public void SetSkin()

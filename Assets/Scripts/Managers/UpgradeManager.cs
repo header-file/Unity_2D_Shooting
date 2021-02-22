@@ -105,6 +105,7 @@ public class UpgradeManager : MonoBehaviour
     public int GetSubWeaponLevel(int index) { return SubWeaponLevel[index]; }
     public int GetSubWeaponPrice(int index) { return SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[index]]; }
     public int GetSubWeaponBuyPrice() { return SubWeaponBuyPrice; }
+    public int GetResourceData(int rarity, int index) { return ResourceData[rarity, index]; } 
 
     public void SetCurrentSubWeaponIndex(int selectedIndex) { CurrentSubWeaponIndex = selectedIndex; }
 
@@ -190,7 +191,7 @@ public class UpgradeManager : MonoBehaviour
                 //UI
                 GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
                 GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
-                GameManager.Inst().UiManager.ShowDetail(UpgType);
+                GameManager.Inst().UiManager.ShowInfoArea(UpgType);
 
                 //기타 능력치
                 if (BData[UpgType].GetBaseDamage() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetBaseDamage())
@@ -216,7 +217,7 @@ public class UpgradeManager : MonoBehaviour
             //UI
             GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
             GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
-            GameManager.Inst().UiManager.ShowDetail(UpgType);
+            GameManager.Inst().UiManager.ShowInfoArea(UpgType);
         }
         else
         {

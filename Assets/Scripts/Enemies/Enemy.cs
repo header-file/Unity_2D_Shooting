@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
         BOSS = 3,
     };
 
-    public Sprite[] Sprites;
+    //public Sprite[] Sprites;
     public Image HP_Bar;
     public GameObject Canvas;
 
@@ -92,8 +92,9 @@ public class Enemy : MonoBehaviour
 
             HP_Bar.fillAmount = CurHP / Health;
 
-            SpriteRenderer.sprite = Sprites[1];
-            Invoke("ReturnSprite", 0.1f);
+            //SpriteRenderer.sprite = Sprites[1];
+            GetComponent<Animator>().SetTrigger("hit");
+            Invoke("ReturnInvincible", 0.1f);
         }
         else
         {
@@ -217,7 +218,7 @@ public class Enemy : MonoBehaviour
 
     void ReturnSprite()
     {
-        SpriteRenderer.sprite = Sprites[0];
+        //SpriteRenderer.sprite = Sprites[0];
         ReturnInvincible();
     }
 
