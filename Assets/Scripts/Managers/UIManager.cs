@@ -274,6 +274,11 @@ public class UIManager : MonoBehaviour
         InfoAreaUI.ShowDetail(Type);
     }
 
+    public void InfoAreaTrigger(string trigger)
+    {
+        InfoAreaUI.SetAnimTrigger(trigger);
+    }
+
     public void OnClickManageCancel()
     {
         if (!IsMoveDown)

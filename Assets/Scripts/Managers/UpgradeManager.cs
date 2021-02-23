@@ -192,6 +192,7 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
                 GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
                 GameManager.Inst().UiManager.ShowInfoArea(UpgType);
+                GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
 
                 //기타 능력치
                 if (BData[UpgType].GetBaseDamage() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetBaseDamage())
@@ -218,6 +219,7 @@ public class UpgradeManager : MonoBehaviour
             GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
             GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
             GameManager.Inst().UiManager.ShowInfoArea(UpgType);
+            GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
         }
         else
         {
