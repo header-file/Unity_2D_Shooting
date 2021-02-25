@@ -17,7 +17,7 @@ public class InfoArea : MonoBehaviour
     public GameObject[] Gauges;
     public CanvasGroup[] CanvasGps;
     public Animator[] Anim;
-    
+    public int[] DefaultColor;
 
     public void SetWeaponName(int index) { WeaponName.text = GameManager.Inst().Player.Types[index]; }
 
@@ -31,6 +31,13 @@ public class InfoArea : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
             Anim[i].SetTrigger(trigger);
+    }
+
+    void Start()
+    {
+        Anim[0].SetInteger("Color", DefaultColor[6]);
+        Anim[1].SetInteger("Color", DefaultColor[0]);
+        Anim[2].SetInteger("Color", DefaultColor[1]);
     }
 
     public void ShowDetail(int bulletType)

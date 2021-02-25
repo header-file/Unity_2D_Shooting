@@ -102,7 +102,7 @@ public class SubWeapon : MonoBehaviour
     
     void Awake()
     {
-        BulletType = 0;
+        BulletType = -1;
         DownCount = 0;
         IsDown = false;
         IsEditMode = false;

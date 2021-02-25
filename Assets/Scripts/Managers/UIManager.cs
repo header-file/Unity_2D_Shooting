@@ -197,20 +197,20 @@ public class UIManager : MonoBehaviour
 
         CurrentBulletType = BulletType;
 
-        SetSlotDetail();
+        //SetSlotDetail();
     }
 
-    void SetSlotDetail()
+    public void ShowEquipBtn(int curBulletType)
     {
         //UI
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
         {
-            SlotUI[i].Selected.SetActive(false);
+            //SlotUI[i].Selected.SetActive(false);
             SlotUI[i].DetailBtn.gameObject.SetActive(false);
         }
 
-        SlotUI[CurrentBulletType].Selected.SetActive(true);
-        SlotUI[CurrentBulletType].DetailBtn.gameObject.SetActive(true);
+        //SlotUI[CurrentBulletType].Selected.SetActive(true);
+        SlotUI[curBulletType].DetailBtn.gameObject.SetActive(true);
     }
 
 
@@ -279,6 +279,14 @@ public class UIManager : MonoBehaviour
         InfoAreaUI.SetAnimTrigger(trigger);
     }
 
+    void SetBulletSelected()
+    {
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+            SlotUI[i].Selected.SetActive(false);
+
+        SlotUI[CurrentBulletType].Selected.SetActive(true);
+    }
+
     public void OnClickManageCancel()
     {
         if (!IsMoveDown)
@@ -297,7 +305,8 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
             SlotUI[i].Show(i);
 
-        SetSlotDetail();
+        ShowEquipBtn(CurrentBulletType);
+        SetBulletSelected();
 
         ScrollViewUI.MoveToSelected(CurrentBulletType);
     }
@@ -613,5 +622,16 @@ public class UIManager : MonoBehaviour
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+    }
+
+    public void OnClickBulletEquipBtn()
+    {
+        int num = ScrollViewUI.OnClickEquipBtn();
+        if (num == -1)
+            return;
+
+        CurrentBulletType = num;
+
+        SetBulletSelected();
     }
 }

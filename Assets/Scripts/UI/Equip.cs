@@ -178,6 +178,7 @@ public class Equip : MonoBehaviour
                     if (SlotIndices[i] >= Bullet.MAXBULLETS)
                         SlotIndices[i] -= Bullet.MAXBULLETS;
                     Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
+                    InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
                     Show(SlotIndices[i], i);
                 }
 
@@ -192,6 +193,7 @@ public class Equip : MonoBehaviour
                     if (SlotIndices[i] < 0)
                         SlotIndices[i] += Bullet.MAXBULLETS;
                     Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
+                    InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
                     Show(SlotIndices[i], i);
                 }
             }
@@ -213,6 +215,7 @@ public class Equip : MonoBehaviour
         {
             Show(SlotIndices[i], i);
             Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
+            InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
         }
 
         ShowInventory();

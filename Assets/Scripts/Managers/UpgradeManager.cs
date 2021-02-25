@@ -271,6 +271,30 @@ public class UpgradeManager : MonoBehaviour
         if (index > 1)
             index++;
         sub.SetNumID(index);
+
+        for(int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            if (GameManager.Inst().Player.GetBulletType() == i)
+                continue;
+
+            int subCnt = 0;
+            for (int j = 0; j < 4; j++)
+            {
+                if (GameManager.Inst().GetSubweapons(j) == null)
+                    break;
+
+                if (GameManager.Inst().GetSubweapons(j) == sub)
+                    continue;
+                else if (GameManager.Inst().GetSubweapons(j).GetBulletType() != i)
+                    subCnt++;
+            }
+
+            if(subCnt >= CurrentSubWeaponIndex)
+            {
+                sub.SetBulletType(i);
+                return;
+            }
+        }
     }
 }
 

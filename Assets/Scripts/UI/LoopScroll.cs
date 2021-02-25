@@ -8,6 +8,7 @@ public class LoopScroll : MonoBehaviour
     public RectTransform Panel;     //To hold ScrollPanel
     public RectTransform[] Slots;
     public RectTransform[] Centers;    //Center To Compare the distance for each buttons
+    public ActivationTimer ErrorMsg;
 
     float[] Distances;              //Distance of buttons compare to Center
     float[] DistReposition;
@@ -68,7 +69,8 @@ public class LoopScroll : MonoBehaviour
             if (minDistance == Distances[i])
             {
                 MinBtnNum = i;
-                GameManager.Inst().UiManager.SelectBullet(i);
+                GameManager.Inst().UiManager.ShowEquipBtn(MinBtnNum);
+                //GameManager.Inst().UiManager.SelectBullet(i);
             }
         }
 
@@ -99,5 +101,34 @@ public class LoopScroll : MonoBehaviour
     {
         IsDragging = false;
         Timer = 0.0f;
+    }
+
+    public int OnClickEquipBtn()
+    {
+        if(GameManager.Inst().Player.GetBulletType() == MinBtnNum)
+        {
+            ErrorMsg.gameObject.SetActive(true);
+            ErrorMsg.IsStart = true;
+            return -1;
+        }
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (GameManager.Inst().GetSubweapons(i) == null)
+                    break;
+                if(GameManager.Inst().GetSubweapons(i).GetBulletType() == MinBtnNum)
+                {
+                    ErrorMsg.gameObject.SetActive(true);
+                    ErrorMsg.IsStart = true;
+                    return -1;
+                }
+            }
+        }
+        
+
+        GameManager.Inst().UiManager.SelectBullet(MinBtnNum);
+
+        return MinBtnNum;
     }
 }
