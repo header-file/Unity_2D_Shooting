@@ -341,11 +341,15 @@ public class UIManager : MonoBehaviour
         if (index > 1)
             index++;
         MainUi.Arrows.transform.GetChild(index).gameObject.SetActive(true);
+
+        CurrentWeapon = index;
     }
 
     public void OnClickBuySWBtn()
     {
         BuySWUI.Buy();
+
+        OnClickManageBtn(CurrentWeapon);
     }
 
     public void OnClickUpgradeSWBtn()

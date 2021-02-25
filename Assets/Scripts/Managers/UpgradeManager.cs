@@ -277,6 +277,36 @@ public class UpgradeManager : MonoBehaviour
             if (GameManager.Inst().Player.GetBulletType() == i)
                 continue;
 
+            if (CheckSW(0, i))
+            {
+                sub.SetBulletType(i);
+                return;
+            }
+        }
+    }
+
+    bool CheckSW(int index, int i)
+    {
+        if (index == 4)
+            return true;
+
+        if (GameManager.Inst().GetSubweapons(index) != null)
+        {
+            if (GameManager.Inst().GetSubweapons(index).GetBulletType() != i)
+                return CheckSW(++index, i);
+            else
+                return false;
+        }
+        return true;
+    }
+}
+
+/*
+ for(int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            if (GameManager.Inst().Player.GetBulletType() == i)
+                continue;
+
             int subCnt = 0;
             for (int j = 0; j < 4; j++)
             {
@@ -289,14 +319,16 @@ public class UpgradeManager : MonoBehaviour
                     subCnt++;
             }
 
-            if(subCnt >= CurrentSubWeaponIndex)
+            if (GameManager.Inst().Player.GetBulletType() < i)
+                subCnt++;
+
+            if (subCnt >= CurrentSubWeaponIndex)
             {
                 sub.SetBulletType(i);
                 return;
             }
         }
-    }
-}
+*/
 
 
 /*UpgradeType Type = (UpgradeType)UpgType;
