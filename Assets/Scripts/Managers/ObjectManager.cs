@@ -52,6 +52,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject DmgTextPref;
     public GameObject InventorySlotPref;
     public GameObject LinePref;
+    public GameObject QuestSlotPref;
 
     //Effect
     public GameObject ExplosionPref;
@@ -91,6 +92,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] DmgTexts;
     GameObject[] InventorySlots;
     GameObject[] Lines;
+    GameObject[] QuestSlots;
 
     GameObject[] Explosions;
     GameObject[] Hits;
@@ -240,6 +242,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = Lines;
                 break;
 
+            case "QuestSlot":
+                TargetPool = QuestSlots;
+                break;
+
             case "Explosion":
                 TargetPool = Explosions;
                 break;
@@ -296,7 +302,7 @@ public class ObjectManager : MonoBehaviour
         Shields = new GameObject[5];
         ItemBombs = new GameObject[5];
         Bombs = new GameObject[5];
-        Resources = new GameObject[30];
+        Resources = new GameObject[300];
 
         Normals = new GameObject[8, 100];
         Spreads = new GameObject[8, 100];
@@ -317,6 +323,7 @@ public class ObjectManager : MonoBehaviour
         DmgTexts = new GameObject[40];
         InventorySlots = new GameObject[40];
         Lines = new GameObject[3];
+        QuestSlots = new GameObject[10];
 
         Explosions = new GameObject[20];
         Hits = new GameObject[50];
@@ -565,6 +572,13 @@ public class ObjectManager : MonoBehaviour
             Lines[i] = Instantiate(LinePref);
             Lines[i].transform.SetParent(UIPool.transform, false);
             Lines[i].SetActive(false);
+        }
+
+        for(int i = 0; i < QuestSlots.Length; i++)
+        {
+            QuestSlots[i] = Instantiate(QuestSlotPref);
+            QuestSlots[i].transform.SetParent(UIPool.transform, false);
+            QuestSlots[i].SetActive(false);
         }
 
 

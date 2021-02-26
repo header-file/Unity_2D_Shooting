@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
     public GameObject StageScroll;
     public GameObject InfoArea;
     public GameObject EquipArea;
+    public GameObject QuestScroll;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -637,5 +638,21 @@ public class UIManager : MonoBehaviour
         CurrentBulletType = num;
 
         SetBulletSelected();
+    }
+
+    public void OnClickQuestBtn()
+    {
+        if(GameManager.Inst().QstManager.IsOpen)
+        {
+            QuestScroll.SetActive(false);
+            GameManager.Inst().QstManager.IsOpen = false;
+            GameManager.Inst().QstManager.Arrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -90.0f);
+        }
+        else
+        {
+            QuestScroll.SetActive(true);
+            GameManager.Inst().QstManager.IsOpen = true;
+            GameManager.Inst().QstManager.Arrow.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+        }
     }
 }
