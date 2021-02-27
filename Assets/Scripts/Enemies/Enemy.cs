@@ -123,6 +123,9 @@ public class Enemy : MonoBehaviour
             }
             MakeResource();
 
+            //퀘스트 처리
+            GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.KILL, (int)Type, 1);
+
             if(Type == EnemyType.LARGE)
             {
                 rand = Random.Range(0, 2);

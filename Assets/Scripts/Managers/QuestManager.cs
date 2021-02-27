@@ -6,10 +6,18 @@ public class QuestManager : MonoBehaviour
 {
     public enum QuestType
     {
-        BOSSKILL = 0,
-        ENEMYKILL = 1,
-        FORGE = 2,
-        RESOURCE = 3,
+        KILL = 0,
+        FORGE = 1,
+        RESOURCE = 2,
+    }
+
+    public enum ResourceType
+    {
+        COIN = 0,
+        A = 1,
+        B = 2,
+        C = 3,
+        D = 4,
     }
 
     public GameObject Content;
@@ -43,9 +51,10 @@ public class QuestManager : MonoBehaviour
             int qid = int.Parse(data[i]["ID"].ToString());
             string desc = data[i]["Desc"].ToString();
             int goal = int.Parse(data[i]["Goal"].ToString());
-            QuestType type = (QuestType)(qid % 1000 / 100);
+            QuestType type = (QuestType)(qid % 10000 / 1000);
+            int objType = qid % 1000 / 100;
 
-            Quests.Add(id++, new QuestData(qid, desc, goal, type));
+            Quests.Add(id++, new QuestData(qid, desc, goal, type, objType));
         }
     }
 
@@ -55,15 +64,61 @@ public class QuestManager : MonoBehaviour
 
         for(int i = 0; i < Quests.Count; i++)
         {
-            if (Quests[i].QuestId / 1000 == GameManager.Inst().StgManager.Stage)
+            if (Quests[i].QuestId / 10000 == GameManager.Inst().StgManager.Stage)
             {
                 QuestSlot slot = GameManager.Inst().ObjManager.MakeObj("QuestSlot").GetComponent<QuestSlot>();
                 slot.Desc.text = Quests[i].QuestDesc;
                 slot.Count.text = "0 / " + Quests[i].GoalCount;
+                slot.QuestID = Quests[i].QuestId;
                 slot.transform.SetParent(Content.transform, false);
 
                 QuestSlots.Add(slot);
             }
+        }
+    }
+
+    public void QuestProgress(int qType, int objType, int value)
+    {
+        for (int i = 0; i < Quests.Count; i++)
+        {
+            int id = Quests[i].QuestId;
+            if (id / 10000 == GameManager.Inst().StgManager.Stage)
+            {
+                id %= 10000;
+                if(id / 1000 == qType)
+                {
+                    id %= 1000;
+                    if(id / 100 == objType)
+                    {
+                        Quests[i].CurrentCount += value;
+                        
+                        CheckFinish(i);
+                    }
+                }
+            }
+        }
+    }
+
+    void CheckFinish(int index)
+    {
+        int found = -1;
+        for(int i = 0; i < QuestSlots.Count; i++)
+        {
+            if (QuestSlots[i].QuestID == Quests[index].QuestId)
+            {
+                found = i;
+                QuestSlots[i].Count.text = Quests[index].CurrentCount.ToString() + " / " + Quests[index].GoalCount.ToString();
+            }
+        }
+
+        if (QuestSlots[found] == null)
+            return;
+
+        if (Quests[index].CurrentCount >= Quests[index].GoalCount)
+        {
+            Quests[index].IsFinish = true;
+
+            QuestSlots[found].gameObject.SetActive(false);
         }
     }
 }

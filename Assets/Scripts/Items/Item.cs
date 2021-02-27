@@ -8,10 +8,10 @@ public class Item : MonoBehaviour
     protected enum ItemType
     {
         COIN = 0,
-        EQUIPMENT = 1,
-        SHIELD = 2,
-        BOMB = 3,
-        RESOURCE = 10,
+        RESOURCE = 1,
+        EQUIPMENT = 10,
+        SHIELD = 11,
+        BOMB = 12,
     }
 
     protected ItemType Type;
@@ -84,6 +84,12 @@ public class Item : MonoBehaviour
                     gameObject.GetComponent<Item_Bomb>().Bomb();
                     break;
             }
+
+            //퀘스트 처리
+            if((int)Type != 1)
+                GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.RESOURCE, (int)Type, Value);
+            else
+                GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.RESOURCE, GameManager.Inst().StgManager.Stage, Value);
 
             IsStart = false;
             gameObject.SetActive(false);

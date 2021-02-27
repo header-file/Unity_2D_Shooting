@@ -194,6 +194,9 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Inst().UiManager.ShowInfoArea(UpgType);
                 GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
 
+                //퀘스트 처리
+                GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.FORGE, BData[UpgType].GetRarity(), 1);
+
                 //기타 능력치
                 if (BData[UpgType].GetBaseDamage() != BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetBaseDamage())
                     BData[UpgType].SetBaseDamage(BData[UpgType + BData[UpgType].GetRarity() * Bullet.MAXBULLETS].GetBaseDamage());

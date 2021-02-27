@@ -9,13 +9,17 @@ public class QuestData : MonoBehaviour
     public int GoalCount;
     public int CurrentCount;
     public QuestManager.QuestType Type;
+    public int ObjectType;
+    public bool IsFinish;
 
-    public QuestData(int id, string desc, int goal, QuestManager.QuestType type)
+    public QuestData(int id, string desc, int goal, QuestManager.QuestType type, int obj)
     {
         QuestId = id;
         QuestDesc = desc;
         GoalCount = goal;
         CurrentCount = 0;
         Type = type;
+        ObjectType = obj;
+        IsFinish = false;
     }
 }
