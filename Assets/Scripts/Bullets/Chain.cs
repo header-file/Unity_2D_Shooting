@@ -15,8 +15,8 @@ public class Chain : Bullet
     {
         Type = BulletType.CHAIN;
         GetComponent<SpriteRenderer>().color = Color.white;
-        DeathCount = (int)GameManager.Inst().UpgManager.GetBData((int)Type).GetDuration();
-        Speed = GameManager.Inst().UpgManager.GetBData((int)Type).GetSpeed();
+        DeathCount = (int)GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
+        Speed = GameManager.Inst().UpgManager.BData[(int)Type].GetSpeed();
         Rig = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -61,7 +61,7 @@ public class Chain : Bullet
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         GameObject closest = null;
-        float dist = GameManager.Inst().UpgManager.GetBData((int)BulletType.CHAIN).GetRarity() / 2 + 3;
+        float dist = GameManager.Inst().UpgManager.BData[(int)BulletType.CHAIN].GetRarity() / 2 + 3;
 
         foreach(GameObject e in enemies)
         {
@@ -104,7 +104,7 @@ public class Chain : Bullet
 
    public void Die()
     {
-        DeathCount = (int)GameManager.Inst().UpgManager.GetBData((int)Type).GetDuration();
+        DeathCount = (int)GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
         Target = null;
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         gameObject.SetActive(false);
@@ -112,7 +112,7 @@ public class Chain : Bullet
 
     public void ResetData()
     {
-        DeathCount = (int)GameManager.Inst().UpgManager.GetBData((int)Type).GetDuration();
+        DeathCount = (int)GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         Target = null;
     }

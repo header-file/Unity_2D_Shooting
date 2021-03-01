@@ -33,7 +33,7 @@ public class Slot : MonoBehaviour
     void Start()
     {
         if (GameManager.Inst().StgManager.Stage == 0)
-            Locked.SetActive(false);
+            Locked.SetActive(true);
     }
 
     public void Show(int index)

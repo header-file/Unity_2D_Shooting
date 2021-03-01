@@ -227,8 +227,10 @@ public class Equip : MonoBehaviour
     void ShowInfoArea()
     {
         InfoArea.SetWeaponName(SlotIndices[ShowBulletType]);
+        InfoArea.UpgradeBtn.interactable = GameManager.Inst().UpgManager.BData[SlotIndices[ShowBulletType]].GetActive();
+        InfoArea.EquipAreaBtn.interactable = GameManager.Inst().UpgManager.BData[SlotIndices[ShowBulletType]].GetActive();
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             if (Selected[SlotIndices[ShowBulletType], i] > -1)
             {
@@ -244,7 +246,6 @@ public class Equip : MonoBehaviour
                 InfoArea.SetSlots(i, false, OriginalSprite, -1);
                 InfoArea.PaintGauge(i, 0, GaugeColors[i]);
             }
-                
         }
     }
 
@@ -494,13 +495,13 @@ public class Equip : MonoBehaviour
             switch (SelectableType)
             {
                 case Item_Equipment.EquipmentType.ATTACK:
-                    GameManager.Inst().UpgManager.GetBData(BulletType).SetAtk((int)eq.Value);
+                    GameManager.Inst().UpgManager.BData[BulletType].SetAtk((int)eq.Value);
                     break;
                 case Item_Equipment.EquipmentType.RANGE:
-                    GameManager.Inst().UpgManager.GetBData(BulletType).SetRng((int)eq.Value);
+                    GameManager.Inst().UpgManager.BData[BulletType].SetRng((int)eq.Value);
                     break;
                 case Item_Equipment.EquipmentType.SPEED:
-                    GameManager.Inst().UpgManager.GetBData(BulletType).SetSpd((int)eq.Value);
+                    GameManager.Inst().UpgManager.BData[BulletType].SetSpd((int)eq.Value);
                     break;
             }
         }
@@ -645,13 +646,13 @@ public class Equip : MonoBehaviour
         switch ((int)SelectableType)
         {
             case 0:
-                GameManager.Inst().UpgManager.GetBData(BulletType).SetAtk(0);
+                GameManager.Inst().UpgManager.BData[BulletType].SetAtk(0);
                 break;
             case 1:
-                GameManager.Inst().UpgManager.GetBData(BulletType).SetRng(0);
+                GameManager.Inst().UpgManager.BData[BulletType].SetRng(0);
                 break;
             case 2:
-                GameManager.Inst().UpgManager.GetBData(BulletType).SetSpd(0);
+                GameManager.Inst().UpgManager.BData[BulletType].SetSpd(0);
                 break;
         }
     }
@@ -695,13 +696,13 @@ public class Equip : MonoBehaviour
         switch (EquipType)
         {
             case 0:
-                GameManager.Inst().UpgManager.GetBData(BulletType).SetAtk(0);
+                GameManager.Inst().UpgManager.BData[BulletType].SetAtk(0);
                 break;
             case 1:
-                GameManager.Inst().UpgManager.GetBData(BulletType).SetRng(0);
+                GameManager.Inst().UpgManager.BData[BulletType].SetRng(0);
                 break;
             case 2:
-                GameManager.Inst().UpgManager.GetBData(BulletType).SetSpd(0);
+                GameManager.Inst().UpgManager.BData[BulletType].SetSpd(0);
                 break;
         }
     }

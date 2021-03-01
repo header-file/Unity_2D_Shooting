@@ -17,7 +17,7 @@ public class Boomerang : Bullet
 
     public void SetTargetpos(Vector3 pos)
     {
-        Duration = GameManager.Inst().UpgManager.GetBData((int)BulletType.BOOMERANG).GetDuration();
+        Duration = GameManager.Inst().UpgManager.BData[(int)BulletType.BOOMERANG].GetDuration();
 
         float rad = Mathf.Atan2(pos.y - StartPos.y, pos.x - StartPos.x);
         TargetPos.x = StartPos.x + (Duration * Mathf.Sin(Mathf.PI / 2 - rad));
@@ -43,7 +43,7 @@ public class Boomerang : Bullet
 
     void Start()
     {
-        Speed = GameManager.Inst().UpgManager.GetBData((int)BulletType.BOOMERANG).GetSpeed();
+        Speed = GameManager.Inst().UpgManager.BData[(int)BulletType.BOOMERANG].GetSpeed();
 
         ControlPos = new Vector3[2];
         ControlPos[0] = GameManager.Inst().Player.BoomerangPos[1].transform.position;

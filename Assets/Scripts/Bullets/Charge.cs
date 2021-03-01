@@ -28,7 +28,7 @@ public class Charge : Bullet
 
     public void StartCharge(float scale)
     {
-        ReloadTime = GameManager.Inst().UpgManager.GetBData((int)Type).GetReloadTime();
+        ReloadTime = GameManager.Inst().UpgManager.BData[(int)Type].GetReloadTime();
         gameObject.transform.localScale = Vector3.one * 0.1f;
 
         InvokeRepeating("Charging", 0.0f, TickRate);
@@ -58,6 +58,6 @@ public class Charge : Bullet
     void Release()
     {
         Rigidbody2D rig = GetComponent<Rigidbody2D>();
-        rig.AddForce(Dir * GameManager.Inst().UpgManager.GetBData((int)Type).GetSpeed(), ForceMode2D.Impulse);
+        rig.AddForce(Dir * GameManager.Inst().UpgManager.BData[(int)Type].GetSpeed(), ForceMode2D.Impulse);
     }
 }

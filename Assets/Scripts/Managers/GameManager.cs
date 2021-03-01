@@ -61,13 +61,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StgManager.Stage = 0;
-        StgManager.StartEnemy();
-
         SetTexts();
         SetInventory();
         SetData();
         SetResources();
+
+        StgManager.Stage = 1;
+        StgManager.BeginStage();
     }
 
     void Update()
@@ -79,8 +79,8 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
         {
-            TxtManager.SetBLevels(i, UpgManager.GetBData(i).GetPowerLevel());
-            TxtManager.SetBPrices(i, UpgManager.GetBData(i).GetPrice());
+            TxtManager.SetBLevels(i, UpgManager.BData[i].GetPowerLevel());
+            TxtManager.SetBPrices(i, UpgManager.BData[i].GetPrice());
         }
 
         TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));

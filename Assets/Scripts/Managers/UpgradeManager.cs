@@ -32,6 +32,7 @@ public class UpgradeManager : MonoBehaviour
         public void SetSpd(int spd) { Spd = spd; }
         public void SetPrice(int price) { Price = price; }
         public void AddRarity() { Rarity++; }
+        public void SetActive(bool b) { IsActive = b; }
         
         public int GetMaxBulletLevel() { return MaxBulletLevel * (Rarity + 1); }
         public int GetPowerLevel() { return PowerLevel; }
@@ -45,6 +46,7 @@ public class UpgradeManager : MonoBehaviour
         public int GetDamage() { return PowerLevel + BaseDamage; }
         public int GetRarity() { return Rarity; }
         public int GetBaseDamage() { return BaseDamage; }
+        public bool GetActive() { return IsActive; }
         
         public void ResetData()
         {
@@ -61,6 +63,8 @@ public class UpgradeManager : MonoBehaviour
             Atk = 0;
             Rng = 0;
             Spd = 0;
+
+            IsActive = false;
         }
 
         public void SetDatas(List<Dictionary<string, object>> data, int index)
@@ -87,13 +91,16 @@ public class UpgradeManager : MonoBehaviour
         int Atk;
         int Rng;
         int Spd;
+
+        bool IsActive;
     };
 
     public GameObject[] SubPositions;
 
     public static int MAXSUBLEVEL = 5;
 
-    BulletData[] BData;
+    public BulletData[] BData;
+
     int[] SubWeaponLevel;
     int SubWeaponBuyPrice;
     int CurrentSubWeaponIndex;
@@ -101,7 +108,7 @@ public class UpgradeManager : MonoBehaviour
     int[,] SubWpPriceData;
     int[] WeaponPriceData;
 
-    public BulletData GetBData(int index) { return BData[index]; }
+    //public BulletData GetBData(int index) { return BData[index]; }
     public int GetSubWeaponLevel(int index) { return SubWeaponLevel[index]; }
     public int GetSubWeaponPrice(int index) { return SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[index]]; }
     public int GetSubWeaponBuyPrice() { return SubWeaponBuyPrice; }

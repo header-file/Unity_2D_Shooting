@@ -18,7 +18,7 @@ public class Spread : Bullet
         Type = BulletType.SPREAD;
         GetComponent<SpriteRenderer>().color = Color.white;
         //Damage *= (float)GameManager.Inst().UpgManager.GetBData((int)Type).GetPowerLevel();
-        Duration = GameManager.Inst().UpgManager.GetBData((int)Type).GetDuration();
+        Duration = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
     }
 
     void Deactivate()

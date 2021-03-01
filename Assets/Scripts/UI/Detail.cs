@@ -37,21 +37,21 @@ public class Detail : MonoBehaviour
     {
         WpImg.sprite = GameManager.Inst().UiManager.WeaponImages[BulletType];
         Text nameText = Name.GetComponent<Text>();
-        nameText.text = GameManager.Inst().TxtManager.GetBNames(BulletType) + " + " + GameManager.Inst().UpgManager.GetBData(BulletType).GetPowerLevel();
+        nameText.text = GameManager.Inst().TxtManager.GetBNames(BulletType) + " + " + GameManager.Inst().UpgManager.BData[BulletType].GetPowerLevel();
         string lv = GameManager.Inst().TxtManager.GetBLevels(BulletType);
         Text curLevel = CurrentLevel.GetComponent<Text>();
         curLevel.text = lv;
-        int rarity = GameManager.Inst().UpgManager.GetBData(BulletType).GetRarity();
+        int rarity = GameManager.Inst().UpgManager.BData[BulletType].GetRarity();
         curLevel.color = Colors[rarity];
         nameText.color = Colors[rarity];
 
         Price.GetComponent<Text>().text = GameManager.Inst().TxtManager.GetBPrices(BulletType);
         CoinImg.sprite = Coin;
 
-        int level = GameManager.Inst().UpgManager.GetBData(BulletType).GetPowerLevel();
-        if (level < GameManager.Inst().UpgManager.GetBData(BulletType).GetMaxBulletLevel() - 1)
+        int level = GameManager.Inst().UpgManager.BData[BulletType].GetPowerLevel();
+        if (level < GameManager.Inst().UpgManager.BData[BulletType].GetMaxBulletLevel() - 1)
             NextLevel.GetComponent<Text>().text = "Lv" + (level + 1).ToString();
-        else if (level == GameManager.Inst().UpgManager.GetBData(BulletType).GetMaxBulletLevel() - 1)
+        else if (level == GameManager.Inst().UpgManager.BData[BulletType].GetMaxBulletLevel() - 1)
             NextLevel.GetComponent<Text>().text = "Lv" + "MAX";
         else
         {

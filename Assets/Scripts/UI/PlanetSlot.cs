@@ -9,10 +9,10 @@ public class PlanetSlot : MonoBehaviour
     public Text Name;
     public GameObject Lock;
 
-    void Start()
+    void Awake()
     {
         Name.gameObject.SetActive(false);
-        Lock.SetActive(false);
+        Lock.SetActive(true);
     }
 
     void Update()

@@ -276,7 +276,7 @@ public class Player : MonoBehaviour
         
         GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2);
 
-        Invoke("Reload", GameManager.Inst().UpgManager.GetBData(BulletType).GetReloadTime());
+        Invoke("Reload", GameManager.Inst().UpgManager.BData[BulletType].GetReloadTime());
     }
 
     void Reload()

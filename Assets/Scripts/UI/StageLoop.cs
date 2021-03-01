@@ -77,9 +77,6 @@ public class StageLoop : MonoBehaviour
         float newY = Mathf.Lerp(Panel.anchoredPosition.y, position, Time.deltaTime * 10.0f);
         Vector2 newPosition = new Vector2(Panel.anchoredPosition.x, newY);
         Panel.anchoredPosition = newPosition;
-
-        if (Vector3.Distance(Panel.anchoredPosition, newPosition) < 0.001f)
-            LandingBtn.interactable = true;
     }
 
     public void StartDrag()
@@ -127,5 +124,21 @@ public class StageLoop : MonoBehaviour
     public void EndDrag()
     {
         IsDragging = false;
+
+        //if (Vector3.Distance(Panel.anchoredPosition, newPosition) < 0.001f)
+        //    LandingBtn.interactable = true;
+
+        LandingBtn.interactable = !Planets[MinBtnNum].Lock.activeSelf;
+
+        if (GameManager.Inst().StgManager.Stage - 1 == MinBtnNum)
+            LandingBtn.interactable = false;
+    }
+
+    public void Show()
+    {
+        Panel.anchoredPosition = new Vector2(0.0f, -SlotDistance * (GameManager.Inst().StgManager.Stage - 1));
+        IsDragging = false;
+
+        LandingBtn.interactable = false;
     }
 }

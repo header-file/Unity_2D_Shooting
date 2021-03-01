@@ -28,7 +28,7 @@ public class TextManager : MonoBehaviour
 
     public void SetBLevels(int index, int level)
     {
-        if (level < GameManager.Inst().UpgManager.GetBData(index).GetMaxBulletLevel())
+        if (level < GameManager.Inst().UpgManager.BData[index].GetMaxBulletLevel())
             BLevels[index].text = "Lv." + level.ToString();
         else
             BLevels[index].text = "Lv." + "MAX";
@@ -89,7 +89,7 @@ public class TextManager : MonoBehaviour
     void Start()
     {
         for (int i = 0; i < Bullet.MAXBULLETS; i++)
-            SetBLevels(i, GameManager.Inst().UpgManager.GetBData(i).GetPowerLevel());
+            SetBLevels(i, GameManager.Inst().UpgManager.BData[i].GetPowerLevel());
 
         for (int i = 0; i < 4; i++)
             CoolTimes[i].SetActive(false);

@@ -25,13 +25,14 @@ public class StageManager : MonoBehaviour
 
     Vector3 Ground_Up;
     Vector3 Ground_Down;
+    bool[,] BulletUnlockData;
     float SmallTime;
     float MediumTime;
     float LargeTime;
     int BossMax;
     bool IsFeverMode;
     
-    public void StartEnemy() { Invoke("SpawnEnemies", 2.0f); }
+    void StartEnemy() { Invoke("SpawnEnemies", 2.0f); }
 
     void Awake()
     {
@@ -42,22 +43,24 @@ public class StageManager : MonoBehaviour
         Ground_Up = new Vector3(0.0f, -0.8f, 0.0f);
         Ground_Down = new Vector3(0.0f, -6.0f, 0.0f);
         IsFeverMode = false;
+
+        SetUnlockData();
     }
 
-    void Update()
+    void SetUnlockData()
     {
-        if (BossCount >= BossMax)
+        List<Dictionary<string, object>> data = CSVReader.Read("Datas/BulletUnlockData");
+
+        BulletUnlockData = new bool[MAXSTAGES + 1, Bullet.MAXBULLETS];
+        for (int i = 0; i <= MAXSTAGES; i++)
         {
-            IsBoss = true;
-            BossTimer = MAXBOSSTIME;
-            BossGauge.SetActive(false);
-            BossCount = 0;
-            BossGaugeBar.fillAmount = (float)BossCount / (float)BossMax;
-            CancelEnemies();
-            WarningAnim.SetTrigger("Start");
-            Invoke("SpawnBoss", 2.5f);
-            GameManager.Inst().Player.BossMode();
-            GroundDown();
+            BulletUnlockData[i, (int)Bullet.BulletType.NORMAL] = bool.Parse(data[i]["Normal"].ToString());
+            BulletUnlockData[i, (int)Bullet.BulletType.SPREAD] = bool.Parse(data[i]["Spread"].ToString());
+            BulletUnlockData[i, (int)Bullet.BulletType.MISSILE] = bool.Parse(data[i]["Missile"].ToString());
+            BulletUnlockData[i, (int)Bullet.BulletType.LASER] = bool.Parse(data[i]["Laser"].ToString());
+            BulletUnlockData[i, (int)Bullet.BulletType.CHARGE] = bool.Parse(data[i]["Charge"].ToString());
+            BulletUnlockData[i, (int)Bullet.BulletType.BOOMERANG] = bool.Parse(data[i]["Boomerang"].ToString());
+            BulletUnlockData[i, (int)Bullet.BulletType.CHAIN] = bool.Parse(data[i]["Chain"].ToString());
         }
     }
 
@@ -73,6 +76,21 @@ public class StageManager : MonoBehaviour
                 FeverMode();
             if (IsFeverMode && percent > 0.6f)
                 EndFeverMode();
+
+
+            if (BossCount >= BossMax)
+            {
+                IsBoss = true;
+                BossTimer = MAXBOSSTIME;
+                BossGauge.SetActive(false);
+                BossCount = 0;
+                BossGaugeBar.fillAmount = (float)BossCount / (float)BossMax;
+                CancelEnemies();
+                WarningAnim.SetTrigger("Start");
+                Invoke("SpawnBoss", 2.5f);
+                GameManager.Inst().Player.BossMode();
+                GroundDown();
+            }
         }
     }
 
@@ -193,5 +211,22 @@ public class StageManager : MonoBehaviour
 
         if (Vector3.Distance(Ground.transform.position, Ground_Up) > 0.001f)
             Invoke("GroundUp", Time.deltaTime);
+    }
+
+    public void BeginStage()
+    {
+        //Bullet 처리
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            GameManager.Inst().UpgManager.BData[i].SetActive(BulletUnlockData[Stage, i]);
+            GameManager.Inst().UiManager.SetSlotsActive(i, BulletUnlockData[Stage, i]);
+        }
+
+        //Stage 처리
+        for (int i = 0; i < Stage; i++)
+            GameManager.Inst().UiManager.UnlockStage(i);
+
+
+        StartEnemy();
     }
 }

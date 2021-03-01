@@ -18,6 +18,8 @@ public class InfoArea : MonoBehaviour
     public CanvasGroup[] CanvasGps;
     public Animator[] Anim;
     public int[] DefaultColor;
+    public Button UpgradeBtn;
+    public Button EquipAreaBtn;
 
     public void SetWeaponName(int index) { WeaponName.text = GameManager.Inst().Player.Types[index]; }
 
@@ -42,13 +44,13 @@ public class InfoArea : MonoBehaviour
 
     public void ShowDetail(int bulletType)
     {
-        Level.text = "Level " + GameManager.Inst().UpgManager.GetBData(bulletType).GetPowerLevel().ToString();
+        Level.text = "Level " + GameManager.Inst().UpgManager.BData[bulletType].GetPowerLevel().ToString();
 
-        if(GameManager.Inst().UpgManager.GetBData(bulletType).GetPowerLevel() < (GameManager.Inst().UpgManager.GetBData(bulletType).GetRarity() + 1) * 10)
+        if(GameManager.Inst().UpgManager.BData[bulletType].GetPowerLevel() < (GameManager.Inst().UpgManager.BData[bulletType].GetRarity() + 1) * 10)
         {
             Coin.SetActive(true);
             Resource.SetActive(false);
-            CoinText.text = GameManager.Inst().UpgManager.GetBData(bulletType).GetPrice().ToString();
+            CoinText.text = GameManager.Inst().UpgManager.BData[bulletType].GetPrice().ToString();
         }
         else
         {
@@ -57,7 +59,7 @@ public class InfoArea : MonoBehaviour
 
             for(int i = 0; i < StageManager.MAXSTAGES; i++)
             {
-                ResourceTexts[i].text = GameManager.Inst().UpgManager.GetResourceData(GameManager.Inst().UpgManager.GetBData(bulletType).GetRarity(), i).ToString();
+                ResourceTexts[i].text = GameManager.Inst().UpgManager.GetResourceData(GameManager.Inst().UpgManager.BData[bulletType].GetRarity(), i).ToString();
 
                 if (ResourceTexts[i].text == "0")
                     Resources[i].SetActive(false);

@@ -49,7 +49,7 @@ public class ShootingManager : MonoBehaviour
     {
         SetPos(Shooter, ID);
 
-        int rarity = GameManager.Inst().UpgManager.GetBData((int)Type).GetRarity();
+        int rarity = GameManager.Inst().UpgManager.BData[(int)Type].GetRarity();
         int colorIndex = ColorSelection[ID];
 
         switch (Type)
@@ -156,7 +156,7 @@ public class ShootingManager : MonoBehaviour
     void Spread(int Rarity, int Index)
     {
         Spread[] bullets = new Spread[7];
-        float duration = GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.SPREAD).GetDuration();
+        float duration = GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.SPREAD].GetDuration();
 
         switch (Rarity)
         {
@@ -194,7 +194,7 @@ public class ShootingManager : MonoBehaviour
     void Missile(int Rarity, int Index)
     {
         Missile[] bullets = new Missile[5];
-        float rad = GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.MISSILE).GetDuration();
+        float rad = GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.MISSILE].GetDuration();
 
         switch (Rarity)
         {
@@ -262,7 +262,7 @@ public class ShootingManager : MonoBehaviour
 
         Charge bullet = Objs[0].gameObject.GetComponent<Charge>();
         bullet.SetChargePos(ChargePos);
-        bullet.StartCharge(GameManager.Inst().UpgManager.GetBData((int)Bullet.BulletType.CHARGE).GetDuration());
+        bullet.StartCharge(GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.CHARGE].GetDuration());
     }
 
     void Boomerang(int Rarity, int Index)

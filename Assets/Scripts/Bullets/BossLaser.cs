@@ -29,7 +29,7 @@ public class BossLaser : Bullet
             Anim.speed = 0.0f;
             IsStopped = true;
 
-            float stopTime = GameManager.Inst().UpgManager.GetBData((int)Type).GetDuration();
+            float stopTime = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
             Invoke("Restart", stopTime);
         }
 

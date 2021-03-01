@@ -238,8 +238,8 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag == "BlockBullet")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
-            float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
-            float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
+            float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage * (1 + (atk / 100.0f));
             collision.gameObject.SetActive(false);
 
@@ -251,8 +251,8 @@ public class Enemy : MonoBehaviour
         else if (collision.gameObject.tag == "Laser")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
-            float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
-            float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
+            float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage * (1 + (atk / 100.0f));
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
@@ -266,8 +266,8 @@ public class Enemy : MonoBehaviour
         else if (collision.gameObject.tag == "PierceBullet")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
-            float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
-            float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
+            float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage * (1 + (atk / 100.0f));
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
@@ -280,8 +280,8 @@ public class Enemy : MonoBehaviour
             Chain bullet = collision.gameObject.GetComponent<Chain>();
             bullet.HitEnemy(gameObject);
 
-            float damage = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetDamage();
-            float atk = GameManager.Inst().UpgManager.GetBData(bullet.GetBulletType()).GetAtk();
+            float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
+            float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage * (1 + (atk / 100.0f));
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");

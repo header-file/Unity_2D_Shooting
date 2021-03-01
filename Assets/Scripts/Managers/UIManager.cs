@@ -52,6 +52,7 @@ public class UIManager : MonoBehaviour
     Equip EquipUI;
     Synthesis SynthesisUI;
     SideMenu SideMenuUI;
+    StageLoop StageScrollUI;
     InfoArea InfoAreaUI;
 
     Vector3 PlayerPosOrigin;
@@ -113,6 +114,7 @@ public class UIManager : MonoBehaviour
         EquipUI = Equip.GetComponent<Equip>();
         SynthesisUI = Synthesis.GetComponent<Synthesis>();
         SideMenuUI = SideMenu.GetComponent<SideMenu>();
+        StageScrollUI = StageScroll.GetComponent<StageLoop>();
         InfoAreaUI = InfoArea.GetComponent<InfoArea>();
     }
 
@@ -214,6 +216,11 @@ public class UIManager : MonoBehaviour
         SlotUI[curBulletType].DetailBtn.gameObject.SetActive(true);
     }
 
+    public void SetSlotsActive(int index, bool isActive)
+    {
+        SlotUI[index].Locked.SetActive(!isActive);
+    }
+
 
     //Button Interact
     public void OnClickUpgradeBtn()
@@ -287,6 +294,12 @@ public class UIManager : MonoBehaviour
 
         SlotUI[CurrentBulletType].Selected.SetActive(true);
     }
+
+    public void UnlockStage(int index)
+    {
+        StageScrollUI.Planets[index].Lock.SetActive(false);
+    }
+
 
     public void OnClickManageCancel()
     {
@@ -616,6 +629,7 @@ public class UIManager : MonoBehaviour
     public void OnClickSpaceBtn()
     {
         StageScroll.SetActive(true);
+        StageScrollUI.Show();
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);

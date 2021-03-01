@@ -205,7 +205,7 @@ public class SubWeapon : MonoBehaviour
         
         GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID);
         
-        Invoke("Reload", GameManager.Inst().UpgManager.GetBData(BulletType).GetReloadTime());
+        Invoke("Reload", GameManager.Inst().UpgManager.BData[BulletType].GetReloadTime());
     }
 
     public void Reload()
