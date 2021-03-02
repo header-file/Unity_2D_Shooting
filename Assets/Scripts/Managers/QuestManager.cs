@@ -27,9 +27,14 @@ public class QuestManager : MonoBehaviour
     public bool IsOpen;
 
     List<QuestSlot> QuestSlots;
+    int CurStageQuests;
+    int FinQuests;
 
     void Awake()
     {
+        CurStageQuests = 0;
+        FinQuests = 0;
+
         Quests = new Dictionary<int, QuestData>();
         GenerateData();
         IsOpen = false;
@@ -55,6 +60,7 @@ public class QuestManager : MonoBehaviour
             int objType = qid % 1000 / 100;
 
             Quests.Add(id++, new QuestData(qid, desc, goal, type, objType));
+            CurStageQuests++;
         }
     }
 
@@ -117,8 +123,20 @@ public class QuestManager : MonoBehaviour
         if (Quests[index].CurrentCount >= Quests[index].GoalCount)
         {
             Quests[index].IsFinish = true;
-
+            FinQuests++;
             QuestSlots[found].gameObject.SetActive(false);
+        }
+
+        //Check All Clear
+        if(FinQuests >= CurStageQuests)
+        {
+            int nextStage = GameManager.Inst().StgManager.Stage + 1;
+
+            if (nextStage > StageManager.MAXSTAGES)
+                return;
+
+            GameManager.Inst().UiManager.UnlockStage(nextStage);
+            GameManager.Inst().StgManager.UnlockBullet(nextStage);
         }
     }
 }

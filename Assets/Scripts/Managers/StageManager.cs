@@ -216,11 +216,7 @@ public class StageManager : MonoBehaviour
     public void BeginStage()
     {
         //Bullet 처리
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
-        {
-            GameManager.Inst().UpgManager.BData[i].SetActive(BulletUnlockData[Stage, i]);
-            GameManager.Inst().UiManager.SetSlotsActive(i, BulletUnlockData[Stage, i]);
-        }
+        UnlockBullet(Stage);
 
         //Stage 처리
         for (int i = 0; i < Stage; i++)
@@ -228,5 +224,14 @@ public class StageManager : MonoBehaviour
 
 
         StartEnemy();
+    }
+
+    public void UnlockBullet(int stage)
+    {
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            GameManager.Inst().UpgManager.BData[i].SetActive(BulletUnlockData[stage, i]);
+            GameManager.Inst().UiManager.SetSlotsActive(i, BulletUnlockData[stage, i]);
+        }
     }
 }

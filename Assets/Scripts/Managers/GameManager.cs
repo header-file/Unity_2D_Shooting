@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
         SubWID = new int[4];
 
         UIDCount = 0;
+        StgManager.Stage = 1;
     }
 
     void Start()
@@ -65,8 +66,7 @@ public class GameManager : MonoBehaviour
         SetInventory();
         SetData();
         SetResources();
-
-        StgManager.Stage = 1;
+        
         StgManager.BeginStage();
     }
 

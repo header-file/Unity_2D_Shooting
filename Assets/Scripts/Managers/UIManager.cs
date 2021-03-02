@@ -300,7 +300,6 @@ public class UIManager : MonoBehaviour
         StageScrollUI.Planets[index].Lock.SetActive(false);
     }
 
-
     public void OnClickManageCancel()
     {
         if (!IsMoveDown)
