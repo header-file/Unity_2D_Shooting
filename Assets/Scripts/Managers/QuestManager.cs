@@ -20,6 +20,7 @@ public class QuestManager : MonoBehaviour
         D = 4,
     }
 
+    public GameObject Quest;
     public GameObject Content;
     public GameObject Arrow;
 
@@ -81,6 +82,8 @@ public class QuestManager : MonoBehaviour
                 QuestSlots.Add(slot);
             }
         }
+
+        Quest.transform.SetParent(GameManager.Inst().UiManager.GetSideMenuSlot(GameManager.Inst().StgManager.Stage - 1).transform, false);
     }
 
     public void QuestProgress(int qType, int objType, int value)

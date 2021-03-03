@@ -8,6 +8,7 @@ public class SideMenu : MonoBehaviour
     public GameObject BackBtn;
     public Button OpenBtn;
     public RectTransform SideBar;
+    public SideMenuSlot[] Slots;
 
     bool IsSideMenuOpen;
     bool IsSideMenuClose;
@@ -15,6 +16,11 @@ public class SideMenu : MonoBehaviour
     void Start()
     {
         BackBtn.SetActive(false);
+
+        for (int i = 0; i < GameManager.Inst().StgManager.Stage; i++)
+            Slots[i].Open();
+
+        Slots[GameManager.Inst().StgManager.Stage - 1].SetBig();
     }
 
     void Update()
@@ -35,7 +41,7 @@ public class SideMenu : MonoBehaviour
 
     void Opening()
     {
-        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(-500.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
+        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(-600.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
 
         if (Time.deltaTime >= 0.2f)
             IsSideMenuOpen = false;

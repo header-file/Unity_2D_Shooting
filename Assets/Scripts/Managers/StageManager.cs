@@ -222,7 +222,6 @@ public class StageManager : MonoBehaviour
         for (int i = 0; i < Stage; i++)
             GameManager.Inst().UiManager.UnlockStage(i);
 
-
         StartEnemy();
     }
 
