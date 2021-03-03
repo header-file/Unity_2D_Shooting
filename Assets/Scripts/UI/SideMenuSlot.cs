@@ -8,11 +8,12 @@ public class SideMenuSlot : MonoBehaviour
     public GameObject Not;
     public GameObject Now;
     public GameObject Resource;
+    public RectTransform NowBg;
     public Text PlanetName;
     public Image PlanetImg;
 
-    float Big = 600.0f;
-    float Small = 200.0f;
+    public Vector2 Big;
+    public Vector2 Small;
 
     void Awake()
     {
@@ -33,7 +34,8 @@ public class SideMenuSlot : MonoBehaviour
         Now.SetActive(true);
         PlanetName.gameObject.SetActive(false);
 
-        GetComponent<RectTransform>().sizeDelta = new Vector2(Big, Big);
+        GetComponent<RectTransform>().sizeDelta = Big;
+        NowBg.sizeDelta = new Vector2(Big.y, Big.x);
     }
 
     public void SetSmall()
@@ -41,6 +43,6 @@ public class SideMenuSlot : MonoBehaviour
         Now.SetActive(false);
         PlanetName.gameObject.SetActive(true);
 
-        GetComponent<RectTransform>().sizeDelta = new Vector2(Big, Small);
+        GetComponent<RectTransform>().sizeDelta = Small;
     }
 }
