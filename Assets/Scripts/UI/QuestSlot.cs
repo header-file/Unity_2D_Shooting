@@ -8,9 +8,5 @@ public class QuestSlot : MonoBehaviour
     public Text Desc;
     public Text Count;
     public int QuestID;
-
-    public void CheckFinish()
-    {
-
-    }
+    
 }

@@ -9,6 +9,7 @@ public class SideMenu : MonoBehaviour
     public Button OpenBtn;
     public RectTransform SideBar;
     public SideMenuSlot[] Slots;
+    public Transform ContentTransform;
 
     bool IsSideMenuOpen;
     bool IsSideMenuClose;
@@ -17,10 +18,8 @@ public class SideMenu : MonoBehaviour
     {
         BackBtn.SetActive(false);
 
-        for (int i = 0; i < GameManager.Inst().StgManager.Stage; i++)
-            Slots[i].Open();
-
-        Slots[GameManager.Inst().StgManager.Stage - 1].SetBig();
+        Slots = new SideMenuSlot[StageManager.MAXSTAGES];
+        MakeSlot();
     }
 
     void Update()
@@ -61,5 +60,20 @@ public class SideMenu : MonoBehaviour
 
         if (Time.deltaTime >= 0.2f)
             IsSideMenuClose = false;
+    }
+
+    void MakeSlot()
+    {
+        for (int i = 0; i < StageManager.MAXSTAGES; i++)
+        {
+            if (i == GameManager.Inst().StgManager.Stage - 1)
+                Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideNow").GetComponent<SideMenuSlot>();
+            else if(i > GameManager.Inst().StgManager.Stage - 1)
+                Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideNotYet").GetComponent<SideMenuSlot>();
+            else
+                Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideCleared").GetComponent<SideMenuSlot>();
+
+            Slots[i].transform.SetParent(ContentTransform, false);
+        }
     }
 }

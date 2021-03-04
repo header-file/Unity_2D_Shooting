@@ -53,6 +53,9 @@ public class ObjectManager : MonoBehaviour
     public GameObject InventorySlotPref;
     public GameObject LinePref;
     public GameObject QuestSlotPref;
+    public GameObject SideMenuSlotNowPref;
+    public GameObject SideMenuSlotNotYetPref;
+    public GameObject SideMenuSlotClearedPref;
 
     //Effect
     public GameObject ExplosionPref;
@@ -93,6 +96,10 @@ public class ObjectManager : MonoBehaviour
     GameObject[] InventorySlots;
     GameObject[] Lines;
     GameObject[] QuestSlots;
+    GameObject[] SideMenuSlotNows;
+    GameObject[] SideMenuSlotNotYets;
+    GameObject[] SideMenuSlotCleareds;
+
 
     GameObject[] Explosions;
     GameObject[] Hits;
@@ -246,6 +253,18 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = QuestSlots;
                 break;
 
+            case "SideNow":
+                TargetPool = SideMenuSlotNows;
+                break;
+
+            case "SideNotYet":
+                TargetPool = SideMenuSlotNotYets;
+                break;
+
+            case "SideCleared":
+                TargetPool = SideMenuSlotCleareds;
+                break;
+
             case "Explosion":
                 TargetPool = Explosions;
                 break;
@@ -324,6 +343,9 @@ public class ObjectManager : MonoBehaviour
         InventorySlots = new GameObject[40];
         Lines = new GameObject[3];
         QuestSlots = new GameObject[10];
+        SideMenuSlotNows = new GameObject[1];
+        SideMenuSlotNotYets = new GameObject[5];
+        SideMenuSlotCleareds = new GameObject[5];
 
         Explosions = new GameObject[20];
         Hits = new GameObject[50];
@@ -579,6 +601,27 @@ public class ObjectManager : MonoBehaviour
             QuestSlots[i] = Instantiate(QuestSlotPref);
             QuestSlots[i].transform.SetParent(UIPool.transform, false);
             QuestSlots[i].SetActive(false);
+        }
+
+        for (int i = 0; i < SideMenuSlotNows.Length; i++)
+        {
+            SideMenuSlotNows[i] = Instantiate(SideMenuSlotNowPref);
+            SideMenuSlotNows[i].transform.SetParent(UIPool.transform, false);
+            SideMenuSlotNows[i].SetActive(false);
+        }
+
+        for (int i = 0; i < SideMenuSlotNotYets.Length; i++)
+        {
+            SideMenuSlotNotYets[i] = Instantiate(SideMenuSlotNotYetPref);
+            SideMenuSlotNotYets[i].transform.SetParent(UIPool.transform, false);
+            SideMenuSlotNotYets[i].SetActive(false);
+        }
+
+        for (int i = 0; i < SideMenuSlotCleareds.Length; i++)
+        {
+            SideMenuSlotCleareds[i] = Instantiate(SideMenuSlotClearedPref);
+            SideMenuSlotCleareds[i].transform.SetParent(UIPool.transform, false);
+            SideMenuSlotCleareds[i].SetActive(false);
         }
 
 

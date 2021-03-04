@@ -20,10 +20,6 @@ public class QuestManager : MonoBehaviour
         D = 4,
     }
 
-    public GameObject Quest;
-    public GameObject Content;
-    public GameObject Arrow;
-
     public Dictionary<int, QuestData> Quests;
     public bool IsOpen;
 
@@ -77,13 +73,11 @@ public class QuestManager : MonoBehaviour
                 slot.Desc.text = Quests[i].QuestDesc;
                 slot.Count.text = "0 / " + Quests[i].GoalCount;
                 slot.QuestID = Quests[i].QuestId;
-                slot.transform.SetParent(Content.transform, false);
+                slot.transform.SetParent(GameManager.Inst().UiManager.GetSideMenuSlot(GameManager.Inst().StgManager.Stage - 1).GetComponent<SideMenuSlot>().ContentTransform, false);
 
                 QuestSlots.Add(slot);
             }
         }
-
-        Quest.transform.SetParent(GameManager.Inst().UiManager.GetSideMenuSlot(GameManager.Inst().StgManager.Stage - 1).transform, false);
     }
 
     public void QuestProgress(int qType, int objType, int value)
