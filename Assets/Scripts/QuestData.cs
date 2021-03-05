@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuestData : MonoBehaviour
+public class QuestData
 {
     public int QuestId;
     public string QuestDesc;
