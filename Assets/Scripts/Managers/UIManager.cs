@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     public GameObject StageScroll;
     public GameObject InfoArea;
     public GameObject EquipArea;
-    public GameObject QuestScroll;
+    public GameObject ZzinBottom;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -54,6 +54,7 @@ public class UIManager : MonoBehaviour
     SideMenu SideMenuUI;
     StageLoop StageScrollUI;
     InfoArea InfoAreaUI;
+    ZzinBottom ZzinBottomUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -116,6 +117,7 @@ public class UIManager : MonoBehaviour
         SideMenuUI = SideMenu.GetComponent<SideMenu>();
         StageScrollUI = StageScroll.GetComponent<StageLoop>();
         InfoAreaUI = InfoArea.GetComponent<InfoArea>();
+        ZzinBottomUI = ZzinBottom.GetComponent<ZzinBottom>();
     }
 
     void Update()
@@ -406,6 +408,10 @@ public class UIManager : MonoBehaviour
     {
         InventoryUI.ShowInventory();
 
+        ZzinBottomUI.InventoryIcon[0].SetActive(false);
+        ZzinBottomUI.InventoryIcon[1].SetActive(true);
+        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
     }
@@ -414,6 +420,10 @@ public class UIManager : MonoBehaviour
     {
         InventoryUI.CloseInventory();
         Inventory.SetActive(false);
+
+        ZzinBottomUI.InventoryIcon[0].SetActive(true);
+        ZzinBottomUI.InventoryIcon[1].SetActive(false);
+        ZzinBottomUI.HomeIcon.alpha = 0.0f;
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -462,6 +472,10 @@ public class UIManager : MonoBehaviour
         EquipArea.SetActive(false);
         InfoAreaUI.ShowDetail(CurrentBulletType);
 
+        ZzinBottomUI.WeaponIcon[0].SetActive(false);
+        ZzinBottomUI.WeaponIcon[1].SetActive(true);
+        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
     }
@@ -474,6 +488,10 @@ public class UIManager : MonoBehaviour
         ConfirmSwitch.SetActive(false);
         Equip.SetActive(false);
         IsEquip = false;
+
+        ZzinBottomUI.WeaponIcon[0].SetActive(true);
+        ZzinBottomUI.WeaponIcon[1].SetActive(false);
+        ZzinBottomUI.HomeIcon.alpha = 0.0f;
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -636,6 +654,10 @@ public class UIManager : MonoBehaviour
         StageScroll.SetActive(true);
         StageScrollUI.Show();
 
+        ZzinBottomUI.UniverseIcon[0].SetActive(false);
+        ZzinBottomUI.UniverseIcon[1].SetActive(true);
+        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
     }
@@ -643,6 +665,10 @@ public class UIManager : MonoBehaviour
     public void OnClickSpaceBackBtn()
     {
         StageScroll.SetActive(false);
+
+        ZzinBottomUI.UniverseIcon[0].SetActive(true);
+        ZzinBottomUI.UniverseIcon[1].SetActive(false);
+        ZzinBottomUI.HomeIcon.alpha = 0.0f;
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);

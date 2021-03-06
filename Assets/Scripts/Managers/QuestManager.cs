@@ -73,6 +73,7 @@ public class QuestManager : MonoBehaviour
                 slot.Desc.text = Quests[i].QuestDesc;
                 slot.Count.text = "0 / " + Quests[i].GoalCount;
                 slot.QuestID = Quests[i].QuestId;
+                slot.Check.SetActive(false);
                 slot.transform.SetParent(GameManager.Inst().UiManager.GetSideMenuSlot(GameManager.Inst().StgManager.Stage - 1).GetComponent<SideMenuSlot>().ContentTransform, false);
 
                 QuestSlots.Add(slot);
@@ -121,7 +122,7 @@ public class QuestManager : MonoBehaviour
         {
             Quests[index].IsFinish = true;
             FinQuests++;
-            QuestSlots[found].gameObject.SetActive(false);
+            QuestSlots[found].Check.SetActive(true);
         }
 
         //Check All Clear

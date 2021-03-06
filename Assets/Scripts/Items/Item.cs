@@ -86,10 +86,8 @@ public class Item : MonoBehaviour
             }
 
             //퀘스트 처리
-            if((int)Type != 1)
+            if(Type == ItemType.COIN)
                 GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.RESOURCE, (int)Type, Value);
-            else
-                GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.RESOURCE, GameManager.Inst().StgManager.Stage, Value);
 
             IsStart = false;
             gameObject.SetActive(false);

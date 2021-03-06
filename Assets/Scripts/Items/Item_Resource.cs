@@ -94,6 +94,11 @@ public class Item_Resource : Item
             IsAbsorb = true;
         }
         else if (collision.gameObject.name == "ResourceGoal")
+        {
             Add();
+
+            //퀘스트 처리
+            GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.RESOURCE, GameManager.Inst().StgManager.Stage, Value);
+        }
     }
 }

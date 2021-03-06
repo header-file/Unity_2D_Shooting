@@ -8,5 +8,6 @@ public class QuestSlot : MonoBehaviour
     public Text Desc;
     public Text Count;
     public int QuestID;
+    public GameObject Check;
     
 }
