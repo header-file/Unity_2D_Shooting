@@ -406,6 +406,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickInventoryBtn()
     {
+        OnClickHomeBtn();
+
         InventoryUI.ShowInventory();
 
         ZzinBottomUI.InventoryIcon[0].SetActive(false);
@@ -460,6 +462,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickEquipBtn()
     {
+        OnClickHomeBtn();
+
         Inventory.SetActive(false);
         InventoryDetail.SetActive(false);
         Equip.SetActive(true);
@@ -651,6 +655,8 @@ public class UIManager : MonoBehaviour
    
     public void OnClickSpaceBtn()
     {
+        OnClickHomeBtn();
+
         StageScroll.SetActive(true);
         StageScrollUI.Show();
 

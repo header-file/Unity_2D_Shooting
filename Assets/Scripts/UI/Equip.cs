@@ -497,8 +497,8 @@ public class Equip : MonoBehaviour
                 case Item_Equipment.EquipmentType.ATTACK:
                     GameManager.Inst().UpgManager.BData[BulletType].SetAtk((int)eq.Value);
                     break;
-                case Item_Equipment.EquipmentType.RANGE:
-                    GameManager.Inst().UpgManager.BData[BulletType].SetRng((int)eq.Value);
+                case Item_Equipment.EquipmentType.HP:
+                    GameManager.Inst().UpgManager.BData[BulletType].SetHp((int)eq.Value);
                     break;
                 case Item_Equipment.EquipmentType.SPEED:
                     GameManager.Inst().UpgManager.BData[BulletType].SetSpd((int)eq.Value);
@@ -649,7 +649,7 @@ public class Equip : MonoBehaviour
                 GameManager.Inst().UpgManager.BData[BulletType].SetAtk(0);
                 break;
             case 1:
-                GameManager.Inst().UpgManager.BData[BulletType].SetRng(0);
+                GameManager.Inst().UpgManager.BData[BulletType].SetHp(0);
                 break;
             case 2:
                 GameManager.Inst().UpgManager.BData[BulletType].SetSpd(0);
@@ -699,7 +699,7 @@ public class Equip : MonoBehaviour
                 GameManager.Inst().UpgManager.BData[BulletType].SetAtk(0);
                 break;
             case 1:
-                GameManager.Inst().UpgManager.BData[BulletType].SetRng(0);
+                GameManager.Inst().UpgManager.BData[BulletType].SetHp(0);
                 break;
             case 2:
                 GameManager.Inst().UpgManager.BData[BulletType].SetSpd(0);

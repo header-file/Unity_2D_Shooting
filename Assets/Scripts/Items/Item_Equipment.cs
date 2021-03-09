@@ -9,7 +9,7 @@ public class Item_Equipment : Item
     public enum EquipmentType
     {
         ATTACK = 0,
-        RANGE = 1,
+        HP = 1,
         SPEED = 2
     };
 
@@ -27,6 +27,8 @@ public class Item_Equipment : Item
     protected float Eq_Value;
     protected Sprite Icon;
 
+    GameObject Pop;
+
     public int GetEqType() { return (int)EqType; }
     public int GetRarity() { return (int)Grade; }
     public float GetEqValue() { return Eq_Value; }
@@ -34,7 +36,7 @@ public class Item_Equipment : Item
 
     public void SetEqType(int type) { EqType = (EquipmentType)type; } 
     public void SetRarity(int rarity) { Grade = (Rarity)rarity; }
-    public void SetEqValue(float value) { Eq_Value = value; }
+    //public void SetEqValue(float value) { Eq_Value = value; }
     public void SetIcon(Sprite img) { Icon = img; }
 
     public void SetValues(int grade, int UID)
@@ -51,63 +53,67 @@ public class Item_Equipment : Item
         int rand = grade * 100;
         if (grade < 0)
             rand = Random.Range(0, 100);
-
+        
         if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "WHITE") || grade == 0)
         {
             Grade = Rarity.WHITE;
-            SetEqValue(0);
 
-            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopW");
-            pop.transform.position = transform.position;
-            pop.GetComponent<ActivationTimer>().IsStart = true;
+            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopW");
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "GREEN") || grade == 1)
         {
             Grade = Rarity.GREEN;
-            SetEqValue(1);
 
-            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopG");
-            pop.transform.position = transform.position;
-            pop.GetComponent<ActivationTimer>().IsStart = true;
+            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopG");
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "BLUE") || grade == 2)
         {
             Grade = Rarity.BLUE;
-            SetEqValue(2);
 
-            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopB");
-            pop.transform.position = transform.position;
-            pop.GetComponent<ActivationTimer>().IsStart = true;
+            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopB");
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "PURPLE") || grade == 3)
         {
             Grade = Rarity.PURPLE;
-            SetEqValue(3);
 
-            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopP");
-            pop.transform.position = transform.position;
-            pop.GetComponent<ActivationTimer>().IsStart = true;
+            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopP");
         }
         else if(rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "YELLOW") || grade == 4)
         {
             Grade = Rarity.YELLOW;
-            SetEqValue(4);
 
-            GameObject pop = GameManager.Inst().ObjManager.MakeObj("EquipPopY");
-            pop.transform.position = transform.position;
-            pop.GetComponent<ActivationTimer>().IsStart = true;
+            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopY");
         }
+        SetEqValue((int)Grade);
+
+        Pop.transform.position = transform.position;
+        Pop.GetComponent<ActivationTimer>().IsStart = true;
     }
 
     void SetEqValue(int num)
     {
-        int min = num * 20 + 1;
-        int max = (num + 1) * 20 + 1;
+        switch(num)
+        {
+            case 0:
+                Eq_Value = 1;
+                break;
 
-        int seed = (int)(Time.time * 1000.0f);
-        Random.InitState(seed);
-        int rand = Random.Range(min, max);
-        Eq_Value = rand;
+            case 1:
+                Eq_Value = 5;
+                break;
+
+            case 2:
+                Eq_Value = 20;
+                break;
+
+            case 3:
+                Eq_Value = 75;
+                break;
+
+            case 4:
+                Eq_Value = 250;
+                break;
+        }
     }
 
     protected override void Update()

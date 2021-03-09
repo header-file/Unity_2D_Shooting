@@ -46,7 +46,7 @@ public class InventoryDetail : MonoBehaviour
                 text.text = "ATTACK";
                 break;
 
-            case Item_Equipment.EquipmentType.RANGE:
+            case Item_Equipment.EquipmentType.HP:
                 text.text = "RANGE";
                 break;
 

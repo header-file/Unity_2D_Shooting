@@ -240,7 +240,7 @@ public class Enemy : MonoBehaviour
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
-            float dmg = damage * (1 + (atk / 100.0f));
+            float dmg = damage + atk;
             collision.gameObject.SetActive(false);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
@@ -253,7 +253,7 @@ public class Enemy : MonoBehaviour
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
-            float dmg = damage * (1 + (atk / 100.0f));
+            float dmg = damage + atk;
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             /*RaycastHit rayHit;
@@ -268,7 +268,7 @@ public class Enemy : MonoBehaviour
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
-            float dmg = damage * (1 + (atk / 100.0f));
+            float dmg = damage + atk;
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
@@ -282,7 +282,7 @@ public class Enemy : MonoBehaviour
 
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
-            float dmg = damage * (1 + (atk / 100.0f));
+            float dmg = damage + atk;
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;

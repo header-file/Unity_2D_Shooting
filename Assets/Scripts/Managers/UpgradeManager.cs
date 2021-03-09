@@ -27,19 +27,41 @@ public class UpgradeManager : MonoBehaviour
         public void SetSpeed(float velocity) { Speed = velocity; }
         public void SetReloadTime(float Time) { ReloadTime = Time; }
         public void SetDuration(float Time) { Duration = Time; }
-        public void SetAtk(int atk) { Atk = atk; }
-        public void SetRng(int rng) { Rng = rng; }
-        public void SetSpd(int spd) { Spd = spd; }
         public void SetPrice(int price) { Price = price; }
         public void AddRarity() { Rarity++; }
         public void SetActive(bool b) { IsActive = b; }
-        
+        public void SetAtk(int atk)
+        {
+            if (MaxAtk < atk)
+                Atk = MaxAtk;
+            else
+                Atk = atk;
+        }
+        public void SetHp(int hp)
+        {
+            if (MaxHp < hp)
+                Hp = MaxHp;
+            else
+                Hp = hp;
+        }
+        public void SetSpd(int spd)
+        {
+            if (MaxSpd < spd)
+                Spd = MaxSpd;
+            else
+                Spd = spd;
+        }
+        public void SetMaxAtk(int max) { MaxAtk = max; }
+        public void SetMaxHp(int max) { MaxHp = max; }
+        public void SetMaxSpd(int max) { MaxSpd = max; }
+
         public int GetMaxBulletLevel() { return MaxBulletLevel * (Rarity + 1); }
         public int GetPowerLevel() { return PowerLevel; }
         public int GetPrice() { return Price; }
         public int GetAtk() { return Atk; }
-        public int GetRng() { return Rng; }
+        public int GetHp() { return Hp; }
         public int GetSpd() { return Spd; }
+        public int GetMaxAtk() { return MaxAtk; }
         public float GetSpeed() { return Speed; }
         public float GetReloadTime() { return ReloadTime; }
         public float GetDuration() { return Duration; }
@@ -50,7 +72,7 @@ public class UpgradeManager : MonoBehaviour
         
         public void ResetData()
         {
-            PowerLevel = 0;
+            PowerLevel = 1;
             BaseDamage = 0;
 
             Price = 10;
@@ -61,13 +83,16 @@ public class UpgradeManager : MonoBehaviour
             Speed = 0.0f;
 
             Atk = 0;
-            Rng = 0;
+            Hp = 0;
             Spd = 0;
+            MaxAtk = 0;
+            MaxHp = 0;
+            MaxSpd = 0;
 
             IsActive = false;
         }
 
-        public void SetDatas(List<Dictionary<string, object>> data, int index)
+        public void SetBulletDatas(List<Dictionary<string, object>> data, int index)
         {
             BaseDamage = int.Parse(data[index]["BaseDamage"].ToString());
             PowerLevel = int.Parse(data[index]["StartLevel"].ToString());
@@ -75,22 +100,28 @@ public class UpgradeManager : MonoBehaviour
             Duration = float.Parse(data[index]["Duration"].ToString());
             Speed = float.Parse(data[index]["Speed"].ToString());
             Rarity = index / Bullet.MAXBULLETS;
+            MaxAtk = 0;
+            MaxHp = 0;
+            MaxSpd = 0;
         }
 
         const int MaxBulletLevel = 10;
 
-        int PowerLevel;
-        int BaseDamage;
-        int Price;
-        int Rarity;
+        private int PowerLevel;
+        private int BaseDamage;
+        private int Price;
+        private int Rarity;
 
-        float Speed;
-        float ReloadTime;
-        float Duration;
+        private float Speed;
+        private float ReloadTime;
+        private float Duration;
 
-        int Atk;
-        int Rng;
-        int Spd;
+        private int Atk;
+        private int Hp;
+        private int Spd;
+        private int MaxAtk;
+        private int MaxHp;
+        private int MaxSpd;
 
         bool IsActive;
     };
@@ -107,6 +138,7 @@ public class UpgradeManager : MonoBehaviour
     int[,] ResourceData;
     int[,] SubWpPriceData;
     int[] WeaponPriceData;
+    int[,,] WeaponReinforceMaxData;
 
     //public BulletData GetBData(int index) { return BData[index]; }
     public int GetSubWeaponLevel(int index) { return SubWeaponLevel[index]; }
@@ -123,7 +155,7 @@ public class UpgradeManager : MonoBehaviour
         for (int i = 0; i < BData.Length; i++)
         {
             BData[i].ResetData();
-            BData[i].SetDatas(data, i);
+            BData[i].SetBulletDatas(data, i);
         }
 
         data = CSVReader.Read("Datas/WpAwakenData");
@@ -135,6 +167,18 @@ public class UpgradeManager : MonoBehaviour
         WeaponPriceData = new int[50];
         for(int i = 0; i < 50; i++)
             WeaponPriceData[i] = int.Parse(data[i]["Price"].ToString());
+
+        data = CSVReader.Read("Datas/WpReinforceMaxData");
+        WeaponReinforceMaxData = new int[Bullet.MAXBULLETS, 5, 3];
+        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        {
+            for(int j = 0; j < 3; j++)
+                SetWeaponReinforceMaxDatas(data, i, j);
+
+            BData[i].SetMaxAtk(WeaponReinforceMaxData[i, BData[i].GetRarity(), 0]);
+            BData[i].SetMaxHp(WeaponReinforceMaxData[i, BData[i].GetRarity(), 1]);
+            BData[i].SetMaxSpd(WeaponReinforceMaxData[i, BData[i].GetRarity(), 2]);
+        }
 
         data = CSVReader.Read("Datas/SubWpPriceData");
         SubWpPriceData = new int[StageManager.MAXSTAGES, MAXSUBLEVEL + 1];
@@ -173,6 +217,15 @@ public class UpgradeManager : MonoBehaviour
         SubWpPriceData[stage, 5] = 0;
     }
 
+    void SetWeaponReinforceMaxDatas(List<Dictionary<string, object>> data, int bulletType, int eqType)
+    {
+        WeaponReinforceMaxData[bulletType, (int)Item_Equipment.Rarity.WHITE, eqType] = int.Parse(data[bulletType * 3 + eqType]["WHITE"].ToString());
+        WeaponReinforceMaxData[bulletType, (int)Item_Equipment.Rarity.GREEN, eqType] = int.Parse(data[bulletType * 3 + eqType]["GREEN"].ToString());
+        WeaponReinforceMaxData[bulletType, (int)Item_Equipment.Rarity.BLUE, eqType] = int.Parse(data[bulletType * 3 + eqType]["BLUE"].ToString());
+        WeaponReinforceMaxData[bulletType, (int)Item_Equipment.Rarity.PURPLE, eqType] = int.Parse(data[bulletType * 3 + eqType]["PURPLE"].ToString());
+        WeaponReinforceMaxData[bulletType, (int)Item_Equipment.Rarity.YELLOW, eqType] = int.Parse(data[bulletType * 3 + eqType]["YELLOW"].ToString());
+    }
+
     public void AddLevel(int UpgType)
     {
         if(UpgType < (int)UpgradeType.SUBWEAPON)
@@ -191,9 +244,12 @@ public class UpgradeManager : MonoBehaviour
                     GameManager.Inst().SubtractResource(i, ResourceData[BData[UpgType].GetRarity(), i]);
 
                 //BData 처리
-                BData[UpgType].SetPowerLevel(0);
+                BData[UpgType].SetPowerLevel(1);
                 BData[UpgType].AddRarity();
                 BData[UpgType].SetPrice((int)Mathf.Pow(10.0f, BData[UpgType].GetRarity()));
+                BData[UpgType].SetMaxAtk(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 0]);
+                BData[UpgType].SetMaxHp(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 1]);
+                BData[UpgType].SetMaxSpd(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 2]);
 
                 //UI
                 GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());

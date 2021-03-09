@@ -15,6 +15,7 @@ public class GameData
 
     public int Coin;
     public int[] Resources;
+    public int CurrentStage;
     public int[,] SubWeaponLevels;
     public UpgradeManager.BulletData[] Weapons;
     public int[,,] Equippeds;
@@ -36,18 +37,16 @@ public class GameData
     public void SaveData()
     {
         Coin = GameManager.Inst().Player.GetCoin();
-        for(int i = 0; i < StageManager.MAXSTAGES; i++)
-        {
-            Resources[i] = GameManager.Inst().Resources[i];
+        //for(int i = 0; i < StageManager.MAXSTAGES; i++)
+        //{
+        //    Resources[i] = GameManager.Inst().Resources[i];
             
-        }
+        //}
     }
 
     public void LoadData()
     {
         if (Coin > 0)
-        {
             GameManager.Inst().Player.AddCoin(Coin);
-        }
     }
 }

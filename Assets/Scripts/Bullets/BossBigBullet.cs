@@ -104,7 +104,7 @@ public class BossBigBullet : MonoBehaviour
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
-            float dmg = damage * (1 + (atk / 100.0f));
+            float dmg = damage + atk;
 
             Damage(dmg);
 
@@ -116,7 +116,7 @@ public class BossBigBullet : MonoBehaviour
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
-            float dmg = damage * (1 + (atk / 100.0f));
+            float dmg = damage + atk;
 
             Damage(dmg);
         }
@@ -125,7 +125,7 @@ public class BossBigBullet : MonoBehaviour
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
-            float dmg = damage * (1 + (atk / 100.0f));
+            float dmg = damage + atk;
 
             Damage(dmg);
 
