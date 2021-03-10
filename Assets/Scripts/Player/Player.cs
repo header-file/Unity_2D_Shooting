@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
         public int Rarity;
         public float Value;
         public int UID;
-
+        public int Quantity;
         
         public EqData()
         {
@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
             Rarity = -1;
             Value = 0.0f;
             UID = 0;
+            Quantity = 0;
         }
         
     };
@@ -113,6 +114,20 @@ public class Player : MonoBehaviour
 
     public int AddItem(Item_Equipment item)
     {
+        for (int i = 0; i < MAXINVENTORY; i++)
+        {
+            if (Inventory[i] != null)
+            {
+                if (Inventory[i].Type == item.GetEqType() &&
+                    Inventory[i].Rarity == item.GetRarity())
+                {
+                    Inventory[i].Quantity++;
+
+                    return i;
+                }
+            }
+        }
+
         for(int i = 0; i < MAXINVENTORY; i++)
         {
             if (Inventory[i] == null)
@@ -123,9 +138,10 @@ public class Player : MonoBehaviour
                 Inventory[i].Rarity = item.GetRarity();
                 Inventory[i].Value = item.GetEqValue();
                 Inventory[i].UID = item.GetUID();
+                Inventory[i].Quantity = 1;
 
                 return i;
-            }   
+            }
         }
 
         return -1;
@@ -133,6 +149,19 @@ public class Player : MonoBehaviour
 
     public int AddItem(EqData item)
     {
+        for (int i = 0; i < MAXINVENTORY; i++)
+        {
+            if (Inventory[i] != null)
+            {
+                if (Inventory[i].Type == item.Type &&
+                    Inventory[i].Rarity == item.Rarity)
+                {
+                    Inventory[i].Quantity++;
+                    return i;
+                }
+            }
+        }
+
         for (int i = 0; i < MAXINVENTORY; i++)
         {
             if (Inventory[i] == null)
@@ -143,6 +172,7 @@ public class Player : MonoBehaviour
                 Inventory[i].Rarity = item.Rarity;
                 Inventory[i].Value = item.Value;
                 Inventory[i].UID = item.UID;
+                Inventory[i].Quantity = 1;
 
                 return i;
             }
@@ -206,19 +236,6 @@ public class Player : MonoBehaviour
                         if(Inventory[j - 1] == null)
                         {
                             Swap(j - 1, j);
-
-                            //inven.MoveFront(j);
-                            //InventorySlot slot = GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j);
-                            //if (slot.Selected.activeSelf)
-                            //{
-                            //    slot.Selected.SetActive(false);
-                            //    GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j - 1).Selected.SetActive(true);
-                            //}
-                            //if (slot.EMark.activeSelf)
-                            //{
-                            //    slot.EMark.SetActive(false);
-                            //    GameManager.Inst().Inventory.GetComponent<InventoryScroll>().GetSlot(j - 1).EMark.SetActive(true);
-                            //}
                         }
                     }
                 }
@@ -324,3 +341,16 @@ public class Player : MonoBehaviour
         GameManager.Inst().UiManager.OnClickManageBtn(2);
     }
 }
+
+
+//if (Inventory[i] == null)
+//{
+//    Inventory[i] = new EqData();
+//    Inventory[i].Icon = item.GetIcon();
+//    Inventory[i].Type = item.GetEqType();
+//    Inventory[i].Rarity = item.GetRarity();
+//    Inventory[i].Value = item.GetEqValue();
+//    Inventory[i].UID = item.GetUID();
+
+//    return i;
+//}

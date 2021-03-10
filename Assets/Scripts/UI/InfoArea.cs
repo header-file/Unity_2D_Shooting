@@ -12,9 +12,8 @@ public class InfoArea : MonoBehaviour
     public GameObject[] Resources;
     public Text[] ResourceTexts;
     public Text WeaponName;
-    public Image[] SlotImgs;
-    public GameObject[] Grades;
-    public GameObject[] Gauges;
+    public Text[] GaugeTexts;
+    public Image[] Gauges;
     public CanvasGroup[] CanvasGps;
     public Animator[] Anim;
     public int[] DefaultColor;
@@ -69,36 +68,45 @@ public class InfoArea : MonoBehaviour
         }
     }
 
-    public void SetSlots(int index, bool b, Sprite img, int grade)
+    public void PaintGauge(int type, int bulletType)
     {
-        if (b)
+        switch (type)
         {
-            SlotImgs[index].sprite = img;
-            SlotImgs[index + 3].gameObject.SetActive(false);
-
-            for(int i = 0; i < 5; i++)
-                Grades[index].transform.GetChild(i).gameObject.SetActive(false);
-
-            Grades[index].transform.GetChild(grade).gameObject.SetActive(true);
-        }
-        else
-        {
-            SlotImgs[index].sprite = img;
-            SlotImgs[index + 3].gameObject.SetActive(true);
-
-            for (int i = 0; i < 5; i++)
-                Grades[index].transform.GetChild(i).gameObject.SetActive(false);
-        }
-    }
-
-    public void PaintGauge(int type, float value, Color color)
-    {
-        for (int i = 1; i <= 10; i++)
-        {
-            if (value >= i * 10)
-                Gauges[type].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = color;
-            else
-                Gauges[type].transform.GetChild(i - 1).gameObject.GetComponent<Image>().color = Color.white;
+            case 0:
+                GaugeTexts[type].text = GameManager.Inst().UpgManager.BData[bulletType].GetAtk().ToString();
+                Gauges[type].fillAmount = (float)GameManager.Inst().UpgManager.BData[bulletType].GetAtk() / GameManager.Inst().UpgManager.BData[bulletType].GetMaxAtk();
+                break;
+            case 1:
+                GaugeTexts[type].text = GameManager.Inst().UpgManager.BData[bulletType].GetHp().ToString();
+                Gauges[type].fillAmount = (float)GameManager.Inst().UpgManager.BData[bulletType].GetHp() / GameManager.Inst().UpgManager.BData[bulletType].GetMaxHp();
+                break;
+            case 2:
+                GaugeTexts[type].text = GameManager.Inst().UpgManager.BData[bulletType].GetSpd().ToString();
+                Gauges[type].fillAmount = (float)GameManager.Inst().UpgManager.BData[bulletType].GetSpd() / GameManager.Inst().UpgManager.BData[bulletType].GetMaxSpd();
+                break;
         }
     }
 }
+
+
+//public void SetSlots(int index, bool b, Sprite img, int grade)
+//{
+//    if (b)
+//    {
+//        SlotImgs[index].sprite = img;
+//        SlotImgs[index + 3].gameObject.SetActive(false);
+
+//        for(int i = 0; i < 5; i++)
+//            Grades[index].transform.GetChild(i).gameObject.SetActive(false);
+
+//        Grades[index].transform.GetChild(grade).gameObject.SetActive(true);
+//    }
+//    else
+//    {
+//        SlotImgs[index].sprite = img;
+//        SlotImgs[index + 3].gameObject.SetActive(true);
+
+//        for (int i = 0; i < 5; i++)
+//            Grades[index].transform.GetChild(i).gameObject.SetActive(false);
+//    }
+//}

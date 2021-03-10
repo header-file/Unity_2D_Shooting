@@ -27,7 +27,8 @@ public class UIManager : MonoBehaviour
     public GameObject ScrollView;
     public GameObject Inventory;
     public GameObject InventoryDetail;
-    public GameObject Equip;
+    //public GameObject Equip;
+    public GameObject Weapon;
     public GameObject ConfirmSwitch;
     public GameObject Synthesis;
     public GameObject Resource;
@@ -49,7 +50,8 @@ public class UIManager : MonoBehaviour
     LoopScroll ScrollViewUI;
     Inventory InventoryUI;
     InventoryDetail InvDetailUI;
-    Equip EquipUI;
+    //Equip EquipUI;
+    public Weapon WeaponUI;
     Synthesis SynthesisUI;
     SideMenu SideMenuUI;
     StageLoop StageScrollUI;
@@ -112,7 +114,8 @@ public class UIManager : MonoBehaviour
         ScrollViewUI = ScrollView.GetComponent<LoopScroll>();
         InventoryUI = Inventory.GetComponent<Inventory>();
         InvDetailUI = InventoryDetail.GetComponent<InventoryDetail>();
-        EquipUI = Equip.GetComponent<Equip>();
+        //EquipUI = Equip.GetComponent<Equip>();
+        WeaponUI = Weapon.GetComponent<Weapon>();
         SynthesisUI = Synthesis.GetComponent<Synthesis>();
         SideMenuUI = SideMenu.GetComponent<SideMenu>();
         StageScrollUI = StageScroll.GetComponent<StageLoop>();
@@ -460,16 +463,19 @@ public class UIManager : MonoBehaviour
     //    IsEquip = true;
     //}
 
-    public void OnClickEquipBtn()
+    public void OnClickWeaponBtn()
     {
         OnClickHomeBtn();
 
         Inventory.SetActive(false);
         InventoryDetail.SetActive(false);
-        Equip.SetActive(true);
+        //Equip.SetActive(true);
+        Weapon.SetActive(true);
 
-        EquipUI.SetCurBulletType(GameManager.Inst().Player.GetBulletType());
-        EquipUI.ShowUI();
+        //EquipUI.SetCurBulletType(GameManager.Inst().Player.GetBulletType());
+        //EquipUI.ShowUI();
+        WeaponUI.SetCurBulletType(GameManager.Inst().Player.GetBulletType());
+        WeaponUI.ShowUI();
         IsEquip = true;
 
         InfoArea.SetActive(true);
@@ -484,13 +490,14 @@ public class UIManager : MonoBehaviour
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
     }
 
-    public void OnClickEquipBackBtn()
+    public void OnClickWeaponBackBtn()
     {
-        EquipUI.DisableSelectedSlot();
-        EquipUI.ResetEquip();
-        EquipUI.SetIsShowingSwitch(false);
-        ConfirmSwitch.SetActive(false);
-        Equip.SetActive(false);
+        //EquipUI.DisableSelectedSlot();
+        //EquipUI.ResetEquip();
+        //EquipUI.SetIsShowingSwitch(false);
+        //ConfirmSwitch.SetActive(false);
+        //Equip.SetActive(false);
+        Weapon.SetActive(false);
         IsEquip = false;
 
         ZzinBottomUI.WeaponIcon[0].SetActive(true);
@@ -509,46 +516,47 @@ public class UIManager : MonoBehaviour
 
     public void OnClickEquipSlotBtn(int index)
     {
-        EquipUI.SortAsType(index);
+        //EquipUI.SortAsType(index);
     }
 
     public void OnClickEquipSelectBtn(int index)
     {
-        if (EquipUI.GetSelected(EquipUI.GetCurBulletType()) == -1 &&
-            !EquipUI.CheckAlreadyEquip(index))
-            EquipUI.Select(index, EquipUI.GetCurBulletType());            
-        else
-        {
-            if (EquipUI.GetSelected(EquipUI.GetCurBulletType()) == index)
-                return;
+        //if (EquipUI.GetSelected(EquipUI.GetCurBulletType()) == -1 &&
+        //    !EquipUI.CheckAlreadyEquip(index))
+        //    EquipUI.Select(index, EquipUI.GetCurBulletType());            
+        //else
+        //{
+        //    if (EquipUI.GetSelected(EquipUI.GetCurBulletType()) == index)
+        //        return;
 
-            EquipUI.ShowSwitch(index);
-            ConfirmSwitch.SetActive(true);
-            EquipUI.SetSwichBuffer(index);
-        }
+        //    EquipUI.ShowSwitch(index);
+        //    ConfirmSwitch.SetActive(true);
+        //    EquipUI.SetSwichBuffer(index);
+        //}
     }
 
     public void OnClickUnequipBtn()
     {
-        EquipUI.Unequip(EquipUI.GetCurBulletType());
+        //EquipUI.Unequip(EquipUI.GetCurBulletType());
     }
 
     public void OnClickSwitchBtn()
     {
-        EquipUI.Switch(EquipUI.GetSwitchBuffer(), EquipUI.GetCurBulletType());
-        ConfirmSwitch.SetActive(false);
+        //EquipUI.Switch(EquipUI.GetSwitchBuffer(), EquipUI.GetCurBulletType());
+        //ConfirmSwitch.SetActive(false);
     }
 
     public void OnClickSwitchCancelBtn()
     {
-        EquipUI.SetSwichBuffer(-1);
-        EquipUI.SwitchCancel();
-        ConfirmSwitch.SetActive(false);
+        //EquipUI.SetSwichBuffer(-1);
+        //EquipUI.SwitchCancel();
+        //ConfirmSwitch.SetActive(false);
     }
 
     public void OnClickNextButton(bool IsNext)
     {
-        EquipUI.Next(IsNext);
+        //EquipUI.Next(IsNext);
+        WeaponUI.Next(IsNext);
     }
 
     public void OnClickSynthesisBtn()
@@ -596,10 +604,10 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSynthesisSelectBtn(int index)
     {
-        if (EquipUI.CheckAlreadyEquipAll(index))
-            SynthesisUI.ShowUnEquipConfirm(index);
-        else
-            SynthesisUI.SetButtons(index);
+        //if (EquipUI.CheckAlreadyEquipAll(index))
+        //    SynthesisUI.ShowUnEquipConfirm(index);
+        //else
+        //    SynthesisUI.SetButtons(index);
     }
 
     public void OnClickSynthesisResultBackBtn()
@@ -615,10 +623,10 @@ public class UIManager : MonoBehaviour
     public void OnClickSynthesisUnequipBtn()
     {
         int index = SynthesisUI.GetUnequipIndex();
-        int bulletType = EquipUI.GetBulletType(index);
+        //int bulletType = EquipUI.GetBulletType(index);
         int equipType = GameManager.Inst().Player.GetItem(index).Type;
 
-        EquipUI.Unequip(bulletType, equipType);
+        //EquipUI.Unequip(bulletType, equipType);
         SynthesisUI.SetButtons(index);
 
         SynthesisUI.CloseUnequip();
@@ -695,8 +703,8 @@ public class UIManager : MonoBehaviour
     {
         if (StageScroll.activeSelf)
             OnClickSpaceBackBtn();
-        if (Equip.activeSelf)
-            OnClickEquipBackBtn();
+        if (Weapon.activeSelf)
+            OnClickWeaponBackBtn();
         if (Inventory.activeSelf)
             OnClickInventoryBackBtn();
     }

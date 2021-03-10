@@ -62,6 +62,8 @@ public class UpgradeManager : MonoBehaviour
         public int GetHp() { return Hp; }
         public int GetSpd() { return Spd; }
         public int GetMaxAtk() { return MaxAtk; }
+        public int GetMaxHp() { return MaxHp; }
+        public int GetMaxSpd() { return MaxSpd; }
         public float GetSpeed() { return Speed; }
         public float GetReloadTime() { return ReloadTime; }
         public float GetDuration() { return Duration; }

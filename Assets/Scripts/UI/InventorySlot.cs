@@ -15,6 +15,8 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     public Sprite[] Grades;
     public GameObject Grade;
     public GameObject Checked;
+    public GameObject Quantity;
+    public Text QuantityText;
 
     int Index = 0;
     int Type = 0;

@@ -40,7 +40,7 @@ public class Equip : MonoBehaviour
     float TargetX;
 
     public int GetSwitchBuffer() { return SwitchBuffer; }
-    public int GetSelected(int currentBulletType) { return Selected[currentBulletType, (int)(int)SelectableType]; }
+    public int GetSelected(int currentBulletType) { return Selected[currentBulletType, (int)SelectableType]; }
     public int GetCurBulletType() { return CurBulletType; }
 
     public void SetSwichBuffer(int i) { SwitchBuffer = i; }
@@ -135,7 +135,7 @@ public class Equip : MonoBehaviour
         int after = (int)GameManager.Inst().Player.GetItem(SelectedIndex).Value / 10;
 
         //SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>()
-        EquipArea.FlickerGauge(before, after, (int)SelectableType, GaugeColors[(int)SelectableType], GlowColor.a);
+        //EquipArea.FlickerGauge(before, after, (int)SelectableType, GaugeColors[(int)SelectableType], GlowColor.a);
     }
 
     void Moving()
@@ -230,23 +230,26 @@ public class Equip : MonoBehaviour
         InfoArea.UpgradeBtn.interactable = GameManager.Inst().UpgManager.BData[SlotIndices[ShowBulletType]].GetActive();
         InfoArea.EquipAreaBtn.interactable = GameManager.Inst().UpgManager.BData[SlotIndices[ShowBulletType]].GetActive();
 
-        for (int i = 0; i < 3; i++)
-        {
-            if (Selected[SlotIndices[ShowBulletType], i] > -1)
-            {
-                Sprite img = GameManager.Inst().Player.GetItem(Selected[SlotIndices[ShowBulletType], i]).Icon;
-                int grade = GameManager.Inst().Player.GetItem(Selected[SlotIndices[ShowBulletType], i]).Rarity;
-                int value = (int)GameManager.Inst().Player.GetItem(Selected[SlotIndices[ShowBulletType], i]).Value;
+        for(int i = 0; i < 3; i++)
+            InfoArea.PaintGauge(i, ShowBulletType);
 
-                InfoArea.SetSlots(i, true, img, grade);
-                InfoArea.PaintGauge(i, value, GaugeColors[i]);
-            }
-            else
-            {
-                InfoArea.SetSlots(i, false, OriginalSprite, -1);
-                InfoArea.PaintGauge(i, 0, GaugeColors[i]);
-            }
-        }
+        //
+        //{
+        //    if (Selected[SlotIndices[ShowBulletType], i] > -1)
+        //    {
+        //        Sprite img = GameManager.Inst().Player.GetItem(Selected[SlotIndices[ShowBulletType], i]).Icon;
+        //        int grade = GameManager.Inst().Player.GetItem(Selected[SlotIndices[ShowBulletType], i]).Rarity;
+        //        int value = (int)GameManager.Inst().Player.GetItem(Selected[SlotIndices[ShowBulletType], i]).Value;
+
+        //        InfoArea.SetSlots(i, true, img, grade);
+        //        InfoArea.PaintGauge(i, );
+        //    }
+        //    else
+        //    {
+        //        //InfoArea.SetSlots(i, false, OriginalSprite, -1);
+
+        //    }
+        //}
     }
 
     void Show(int BulletType, int index)
@@ -261,16 +264,17 @@ public class Equip : MonoBehaviour
         //SwitchWindows.transform.GetChild(index).GetComponent<SwitchWindow>().SetCurrentBulletImg(GameManager.Inst().UiManager.WeaponImages[BulletType]);
 
         for(int i = 0; i < 3; i++)
-        {
-            if (Selected[BulletType, i] > -1)
-            {
-                int value = (int)GameManager.Inst().Player.GetItem(Selected[BulletType, i]).Value;
+            PaintGauge(i, BulletType);
+        //{
+        //    if (Selected[BulletType, i] > -1)
+        //    {
+        //        int value = (int)GameManager.Inst().Player.GetItem(Selected[BulletType, i]).Value;
 
-                PaintGauge(index, i, value);
-            }
-            else
-                PaintGauge(index, i, 0);
-        }
+        //        PaintGauge(index, i, value);
+        //    }
+        //    else
+        //        PaintGauge(index, i, 0);
+        //}
 
         //스페셜 할 예정?
     }
@@ -448,71 +452,12 @@ public class Equip : MonoBehaviour
 
     public void Select(int index, int BulletType)
     {
-        if ((int)SelectableType < 0)
-            return;
-
-        Player.EqData eq = Player.GetItem(index);
-        //if (GameManager.Inst().UpgManager.GetBData(CurBulletType).GetRarity() < eq.Rarity)
-        //    return;
-
-        if (eq.Type == (int)SelectableType)
-        {
-            //Detail에 데이터 적용
-            for (int i = 0; i < 3; i++)
-            {
-                if (SlotIndices[i] == BulletType)
-                {
-                    //SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>()
-                    EquipArea.SetButtons((int)SelectableType, true, eq.Icon, eq.Rarity);
-                    PaintGauge(i, (int)SelectableType, eq.Value);
-                    break;
-                }
-            }
-            //SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, true, eq.Icon);
-
-            LastIndex[BulletType, (int)SelectableType] = index;
-
-            //E마크
-            //for(int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-            //{
-            //    InventorySlot slot = Inventories.GetSlot(i);
-            //    if (slot.GetItemUID() == eq.UID)
-            //    {
-            //        slot.SetEmark(true);
-            //        slot.SetSelected(false);
-            //        break;
-            //    }
-            //}
-            InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(index));
-            slot.SetEmark(true);
-            slot.SetSelected(false);
-
-            //PaintGauge(ShowBulletType, (int)SelectableType, eq.Value);            
-
-            //실제 총알에 데이터 적용
-            Selected[BulletType, (int)SelectableType] = index;
-
-            switch (SelectableType)
-            {
-                case Item_Equipment.EquipmentType.ATTACK:
-                    GameManager.Inst().UpgManager.BData[BulletType].SetAtk((int)eq.Value);
-                    break;
-                case Item_Equipment.EquipmentType.HP:
-                    GameManager.Inst().UpgManager.BData[BulletType].SetHp((int)eq.Value);
-                    break;
-                case Item_Equipment.EquipmentType.SPEED:
-                    GameManager.Inst().UpgManager.BData[BulletType].SetSpd((int)eq.Value);
-                    break;
-            }
-        }
-
-        SetIsShowingSwitch(false);
+        
     }
 
-    void PaintGauge(int index, int type, float value)
+    void PaintGauge(int type, int bulletType)
     {
-        //SwitchWindows.transform.GetChild(index).GetComponent<SwitchWindow>()
-        EquipArea.PaintGauge(type, value, GaugeColors[type]);
+        EquipArea.PaintGauge(type, bulletType);
     }
 
     public void Switch(int index, int BulletType)
@@ -542,19 +487,14 @@ public class Equip : MonoBehaviour
 
     public void SwitchCancel()
     {
-        //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-        //{
-        //    if (Inventories.GetSlot(i).GetItemUID() == GameManager.Inst().Player.GetItem(SelectedIndex).UID)
-        //        Inventories.GetSlot(i).SetSelected(false);
-        //}
-        Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex)).SetSelected(false);
+        //Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex)).SetSelected(false);
                 
-        if (Selected[CurBulletType, (int)SelectableType] > -1)
-            PaintGauge(ShowBulletType, (int)SelectableType, GameManager.Inst().Player.GetItem(Selected[CurBulletType, (int)SelectableType]).Value);
-        else
-            PaintGauge(ShowBulletType, (int)SelectableType, 0);
-        SetIsShowingSwitch(false);
-        IsBtoB = false;
+        //if (Selected[CurBulletType, (int)SelectableType] > -1)
+        //    PaintGauge(ShowBulletType, (int)SelectableType, GameManager.Inst().Player.GetItem(Selected[CurBulletType, (int)SelectableType]).Value);
+        //else
+        //    PaintGauge(ShowBulletType, (int)SelectableType, 0);
+        //SetIsShowingSwitch(false);
+        //IsBtoB = false;
     }
 
     public bool CheckAlreadyEquip(int index)
@@ -609,102 +549,78 @@ public class Equip : MonoBehaviour
 
     public void Unequip(int BulletType)
     {
-        //SwitchWindows.transform.GetChild(ShowBulletType)
-        EquipArea.GetComponent<SwitchWindow>().SetButtons((int)SelectableType, false, OriginalSprite, -1);
-        //PaintGauge(ShowBulletType, , 0.0f);
+        //EquipArea.GetComponent<SwitchWindow>().SetButtons((int)SelectableType, false, OriginalSprite, -1);
 
-        //E마크
-        if (LastIndex[BulletType, (int)SelectableType] > -1)
-        {
-            //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-            //{
-            //    InventorySlot slot = Inventories.GetSlot(i);
-            //    if (slot.GetItemUID() == GameManager.Inst().Player.GetItem(LastIndex[BulletType, (int)SelectableType]).UID)
-            //    {
-            //        slot.SetEmark(false);
-            //        break;
-            //    }
-            //}
-            Inventories.GetSlot(Inventories.GetSwitchedIndex(LastIndex[BulletType, (int)SelectableType])).SetEmark(false);
-        }
+        ////E마크
+        //if (LastIndex[BulletType, (int)SelectableType] > -1)
+        //{
+        //    Inventories.GetSlot(Inventories.GetSwitchedIndex(LastIndex[BulletType, (int)SelectableType])).SetEmark(false);
+        //}
 
-        if (LastIndex[BulletType, (int)SelectableType] != -1 && Selected[BulletType, (int)SelectableType] == LastIndex[BulletType, (int)SelectableType])
-            Selected[BulletType, (int)SelectableType] = -1;
+        //if (LastIndex[BulletType, (int)SelectableType] != -1 && Selected[BulletType, (int)SelectableType] == LastIndex[BulletType, (int)SelectableType])
+        //    Selected[BulletType, (int)SelectableType] = -1;
         
-        for(int i = 0; i < 3; i++)
-        {
-            if(SlotIndices[i] == BulletType)
-            {
-                //SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>()
-                EquipArea.SetButtons((int)SelectableType, false, OriginalSprite, -1);
-                PaintGauge(i, (int)SelectableType, 0.0f);
-                break;
-            }
-        }
+        //for(int i = 0; i < 3; i++)
+        //{
+        //    if(SlotIndices[i] == BulletType)
+        //    {
+        //        EquipArea.SetButtons((int)SelectableType, false, OriginalSprite, -1);
+        //        PaintGauge(i, (int)SelectableType, 0.0f);
+        //        break;
+        //    }
+        //}
 
-        //실제 총알에 데이터 적용
-        switch ((int)SelectableType)
-        {
-            case 0:
-                GameManager.Inst().UpgManager.BData[BulletType].SetAtk(0);
-                break;
-            case 1:
-                GameManager.Inst().UpgManager.BData[BulletType].SetHp(0);
-                break;
-            case 2:
-                GameManager.Inst().UpgManager.BData[BulletType].SetSpd(0);
-                break;
-        }
+        ////실제 총알에 데이터 적용
+        //switch ((int)SelectableType)
+        //{
+        //    case 0:
+        //        GameManager.Inst().UpgManager.BData[BulletType].SetAtk(0);
+        //        break;
+        //    case 1:
+        //        GameManager.Inst().UpgManager.BData[BulletType].SetHp(0);
+        //        break;
+        //    case 2:
+        //        GameManager.Inst().UpgManager.BData[BulletType].SetSpd(0);
+        //        break;
+        //}
     }
 
     public void Unequip(int BulletType, int EquipType)
     {
-        //SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>()
-        EquipArea.SetButtons(EquipType, false, OriginalSprite, -1);
-        //PaintGauge(ShowBulletType, , 0.0f);
+        //EquipArea.SetButtons(EquipType, false, OriginalSprite, -1);
 
-        //E마크
-        if (LastIndex[BulletType, EquipType] > -1)
-        {
-            //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-            //{
-            //    InventorySlot slot = Inventories.GetSlot(i);
-            //    if (slot.GetItemUID() == GameManager.Inst().Player.GetItem(LastIndex[BulletType, EquipType]).UID)
-            //    {
-            //        slot.SetEmark(false);
-            //        break;
-            //    }
-            //}
-            Inventories.GetSlot(Inventories.GetSwitchedIndex(LastIndex[BulletType, EquipType])).SetEmark(false);
-        }
+        ////E마크
+        //if (LastIndex[BulletType, EquipType] > -1)
+        //{
+        //    Inventories.GetSlot(Inventories.GetSwitchedIndex(LastIndex[BulletType, EquipType])).SetEmark(false);
+        //}
 
-        if (LastIndex[BulletType, EquipType] != -1 && Selected[BulletType, EquipType] == LastIndex[BulletType, EquipType])
-            Selected[BulletType, EquipType] = -1;
+        //if (LastIndex[BulletType, EquipType] != -1 && Selected[BulletType, EquipType] == LastIndex[BulletType, EquipType])
+        //    Selected[BulletType, EquipType] = -1;
 
-        for (int i = 0; i < 3; i++)
-        {
-            if (SlotIndices[i] == BulletType)
-            {
-                //SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>()
-                EquipArea.SetButtons(EquipType, false, OriginalSprite, -1);
-                PaintGauge(i, EquipType, 0.0f);
-                break;
-            }
-        }
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    if (SlotIndices[i] == BulletType)
+        //    {
+        //        EquipArea.SetButtons(EquipType, false, OriginalSprite, -1);
+        //        PaintGauge(i, EquipType, 0.0f);
+        //        break;
+        //    }
+        //}
 
-        //실제 총알에 데이터 적용
-        switch (EquipType)
-        {
-            case 0:
-                GameManager.Inst().UpgManager.BData[BulletType].SetAtk(0);
-                break;
-            case 1:
-                GameManager.Inst().UpgManager.BData[BulletType].SetHp(0);
-                break;
-            case 2:
-                GameManager.Inst().UpgManager.BData[BulletType].SetSpd(0);
-                break;
-        }
+        ////실제 총알에 데이터 적용
+        //switch (EquipType)
+        //{
+        //    case 0:
+        //        GameManager.Inst().UpgManager.BData[BulletType].SetAtk(0);
+        //        break;
+        //    case 1:
+        //        GameManager.Inst().UpgManager.BData[BulletType].SetHp(0);
+        //        break;
+        //    case 2:
+        //        GameManager.Inst().UpgManager.BData[BulletType].SetSpd(0);
+        //        break;
+        //}
     }
 
     public void Next(bool IsNext)
@@ -752,3 +668,69 @@ public class Equip : MonoBehaviour
         Inventories.ResetInventory();
     }
 }
+
+
+/*
+ public void Select(int index, int BulletType)
+    {
+        //if ((int)SelectableType < 0)
+        //    return;
+
+        //Player.EqData eq = Player.GetItem(index);
+        ////if (GameManager.Inst().UpgManager.GetBData(CurBulletType).GetRarity() < eq.Rarity)
+        ////    return;
+
+        //if (eq.Type == (int)SelectableType)
+        //{
+        //    //Detail에 데이터 적용
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        if (SlotIndices[i] == BulletType)
+        //        {
+        //            //SwitchWindows.transform.GetChild(i).GetComponent<SwitchWindow>()
+        //            EquipArea.SetButtons((int)SelectableType, true, eq.Icon, eq.Rarity);
+        //            PaintGauge(i, (int)SelectableType, eq.Value);
+        //            break;
+        //        }
+        //    }
+        //    //SwitchWindows.transform.GetChild(ShowBulletType).GetComponent<SwitchWindow>().SetButtons((int)SelectableType, true, eq.Icon);
+
+        //    LastIndex[BulletType, (int)SelectableType] = index;
+
+        //    //E마크
+        //    //for(int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+        //    //{
+        //    //    InventorySlot slot = Inventories.GetSlot(i);
+        //    //    if (slot.GetItemUID() == eq.UID)
+        //    //    {
+        //    //        slot.SetEmark(true);
+        //    //        slot.SetSelected(false);
+        //    //        break;
+        //    //    }
+        //    //}
+        //    InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(index));
+        //    slot.SetEmark(true);
+        //    slot.SetSelected(false);
+
+        //    //PaintGauge(ShowBulletType, (int)SelectableType, eq.Value);            
+
+        //    //실제 총알에 데이터 적용
+        //    Selected[BulletType, (int)SelectableType] = index;
+
+        //    switch (SelectableType)
+        //    {
+        //        case Item_Equipment.EquipmentType.ATTACK:
+        //            GameManager.Inst().UpgManager.BData[BulletType].SetAtk((int)eq.Value);
+        //            break;
+        //        case Item_Equipment.EquipmentType.HP:
+        //            GameManager.Inst().UpgManager.BData[BulletType].SetHp((int)eq.Value);
+        //            break;
+        //        case Item_Equipment.EquipmentType.SPEED:
+        //            GameManager.Inst().UpgManager.BData[BulletType].SetSpd((int)eq.Value);
+        //            break;
+        //    }
+        //}
+
+        //SetIsShowingSwitch(false);
+    }
+     */

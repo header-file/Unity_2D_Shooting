@@ -58,6 +58,12 @@ public class InventoryScroll : MonoBehaviour
                 slot.SetItemType(eq.Type);
                 slot.SetItemUID(eq.UID);
 
+                if (eq.Quantity > 0)
+                {
+                    slot.Quantity.SetActive(true);
+                    slot.QuantityText.text = eq.Quantity.ToString();
+                }
+
                 switch (eq.Type)
                 {
                     case 0:
