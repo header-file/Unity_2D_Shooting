@@ -457,7 +457,7 @@ public class Equip : MonoBehaviour
 
     void PaintGauge(int type, int bulletType)
     {
-        EquipArea.PaintGauge(type, bulletType);
+        //EquipArea.PaintGauge(type, bulletType);
     }
 
     public void Switch(int index, int BulletType)

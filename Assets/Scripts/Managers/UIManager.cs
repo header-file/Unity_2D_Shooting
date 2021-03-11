@@ -510,8 +510,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickEquipAreaBtn()
     {
-        InfoArea.SetActive(false);
-        EquipArea.SetActive(true);
+        WeaponUI.ShowEquipArea();
     }
 
     public void OnClickEquipSlotBtn(int index)
@@ -533,6 +532,7 @@ public class UIManager : MonoBehaviour
         //    ConfirmSwitch.SetActive(true);
         //    EquipUI.SetSwichBuffer(index);
         //}
+        WeaponUI.Select(index, WeaponUI.GetCurBulletType());
     }
 
     public void OnClickUnequipBtn()

@@ -63,19 +63,6 @@ public class InventoryScroll : MonoBehaviour
                     slot.Quantity.SetActive(true);
                     slot.QuantityText.text = eq.Quantity.ToString();
                 }
-
-                switch (eq.Type)
-                {
-                    case 0:
-                        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 60.0f);
-                        break;
-                    case 1:
-                        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-                        break;
-                    case 2:
-                        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
-                        break;
-                }
             }
             else
             {
@@ -180,3 +167,16 @@ public class InventoryScroll : MonoBehaviour
     //    array[foreIndex] = tmp;
     //}
 }
+
+//switch (eq.Type)
+//{
+//    case 0:
+//        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 60.0f);
+//        break;
+//    case 1:
+//        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+//        break;
+//    case 2:
+//        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
+//        break;
+//}

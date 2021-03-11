@@ -138,7 +138,7 @@ public class Player : MonoBehaviour
                 Inventory[i].Rarity = item.GetRarity();
                 Inventory[i].Value = item.GetEqValue();
                 Inventory[i].UID = item.GetUID();
-                Inventory[i].Quantity = 1;
+                Inventory[i].Quantity = 100;
 
                 return i;
             }
