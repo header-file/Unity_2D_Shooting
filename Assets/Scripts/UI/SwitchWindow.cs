@@ -13,6 +13,8 @@ public class SwitchWindow : MonoBehaviour
     public GameObject InfoWindow;
     public Image Line;
     public Color[] LineColor;
+    public Sprite[] Icons;
+    public Image Icon;
     public Text StatName;
     public Text StatCount;
     public Text LeftCount;
@@ -73,34 +75,44 @@ public class SwitchWindow : MonoBehaviour
         switch (type)
         {
             case 0:
-                GaugeTexts[type].text = (GameManager.Inst().UpgManager.BData[bulletType].GetAtk() + count).ToString();
+                if (GameManager.Inst().UpgManager.BData[bulletType].GetAtk() + count > GameManager.Inst().UpgManager.BData[bulletType].GetMaxAtk())
+                    GaugeTexts[type].text = GameManager.Inst().UpgManager.BData[bulletType].GetMaxAtk().ToString();
+                else
+                    GaugeTexts[type].text = (GameManager.Inst().UpgManager.BData[bulletType].GetAtk() + count).ToString();
                 AddGauges[type].GetComponent<RectTransform>().sizeDelta = new Vector2((float)count / GameManager.Inst().UpgManager.BData[bulletType].GetMaxAtk() * 160, 30);
                 AddGauges[type].color = newColor;
                 break;
             case 1:
-                GaugeTexts[type].text = (GameManager.Inst().UpgManager.BData[bulletType].GetHp() + count).ToString();
+                if (GameManager.Inst().UpgManager.BData[bulletType].GetHp() + count > GameManager.Inst().UpgManager.BData[bulletType].GetMaxHp())
+                    GaugeTexts[type].text = GameManager.Inst().UpgManager.BData[bulletType].GetMaxHp().ToString();
+                else
+                    GaugeTexts[type].text = (GameManager.Inst().UpgManager.BData[bulletType].GetHp() + count).ToString();
                 AddGauges[type].GetComponent<RectTransform>().sizeDelta = new Vector2((float)count / GameManager.Inst().UpgManager.BData[bulletType].GetMaxHp() * 160, 30);
                 AddGauges[type].color = newColor;
                 break;
             case 2:
-                GaugeTexts[type].text = (GameManager.Inst().UpgManager.BData[bulletType].GetSpd() + count).ToString();
+                if (GameManager.Inst().UpgManager.BData[bulletType].GetSpd() + count > GameManager.Inst().UpgManager.BData[bulletType].GetMaxSpd())
+                    GaugeTexts[type].text = GameManager.Inst().UpgManager.BData[bulletType].GetMaxSpd().ToString();
+                else
+                    GaugeTexts[type].text = (GameManager.Inst().UpgManager.BData[bulletType].GetSpd() + count).ToString();
                 AddGauges[type].GetComponent<RectTransform>().sizeDelta = new Vector2((float)count / GameManager.Inst().UpgManager.BData[bulletType].GetMaxSpd() * 160, 30);
                 AddGauges[type].color = newColor;
                 break;
         }
     }
 
-    public void WindowOn(int rarity, int type, int value, int left)
+    public void WindowOn(Player.EqData eq, int now)
     {
         InfoWindow.SetActive(true);
 
-        Line.color = LineColor[rarity];
-        StatName.text = statNames[type];
-        StatCount.text = "+" + value.ToString();
-        LeftCount.text = left.ToString();
+        Line.color = LineColor[eq.Rarity];
+        Icon.sprite = Icons[eq.Rarity * 3 + eq.Type];
+        StatName.text = statNames[eq.Type];
+        StatCount.text = "+" + eq.Value.ToString();
+        LeftCount.text = now.ToString();
         FeedBtn.interactable = true;
 
-        switch(type)
+        switch(eq.Type)
         {
             case 0:
                 if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetAtk() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetMaxAtk())
@@ -118,10 +130,10 @@ public class SwitchWindow : MonoBehaviour
         
     }
 
-    public void SetInfo(int value, int left)
+    public void SetInfo(int value, int now)
     {
         StatCount.text = "+" + value.ToString();
-        LeftCount.text = left.ToString();
+        LeftCount.text = now.ToString();
     }
 
     public void OnClickButton(int index)
@@ -164,7 +176,7 @@ public class SwitchWindow : MonoBehaviour
         GameManager.Inst().UiManager.WeaponUI.SetStatChange();
 
         StatCount.text = "+ 0";
-        LeftCount.text = GameManager.Inst().UiManager.WeaponUI.GetCurEquip().Quantity.ToString();
+        LeftCount.text = "0";
 
         switch (eq.Type)
         {
