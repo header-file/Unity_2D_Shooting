@@ -57,8 +57,6 @@ public class DataManager : MonoBehaviour
         string filePath = Application.persistentDataPath + SaveDataFileName;
         File.WriteAllText(filePath, ToJsonData);
         Debug.Log("Save Complete");
-        Debug.Log(GameManager.Inst().Player.GetCoin());
-        Debug.Log(GameData.Coin);
     }
 
     void OnApplicationQuit()

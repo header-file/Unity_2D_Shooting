@@ -134,7 +134,7 @@ public class UpgradeManager : MonoBehaviour
 
     public BulletData[] BData;
 
-    int[] SubWeaponLevel;
+    int[,] SubWeaponLevel;
     int SubWeaponBuyPrice;
     int CurrentSubWeaponIndex;
     int[,] ResourceData;
@@ -143,12 +143,13 @@ public class UpgradeManager : MonoBehaviour
     int[,,] WeaponReinforceMaxData;
 
     //public BulletData GetBData(int index) { return BData[index]; }
-    public int GetSubWeaponLevel(int index) { return SubWeaponLevel[index]; }
-    public int GetSubWeaponPrice(int index) { return SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[index]]; }
+    public int GetSubWeaponLevel(int stage, int index) { return SubWeaponLevel[stage, index]; }
+    public int GetSubWeaponPrice(int index) { return SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, index]]; }
     public int GetSubWeaponBuyPrice() { return SubWeaponBuyPrice; }
     public int GetResourceData(int rarity, int index) { return ResourceData[rarity, index]; } 
 
     public void SetCurrentSubWeaponIndex(int selectedIndex) { CurrentSubWeaponIndex = selectedIndex; }
+    public void SetSubWeaponLevel(int stage, int index, int level) { SubWeaponLevel[stage, index] = level; }
 
     void Awake()
     {
@@ -187,9 +188,11 @@ public class UpgradeManager : MonoBehaviour
         for (int i = 0; i < StageManager.MAXSTAGES; i++)
             SetSubWpPriceDatas(data, i);
 
-        SubWeaponLevel = new int[4];
-        for(int i = 0; i < SubWeaponLevel.Length; i++)
-            SubWeaponLevel[i] = 0;
+        SubWeaponLevel = new int[StageManager.MAXSTAGES, 4];
+        for(int j = 0; j < StageManager.MAXSTAGES; j++)
+            for(int i = 0; i < 4; i++)
+                SubWeaponLevel[j, i] = 0;
+
         CurrentSubWeaponIndex = -1;
     }
 
@@ -291,11 +294,11 @@ public class UpgradeManager : MonoBehaviour
         }
         else
         {
-            if (SubWeaponLevel[CurrentSubWeaponIndex] >= MAXSUBLEVEL)
+            if (SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex] >= MAXSUBLEVEL)
                 return;
 
             //가격
-            if (SubWeaponLevel[CurrentSubWeaponIndex] == 0)
+            if (SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex] == 0)
             {
                 if (GameManager.Inst().Player.GetCoin() < SubWeaponBuyPrice)
                     return;
@@ -304,38 +307,38 @@ public class UpgradeManager : MonoBehaviour
                 SubWeaponBuyPrice *= 2;
                 if (SubWeaponBuyPrice >= 8000)
                     SubWeaponBuyPrice = 0;
-                AddSW();
+                AddSW(CurrentSubWeaponIndex);
             }
             else
             {
-                if (GameManager.Inst().Player.GetCoin() < SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[CurrentSubWeaponIndex]])
+                if (GameManager.Inst().Player.GetCoin() < SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]])
                     return;
                 else
-                    GameManager.Inst().Player.MinusCoin(SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[CurrentSubWeaponIndex]]);
+                    GameManager.Inst().Player.MinusCoin(SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]]);
             }
 
             //Data 처리
-            SubWeaponLevel[CurrentSubWeaponIndex]++;
-            GameManager.Inst().GetSubweapons(CurrentSubWeaponIndex).SetHP(10 * SubWeaponLevel[CurrentSubWeaponIndex]);
+            SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]++;
+            GameManager.Inst().GetSubweapons(CurrentSubWeaponIndex).SetHP(10 * SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]);
 
             //UI
             //GameManager.Inst().TxtManager.SetSLevel(SubWeaponLevel);
-            GameManager.Inst().TxtManager.SetSPrice(SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[CurrentSubWeaponIndex]]);
-            if (SubWeaponLevel[CurrentSubWeaponIndex] >= 5)
+            GameManager.Inst().TxtManager.SetSPrice(SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]]);
+            if (SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex] >= 5)
                 GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
             GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
         }
     }
 
-    public void AddSW()
+    public void AddSW(int curIndex)
     {
         GameObject subWeapon = GameManager.Inst().ObjManager.MakeObj("SubWeapon");
-        int index = CurrentSubWeaponIndex;
-        Vector3 pos = SubPositions[CurrentSubWeaponIndex].transform.position;
+        int index = curIndex;
+        Vector3 pos = SubPositions[curIndex].transform.position;
         subWeapon.transform.position = pos;
         SubWeapon sub = subWeapon.GetComponent<SubWeapon>();
 
-        GameManager.Inst().SetSubWeapons(sub, CurrentSubWeaponIndex);
+        GameManager.Inst().SetSubWeapons(sub, curIndex);
         if (index > 1)
             index++;
         sub.SetNumID(index);

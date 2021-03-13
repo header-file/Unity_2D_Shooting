@@ -37,9 +37,12 @@ public class SubWeapon : MonoBehaviour
 
     public int GetBulletType() { return BulletType; }
     public int GetCurHP() { return CurHP; }
+    public int GetMaxHP() { return MaxHP; }
     
     public void SetNumID(int id) { NumID = id; }
     public void SetHP(int hp) { CurHP = MaxHP = hp; }
+    public void SetCurHP(int hp) { CurHP = hp; }
+    public void SetMaxHP(int hp) { MaxHP = hp; }
 
     public void SetBulletType(int T)
     {

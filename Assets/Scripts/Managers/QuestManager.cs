@@ -135,6 +135,7 @@ public class QuestManager : MonoBehaviour
 
             GameManager.Inst().UiManager.UnlockStage(nextStage);
             GameManager.Inst().StgManager.UnlockBullet(nextStage);
+            GameManager.Inst().DatManager.GameData.ReachedStage = nextStage;
         }
     }
 }

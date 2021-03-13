@@ -18,7 +18,7 @@ public class StageManager : MonoBehaviour
     public GameObject Turrets;
 
     public int Stage = 0;
-    public int BossCount;
+    public int[] BossCount;
     public bool IsBoss;
     public float BossTimer;
     public EnemyB Boss;
@@ -36,7 +36,9 @@ public class StageManager : MonoBehaviour
 
     void Awake()
     {
-        BossCount = 0;
+        BossCount = new int[MAXSTAGES];
+        for(int i = 0; i < MAXSTAGES; i++)
+            BossCount[i] = 0;
         HPBarCanvas.SetActive(false);
         BossMax = 50;
         BossGauge.SetActive(true);
@@ -68,8 +70,8 @@ public class StageManager : MonoBehaviour
     {
         if (!IsBoss)
         {
-            BossCount++;
-            float percent = (float)BossCount / (float)BossMax;
+            BossCount[Stage]++;
+            float percent = (float)BossCount[Stage] / BossMax;
             BossGaugeBar.fillAmount = percent;
 
             if (!IsFeverMode && percent >= 0.4f && percent < 0.6f)
@@ -78,13 +80,13 @@ public class StageManager : MonoBehaviour
                 EndFeverMode();
 
 
-            if (BossCount >= BossMax)
+            if (BossCount[Stage] >= BossMax)
             {
                 IsBoss = true;
                 BossTimer = MAXBOSSTIME;
                 BossGauge.SetActive(false);
-                BossCount = 0;
-                BossGaugeBar.fillAmount = (float)BossCount / (float)BossMax;
+                BossCount[Stage] = 0;
+                BossGaugeBar.fillAmount = (float)BossCount[Stage] / BossMax;
                 CancelEnemies();
                 WarningAnim.SetTrigger("Start");
                 Invoke("SpawnBoss", 2.5f);
@@ -223,6 +225,16 @@ public class StageManager : MonoBehaviour
             GameManager.Inst().UiManager.UnlockStage(i);
 
         StartEnemy();
+    }
+
+    public void UnlockStages(int stage)
+    {
+        //Bullet 처리
+        UnlockBullet(stage);
+
+        //Stage 처리
+        for (int i = 0; i < stage; i++)
+            GameManager.Inst().UiManager.UnlockStage(i);
     }
 
     public void UnlockBullet(int stage)
