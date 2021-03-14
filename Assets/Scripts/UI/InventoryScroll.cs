@@ -24,7 +24,7 @@ public class InventoryScroll : MonoBehaviour
 
     public void SetSlotType(int type)
     {
-        int max = GameManager.Inst().Player.MAXINVENTORY;
+        int max = Constants.MAXINVENTORY;
 
         for (int i = 0; i < max; i++)
             Contents.transform.GetChild(i + 1).GetComponent<InventorySlot>().SetType(type);
@@ -32,15 +32,15 @@ public class InventoryScroll : MonoBehaviour
 
     void Start()
     {
-        Slots = new InventorySlot[GameManager.Inst().Player.MAXINVENTORY];
-        SwitchedIndices = new int[GameManager.Inst().Player.MAXINVENTORY];
-        for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+        Slots = new InventorySlot[Constants.MAXINVENTORY];
+        SwitchedIndices = new int[Constants.MAXINVENTORY];
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
             SwitchedIndices[i] = i;
     }
 
     public void ShowInventory()
     {
-        for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
             if (eq != null)
@@ -88,9 +88,9 @@ public class InventoryScroll : MonoBehaviour
         Array.Sort(Slots);
         Array.Reverse(Slots);
 
-        for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
-            for (int j = 0; j < GameManager.Inst().Player.MAXINVENTORY; j++)
+            for (int j = 0; j < Constants.MAXINVENTORY; j++)
             {
                 if (Slots[i] == null)
                     break;
@@ -115,7 +115,7 @@ public class InventoryScroll : MonoBehaviour
         Array.Sort(Slots);
         Array.Reverse(Slots);
 
-        int max = GameManager.Inst().Player.MAXINVENTORY;
+        int max = Constants.MAXINVENTORY;
 
         for (int i = 0; i < max; i++)
         {

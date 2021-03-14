@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
     public GameObject[] NewWindows;
 
     public Sprite[] WeaponImages;
+    public Sprite[] FoodImages;
 
     MainUI MainUi;
     //Detail DetailUI;
@@ -107,8 +108,8 @@ public class UIManager : MonoBehaviour
 
         MainUi = MainUI.GetComponent<MainUI>();
         //DetailUI = NewWindows[(int)NewWindowType.DETAIL].GetComponent<Detail>();
-        SlotUI = new Slot[Bullet.MAXBULLETS];
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        SlotUI = new Slot[Constants.MAXBULLETS];
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
             SlotUI[i] = Slots[i].GetComponent<Slot>();
         BuySWUI = NewWindows[(int)NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>();
         ScrollViewUI = ScrollView.GetComponent<LoopScroll>();
@@ -211,7 +212,7 @@ public class UIManager : MonoBehaviour
     public void ShowEquipBtn(int curBulletType)
     {
         //UI
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             //SlotUI[i].Selected.SetActive(false);
             SlotUI[i].DetailBtn.gameObject.SetActive(false);
@@ -294,7 +295,7 @@ public class UIManager : MonoBehaviour
 
     void SetBulletSelected()
     {
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
             SlotUI[i].Selected.SetActive(false);
 
         SlotUI[CurrentBulletType].Selected.SetActive(true);
@@ -326,7 +327,7 @@ public class UIManager : MonoBehaviour
         NewWindows[(int)NewWindowType.INFO].SetActive(false);
         NewWindows[(int)NewWindowType.WEAPON].SetActive(true);
 
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
             SlotUI[i].Show(i);
 
         ShowEquipBtn(CurrentBulletType);

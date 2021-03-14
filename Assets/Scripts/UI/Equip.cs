@@ -18,7 +18,6 @@ public class Equip : MonoBehaviour
     public Sprite OriginalSprite;
     public SwitchWindow EquipArea;
 
-    Player Player;
     InventoryScroll Inventories;
     Item_Equipment.EquipmentType SelectableType;
     Color[] GaugeColors;
@@ -64,17 +63,14 @@ public class Equip : MonoBehaviour
     void Start()
     {
         SelectableType = 0;
-        Player = GameManager.Inst().Player;
-
-        int maxInventory = Player.MAXINVENTORY;
         
         GaugeColors = new Color[3];
         GaugeColors[0] = Color.red;
         GaugeColors[1] = new Color(0.5f, 0.0f, 1.0f);
         GaugeColors[2] = new Color(0.1882353f, 0.8862746f, 0.7372549f);
 
-        Selected = new int[Bullet.MAXBULLETS, 3];
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        Selected = new int[Constants.MAXBULLETS, 3];
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             Selected[i, 0] = -1;
             Selected[i, 1] = -1;
@@ -84,8 +80,8 @@ public class Equip : MonoBehaviour
         SwitchBuffer = -1;
         IsShowingSwitch = false;
         gameObject.SetActive(false);
-        LastIndex = new int[Bullet.MAXBULLETS, 3];
-        for (int j = 0; j < Bullet.MAXBULLETS; j++)
+        LastIndex = new int[Constants.MAXBULLETS, 3];
+        for (int j = 0; j < Constants.MAXBULLETS; j++)
         {
             for (int i = 0; i < 3; i++)
                 LastIndex[j, i] = -1;
@@ -99,7 +95,7 @@ public class Equip : MonoBehaviour
         MoveTimer = 0.0f;
 
         SlotIndices = new int[3];
-        SlotIndices[0] = Bullet.MAXBULLETS - 1;
+        SlotIndices[0] = Constants.MAXBULLETS - 1;
         SlotIndices[1] = 0;
         SlotIndices[2] = 1;
 
@@ -175,8 +171,8 @@ public class Equip : MonoBehaviour
                     SwitchWindows.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition = newPos;
 
                     SlotIndices[i] += 4;
-                    if (SlotIndices[i] >= Bullet.MAXBULLETS)
-                        SlotIndices[i] -= Bullet.MAXBULLETS;
+                    if (SlotIndices[i] >= Constants.MAXBULLETS)
+                        SlotIndices[i] -= Constants.MAXBULLETS;
                     Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
                     InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
                     Show(SlotIndices[i], i);
@@ -191,7 +187,7 @@ public class Equip : MonoBehaviour
 
                     SlotIndices[i] -= 4;
                     if (SlotIndices[i] < 0)
-                        SlotIndices[i] += Bullet.MAXBULLETS;
+                        SlotIndices[i] += Constants.MAXBULLETS;
                     Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
                     InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
                     Show(SlotIndices[i], i);
@@ -206,9 +202,9 @@ public class Equip : MonoBehaviour
         SlotIndices[1] = CurBulletType;
         SlotIndices[0] = CurBulletType - 1;
         if (SlotIndices[0] < 0)
-            SlotIndices[0] = Bullet.MAXBULLETS - 1;
+            SlotIndices[0] = Constants.MAXBULLETS - 1;
         SlotIndices[2] = CurBulletType + 1;
-        if (SlotIndices[2] >= Bullet.MAXBULLETS)
+        if (SlotIndices[2] >= Constants.MAXBULLETS)
             SlotIndices[2] = 0;
 
         for (int i = 0; i < 3; i++)
@@ -338,7 +334,7 @@ public class Equip : MonoBehaviour
         //다른 Bullet이 착용중일 시
         IsBtoB = false;
         BulletText.GetComponent<Text>().text = "";
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             if (Selected[i, (int)SelectableType] == index)
             {
@@ -378,9 +374,9 @@ public class Equip : MonoBehaviour
 
         Inventories.ResetInventory();
 
-        for (int i = 0; i < Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
-            Player.EqData eq = Player.GetItem(i);
+            Player.EqData eq = GameManager.Inst().Player.GetItem(i);
             Inventories.GetSlot(i).Selected.SetActive(false);
 
             if (eq != null)
@@ -499,7 +495,7 @@ public class Equip : MonoBehaviour
 
     public bool CheckAlreadyEquip(int index)
     {
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             if (Selected[i, (int)SelectableType] == index)
                 return true;
@@ -511,7 +507,7 @@ public class Equip : MonoBehaviour
 
     public bool CheckAlreadyEquipAll(int index)
     {
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             for (int j = 0; j < 3; j++)
                 if (Selected[i, j] == index)
@@ -523,7 +519,7 @@ public class Equip : MonoBehaviour
 
     public int GetBulletType(int index)
     {
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             for (int j = 0; j < 3; j++)
                 if (Selected[i, j] == index)
@@ -633,7 +629,7 @@ public class Equip : MonoBehaviour
             ShowBulletType++;
             TargetX -= 720.0f;
 
-            if (CurBulletType >= Bullet.MAXBULLETS)
+            if (CurBulletType >= Constants.MAXBULLETS)
                 CurBulletType = 0;
 
             if (ShowBulletType > 2)
@@ -646,7 +642,7 @@ public class Equip : MonoBehaviour
             TargetX += 720.0f;
 
             if (CurBulletType < 0)
-                CurBulletType = Bullet.MAXBULLETS - 1;
+                CurBulletType = Constants.MAXBULLETS - 1;
 
             if (ShowBulletType < 0)
                 ShowBulletType = 2;

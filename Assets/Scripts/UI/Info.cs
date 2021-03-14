@@ -56,7 +56,7 @@ public class Info : MonoBehaviour
                 int type = Type - 1;
                 Name.text = GameManager.Inst().TxtManager.GetSubNames(type);
                 Level.text = "Lv." + GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type).ToString();
-                if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type) >= UpgradeManager.MAXSUBLEVEL)
+                if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type) >= Constants.MAXSUBLEVEL)
                     UpgBtn.interactable = false;
                 else
                     UpgBtn.interactable = true;
@@ -68,7 +68,7 @@ public class Info : MonoBehaviour
             {
                 Name.text = GameManager.Inst().TxtManager.GetSubNames(Type);
                 Level.text = "Lv." + GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, Type).ToString();
-                if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, Type) >= UpgradeManager.MAXSUBLEVEL)
+                if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, Type) >= Constants.MAXSUBLEVEL)
                     UpgBtn.interactable = false;
                 else
                     UpgBtn.interactable = true;
@@ -87,7 +87,7 @@ public class Info : MonoBehaviour
         {
             int type = CharacterType - 1;
             Level.text = "Lv." + GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type).ToString();
-            if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type) >= UpgradeManager.MAXSUBLEVEL)
+            if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type) >= Constants.MAXSUBLEVEL)
                 UpgBtn.interactable = false;
             else
                 UpgBtn.interactable = true;
@@ -96,7 +96,7 @@ public class Info : MonoBehaviour
         else
         {
             Level.text = "Lv." + GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, CharacterType).ToString();
-            if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, CharacterType) >= UpgradeManager.MAXSUBLEVEL)
+            if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, CharacterType) >= Constants.MAXSUBLEVEL)
                 UpgBtn.interactable = false;
             else
                 UpgBtn.interactable = true;

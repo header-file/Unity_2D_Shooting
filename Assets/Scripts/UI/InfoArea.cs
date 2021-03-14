@@ -56,7 +56,7 @@ public class InfoArea : MonoBehaviour
             Coin.SetActive(false);
             Resource.SetActive(true);
 
-            for(int i = 0; i < StageManager.MAXSTAGES; i++)
+            for(int i = 0; i < Constants.MAXSTAGES; i++)
             {
                 ResourceTexts[i].text = GameManager.Inst().UpgManager.GetResourceData(GameManager.Inst().UpgManager.BData[bulletType].GetRarity(), i).ToString();
 

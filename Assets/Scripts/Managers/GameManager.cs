@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        Resources = new int[StageManager.MAXSTAGES];
+        Resources = new int[Constants.MAXSTAGES];
 
         SubWeapons = new SubWeapon[4];
         SubWID = new int[4];
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 
     void SetTexts()
     {
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             TxtManager.SetBLevels(i, UpgManager.BData[i].GetPowerLevel());
             TxtManager.SetBPrices(i, UpgManager.BData[i].GetPrice());
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 
     void SetResources()
     {
-        for (int i = 0; i < StageManager.MAXSTAGES; i++)
+        for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
             Resources[i] = 10000;
             TxtManager.Resources[i].text = Resources[i].ToString();
@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour
     void SetInventory()
     {
         InventoryScroll inventory = Inventory.GetComponent<InventoryScroll>();
-        for (int i = 0; i < Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             GameObject inventorySlot = GameManager.Inst().ObjManager.MakeObj("InventorySlot");
             inventorySlot.transform.SetParent(inventory.Contents.transform, false);

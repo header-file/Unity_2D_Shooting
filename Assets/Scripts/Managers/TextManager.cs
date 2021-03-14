@@ -60,11 +60,11 @@ public class TextManager : MonoBehaviour
 
     void Awake()
     {
-        BNames = new Text[Bullet.MAXBULLETS];
-        BLevels = new Text[Bullet.MAXBULLETS];
-        BPrices = new string[Bullet.MAXBULLETS];
+        BNames = new Text[Constants.MAXBULLETS];
+        BLevels = new Text[Constants.MAXBULLETS];
+        BPrices = new string[Constants.MAXBULLETS];
 
-        BulNames = new string[Bullet.MAXBULLETS];
+        BulNames = new string[Constants.MAXBULLETS];
         BulNames[0] = "Normal";
         BulNames[1] = "Spread";
         BulNames[2] = "Missile";
@@ -74,10 +74,10 @@ public class TextManager : MonoBehaviour
         BulNames[6] = "Chain";
 
         SubNames = new string[4];
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < Constants.MAXSUBWEAPON; i++)
            SubNames[i] = "Turret - 0" + (i + 1).ToString();
 
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             BNames[i] = BulletNames[i].GetComponent<Text>();
             BNames[i].text = BulNames[i];
@@ -88,7 +88,7 @@ public class TextManager : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
             SetBLevels(i, GameManager.Inst().UpgManager.BData[i].GetPowerLevel());
 
         for (int i = 0; i < 4; i++)

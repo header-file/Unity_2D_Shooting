@@ -48,7 +48,7 @@ public class QuestManager : MonoBehaviour
 
         int id = 0;
 
-        for(int i = 0; i < StageManager.MAXSTAGES * 4; i++)
+        for(int i = 0; i < Constants.MAXSTAGES * 4; i++)
         {
             int qid = int.Parse(data[i]["ID"].ToString());
             string desc = data[i]["Desc"].ToString();
@@ -130,7 +130,7 @@ public class QuestManager : MonoBehaviour
         {
             int nextStage = GameManager.Inst().StgManager.Stage + 1;
 
-            if (nextStage > StageManager.MAXSTAGES)
+            if (nextStage > Constants.MAXSTAGES)
                 return;
 
             GameManager.Inst().UiManager.UnlockStage(nextStage);

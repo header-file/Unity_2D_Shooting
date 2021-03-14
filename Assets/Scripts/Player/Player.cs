@@ -7,8 +7,6 @@ using System;
 
 public class Player : MonoBehaviour
 {
-    public int MAXINVENTORY = 40;
-
     public class EqData //: IComparable
     {
         public Sprite Icon;
@@ -114,7 +112,7 @@ public class Player : MonoBehaviour
 
     public int AddItem(Item_Equipment item)
     {
-        for (int i = 0; i < MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             if (Inventory[i] != null)
             {
@@ -128,7 +126,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < MAXINVENTORY; i++)
+        for(int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             if (Inventory[i] == null)
             {
@@ -149,7 +147,7 @@ public class Player : MonoBehaviour
 
     public int AddItem(EqData item)
     {
-        for (int i = 0; i < MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             if (Inventory[i] != null)
             {
@@ -162,7 +160,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             if (Inventory[i] == null)
             {
@@ -172,7 +170,10 @@ public class Player : MonoBehaviour
                 Inventory[i].Rarity = item.Rarity;
                 Inventory[i].Value = item.Value;
                 Inventory[i].UID = item.UID;
-                Inventory[i].Quantity = 1;
+                if (item.Quantity > 0)
+                    Inventory[i].Quantity = item.Quantity;
+                else
+                    Inventory[i].Quantity = 1;
 
                 return i;
             }
@@ -224,7 +225,7 @@ public class Player : MonoBehaviour
     {
         for (int n = 1; n <= count; n++)
         {
-            for (int i = 0; i < MAXINVENTORY; i++)
+            for (int i = 0; i < Constants.MAXINVENTORY; i++)
             {
                 if (Inventory[i] == null)
                     continue;
@@ -251,9 +252,8 @@ public class Player : MonoBehaviour
         BulletType = 0;
 
         SubWeapons = new GameObject[4];
-        MAXINVENTORY = 40;
-        Inventory = new EqData[MAXINVENTORY];
-        for (int i = 0; i < MAXINVENTORY; i++)
+        Inventory = new EqData[Constants.MAXINVENTORY];
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
             Inventory[i] = null;
 
         IsMovable = false;

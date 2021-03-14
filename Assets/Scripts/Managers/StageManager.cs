@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
-    public static int MAXSTAGES = 4;
-    public static float MAXBOSSTIME = 30.0f;
-
     public GameObject HPBarCanvas;
     public Image HPBar;
     public Text HPBarText;
@@ -36,8 +33,8 @@ public class StageManager : MonoBehaviour
 
     void Awake()
     {
-        BossCount = new int[MAXSTAGES];
-        for(int i = 0; i < MAXSTAGES; i++)
+        BossCount = new int[Constants.MAXSTAGES];
+        for(int i = 0; i < Constants.MAXSTAGES; i++)
             BossCount[i] = 0;
         HPBarCanvas.SetActive(false);
         BossMax = 50;
@@ -53,8 +50,8 @@ public class StageManager : MonoBehaviour
     {
         List<Dictionary<string, object>> data = CSVReader.Read("Datas/BulletUnlockData");
 
-        BulletUnlockData = new bool[MAXSTAGES + 1, Bullet.MAXBULLETS];
-        for (int i = 0; i <= MAXSTAGES; i++)
+        BulletUnlockData = new bool[Constants.MAXSTAGES + 1, Constants.MAXBULLETS];
+        for (int i = 0; i <= Constants.MAXSTAGES; i++)
         {
             BulletUnlockData[i, (int)Bullet.BulletType.NORMAL] = bool.Parse(data[i]["Normal"].ToString());
             BulletUnlockData[i, (int)Bullet.BulletType.SPREAD] = bool.Parse(data[i]["Spread"].ToString());
@@ -83,7 +80,7 @@ public class StageManager : MonoBehaviour
             if (BossCount[Stage] >= BossMax)
             {
                 IsBoss = true;
-                BossTimer = MAXBOSSTIME;
+                BossTimer = Constants.MAXBOSSTIME;
                 BossGauge.SetActive(false);
                 BossCount[Stage] = 0;
                 BossGaugeBar.fillAmount = (float)BossCount[Stage] / BossMax;
@@ -239,7 +236,7 @@ public class StageManager : MonoBehaviour
 
     public void UnlockBullet(int stage)
     {
-        for (int i = 0; i < Bullet.MAXBULLETS; i++)
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             GameManager.Inst().UpgManager.BData[i].SetActive(BulletUnlockData[stage, i]);
             GameManager.Inst().UiManager.SetSlotsActive(i, BulletUnlockData[stage, i]);

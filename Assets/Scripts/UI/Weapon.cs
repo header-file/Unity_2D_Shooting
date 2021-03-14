@@ -39,7 +39,7 @@ public class Weapon : MonoBehaviour
         MoveTimer = 0.0f;
 
         SlotIndices = new int[3];
-        SlotIndices[0] = Bullet.MAXBULLETS - 1;
+        SlotIndices[0] = Constants.MAXBULLETS - 1;
         SlotIndices[1] = 0;
         SlotIndices[2] = 1;
 
@@ -104,8 +104,8 @@ public class Weapon : MonoBehaviour
                     SwitchWindows.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition = newPos;
 
                     SlotIndices[i] += 4;
-                    if (SlotIndices[i] >= Bullet.MAXBULLETS)
-                        SlotIndices[i] -= Bullet.MAXBULLETS;
+                    if (SlotIndices[i] >= Constants.MAXBULLETS)
+                        SlotIndices[i] -= Constants.MAXBULLETS;
                     Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
                     InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
                     Show(SlotIndices[i]);
@@ -120,7 +120,7 @@ public class Weapon : MonoBehaviour
 
                     SlotIndices[i] -= 4;
                     if (SlotIndices[i] < 0)
-                        SlotIndices[i] += Bullet.MAXBULLETS;
+                        SlotIndices[i] += Constants.MAXBULLETS;
                     Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
                     InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
                     Show(SlotIndices[i]);
@@ -168,9 +168,9 @@ public class Weapon : MonoBehaviour
         SlotIndices[1] = CurBulletType;
         SlotIndices[0] = CurBulletType - 1;
         if (SlotIndices[0] < 0)
-            SlotIndices[0] = Bullet.MAXBULLETS - 1;
+            SlotIndices[0] = Constants.MAXBULLETS - 1;
         SlotIndices[2] = CurBulletType + 1;
-        if (SlotIndices[2] >= Bullet.MAXBULLETS)
+        if (SlotIndices[2] >= Constants.MAXBULLETS)
             SlotIndices[2] = 0;
 
         for (int i = 0; i < 3; i++)
@@ -354,7 +354,7 @@ public class Weapon : MonoBehaviour
             ShowBulletType++;
             TargetX -= 720.0f;
 
-            if (CurBulletType >= Bullet.MAXBULLETS)
+            if (CurBulletType >= Constants.MAXBULLETS)
                 CurBulletType = 0;
 
             if (ShowBulletType > 2)
@@ -367,7 +367,7 @@ public class Weapon : MonoBehaviour
             TargetX += 720.0f;
 
             if (CurBulletType < 0)
-                CurBulletType = Bullet.MAXBULLETS - 1;
+                CurBulletType = Constants.MAXBULLETS - 1;
 
             if (ShowBulletType < 0)
                 ShowBulletType = 2;

@@ -15,9 +15,7 @@ public class Bullet : MonoBehaviour
         BOOMERANG = 5,
         CHAIN = 6,
     };
-
-    public static int MAXBULLETS = 7;
-
+    
     public Color GlowColor;
 
     //protected float Damage;

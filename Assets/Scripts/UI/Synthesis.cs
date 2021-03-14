@@ -137,7 +137,7 @@ public class Synthesis : MonoBehaviour
 
         Inventories.ResetInventory();
 
-        for (int i = 0; i < Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             Player.EqData eq = Player.GetItem(i);
             Inventories.GetSlot(i).Selected.SetActive(false);
@@ -389,7 +389,7 @@ public class Synthesis : MonoBehaviour
 
     public void ResetDisable()
     {
-        for (int i = 0; i < Player.MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             if (Player.GetItem(i) != null)
                 Inventories.GetSlot(Inventories.GetSwitchedIndex(i)).SetDisable(false);

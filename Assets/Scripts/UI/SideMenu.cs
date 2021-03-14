@@ -18,7 +18,7 @@ public class SideMenu : MonoBehaviour
     {
         BackBtn.SetActive(false);
 
-        Slots = new SideMenuSlot[StageManager.MAXSTAGES];
+        Slots = new SideMenuSlot[Constants.MAXSTAGES];
         MakeSlot();
     }
 
@@ -64,7 +64,7 @@ public class SideMenu : MonoBehaviour
 
     void MakeSlot()
     {
-        for (int i = 0; i < StageManager.MAXSTAGES; i++)
+        for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
             if (i == GameManager.Inst().StgManager.Stage - 1)
                 Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideNow").GetComponent<SideMenuSlot>();
