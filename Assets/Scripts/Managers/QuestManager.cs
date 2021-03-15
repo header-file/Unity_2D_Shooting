@@ -48,7 +48,7 @@ public class QuestManager : MonoBehaviour
 
         int id = 0;
 
-        for(int i = 0; i < Constants.MAXSTAGES * 4; i++)
+        for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
         {
             int qid = int.Parse(data[i]["ID"].ToString());
             string desc = data[i]["Desc"].ToString();
@@ -103,7 +103,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    void CheckFinish(int index)
+    public void CheckFinish(int index)
     {
         int found = -1;
         for(int i = 0; i < QuestSlots.Count; i++)
@@ -115,7 +115,7 @@ public class QuestManager : MonoBehaviour
             }
         }
 
-        if (QuestSlots[found] == null)
+        if (found == -1 || QuestSlots[found] == null)
             return;
 
         if (Quests[index].CurrentCount >= Quests[index].GoalCount)

@@ -24,6 +24,7 @@ public class UpgradeManager : MonoBehaviour
                 PowerLevel = Level;
         }
         public void SetBaseDamage(int damage) { BaseDamage = damage; }
+        public void SetRarity(int rare) { Rarity = rare; }
         public void SetSpeed(float velocity) { Speed = velocity; }
         public void SetReloadTime(float Time) { ReloadTime = Time; }
         public void SetDuration(float Time) { Duration = Time; }
@@ -178,9 +179,7 @@ public class UpgradeManager : MonoBehaviour
             for(int j = 0; j < 3; j++)
                 SetWeaponReinforceMaxDatas(data, i, j);
 
-            BData[i].SetMaxAtk(WeaponReinforceMaxData[i, BData[i].GetRarity(), 0]);
-            BData[i].SetMaxHp(WeaponReinforceMaxData[i, BData[i].GetRarity(), 1]);
-            BData[i].SetMaxSpd(WeaponReinforceMaxData[i, BData[i].GetRarity(), 2]);
+            SetMaxData(i);
         }
 
         data = CSVReader.Read("Datas/SubWpPriceData");
@@ -377,6 +376,13 @@ public class UpgradeManager : MonoBehaviour
                 return false;
         }
         return true;
+    }
+
+    public void SetMaxData(int i)
+    {
+        BData[i].SetMaxAtk(WeaponReinforceMaxData[i, BData[i].GetRarity(), 0]);
+        BData[i].SetMaxHp(WeaponReinforceMaxData[i, BData[i].GetRarity(), 1]);
+        BData[i].SetMaxSpd(WeaponReinforceMaxData[i, BData[i].GetRarity(), 2]);
     }
 }
 

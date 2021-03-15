@@ -24,34 +24,37 @@ public class GameData
         COLOR = 4,
     }
 
+    public enum WPData
+    {
+        POWERLEVEL = 0,
+        BASEDAMAGE = 1,
+        RARITY = 2,
+        PRICE = 3,
+        SPEED = 4,
+        RELOAD = 5,
+        DURATION = 6,
+        ATK = 7,
+        HP = 8,
+        SPD = 9,
+    }
+
+    public enum QSTData
+    {
+        ID = 0,
+        FINISH = 1,
+        COUNT = 2,
+    }
+
     public int Coin;
     public int[] Resources;
     public int CurrentStage;
     public int ReachedStage;
     public int[] SubWeaponDatas;
-    public UpgradeManager.BulletData[] Weapons;
+    public float[] Weapons;
     public int[] Inventories;
+    public int[] Quests;
 
     public int[] BossGauges;
-
-    public void MakeData()
-    {
-        //Resources = new int[StageManager.MAXSTAGES];
-        //SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
-        Weapons = new UpgradeManager.BulletData[Constants.MAXBULLETS];
-        Inventories = new int[Constants.MAXINVENTORY * Constants.INVDATASIZE];
-        //BossGauges = new int[StageManager.MAXSTAGES];
-
-        //for (int i = 0; i < StageManager.MAXSTAGES; i++)
-        //{
-        //    Resources[i] = 0;
-        //    BossGauges[i] = 0;
-        //}
-
-        //for (int i = 0; i < GameManager.Inst().Player.MAXINVENTORY; i++)
-        //    for(int j = 0; j < INVDATASIZE; j++)
-        //        Inventories[i]
-    }
 
     public void SaveData()
     {
@@ -94,7 +97,28 @@ public class GameData
         }
 
         for (int i = 0; i < Constants.MAXBULLETS; i++)
-            Weapons[i] = GameManager.Inst().UpgManager.BData[i];
+        {
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.POWERLEVEL] = GameManager.Inst().UpgManager.BData[i].GetPowerLevel();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.BASEDAMAGE] = GameManager.Inst().UpgManager.BData[i].GetBaseDamage();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.RARITY] = GameManager.Inst().UpgManager.BData[i].GetRarity();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.PRICE] = GameManager.Inst().UpgManager.BData[i].GetPrice();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.SPEED] = GameManager.Inst().UpgManager.BData[i].GetSpeed();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.RELOAD] = GameManager.Inst().UpgManager.BData[i].GetReloadTime();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.DURATION] = GameManager.Inst().UpgManager.BData[i].GetDuration();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.ATK] = GameManager.Inst().UpgManager.BData[i].GetAtk();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.HP] = GameManager.Inst().UpgManager.BData[i].GetHp();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.SPD] = GameManager.Inst().UpgManager.BData[i].GetSpd();
+        }
+
+        for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+        {
+            Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID] = GameManager.Inst().QstManager.Quests[i].QuestId;
+            if(GameManager.Inst().QstManager.Quests[i].IsFinish)
+                Quests[Constants.QSTDATASIZE * i + (int)QSTData.FINISH] = 1;
+            else
+                Quests[Constants.QSTDATASIZE * i + (int)QSTData.FINISH] = 0;
+            Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT] = GameManager.Inst().QstManager.Quests[i].CurrentCount;
+        }
     }
 
     public void LoadData()
@@ -151,7 +175,7 @@ public class GameData
         else
             SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
 
-        if (Inventories != null && Inventories.Length == Constants.MAXINVENTORY)
+        if (Inventories != null && Inventories.Length == Constants.MAXINVENTORY * Constants.INVDATASIZE)
         {
             for (int i = 0; i < Constants.MAXINVENTORY; i++)
             {
@@ -176,10 +200,57 @@ public class GameData
         if (Weapons != null)
         {
             for (int i = 0; i < Constants.MAXBULLETS; i++)
-                GameManager.Inst().UpgManager.BData[i] = Weapons[i];
+            {
+                GameManager.Inst().UpgManager.BData[i].SetRarity((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.RARITY]);
+                GameManager.Inst().UpgManager.BData[i].SetPowerLevel((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.POWERLEVEL]);
+                GameManager.Inst().UpgManager.BData[i].SetBaseDamage((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.BASEDAMAGE]);
+                GameManager.Inst().UpgManager.BData[i].SetPrice((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.PRICE]);
+                GameManager.Inst().UpgManager.BData[i].SetSpeed(Weapons[Constants.WPDATASIZE * i + (int)WPData.SPEED]);
+                GameManager.Inst().UpgManager.BData[i].SetReloadTime(Weapons[Constants.WPDATASIZE * i + (int)WPData.RELOAD]);
+                GameManager.Inst().UpgManager.BData[i].SetDuration(Weapons[Constants.WPDATASIZE * i + (int)WPData.DURATION]);
+                GameManager.Inst().UpgManager.BData[i].SetAtk((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.ATK]);
+                GameManager.Inst().UpgManager.BData[i].SetHp((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.HP]);
+                GameManager.Inst().UpgManager.BData[i].SetSpd((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.SPD]);
+
+                GameManager.Inst().UpgManager.SetMaxData(i);
+            }
         }
         else
-            Weapons = new UpgradeManager.BulletData[Constants.MAXBULLETS];
+            Weapons = new float[Constants.MAXBULLETS * Constants.WPDATASIZE];
+
+        if (Quests != null)
+        {
+            for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+            {
+                if(GameManager.Inst().QstManager.Quests[i].QuestId == Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID])
+                {
+                    GameManager.Inst().QstManager.Quests[i].CurrentCount = Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT];
+                    if (Quests[Constants.QSTDATASIZE * i + (int)QSTData.FINISH] == 1)
+                        GameManager.Inst().QstManager.Quests[i].IsFinish = true;
+                    GameManager.Inst().QstManager.CheckFinish(i);
+                }
+            }
+        }
+        else
+            Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
+    }
+
+    public void ResetData()
+    {
+        Coin = 0;
+        Resources = new int[Constants.MAXSTAGES];
+
+        CurrentStage = 1;
+        ReachedStage = 1;
+        BossGauges = new int[Constants.MAXSTAGES];
+
+        SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
+
+        Inventories = new int[Constants.MAXINVENTORY * Constants.INVDATASIZE];
+
+        Weapons = new float[Constants.MAXBULLETS * Constants.WPDATASIZE];
+
+        Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
     }
 }
 

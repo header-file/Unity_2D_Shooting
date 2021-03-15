@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
     public void Shoot(Vector2 Direction)
     {
         Rigidbody2D rig = GetComponent<Rigidbody2D>();
-        float spd = 1.0f + (GameManager.Inst().UpgManager.BData[(int)Type].GetSpd() / 100.0f);
+        float spd = 1.0f + (GameManager.Inst().UpgManager.BData[(int)Type].GetSpd() / 500.0f);
         float speed = GameManager.Inst().UpgManager.BData[(int)Type].GetSpeed() * spd;
         rig.AddForce(Direction * speed, ForceMode2D.Impulse);
     }
