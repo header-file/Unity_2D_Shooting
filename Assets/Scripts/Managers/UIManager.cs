@@ -498,6 +498,8 @@ public class UIManager : MonoBehaviour
         //EquipUI.SetIsShowingSwitch(false);
         //ConfirmSwitch.SetActive(false);
         //Equip.SetActive(false);
+        WeaponUI.ResetData();
+        WeaponUI.ResetInventory();
         Weapon.SetActive(false);
         IsEquip = false;
 
@@ -514,9 +516,10 @@ public class UIManager : MonoBehaviour
         WeaponUI.ShowEquipArea();
     }
 
-    public void OnClickEquipSlotBtn(int index)
+    public void OnClickWeaponTypeSortBtn(int index)
     {
         //EquipUI.SortAsType(index);
+        WeaponUI.SortAsType(index);
     }
 
     public void OnClickEquipSelectBtn(int index)
@@ -585,11 +588,13 @@ public class UIManager : MonoBehaviour
     {
         SynthesisUI.SetCurrentIndex(index);
 
-        if (index == 0)
+        int count = SynthesisUI.CheckInputTypes();
+        if (count == 0)
             SynthesisUI.ShowInventory();
-        else if (index == 1)
+        else if (count > 0 && count <= 3)
             SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
-        else if (index == 3)
+
+        if (index == 3 && count == 3)
             SynthesisUI.ShowConfirmWindow();
     }
 

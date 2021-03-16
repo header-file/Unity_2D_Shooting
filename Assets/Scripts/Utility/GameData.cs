@@ -41,8 +41,7 @@ public class GameData
     public enum QSTData
     {
         ID = 0,
-        FINISH = 1,
-        COUNT = 2,
+        COUNT = 1,
     }
 
     public int Coin;
@@ -113,10 +112,6 @@ public class GameData
         for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
         {
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID] = GameManager.Inst().QstManager.Quests[i].QuestId;
-            if(GameManager.Inst().QstManager.Quests[i].IsFinish)
-                Quests[Constants.QSTDATASIZE * i + (int)QSTData.FINISH] = 1;
-            else
-                Quests[Constants.QSTDATASIZE * i + (int)QSTData.FINISH] = 0;
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT] = GameManager.Inst().QstManager.Quests[i].CurrentCount;
         }
     }
@@ -225,8 +220,6 @@ public class GameData
                 if(GameManager.Inst().QstManager.Quests[i].QuestId == Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID])
                 {
                     GameManager.Inst().QstManager.Quests[i].CurrentCount = Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT];
-                    if (Quests[Constants.QSTDATASIZE * i + (int)QSTData.FINISH] == 1)
-                        GameManager.Inst().QstManager.Quests[i].IsFinish = true;
                     GameManager.Inst().QstManager.CheckFinish(i);
                 }
             }

@@ -77,14 +77,13 @@ public class InventoryScroll : MonoBehaviour
             }
         }
 
-        GameManager.Inst().Player.InputGrade = -1;
+        GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.RARITY;
 
         Sort();
     }
 
     public void Sort()
     {
-        //QuickSort(Slots, 0, GameManager.Inst().Player.MAXINVENTORY - 1);
         Array.Sort(Slots);
         Array.Reverse(Slots);
 
@@ -92,46 +91,36 @@ public class InventoryScroll : MonoBehaviour
         {
             for (int j = 0; j < Constants.MAXINVENTORY; j++)
             {
-                if (Slots[i] == null)
-                    break;
-
-                if (Slots[i].GetItemUID() != -1 &&
-                    Slots[i].GetItemUID() == Contents.transform.GetChild(j + 1).GetComponent<InventorySlot>().GetItemUID())
+                if (Slots[i].name == Contents.transform.GetChild(j + 1).gameObject.name)
                 {
                     Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
+
+                    SwitchedIndices[i] = j;
                     break;
                 }
             }
-
-            SwitchedIndices[int.Parse(Slots[i].name)] = i;
         }
     }
 
     public void ResetInventory()
     {
-        GameManager.Inst().Player.InputGrade = 10;
+        GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.BASE;
 
-        //QuickSort(Slots, 0, GameManager.Inst().Player.MAXINVENTORY - 1);
         Array.Sort(Slots);
         Array.Reverse(Slots);
 
-        int max = Constants.MAXINVENTORY;
-
-        for (int i = 0; i < max; i++)
+        for(int i = 0; i < Constants.MAXINVENTORY; i++)
         {
-            for (int j = 0; j < max; j++)
+            for(int j = 0; j < Constants.MAXINVENTORY; j++)
             {
-                if (GameManager.Inst().Player.GetItem(j) == null)
-                    continue;
-
-                if (Slots[i].GetItemUID() != -1 &&
-                    Slots[i].GetItemUID() == GameManager.Inst().Player.GetItem(j).UID)
+                if (Slots[i].name == Contents.transform.GetChild(j + 1).gameObject.name)
                 {
                     Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
+
+                    SwitchedIndices[i] = j;
+                    break;
                 }
             }
-
-            SwitchedIndices[i] = i;
         }
     }
 
@@ -179,4 +168,24 @@ public class InventoryScroll : MonoBehaviour
 //    case 2:
 //        slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
 //        break;
+//}
+
+
+
+//for (int i = 0; i < Constants.MAXINVENTORY; i++)
+//{
+//    for (int j = 0; j < Constants.MAXINVENTORY; j++)
+//    {
+//        if (Slots[i] == null)
+//            break;
+
+//        if (Slots[i].GetItemUID() != -1 &&
+//            Slots[i].GetItemUID() == Contents.transform.GetChild(j + 1).GetComponent<InventorySlot>().GetItemUID())
+//        {
+//            Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
+//            break;
+//        }
+//    }
+
+//    SwitchedIndices[int.Parse(Slots[i].name)] = i;
 //}

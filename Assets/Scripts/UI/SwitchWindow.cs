@@ -138,7 +138,7 @@ public class SwitchWindow : MonoBehaviour
 
     public void OnClickButton(int index)
     {
-        GameManager.Inst().UiManager.OnClickEquipSlotBtn(index);
+        GameManager.Inst().UiManager.OnClickWeaponTypeSortBtn(index);
     }
 
     public void OnClickInfoBackBtn()

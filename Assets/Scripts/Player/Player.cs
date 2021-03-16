@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     public GameObject[] BossSubPoses;
     public GameObject Booster;
 
-    public int InputGrade;
+    public int SortOption;
 
     GameObject[] SubWeapons;
     EqData[] Inventory;

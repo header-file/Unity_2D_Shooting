@@ -120,6 +120,9 @@ public class QuestManager : MonoBehaviour
 
         if (Quests[index].CurrentCount >= Quests[index].GoalCount)
         {
+            if (Quests[index].IsFinish)
+                return;
+
             Quests[index].IsFinish = true;
             FinQuests++;
             QuestSlots[found].Check.SetActive(true);
