@@ -438,7 +438,7 @@ public class Equip : MonoBehaviour
                 break;
         }
         //Inventories.transform.GetChild(0).gameObject.SetActive(true);
-        GameManager.Inst().Player.InputGrade = (type + 11);
+        GameManager.Inst().Player.SortOption = type + (int)InventorySlot.SortOption.TYPE_RARITY;
 
         Inventories.Sort();
 

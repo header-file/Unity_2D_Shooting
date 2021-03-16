@@ -16,7 +16,6 @@ public class Synthesis : MonoBehaviour
     public GameObject SelectDetail;
     public GameObject UnequipConfirmWindow;
 
-    Player Player;
     InventoryScroll Inventories;
     Sprite OriginalSprite;
     Sprite QuestionSprite;
@@ -42,7 +41,6 @@ public class Synthesis : MonoBehaviour
 
     void Start()
     {
-        Player = GameManager.Inst().Player;
         OriginalSprite = Buttons[0].transform.GetChild(0).GetComponent<Image>().sprite;
         QuestionSprite = Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite;
         SuccessRate.SetActive(false);
@@ -50,15 +48,6 @@ public class Synthesis : MonoBehaviour
         EquipDetail.SetActive(false);
         SelectDetail.SetActive(false);
         UnequipConfirmWindow.SetActive(false);
-
-        //for (int i = 1; i <= Player.MAXINVENTORY; i++)
-        //{
-        //    GameObject inventorySlot = GameManager.Inst().ObjManager.MakeObj("InventorySlot");
-        //    inventorySlot.transform.SetParent(Inventories.transform, false);
-        //    InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
-        //    slot.SetIndex(i);
-        //    slot.SetType(2);
-        //}
 
         Colors = new Color[3];
         Colors[0] = Color.red;
@@ -139,7 +128,7 @@ public class Synthesis : MonoBehaviour
 
         for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
-            Player.EqData eq = Player.GetItem(i);
+            Player.EqData eq = GameManager.Inst().Player.GetItem(i);
             Inventories.GetSlot(i).Selected.SetActive(false);
 
             if (eq != null)
@@ -202,15 +191,14 @@ public class Synthesis : MonoBehaviour
                             slot.GetIcon().transform.rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
                             break;
                     }
-                    //Inventories.GetSlot(i).gameObject.SetActive(false);
                 }
                     
             }
             else
                 break;
         }
-        //Inventories.transform.GetChild(0).gameObject.SetActive(true);
-        GameManager.Inst().Player.InputGrade = grade;
+        
+        GameManager.Inst().Player.SortOption = grade + (int)InventorySlot.SortOption.SAMERARITY;
 
         Inventories.Sort();
     }
@@ -237,7 +225,7 @@ public class Synthesis : MonoBehaviour
             }
         }
 
-        Player.EqData eq = Player.GetItem(index);
+        Player.EqData eq = GameManager.Inst().Player.GetItem(index);
         if (eq.Rarity >= 4)
             return;
 
@@ -248,8 +236,8 @@ public class Synthesis : MonoBehaviour
             {
                 Grade = eq.Rarity;
 
-                if((SelectedIndex[1] > -1 && eq.Rarity != Player.GetItem(SelectedIndex[1]).Rarity) || 
-                    (SelectedIndex[2] > -1 && eq.Rarity != Player.GetItem(SelectedIndex[2]).Rarity))
+                if((SelectedIndex[1] > -1 && eq.Rarity != GameManager.Inst().Player.GetItem(SelectedIndex[1]).Rarity) || 
+                    (SelectedIndex[2] > -1 && eq.Rarity != GameManager.Inst().Player.GetItem(SelectedIndex[2]).Rarity))
                 {
                     for(int i = 1; i < 2; i++)
                     {
@@ -338,7 +326,7 @@ public class Synthesis : MonoBehaviour
         if (!IsAbleSynthesize)
             return;
 
-        int rarity = Player.GetItem(SelectedIndex[0]).Rarity;
+        int rarity = GameManager.Inst().Player.GetItem(SelectedIndex[0]).Rarity;
         
         for (int i = 0; i < 3; i++)
             GameManager.Inst().Player.RemoveItem(SelectedIndex[i]);
@@ -349,7 +337,7 @@ public class Synthesis : MonoBehaviour
             rarity++;
 
         //GameManager.Inst().MakeEquipment(SynthType, rarity, Player.transform);
-        int add = Player.AddItem(GameManager.Inst().MakeEuipData(SynthType, rarity));
+        int add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEuipData(SynthType, rarity));
         EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
         //Player.Sort();
         ShowInventory();
@@ -382,7 +370,6 @@ public class Synthesis : MonoBehaviour
         EquipDetail.SetActive(false);
         Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite = QuestionSprite;
 
-        //Player.Sort();
         Inventories.ResetInventory();
         ResetDisable();
     }
@@ -391,9 +378,8 @@ public class Synthesis : MonoBehaviour
     {
         for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
-            if (Player.GetItem(i) != null)
+            if (GameManager.Inst().Player.GetItem(i) != null)
                 Inventories.GetSlot(Inventories.GetSwitchedIndex(i)).SetDisable(false);
-                
         }
     }
 
@@ -433,5 +419,18 @@ public class Synthesis : MonoBehaviour
     public void CloseUnequip()
     {
         UnequipConfirmWindow.SetActive(false);
+    }
+
+    public int CheckInputTypes()
+    {
+        int count = 0;
+
+        for(int i = 0; i < 3; i++)
+        {
+            if (InputTypes[i] > -1)
+                count++;
+        }
+
+        return count;
     }
 }

@@ -218,8 +218,51 @@ public class Weapon : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(1);
 
-        Inventories.ResetInventory();
         Inventories.ShowInventory();
+    }
+
+    public void SortAsType(int type)
+    {
+        Inventories.ResetInventory();
+
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        {
+            Player.EqData eq = GameManager.Inst().Player.GetItem(i);
+            Inventories.GetSlot(i).Selected.SetActive(false);
+
+            if (eq != null)
+            {
+                if (eq.Type == type)
+                {
+                    Sprite icon = eq.Icon;
+                    InventorySlot slot = Inventories.GetSlot(i);
+                    slot.gameObject.SetActive(true);
+
+                    slot.GetNotExist().SetActive(false);
+                    slot.GetExist().SetActive(true);
+                    slot.SetIcon(icon);
+                    slot.SetDisable(false);
+                    slot.SetGradeSprite(eq.Rarity);
+                }
+                else
+                {
+                    Sprite icon = eq.Icon;
+                    InventorySlot slot = Inventories.GetSlot(i);
+                    slot.gameObject.SetActive(true);
+
+                    slot.GetNotExist().SetActive(false);
+                    slot.GetExist().SetActive(true);
+                    slot.SetIcon(icon);
+                    slot.SetDisable(true);
+                    slot.SetGradeSprite(eq.Rarity);
+                }
+
+            }
+        }
+
+        GameManager.Inst().Player.SortOption = type + (int)InventorySlot.SortOption.TYPE_RARITY;
+
+        Inventories.Sort();
     }
 
     public void Select(int index, int BulletType)
@@ -335,7 +378,10 @@ public class Weapon : MonoBehaviour
 
         IsFlickering = false;
         IsDelay = false;
+    }
 
+    public void ResetInventory()
+    {
         Inventories.ResetInventory();
     }
 
