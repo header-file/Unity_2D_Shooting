@@ -321,7 +321,7 @@ public class ObjectManager : MonoBehaviour
         Shields = new GameObject[5];
         ItemBombs = new GameObject[5];
         Bombs = new GameObject[5];
-        Resources = new GameObject[300];
+        Resources = new GameObject[40];
 
         Normals = new GameObject[8, 100];
         Spreads = new GameObject[8, 100];

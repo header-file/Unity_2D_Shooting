@@ -12,6 +12,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
         RARITY = 1,
         TYPE_RARITY = 10,
         SAMERARITY = 100,
+        DISCRADMAXRARITY = 1000,
     }
 
     public GameObject EMark;
@@ -55,13 +56,22 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     {
         Weight = 0;
 
-        if (GameManager.Inst().Player.SortOption >= (int)SortOption.SAMERARITY)
+        if (GameManager.Inst().Player.SortOption >= (int)SortOption.DISCRADMAXRARITY)
+        {
+            if (ItemRarity >= 0 && ItemRarity < Constants.MAXRARITY - 1 &&
+                obj.ItemRarity == Constants.MAXRARITY - 1)
+                Weight += 16;
+            else if (ItemRarity == Constants.MAXRARITY - 1 &&
+                obj.ItemRarity >= 0 && obj.ItemRarity != Constants.MAXRARITY - 1)
+                Weight -= 16;
+        }
+        else if (GameManager.Inst().Player.SortOption >= (int)SortOption.SAMERARITY)
         {
             if (ItemRarity == GameManager.Inst().Player.SortOption - (int)SortOption.SAMERARITY &&
-                obj.ItemType != GameManager.Inst().Player.SortOption - (int)SortOption.SAMERARITY)
+                obj.ItemRarity != GameManager.Inst().Player.SortOption - (int)SortOption.SAMERARITY)
                 Weight += 16;
             else if (ItemRarity != GameManager.Inst().Player.SortOption - (int)SortOption.SAMERARITY &&
-                obj.ItemType == GameManager.Inst().Player.SortOption - (int)SortOption.SAMERARITY)
+                obj.ItemRarity == GameManager.Inst().Player.SortOption - (int)SortOption.SAMERARITY)
                 Weight -= 16;
         }
         else if (GameManager.Inst().Player.SortOption >= (int)SortOption.TYPE_RARITY)

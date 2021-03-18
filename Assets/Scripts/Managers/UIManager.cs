@@ -590,9 +590,17 @@ public class UIManager : MonoBehaviour
 
         int count = SynthesisUI.CheckInputTypes();
         if (count == 0)
-            SynthesisUI.ShowInventory();
-        else if (count > 0 && count <= 3)
+            SynthesisUI.DiscardMaxGrade();
+        else if (count == 1)
+        {
+            if(index == SynthesisUI.GetLastIndex())
+                SynthesisUI.DiscardMaxGrade();
+            else
+                SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
+        }
+        else
             SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
+
 
         if (index == 3 && count == 3)
             SynthesisUI.ShowConfirmWindow();
@@ -610,10 +618,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSynthesisSelectBtn(int index)
     {
-        //if (EquipUI.CheckAlreadyEquipAll(index))
-        //    SynthesisUI.ShowUnEquipConfirm(index);
-        //else
-        //    SynthesisUI.SetButtons(index);
+        SynthesisUI.SetButtons(index);
     }
 
     public void OnClickSynthesisResultBackBtn()

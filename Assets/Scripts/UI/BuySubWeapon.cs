@@ -23,6 +23,8 @@ public class BuySubWeapon : MonoBehaviour
 
         if (!BuyBtn.IsInteractable())
             BuyBtn.interactable = true;
+
+        gameObject.SetActive(false);
     }
 
     public void ShowBuy(int index)

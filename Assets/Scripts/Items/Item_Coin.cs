@@ -12,8 +12,9 @@ public class Item_Coin : Item
     float RotateSpeed;
 
     public void SetIsScatter(bool b) { IsScatter = b; }
+    public void SetIsAbsorb(bool b) { IsAbsorb = b; }
     public void SetTargetPosition(Vector3 pos) { TargetPosition = pos; }
-    public void InvokeAbsorb() { Invoke("Absorb", 0.5f); }
+    public void InvokeAbsorb() { Invoke("Timeup", 1.0f); }
 
     void Start()
     {
@@ -30,16 +31,7 @@ public class Item_Coin : Item
         else if (IsScatter)
             Scatter();
         else
-        {
-            Vector2 pointTarget = (Vector2)transform.position - (Vector2)GameManager.Inst().Player.transform.position;
-            pointTarget.Normalize();
-
-            float val = Vector3.Cross(pointTarget, transform.up).z;
-
-            Rig.angularVelocity = RotateSpeed * val;
-
-            Rig.velocity = transform.up * 5.0f;
-        }
+            Homing();
     }
 
     void Scatter()
@@ -53,14 +45,33 @@ public class Item_Coin : Item
         }
     }
 
+    void Homing()
+    {
+        Vector2 pointTarget = (Vector2)transform.position - (Vector2)GameManager.Inst().Player.transform.position;
+        pointTarget.Normalize();
+
+        float val = Vector3.Cross(pointTarget, transform.up).z;
+
+        Rig.angularVelocity = RotateSpeed * val;
+
+        Rig.velocity = transform.up * 5.0f;
+    }
+
     void Timeup()
     {
         IsAbsorb = true;
+        Invoke("Disappear", 5.0f);
     }
 
     void Absorb()
     {
         transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.transform.position, Time.deltaTime * 1.0f);
+    }
+
+    void Disappear()
+    {
+        ResetData();
+        gameObject.SetActive(false);
     }
 
     public void ResetData()

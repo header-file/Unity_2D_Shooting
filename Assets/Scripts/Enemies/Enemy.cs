@@ -193,7 +193,8 @@ public class Enemy : MonoBehaviour
             ic.SetValue((int)Random.Range(Health * 0.1f, Health));
             ic.SetTargetPosition(pos);
             ic.SetIsScatter(true);
-            ic.InvokeAbsorb();
+            ic.SetIsAbsorb(false);
+            //ic.InvokeAbsorb();
         }
     }
 
@@ -206,6 +207,9 @@ public class Enemy : MonoBehaviour
         for(int i = 0; i < rand; i++)
         {
             Item_Resource resource = GameManager.Inst().ObjManager.MakeObj("Resource").GetComponent<Item_Resource>();
+            if (resource == null)
+                return;
+
             resource.transform.position = transform.position;
 
             Vector3 pos = transform.position;
