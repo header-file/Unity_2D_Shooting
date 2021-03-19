@@ -117,6 +117,7 @@ public class Synthesis : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(2);
 
+        Inventories.ResetInventory();
         Inventories.ShowInventory();
     }
 
@@ -143,14 +144,14 @@ public class Synthesis : MonoBehaviour
                     slot.SetDisable(false);
                     slot.SetGradeSprite(eq.Rarity);
 
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (eq.UID == SelectedUIDs[j])
-                            slot.Selected.SetActive(true);
-                    }
+                    //for (int j = 0; j < 3; j++)
+                    //{
+                    //    if (eq.UID == SelectedUIDs[j])
+                    //        slot.Selected.SetActive(true);
+                    //}
 
-                    if (slot.Selected.activeSelf)
-                        SelectedIndex[0] = i;
+                    //if (slot.Selected.activeSelf)
+                    //    SelectedIndex[0] = i;
                 }
                 else
                 {
@@ -185,7 +186,7 @@ public class Synthesis : MonoBehaviour
         for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
-            Inventories.GetSlot(i).Selected.SetActive(false);
+            //Inventories.GetSlot(i).Selected.SetActive(false);
 
             if (eq != null)
             {
@@ -201,14 +202,14 @@ public class Synthesis : MonoBehaviour
                     slot.SetDisable(false);
                     slot.SetGradeSprite(eq.Rarity);
 
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (eq.UID == SelectedUIDs[j])
-                            slot.Selected.SetActive(true);
-                    }
+                    //for (int j = 0; j < 3; j++)
+                    //{
+                    //    if (eq.UID == SelectedUIDs[j])
+                    //        slot.Selected.SetActive(true);
+                    //}
 
-                    if (slot.Selected.activeSelf)
-                        SelectedIndex[0] = i;
+                    //if (slot.Selected.activeSelf)
+                    //    SelectedIndex[0] = i;
                 }
                 else
                 {
@@ -261,11 +262,13 @@ public class Synthesis : MonoBehaviour
                 Grade = eq.Rarity;
 
             SelectedUIDs[CurrentIndex] = eq.UID;
+            SelectedIndex[CurrentIndex] = index;
         }
 
         //ui
         SuccessRate.SetActive(false);
         Buttons[CurrentIndex].transform.GetChild(0).GetComponent<Image>().sprite = eq.Icon;
+        Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).Checked.SetActive(true);
 
         InputTypes[CurrentIndex] = eq.Type;
 
@@ -340,17 +343,19 @@ public class Synthesis : MonoBehaviour
         int rarity = GameManager.Inst().Player.GetItem(SelectedIndex[0]).Rarity;
         
         for (int i = 0; i < 3; i++)
-            GameManager.Inst().Player.RemoveItem(SelectedIndex[i]);
-        GameManager.Inst().Player.DragItem(3);
+        {
+            GameManager.Inst().Player.GetItem(SelectedIndex[i]).Quantity--;
+
+            if (GameManager.Inst().Player.GetItem(SelectedIndex[i]).Quantity <= 0)
+                GameManager.Inst().Player.RemoveItem(SelectedIndex[i]);
+        }
 
         int rand = Random.Range(0, 100);
         if (rand < Rate)
             rarity++;
 
-        //GameManager.Inst().MakeEquipment(SynthType, rarity, Player.transform);
         int add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEuipData(SynthType, rarity));
         EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
-        //Player.Sort();
         ShowInventory();
 
         //결과창
@@ -368,8 +373,8 @@ public class Synthesis : MonoBehaviour
             Lines.transform.GetChild(i).GetComponent<Image>().material.SetColor("_GlowColor", Color.black);
             if(SelectedIndex[i] > -1)
             {
-                Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).SetSelected(false);
-                Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).SetChecked(false);
+                //Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).SetSelected(false);
+                Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).Checked.SetActive(false);
             }
                 
             SelectedIndex[i] = -1;

@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
                 Item_Equipment eqpAtk = eqAtk.GetComponent<Item_Equipment>();
                 eqpAtk.StartAbsorb(0.5f);
 
-                eqpAtk.SetValues(grade, UIDCount++);
+                eqpAtk.SetValues(grade, UIDCount++, rand);
                 break;
             case 1:
                 GameObject eqRng = ObjManager.MakeObj("EqRange");
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
                 Item_Equipment eqpRng = eqRng.GetComponent<Item_Equipment>();
                 eqpRng.StartAbsorb(0.5f);
 
-                eqpRng.SetValues(grade, UIDCount++);
+                eqpRng.SetValues(grade, UIDCount++, rand);
                 break;
             case 2:
                 GameObject eqSpd = ObjManager.MakeObj("EqSpeed");
@@ -133,14 +133,14 @@ public class GameManager : MonoBehaviour
                 Item_Equipment eqpSpd = eqSpd.GetComponent<Item_Equipment>();
                 eqpSpd.StartAbsorb(0.5f);
 
-                eqpSpd.SetValues(grade, UIDCount++);
+                eqpSpd.SetValues(grade, UIDCount++, rand);
                 break;
         }
     }
 
-    public Item_Equipment MakeEuipData(int num, int grade)
+    public Item_Equipment MakeEuipData(int type, int grade)
     {
-        int rand = num;
+        int rand = type;
         if (rand == -1)
             rand = (int)(Random.value * 3.0f);
 
@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
                 eq = ObjManager.MakeObj("EqAttack");
                 ieq = eq.GetComponent<Item_Equipment>();
                 ieq.StartAbsorb(0.0f);
-                ieq.SetValues(grade, UIDCount++);
+                ieq.SetValues(grade, UIDCount++, rand);
                 ieq.gameObject.SetActive(false);
                 break;
 
@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour
                 eq = ObjManager.MakeObj("EqRange");
                 ieq = eq.GetComponent<Item_Equipment>();
                 ieq.StartAbsorb(0.0f);
-                ieq.SetValues(grade, UIDCount++);
+                ieq.SetValues(grade, UIDCount++, rand);
                 ieq.gameObject.SetActive(false);
                 break;
 
@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
                 eq = ObjManager.MakeObj("EqSpeed");
                 ieq = eq.GetComponent<Item_Equipment>();
                 ieq.StartAbsorb(0.0f);
-                ieq.SetValues(grade, UIDCount++);
+                ieq.SetValues(grade, UIDCount++, rand);
                 ieq.gameObject.SetActive(false);
                 break;
         }

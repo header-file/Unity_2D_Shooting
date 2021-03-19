@@ -598,7 +598,7 @@ public class UIManager : MonoBehaviour
             else
                 SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
         }
-        else
+        else if(count < 3)
             SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
 
 

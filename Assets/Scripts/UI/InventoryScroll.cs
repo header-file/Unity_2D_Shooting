@@ -95,7 +95,7 @@ public class InventoryScroll : MonoBehaviour
                 {
                     Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
 
-                    SwitchedIndices[i] = j;
+                    SwitchedIndices[int.Parse(Slots[i].name)] = i;
                     break;
                 }
             }
@@ -117,7 +117,7 @@ public class InventoryScroll : MonoBehaviour
                 {
                     Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
 
-                    SwitchedIndices[i] = j;
+                    SwitchedIndices[int.Parse(Slots[i].name)] = i;
                     break;
                 }
             }

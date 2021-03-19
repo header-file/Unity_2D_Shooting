@@ -37,9 +37,10 @@ public class Item_Equipment : Item
     //public void SetEqValue(float value) { Eq_Value = value; }
     public void SetIcon(Sprite img) { Icon = img; }
 
-    public void SetValues(int grade, int UID)
+    public void SetValues(int grade, int UID, int type)
     {
         Icon = GetComponent<SpriteRenderer>().sprite;
+        EqType = (EquipmentType)type;
 
         SetUID(UID);
 
