@@ -29,8 +29,6 @@ public class GameManager : MonoBehaviour
 
     SubWeapon[] SubWeapons;
     
-    int UIDCount;
-
     List<Dictionary<string, object>> DropRateData;
 
 
@@ -57,7 +55,6 @@ public class GameManager : MonoBehaviour
         SubWeapons = new SubWeapon[4];
         SubWID = new int[4];
 
-        UIDCount = 0;
         StgManager.Stage = 1;
     }
 
@@ -109,6 +106,7 @@ public class GameManager : MonoBehaviour
         if (rand == -1)
             rand = (int)(Random.value * 3.0f);
 
+        int uid = 0;
         switch (rand)
         {
             case 0:
@@ -116,24 +114,27 @@ public class GameManager : MonoBehaviour
                 eqAtk.transform.position = transform.position;
                 Item_Equipment eqpAtk = eqAtk.GetComponent<Item_Equipment>();
                 eqpAtk.StartAbsorb(0.5f);
+                uid = (int)Item.UIDCombination.REINFORCE + (grade + 1) * 10 + (int)Item.UIDCombination.ATK;
 
-                eqpAtk.SetValues(grade, UIDCount++, rand);
+                eqpAtk.SetValues(grade, uid, rand);
                 break;
             case 1:
                 GameObject eqRng = ObjManager.MakeObj("EqRange");
                 eqRng.transform.position = transform.position;
                 Item_Equipment eqpRng = eqRng.GetComponent<Item_Equipment>();
                 eqpRng.StartAbsorb(0.5f);
+                uid = (int)Item.UIDCombination.REINFORCE + (grade + 1) * 10 + (int)Item.UIDCombination.HP;
 
-                eqpRng.SetValues(grade, UIDCount++, rand);
+                eqpRng.SetValues(grade, uid, rand);
                 break;
             case 2:
                 GameObject eqSpd = ObjManager.MakeObj("EqSpeed");
                 eqSpd.transform.position = transform.position;
                 Item_Equipment eqpSpd = eqSpd.GetComponent<Item_Equipment>();
                 eqpSpd.StartAbsorb(0.5f);
+                uid = (int)Item.UIDCombination.REINFORCE + (grade + 1) * 10 + (int)Item.UIDCombination.SPD;
 
-                eqpSpd.SetValues(grade, UIDCount++, rand);
+                eqpSpd.SetValues(grade, uid, rand);
                 break;
         }
     }
@@ -146,6 +147,7 @@ public class GameManager : MonoBehaviour
 
         GameObject eq;
         Item_Equipment ieq = null;
+        int uid = 0;
 
         switch (rand)
         {
@@ -153,7 +155,8 @@ public class GameManager : MonoBehaviour
                 eq = ObjManager.MakeObj("EqAttack");
                 ieq = eq.GetComponent<Item_Equipment>();
                 ieq.StartAbsorb(0.0f);
-                ieq.SetValues(grade, UIDCount++, rand);
+                uid = (int)Item.UIDCombination.REINFORCE + (grade + 1) * 10 + (int)Item.UIDCombination.ATK;
+                ieq.SetValues(grade, uid, rand);
                 ieq.gameObject.SetActive(false);
                 break;
 
@@ -161,7 +164,8 @@ public class GameManager : MonoBehaviour
                 eq = ObjManager.MakeObj("EqRange");
                 ieq = eq.GetComponent<Item_Equipment>();
                 ieq.StartAbsorb(0.0f);
-                ieq.SetValues(grade, UIDCount++, rand);
+                uid = (int)Item.UIDCombination.REINFORCE + (grade + 1) * 10 + (int)Item.UIDCombination.HP;
+                ieq.SetValues(grade, uid, rand);
                 ieq.gameObject.SetActive(false);
                 break;
 
@@ -169,7 +173,8 @@ public class GameManager : MonoBehaviour
                 eq = ObjManager.MakeObj("EqSpeed");
                 ieq = eq.GetComponent<Item_Equipment>();
                 ieq.StartAbsorb(0.0f);
-                ieq.SetValues(grade, UIDCount++, rand);
+                uid = (int)Item.UIDCombination.REINFORCE + (grade + 1) * 10 + (int)Item.UIDCombination.SPD;
+                ieq.SetValues(grade, uid, rand);
                 ieq.gameObject.SetActive(false);
                 break;
         }

@@ -14,6 +14,23 @@ public class Item : MonoBehaviour
         BOMB = 12,
     }
 
+    public enum UIDCombination
+    {
+        ATK = 0,
+        HP = 1,
+        SPD = 2,
+        WHITE = 10,
+        GREEND = 20,
+        BLUE = 30,
+        PURPLE = 40,
+        YELLOW = 50,
+        MONEY = 100,
+        RESOURCE = 200,
+        REINFORCE = 300,
+        SHIELD = 400,
+        BOMB = 500,
+    }
+
     protected ItemType Type;
     protected int Value;
     protected bool IsStart;

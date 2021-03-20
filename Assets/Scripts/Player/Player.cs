@@ -50,7 +50,10 @@ public class Player : MonoBehaviour
     int BulletType;
     bool IsMovable;
     //bool IsShield;
-
+    int MaxHP;
+    int CurHP;
+    float DeathTimer;
+    float DeathTime;
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
@@ -59,7 +62,11 @@ public class Player : MonoBehaviour
     public int GetCoin() { return Coin; }
     public int GetBulletType() { return BulletType; }
     public bool GetIsMovable() { return IsMovable; }
+    public int GetMaxHP() { return MaxHP; }
+    public int GetCurHP() { return CurHP; }
 
+    public void SetMaxHP(int hp) { MaxHP = hp; }
+    public void SetCurHP(int hp) { CurHP = hp; }
     public void SetSubWeapon(GameObject obj, int index) { SubWeapons[index] = obj; }
     public void SetBulletType(int type)
     {
@@ -116,8 +123,7 @@ public class Player : MonoBehaviour
         {
             if (Inventory[i] != null)
             {
-                if (Inventory[i].Type == item.GetEqType() &&
-                    Inventory[i].Rarity == item.GetRarity())
+                if (Inventory[i].UID == item.GetUID())
                 {
                     Inventory[i].Quantity++;
 
@@ -151,8 +157,7 @@ public class Player : MonoBehaviour
         {
             if (Inventory[i] != null)
             {
-                if (Inventory[i].Type == item.Type &&
-                    Inventory[i].Rarity == item.Rarity)
+                if (Inventory[i].UID == item.UID)
                 {
                     Inventory[i].Quantity++;
                     return i;
@@ -259,6 +264,7 @@ public class Player : MonoBehaviour
         IsMovable = false;
         //IsShield = false;
         OriginalPos = new Vector3(0.0f, 1.2f, 0.0f);
+
 
         //DontDestroyOnLoad(gameObject);
     }

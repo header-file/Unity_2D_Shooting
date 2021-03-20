@@ -41,6 +41,7 @@ public class DataManager : MonoBehaviour
             string fromJsonData = File.ReadAllText(filePath);
             _gameData = JsonUtility.FromJson<GameData>(fromJsonData);
             GameData.LoadData();
+            //GameData.ResetData();
         }
         else
         {
