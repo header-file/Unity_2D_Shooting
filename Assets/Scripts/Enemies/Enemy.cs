@@ -303,7 +303,11 @@ public class Enemy : MonoBehaviour
             {
                 if (HitArea.HitObjects[i] == null)
                     continue;
-                HitArea.HitObjects[i].GetComponent<SubWeapon>().Damage(Atk);
+                SubWeapon sub = HitArea.HitObjects[i].GetComponent<SubWeapon>();
+                if(sub == null)
+                    HitArea.HitObjects[i].GetComponent<Player>().Damage(Atk);
+                else
+                sub.Damage(Atk);
                 HitArea.HitObjects[i] = null;
             }
 

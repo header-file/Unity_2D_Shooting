@@ -255,7 +255,6 @@ public class SubWeapon : MonoBehaviour
             GetComponent<Animator>().SetTrigger("Revive");
             Invoke("ReturnColor", 1.0f);
 
-            CoolTime = COOLTIME;
             CancelInvoke("CheckDead");
 
             GameManager.Inst().TxtManager.CoolTimes[id].SetActive(false);

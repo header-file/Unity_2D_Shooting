@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
         
     };
 
+    const float DEATHTIME = 5.0f;
+
     public SpriteResolver Skin;
     public string[] Types;
     
@@ -37,7 +39,8 @@ public class Player : MonoBehaviour
     public GameObject ChargePos;
     public GameObject[] BoomerangPos;
     public GameObject[] BossSubPoses;
-    public GameObject Booster;
+    //public GameObject Booster;
+    public GameObject Shield;
 
     public int SortOption;
 
@@ -49,11 +52,11 @@ public class Player : MonoBehaviour
     int Coin;
     int BulletType;
     bool IsMovable;
-    //bool IsShield;
+    bool IsShield;
     int MaxHP;
     int CurHP;
+    bool IsDead;
     float DeathTimer;
-    float DeathTime;
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
@@ -79,9 +82,9 @@ public class Player : MonoBehaviour
         IsMovable = true;
 
         gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
-        Booster.SetActive(true);
-        Booster.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color.red);
-        Booster.transform.GetChild(0).GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color.yellow);
+        //Booster.SetActive(true);
+        //Booster.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color.red);
+        //Booster.transform.GetChild(0).GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color.yellow);
 
         for (int i = 0; i < 4; i++)
         {
@@ -262,10 +265,13 @@ public class Player : MonoBehaviour
             Inventory[i] = null;
 
         IsMovable = false;
-        //IsShield = false;
+        IsShield = false;
         OriginalPos = new Vector3(0.0f, 1.2f, 0.0f);
 
+        DeathTimer = 0.0f;
+        CurHP = MaxHP = 1;
 
+        Shield.SetActive(false);
         //DontDestroyOnLoad(gameObject);
     }
 
@@ -292,7 +298,7 @@ public class Player : MonoBehaviour
 
     public void Fire()
     {
-        if(!IsReload)
+        if(!IsReload || IsDead)
             return;
         
         IsReload = false;
@@ -314,13 +320,60 @@ public class Player : MonoBehaviour
         if (Vector3.Distance(transform.position, OriginalPos) <= 0.0001f)
         {
             CancelInvoke("MoveBack");
-            Booster.SetActive(false);
+            //Booster.SetActive(false);
         }
     }
 
-    public void Shield()
+    public void Damage(int damage)
     {
-        //IsShield = true;
+        if (IsShield)
+        {
+            IsShield = false;
+            Shield.SetActive(false);
+            return;
+        }
+
+        CurHP -= damage;
+
+        if (CurHP <= 0)
+            Dead();
+    }
+
+    public void Dead()
+    {
+        IsDead = true;
+
+        GetComponent<Animator>().SetInteger("Color", 0);
+
+        DeathTimer = DEATHTIME;
+        InvokeRepeating("CheckDead", 1.0f, 0.1f);
+    }
+
+    void CheckDead()
+    {
+        DeathTimer -= 0.1f;
+
+        if(DeathTimer <= 0.0f)
+        {
+            IsDead = false;
+            CurHP = MaxHP;
+
+            GetComponent<Animator>().SetTrigger("Revive");
+            Invoke("ReturnColor", 1.0f);
+
+            CancelInvoke("CheckDead");
+        }
+    }
+
+    void ReturnColor()
+    {
+        GetComponent<Animator>().SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(2) + 1);
+    }
+
+    public void ShieldOn()
+    {
+        IsShield = true;
+        Shield.SetActive(true);
 
         for (int i = 0; i < 4; i++)
         {

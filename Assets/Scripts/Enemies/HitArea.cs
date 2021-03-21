@@ -18,7 +18,7 @@ public class HitArea : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
             return;
 
-        if (collision.gameObject.tag == "SubWeapon")
+        if (collision.gameObject.tag == "SubWeapon" || collision.gameObject.tag == "Player")
         {
             for (int i = 0; i < 5; i++)
             {
@@ -28,7 +28,6 @@ public class HitArea : MonoBehaviour
                     return;
                 }
             }
-                
         }
     }
 
@@ -37,14 +36,13 @@ public class HitArea : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
             return;
 
-        if (collision.gameObject.tag == "SubWeapon")
+        if (collision.gameObject.tag == "SubWeapon" || collision.gameObject.tag == "Player")
         {
             for (int i = 0; i < 5; i++)
             {
                 if (HitObjects[i] == collision.gameObject)
                 {
                     HitObjects[i] = null;
-                    
                     //return;
                 }
             }

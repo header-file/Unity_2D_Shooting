@@ -95,7 +95,7 @@ public class Item : MonoBehaviour
                     GameManager.Inst().Player.AddItem(gameObject.GetComponent<Item_Equipment>());
                     break;
                 case ItemType.SHIELD:
-                    GameManager.Inst().Player.Shield();
+                    GameManager.Inst().Player.ShieldOn();
                     break;
                 case ItemType.BOMB:
                     gameObject.GetComponent<Item_Bomb>().Bomb();
