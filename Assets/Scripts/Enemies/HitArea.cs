@@ -18,13 +18,14 @@ public class HitArea : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
             return;
 
-        if (collision.gameObject.tag == "SubWeapon" || collision.gameObject.tag == "Player")
+        //if (collision.gameObject.tag == "SubWeapon" || collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "PlayerHitArea")
         {
             for (int i = 0; i < 5; i++)
             {
                 if (HitObjects[i] == null)
                 {
-                    HitObjects[i] = collision.gameObject;
+                    HitObjects[i] = collision.GetComponent<PlayerHitArea>().Object;
                     return;
                 }
             }
@@ -36,11 +37,12 @@ public class HitArea : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
             return;
 
-        if (collision.gameObject.tag == "SubWeapon" || collision.gameObject.tag == "Player")
+        //if (collision.gameObject.tag == "SubWeapon" || collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "PlayerHitArea")
         {
             for (int i = 0; i < 5; i++)
             {
-                if (HitObjects[i] == collision.gameObject)
+                if (HitObjects[i] == collision.GetComponent<PlayerHitArea>().Object)
                 {
                     HitObjects[i] = null;
                     //return;

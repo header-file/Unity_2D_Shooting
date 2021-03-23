@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.U2D.Animation;
 using System;
+using UnityEngine.UI;
 
 
 public class Player : MonoBehaviour
@@ -41,13 +42,20 @@ public class Player : MonoBehaviour
     public GameObject[] BossSubPoses;
     //public GameObject Booster;
     public GameObject Shield;
+    public GameObject UI;
+    public Image TimerImage;
+    public Text TimerText;
+    public GameObject HPUI;
+    public Image HPBar;
 
     public int SortOption;
 
     GameObject[] SubWeapons;
     EqData[] Inventory;
     Vector3 OriginalPos;
+    CanvasGroup canvasGroup;
 
+    Vector3 PlayerPos;
     bool IsReload;
     int Coin;
     int BulletType;
@@ -56,6 +64,7 @@ public class Player : MonoBehaviour
     int MaxHP;
     int CurHP;
     bool IsDead;
+    bool IsInvincible;
     float DeathTimer;
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
@@ -268,10 +277,15 @@ public class Player : MonoBehaviour
         IsShield = false;
         OriginalPos = new Vector3(0.0f, 1.2f, 0.0f);
 
+        IsDead = false;
+        IsInvincible = false;
         DeathTimer = 0.0f;
-        CurHP = MaxHP = 1;
+        CurHP = MaxHP = 10;
 
         Shield.SetActive(false);
+        TimerImage.gameObject.SetActive(false);
+        HPUI.SetActive(false);
+        HPBar.fillAmount = 0.415f;
         //DontDestroyOnLoad(gameObject);
     }
 
@@ -282,11 +296,17 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        
+        PlayerPos = transform.position;
+        PlayerPos.y += 3.0f;
+        PlayerPos.z = 90.0f;
+        UI.transform.position = PlayerPos;
     }
 
     public void Rotate(Vector2 MousePos)
     {
+        if (IsDead)
+            return;
+
         Vector2 pos = new Vector2(transform.position.x, transform.position.y);
         Vector2 norm = (MousePos - pos) / Vector2.Distance(MousePos, pos);
         float angle = Vector2.Angle(Vector2.up, norm);
@@ -326,7 +346,11 @@ public class Player : MonoBehaviour
 
     public void Damage(int damage)
     {
-        if (IsShield)
+        if (IsInvincible)
+            return;
+        else if (IsDead)
+            return;
+        else if (IsShield)
         {
             IsShield = false;
             Shield.SetActive(false);
@@ -335,8 +359,17 @@ public class Player : MonoBehaviour
 
         CurHP -= damage;
 
+        HPUI.SetActive(true);
+        HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+        Invoke("HideHPUI", 1.0f);
+
         if (CurHP <= 0)
             Dead();
+    }
+
+    void HideHPUI()
+    {
+        HPUI.SetActive(false);
     }
 
     public void Dead()
@@ -346,6 +379,9 @@ public class Player : MonoBehaviour
         GetComponent<Animator>().SetInteger("Color", 0);
 
         DeathTimer = DEATHTIME;
+        TimerText.text = ((int)DeathTimer).ToString();
+        TimerImage.fillAmount = DeathTimer / DEATHTIME;
+        TimerImage.gameObject.SetActive(true);
         InvokeRepeating("CheckDead", 1.0f, 0.1f);
     }
 
@@ -353,13 +389,21 @@ public class Player : MonoBehaviour
     {
         DeathTimer -= 0.1f;
 
+        TimerImage.fillAmount = DeathTimer / DEATHTIME;
+        TimerText.text = ((int)DeathTimer + 1).ToString();
+
         if(DeathTimer <= 0.0f)
         {
             IsDead = false;
+            IsInvincible = true;
             CurHP = MaxHP;
 
+            TimerImage.gameObject.SetActive(false);
+
             GetComponent<Animator>().SetTrigger("Revive");
-            Invoke("ReturnColor", 1.0f);
+            //Invoke("ReturnColor", 1.0f);
+            //InvokeRepeating("ColorFlick", 1.0f, 0.25f);
+            Invoke("ReturnInvincible", 1.0f);
 
             CancelInvoke("CheckDead");
         }
@@ -367,6 +411,19 @@ public class Player : MonoBehaviour
 
     void ReturnColor()
     {
+        GetComponent<Animator>().SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(2) + 1);
+    }
+
+    void ColorFlick()
+    {
+        int rand = (int)(Time.deltaTime * 100000.0f % 8.0f);
+        GetComponent<Animator>().SetInteger("Color", rand);
+    }
+
+    void ReturnInvincible()
+    {
+        IsInvincible = false;
+        //CancelInvoke("ColorFlick");
         GetComponent<Animator>().SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(2) + 1);
     }
 

@@ -337,6 +337,8 @@ public class UpgradeManager : MonoBehaviour
         SubWeapon sub = subWeapon.GetComponent<SubWeapon>();
 
         GameManager.Inst().SetSubWeapons(sub, curIndex);
+        GameManager.Inst().SetHitAreas(subWeapon, curIndex);
+
         if (index > 1)
             index++;
         sub.SetNumID(index);

@@ -206,10 +206,11 @@ public class Enemy : MonoBehaviour
 
         for(int i = 0; i < rand; i++)
         {
-            Item_Resource resource = GameManager.Inst().ObjManager.MakeObj("Resource").GetComponent<Item_Resource>();
-            if (resource == null)
+            GameObject res = GameManager.Inst().ObjManager.MakeObj("Resource");
+            if (res == null)
                 return;
 
+            Item_Resource resource = res.GetComponent<Item_Resource>();
             resource.transform.position = transform.position;
 
             Vector3 pos = transform.position;

@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public CameraShake Camerashake;
     public GameObject RedMask;
     public GameObject Inventory;
+    public PlayerHitArea[] PlayerHitAreas;
 
     public Player Player;
     public Text CoinText;
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[index] = Sub; }
+    public void SetHitAreas(GameObject sub, int index) { PlayerHitAreas[index].Object = sub; }
     public void SetCoinText(int Coin) { CoinText.text = Coin.ToString(); }
     public void AddResource(int stage, int value) { Resources[stage - 1] += value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
     public void SubtractResource(int index, int value) { Resources[index] -= value; TxtManager.Resources[index].text = Resources[index].ToString(); }
