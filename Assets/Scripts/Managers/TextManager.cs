@@ -9,7 +9,6 @@ public class TextManager : MonoBehaviour
     public GameObject[] BulletLevels;
     public GameObject SubPrice;
     public GameObject SubName;
-    public GameObject[] CoolTimes;
     public Text[] Resources;
     public Text BossTimer;
 
@@ -37,26 +36,7 @@ public class TextManager : MonoBehaviour
     public void SetBPrices(int index, int price) { BPrices[index] = price.ToString(); }
     public void SetSPrice(int price) { SubPrice.GetComponent<Text>().text = price.ToString(); }
     public void SetSName(int index) { SubName.GetComponent<Text>().text = SubNames[index]; }
-    public void SetCoolTimes(int index, int time)
-    {
-        int min = time / 60;
-        int sec = time % 60;
-
-        string text = "";
-        if (min >= 10)
-            text += min.ToString();
-        else
-            text += ("0" + min.ToString());
-
-        text += ":";
-
-        if (sec >= 10)
-            text += sec.ToString();
-        else
-            text += ("0" + sec.ToString());
-
-        CoolTimes[index].GetComponent<Text>().text = text;
-    }
+    
 
     void Awake()
     {
@@ -90,9 +70,6 @@ public class TextManager : MonoBehaviour
     {
         for (int i = 0; i < Constants.MAXBULLETS; i++)
             SetBLevels(i, GameManager.Inst().UpgManager.BData[i].GetPowerLevel());
-
-        for (int i = 0; i < 4; i++)
-            CoolTimes[i].SetActive(false);
     }
 
     void FixedUpdate()

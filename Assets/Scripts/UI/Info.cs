@@ -45,9 +45,9 @@ public class Info : MonoBehaviour
         if (Type == 2)
         {
             Name.text = "Player";
-            Level.text = "";
-            UpgBtn.interactable = false;
-            SubPrice.text = "0";
+            Level.text = "Lv." + GameManager.Inst().UpgManager.GetPlayerLevel().ToString();
+            UpgBtn.interactable = true;
+            SubPrice.text = GameManager.Inst().UpgManager.GetPlayerUpgradePriceData(GameManager.Inst().UpgManager.GetPlayerLevel()).ToString();
         }
         else
         {
@@ -79,28 +79,42 @@ public class Info : MonoBehaviour
         } 
     }
 
-    public void Buy()
+    public void Buy(int characterType)
     {
-        GameManager.Inst().UpgManager.AddLevel((int)UpgradeManager.UpgradeType.SUBWEAPON);
-        
-        if (CharacterType > 2)
+        if (characterType == 2)
         {
-            int type = CharacterType - 1;
-            Level.text = "Lv." + GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type).ToString();
-            if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type) >= Constants.MAXSUBLEVEL)
+            GameManager.Inst().UpgManager.AddLevel((int)UpgradeManager.UpgradeType.PLAYER);
+
+            Level.text = "Lv." + GameManager.Inst().UpgManager.GetPlayerLevel().ToString();
+            if (GameManager.Inst().UpgManager.GetPlayerLevel() >= Constants.MAXPLAYERLEVEL)
                 UpgBtn.interactable = false;
             else
                 UpgBtn.interactable = true;
-            SubPrice.text = GameManager.Inst().UpgManager.GetSubWeaponPrice(type).ToString();
+            SubPrice.text = GameManager.Inst().UpgManager.GetPlayerUpgradePriceData(GameManager.Inst().UpgManager.GetPlayerLevel()).ToString();
         }
         else
         {
-            Level.text = "Lv." + GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, CharacterType).ToString();
-            if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, CharacterType) >= Constants.MAXSUBLEVEL)
-                UpgBtn.interactable = false;
+            GameManager.Inst().UpgManager.AddLevel((int)UpgradeManager.UpgradeType.SUBWEAPON);
+
+            if (CharacterType > 2)
+            {
+                int type = CharacterType - 1;
+                Level.text = "Lv." + GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type).ToString();
+                if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, type) >= Constants.MAXSUBLEVEL)
+                    UpgBtn.interactable = false;
+                else
+                    UpgBtn.interactable = true;
+                SubPrice.text = GameManager.Inst().UpgManager.GetSubWeaponPrice(type).ToString();
+            }
             else
-                UpgBtn.interactable = true;
-            SubPrice.text = GameManager.Inst().UpgManager.GetSubWeaponPrice(CharacterType).ToString();
+            {
+                Level.text = "Lv." + GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, CharacterType).ToString();
+                if (GameManager.Inst().UpgManager.GetSubWeaponLevel(GameManager.Inst().StgManager.Stage, CharacterType) >= Constants.MAXSUBLEVEL)
+                    UpgBtn.interactable = false;
+                else
+                    UpgBtn.interactable = true;
+                SubPrice.text = GameManager.Inst().UpgManager.GetSubWeaponPrice(CharacterType).ToString();
+            }
         }
     }
 }

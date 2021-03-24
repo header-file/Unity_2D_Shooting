@@ -6,6 +6,15 @@ using System;
 [Serializable]
 public class GameData
 {
+    public enum PlaData
+    {
+        LEVEL = 0,
+        CURHP = 1,
+        MAXHP = 2,
+        BULLETTYPE = 3,
+        COLOR = 4,
+    }
+
     public enum InvData
     {
         TYPE = 0,
@@ -46,19 +55,31 @@ public class GameData
 
     public int Coin;
     public int[] Resources;
+
     public int CurrentStage;
     public int ReachedStage;
+
+    public int[] PlayerDatas;
     public int[] SubWeaponDatas;
     public float[] Weapons;
+
     public int[] Inventories;
+
     public int[] Quests;
 
     public int[] BossGauges;
+
 
     public void SaveData()
     {
         Coin = GameManager.Inst().Player.GetCoin();
         CurrentStage = GameManager.Inst().StgManager.Stage;
+
+        PlayerDatas[(int)PlaData.LEVEL] = GameManager.Inst().UpgManager.GetPlayerLevel();
+        PlayerDatas[(int)PlaData.CURHP] = GameManager.Inst().Player.GetCurHP();
+        PlayerDatas[(int)PlaData.MAXHP] = GameManager.Inst().Player.GetMaxHP();
+        PlayerDatas[(int)PlaData.BULLETTYPE] = GameManager.Inst().Player.GetBulletType();
+        PlayerDatas[(int)PlaData.COLOR] = GameManager.Inst().ShtManager.GetColorSelection(2);
 
         for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
@@ -138,6 +159,17 @@ public class GameData
                 GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
         else
             BossGauges = new int[Constants.MAXSTAGES];
+
+        if (PlayerDatas != null && PlayerDatas.Length == Constants.PLADATASIZE)
+        {
+            GameManager.Inst().UpgManager.SetPlayerLevel(PlayerDatas[(int)PlaData.LEVEL]);
+            GameManager.Inst().Player.SetCurHP(PlayerDatas[(int)PlaData.CURHP]);
+            GameManager.Inst().Player.SetMaxHP(PlayerDatas[(int)PlaData.MAXHP]);
+            GameManager.Inst().Player.SetBulletType(PlayerDatas[(int)PlaData.BULLETTYPE]);
+            GameManager.Inst().Player.SetSkinColor(PlayerDatas[(int)PlaData.COLOR]);
+        }
+        else
+            PlayerDatas = new int[Constants.PLADATASIZE];
 
         //if (SubWeaponDatas.Length == StageManager.MAXSTAGES * 4 * SWDATASIZE)
         if(SubWeaponDatas != null && SubWeaponDatas.Length == Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE)

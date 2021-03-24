@@ -14,8 +14,6 @@ public class SubWeapon : MonoBehaviour
     public GameObject LaserPos;
     public GameObject ChargePos;
     public GameObject Arrow;
-    public GameObject HPBarCanvas;
-    public Image HPBar;
     public GameObject Shield;
     public GameObject Booster; 
 
@@ -30,10 +28,13 @@ public class SubWeapon : MonoBehaviour
     bool IsShield;
     int NumID;
     int CoolTime;
+    bool IsInvincible;
 
     const int COOLTIME = 5;
     int MaxHP;
     int CurHP;
+
+    Vector3 UIPos;
 
     public int GetBulletType() { return BulletType; }
     public int GetCurHP() { return CurHP; }
@@ -84,7 +85,9 @@ public class SubWeapon : MonoBehaviour
 
     public void Damage(int damage)
     {
-        if(IsShield)
+        if (IsInvincible)
+            return;
+        else if(IsShield)
         {
             IsShield = false;
             Shield.SetActive(false);
@@ -92,15 +95,23 @@ public class SubWeapon : MonoBehaviour
         }
 
         CurHP -= damage;
+        IsInvincible = true;
+        Invoke("ReturnInvincible", 0.1f);
 
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
         hit.transform.position = transform.position;
 
-        HPBarCanvas.SetActive(true);
-        HPBar.fillAmount = (float)CurHP / (float)MaxHP * 0.415f;
+        GameManager.Inst().Turrets[NumID].HPUI.SetActive(true);
+        GameManager.Inst().Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+        Invoke("HideHPUI", 1.0f);
 
         if (CurHP <= 0)
             Dead();
+    }
+
+    void HideHPUI()
+    {
+        GameManager.Inst().Turrets[NumID].HPUI.SetActive(false);
     }
     
     void Awake()
@@ -114,9 +125,10 @@ public class SubWeapon : MonoBehaviour
         Arrow.SetActive(false);
         IsAlive = true;
         CoolTime = 0;
+        IsInvincible = false;
 
         MaxHP = CurHP = 0;
-        HPBar.fillAmount = 0.415f;
+        GameManager.Inst().Turrets[NumID].HPBar.fillAmount = 0.415f;
     }
 
     void Update()
@@ -140,6 +152,10 @@ public class SubWeapon : MonoBehaviour
             EditMode();
         else
             Fire();
+
+        UIPos = gameObject.transform.position;
+        UIPos.z = 90.0f;
+        GameManager.Inst().Turrets[NumID].transform.position = UIPos;
     }
 
     void SetPosition()
@@ -224,6 +240,7 @@ public class SubWeapon : MonoBehaviour
         IsAlive = false;
         IsDown = false;
 
+        HideHPUI();
         GetComponent<Animator>().SetInteger("Color", 0);
 
         CoolTime = COOLTIME;
@@ -231,8 +248,8 @@ public class SubWeapon : MonoBehaviour
         int id = NumID;
         if (id > 1)
             id--;
-        GameManager.Inst().TxtManager.CoolTimes[id].SetActive(true);
-        GameManager.Inst().TxtManager.SetCoolTimes(id, CoolTime);
+        GameManager.Inst().Turrets[NumID].CoolTime.gameObject.SetActive(true);
+        GameManager.Inst().Turrets[NumID].SetCoolTime(CoolTime);
 
         InvokeRepeating("CheckDead", 1.0f, 1.0f);
     }
@@ -244,20 +261,22 @@ public class SubWeapon : MonoBehaviour
         int id = NumID;
         if (id > 1)
             id--;
-        GameManager.Inst().TxtManager.SetCoolTimes(id, CoolTime);
+        GameManager.Inst().Turrets[NumID].SetCoolTime(CoolTime);
 
         if (CoolTime <= 0)
         {
             IsAlive = true;
+            IsInvincible = true;
             CurHP = MaxHP;
-            HPBar.fillAmount = (float)CurHP / (float)MaxHP * 0.415f;
+            GameManager.Inst().Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
 
             GetComponent<Animator>().SetTrigger("Revive");
             Invoke("ReturnColor", 1.0f);
+            Invoke("ReturnInvincible", 1.0f);
 
             CancelInvoke("CheckDead");
 
-            GameManager.Inst().TxtManager.CoolTimes[id].SetActive(false);
+            GameManager.Inst().Turrets[NumID].CoolTime.gameObject.SetActive(false);
         }
     }
 
@@ -268,6 +287,11 @@ public class SubWeapon : MonoBehaviour
             id--;
 
         GetComponent<Animator>().SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(id) + 1);
+    }
+
+    void ReturnInvincible()
+    {
+        IsInvincible = false;
     }
 
     public void SetSkin()

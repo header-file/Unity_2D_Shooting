@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GameObject RedMask;
     public GameObject Inventory;
     public PlayerHitArea[] PlayerHitAreas;
+    public Turret[] Turrets;
 
     public Player Player;
     public Text CoinText;

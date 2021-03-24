@@ -379,7 +379,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickUpgradeSWBtn()
     {
-        NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().Buy();
+        NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().Buy(CurrentWeapon);
     }
 
     public void OnClickSubWeaponCancel()

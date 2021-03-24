@@ -17,8 +17,10 @@ static class Constants
 
     public const int MAXRARITY = 5;
 
+    public const int MAXPLAYERLEVEL = 30;
     public const int MAXSUBLEVEL = 5;
 
+    public const int PLADATASIZE = 5;
     public const int INVDATASIZE = 5;
     public const int SWDATASIZE = 5;
     public const int WPDATASIZE = 10;

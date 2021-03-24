@@ -280,7 +280,7 @@ public class Player : MonoBehaviour
         IsDead = false;
         IsInvincible = false;
         DeathTimer = 0.0f;
-        CurHP = MaxHP = 10;
+        CurHP = MaxHP = 15;
 
         Shield.SetActive(false);
         TimerImage.gameObject.SetActive(false);
