@@ -246,10 +246,10 @@ public class UIManager : MonoBehaviour
             Timer = 0.0f;
         IsMoveUp = true;
 
-        NewWindows[(int)NewWindowType.WEAPON].SetActive(false);
+        NewWindows[(int)NewWindowType.WEAPON].SetActive(true);
         NewWindows[(int)NewWindowType.DETAIL].SetActive(false);
         NewWindows[(int)NewWindowType.BUYSUBWEAPON].SetActive(false);
-        NewWindows[(int)NewWindowType.INFO].SetActive(true);
+        //NewWindows[(int)NewWindowType.INFO].SetActive(false);
 
         for (int i = 0; i < 5; i++)
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
@@ -273,7 +273,15 @@ public class UIManager : MonoBehaviour
                 break;
         }
 
-        NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().ShowInfo(Type, CurrentBulletType);
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
+            SlotUI[i].Show(i);
+
+        ShowEquipBtn(CurrentBulletType);
+        SetBulletSelected();
+
+        ScrollViewUI.MoveToSelected(CurrentBulletType);
+
+        //NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().ShowInfo(Type, CurrentBulletType);
     }
 
     //public void ShowDetail(int Type)

@@ -303,7 +303,7 @@ public class UpgradeManager : MonoBehaviour
             GameManager.Inst().UiManager.ShowInfoArea(UpgType);
             GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
         }
-        else if(UpgType == (int)UpgradeType.SUBWEAPON)
+        /*else if(UpgType == (int)UpgradeType.SUBWEAPON)
         {
             if (SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex] >= Constants.MAXSUBLEVEL)
                 return;
@@ -353,7 +353,7 @@ public class UpgradeManager : MonoBehaviour
             PlayerLevel++;
             GameManager.Inst().Player.SetCurHP(GameManager.Inst().Player.GetCurHP() + 5);
             GameManager.Inst().Player.SetMaxHP(PlayerLevel * 5);
-        }
+        }*/
     }
 
     public void AddSW(int curIndex)

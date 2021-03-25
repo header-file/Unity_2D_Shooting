@@ -347,7 +347,7 @@ public class ObjectManager : MonoBehaviour
         SideMenuSlotNotYets = new GameObject[5];
         SideMenuSlotCleareds = new GameObject[5];
 
-        Explosions = new GameObject[20];
+        Explosions = new GameObject[50];
         Hits = new GameObject[50];
         EquipPopsW = new GameObject[5];
         EquipPopsG = new GameObject[5];

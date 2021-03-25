@@ -135,8 +135,12 @@ public class SubWeapon : MonoBehaviour
     {
         if(!IsMoving)
             SetPosition();
-        
-         if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
+
+        UIPos = gameObject.transform.position;
+        UIPos.z = 90.0f;
+        GameManager.Inst().Turrets[NumID].transform.position = UIPos;
+
+        if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
             return;
 
         if (IsDown)
@@ -152,10 +156,6 @@ public class SubWeapon : MonoBehaviour
             EditMode();
         else
             Fire();
-
-        UIPos = gameObject.transform.position;
-        UIPos.z = 90.0f;
-        GameManager.Inst().Turrets[NumID].transform.position = UIPos;
     }
 
     void SetPosition()

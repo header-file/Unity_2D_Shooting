@@ -16,6 +16,11 @@ public class Info : MonoBehaviour
 
     int CharacterType;
 
+    void Start()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void SetColorSelected(int index)
     {
         for (int i = 0; i < GameManager.Inst().ShtManager.MAXCOLOR; i++)
