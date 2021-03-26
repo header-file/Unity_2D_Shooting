@@ -214,7 +214,7 @@ public class GameData
                     eq.Value = Inventories[Constants.INVDATASIZE * i + (int)InvData.VALUE];
                     eq.Quantity = Inventories[Constants.INVDATASIZE * i + (int)InvData.AMOUNT];
                     eq.UID = Inventories[Constants.INVDATASIZE * i + (int)InvData.ID];
-                    eq.Icon = GameManager.Inst().UiManager.FoodImages[eq.Type];
+                    eq.Icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
 
                     GameManager.Inst().Player.AddItem(eq);
                 }

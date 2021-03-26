@@ -6,6 +6,7 @@ public class Missile : Bullet
 {
     public GameObject Target;
     public GameObject SearchArea;
+    public TrailRenderer Trail;
     
     Vector3 InitPos;
     Rigidbody2D Rig;
@@ -57,5 +58,10 @@ public class Missile : Bullet
     public void ResetTarget()
     {
         Target = null;
+    }
+
+    void OnDisable()
+    {
+        Trail.Clear();
     }
 }

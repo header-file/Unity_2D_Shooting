@@ -134,7 +134,7 @@ public class Synthesis : MonoBehaviour
             {
                 if (eq.Rarity < Constants.MAXRARITY - 1)
                 {
-                    Sprite icon = eq.Icon;
+                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
                     InventorySlot slot = Inventories.GetSlot(i);
                     slot.gameObject.SetActive(true);
 
@@ -155,7 +155,7 @@ public class Synthesis : MonoBehaviour
                 }
                 else
                 {
-                    Sprite icon = eq.Icon;
+                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
                     //InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(i));
                     InventorySlot slot = Inventories.GetSlot(i);
                     slot.gameObject.SetActive(true);
@@ -192,7 +192,7 @@ public class Synthesis : MonoBehaviour
             {
                 if (eq.Rarity == grade)
                 {
-                    Sprite icon = eq.Icon;
+                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
                     InventorySlot slot = Inventories.GetSlot(i);
                     slot.gameObject.SetActive(true);
 
@@ -213,7 +213,7 @@ public class Synthesis : MonoBehaviour
                 }
                 else
                 {
-                    Sprite icon = eq.Icon;
+                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
                     InventorySlot slot = Inventories.GetSlot(i);
                     slot.gameObject.SetActive(true);
 

@@ -234,7 +234,7 @@ public class Weapon : MonoBehaviour
             {
                 if (eq.Type == type)
                 {
-                    Sprite icon = eq.Icon;
+                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
                     InventorySlot slot = Inventories.GetSlot(i);
                     slot.gameObject.SetActive(true);
 
@@ -246,7 +246,7 @@ public class Weapon : MonoBehaviour
                 }
                 else
                 {
-                    Sprite icon = eq.Icon;
+                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
                     InventorySlot slot = Inventories.GetSlot(i);
                     slot.gameObject.SetActive(true);
 

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public StageManager StgManager;
     public QuestManager QstManager;
     public DataManager DatManager;
+    public ShakeManager ShkManager;
 
     public CameraShake Camerashake;
     public GameObject RedMask;

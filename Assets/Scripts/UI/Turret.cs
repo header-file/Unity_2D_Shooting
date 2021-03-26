@@ -8,6 +8,7 @@ public class Turret : MonoBehaviour
     public GameObject HPUI;
     public Image HPBar;
     public Text CoolTime;
+    public ObjectShake Shaker;
 
     void Awake()
     {

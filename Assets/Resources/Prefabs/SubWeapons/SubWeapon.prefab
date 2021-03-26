@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 2112782486676167688}
   - component: {fileID: 2112782486676167689}
   - component: {fileID: 7054146460127819170}
+  - component: {fileID: 6421222577775943498}
   - component: {fileID: 7303219824183616032}
   m_Layer: 0
   m_Name: SubWeapon
@@ -197,7 +198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112782486676167694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.064968824, y: 0.79762316, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8331483036406063124}
@@ -282,6 +283,21 @@ MonoBehaviour:
   Arrow: {fileID: 1585980831026961989}
   Shield: {fileID: 1689440040409741716}
   Booster: {fileID: 7478689161338190899}
+  Shaker: {fileID: 6421222577775943498}
+--- !u!114 &6421222577775943498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112782486676167694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cee8f19126b89f4581de6d88ba25ef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 1
+  Scale: 0.3
 --- !u!95 &7303219824183616032
 Animator:
   serializedVersion: 3
@@ -15081,7 +15097,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6634275570479660292}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.68, z: 0}
+  m_LocalPosition: {x: 0, y: 6.3, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 2112782486676167690}
@@ -15634,7 +15650,7 @@ PrefabInstance:
     - target: {fileID: -3679125442788505811, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.009489834
+      value: -0.009489775
       objectReference: {fileID: 0}
     - target: {fileID: -3679125442788505811, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}

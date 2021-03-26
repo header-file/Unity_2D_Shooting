@@ -151,7 +151,7 @@ public class Enemy : MonoBehaviour
             
             CurHP = Health;
 
-            GameManager.Inst().Camerashake.Vibrate(0.05f);
+            //GameManager.Inst().Camerashake.Vibrate(0.05f);
             if (Type != EnemyType.BOSS)
             {
                 GameManager.Inst().StgManager.AddBossCount();
@@ -297,7 +297,7 @@ public class Enemy : MonoBehaviour
         else if(collision.gameObject.name == "Bottom")
         {
             GameManager.Inst().RedMask.gameObject.GetComponent<RedMask>().SetIsAlert(true);
-            GameManager.Inst().Camerashake.Vibrate(0.05f);
+            //GameManager.Inst().Camerashake.Vibrate(0.05f);
             
             //아군 피격
             for(int i = 0; i < 5; i++)
@@ -316,7 +316,7 @@ public class Enemy : MonoBehaviour
             CurHP = Health;
             gameObject.SetActive(false);
 
-            GameManager.Inst().Camerashake.Vibrate(0.05f);
+            //GameManager.Inst().Camerashake.Vibrate(0.05f);
         }
     }
 

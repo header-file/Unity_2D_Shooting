@@ -16,6 +16,7 @@ static class Constants
     public const int MAXBULLETS = 7;
 
     public const int MAXRARITY = 5;
+    public const int MAXREINFORCETYPE = 3;
 
     public const int MAXPLAYERLEVEL = 30;
     public const int MAXSUBLEVEL = 5;

@@ -15,7 +15,8 @@ public class SubWeapon : MonoBehaviour
     public GameObject ChargePos;
     public GameObject Arrow;
     public GameObject Shield;
-    public GameObject Booster; 
+    public GameObject Booster;
+    public ObjectShake Shaker;
 
     int BulletType;
     int DownCount;
@@ -29,6 +30,7 @@ public class SubWeapon : MonoBehaviour
     int NumID;
     int CoolTime;
     bool IsInvincible;
+    bool IsShaking;
 
     const int COOLTIME = 5;
     int MaxHP;
@@ -95,6 +97,11 @@ public class SubWeapon : MonoBehaviour
         }
 
         CurHP -= damage;
+
+        //Shake
+        IsShaking = true;
+        GameManager.Inst().ShkManager.Damage();
+
         IsInvincible = true;
         Invoke("ReturnInvincible", 0.1f);
 
@@ -126,6 +133,7 @@ public class SubWeapon : MonoBehaviour
         IsAlive = true;
         CoolTime = 0;
         IsInvincible = false;
+        IsShaking = false;
 
         MaxHP = CurHP = 0;
         GameManager.Inst().Turrets[NumID].HPBar.fillAmount = 0.415f;
@@ -133,7 +141,7 @@ public class SubWeapon : MonoBehaviour
 
     void Update()
     {
-        if(!IsMoving)
+        if(!IsMoving || !IsShaking)
             SetPosition();
 
         UIPos = gameObject.transform.position;
@@ -292,6 +300,7 @@ public class SubWeapon : MonoBehaviour
     void ReturnInvincible()
     {
         IsInvincible = false;
+        IsShaking = false;
     }
 
     public void SetSkin()

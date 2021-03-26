@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     public Text TimerText;
     public GameObject HPUI;
     public Image HPBar;
+    public ObjectShake Shaker;
 
     public int SortOption;
 
@@ -358,6 +359,9 @@ public class Player : MonoBehaviour
         }
 
         CurHP -= damage;
+
+        //Shake
+        GameManager.Inst().ShkManager.Damage();
 
         HPUI.SetActive(true);
         HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
