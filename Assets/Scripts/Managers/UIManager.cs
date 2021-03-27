@@ -718,6 +718,15 @@ public class UIManager : MonoBehaviour
         SetBulletSelected();
     }
 
+    public void OnClickChangeEquipBtn()
+    {
+        int num = ScrollViewUI.OnClickYesBtn();
+
+        CurrentBulletType = num;
+
+        SetBulletSelected();
+    }
+
     public void OnClickHomeBtn()
     {
         if (StageScroll.activeSelf)

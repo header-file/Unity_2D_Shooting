@@ -303,7 +303,7 @@ public class UpgradeManager : MonoBehaviour
             GameManager.Inst().UiManager.ShowInfoArea(UpgType);
             GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
         }
-        /*else if(UpgType == (int)UpgradeType.SUBWEAPON)
+        else if(UpgType == (int)UpgradeType.SUBWEAPON)
         {
             if (SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex] >= Constants.MAXSUBLEVEL)
                 return;
@@ -338,7 +338,7 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
             GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
         }
-        else
+        /*else
         {
             //레벨
             if (PlayerLevel >= Constants.MAXPLAYERLEVEL)
@@ -367,8 +367,8 @@ public class UpgradeManager : MonoBehaviour
         GameManager.Inst().SetSubWeapons(sub, curIndex);
         GameManager.Inst().SetHitAreas(subWeapon, curIndex);
 
-        if (index > 1)
-            index++;
+        //if (index > 1)
+        //    index++;
         sub.SetNumID(index);
 
         for(int i = 0; i < Constants.MAXBULLETS; i++)

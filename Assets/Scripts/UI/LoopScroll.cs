@@ -9,6 +9,7 @@ public class LoopScroll : MonoBehaviour
     public RectTransform[] Slots;
     public RectTransform[] Centers;    //Center To Compare the distance for each buttons
     public ActivationTimer ErrorMsg;
+    public GameObject ChangeMsg;
 
     float[] Distances;              //Distance of buttons compare to Center
     float[] DistReposition;
@@ -20,6 +21,9 @@ public class LoopScroll : MonoBehaviour
     int CurrentCharacter;           //Selected Character
     float Timer;
     const float TickCount = 1.0f / 60.0f;
+
+    int[] CurrentNum;
+    int[] SelectedNum;
 
     public void SetCurrentCharacter(int i) { CurrentCharacter = i; }
 
@@ -34,6 +38,14 @@ public class LoopScroll : MonoBehaviour
 
         CurrentCharacter = 2;
         Timer = 0.0f;
+
+        CurrentNum = new int[2];
+        for (int i = 0; i < 2; i++)
+            CurrentNum[i] = -1;
+        SelectedNum = new int[2];
+        for (int i = 0; i < 2; i++)
+            SelectedNum[i] = -1;
+        ChangeMsg.SetActive(false);
     }
 
     void Update()
@@ -107,8 +119,15 @@ public class LoopScroll : MonoBehaviour
     {
         if(GameManager.Inst().Player.GetBulletType() == MinBtnNum)
         {
-            ErrorMsg.gameObject.SetActive(true);
-            ErrorMsg.IsStart = true;
+            CurrentNum[0] = CurrentCharacter;
+            if (CurrentCharacter > 2)
+                CurrentNum[1] = GameManager.Inst().GetSubweapons(CurrentCharacter - 1).GetBulletType();
+            else
+                CurrentNum[1] = GameManager.Inst().GetSubweapons(CurrentCharacter).GetBulletType();
+            SelectedNum[0] = 2;
+            SelectedNum[1] = GameManager.Inst().Player.GetBulletType();
+
+            ChangeMsg.SetActive(true);
             return -1;
         }
         else
@@ -116,19 +135,78 @@ public class LoopScroll : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 if (GameManager.Inst().GetSubweapons(i) == null)
-                    break;
+                    continue;
+
                 if(GameManager.Inst().GetSubweapons(i).GetBulletType() == MinBtnNum)
                 {
-                    ErrorMsg.gameObject.SetActive(true);
-                    ErrorMsg.IsStart = true;
+                    CurrentNum[0] = CurrentCharacter;
+                    if (CurrentCharacter == 2)
+                        CurrentNum[1] = GameManager.Inst().Player.GetBulletType();
+                    else
+                    {
+                        if (CurrentCharacter > 2)
+                            CurrentNum[1] = GameManager.Inst().GetSubweapons(CurrentCharacter - 1).GetBulletType();
+                        else
+                            CurrentNum[1] = GameManager.Inst().GetSubweapons(CurrentCharacter).GetBulletType();
+                    }
+
+                    SelectedNum[1] = GameManager.Inst().GetSubweapons(i).GetBulletType();
+                    if (i >= 2)
+                        SelectedNum[0] = i + 1;
+                    else
+                        SelectedNum[0] = i;
+
+                    ChangeMsg.SetActive(true);
                     return -1;
                 }
             }
         }
-        
 
         GameManager.Inst().UiManager.SelectBullet(MinBtnNum);
 
         return MinBtnNum;
+    }
+
+    public int OnClickYesBtn()
+    {
+        if(CurrentNum[0] == 2)
+        {
+            GameManager.Inst().Player.SetBulletType(SelectedNum[1]);
+
+            if (SelectedNum[0] > 2)
+                GameManager.Inst().GetSubweapons(SelectedNum[0] - 1).SetBulletType(CurrentNum[1]);
+            else
+                GameManager.Inst().GetSubweapons(SelectedNum[0]).SetBulletType(CurrentNum[1]);
+        }
+        else 
+        {
+            if (CurrentNum[0] > 2)
+                GameManager.Inst().GetSubweapons(CurrentNum[0] - 1).SetBulletType(SelectedNum[1]);
+            else
+                GameManager.Inst().GetSubweapons(CurrentNum[0]).SetBulletType(SelectedNum[1]);
+
+            if (SelectedNum[0] == 2)
+                GameManager.Inst().Player.SetBulletType(CurrentNum[1]);
+            else if (SelectedNum[0] > 2)
+                GameManager.Inst().GetSubweapons(SelectedNum[0] - 1).SetBulletType(CurrentNum[1]);
+            else
+                GameManager.Inst().GetSubweapons(SelectedNum[0]).SetBulletType(CurrentNum[1]);
+        }
+
+        int temp = SelectedNum[1];
+        OnClickNoBtn();
+
+        return temp;
+    }
+
+    public void OnClickNoBtn()
+    {
+        for (int i = 0; i < 2; i++)
+            CurrentNum[i] = -1;
+        SelectedNum = new int[2];
+        for (int i = 0; i < 2; i++)
+            SelectedNum[i] = -1;
+
+        ChangeMsg.SetActive(false);
     }
 }

@@ -71,12 +71,14 @@ public class SubWeapon : MonoBehaviour
         IsBoss = false;
         IsMoving = true;
 
-        int index = NumID;
-        if (index > 2)
-            index--;
-        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position, Time.deltaTime * 3.0f);
+        //int index = NumID;
+        //if (index > 2)
+        //    index--;
+        //transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position, Time.deltaTime * 3.0f);
+        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UpgManager.SubPositions[NumID].transform.position, Time.deltaTime * 3.0f);
 
-        if (Vector3.Distance(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position) > 0.001f)
+        //if (Vector3.Distance(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position) > 0.001f)
+        if (Vector3.Distance(transform.position, GameManager.Inst().UpgManager.SubPositions[NumID].transform.position) > 0.001f)
             Invoke("EndBossMode", Time.deltaTime);
         else
         {
@@ -146,7 +148,10 @@ public class SubWeapon : MonoBehaviour
 
         UIPos = gameObject.transform.position;
         UIPos.z = 90.0f;
-        GameManager.Inst().Turrets[NumID].transform.position = UIPos;
+        //if(NumID > 1)
+        //    GameManager.Inst().Turrets[NumID - 1].transform.position = UIPos;
+        //else
+            GameManager.Inst().Turrets[NumID].transform.position = UIPos;
 
         if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
             return;
@@ -170,20 +175,22 @@ public class SubWeapon : MonoBehaviour
     {
         if(IsBoss)
         {
-            int index = NumID;
-            if (index > 2)
-                index--;
+            //int index = NumID;
+            //if (index > 2)
+            //    index--;
             float speed = 5.0f;
-            if (index == 0 || index == 3)
+            //if (index == 0 || index == 3)
+            if(NumID == 0 || NumID == 3)
                 speed = 4.0f;
-            transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.BossSubPoses[index].transform.position, Time.deltaTime * speed);
+            //transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.BossSubPoses[index].transform.position, Time.deltaTime * speed);
+            transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.BossSubPoses[NumID].transform.position, Time.deltaTime * speed);
         } 
         else
         {
-            int index = NumID;
-            if (index > 2)
-                index--;
-            transform.position = GameManager.Inst().UpgManager.SubPositions[index].transform.position;
+            //int index = NumID;
+            //if (index > 2)
+            //    index--;
+            transform.position = GameManager.Inst().UpgManager.SubPositions[NumID].transform.position;
         }
         
     }
@@ -253,9 +260,9 @@ public class SubWeapon : MonoBehaviour
 
         CoolTime = COOLTIME;
         
-        int id = NumID;
-        if (id > 1)
-            id--;
+        //int id = NumID;
+        //if (id > 1)
+        //    id--;
         GameManager.Inst().Turrets[NumID].CoolTime.gameObject.SetActive(true);
         GameManager.Inst().Turrets[NumID].SetCoolTime(CoolTime);
 
@@ -266,9 +273,9 @@ public class SubWeapon : MonoBehaviour
     {
         CoolTime -= 1;
 
-        int id = NumID;
-        if (id > 1)
-            id--;
+        //int id = NumID;
+        //if (id > 1)
+        //    id--;
         GameManager.Inst().Turrets[NumID].SetCoolTime(CoolTime);
 
         if (CoolTime <= 0)
@@ -292,7 +299,7 @@ public class SubWeapon : MonoBehaviour
     {
         int id = NumID;
         if (id > 1)
-            id--;
+            id++;
 
         GetComponent<Animator>().SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(id) + 1);
     }
@@ -324,6 +331,12 @@ public class SubWeapon : MonoBehaviour
         if (IsEditMode)
             EndEditMode();
         else
-            GameManager.Inst().UiManager.OnClickManageBtn(NumID);
+        {
+            int id = NumID;
+            if (id > 1)
+                id++;
+
+            GameManager.Inst().UiManager.OnClickManageBtn(id);
+        }
     }
 }

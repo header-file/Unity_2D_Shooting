@@ -79,7 +79,7 @@ public class ShootingManager : MonoBehaviour
                 break;
 
             case Bullet.BulletType.CHAIN:
-                Chain(rarity, colorIndex, ID);
+                Chain(rarity, colorIndex);
                 break;
         }
     }
@@ -100,9 +100,9 @@ public class ShootingManager : MonoBehaviour
         else if (Shooter.gameObject.tag == "SubWeapon")
         {
             SubWeapon sub;
-            if (ID > 1)
-                sub = GameManager.Inst().GetSubweapons(ID - 1);
-            else
+            //if (ID > 1)
+            //    sub = GameManager.Inst().GetSubweapons(ID - 1);
+            //else
                 sub = GameManager.Inst().GetSubweapons(ID);
             
             for (int j = 0; j < 5; j++)
@@ -284,7 +284,7 @@ public class ShootingManager : MonoBehaviour
         bullet.SetStart();
     }
 
-    void Chain(int Rarity, int Index, int ShooterID)
+    void Chain(int Rarity, int Index)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Chain", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
