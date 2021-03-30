@@ -26,6 +26,7 @@ public class UpgradeManager : MonoBehaviour
         }
         public void SetBaseDamage(int damage) { BaseDamage = damage; }
         public void SetRarity(int rare) { Rarity = rare; }
+        public void SetHealth(int hp) { Health = hp; }
         public void SetSpeed(float velocity) { Speed = velocity; }
         public void SetReloadTime(float Time) { ReloadTime = Time; }
         public void SetDuration(float Time) { Duration = Time; }
@@ -59,6 +60,7 @@ public class UpgradeManager : MonoBehaviour
 
         public int GetMaxBulletLevel() { return MaxBulletLevel * (Rarity + 1); }
         public int GetPowerLevel() { return PowerLevel; }
+        public int GetHealth() { return Health; }
         public int GetPrice() { return Price; }
         public int GetAtk() { return Atk; }
         public int GetHp() { return Hp; }
@@ -82,6 +84,8 @@ public class UpgradeManager : MonoBehaviour
             Price = 10;
             Rarity = 0;
 
+            Health = 10;
+
             ReloadTime = 0.0f;
             Duration = 0.0f;
             Speed = 0.0f;
@@ -104,6 +108,7 @@ public class UpgradeManager : MonoBehaviour
             Duration = float.Parse(data[index]["Duration"].ToString());
             Speed = float.Parse(data[index]["Speed"].ToString());
             Rarity = index / Constants.MAXBULLETS;
+            Health = 10;
             MaxAtk = 0;
             MaxHp = 0;
             MaxSpd = 0;
@@ -115,6 +120,8 @@ public class UpgradeManager : MonoBehaviour
         private int BaseDamage;
         private int Price;
         private int Rarity;
+
+        private int Health;
 
         private float Speed;
         private float ReloadTime;
@@ -296,6 +303,7 @@ public class UpgradeManager : MonoBehaviour
             //BData 처리
             BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() + 1);
             BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel()]);
+            BData[UpgType].SetHealth(BData[UpgType].GetHealth() + 5);
 
             //UI
             GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
