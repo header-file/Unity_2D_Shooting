@@ -32,7 +32,7 @@ public class SubWeapon : MonoBehaviour
     bool IsInvincible;
     bool IsShaking;
 
-    const int COOLTIME = 5;
+    const int COOLTIME = 90;
     int MaxHP;
     int CurHP;
 

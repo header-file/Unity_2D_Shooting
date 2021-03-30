@@ -45,7 +45,7 @@ public class InventoryScroll : MonoBehaviour
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
             if (eq != null)
             {
-                Sprite icon = eq.Icon;
+                Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
                 InventorySlot slot = GetSlot(i);
 
                 slot.GetNotExist().SetActive(false);

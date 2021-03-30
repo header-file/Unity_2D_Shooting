@@ -573,8 +573,12 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSynthesisBtn()
     {
+        OnClickHomeBtn();
+
         InventoryDetail.SetActive(false);
         Inventory.SetActive(false);
+
+        ZzinBottomUI.HomeIcon.alpha = 1.0f;
 
         Synthesis.SetActive(true);
         SynthesisUI.ShowInventory();
@@ -735,5 +739,18 @@ public class UIManager : MonoBehaviour
             OnClickWeaponBackBtn();
         if (Inventory.activeSelf)
             OnClickInventoryBackBtn();
+        if (Synthesis.activeSelf)
+            OnClickSynthesisBackBtn();
+    }
+
+    public void OnClickWeaponInfoBtn()
+    {
+        if (!WeaponUI.InfoWindow.gameObject.activeSelf)
+        {
+            WeaponUI.InfoWindow.gameObject.SetActive(true);
+            WeaponUI.InfoWindow.Show(CurrentBulletType);
+        }
+        else
+            WeaponUI.InfoWindow.gameObject.SetActive(false);
     }
 }

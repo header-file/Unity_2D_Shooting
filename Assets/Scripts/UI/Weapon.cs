@@ -13,6 +13,7 @@ public class Weapon : MonoBehaviour
     public SpriteResolver[] Skins;
     public SwitchWindow EquipArea;
     public Color GaugeColor;
+    public WeaponInfoWindow InfoWindow;
 
     InventoryScroll Inventories;
     Player.EqData CurEquip;
