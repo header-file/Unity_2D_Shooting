@@ -291,6 +291,9 @@ public class UpgradeManager : MonoBehaviour
                 if (BData[UpgType].GetDuration() != BData[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration())
                     BData[UpgType].SetDuration(BData[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration());
 
+                //HP적용
+                SetHPData(UpgType);
+
                 return;
             }
 
@@ -422,6 +425,21 @@ public class UpgradeManager : MonoBehaviour
         BData[i].SetMaxAtk(WeaponReinforceMaxData[i, BData[i].GetRarity(), 0]);
         BData[i].SetMaxHp(WeaponReinforceMaxData[i, BData[i].GetRarity(), 1]);
         BData[i].SetMaxSpd(WeaponReinforceMaxData[i, BData[i].GetRarity(), 2]);
+    }
+
+    void SetHPData(int type)
+    {
+        if (type == GameManager.Inst().Player.GetBulletType())
+            GameManager.Inst().Player.SetHPs();
+        else
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                if (GameManager.Inst().GetSubweapons(i) != null &&
+                    type == GameManager.Inst().GetSubweapons(i).GetBulletType())
+                    GameManager.Inst().GetSubweapons(i).SetHPs();
+            }
+        }
     }
 }
 

@@ -25,6 +25,9 @@ public class WeaponInfoWindow : MonoBehaviour
 
         ATKAfter.text = (GameManager.Inst().UpgManager.BData[type].GetDamage() + 1).ToString();
         HPAfter.text = (GameManager.Inst().UpgManager.BData[type].GetHealth() + 5).ToString();
-        SPDAfter.text = (GameManager.Inst().UpgManager.BData[type].GetSpeed()).ToString();
+        if(GameManager.Inst().UpgManager.BData[type].GetPowerLevel() == GameManager.Inst().UpgManager.BData[type].GetMaxBulletLevel())
+            SPDAfter.text = (GameManager.Inst().UpgManager.BData[type + (GameManager.Inst().UpgManager.BData[type].GetRarity() + 1) * Constants.MAXBULLETS].GetSpeed()).ToString();
+        else
+            SPDAfter.text = GameManager.Inst().UpgManager.BData[type].GetSpeed().ToString();
     }
 }

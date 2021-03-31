@@ -51,6 +51,15 @@ public class SubWeapon : MonoBehaviour
     {
         BulletType = T;
         SetSkin();
+
+        SetHPs();
+    }
+
+    public void SetHPs()
+    {
+        int dam = MaxHP - CurHP;
+        MaxHP = GameManager.Inst().UpgManager.BData[BulletType].GetHealth() + GameManager.Inst().UpgManager.BData[BulletType].GetHp();
+        CurHP = MaxHP - dam;
     }
 
     public void ShowShield()

@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
     public int GetMaxHP() { return MaxHP; }
     public int GetCurHP() { return CurHP; }
 
+    
     public void SetMaxHP(int hp) { MaxHP = hp; }
     public void SetCurHP(int hp) { CurHP = hp; }
     public void SetSubWeapon(GameObject obj, int index) { SubWeapons[index] = obj; }
@@ -85,6 +86,15 @@ public class Player : MonoBehaviour
     {
         BulletType = type;
         SetSkin();
+
+        SetHPs();
+    }
+
+    public void SetHPs()
+    {
+        int dam = MaxHP - CurHP;
+        MaxHP = GameManager.Inst().UpgManager.BData[BulletType].GetHealth() + GameManager.Inst().UpgManager.BData[BulletType].GetHp();
+        CurHP = MaxHP - dam;
     }
 
     public void BossMode()
@@ -281,7 +291,7 @@ public class Player : MonoBehaviour
         IsDead = false;
         IsInvincible = false;
         DeathTimer = 0.0f;
-        CurHP = MaxHP = 15;
+        CurHP = MaxHP = 0;
 
         Shield.SetActive(false);
         TimerImage.gameObject.SetActive(false);
