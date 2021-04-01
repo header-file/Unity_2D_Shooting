@@ -44,6 +44,8 @@ public class StageManager : MonoBehaviour
         IsFeverMode = false;
 
         SetUnlockData();
+
+        DontDestroyOnLoad(gameObject);
     }
 
     void SetUnlockData()
@@ -68,14 +70,7 @@ public class StageManager : MonoBehaviour
         if (!IsBoss)
         {
             BossCount[Stage]++;
-            float percent = (float)BossCount[Stage] / BossMax;
-            BossGaugeBar.fillAmount = percent;
-
-            if (!IsFeverMode && percent >= 0.4f && percent < 0.6f)
-                FeverMode();
-            if (IsFeverMode && percent > 0.6f)
-                EndFeverMode();
-
+            FillGauge();
 
             if (BossCount[Stage] >= BossMax)
             {
@@ -91,6 +86,17 @@ public class StageManager : MonoBehaviour
                 GroundDown();
             }
         }
+    }
+
+    public void FillGauge()
+    {
+        float percent = (float)BossCount[Stage] / BossMax;
+        BossGaugeBar.fillAmount = percent;
+
+        if (!IsFeverMode && percent >= 0.4f && percent < 0.6f)
+            FeverMode();
+        if (IsFeverMode && percent > 0.6f)
+            EndFeverMode();
     }
 
     public void SetTimeData(List<Dictionary<string, object>> data)

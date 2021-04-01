@@ -35,6 +35,8 @@ public class QuestManager : MonoBehaviour
         Quests = new Dictionary<int, QuestData>();
         GenerateData();
         IsOpen = false;
+
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()

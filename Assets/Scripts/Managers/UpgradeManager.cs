@@ -212,6 +212,8 @@ public class UpgradeManager : MonoBehaviour
         CurrentSubWeaponIndex = -1;
 
         PlayerLevel = 1;
+
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()

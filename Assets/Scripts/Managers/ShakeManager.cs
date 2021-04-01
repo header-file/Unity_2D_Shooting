@@ -8,6 +8,10 @@ public class ShakeManager : MonoBehaviour
     public float ShakeScale;
     public float ShakeTime = 0.05f;
 
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void Damage()
     {

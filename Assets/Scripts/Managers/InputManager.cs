@@ -17,6 +17,10 @@ public class InputManager : MonoBehaviour
     public void SetIsAbleControl(bool b) { IsAbleControl = b; }
     public void SetIsAbleSWControl(bool b) { IsAbleSWControl = b; }
 
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Start()
     {

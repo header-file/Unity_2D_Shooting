@@ -24,6 +24,11 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         LoadData();

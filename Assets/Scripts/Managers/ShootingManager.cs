@@ -33,6 +33,8 @@ public class ShootingManager : MonoBehaviour
         Colors = new Color[MAXCOLOR];
         ColorSelection = new int[5];
         SetColor();
+
+        DontDestroyOnLoad(gameObject);
     }
 
     void SetColor()

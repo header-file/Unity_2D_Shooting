@@ -122,6 +122,8 @@ public class UIManager : MonoBehaviour
         StageScrollUI = StageScroll.GetComponent<StageLoop>();
         InfoAreaUI = InfoArea.GetComponent<InfoArea>();
         ZzinBottomUI = ZzinBottom.GetComponent<ZzinBottom>();
+
+        DontDestroyOnLoad(gameObject);
     }
 
     void Update()

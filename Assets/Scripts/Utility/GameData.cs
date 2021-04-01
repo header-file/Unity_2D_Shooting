@@ -156,7 +156,13 @@ public class GameData
 
         if (BossGauges.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
+            {
                 GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
+
+                if (i == GameManager.Inst().StgManager.Stage)
+                    GameManager.Inst().StgManager.FillGauge();
+            }
+                
         else
             BossGauges = new int[Constants.MAXSTAGES];
 
