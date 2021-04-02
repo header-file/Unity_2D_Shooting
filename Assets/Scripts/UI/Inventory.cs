@@ -22,7 +22,7 @@ public class Inventory : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        Inventories = GameManager.Inst().Inventory.GetComponent<InventoryScroll>();
+        Inventories = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(0);
 

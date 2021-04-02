@@ -117,7 +117,7 @@ public class Synthesis : MonoBehaviour
 
     public void ShowInventory()
     {
-        Inventories = GameManager.Inst().Inventory.GetComponent<InventoryScroll>();
+        Inventories = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(2);
 

@@ -119,8 +119,8 @@ public class SubWeapon : MonoBehaviour
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
         hit.transform.position = transform.position;
 
-        GameManager.Inst().Turrets[NumID].HPUI.SetActive(true);
-        GameManager.Inst().Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+        GameManager.Inst().UiManager.Turrets[NumID].HPUI.SetActive(true);
+        GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
         Invoke("HideHPUI", 1.0f);
 
         if (CurHP <= 0)
@@ -129,7 +129,7 @@ public class SubWeapon : MonoBehaviour
 
     void HideHPUI()
     {
-        GameManager.Inst().Turrets[NumID].HPUI.SetActive(false);
+        GameManager.Inst().UiManager.Turrets[NumID].HPUI.SetActive(false);
     }
     
     void Awake()
@@ -147,7 +147,7 @@ public class SubWeapon : MonoBehaviour
         IsShaking = false;
 
         MaxHP = CurHP = 0;
-        GameManager.Inst().Turrets[NumID].HPBar.fillAmount = 0.415f;
+        GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = 0.415f;
     }
 
     void Update()
@@ -160,7 +160,7 @@ public class SubWeapon : MonoBehaviour
         //if(NumID > 1)
         //    GameManager.Inst().Turrets[NumID - 1].transform.position = UIPos;
         //else
-            GameManager.Inst().Turrets[NumID].transform.position = UIPos;
+            GameManager.Inst().UiManager.Turrets[NumID].transform.position = UIPos;
 
         if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
             return;
@@ -272,8 +272,8 @@ public class SubWeapon : MonoBehaviour
         //int id = NumID;
         //if (id > 1)
         //    id--;
-        GameManager.Inst().Turrets[NumID].CoolTime.gameObject.SetActive(true);
-        GameManager.Inst().Turrets[NumID].SetCoolTime(CoolTime);
+        GameManager.Inst().UiManager.Turrets[NumID].CoolTime.gameObject.SetActive(true);
+        GameManager.Inst().UiManager.Turrets[NumID].SetCoolTime(CoolTime);
 
         InvokeRepeating("CheckDead", 1.0f, 1.0f);
     }
@@ -285,14 +285,14 @@ public class SubWeapon : MonoBehaviour
         //int id = NumID;
         //if (id > 1)
         //    id--;
-        GameManager.Inst().Turrets[NumID].SetCoolTime(CoolTime);
+        GameManager.Inst().UiManager.Turrets[NumID].SetCoolTime(CoolTime);
 
         if (CoolTime <= 0)
         {
             IsAlive = true;
             IsInvincible = true;
             CurHP = MaxHP;
-            GameManager.Inst().Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+            GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
 
             GetComponent<Animator>().SetTrigger("Revive");
             Invoke("ReturnColor", 1.0f);
@@ -300,7 +300,7 @@ public class SubWeapon : MonoBehaviour
 
             CancelInvoke("CheckDead");
 
-            GameManager.Inst().Turrets[NumID].CoolTime.gameObject.SetActive(false);
+            GameManager.Inst().UiManager.Turrets[NumID].CoolTime.gameObject.SetActive(false);
         }
     }
 

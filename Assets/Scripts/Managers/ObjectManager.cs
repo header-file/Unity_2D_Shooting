@@ -356,8 +356,6 @@ public class ObjectManager : MonoBehaviour
         EquipPopsY = new GameObject[5];
 
         Generate();
-
-        DontDestroyOnLoad(gameObject);
     }
 
     void Generate()

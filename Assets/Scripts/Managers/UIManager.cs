@@ -38,11 +38,20 @@ public class UIManager : MonoBehaviour
     public GameObject EquipArea;
     public GameObject ZzinBottom;
 
+    //기타 UI
+    public Text CoinText;
+    public Turret[] Turrets;
+    public GameObject RedMask;
+    public PlayerHitArea[] PlayerHitAreas;
+    public GameObject InventoryScroll;
+
     //새 윈도우
     public GameObject[] NewWindows;
 
     public Sprite[] WeaponImages;
     public Sprite[] FoodImages;
+
+    public Weapon WeaponUI;
 
     MainUI MainUi;
     //Detail DetailUI;
@@ -52,7 +61,6 @@ public class UIManager : MonoBehaviour
     Inventory InventoryUI;
     InventoryDetail InvDetailUI;
     //Equip EquipUI;
-    public Weapon WeaponUI;
     Synthesis SynthesisUI;
     SideMenu SideMenuUI;
     StageLoop StageScrollUI;
@@ -82,6 +90,8 @@ public class UIManager : MonoBehaviour
 
     public BuySubWeapon GetBuySWUI() { return BuySWUI; }
 
+    public void SetCoinText(int coin) { CoinText.text = coin.ToString(); }
+    public void SetHitAreas(GameObject sub, int index) { PlayerHitAreas[index].Object = sub; }
     public void SetIsMoveUp(bool b) { IsMoveUp = b; }
 
     void Awake()
@@ -122,8 +132,11 @@ public class UIManager : MonoBehaviour
         StageScrollUI = StageScroll.GetComponent<StageLoop>();
         InfoAreaUI = InfoArea.GetComponent<InfoArea>();
         ZzinBottomUI = ZzinBottom.GetComponent<ZzinBottom>();
+    }
 
-        DontDestroyOnLoad(gameObject);
+    void Start()
+    {
+        PlayerHitAreas[4].Object = GameManager.Inst().Player.gameObject;
     }
 
     void Update()

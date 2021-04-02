@@ -24,13 +24,10 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
-
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
+
         LoadData();
         SaveData();
     }

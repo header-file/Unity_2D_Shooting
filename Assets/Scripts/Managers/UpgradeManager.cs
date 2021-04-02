@@ -212,8 +212,6 @@ public class UpgradeManager : MonoBehaviour
         CurrentSubWeaponIndex = -1;
 
         PlayerLevel = 1;
-
-        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -379,7 +377,7 @@ public class UpgradeManager : MonoBehaviour
         SubWeapon sub = subWeapon.GetComponent<SubWeapon>();
 
         GameManager.Inst().SetSubWeapons(sub, curIndex);
-        GameManager.Inst().SetHitAreas(subWeapon, curIndex);
+        GameManager.Inst().UiManager.SetHitAreas(subWeapon, curIndex);
 
         //if (index > 1)
         //    index++;

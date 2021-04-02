@@ -297,7 +297,7 @@ public class Equip : MonoBehaviour
     {
         SelectableType = 0;
 
-        Inventories = GameManager.Inst().Inventory.GetComponent<InventoryScroll>();
+        Inventories = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(1);
 

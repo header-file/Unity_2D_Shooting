@@ -8,11 +8,6 @@ public class ShakeManager : MonoBehaviour
     public float ShakeScale;
     public float ShakeTime = 0.05f;
 
-    void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
-
     public void Damage()
     {
         BgShaker.Shake(ShakeTime, ShakeScale);
@@ -26,6 +21,6 @@ public class ShakeManager : MonoBehaviour
         }
 
         for (int i = 0; i < 4; i++)
-            GameManager.Inst().Turrets[i].Shaker.Shake(ShakeTime, ShakeScale);
+            GameManager.Inst().UiManager.Turrets[i].Shaker.Shake(ShakeTime, ShakeScale);
     }
 }

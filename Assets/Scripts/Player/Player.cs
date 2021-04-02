@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public class EqData //: IComparable
+    public class EqData
     {
         public Sprite Icon;
         public int Type;
@@ -130,14 +130,14 @@ public class Player : MonoBehaviour
     {
         Coin += c;
 
-        GameManager.Inst().SetCoinText(Coin);
+        GameManager.Inst().UiManager.SetCoinText(Coin);
     }
 
     public void MinusCoin(int c)
     {
         Coin -= c;
 
-        GameManager.Inst().SetCoinText(Coin);
+        GameManager.Inst().UiManager.SetCoinText(Coin);
     }
 
     public int AddItem(Item_Equipment item)
@@ -259,7 +259,7 @@ public class Player : MonoBehaviour
                     continue;
                 else 
                 {
-                    InventoryScroll inven = GameManager.Inst().Inventory.GetComponent<InventoryScroll>();
+                    InventoryScroll inven = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
                     for (int j = i; j > 0; j--)
                     {
                         if(Inventory[j - 1] == null)
@@ -297,12 +297,13 @@ public class Player : MonoBehaviour
         TimerImage.gameObject.SetActive(false);
         HPUI.SetActive(false);
         HPBar.fillAmount = 0.415f;
-        //DontDestroyOnLoad(gameObject);
     }
 
     void Start()
     {
-        GameManager.Inst().SetCoinText(Coin);
+        GameManager.Inst().UiManager.SetCoinText(Coin);
+
+        DontDestroyOnLoad(gameObject);
     }
 
     void Update()

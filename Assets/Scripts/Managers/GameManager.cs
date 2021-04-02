@@ -7,41 +7,35 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager Instance;
 
+    //씬 유지
+    public UpgradeManager UpgManager;
+    public StageManager StgManager;
+    public DataManager DatManager;
+
+    //씬마다 생성
     public ShootingManager ShtManager;
     public ObjectManager ObjManager;
-    public UpgradeManager UpgManager;
     public InputManager IptManager;
     public TextManager TxtManager;
     public UIManager UiManager;
-    public StageManager StgManager;
     public QuestManager QstManager;
-    public DataManager DatManager;
     public ShakeManager ShkManager;
 
-    public CameraShake Camerashake;
-    public GameObject RedMask;
-    public GameObject Inventory;
-    public PlayerHitArea[] PlayerHitAreas;
-    public Turret[] Turrets;
-
     public Player Player;
-    public Text CoinText;
 
-    public int[] SubWID;
+    public int[,] SubWID;
     public int[] Resources;
 
-    SubWeapon[] SubWeapons;
+    SubWeapon[,] SubWeapons;
     
     List<Dictionary<string, object>> DropRateData;
 
 
     public static GameManager Inst() { return Instance; }
-    public SubWeapon GetSubweapons(int index) { return SubWeapons[index]; }
+    public SubWeapon GetSubweapons(int index) { return SubWeapons[StgManager.Stage - 1, index]; }
     public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
-    public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[index] = Sub; }
-    public void SetHitAreas(GameObject sub, int index) { PlayerHitAreas[index].Object = sub; }
-    public void SetCoinText(int Coin) { CoinText.text = Coin.ToString(); }
+    public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[StgManager.Stage - 1, index] = Sub; }
     public void AddResource(int stage, int value) { Resources[stage - 1] += value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
     public void SubtractResource(int index, int value) { Resources[index] -= value; TxtManager.Resources[index].text = Resources[index].ToString(); }
 
@@ -54,10 +48,12 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
+        SetManagers();
+
         Resources = new int[Constants.MAXSTAGES];
 
-        SubWeapons = new SubWeapon[4];
-        SubWID = new int[4];
+        SubWeapons = new SubWeapon[Constants.MAXSTAGES, 4];
+        SubWID = new int[Constants.MAXSTAGES, 4];
 
         StgManager.Stage = 1;
     }
@@ -72,9 +68,17 @@ public class GameManager : MonoBehaviour
         StgManager.BeginStage();
     }
 
-    void Update()
+    public void SetManagers()
     {
-        
+        ShtManager = FindObjectOfType<ShootingManager>();
+        ObjManager = FindObjectOfType<ObjectManager>();
+        IptManager = FindObjectOfType<InputManager>();
+        TxtManager = FindObjectOfType<TextManager>();
+        UiManager = FindObjectOfType<UIManager>();
+        QstManager = FindObjectOfType<QuestManager>();
+        ShkManager = FindObjectOfType<ShakeManager>();
+
+        //Inventory = Find
     }
 
     void SetTexts()
@@ -91,8 +95,6 @@ public class GameManager : MonoBehaviour
     void SetData()
     {
         DropRateData = CSVReader.Read("Datas/DropRate");
-
-
     }
 
     void SetResources()
@@ -188,10 +190,10 @@ public class GameManager : MonoBehaviour
 
     void SetInventory()
     {
-        InventoryScroll inventory = Inventory.GetComponent<InventoryScroll>();
+        InventoryScroll inventory = UiManager.InventoryScroll.GetComponent<InventoryScroll>();
         for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
-            GameObject inventorySlot = GameManager.Inst().ObjManager.MakeObj("InventorySlot");
+            GameObject inventorySlot = Inst().ObjManager.MakeObj("InventorySlot");
             inventorySlot.transform.SetParent(inventory.Contents.transform, false);
             InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
             slot.SetIndex(i);

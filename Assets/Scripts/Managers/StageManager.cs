@@ -44,7 +44,10 @@ public class StageManager : MonoBehaviour
         IsFeverMode = false;
 
         SetUnlockData();
+    }
 
+    void Start()
+    {
         DontDestroyOnLoad(gameObject);
     }
 

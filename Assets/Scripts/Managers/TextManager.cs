@@ -64,8 +64,6 @@ public class TextManager : MonoBehaviour
             BLevels[i] = BulletLevels[i].GetComponent<Text>();
             BPrices[i] = "0";
         }
-
-        DontDestroyOnLoad(gameObject);
     }
 
     void Start()

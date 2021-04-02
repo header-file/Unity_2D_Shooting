@@ -296,7 +296,7 @@ public class Enemy : MonoBehaviour
         }
         else if(collision.gameObject.name == "Bottom")
         {
-            GameManager.Inst().RedMask.gameObject.GetComponent<RedMask>().SetIsAlert(true);
+            GameManager.Inst().UiManager.RedMask.gameObject.GetComponent<RedMask>().SetIsAlert(true);
             //GameManager.Inst().Camerashake.Vibrate(0.05f);
             
             //아군 피격
