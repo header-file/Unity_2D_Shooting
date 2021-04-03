@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StageLoop : MonoBehaviour
 {
@@ -140,5 +141,11 @@ public class StageLoop : MonoBehaviour
         IsDragging = false;
 
         LandingBtn.interactable = false;
+    }
+
+    public void MoveScene()
+    {
+        string sceneName = "Stage" + (MinBtnNum + 1).ToString();
+        SceneManager.LoadScene(sceneName);
     }
 }

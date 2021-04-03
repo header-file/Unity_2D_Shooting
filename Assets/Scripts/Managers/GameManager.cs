@@ -41,12 +41,16 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        GameManager[] objs = FindObjectsOfType<GameManager>();
+        if (objs.Length > 1)
+            Destroy(gameObject);
+        else
+            DontDestroyOnLoad(gameObject);
+
         if (Instance == null)
             Instance = this;
         else
             Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
 
         SetManagers();
 
@@ -77,8 +81,6 @@ public class GameManager : MonoBehaviour
         UiManager = FindObjectOfType<UIManager>();
         QstManager = FindObjectOfType<QuestManager>();
         ShkManager = FindObjectOfType<ShakeManager>();
-
-        //Inventory = Find
     }
 
     void SetTexts()

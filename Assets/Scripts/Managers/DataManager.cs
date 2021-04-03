@@ -24,6 +24,15 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        DataManager[] objs = FindObjectsOfType<DataManager>();
+        if (objs.Length > 1)
+            Destroy(gameObject);
+        else
+            DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         DontDestroyOnLoad(gameObject);

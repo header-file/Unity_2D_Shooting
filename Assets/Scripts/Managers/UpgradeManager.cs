@@ -166,6 +166,12 @@ public class UpgradeManager : MonoBehaviour
 
     void Awake()
     {
+        UpgradeManager[] objs = FindObjectsOfType<UpgradeManager>();
+        if (objs.Length > 1)
+            Destroy(gameObject);
+        else
+            DontDestroyOnLoad(gameObject);
+
         List<Dictionary<string, object>> data = CSVReader.Read("Datas/BulletData");
         BData = new BulletData[Constants.MAXBULLETS * 5];
         for (int i = 0; i < BData.Length; i++)

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,6 +32,12 @@ public class StageManager : MonoBehaviour
 
     void Awake()
     {
+        StageManager[] objs = FindObjectsOfType<StageManager>();
+        if (objs.Length > 1)
+            Destroy(gameObject);
+        else
+            DontDestroyOnLoad(gameObject);
+
         BossCount = new int[Constants.MAXSTAGES];
         for(int i = 0; i < Constants.MAXSTAGES; i++)
             BossCount[i] = 0;

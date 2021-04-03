@@ -768,4 +768,9 @@ public class UIManager : MonoBehaviour
         else
             WeaponUI.InfoWindow.gameObject.SetActive(false);
     }
+
+    public void OnClickLandingBtn()
+    {
+        StageScrollUI.MoveScene();
+    }
 }

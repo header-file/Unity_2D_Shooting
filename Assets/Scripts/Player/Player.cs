@@ -274,6 +274,12 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
+        Player[] objs = FindObjectsOfType<Player>();
+        if (objs.Length > 1)
+            Destroy(gameObject);
+        else
+            DontDestroyOnLoad(gameObject);
+
         Coin = 10000;
         
         IsReload = true;
@@ -302,8 +308,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         GameManager.Inst().UiManager.SetCoinText(Coin);
-
-        DontDestroyOnLoad(gameObject);
     }
 
     void Update()
