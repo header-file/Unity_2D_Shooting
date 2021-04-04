@@ -57,7 +57,6 @@ public class QuestManager : MonoBehaviour
             int objType = qid % 1000 / 100;
 
             Quests.Add(id++, new QuestData(qid, desc, goal, type, objType));
-            CurStageQuests++;
         }
     }
 
@@ -77,6 +76,7 @@ public class QuestManager : MonoBehaviour
                 slot.transform.SetParent(GameManager.Inst().UiManager.GetSideMenuSlot(GameManager.Inst().StgManager.Stage - 1).GetComponent<SideMenuSlot>().ContentTransform, false);
 
                 QuestSlots.Add(slot);
+                CurStageQuests++;
             }
         }
     }
@@ -136,7 +136,7 @@ public class QuestManager : MonoBehaviour
             if (nextStage > Constants.MAXSTAGES)
                 return;
 
-            GameManager.Inst().UiManager.UnlockStage(nextStage);
+            GameManager.Inst().UiManager.UnlockStage(nextStage - 1);
             GameManager.Inst().StgManager.UnlockBullet(nextStage);
             GameManager.Inst().DatManager.GameData.ReachedStage = nextStage;
         }
