@@ -1,18 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
-    public GameObject HPBarCanvas;
-    public Image HPBar;
-    public Text HPBarText;
-    public GameObject BossGauge;
-    public Image BossGaugeBar;
-    public Animator WarningAnim;
-    public GameObject Ground;
-    public GameObject Turrets;
-
     public int Stage = 0;
     public int[] BossCount;
     public bool IsBoss;
@@ -41,9 +31,9 @@ public class StageManager : MonoBehaviour
         BossCount = new int[Constants.MAXSTAGES];
         for(int i = 0; i < Constants.MAXSTAGES; i++)
             BossCount[i] = 0;
-        HPBarCanvas.SetActive(false);
+        GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(false);
         BossMax = 50;
-        BossGauge.SetActive(true);
+        GameManager.Inst().UiManager.BossGauge.SetActive(true);
         Ground_Up = new Vector3(0.0f, -0.8f, 0.0f);
         Ground_Down = new Vector3(0.0f, -6.0f, 0.0f);
         IsFeverMode = false;
@@ -54,6 +44,11 @@ public class StageManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+    }
+
+    void Update()
+    {
+        
     }
 
     void SetUnlockData()
@@ -84,11 +79,11 @@ public class StageManager : MonoBehaviour
             {
                 IsBoss = true;
                 BossTimer = Constants.MAXBOSSTIME;
-                BossGauge.SetActive(false);
+                GameManager.Inst().UiManager.BossGauge.SetActive(false);
                 BossCount[Stage] = 0;
-                BossGaugeBar.fillAmount = (float)BossCount[Stage] / BossMax;
+                GameManager.Inst().UiManager.BossGaugeBar.fillAmount = (float)BossCount[Stage] / BossMax;
                 CancelEnemies();
-                WarningAnim.SetTrigger("Start");
+                GameManager.Inst().UiManager.WarningAnim.SetTrigger("Start");
                 Invoke("SpawnBoss", 2.5f);
                 GameManager.Inst().Player.BossMode();
                 GroundDown();
@@ -99,7 +94,7 @@ public class StageManager : MonoBehaviour
     public void FillGauge()
     {
         float percent = (float)BossCount[Stage] / BossMax;
-        BossGaugeBar.fillAmount = percent;
+        GameManager.Inst().UiManager.BossGaugeBar.fillAmount = percent;
 
         if (!IsFeverMode && percent >= 0.4f && percent < 0.6f)
             FeverMode();
@@ -116,7 +111,7 @@ public class StageManager : MonoBehaviour
 
     void SpawnEnemies()
     {
-        BossGauge.SetActive(true);
+        GameManager.Inst().UiManager.BossGauge.SetActive(true);
 
         InvokeRepeating("SpawnSmall", 0.0f, SmallTime);
         InvokeRepeating("SpawnMedium", 0.0f, MediumTime);
@@ -149,19 +144,19 @@ public class StageManager : MonoBehaviour
         Boss.transform.position = pos;
         Boss.ResetData();
 
-        HPBarCanvas.SetActive(true);
+        GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(true);
     }
 
     public void RestartStage()
     {
-        HPBarCanvas.SetActive(false);
+        GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(false);
         GameManager.Inst().Player.EndBossMode();
         GroundUp();
 
         SpawnEnemies();
     }
 
-    void CancelEnemies()
+    public void CancelEnemies()
     {
         CancelInvoke("SpawnSmall");
         CancelInvoke("SpawnMedium");
@@ -208,21 +203,21 @@ public class StageManager : MonoBehaviour
 
     void GroundDown()
     {
-        Ground.transform.position = Vector3.Lerp(Ground.transform.position, Ground_Down, Time.deltaTime * 5.0f);
+        GameManager.Inst().UiManager.Ground.transform.position = Vector3.Lerp(GameManager.Inst().UiManager.Ground.transform.position, Ground_Down, Time.deltaTime * 5.0f);
 
-        Turrets.transform.position = Vector3.Lerp(Turrets.transform.position, new Vector3(0.0f, 1.8f, 90.0f), Time.deltaTime * 5.0f);
+        GameManager.Inst().UiManager.TurretUI.transform.position = Vector3.Lerp(GameManager.Inst().UiManager.TurretUI.transform.position, new Vector3(0.0f, 1.8f, 90.0f), Time.deltaTime * 5.0f);
 
-        if (Vector3.Distance(Ground.transform.position, Ground_Down) > 0.001f)
+        if (Vector3.Distance(GameManager.Inst().UiManager.Ground.transform.position, Ground_Down) > 0.001f)
             Invoke("GroundDown", Time.deltaTime);
     }
 
     void GroundUp()
     {
-        Ground.transform.position = Vector3.Lerp(Ground.transform.position, Ground_Up, Time.deltaTime * 5.0f);
+        GameManager.Inst().UiManager.Ground.transform.position = Vector3.Lerp(GameManager.Inst().UiManager.Ground.transform.position, Ground_Up, Time.deltaTime * 5.0f);
 
-        Turrets.transform.position = Vector3.Lerp(Turrets.transform.position, new Vector3(0.0f, 4.0f, 90.0f), Time.deltaTime * 5.0f);
+        GameManager.Inst().UiManager.TurretUI.transform.position = Vector3.Lerp(GameManager.Inst().UiManager.TurretUI.transform.position, new Vector3(0.0f, 4.0f, 90.0f), Time.deltaTime * 5.0f);
 
-        if (Vector3.Distance(Ground.transform.position, Ground_Up) > 0.001f)
+        if (Vector3.Distance(GameManager.Inst().UiManager.Ground.transform.position, Ground_Up) > 0.001f)
             Invoke("GroundUp", Time.deltaTime);
     }
 

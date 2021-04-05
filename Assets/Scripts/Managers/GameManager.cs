@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        SetManagers();
+        //SetManagers();
 
         Resources = new int[Constants.MAXSTAGES];
 

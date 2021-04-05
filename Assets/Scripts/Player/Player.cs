@@ -300,14 +300,13 @@ public class Player : MonoBehaviour
         CurHP = MaxHP = 0;
 
         Shield.SetActive(false);
-        TimerImage.gameObject.SetActive(false);
-        HPUI.SetActive(false);
-        HPBar.fillAmount = 0.415f;
     }
 
     void Start()
     {
         GameManager.Inst().UiManager.SetCoinText(Coin);
+
+        UISetting();
     }
 
     void Update()
@@ -316,6 +315,13 @@ public class Player : MonoBehaviour
         PlayerPos.y += 3.0f;
         PlayerPos.z = 90.0f;
         UI.transform.position = PlayerPos;
+    }
+
+    public void UISetting()
+    {
+        TimerImage.gameObject.SetActive(false);
+        HPUI.SetActive(false);
+        HPBar.fillAmount = 0.415f;
     }
 
     public void Rotate(Vector2 MousePos)

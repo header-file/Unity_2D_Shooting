@@ -137,10 +137,6 @@ public class UpgradeManager : MonoBehaviour
         bool IsActive;
     };
 
-    public GameObject[] SubPositions;
-
-   
-
     public BulletData[] BData;
 
     int PlayerLevel;
@@ -378,7 +374,7 @@ public class UpgradeManager : MonoBehaviour
     {
         GameObject subWeapon = GameManager.Inst().ObjManager.MakeObj("SubWeapon");
         int index = curIndex;
-        Vector3 pos = SubPositions[curIndex].transform.position;
+        Vector3 pos = GameManager.Inst().UiManager.SubPositions[curIndex].transform.position;
         subWeapon.transform.position = pos;
         SubWeapon sub = subWeapon.GetComponent<SubWeapon>();
 

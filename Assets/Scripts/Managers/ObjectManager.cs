@@ -309,6 +309,8 @@ public class ObjectManager : MonoBehaviour
 
     void Awake()
     {
+        GameManager.Inst().ObjManager = gameObject.GetComponent<ObjectManager>();
+
         Enemies_S = new GameObject[50];
         Enemies_M = new GameObject[10];
         Enemies_L = new GameObject[10];

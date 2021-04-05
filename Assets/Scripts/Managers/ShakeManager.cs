@@ -8,6 +8,11 @@ public class ShakeManager : MonoBehaviour
     public float ShakeScale;
     public float ShakeTime = 0.05f;
 
+    void Awake()
+    {
+        GameManager.Inst().ShkManager = gameObject.GetComponent<ShakeManager>();
+    }
+
     public void Damage()
     {
         BgShaker.Shake(ShakeTime, ShakeScale);

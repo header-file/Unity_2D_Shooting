@@ -29,6 +29,8 @@ public class QuestManager : MonoBehaviour
 
     void Awake()
     {
+        GameManager.Inst().QstManager = gameObject.GetComponent<QuestManager>();
+
         CurStageQuests = 0;
         FinQuests = 0;
 
@@ -39,7 +41,11 @@ public class QuestManager : MonoBehaviour
 
     void Start()
     {
+        LoadQuestData();
         MakeQuestSlot();
+
+        GameManager.Inst().Player.UISetting();
+        GameManager.Inst().StgManager.BeginStage();
     }
 
     void GenerateData()
@@ -57,6 +63,18 @@ public class QuestManager : MonoBehaviour
             int objType = qid % 1000 / 100;
 
             Quests.Add(id++, new QuestData(qid, desc, goal, type, objType));
+        }
+    }
+
+    void LoadQuestData()
+    {
+        if (GameManager.Inst().DatManager.GameData.Quests.Length <= 0)
+            return;
+
+        for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+        {
+            if(Quests[i].QuestId == GameManager.Inst().DatManager.GameData.Quests[Constants.QSTDATASIZE * i + 0])
+                Quests[i].CurrentCount = GameManager.Inst().DatManager.GameData.Quests[Constants.QSTDATASIZE * i + 1];
         }
     }
 

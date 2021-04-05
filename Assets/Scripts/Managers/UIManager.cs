@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
     };
 
     //움직임용
-    public GameObject Player;
     public GameObject SubWeapon;
     public GameObject Turret;
     public GameObject Background;
@@ -44,6 +43,24 @@ public class UIManager : MonoBehaviour
     public GameObject RedMask;
     public PlayerHitArea[] PlayerHitAreas;
     public GameObject InventoryScroll;
+    public GameObject[] SubPositions;
+
+    //플레이어용 UI
+    public GameObject PlayerUI;
+    public Image PlayerTimerImg;
+    public Text PlayerTimerText;
+    public GameObject PlayerHPUI;
+    public Image PlayerHPBar;
+
+    //보스용 UI
+    public GameObject BossHPBarCanvas;
+    public Image BossHPBar;
+    public Text BossHPBarText;
+    public GameObject BossGauge;
+    public Image BossGaugeBar;
+    public Animator WarningAnim;
+    public GameObject Ground;
+    public GameObject TurretUI;
 
     //새 윈도우
     public GameObject[] NewWindows;
@@ -96,7 +113,9 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
-        PlayerPosOrigin = Player.transform.position;
+        GameManager.Inst().UiManager = gameObject.GetComponent<UIManager>();
+
+        PlayerPosOrigin = GameManager.Inst().Player.transform.position;
         SubWeaponPosOrigin = SubWeapon.transform.position;
         TurretPosOrigin = Turret.transform.position;
         BackgroundPosOrigin = Background.transform.position;
@@ -132,6 +151,13 @@ public class UIManager : MonoBehaviour
         StageScrollUI = StageScroll.GetComponent<StageLoop>();
         InfoAreaUI = InfoArea.GetComponent<InfoArea>();
         ZzinBottomUI = ZzinBottom.GetComponent<ZzinBottom>();
+
+        //Player UI Setting
+        GameManager.Inst().Player.UI = PlayerUI;
+        GameManager.Inst().Player.TimerImage = PlayerTimerImg;
+        GameManager.Inst().Player.TimerText = PlayerTimerText;
+        GameManager.Inst().Player.HPUI = PlayerHPUI;
+        GameManager.Inst().Player.HPBar = PlayerHPBar;
     }
 
     void Start()
@@ -150,7 +176,7 @@ public class UIManager : MonoBehaviour
     //UI Interact
     void MoveUp()
     {
-        Player.transform.position = Vector3.MoveTowards(Player.transform.position, PlayerPosUI, Timer);
+        GameManager.Inst().Player.transform.position = Vector3.MoveTowards(GameManager.Inst().Player.transform.position, PlayerPosUI, Timer);
         SubWeapon.transform.position = Vector3.MoveTowards(SubWeapon.transform.position, SubWeaponPosUI, Timer);
         Turret.transform.position = Vector3.MoveTowards(Turret.transform.position, TurretPosUI, Timer);
         Background.transform.position = Vector3.MoveTowards(Background.transform.position, BackgroundPosUI, Timer);
@@ -169,7 +195,7 @@ public class UIManager : MonoBehaviour
 
     void MoveDown()
     {
-        Player.transform.position = Vector3.MoveTowards(Player.transform.position, PlayerPosOrigin, Timer);
+        GameManager.Inst().Player.transform.position = Vector3.MoveTowards(GameManager.Inst().Player.transform.position, PlayerPosOrigin, Timer);
         SubWeapon.transform.position = Vector3.MoveTowards(SubWeapon.transform.position, SubWeaponPosOrigin, Timer);
         Turret.transform.position = Vector3.MoveTowards(Turret.transform.position, TurretPosOrigin, Timer);
         Background.transform.position = Vector3.MoveTowards(Background.transform.position, BackgroundPosOrigin, Timer);
@@ -496,7 +522,7 @@ public class UIManager : MonoBehaviour
         //Equip.SetActive(true);
         Weapon.SetActive(true);
 
-        //EquipUI.SetCurBulletType(GameManager.Inst().Player.GetBulletType());
+        //EquipUI.SetCurBulletType(GameManager.Inst().GameManager.Inst().Player.GetBulletType());
         //EquipUI.ShowUI();
         WeaponUI.SetCurBulletType(GameManager.Inst().Player.GetBulletType());
         WeaponUI.ShowUI();

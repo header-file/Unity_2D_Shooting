@@ -24,6 +24,8 @@ public class ShootingManager : MonoBehaviour
 
     void Awake()
     {
+        GameManager.Inst().ShtManager = gameObject.GetComponent<ShootingManager>();
+
         Objs = new GameObject[10];
         NormalPos = new GameObject[5];
         SpreadPos = new GameObject[7];

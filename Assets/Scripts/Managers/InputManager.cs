@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public Player Player;
-
     public Vector3 MousePosition;
 
     bool IsAbleControl;
@@ -19,7 +17,7 @@ public class InputManager : MonoBehaviour
 
     void Awake()
     {
-        //DontDestroyOnLoad(gameObject);
+        GameManager.Inst().IptManager = gameObject.GetComponent<InputManager>();
     }
 
     void Start()
@@ -37,7 +35,7 @@ public class InputManager : MonoBehaviour
         Vector2 MPos = new Vector2(MousePosition.x, MousePosition.y);
 
         if (!GameManager.Inst().Player.GetIsMovable())
-            Player.Rotate(MPos);
+            GameManager.Inst().Player.Rotate(MPos);
         else
         {
             MousePosition.z = 0.0f;
@@ -54,7 +52,7 @@ public class InputManager : MonoBehaviour
                 
         }
 
-        Player.Fire();
+        GameManager.Inst().Player.Fire();
     }
 
     /*void OnMouseOver()

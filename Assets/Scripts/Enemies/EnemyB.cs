@@ -251,8 +251,8 @@ public class EnemyB : Enemy
         IsAbleAttack = false;
         IsAttacking = false;
 
-        GameManager.Inst().StgManager.HPBar.fillAmount = CurHP / Health;
-        GameManager.Inst().StgManager.HPBarText.text = CurHP.ToString() + "/" + Health.ToString();
+        GameManager.Inst().UiManager.BossHPBar.fillAmount = CurHP / Health;
+        GameManager.Inst().UiManager.BossHPBarText.text = CurHP.ToString() + "/" + Health.ToString();
     }
 
 

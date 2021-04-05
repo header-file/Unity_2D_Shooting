@@ -84,10 +84,10 @@ public class SubWeapon : MonoBehaviour
         //if (index > 2)
         //    index--;
         //transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position, Time.deltaTime * 3.0f);
-        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UpgManager.SubPositions[NumID].transform.position, Time.deltaTime * 3.0f);
+        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UiManager.SubPositions[NumID].transform.position, Time.deltaTime * 3.0f);
 
         //if (Vector3.Distance(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position) > 0.001f)
-        if (Vector3.Distance(transform.position, GameManager.Inst().UpgManager.SubPositions[NumID].transform.position) > 0.001f)
+        if (Vector3.Distance(transform.position, GameManager.Inst().UiManager.SubPositions[NumID].transform.position) > 0.001f)
             Invoke("EndBossMode", Time.deltaTime);
         else
         {
@@ -199,7 +199,7 @@ public class SubWeapon : MonoBehaviour
             //int index = NumID;
             //if (index > 2)
             //    index--;
-            transform.position = GameManager.Inst().UpgManager.SubPositions[NumID].transform.position;
+            transform.position = GameManager.Inst().UiManager.SubPositions[NumID].transform.position;
         }
         
     }

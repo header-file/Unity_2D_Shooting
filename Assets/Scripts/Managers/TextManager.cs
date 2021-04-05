@@ -40,6 +40,8 @@ public class TextManager : MonoBehaviour
 
     void Awake()
     {
+        GameManager.Inst().TxtManager = gameObject.GetComponent<TextManager>();
+
         BNames = new Text[Constants.MAXBULLETS];
         BLevels = new Text[Constants.MAXBULLETS];
         BPrices = new string[Constants.MAXBULLETS];

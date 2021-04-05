@@ -145,7 +145,11 @@ public class StageLoop : MonoBehaviour
 
     public void MoveScene()
     {
+        GameManager.Inst().DatManager.SaveData();
+
         string sceneName = "Stage" + (MinBtnNum + 1).ToString();
         SceneManager.LoadScene(sceneName);
+        GameManager.Inst().StgManager.Stage = MinBtnNum + 1;
+        GameManager.Inst().StgManager.CancelEnemies();
     }
 }
