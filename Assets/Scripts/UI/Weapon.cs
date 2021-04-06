@@ -14,6 +14,9 @@ public class Weapon : MonoBehaviour
     public SwitchWindow EquipArea;
     public Color GaugeColor;
     public WeaponInfoWindow InfoWindow;
+    public Sprite[] WeaponIcons;
+    public WeaponCell[] WeaponCells;
+    public LoopScroll2 WeaponCellScroll;
 
     InventoryScroll Inventories;
     Player.EqData CurEquip;
@@ -54,6 +57,9 @@ public class Weapon : MonoBehaviour
 
         IsDelay = false;
 
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
+            WeaponCells[i].Icon.sprite = WeaponIcons[i];
+
         InfoArea.gameObject.SetActive(true);
         EquipArea.gameObject.SetActive(false);
         gameObject.SetActive(false);
@@ -83,6 +89,8 @@ public class Weapon : MonoBehaviour
 
         if (MoveTimer - 0.5f <= 0.001f)
             ShowInfoArea();
+
+        WeaponCellScroll.MoveToSelected(CurBulletType);
 
         if (MoveTimer >= 1.0f)
         {

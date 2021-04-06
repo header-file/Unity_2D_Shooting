@@ -130,6 +130,7 @@ public class QuestManager : MonoBehaviour
             {
                 found = i;
                 QuestSlots[i].Count.text = Quests[index].CurrentCount.ToString() + " / " + Quests[index].GoalCount.ToString();
+                QuestSlots[i].ProgressBar.fillAmount = (float)Quests[index].CurrentCount / Quests[index].GoalCount;
             }
         }
 

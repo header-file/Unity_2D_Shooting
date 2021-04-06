@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         SetData();
         SetResources();
         
-        StgManager.BeginStage();
+        //StgManager.BeginStage();
     }
 
     public void SetManagers()

@@ -711,6 +711,13 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSideBarBtn()
     {
+        if (SideMenuUI.IsOpen)
+        {
+            OnClickSideBarBackBtn();
+            return;
+        }
+
+        SideMenuUI.IsOpen = true;
         SideMenuUI.SideMenuOpen();
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
@@ -719,6 +726,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSideBarBackBtn()
     {
+        SideMenuUI.IsOpen = false;
         SideMenuUI.SideMenuClose();
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);

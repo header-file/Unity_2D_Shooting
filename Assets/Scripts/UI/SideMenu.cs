@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public class SideMenu : MonoBehaviour
 {
     public GameObject BackBtn;
-    public Button OpenBtn;
     public RectTransform SideBar;
     public SideMenuSlot[] Slots;
     public Transform ContentTransform;
+    public GameObject BtnArrow;
 
+    public bool IsOpen = false;
+
+    Vector3 Reverse = new Vector3(0.0f, 0.0f, 180.0f);
     bool IsSideMenuOpen;
     bool IsSideMenuClose;
 
@@ -34,7 +37,7 @@ public class SideMenu : MonoBehaviour
     {
         IsSideMenuOpen = true;
         IsSideMenuClose = false;
-        OpenBtn.interactable = false;
+        BtnArrow.transform.Rotate(Reverse);
         BackBtn.SetActive(true);
     }
 
@@ -50,7 +53,7 @@ public class SideMenu : MonoBehaviour
     {
         IsSideMenuOpen = false;
         IsSideMenuClose = true;
-        OpenBtn.interactable = true;
+        BtnArrow.transform.Rotate(Reverse);
         BackBtn.SetActive(false);
     }
 
