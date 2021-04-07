@@ -263,9 +263,10 @@ public class UIManager : MonoBehaviour
         SlotUI[curBulletType].DetailBtn.gameObject.SetActive(true);
     }
 
-    public void SetSlotsActive(int index, bool isActive)
+    public void SetSlotsActive(int index, bool isActive, int unlockStage)
     {
         SlotUI[index].Locked.SetActive(!isActive);
+        SlotUI[index].StageName.text = "Stage" + unlockStage.ToString();
     }
 
 

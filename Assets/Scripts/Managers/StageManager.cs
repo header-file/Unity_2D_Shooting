@@ -8,6 +8,7 @@ public class StageManager : MonoBehaviour
     public bool IsBoss;
     public float BossTimer;
     public EnemyB Boss;
+    public int[] UnlockBulletStages;
 
     Vector3 Ground_Up;
     Vector3 Ground_Down;
@@ -38,6 +39,10 @@ public class StageManager : MonoBehaviour
         Ground_Down = new Vector3(0.0f, -6.0f, 0.0f);
         IsFeverMode = false;
 
+        UnlockBulletStages = new int[Constants.MAXBULLETS];
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
+            UnlockBulletStages[i] = 0;
+
         SetUnlockData();
     }
 
@@ -65,6 +70,11 @@ public class StageManager : MonoBehaviour
             BulletUnlockData[i, (int)Bullet.BulletType.CHARGE] = bool.Parse(data[i]["Charge"].ToString());
             BulletUnlockData[i, (int)Bullet.BulletType.BOOMERANG] = bool.Parse(data[i]["Boomerang"].ToString());
             BulletUnlockData[i, (int)Bullet.BulletType.CHAIN] = bool.Parse(data[i]["Chain"].ToString());
+
+            if (i != 0)
+                for (int j = 0; j < Constants.MAXBULLETS; j++)
+                    if (UnlockBulletStages[j] == 0 && BulletUnlockData[i, j])
+                        UnlockBulletStages[j] = i - 1;
         }
     }
 
@@ -248,7 +258,12 @@ public class StageManager : MonoBehaviour
         for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             GameManager.Inst().UpgManager.BData[i].SetActive(BulletUnlockData[stage, i]);
-            GameManager.Inst().UiManager.SetSlotsActive(i, BulletUnlockData[stage, i]);
+            GameManager.Inst().UiManager.SetSlotsActive(i, BulletUnlockData[stage, i], UnlockBulletStages[i]);
         }
+    }
+
+    public bool CheckBulletUnlocked(int type)
+    {
+        return BulletUnlockData[GameManager.Inst().DatManager.GameData.ReachedStage, type];
     }
 }

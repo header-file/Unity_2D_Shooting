@@ -7,10 +7,10 @@ using UnityEngine.Experimental.U2D.Animation;
 public class Weapon : MonoBehaviour
 {
     public GameObject InventoryArea;
-    public GameObject SwitchWindows;
+    public GameObject SwitchWindow;
+    public WeaponSwitchWindow[] SwitchWindows;
     public GameObject ArrowButtons;
     public InfoArea InfoArea;
-    public SpriteResolver[] Skins;
     public SwitchWindow EquipArea;
     public Color GaugeColor;
     public WeaponInfoWindow InfoWindow;
@@ -69,6 +69,8 @@ public class Weapon : MonoBehaviour
     {
         if (IsMoving)
             Moving();
+        else
+            WeaponCellScroll.MoveToSelected(SlotIndices[ShowBulletType]);
 
         if (IsFlickering)
             Flickering();
@@ -77,10 +79,10 @@ public class Weapon : MonoBehaviour
     void Moving()
     {
         MoveTimer += Time.deltaTime * 5.0f;
-        Vector3 pos = SwitchWindows.GetComponent<RectTransform>().anchoredPosition;
+        Vector3 pos = SwitchWindow.GetComponent<RectTransform>().anchoredPosition;
         pos.x = Mathf.Lerp(pos.x, TargetX, MoveTimer);
 
-        SwitchWindows.GetComponent<RectTransform>().anchoredPosition = pos;
+        SwitchWindow.GetComponent<RectTransform>().anchoredPosition = pos;
 
         if (MoveTimer <= 0.5f)
             InfoArea.SetAlpha(1.0f - MoveTimer * 2.0f);
@@ -96,7 +98,7 @@ public class Weapon : MonoBehaviour
         {
             IsMoving = false;
             MoveTimer = 0.0f;
-
+            
             for (int i = 0; i < 2; i++)
                 ArrowButtons.transform.GetChild(i).GetComponent<Button>().interactable = true;
 
@@ -105,32 +107,32 @@ public class Weapon : MonoBehaviour
 
             for (int i = 0; i < 3; i++)
             {
-                if (SwitchWindows.transform.GetChild(i).position.x > 6.0f)
+                if (SwitchWindows[i].transform.position.x > 6.0f)
                 {
-                    Vector2 newPos = SwitchWindows.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition;
+                    Vector2 newPos = SwitchWindows[i].GetComponent<RectTransform>().anchoredPosition;
                     newPos.x -= 720.0f * 3;
 
-                    SwitchWindows.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition = newPos;
+                    SwitchWindows[i].GetComponent<RectTransform>().anchoredPosition = newPos;
 
                     SlotIndices[i] += 4;
                     if (SlotIndices[i] >= Constants.MAXBULLETS)
                         SlotIndices[i] -= Constants.MAXBULLETS;
-                    Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
+                    SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
                     InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
                     Show(SlotIndices[i]);
                 }
 
-                if (SwitchWindows.transform.GetChild(i).position.x < -6.0f)
+                if (SwitchWindows[i].transform.position.x < -6.0f)
                 {
-                    Vector2 newPos = SwitchWindows.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition;
+                    Vector2 newPos = SwitchWindows[i].GetComponent<RectTransform>().anchoredPosition;
                     newPos.x += 720.0f * 3;
 
-                    SwitchWindows.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition = newPos;
+                    SwitchWindows[i].GetComponent<RectTransform>().anchoredPosition = newPos;
 
                     SlotIndices[i] -= 4;
                     if (SlotIndices[i] < 0)
                         SlotIndices[i] += Constants.MAXBULLETS;
-                    Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
+                    SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
                     InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
                     Show(SlotIndices[i]);
                 }
@@ -184,7 +186,7 @@ public class Weapon : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            Skins[i].SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
+            SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
             InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
         }
         Show(SlotIndices[1]);
@@ -430,5 +432,14 @@ public class Weapon : MonoBehaviour
 
         for (int i = 0; i < 2; i++)
             ArrowButtons.transform.GetChild(i).GetComponent<Button>().interactable = false;
+
+        //Lock
+        if (GameManager.Inst().StgManager.CheckBulletUnlocked(SlotIndices[ShowBulletType]))
+            SwitchWindows[ShowBulletType].Lock.SetActive(false);
+        else
+        {
+            SwitchWindows[ShowBulletType].Lock.SetActive(true);
+            SwitchWindows[ShowBulletType].LockText.text = "Stage" + GameManager.Inst().StgManager.UnlockBulletStages[SlotIndices[ShowBulletType]] + "\n클리어 시 해금";
+        }
     }
 }

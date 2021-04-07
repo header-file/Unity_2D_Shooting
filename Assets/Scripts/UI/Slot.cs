@@ -28,12 +28,7 @@ public class Slot : MonoBehaviour
         RectT = GetComponent<RectTransform>();
         Parent = transform.GetComponentInParent<RectTransform>();
         ParentInitPos = Parent.position;
-    }
-
-    void Start()
-    {
-        if (GameManager.Inst().StgManager.Stage == 0)
-            Locked.SetActive(true);
+        Locked.SetActive(true);
     }
 
     public void Show(int index)

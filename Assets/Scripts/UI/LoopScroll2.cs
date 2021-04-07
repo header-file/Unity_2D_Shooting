@@ -65,8 +65,6 @@ public class LoopScroll2 : MonoBehaviour
             if (minDistance == Distances[i])
             {
                 MinBtnNum = i;
-                //GameManager.Inst().UiManager.ShowEquipBtn(MinBtnNum);
-                //GameManager.Inst().UiManager.SelectBullet(i);
             }
         }
 
@@ -86,16 +84,18 @@ public class LoopScroll2 : MonoBehaviour
         Panel.anchoredPosition = newPosition;
         if (Timer < 1.0f)
             Timer += TickCount;
+        else
+            Timer = 0.0f;
     }
 
-    public void StartDrag()
-    {
-        IsDragging = true;
-    }
+    //public void StartDrag()
+    //{
+    //    IsDragging = true;
+    //}
 
-    public void EndDrag()
-    {
-        IsDragging = false;
-        Timer = 0.0f;
-    }
+    //public void EndDrag()
+    //{
+    //    IsDragging = false;
+    //    Timer = 0.0f;
+    //}
 }
