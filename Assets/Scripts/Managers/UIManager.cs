@@ -525,13 +525,13 @@ public class UIManager : MonoBehaviour
 
         //EquipUI.SetCurBulletType(GameManager.Inst().GameManager.Inst().Player.GetBulletType());
         //EquipUI.ShowUI();
-        WeaponUI.SetCurBulletType(GameManager.Inst().Player.GetBulletType());
+        CurrentBulletType = GameManager.Inst().Player.GetBulletType();
+        WeaponUI.SetCurBulletType(CurrentBulletType);
         WeaponUI.ShowUI();
         IsEquip = true;
 
         InfoArea.SetActive(true);
         EquipArea.SetActive(false);
-        InfoAreaUI.ShowDetail(CurrentBulletType);
 
         ZzinBottomUI.WeaponIcon[0].SetActive(false);
         ZzinBottomUI.WeaponIcon[1].SetActive(true);
@@ -640,23 +640,22 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSynthesisSlotBtn(int index)
     {
-        SynthesisUI.SetCurrentIndex(index);
+        //SynthesisUI.SetCurrentIndex(index);
 
-        int count = SynthesisUI.CheckInputTypes();
-        if (count == 0)
-            SynthesisUI.DiscardMaxGrade();
-        else if (count == 1)
-        {
-            if(index == SynthesisUI.GetLastIndex())
-                SynthesisUI.DiscardMaxGrade();
-            else
-                SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
-        }
-        else if(count < 3)
-            SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
-
-
-        if (index == 3 && count == 3)
+        //int count = SynthesisUI.CheckInputTypes();
+        //if (count == 0)
+        //    SynthesisUI.DiscardMaxGrade();
+        //else if (count == 1)
+        //{
+        //    if(index == SynthesisUI.GetLastIndex())
+        //        SynthesisUI.DiscardMaxGrade();
+        //    else
+        //        SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
+        //}
+        //else if(count < 3)
+        if(index < 3)
+            SynthesisUI.SortAsQuantity();
+        else if (index == 3)
             SynthesisUI.ShowConfirmWindow();
     }
 

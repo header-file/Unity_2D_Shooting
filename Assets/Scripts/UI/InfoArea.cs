@@ -16,9 +16,14 @@ public class InfoArea : MonoBehaviour
     public Image[] Gauges;
     public CanvasGroup[] CanvasGps;
     public Animator[] Anim;
-    public int[] DefaultColor;
     public Button UpgradeBtn;
     public Button EquipAreaBtn;
+    public Image[] GradeDeco;
+    public Image GradeBg;
+
+    public int[] DefaultColor;
+    public Sprite[] Decos;
+    public Color[] GradeColors;
 
     public void SetWeaponName(int index) { WeaponName.text = GameManager.Inst().Player.Types[index]; }
 
@@ -44,6 +49,13 @@ public class InfoArea : MonoBehaviour
     public void ShowDetail(int bulletType)
     {
         Level.text = "Level " + GameManager.Inst().UpgManager.BData[bulletType].GetPowerLevel().ToString();
+
+        for (int i = 0; i < 2; i++)
+        {
+            GradeDeco[i].sprite = Decos[GameManager.Inst().UpgManager.BData[bulletType].GetRarity()];
+            GradeDeco[i].SetNativeSize();
+        }
+        GradeBg.color = GradeColors[GameManager.Inst().UpgManager.BData[bulletType].GetRarity()];
 
         if(GameManager.Inst().UpgManager.BData[bulletType].GetPowerLevel() < (GameManager.Inst().UpgManager.BData[bulletType].GetRarity() + 1) * 10)
         {

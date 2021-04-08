@@ -12,7 +12,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
         RARITY = 1,
         TYPE_RARITY = 10,
         SAMERARITY = 100,
-        DISCRADMAXRARITY = 1000,
+        SYNTHESIS = 1000,
     }
 
     public GameObject EMark;
@@ -33,6 +33,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     int ItemRarity = -1;
     int ItemType = -1;
     int ItemUID = -1;
+    int ItemQuantity = -1;
     int Weight = 0;
 
     public int GetIndex() { return Index; }
@@ -50,19 +51,25 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     public void SetGradeSprite(int index) {  Grade.GetComponent<Image>().sprite = Grades[index]; }
     public void SetItemRarity(int rarity) { ItemRarity = rarity; }
     public void SetItemType(int type) { ItemType = type; }
+    public void SetItemQuantity(int quantity) { ItemQuantity = quantity; }
     public void SetItemUID(int id) { ItemUID = id; }
 
     public int CompareTo(InventorySlot obj)
     {
         Weight = 0;
 
-        if (GameManager.Inst().Player.SortOption >= (int)SortOption.DISCRADMAXRARITY)
+        if (GameManager.Inst().Player.SortOption >= (int)SortOption.SYNTHESIS)
         {
             if (ItemRarity >= 0 && ItemRarity < Constants.MAXRARITY - 1 &&
                 obj.ItemRarity == Constants.MAXRARITY - 1)
-                Weight += 16;
+                Weight += 32;
             else if (ItemRarity == Constants.MAXRARITY - 1 &&
                 obj.ItemRarity >= 0 && obj.ItemRarity != Constants.MAXRARITY - 1)
+                Weight -= 32;
+
+            if (ItemQuantity >= 3 && obj.ItemQuantity < 3)
+                Weight += 16;
+            else if (ItemQuantity < 3 && obj.ItemQuantity >= 3)
                 Weight -= 16;
         }
         else if (GameManager.Inst().Player.SortOption >= (int)SortOption.SAMERARITY)

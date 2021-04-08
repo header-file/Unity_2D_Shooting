@@ -56,6 +56,7 @@ public class InventoryScroll : MonoBehaviour
 
                 slot.SetItemRarity(eq.Rarity);
                 slot.SetItemType(eq.Type);
+                slot.SetItemQuantity(eq.Quantity);
                 slot.SetItemUID(eq.UID);
 
                 if (eq.Quantity > 0)

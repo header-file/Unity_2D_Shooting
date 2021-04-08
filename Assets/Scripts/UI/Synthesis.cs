@@ -8,7 +8,8 @@ public class Synthesis : MonoBehaviour
     public SynthesisSlot[] Buttons;
     //public GameObject Lines;
     public GameObject InventoryArea;
-    public Material[] Materials;
+    //public Material[] Materials;
+    public GameObject EnterItemText;
     public GameObject SuccessRate;
     public Text RateText;
     public GameObject ConfirmWindow;
@@ -17,6 +18,7 @@ public class Synthesis : MonoBehaviour
     public GameObject UnequipConfirmWindow;
     public Text Need;
     public Sprite[] Frames;
+    public Button MergetBtn;
 
     InventoryScroll Inventories;
     Sprite OriginalSprite;
@@ -25,7 +27,7 @@ public class Synthesis : MonoBehaviour
     Color TextColor;
 
     int Grade;
-    int CurrentIndex;
+    //int CurrentIndex;
     int LastIndex;
     int[] InputTypes;
     int[] SelectedIndex;
@@ -37,23 +39,25 @@ public class Synthesis : MonoBehaviour
     int UnequipIndex;
 
     public int GetGrade() { return Grade; }
-    public int GetCurrentIndex() { return CurrentIndex; }
+    //public int GetCurrentIndex() { return CurrentIndex; }
     public int GetLastIndex() { return LastIndex; }
     public int GetUnequipIndex() { return UnequipIndex; }
 
-    public void SetCurrentIndex(int index) { CurrentIndex = index; }
+    //public void SetCurrentIndex(int index) { CurrentIndex = index; }
 
     void Start()
     {
         OriginalSprite = Buttons[0].Icon.sprite;
         QuestionSprite = Buttons[3].Icon.sprite;
-        SuccessRate.SetActive(true);
+        EnterItemText.SetActive(true);
         RateText.text = "0";
         Need.text = "0";
+        SuccessRate.SetActive(false);        
         ConfirmWindow.SetActive(false);
         EquipDetail.SetActive(false);
         SelectDetail.SetActive(false);
         UnequipConfirmWindow.SetActive(false);
+        MergetBtn.interactable = false;
 
         Colors = new Color[3];
         Colors[0] = Color.red;
@@ -70,7 +74,7 @@ public class Synthesis : MonoBehaviour
             SelectedUIDs[i] = -1;
 
         Grade = -1;
-        CurrentIndex = -1;
+        //CurrentIndex = -1;
         InputTypes = new int[3];
         for (int i = 0; i < 3; i++)
             InputTypes[i] = -1;
@@ -123,20 +127,76 @@ public class Synthesis : MonoBehaviour
 
         Inventories.ResetInventory();
         Inventories.ShowInventory();
+
+        SortAsQuantity();
     }
 
-    public void DiscardMaxGrade()
+    //public void DiscardMaxGrade()
+    //{
+    //    Inventories.ResetInventory();
+
+    //    for (int i = 0; i < Constants.MAXINVENTORY; i++)
+    //    {
+    //        Player.EqData eq = GameManager.Inst().Player.GetItem(i);
+    //        Inventories.GetSlot(i).Selected.SetActive(false);
+
+    //        if (eq != null)
+    //        {
+    //            if (eq.Rarity < Constants.MAXRARITY - 1)
+    //            {
+    //                Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+    //                InventorySlot slot = Inventories.GetSlot(i);
+    //                slot.gameObject.SetActive(true);
+
+    //                slot.GetNotExist().SetActive(false);
+    //                slot.GetExist().SetActive(true);
+    //                slot.SetIcon(icon);
+    //                slot.SetDisable(false);
+    //                slot.SetGradeSprite(eq.Rarity);
+
+    //                //for (int j = 0; j < 3; j++)
+    //                //{
+    //                //    if (eq.UID == SelectedUIDs[j])
+    //                //        slot.Selected.SetActive(true);
+    //                //}
+
+    //                //if (slot.Selected.activeSelf)
+    //                //    SelectedIndex[0] = i;
+    //            }
+    //            else
+    //            {
+    //                Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+    //                //InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(i));
+    //                InventorySlot slot = Inventories.GetSlot(i);
+    //                slot.gameObject.SetActive(true);
+
+    //                slot.GetNotExist().SetActive(false);
+    //                slot.GetExist().SetActive(true);
+    //                slot.SetIcon(icon);
+    //                slot.SetDisable(true);
+    //                slot.SetGradeSprite(eq.Rarity);
+    //            }
+    //        }
+    //    }
+
+    //    GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.DISCRADMAXRARITY;
+
+    //    Inventories.Sort();
+
+    //    LastIndex = CurrentIndex;
+    //}
+
+    public void SortAsQuantity()
     {
         Inventories.ResetInventory();
 
         for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
-            Inventories.GetSlot(i).Selected.SetActive(false);
 
             if (eq != null)
             {
-                if (eq.Rarity < Constants.MAXRARITY - 1)
+                if (eq.Quantity >= 3)
                 {
                     Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
                     InventorySlot slot = Inventories.GetSlot(i);
@@ -147,73 +207,6 @@ public class Synthesis : MonoBehaviour
                     slot.SetIcon(icon);
                     slot.SetDisable(false);
                     slot.SetGradeSprite(eq.Rarity);
-
-                    //for (int j = 0; j < 3; j++)
-                    //{
-                    //    if (eq.UID == SelectedUIDs[j])
-                    //        slot.Selected.SetActive(true);
-                    //}
-
-                    //if (slot.Selected.activeSelf)
-                    //    SelectedIndex[0] = i;
-                }
-                else
-                {
-                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
-                    //InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(i));
-                    InventorySlot slot = Inventories.GetSlot(i);
-                    slot.gameObject.SetActive(true);
-
-                    slot.GetNotExist().SetActive(false);
-                    slot.GetExist().SetActive(true);
-                    slot.SetIcon(icon);
-                    slot.SetDisable(true);
-                    slot.SetGradeSprite(eq.Rarity);
-                }
-            }
-        }
-
-        GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.DISCRADMAXRARITY;
-
-        Inventories.Sort();
-
-        LastIndex = CurrentIndex;
-    }
-
-    public void SortAsGrade(int grade)
-    {
-        if (grade < 0)
-            return;
-
-        Inventories.ResetInventory();
-
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
-        {
-            Player.EqData eq = GameManager.Inst().Player.GetItem(i);
-            //Inventories.GetSlot(i).Selected.SetActive(false);
-
-            if (eq != null)
-            {
-                if (eq.Rarity == grade)
-                {
-                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
-                    InventorySlot slot = Inventories.GetSlot(i);
-                    slot.gameObject.SetActive(true);
-
-                    slot.GetNotExist().SetActive(false);
-                    slot.GetExist().SetActive(true);
-                    slot.SetIcon(icon);
-                    slot.SetDisable(false);
-                    slot.SetGradeSprite(eq.Rarity);
-
-                    //for (int j = 0; j < 3; j++)
-                    //{
-                    //    if (eq.UID == SelectedUIDs[j])
-                    //        slot.Selected.SetActive(true);
-                    //}
-
-                    //if (slot.Selected.activeSelf)
-                    //    SelectedIndex[0] = i;
                 }
                 else
                 {
@@ -231,7 +224,7 @@ public class Synthesis : MonoBehaviour
             }
         }
         
-        GameManager.Inst().Player.SortOption = grade + (int)InventorySlot.SortOption.SAMERARITY;
+        GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.SYNTHESIS;
 
         Inventories.Sort();
     }
@@ -250,66 +243,35 @@ public class Synthesis : MonoBehaviour
     {
         Player.EqData eq = GameManager.Inst().Player.GetItem(index);
 
-        //UID
-        {
-            int count = 0;
-            for (int i = 0; i < 3; i++)
-                if (SelectedUIDs[i] == eq.UID)
-                    count++;
-
-            if (count > 0)
-            {
-                if (count + 1 > eq.Quantity)
-                    return;
-            }
-            else if (count == 0)
-                Grade = eq.Rarity;
-
-            SelectedUIDs[CurrentIndex] = eq.UID;
-            SelectedIndex[CurrentIndex] = index;
-        }
-
-        //ui
-        //SuccessRate.SetActive(false);
-        Buttons[CurrentIndex].Icon.sprite = eq.Icon;
-        Buttons[CurrentIndex].Frame.sprite = Frames[eq.Rarity];
-        Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).Checked.SetActive(true);
-
-        InputTypes[CurrentIndex] = eq.Type;
-
-
-        ////LineColor
+        ////UID
         //{
         //    int count = 0;
         //    for (int i = 0; i < 3; i++)
-        //        if (InputTypes[i] > -1)
+        //        if (SelectedUIDs[i] == eq.UID)
         //            count++;
 
-        //    if (count > 1)
+        //    if (count > 0)
         //    {
-        //        if (InputTypes[0] > -1 && InputTypes[1] > -1)
-        //        {
-        //            if (InputTypes[0] == InputTypes[1])
-        //                Lines.transform.GetChild(0).GetComponent<Image>().material.SetColor("_GlowColor", Colors[InputTypes[0]]);
-        //            else
-        //                Lines.transform.GetChild(0).GetComponent<Image>().material.SetColor("_GlowColor", Color.white);
-        //        }
-        //        if (InputTypes[0] > -1 && InputTypes[2] > -1)
-        //        {
-        //            if (InputTypes[0] == InputTypes[2])
-        //                Lines.transform.GetChild(1).GetComponent<Image>().material.SetColor("_GlowColor", Colors[InputTypes[0]]);
-        //            else
-        //                Lines.transform.GetChild(1).GetComponent<Image>().material.SetColor("_GlowColor", Color.white);
-        //        }
-        //        if (InputTypes[1] > -1 && InputTypes[2] > -1)
-        //        {
-        //            if (InputTypes[1] == InputTypes[2])
-        //                Lines.transform.GetChild(2).GetComponent<Image>().material.SetColor("_GlowColor", Colors[InputTypes[1]]);
-        //            else
-        //                Lines.transform.GetChild(2).GetComponent<Image>().material.SetColor("_GlowColor", Color.white);
-        //        }
+        //        if (count + 1 > eq.Quantity)
+        //            return;
         //    }
+        //    else if (count == 0)
+        //        Grade = eq.Rarity;
+
+        //    SelectedUIDs[CurrentIndex] = eq.UID;
+        //    SelectedIndex[CurrentIndex] = index;
         //}
+
+        //ui
+        //SuccessRate.SetActive(false);
+        for(int i = 0; i < 3; i++)
+        {
+            Buttons[i].Icon.sprite = eq.Icon;
+            Buttons[i].Frame.sprite = Frames[eq.Rarity];
+            InputTypes[i] = eq.Type;
+            SelectedIndex[i] = index;
+        }
+        Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).Checked.SetActive(true);
 
         //합성 가능
         {
@@ -323,24 +285,17 @@ public class Synthesis : MonoBehaviour
             }
 
             IsAbleSynthesize = true;
-            //SuccessRate.SetActive(true);
+            MergetBtn.interactable = true;
+            EnterItemText.SetActive(false);
+            SuccessRate.SetActive(true);
             Rate = 100 - eq.Rarity * 10;
             RateText.text = Rate.ToString();
             int need = (int)Mathf.Pow(10, (eq.Rarity + 2));
             Need.text = need.ToString();
 
-            if (InputTypes[0] == InputTypes[1] && InputTypes[0] == InputTypes[2])
-            {
-                Buttons[3].Icon.sprite = GameManager.Inst().UiManager.FoodImages[eq.Type + (eq.Rarity + 1) * 3];
-                Buttons[3].Frame.sprite = Frames[eq.Rarity + 1];
-                SynthType = InputTypes[0];
-            }
-            else
-            {
-                Buttons[3].Icon.sprite = QuestionSprite;
-                Buttons[3].Frame.sprite = Frames[eq.Rarity + 1];
-                SynthType = -1;
-            }
+            Buttons[3].Icon.sprite = GameManager.Inst().UiManager.FoodImages[eq.Type + (eq.Rarity + 1) * 3];
+            Buttons[3].Frame.sprite = Frames[eq.Rarity + 1];
+            SynthType = InputTypes[0];
         }
     }
 
@@ -348,6 +303,10 @@ public class Synthesis : MonoBehaviour
     {
         if (!IsAbleSynthesize)
             return;
+        if (GameManager.Inst().Player.GetCoin() < int.Parse(Need.text))
+            return;
+        else
+            GameManager.Inst().Player.MinusCoin(int.Parse(Need.text));
 
         int rarity = GameManager.Inst().Player.GetItem(SelectedIndex[0]).Rarity;
         
@@ -417,7 +376,7 @@ public class Synthesis : MonoBehaviour
         int type = eqData.Type;
         int value = (int)eqData.Value;
 
-        SelectDetail.GetComponent<SelectDetail>().SetDatas(type, value, Colors[InputTypes[CurrentIndex]]);
+        SelectDetail.GetComponent<SelectDetail>().SetDatas(type, value, Colors[InputTypes[0]]);
     }
 
     public void CloseResult()

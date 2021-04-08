@@ -199,9 +199,10 @@ public class Weapon : MonoBehaviour
 
     void ShowInfoArea()
     {
-        InfoArea.SetWeaponName(SlotIndices[ShowBulletType]);
-        InfoArea.UpgradeBtn.interactable = GameManager.Inst().UpgManager.BData[SlotIndices[ShowBulletType]].GetActive();
-        InfoArea.EquipAreaBtn.interactable = GameManager.Inst().UpgManager.BData[SlotIndices[ShowBulletType]].GetActive();
+        InfoArea.SetWeaponName(CurBulletType);
+        InfoArea.ShowDetail(CurBulletType);
+        InfoArea.UpgradeBtn.interactable = GameManager.Inst().UpgManager.BData[CurBulletType].GetActive();
+        InfoArea.EquipAreaBtn.interactable = GameManager.Inst().UpgManager.BData[CurBulletType].GetActive();
 
         for (int i = 0; i < 3; i++)
             InfoArea.PaintGauge(i, CurBulletType);

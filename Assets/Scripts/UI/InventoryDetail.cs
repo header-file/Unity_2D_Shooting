@@ -9,6 +9,7 @@ public class InventoryDetail : MonoBehaviour
     public GameObject Type;
     public GameObject Value;
     public GameObject[] Grades;
+    public Image Frame;
 
 
     public void ShowDetail(int index)
