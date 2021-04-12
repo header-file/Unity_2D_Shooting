@@ -151,23 +151,27 @@ public class Enemy : MonoBehaviour
             
             CurHP = Health;
 
-            //GameManager.Inst().Camerashake.Vibrate(0.05f);
             if (Type != EnemyType.BOSS)
             {
                 GameManager.Inst().StgManager.AddBossCount();
                 gameObject.SetActive(false);
 
                 rand = Random.Range(0, 2);
-                if(rand > 0)
-                    GameManager.Inst().MakeEquipment(-1, -1, transform);
+                if (rand > 0)
+                    GameManager.Inst().MakeReinforce(-1, -1, transform);
+                else
+                    GameManager.Inst().MakeEquip(-1, -1, transform);
             }
             else
             {
                 gameObject.GetComponent<EnemyB>().Die();
-                GameManager.Inst().MakeEquipment(-1, -1, transform);
+                rand = Random.Range(0, 2);
+                if (rand > 0)
+                    GameManager.Inst().MakeReinforce(-1, -1, transform);
+                else
+                    GameManager.Inst().MakeEquip(-1, -1, transform);
 
                 //Boss 사망 카운트 추가
-
                 GameManager.Inst().StgManager.IsBoss = false;
                 GameManager.Inst().StgManager.RestartStage();
             }

@@ -25,11 +25,11 @@ public class GameManager : MonoBehaviour
 
     public int[,] SubWID;
     public int[] Resources;
+    public int[,,] EquipDatas;
 
     SubWeapon[,] SubWeapons;
     
     List<Dictionary<string, object>> DropRateData;
-
 
     public static GameManager Inst() { return Instance; }
     public SubWeapon GetSubweapons(int index) { return SubWeapons[StgManager.Stage - 1, index]; }
@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
         SubWeapons = new SubWeapon[Constants.MAXSTAGES, 4];
         SubWID = new int[Constants.MAXSTAGES, 4];
 
+        EquipDatas = new int[Constants.MAXEQUIPTYPE, Constants.MAXRARITY, Constants.MAXEQUIPDATAS];
+
         StgManager.Stage = 1;
     }
 
@@ -66,7 +68,8 @@ public class GameManager : MonoBehaviour
     {
         SetTexts();
         SetInventory();
-        SetData();
+        SetDropRateData();
+        SetEquipDatas();
         SetResources();
         
         //StgManager.BeginStage();
@@ -94,9 +97,24 @@ public class GameManager : MonoBehaviour
         TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));
     }
 
-    void SetData()
+    void SetDropRateData()
     {
         DropRateData = CSVReader.Read("Datas/DropRate");
+    }
+
+    void SetEquipDatas()
+    {
+        List<Dictionary<string, object>> datas = CSVReader.Read("Datas/ZzinEquipData");
+
+        for (int i = 0; i < Constants.MAXEQUIPTYPE; i++)
+        {
+            for (int j = 0; j < Constants.MAXRARITY; j++)
+            {
+                EquipDatas[i, j, 0] = int.Parse(datas[i * Constants.MAXRARITY + j]["COOLTIME"].ToString());
+                EquipDatas[i, j, 1] = int.Parse(datas[i * Constants.MAXRARITY + j]["MIN"].ToString());
+                EquipDatas[i, j, 2] = int.Parse(datas[i * Constants.MAXRARITY + j]["MAX"].ToString());
+            }
+        }
     }
 
     void SetResources()
@@ -108,7 +126,66 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void MakeEquipment(int type, int grade, Transform transform)
+    public void MakeEquip(int type, int grade, Transform transform)
+    {
+        int rand = type;
+        if (rand == -1)
+            rand = (int)(Random.value * 4.0f);
+
+        int uid = 0;
+        switch (rand)
+        {
+            case 0:
+                GameObject eq = ObjManager.MakeObj("EqMagnet");
+                eq.transform.position = transform.position;
+                Item_ZzinEquipment eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.5f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                int rarity = eqp.SetGrade(grade);
+                int val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.MAGNET, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.MAGNET, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.MAGNET, rarity, 0], val, uid);
+                break;
+
+            case 1:
+                eq = ObjManager.MakeObj("EqHoming");
+                eq.transform.position = transform.position;
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.5f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.HOMING, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.HOMING, rarity, 2]);                
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.HOMING, rarity, 0], val, uid);
+                break;
+
+            case 2:
+                eq = ObjManager.MakeObj("EqHeal");
+                eq.transform.position = transform.position;
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.5f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.HEAL, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.HEAL, rarity, 2]);                
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.HEAL, rarity, 0], val, uid);
+                break;
+
+            case 3:
+                eq = ObjManager.MakeObj("EqVamp");
+                eq.transform.position = transform.position;
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.5f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.VAMP, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.VAMP, rarity, 2]);                
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.VAMP, rarity, 0], val, uid);
+                break;
+        }
+    }
+
+    public void MakeReinforce(int type, int grade, Transform transform)
     {
         int rand = type;
         if (rand == -1)

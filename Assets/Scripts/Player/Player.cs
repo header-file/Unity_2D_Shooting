@@ -174,6 +174,27 @@ public class Player : MonoBehaviour
         return -1;
     }
 
+    public int AddItem(Item_ZzinEquipment item)
+    {
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        {
+            if (Inventory[i] == null)
+            {
+                Inventory[i] = new EqData();
+                Inventory[i].Icon = item.GetIcon();
+                Inventory[i].Type = item.GetEqType();
+                Inventory[i].Rarity = item.GetRarity();
+                Inventory[i].Value = item.GetValue();
+                Inventory[i].UID = item.GetUID();
+                Inventory[i].Quantity = 1;
+
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     public int AddItem(EqData item)
     {
         for (int i = 0; i < Constants.MAXINVENTORY; i++)

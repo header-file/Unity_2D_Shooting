@@ -12,6 +12,7 @@ public class Item : MonoBehaviour
         EQUIPMENT = 10,
         SHIELD = 11,
         BOMB = 12,
+        ZZINEQUIP = 13,
     }
 
     public enum UIDCombination
@@ -19,6 +20,7 @@ public class Item : MonoBehaviour
         ATK = 0,
         HP = 1,
         SPD = 2,
+        ETC = 9,
         WHITE = 10,
         GREEND = 20,
         BLUE = 30,
@@ -29,6 +31,7 @@ public class Item : MonoBehaviour
         REINFORCE = 300,
         SHIELD = 400,
         BOMB = 500,
+        EQUIPMENT = 600,
     }
 
     protected ItemType Type;
@@ -36,7 +39,6 @@ public class Item : MonoBehaviour
     protected bool IsStart;
 
     Vector3 TargetPos;
-    GameObject Player;
     int UID;
 
 
@@ -49,8 +51,6 @@ public class Item : MonoBehaviour
 
     void Awake()
     {
-        Player = GameObject.Find("Player");
-
         IsStart = false;
     }
 
@@ -72,7 +72,7 @@ public class Item : MonoBehaviour
 
     void Absorb()
     {
-        transform.position = Vector3.Lerp(transform.position, Player.transform.position, Time.deltaTime * 2.0f);
+        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.transform.position, Time.deltaTime * 2.0f);
     }
 
     private void OnMouseOver()
@@ -94,11 +94,17 @@ public class Item : MonoBehaviour
                 case ItemType.EQUIPMENT:
                     GameManager.Inst().Player.AddItem(gameObject.GetComponent<Item_Equipment>());
                     break;
+
                 case ItemType.SHIELD:
                     GameManager.Inst().Player.ShieldOn();
                     break;
+
                 case ItemType.BOMB:
                     gameObject.GetComponent<Item_Bomb>().Bomb();
+                    break;
+
+                case ItemType.ZZINEQUIP:
+                    GameManager.Inst().Player.AddItem(gameObject.GetComponent<Item_ZzinEquipment>());
                     break;
             }
 

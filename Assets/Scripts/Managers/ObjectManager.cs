@@ -27,6 +27,10 @@ public class ObjectManager : MonoBehaviour
     public GameObject ShieldPref;
     public GameObject ItemBombPref;
     public GameObject BombPref;
+    public GameObject EqMagnetPref;
+    public GameObject EqHomingPref;
+    public GameObject EqHealPref;
+    public GameObject EqVampPref;
     public GameObject ResourcePref;
 
     //Player Bullet
@@ -74,6 +78,10 @@ public class ObjectManager : MonoBehaviour
     GameObject[] Shields;
     GameObject[] ItemBombs;
     GameObject[] Bombs;
+    GameObject[] EqMagnets;
+    GameObject[] EqHomings;
+    GameObject[] EqHeals;
+    GameObject[] EqVamps;
     GameObject[] Resources;
 
     GameObject[,] Normals;
@@ -229,6 +237,22 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = Bombs;
                 break;
 
+            case "EqMagnet":
+                TargetPool = EqMagnets;
+                break;
+
+            case "EqHoming":
+                TargetPool = EqHomings;
+                break;
+
+            case "EqHeal":
+                TargetPool = EqHeals;
+                break;
+
+            case "EqVamp":
+                TargetPool = EqVamps;
+                break;
+
             case "Resource":
                 TargetPool = Resources;
                 break;
@@ -323,6 +347,10 @@ public class ObjectManager : MonoBehaviour
         Shields = new GameObject[5];
         ItemBombs = new GameObject[5];
         Bombs = new GameObject[5];
+        EqMagnets = new GameObject[10];
+        EqHomings = new GameObject[10];
+        EqHeals = new GameObject[10];
+        EqVamps = new GameObject[10];
         Resources = new GameObject[40];
 
         Normals = new GameObject[8, 100];
@@ -476,6 +504,34 @@ public class ObjectManager : MonoBehaviour
             Bombs[i] = Instantiate(BombPref);
             Bombs[i].transform.SetParent(ItemPool.transform, false);
             Bombs[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqMagnets.Length; i++)
+        {
+            EqMagnets[i] = Instantiate(EqMagnetPref);
+            EqMagnets[i].transform.SetParent(ItemPool.transform, false);
+            EqMagnets[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqHomings.Length; i++)
+        {
+            EqHomings[i] = Instantiate(EqHomingPref);
+            EqHomings[i].transform.SetParent(ItemPool.transform, false);
+            EqHomings[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqHeals.Length; i++)
+        {
+            EqHeals[i] = Instantiate(EqHealPref);
+            EqHeals[i].transform.SetParent(ItemPool.transform, false);
+            EqHeals[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqVamps.Length; i++)
+        {
+            EqVamps[i] = Instantiate(EqHealPref);
+            EqVamps[i].transform.SetParent(ItemPool.transform, false);
+            EqVamps[i].SetActive(false);
         }
 
         for (int i = 0; i < Resources.Length; i++)
