@@ -7,9 +7,12 @@ public class InventoryDetail : MonoBehaviour
 {
     public GameObject Icon;
     public GameObject Type;
-    public GameObject Value;
+    public Text Value;
     public GameObject[] Grades;
     public Image Frame;
+    public GameObject Values;
+    public GameObject Detail;
+    public Text DetailText;
 
 
     public void ShowDetail(int index)
@@ -24,8 +27,13 @@ public class InventoryDetail : MonoBehaviour
         int type = equip.Type;
         SetTypeName(type);
 
-        float val = equip.Value;
-        SetEqValue((int)val);
+        if (equip.UID / 100 == 3)
+        {
+            int val = (int)equip.Value;
+            SetValue(val);
+        }
+        else if(equip.UID / 100 == 6)
+            SetDetail(equip.Type, equip.Rarity, equip.Value);
     }    
 
     void SetRarityColor(int rarity)
@@ -57,9 +65,26 @@ public class InventoryDetail : MonoBehaviour
         }
     }
 
-    void SetEqValue(int val)
+    void SetValue(int val)
     {
-        Text text = Value.GetComponent<Text>();
-        text.text = val.ToString();
+        Values.SetActive(true);
+        Detail.SetActive(false);
+
+        Value.text = val.ToString();
+    }
+
+    void SetDetail(int type, int rarity, float value)
+    {
+        Values.SetActive(false);
+        Detail.SetActive(true);
+
+        string detail = "";
+        detail += GameManager.Inst().EquipDatas[type, rarity, 0].ToString();
+        detail += GameManager.Inst().TxtManager.EquipDetailFront[type];
+        if (value > 0)
+            detail += value.ToString();
+        detail += GameManager.Inst().TxtManager.EquipDetailBack[type];
+
+        DetailText.text = detail;
     }
 }

@@ -17,9 +17,14 @@ public class Weapon : MonoBehaviour
     public Sprite[] WeaponIcons;
     public WeaponCell[] WeaponCells;
     public LoopScroll2 WeaponCellScroll;
+    public Image[] EquipImage;
+    public Text[] EquipName;
+    public Text[] EquipDetail;
+    public EquipSwitch EquipSwitch;
 
     InventoryScroll Inventories;
     Player.EqData CurEquip;
+    Sprite DefaultEquipImg;
     int[] SlotIndices;
     int CurBulletType;
     int ShowBulletType;
@@ -63,6 +68,14 @@ public class Weapon : MonoBehaviour
         InfoArea.gameObject.SetActive(true);
         EquipArea.gameObject.SetActive(false);
         gameObject.SetActive(false);
+
+        DefaultEquipImg = EquipImage[0].sprite;
+        for(int i = 0; i < 2; i++)
+        {
+            EquipName[i].text = "";
+            EquipDetail[i].text = "";
+        }
+        EquipSwitch.gameObject.SetActive(false);
     }
 
     void Update()
@@ -247,9 +260,11 @@ public class Weapon : MonoBehaviour
                 if (eq.Type == type)
                 {
                     Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                    if (eq.UID / 100 == 6)
+                        icon = eq.Icon;
+
                     InventorySlot slot = Inventories.GetSlot(i);
                     slot.gameObject.SetActive(true);
-
                     slot.GetNotExist().SetActive(false);
                     slot.GetExist().SetActive(true);
                     slot.SetIcon(icon);
@@ -281,12 +296,47 @@ public class Weapon : MonoBehaviour
     {
         CurEquip = GameManager.Inst().Player.GetItem(index);
 
-        if (CurEquip.Quantity > 0)
-            TempCount[CurEquip.Type] += (int)CurEquip.Value;
+        if (CurEquip.UID / 100 == 3)
+        {
+            if (CurEquip.Quantity > 0)
+                TempCount[CurEquip.Type] += (int)CurEquip.Value;
 
-        EquipArea.WindowOn(CurEquip, TempCount[CurEquip.Type] / (int)CurEquip.Value);
+            EquipArea.WindowOn(CurEquip, TempCount[CurEquip.Type] / (int)CurEquip.Value);
 
-        IsFlickering = true;
+            IsFlickering = true;
+        }
+        else if (CurEquip.UID / 100 == 6)
+        {
+            if (GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex() == -1)
+                Equip(index);
+            else
+                EquipSwitch.Show(CurBulletType, index);
+        }
+    }
+
+    public void Equip(int index)
+    {
+        GameManager.Inst().UpgManager.BData[CurBulletType].SetEquipIndex(index);
+
+        //Weapon UI
+        for (int i = 0; i < 2; i++)
+        {
+            EquipImage[i].sprite = CurEquip.Icon;
+            EquipName[i].text = GameManager.Inst().TxtManager.EquipName[CurEquip.Type];
+        }
+        EquipDetail[0].text = GameManager.Inst().TxtManager.EquipDetailSimple[CurEquip.Type];
+
+        string detail = "";
+        detail += GameManager.Inst().EquipDatas[CurEquip.Type, CurEquip.Rarity, 0].ToString();
+        detail += GameManager.Inst().TxtManager.EquipDetailFront[CurEquip.Type];
+        if (CurEquip.Value > 0)
+            detail += CurEquip.Value.ToString();
+        detail += GameManager.Inst().TxtManager.EquipDetailBack[CurEquip.Type];
+        EquipDetail[1].text = detail;
+
+        //InventorySlot UI
+        InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(index));
+        slot.EMark.SetActive(true);
     }
 
     public void AddQuantity()

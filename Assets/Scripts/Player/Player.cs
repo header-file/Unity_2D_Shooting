@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
         public float Value;
         public int UID;
         public int Quantity;
+        public float CoolTime;
         
         public EqData()
         {
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
             Value = 0.0f;
             UID = 0;
             Quantity = 0;
+            CoolTime = 0.0f;
         }
         
     };
@@ -166,6 +168,7 @@ public class Player : MonoBehaviour
                 Inventory[i].Value = item.GetEqValue();
                 Inventory[i].UID = item.GetUID();
                 Inventory[i].Quantity = 1;
+                Inventory[i].CoolTime = 0.0f;
 
                 return i;
             }
@@ -187,6 +190,7 @@ public class Player : MonoBehaviour
                 Inventory[i].Value = item.GetValue();
                 Inventory[i].UID = item.GetUID();
                 Inventory[i].Quantity = 1;
+                Inventory[i].CoolTime = item.GetCoolTime();
 
                 return i;
             }
@@ -203,6 +207,9 @@ public class Player : MonoBehaviour
             {
                 if (Inventory[i].UID == item.UID)
                 {
+                    if (item.UID / 100 == 6)
+                        continue;
+
                     Inventory[i].Quantity++;
                     return i;
                 }
@@ -223,6 +230,7 @@ public class Player : MonoBehaviour
                     Inventory[i].Quantity = item.Quantity;
                 else
                     Inventory[i].Quantity = 1;
+                Inventory[i].CoolTime = item.CoolTime;
 
                 return i;
             }

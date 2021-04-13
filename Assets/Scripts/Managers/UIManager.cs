@@ -26,7 +26,6 @@ public class UIManager : MonoBehaviour
     public GameObject ScrollView;
     public GameObject Inventory;
     public GameObject InventoryDetail;
-    //public GameObject Equip;
     public GameObject Weapon;
     public GameObject ConfirmSwitch;
     public GameObject Synthesis;
@@ -67,6 +66,7 @@ public class UIManager : MonoBehaviour
 
     public Sprite[] WeaponImages;
     public Sprite[] FoodImages;
+    public Sprite[] EquipImages;
 
     public Weapon WeaponUI;
 

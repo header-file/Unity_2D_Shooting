@@ -22,6 +22,7 @@ public class GameData
         VALUE = 2,
         AMOUNT = 3,
         ID = 4,
+        COOLTIME = 5,
     }
 
     public enum SWData
@@ -113,6 +114,7 @@ public class GameData
                 Inventories[Constants.INVDATASIZE * i + (int)InvData.VALUE] = (int)eq.Value;
                 Inventories[Constants.INVDATASIZE * i + (int)InvData.AMOUNT] = eq.Quantity;
                 Inventories[Constants.INVDATASIZE * i + (int)InvData.ID] = eq.UID;
+                Inventories[Constants.INVDATASIZE * i + (int)InvData.COOLTIME] = (int)eq.CoolTime;
             }
         }
 
@@ -220,7 +222,12 @@ public class GameData
                     eq.Value = Inventories[Constants.INVDATASIZE * i + (int)InvData.VALUE];
                     eq.Quantity = Inventories[Constants.INVDATASIZE * i + (int)InvData.AMOUNT];
                     eq.UID = Inventories[Constants.INVDATASIZE * i + (int)InvData.ID];
-                    eq.Icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                    eq.CoolTime = Inventories[Constants.INVDATASIZE * i + (int)InvData.COOLTIME];
+                                        
+                    if(eq.UID / 100 == 3)
+                        eq.Icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                    else if (eq.UID / 100 == 6)
+                        eq.Icon = GameManager.Inst().UiManager.EquipImages[eq.Type];
 
                     GameManager.Inst().Player.AddItem(eq);
                 }

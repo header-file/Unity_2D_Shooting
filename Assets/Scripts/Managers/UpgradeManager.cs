@@ -57,6 +57,7 @@ public class UpgradeManager : MonoBehaviour
         public void SetMaxAtk(int max) { MaxAtk = max; }
         public void SetMaxHp(int max) { MaxHp = max; }
         public void SetMaxSpd(int max) { MaxSpd = max; }
+        public void SetEquipIndex(int index) { EquipIndex = index; }
 
         public int GetMaxBulletLevel() { return MaxBulletLevel * (Rarity + 1); }
         public int GetPowerLevel() { return PowerLevel; }
@@ -75,6 +76,7 @@ public class UpgradeManager : MonoBehaviour
         public int GetRarity() { return Rarity; }
         public int GetBaseDamage() { return BaseDamage; }
         public bool GetActive() { return IsActive; }
+        public int GetEquipIndex() { return EquipIndex; }
         
         public void ResetData()
         {
@@ -97,6 +99,8 @@ public class UpgradeManager : MonoBehaviour
             MaxHp = 0;
             MaxSpd = 0;
 
+            EquipIndex = -1;
+
             IsActive = false;
         }
 
@@ -112,6 +116,7 @@ public class UpgradeManager : MonoBehaviour
             MaxAtk = 0;
             MaxHp = 0;
             MaxSpd = 0;
+            EquipIndex = -1;
         }
 
         const int MaxBulletLevel = 10;
@@ -133,6 +138,8 @@ public class UpgradeManager : MonoBehaviour
         private int MaxAtk;
         private int MaxHp;
         private int MaxSpd;
+
+        private int EquipIndex;
 
         bool IsActive;
     };

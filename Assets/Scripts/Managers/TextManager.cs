@@ -11,6 +11,10 @@ public class TextManager : MonoBehaviour
     public GameObject SubName;
     public Text[] Resources;
     public Text BossTimer;
+    public string[] EquipName;
+    public string[] EquipDetailFront;
+    public string[] EquipDetailBack;
+    public string[] EquipDetailSimple;
 
     Text[] BNames;
     Text[] BLevels;
