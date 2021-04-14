@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
         public int UID;
         public int Quantity;
         public float CoolTime;
-        
+
         public EqData()
         {
             Icon = null;
@@ -28,14 +28,14 @@ public class Player : MonoBehaviour
             Quantity = 0;
             CoolTime = 0.0f;
         }
-        
+
     };
 
     const float DEATHTIME = 5.0f;
 
     public SpriteResolver Skin;
     public string[] Types;
-    
+
     public GameObject[] NormalPos;
     public GameObject[] SpreadPos;
     public GameObject LaserPos;
@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
     public int GetMaxHP() { return MaxHP; }
     public int GetCurHP() { return CurHP; }
 
-    
+
     public void SetMaxHP(int hp) { MaxHP = hp; }
     public void SetCurHP(int hp) { CurHP = hp; }
     public void SetSubWeapon(GameObject obj, int index) { SubWeapons[index] = obj; }
@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             if (Inventory[i] == null)
             {
@@ -235,7 +235,7 @@ public class Player : MonoBehaviour
                 return i;
             }
         }
-        
+
         return -1;
     }
 
@@ -246,12 +246,12 @@ public class Player : MonoBehaviour
             Inventory[i] = Inventory[j];
             Inventory[j] = null;
         }
-        else if(Inventory[j] == null)
+        else if (Inventory[j] == null)
         {
             Inventory[j] = Inventory[i];
             Inventory[i] = null;
         }
-        else if(Inventory[i] != null && Inventory[j] != null)
+        else if (Inventory[i] != null && Inventory[j] != null)
         {
             EqData temp = new EqData();
             temp = Inventory[i];
@@ -286,12 +286,12 @@ public class Player : MonoBehaviour
             {
                 if (Inventory[i] == null)
                     continue;
-                else 
+                else
                 {
                     InventoryScroll inven = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
                     for (int j = i; j > 0; j--)
                     {
-                        if(Inventory[j - 1] == null)
+                        if (Inventory[j - 1] == null)
                         {
                             Swap(j - 1, j);
                         }
@@ -310,7 +310,7 @@ public class Player : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
         Coin = 10000;
-        
+
         IsReload = true;
         BulletType = 0;
 
@@ -340,10 +340,25 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        SetUIPos();
+
+        EquipCount();
+    }
+
+    void SetUIPos()
+    {
         PlayerPos = transform.position;
         PlayerPos.y += 3.0f;
         PlayerPos.z = 90.0f;
         UI.transform.position = PlayerPos;
+    }
+
+    void EquipCount()
+    {
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() == -1)
+            return;
+
+        GameManager.Inst().EquManager.Count(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex(), 2);
     }
 
     public void UISetting()

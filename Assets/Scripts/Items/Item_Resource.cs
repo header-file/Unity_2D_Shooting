@@ -13,6 +13,7 @@ public class Item_Resource : Item
     bool IsAbsorb;
     float Speed;
     int stage;
+   
 
     void Start()
     {
@@ -80,8 +81,7 @@ public class Item_Resource : Item
 
     void OnMouseDown()
     {
-        Invoke("Add", 5.0f);
-        IsAbsorb = true;
+        BeginAbsorb();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -100,5 +100,11 @@ public class Item_Resource : Item
             //퀘스트 처리
             GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.RESOURCE, GameManager.Inst().StgManager.Stage, Value);
         }
+    }
+
+    public void BeginAbsorb()
+    {
+        Invoke("Add", 5.0f);
+        IsAbsorb = true;
     }
 }

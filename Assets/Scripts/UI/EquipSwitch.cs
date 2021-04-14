@@ -28,4 +28,9 @@ public class EquipSwitch : MonoBehaviour
         aftStr += GameManager.Inst().TxtManager.EquipDetailBack[aftEq.Type];
         AfterDetail.text = aftStr;
     }
+
+    public void Switch()
+    {
+
+    }
 }

@@ -46,6 +46,7 @@ public class GameData
         ATK = 7,
         HP = 8,
         SPD = 9,
+        EQUIP = 10,
     }
 
     public enum QSTData
@@ -130,6 +131,7 @@ public class GameData
             Weapons[Constants.WPDATASIZE * i + (int)WPData.ATK] = GameManager.Inst().UpgManager.BData[i].GetAtk();
             Weapons[Constants.WPDATASIZE * i + (int)WPData.HP] = GameManager.Inst().UpgManager.BData[i].GetHp();
             Weapons[Constants.WPDATASIZE * i + (int)WPData.SPD] = GameManager.Inst().UpgManager.BData[i].GetSpd();
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.EQUIP] = GameManager.Inst().UpgManager.BData[i].GetEquipIndex();
         }
 
         for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
@@ -214,7 +216,7 @@ public class GameData
         {
             for (int i = 0; i < Constants.MAXINVENTORY; i++)
             {
-                if (Inventories[Constants.INVDATASIZE * i + (int)InvData.VALUE] > 0)
+                if (Inventories[Constants.INVDATASIZE * i + (int)InvData.ID] > 0)
                 {
                     Player.EqData eq = new Player.EqData();
                     eq.Type = Inventories[Constants.INVDATASIZE * i + (int)InvData.TYPE];
@@ -251,6 +253,7 @@ public class GameData
                 GameManager.Inst().UpgManager.BData[i].SetAtk((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.ATK]);
                 GameManager.Inst().UpgManager.BData[i].SetHp((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.HP]);
                 GameManager.Inst().UpgManager.BData[i].SetSpd((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.SPD]);
+                GameManager.Inst().UpgManager.BData[i].SetEquipIndex((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.EQUIP]);
 
                 GameManager.Inst().UpgManager.SetMaxData(i);
             }

@@ -118,6 +118,22 @@ public class Weapon : MonoBehaviour
             InfoArea.SetWeaponName(SlotIndices[ShowBulletType]);
             InfoArea.ShowDetail(SlotIndices[ShowBulletType]);
 
+            if (GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex() != -1)
+            {
+                int index = GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex();
+                CurEquip = GameManager.Inst().Player.GetItem(index);
+                SetWeaponUI();
+            }
+            else
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    EquipImage[i].sprite = DefaultEquipImg;
+                    EquipName[i].text = "";
+                    EquipDetail[i].text = "";
+                }
+            }
+
             for (int i = 0; i < 3; i++)
             {
                 if (SwitchWindows[i].transform.position.x > 6.0f)
@@ -219,6 +235,22 @@ public class Weapon : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
             InfoArea.PaintGauge(i, CurBulletType);
+
+        if (GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex() != -1)
+        {
+            int index = GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex();
+            CurEquip = GameManager.Inst().Player.GetItem(index);
+            SetWeaponUI();
+        }
+        else
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                EquipImage[i].sprite = DefaultEquipImg;
+                EquipName[i].text = "";
+                EquipDetail[i].text = "";
+            }
+        }
     }
 
     public void ShowEquipArea()
@@ -244,6 +276,15 @@ public class Weapon : MonoBehaviour
         Inventories.SetSlotType(1);
 
         Inventories.ShowInventory();
+
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
+        {
+            if (GameManager.Inst().UpgManager.BData[i].GetEquipIndex() != -1)
+            {
+                InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(GameManager.Inst().UpgManager.BData[i].GetEquipIndex()));
+                slot.EMark.SetActive(true);
+            }
+        }
     }
 
     public void SortAsType(int type)
@@ -319,6 +360,15 @@ public class Weapon : MonoBehaviour
         GameManager.Inst().UpgManager.BData[CurBulletType].SetEquipIndex(index);
 
         //Weapon UI
+        SetWeaponUI();
+
+        //InventorySlot UI
+        InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(index));
+        slot.EMark.SetActive(true);
+    }
+
+    void SetWeaponUI()
+    {
         for (int i = 0; i < 2; i++)
         {
             EquipImage[i].sprite = CurEquip.Icon;
@@ -333,10 +383,6 @@ public class Weapon : MonoBehaviour
             detail += CurEquip.Value.ToString();
         detail += GameManager.Inst().TxtManager.EquipDetailBack[CurEquip.Type];
         EquipDetail[1].text = detail;
-
-        //InventorySlot UI
-        InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(index));
-        slot.EMark.SetActive(true);
     }
 
     public void AddQuantity()

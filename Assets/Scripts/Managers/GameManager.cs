@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public UIManager UiManager;
     public QuestManager QstManager;
     public ShakeManager ShkManager;
+    public EquipManager EquManager;
 
     public Player Player;
 
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour
         UiManager = FindObjectOfType<UIManager>();
         QstManager = FindObjectOfType<QuestManager>();
         ShkManager = FindObjectOfType<ShakeManager>();
+        EquManager = FindObjectOfType<EquipManager>();
     }
 
     void SetTexts()
