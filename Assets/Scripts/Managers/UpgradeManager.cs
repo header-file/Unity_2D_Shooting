@@ -436,7 +436,7 @@ public class UpgradeManager : MonoBehaviour
         BData[i].SetMaxSpd(WeaponReinforceMaxData[i, BData[i].GetRarity(), 2]);
     }
 
-    void SetHPData(int type)
+    public void SetHPData(int type)
     {
         if (type == GameManager.Inst().Player.GetBulletType())
             GameManager.Inst().Player.SetHPs();

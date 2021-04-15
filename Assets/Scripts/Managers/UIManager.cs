@@ -596,15 +596,12 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSwitchBtn()
     {
-        //EquipUI.Switch(EquipUI.GetSwitchBuffer(), EquipUI.GetCurBulletType());
-        //ConfirmSwitch.SetActive(false);
+        WeaponUI.Switch();
     }
 
     public void OnClickSwitchCancelBtn()
     {
-        //EquipUI.SetSwichBuffer(-1);
-        //EquipUI.SwitchCancel();
-        //ConfirmSwitch.SetActive(false);
+        WeaponUI.EquipSwitch.gameObject.SetActive(false);
     }
 
     public void OnClickNextButton(bool IsNext)

@@ -31,6 +31,7 @@ public class SubWeapon : MonoBehaviour
     int CoolTime;
     bool IsInvincible;
     bool IsShaking;
+    bool IsVamp;
 
     const int COOLTIME = 90;
     int MaxHP;
@@ -46,10 +47,12 @@ public class SubWeapon : MonoBehaviour
     public void SetHP(int hp) { CurHP = MaxHP = hp; }
     public void SetCurHP(int hp) { CurHP = hp; }
     public void SetMaxHP(int hp) { MaxHP = hp; }
+    public void SetIsVamp(bool b) { IsVamp = b; }
 
     public void SetBulletType(int T)
     {
         BulletType = T;
+        GameManager.Inst().UpgManager.SetHPData(BulletType);
         SetSkin();
 
         SetHPs();
@@ -66,6 +69,56 @@ public class SubWeapon : MonoBehaviour
     {
         IsShield = true;
         Shield.SetActive(true);
+    }
+
+    void Awake()
+    {
+        BulletType = -1;
+        DownCount = 0;
+        IsDown = false;
+        IsEditMode = false;
+        IsReload = true;
+        IsMoving = false;
+        Arrow.SetActive(false);
+        IsAlive = true;
+        CoolTime = 0;
+        IsInvincible = false;
+        IsShaking = false;
+
+        MaxHP = CurHP = 0;
+        GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = 0.415f;
+
+        IsVamp = false;
+    }
+
+    void Update()
+    {
+        if (!IsMoving || !IsShaking)
+            SetPosition();
+
+        UIPos = gameObject.transform.position;
+        UIPos.z = 90.0f;
+        //if(NumID > 1)
+        //    GameManager.Inst().Turrets[NumID - 1].transform.position = UIPos;
+        //else
+        GameManager.Inst().UiManager.Turrets[NumID].transform.position = UIPos;
+
+        if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
+            return;
+
+        if (IsDown)
+            DownCount++;
+
+        if (!IsEditMode)
+        {
+            if (DownCount > 60)
+                StartEditMode();
+        }
+
+        if (IsEditMode)
+            EditMode();
+        else
+            Fire();
     }
 
     public void BossMode()
@@ -109,6 +162,9 @@ public class SubWeapon : MonoBehaviour
 
         CurHP -= damage;
 
+        //DamageText
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, damage, (int)TextManager.DamageType.BYENEMY);
+
         //Shake
         IsShaking = true;
         GameManager.Inst().ShkManager.Damage();
@@ -127,57 +183,26 @@ public class SubWeapon : MonoBehaviour
             Dead();
     }
 
+    public void Heal(int heal)
+    {
+        if (heal < 1)
+            heal = 1;
+
+        CurHP += heal;
+        if (CurHP > MaxHP)
+            CurHP = MaxHP;
+
+        //DamageText
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, heal, (int)TextManager.DamageType.PLAYERHEAL);
+
+        GameManager.Inst().UiManager.Turrets[NumID].HPUI.SetActive(true);
+        GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+        Invoke("HideHPUI", 1.0f);
+    }
+
     void HideHPUI()
     {
         GameManager.Inst().UiManager.Turrets[NumID].HPUI.SetActive(false);
-    }
-    
-    void Awake()
-    {
-        BulletType = -1;
-        DownCount = 0;
-        IsDown = false;
-        IsEditMode = false;
-        IsReload = true;
-        IsMoving = false;
-        Arrow.SetActive(false);
-        IsAlive = true;
-        CoolTime = 0;
-        IsInvincible = false;
-        IsShaking = false;
-
-        MaxHP = CurHP = 0;
-        GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = 0.415f;
-    }
-
-    void Update()
-    {
-        if(!IsMoving || !IsShaking)
-            SetPosition();
-
-        UIPos = gameObject.transform.position;
-        UIPos.z = 90.0f;
-        //if(NumID > 1)
-        //    GameManager.Inst().Turrets[NumID - 1].transform.position = UIPos;
-        //else
-            GameManager.Inst().UiManager.Turrets[NumID].transform.position = UIPos;
-
-        if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
-            return;
-
-        if (IsDown)
-            DownCount++;
-
-        if (!IsEditMode)
-        {
-            if( DownCount > 60)
-                StartEditMode();                
-        }
-
-        if (IsEditMode)
-            EditMode();
-        else
-            Fire();
     }
 
     void SetPosition()
@@ -246,7 +271,7 @@ public class SubWeapon : MonoBehaviour
 
         IsReload = false;
         
-        GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID);
+        GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID, IsVamp);
         
         Invoke("Reload", GameManager.Inst().UpgManager.BData[BulletType].GetReloadTime());
     }

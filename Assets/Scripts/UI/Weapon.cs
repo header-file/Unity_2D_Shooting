@@ -349,22 +349,94 @@ public class Weapon : MonoBehaviour
         else if (CurEquip.UID / 100 == 6)
         {
             if (GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex() == -1)
-                Equip(index);
+            {
+                for (int i = 0; i < Constants.MAXBULLETS; i++)
+                {
+                    if (GameManager.Inst().UpgManager.BData[i].GetEquipIndex() == index)
+                    {
+                        EquipSwitch.Show(CurBulletType, index);
+                        return;
+                    }
+                }
+
+                Equip(CurBulletType, index);
+            }
             else
-                EquipSwitch.Show(CurBulletType, index);
+                EquipSwitch.Show(CurBulletType, index);                
         }
     }
 
-    public void Equip(int index)
+    public void Equip(int bulletType, int index)
     {
-        GameManager.Inst().UpgManager.BData[CurBulletType].SetEquipIndex(index);
+        GameManager.Inst().UpgManager.BData[bulletType].SetEquipIndex(index);
+
+        //Vamp
+        if (GameManager.Inst().Player.GetItem(index).Type == (int)Item_ZzinEquipment.EquipType.VAMP)
+            EquipVamp();
 
         //Weapon UI
         SetWeaponUI();
 
         //InventorySlot UI
+        if (index == -1)
+            return;
+
         InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(index));
         slot.EMark.SetActive(true);
+    }
+
+    public void Switch()
+    {
+        int index = EquipSwitch.SelectedIndex;
+
+        InventorySlot slot = null;
+        if (GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex() != -1)
+        {
+            slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex()));
+            slot.EMark.SetActive(false);
+        }
+
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
+        {
+            if (GameManager.Inst().UpgManager.BData[i].GetEquipIndex() == index)
+            {
+                UnEquipVamp(i);
+                if (GameManager.Inst().UpgManager.BData[i].GetEquipIndex() != -1)
+                    Equip(i, GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex());
+            }
+        }
+
+        EquipSwitch.gameObject.SetActive(false);
+
+        Equip(CurBulletType, index);
+    }
+
+    void EquipVamp()
+    {
+        if (GameManager.Inst().Player.GetBulletType() == CurBulletType)
+            GameManager.Inst().Player.SetIsVamp(true);
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (GameManager.Inst().GetSubweapons(i) != null && GameManager.Inst().GetSubweapons(i).GetBulletType() == CurBulletType)
+                    GameManager.Inst().GetSubweapons(i).SetIsVamp(true);
+            }
+        }
+    }
+
+    void UnEquipVamp(int bulletType)
+    {
+        if (GameManager.Inst().Player.GetBulletType() == bulletType)
+            GameManager.Inst().Player.SetIsVamp(false);
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (GameManager.Inst().GetSubweapons(i) != null && GameManager.Inst().GetSubweapons(i).GetBulletType() == bulletType)
+                    GameManager.Inst().GetSubweapons(i).SetIsVamp(false);
+            }
+        }
     }
 
     void SetWeaponUI()

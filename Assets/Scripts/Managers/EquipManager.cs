@@ -9,15 +9,15 @@ public class EquipManager : MonoBehaviour
         GameManager.Inst().EquManager = gameObject.GetComponent<EquipManager>();
     }
 
-    public void Count(int index, int id)
+    public void Count(GameObject actor, int index, int id)
     {
         float time = GameManager.Inst().Player.GetItem(index).CoolTime -= Time.deltaTime;
 
         if(time <= 0.0f)
-            Activate(index, id);
+            Activate(actor, index, id);
     }
 
-    void Activate(int index, int id)
+    void Activate(GameObject actor, int index, int id)
     {
         switch(GameManager.Inst().Player.GetItem(index).Type)
         {
@@ -31,9 +31,14 @@ public class EquipManager : MonoBehaviour
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.HOMING:
+                GameManager.Inst().ShtManager.Shoot(Bullet.BulletType.EQUIP, actor, id, false);
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.HEAL:
+                if(id == 2)
+                    actor.GetComponent<Player>().Heal((int)GameManager.Inst().Player.GetItem(index).Value);
+                else
+                    actor.GetComponent<SubWeapon>().Heal((int)GameManager.Inst().Player.GetItem(index).Value);
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.VAMP:

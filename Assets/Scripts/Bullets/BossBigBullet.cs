@@ -78,7 +78,7 @@ public class BossBigBullet : MonoBehaviour
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
         hit.transform.position = gameObject.transform.position;
 
-        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, dmg);
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, dmg, (int)TextManager.DamageType.BYPLYAER);
 
         IsInvincible = true;
         gameObject.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(1.0f, 0.0f, 0.0f));

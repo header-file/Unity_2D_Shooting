@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class TextManager : MonoBehaviour
 {
+    public enum DamageType
+    {
+        BYPLYAER = 0,
+        BYENEMY = 1,
+        PLAYERHEAL = 2,
+    }
+
     public GameObject[] BulletNames;
     public GameObject[] BulletLevels;
     public GameObject SubPrice;
@@ -98,13 +105,14 @@ public class TextManager : MonoBehaviour
         }
     }
 
-    public void ShowDmgText(Vector3 pos, float dmg)
+    public void ShowDmgText(Vector3 pos, float dmg, int type)
     {
         GameObject text = GameManager.Inst().ObjManager.MakeObj("DamageText");
         text.transform.position = pos;
         text.SetActive(true);
         DamageText dmgText = text.GetComponent<DamageText>();
         dmgText.SetText(dmg);
+        dmgText.SetColor(type);
 
         ActivationTimer timer = text.GetComponent<ActivationTimer>();
         timer.IsStart = true;

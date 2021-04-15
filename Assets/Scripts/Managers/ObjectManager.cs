@@ -41,6 +41,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject[] ChargePref;
     public GameObject[] BoomerangPref;
     public GameObject[] ChainPref;
+    public GameObject EqMissilePref;
 
     //BossBullet
     public GameObject BossNormalPref;
@@ -91,6 +92,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[,] Charges;
     GameObject[,] Boomerangs;
     GameObject[,] Chains;
+    GameObject[] EqMissiles;
 
     GameObject[] BossNormals;
     GameObject[] BossLasers;
@@ -245,6 +247,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = EqHomings;
                 break;
 
+            case "EqMissile":
+                TargetPool = EqMissiles;
+                break;
+
             case "EqHeal":
                 TargetPool = EqHeals;
                 break;
@@ -360,6 +366,7 @@ public class ObjectManager : MonoBehaviour
         Charges = new GameObject[8, 20];
         Boomerangs = new GameObject[8, 10];
         Chains = new GameObject[8, 10];
+        EqMissiles = new GameObject[10];
 
         BossNormals = new GameObject[60];
         BossLasers = new GameObject[3];
@@ -518,6 +525,13 @@ public class ObjectManager : MonoBehaviour
             EqHomings[i] = Instantiate(EqHomingPref);
             EqHomings[i].transform.SetParent(ItemPool.transform, false);
             EqHomings[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqMissiles.Length; i++)
+        {
+            EqMissiles[i] = Instantiate(EqMissilePref);
+            EqMissiles[i].transform.SetParent(PBulletPool.transform, false);
+            EqMissiles[i].SetActive(false);
         }
 
         for (int i = 0; i < EqHeals.Length; i++)

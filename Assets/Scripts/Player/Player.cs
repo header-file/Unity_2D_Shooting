@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
     bool IsDead;
     bool IsInvincible;
     float DeathTimer;
+    bool IsVamp;
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
@@ -83,10 +84,12 @@ public class Player : MonoBehaviour
 
     public void SetMaxHP(int hp) { MaxHP = hp; }
     public void SetCurHP(int hp) { CurHP = hp; }
+    public void SetIsVamp(bool b) { IsVamp = b; }
     public void SetSubWeapon(GameObject obj, int index) { SubWeapons[index] = obj; }
     public void SetBulletType(int type)
     {
         BulletType = type;
+        GameManager.Inst().UpgManager.SetHPData(BulletType);
         SetSkin();
 
         SetHPs();
@@ -328,6 +331,8 @@ public class Player : MonoBehaviour
         DeathTimer = 0.0f;
         CurHP = MaxHP = 0;
 
+        IsVamp = false;
+
         Shield.SetActive(false);
     }
 
@@ -358,7 +363,7 @@ public class Player : MonoBehaviour
         if (GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() == -1)
             return;
 
-        GameManager.Inst().EquManager.Count(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex(), 2);
+        GameManager.Inst().EquManager.Count(gameObject, GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex(), 2);
     }
 
     public void UISetting()
@@ -389,7 +394,7 @@ public class Player : MonoBehaviour
         
         IsReload = false;
         
-        GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2);
+        GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp);
 
         Invoke("Reload", GameManager.Inst().UpgManager.BData[BulletType].GetReloadTime());
     }
@@ -425,6 +430,9 @@ public class Player : MonoBehaviour
 
         CurHP -= damage;
 
+        //DamageText
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, damage, (int)TextManager.DamageType.BYENEMY);
+
         //Shake
         GameManager.Inst().ShkManager.Damage();
 
@@ -434,6 +442,23 @@ public class Player : MonoBehaviour
 
         if (CurHP <= 0)
             Dead();
+    }
+
+    public void Heal(int heal)
+    {
+        if (heal < 1)
+            heal = 1;
+
+        CurHP += heal;
+        if (CurHP > MaxHP)
+            CurHP = MaxHP;
+
+        //DamageText
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, heal, (int)TextManager.DamageType.PLAYERHEAL);
+
+        HPUI.SetActive(true);
+        HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+        Invoke("HideHPUI", 1.0f);
     }
 
     void HideHPUI()
