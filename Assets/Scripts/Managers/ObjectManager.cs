@@ -31,6 +31,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject EqHomingPref;
     public GameObject EqHealPref;
     public GameObject EqVampPref;
+    public GameObject EqShieldPref;
+    public GameObject EqRevivePref;
     public GameObject ResourcePref;
 
     //Player Bullet
@@ -83,6 +85,8 @@ public class ObjectManager : MonoBehaviour
     GameObject[] EqHomings;
     GameObject[] EqHeals;
     GameObject[] EqVamps;
+    GameObject[] EqShields;
+    GameObject[] EqRevives;
     GameObject[] Resources;
 
     GameObject[,] Normals;
@@ -259,6 +263,14 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = EqVamps;
                 break;
 
+            case "EqShield":
+                TargetPool = EqShields;
+                break;
+
+            case "EqRevive":
+                TargetPool = EqRevives;
+                break;
+
             case "Resource":
                 TargetPool = Resources;
                 break;
@@ -357,6 +369,8 @@ public class ObjectManager : MonoBehaviour
         EqHomings = new GameObject[10];
         EqHeals = new GameObject[10];
         EqVamps = new GameObject[10];
+        EqShields = new GameObject[10];
+        EqRevives = new GameObject[10];
         Resources = new GameObject[40];
 
         Normals = new GameObject[8, 100];
@@ -546,6 +560,20 @@ public class ObjectManager : MonoBehaviour
             EqVamps[i] = Instantiate(EqHealPref);
             EqVamps[i].transform.SetParent(ItemPool.transform, false);
             EqVamps[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqShields.Length; i++)
+        {
+            EqShields[i] = Instantiate(EqShieldPref);
+            EqShields[i].transform.SetParent(ItemPool.transform, false);
+            EqShields[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqRevives.Length; i++)
+        {
+            EqRevives[i] = Instantiate(EqRevivePref);
+            EqRevives[i].transform.SetParent(ItemPool.transform, false);
+            EqRevives[i].SetActive(false);
         }
 
         for (int i = 0; i < Resources.Length; i++)

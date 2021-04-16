@@ -17,6 +17,9 @@ public class SubWeapon : MonoBehaviour
     public GameObject Shield;
     public GameObject Booster;
     public ObjectShake Shaker;
+    public ShieldPart[] ShieldParts;
+
+    public bool IsRevive;
 
     int BulletType;
     int DownCount;
@@ -89,6 +92,10 @@ public class SubWeapon : MonoBehaviour
         GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = 0.415f;
 
         IsVamp = false;
+        IsRevive = false;
+
+        for (int i = 0; i < ShieldParts.Length; i++)
+            ShieldParts[i].gameObject.SetActive(false);
     }
 
     void Update()
@@ -153,11 +160,24 @@ public class SubWeapon : MonoBehaviour
     {
         if (IsInvincible)
             return;
-        else if(IsShield)
+        else if (!IsAlive)
+            return;
+        else if (IsShield)
         {
             IsShield = false;
             Shield.SetActive(false);
             return;
+        }
+        else
+        {
+            for (int i = 0; i < ShieldParts.Length; i++)
+            {
+                if (ShieldParts[i].gameObject.activeSelf)
+                {
+                    ShieldParts[i].gameObject.SetActive(false);
+                    return;
+                }
+            }
         }
 
         CurHP -= damage;
@@ -283,8 +303,12 @@ public class SubWeapon : MonoBehaviour
 
     public void Dead()
     {
-        if (!IsAlive)
+        if(IsRevive)
+        {
+            IsRevive = false;
+            Revive();
             return;
+        }
 
         IsAlive = false;
         IsDown = false;
@@ -314,19 +338,24 @@ public class SubWeapon : MonoBehaviour
 
         if (CoolTime <= 0)
         {
-            IsAlive = true;
-            IsInvincible = true;
-            CurHP = MaxHP;
-            GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
-
-            GetComponent<Animator>().SetTrigger("Revive");
-            Invoke("ReturnColor", 1.0f);
-            Invoke("ReturnInvincible", 1.0f);
+            Revive();
 
             CancelInvoke("CheckDead");
-
-            GameManager.Inst().UiManager.Turrets[NumID].CoolTime.gameObject.SetActive(false);
         }
+    }
+
+    void Revive()
+    {
+        IsAlive = true;
+        IsInvincible = true;
+        CurHP = MaxHP;
+        GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+
+        GetComponent<Animator>().SetTrigger("Revive");
+        Invoke("ReturnColor", 1.0f);
+        Invoke("ReturnInvincible", 1.0f);
+
+        GameManager.Inst().UiManager.Turrets[NumID].CoolTime.gameObject.SetActive(false);
     }
 
     void ReturnColor()
@@ -352,6 +381,12 @@ public class SubWeapon : MonoBehaviour
     public void SetSkinColor(int index)
     {
         GetComponent<Animator>().SetInteger("Color", ++index);
+    }
+
+    public void RestoreShield(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+            ShieldParts[i].gameObject.SetActive(true);
     }
 
     private void OnMouseDown()

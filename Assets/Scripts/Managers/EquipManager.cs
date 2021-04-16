@@ -43,6 +43,20 @@ public class EquipManager : MonoBehaviour
 
             case (int)Item_ZzinEquipment.EquipType.VAMP:
                 break;
+
+            case (int)Item_ZzinEquipment.EquipType.SHIELD:
+                if (id == 2)
+                    actor.GetComponent<Player>().RestoreShield((int)GameManager.Inst().Player.GetItem(index).Value);
+                else
+                    actor.GetComponent<SubWeapon>().RestoreShield((int)GameManager.Inst().Player.GetItem(index).Value);
+                break;
+
+            case (int)Item_ZzinEquipment.EquipType.REVIVE:
+                if (id == 2)
+                    actor.GetComponent<Player>().IsRevive = true;
+                else
+                    actor.GetComponent<SubWeapon>().IsRevive = true;
+                break;
         }
 
         GameManager.Inst().Player.GetItem(index).CoolTime = GameManager.Inst().EquipDatas[GameManager.Inst().Player.GetItem(index).Type, GameManager.Inst().Player.GetItem(index).Rarity, 0];

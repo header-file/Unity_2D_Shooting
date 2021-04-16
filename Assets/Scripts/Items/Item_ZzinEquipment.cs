@@ -10,6 +10,8 @@ public class Item_ZzinEquipment : Item
         HOMING = 1,
         HEAL = 2,
         VAMP = 3,
+        SHIELD = 4,
+        REVIVE = 5,
         //REINFORCE = 4,
     }
 

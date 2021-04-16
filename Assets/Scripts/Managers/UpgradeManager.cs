@@ -323,6 +323,9 @@ public class UpgradeManager : MonoBehaviour
             GameManager.Inst().UiManager.ShowInfoArea(UpgType);
             GameManager.Inst().UiManager.WeaponUI.InfoWindow.Show(UpgType);
             GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
+
+            //HP적용
+            SetHPData(UpgType);
         }
         else if(UpgType == (int)UpgradeType.SUBWEAPON)
         {

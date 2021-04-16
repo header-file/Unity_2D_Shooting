@@ -50,8 +50,10 @@ public class Player : MonoBehaviour
     public GameObject HPUI;
     public Image HPBar;
     public ObjectShake Shaker;
+    public ShieldPart[] ShieldParts;
 
     public int SortOption;
+    public bool IsRevive;
 
     GameObject[] SubWeapons;
     EqData[] Inventory;
@@ -332,8 +334,12 @@ public class Player : MonoBehaviour
         CurHP = MaxHP = 0;
 
         IsVamp = false;
+        IsRevive = false;
 
         Shield.SetActive(false);
+
+        for (int i = 0; i < ShieldParts.Length; i++)
+            ShieldParts[i].gameObject.SetActive(false);
     }
 
     void Start()
@@ -427,6 +433,17 @@ public class Player : MonoBehaviour
             Shield.SetActive(false);
             return;
         }
+        else
+        {
+            for(int i = 0; i < ShieldParts.Length; i++)
+            {
+                if(ShieldParts[i].gameObject.activeSelf)
+                {
+                    ShieldParts[i].gameObject.SetActive(false);
+                    return;
+                }
+            }
+        }
 
         CurHP -= damage;
 
@@ -468,6 +485,13 @@ public class Player : MonoBehaviour
 
     public void Dead()
     {
+        if(IsRevive)
+        {
+            IsRevive = false;
+            Revive();
+            return;
+        }
+
         IsDead = true;
 
         GetComponent<Animator>().SetInteger("Color", 0);
@@ -488,19 +512,21 @@ public class Player : MonoBehaviour
 
         if(DeathTimer <= 0.0f)
         {
-            IsDead = false;
-            IsInvincible = true;
-            CurHP = MaxHP;
-
-            TimerImage.gameObject.SetActive(false);
-
-            GetComponent<Animator>().SetTrigger("Revive");
-            //Invoke("ReturnColor", 1.0f);
-            //InvokeRepeating("ColorFlick", 1.0f, 0.25f);
-            Invoke("ReturnInvincible", 1.0f);
-
+            Revive();
             CancelInvoke("CheckDead");
         }
+    }
+
+    void Revive()
+    {
+        IsDead = false;
+        IsInvincible = true;
+        CurHP = MaxHP;
+
+        TimerImage.gameObject.SetActive(false);
+
+        GetComponent<Animator>().SetTrigger("Revive");
+        Invoke("ReturnInvincible", 1.0f);
     }
 
     void ReturnColor()
@@ -541,6 +567,12 @@ public class Player : MonoBehaviour
     public void SetSkinColor(int index)
     {
         GetComponent<Animator>().SetInteger("Color", ++index);
+    }
+
+    public void RestoreShield(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+            ShieldParts[i].gameObject.SetActive(true);
     }
     
     void OnMouseDown()
