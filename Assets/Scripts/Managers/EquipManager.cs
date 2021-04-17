@@ -31,7 +31,7 @@ public class EquipManager : MonoBehaviour
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.HOMING:
-                GameManager.Inst().ShtManager.Shoot(Bullet.BulletType.EQUIP, actor, id, false);
+                GameManager.Inst().ShtManager.Shoot(Bullet.BulletType.EQUIP, actor, id, false, false);
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.HEAL:
@@ -39,9 +39,6 @@ public class EquipManager : MonoBehaviour
                     actor.GetComponent<Player>().Heal((int)GameManager.Inst().Player.GetItem(index).Value);
                 else
                     actor.GetComponent<SubWeapon>().Heal((int)GameManager.Inst().Player.GetItem(index).Value);
-                break;
-
-            case (int)Item_ZzinEquipment.EquipType.VAMP:
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.SHIELD:

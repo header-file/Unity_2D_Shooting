@@ -20,6 +20,8 @@ public class SubWeapon : MonoBehaviour
     public ShieldPart[] ShieldParts;
 
     public bool IsRevive;
+    public bool IsReinforce;
+    public int ShootCount;
 
     int BulletType;
     int DownCount;
@@ -290,9 +292,16 @@ public class SubWeapon : MonoBehaviour
             return;
 
         IsReload = false;
-        
-        GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID, IsVamp);
-        
+
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() > -1 &&
+            ShootCount >= GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex()).Value)
+        {
+            ShootCount = 0;
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, true);
+        }
+        else
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, false);
+
         Invoke("Reload", GameManager.Inst().UpgManager.BData[BulletType].GetReloadTime());
     }
 

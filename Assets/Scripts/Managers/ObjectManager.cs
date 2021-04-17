@@ -33,6 +33,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject EqVampPref;
     public GameObject EqShieldPref;
     public GameObject EqRevivePref;
+    public GameObject EqReinforcePref;
     public GameObject ResourcePref;
 
     //Player Bullet
@@ -87,6 +88,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] EqVamps;
     GameObject[] EqShields;
     GameObject[] EqRevives;
+    GameObject[] EqReinforces;
     GameObject[] Resources;
 
     GameObject[,] Normals;
@@ -271,6 +273,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = EqRevives;
                 break;
 
+            case "EqReinforce":
+                TargetPool = EqReinforces;
+                break;
+
             case "Resource":
                 TargetPool = Resources;
                 break;
@@ -371,6 +377,7 @@ public class ObjectManager : MonoBehaviour
         EqVamps = new GameObject[10];
         EqShields = new GameObject[10];
         EqRevives = new GameObject[10];
+        EqReinforces = new GameObject[10];
         Resources = new GameObject[40];
 
         Normals = new GameObject[8, 100];
@@ -574,6 +581,13 @@ public class ObjectManager : MonoBehaviour
             EqRevives[i] = Instantiate(EqRevivePref);
             EqRevives[i].transform.SetParent(ItemPool.transform, false);
             EqRevives[i].SetActive(false);
+        }
+
+        for(int i = 0; i < EqReinforces.Length; i++)
+        {
+            EqReinforces[i] = Instantiate(EqReinforcePref);
+            EqReinforces[i].transform.SetParent(ItemPool.transform, false);
+            EqReinforces[i].SetActive(false);
         }
 
         for (int i = 0; i < Resources.Length; i++)

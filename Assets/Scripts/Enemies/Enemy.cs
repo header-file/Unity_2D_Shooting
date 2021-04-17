@@ -250,6 +250,8 @@ public class Enemy : MonoBehaviour
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage + atk;
+            if (bullet.IsReinforce)
+                dmg *= 2;
             bullet.BloodSuck(dmg);
             collision.gameObject.SetActive(false);
 
@@ -264,6 +266,8 @@ public class Enemy : MonoBehaviour
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage + atk;
+            if (bullet.IsReinforce)
+                dmg *= 2;
             bullet.BloodSuck(dmg);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
@@ -280,6 +284,8 @@ public class Enemy : MonoBehaviour
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage + atk;
+            if (bullet.IsReinforce)
+                dmg *= 2;
             bullet.BloodSuck(dmg);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
@@ -295,6 +301,8 @@ public class Enemy : MonoBehaviour
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage + atk;
+            if (bullet.IsReinforce)
+                dmg *= 2;
             bullet.BloodSuck(dmg);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");

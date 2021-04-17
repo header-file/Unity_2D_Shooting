@@ -17,7 +17,7 @@ static class Constants
 
     public const int MAXRARITY = 5;
     public const int MAXREINFORCETYPE = 3;
-    public const int MAXEQUIPTYPE = 6;
+    public const int MAXEQUIPTYPE = 7;
     public const int MAXEQUIPDATAS = 3;
 
     public const int MAXPLAYERLEVEL = 30;

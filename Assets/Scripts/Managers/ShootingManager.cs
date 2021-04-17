@@ -47,7 +47,7 @@ public class ShootingManager : MonoBehaviour
             ColorSelection[i] = 0;
     }
 
-    public void Shoot(Bullet.BulletType Type, GameObject Shooter, int ID, bool IsVamp)
+    public void Shoot(Bullet.BulletType Type, GameObject Shooter, int ID, bool IsVamp, bool IsReinfoce)
     {
         SetPos(Shooter, ID);
 
@@ -62,31 +62,31 @@ public class ShootingManager : MonoBehaviour
         switch (Type)
         {
             case Bullet.BulletType.NORMAL:
-                Normal(Shooter, rarity, colorIndex, IsVamp);
+                Normal(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
             case Bullet.BulletType.SPREAD:
-                Spread(Shooter, rarity, colorIndex, IsVamp);
+                Spread(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
             case Bullet.BulletType.MISSILE:
-                Missile(Shooter, rarity, colorIndex, IsVamp);
+                Missile(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
             case Bullet.BulletType.LASER:
-                Laser(Shooter, rarity, colorIndex, IsVamp);
+                Laser(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
             case Bullet.BulletType.CHARGE:
-                Charge(Shooter, rarity, colorIndex, IsVamp);
+                Charge(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
             case Bullet.BulletType.BOOMERANG:
-                Boomerang(Shooter, rarity, colorIndex, IsVamp);
+                Boomerang(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
             case Bullet.BulletType.CHAIN:
-                Chain(Shooter, rarity, colorIndex, IsVamp);
+                Chain(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
             case Bullet.BulletType.EQUIP:
@@ -126,7 +126,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Normal(GameObject shooter, int Rarity, int Index, bool isVamp)
+    void Normal(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Normal[] bullets = new Normal[5];
 
@@ -145,6 +145,7 @@ public class ShootingManager : MonoBehaviour
                     bullets[i] = Objs[i].gameObject.GetComponent<Normal>();
                     bullets[i].IsVamp = isVamp;
                     bullets[i].Vamp = shooter;
+                    bullets[i].IsReinforce = IsReinforce;
                     bullets[i].Shoot(NormalPos[0].transform.up);
                 }
                 break;
@@ -161,6 +162,7 @@ public class ShootingManager : MonoBehaviour
                     bullets[i] = Objs[i].gameObject.GetComponent<Normal>();
                     bullets[i].IsVamp = isVamp;
                     bullets[i].Vamp = shooter;
+                    bullets[i].IsReinforce = IsReinforce;
                     bullets[i].Shoot(NormalPos[0].transform.up);
                 }
                 break;
@@ -168,7 +170,7 @@ public class ShootingManager : MonoBehaviour
         
     }
 
-    void Spread(GameObject shooter, int Rarity, int Index, bool isVamp)
+    void Spread(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Spread[] bullets = new Spread[7];
         float duration = GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.SPREAD].GetDuration();
@@ -187,6 +189,7 @@ public class ShootingManager : MonoBehaviour
                     bullets[i] = Objs[i].gameObject.GetComponent<Spread>();
                     bullets[i].IsVamp = isVamp;
                     bullets[i].Vamp = shooter;
+                    bullets[i].IsReinforce = IsReinforce;
                     bullets[i].Shoot(SpreadPos[i].transform.up);
                     bullets[i].Invoke("Deactivate", duration);
                 }
@@ -201,8 +204,9 @@ public class ShootingManager : MonoBehaviour
                     Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
 
                     bullets[i - 1] = Objs[i].gameObject.GetComponent<Spread>();
-                    bullets[i].IsVamp = isVamp;
-                    bullets[i].Vamp = shooter;
+                    bullets[i - 1].IsVamp = isVamp;
+                    bullets[i - 1].Vamp = shooter;
+                    bullets[i - 1].IsReinforce = IsReinforce;
                     bullets[i - 1].Shoot(SpreadPos[i].transform.up);
                     bullets[i - 1].Invoke("Deactivate", duration);
                 }
@@ -210,7 +214,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Missile(GameObject shooter, int Rarity, int Index, bool isVamp)
+    void Missile(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Missile[] bullets = new Missile[5];
         float rad = GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.MISSILE].GetDuration();
@@ -242,6 +246,7 @@ public class ShootingManager : MonoBehaviour
                     bullets[i] = Objs[0].gameObject.GetComponent<Missile>();
                     bullets[i].IsVamp = isVamp;
                     bullets[i].Vamp = shooter;
+                    bullets[i].IsReinforce = IsReinforce;
                     bullets[i].ResetTarget();
                     
                     bullets[i].SearchArea.GetComponent<SearchArea>().SetArea(rad);
@@ -260,6 +265,7 @@ public class ShootingManager : MonoBehaviour
                     bullets[i] = Objs[i].gameObject.GetComponent<Missile>();
                     bullets[i].IsVamp = isVamp;
                     bullets[i].Vamp = shooter;
+                    bullets[i].IsReinforce = IsReinforce;
                     bullets[i].ResetTarget();
 
                     bullets[i].SearchArea.GetComponent<SearchArea>().SetArea(rad);
@@ -269,7 +275,7 @@ public class ShootingManager : MonoBehaviour
         }
     }
 
-    void Laser(GameObject shooter, int Rarity, int Index, bool isVamp)
+    void Laser(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Laser", Index);
         Vector3 scale = Objs[0].gameObject.transform.localScale;
@@ -281,11 +287,12 @@ public class ShootingManager : MonoBehaviour
         Laser bullet = Objs[0].GetComponent<Laser>();
         bullet.IsVamp = isVamp;
         bullet.Vamp = shooter;
+        bullet.IsReinforce = IsReinforce;
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
     }
 
-    void Charge(GameObject shooter, int Rarity, int Index, bool isVamp)
+    void Charge(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Charge", Index);
         Objs[0].transform.position = ChargePos.transform.position;
@@ -294,11 +301,12 @@ public class ShootingManager : MonoBehaviour
         Charge bullet = Objs[0].gameObject.GetComponent<Charge>();
         bullet.IsVamp = isVamp;
         bullet.Vamp = shooter;
+        bullet.IsReinforce = IsReinforce;
         bullet.SetChargePos(ChargePos);
         bullet.StartCharge(GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.CHARGE].GetDuration());
     }
 
-    void Boomerang(GameObject shooter, int Rarity, int Index, bool isVamp)
+    void Boomerang(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
@@ -312,12 +320,13 @@ public class ShootingManager : MonoBehaviour
         Boomerang bullet = Objs[0].gameObject.GetComponent<Boomerang>();
         bullet.IsVamp = isVamp;
         bullet.Vamp = shooter;
+        bullet.IsReinforce = IsReinforce;
         bullet.SetStartPos(Objs[0].transform.position);
         bullet.SetTargetpos(Objs[0].transform.position + NormalPos[0].transform.up/*GameManager.Inst().IptManager.MousePosition*/);
         bullet.SetStart();
     }
 
-    void Chain(GameObject shooter, int Rarity, int Index, bool isVamp)
+    void Chain(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Chain", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
@@ -326,6 +335,7 @@ public class ShootingManager : MonoBehaviour
         Chain bullet = Objs[0].gameObject.GetComponent<Chain>();
         bullet.IsVamp = isVamp;
         bullet.Vamp = shooter;
+        bullet.IsReinforce = IsReinforce;
         bullet.ResetData();
         bullet.Shoot(NormalPos[0].transform.up);
     }

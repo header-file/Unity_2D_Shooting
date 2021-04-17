@@ -12,7 +12,7 @@ public class Item_ZzinEquipment : Item
         VAMP = 3,
         SHIELD = 4,
         REVIVE = 5,
-        //REINFORCE = 4,
+        REINFORCE = 6,
     }
 
     public enum Rarity

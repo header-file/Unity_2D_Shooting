@@ -20,6 +20,7 @@ public class Bullet : MonoBehaviour
     public Color GlowColor;
     public bool IsVamp;
     public GameObject Vamp;
+    public bool IsReinforce;
 
     //protected float Damage;
     protected BulletType Type;
@@ -62,5 +63,6 @@ public class Bullet : MonoBehaviour
     {
         IsVamp = false;
         Vamp = null;
+        IsReinforce = false;
     }
 }
