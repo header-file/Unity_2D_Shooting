@@ -49,9 +49,9 @@ public class Bomb : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             Enemy.EnemyType type = (Enemy.EnemyType)enemy.GetEnemyType();
             if (type == Enemy.EnemyType.BOSS)
-                enemy.OnHit(100.0f);
+                enemy.OnHit(100.0f, false);
             else
-                enemy.OnHit(999999.0f);
+                enemy.OnHit(999999.0f, false);
         }
     }
 

@@ -564,7 +564,7 @@ public class ObjectManager : MonoBehaviour
 
         for (int i = 0; i < EqVamps.Length; i++)
         {
-            EqVamps[i] = Instantiate(EqHealPref);
+            EqVamps[i] = Instantiate(EqVampPref);
             EqVamps[i].transform.SetParent(ItemPool.transform, false);
             EqVamps[i].SetActive(false);
         }

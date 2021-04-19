@@ -255,6 +255,7 @@ public class GameData
                 GameManager.Inst().UpgManager.BData[i].SetSpd((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.SPD]);
                 GameManager.Inst().UpgManager.BData[i].SetEquipIndex((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.EQUIP]);
 
+                GameManager.Inst().UpgManager.CheckEquip(i);
                 GameManager.Inst().UpgManager.SetMaxData(i);
             }
         }

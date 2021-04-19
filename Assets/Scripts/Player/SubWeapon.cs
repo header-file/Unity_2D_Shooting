@@ -185,7 +185,7 @@ public class SubWeapon : MonoBehaviour
         CurHP -= damage;
 
         //DamageText
-        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, damage, (int)TextManager.DamageType.BYENEMY);
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, damage, (int)TextManager.DamageType.BYENEMY, false);
 
         //Shake
         IsShaking = true;
@@ -215,7 +215,7 @@ public class SubWeapon : MonoBehaviour
             CurHP = MaxHP;
 
         //DamageText
-        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, heal, (int)TextManager.DamageType.PLAYERHEAL);
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, heal, (int)TextManager.DamageType.PLAYERHEAL, false);
 
         GameManager.Inst().UiManager.Turrets[NumID].HPUI.SetActive(true);
         GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;

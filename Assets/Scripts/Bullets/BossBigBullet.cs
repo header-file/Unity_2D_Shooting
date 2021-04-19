@@ -70,7 +70,7 @@ public class BossBigBullet : MonoBehaviour
             Invoke("Shot", 0.1f);
     }
 
-    void Damage(float dmg)
+    void Damage(float dmg, bool isReinforced)
     {
         if(!IsInvincible)
             HP -= dmg;
@@ -78,7 +78,7 @@ public class BossBigBullet : MonoBehaviour
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
         hit.transform.position = gameObject.transform.position;
 
-        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, dmg, (int)TextManager.DamageType.BYPLYAER);
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, dmg, (int)TextManager.DamageType.BYPLYAER, isReinforced);
 
         IsInvincible = true;
         gameObject.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(1.0f, 0.0f, 0.0f));
@@ -105,31 +105,62 @@ public class BossBigBullet : MonoBehaviour
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage + atk;
-
-            Damage(dmg);
-
+            if (bullet.IsReinforce)
+                dmg *= 2;
+            bullet.BloodSuck(dmg);
             collision.gameObject.SetActive(false);
+
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = bullet.transform.position;
+
+            Damage(dmg, bullet.IsReinforce);
         }
-        else if (collision.gameObject.tag == "PierceBullet" ||
-            collision.gameObject.tag == "Laser")
+        else if (collision.gameObject.tag == "Laser")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage + atk;
+            if (bullet.IsReinforce)
+                dmg *= 2;
+            bullet.BloodSuck(dmg);
 
-            Damage(dmg);
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = collision.gameObject.GetComponent<BoxCollider2D>().ClosestPoint(transform.position);
+
+            Damage(dmg, bullet.IsReinforce);
+        }
+        else if (collision.gameObject.tag == "PierceBullet")
+        {
+            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+            float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
+            float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
+            float dmg = damage + atk;
+            if (bullet.IsReinforce)
+                dmg *= 2;
+            bullet.BloodSuck(dmg);
+
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = bullet.transform.position;
+
+            Damage(dmg, bullet.IsReinforce);
         }
         else if (collision.gameObject.tag == "Chain")
         {
-            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+            Chain bullet = collision.gameObject.GetComponent<Chain>();
+            bullet.HitEnemy(gameObject);
+
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage + atk;
+            if (bullet.IsReinforce)
+                dmg *= 2;
+            bullet.BloodSuck(dmg);
 
-            Damage(dmg);
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = bullet.transform.position;
 
-            collision.gameObject.GetComponent<Chain>().Die();
+            Damage(dmg, bullet.IsReinforce);
         }
     }
 

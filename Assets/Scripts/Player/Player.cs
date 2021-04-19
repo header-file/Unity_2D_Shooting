@@ -474,7 +474,7 @@ public class Player : MonoBehaviour
         CurHP -= damage;
 
         //DamageText
-        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, damage, (int)TextManager.DamageType.BYENEMY);
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, damage, (int)TextManager.DamageType.BYENEMY, false);
 
         //Shake
         GameManager.Inst().ShkManager.Damage();
@@ -497,7 +497,7 @@ public class Player : MonoBehaviour
             CurHP = MaxHP;
 
         //DamageText
-        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, heal, (int)TextManager.DamageType.PLAYERHEAL);
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, heal, (int)TextManager.DamageType.PLAYERHEAL, false);
 
         HPUI.SetActive(true);
         HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;

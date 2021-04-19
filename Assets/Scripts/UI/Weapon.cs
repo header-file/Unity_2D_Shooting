@@ -449,7 +449,8 @@ public class Weapon : MonoBehaviour
         EquipDetail[0].text = GameManager.Inst().TxtManager.EquipDetailSimple[CurEquip.Type];
 
         string detail = "";
-        detail += GameManager.Inst().EquipDatas[CurEquip.Type, CurEquip.Rarity, 0].ToString();
+        if(GameManager.Inst().EquipDatas[CurEquip.Type, CurEquip.Rarity, 0] > 0)
+            detail += GameManager.Inst().EquipDatas[CurEquip.Type, CurEquip.Rarity, 0].ToString();
         detail += GameManager.Inst().TxtManager.EquipDetailFront[CurEquip.Type];
         if (CurEquip.Value > 0)
             detail += CurEquip.Value.ToString();

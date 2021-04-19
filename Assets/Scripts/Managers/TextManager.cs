@@ -10,6 +10,7 @@ public class TextManager : MonoBehaviour
         BYPLYAER = 0,
         BYENEMY = 1,
         PLAYERHEAL = 2,
+        REINFORCED = 3,
     }
 
     public GameObject[] BulletNames;
@@ -105,14 +106,22 @@ public class TextManager : MonoBehaviour
         }
     }
 
-    public void ShowDmgText(Vector3 pos, float dmg, int type)
+    public void ShowDmgText(Vector3 pos, float dmg, int type, bool isReinforced)
     {
         GameObject text = GameManager.Inst().ObjManager.MakeObj("DamageText");
         text.transform.position = pos;
         text.SetActive(true);
         DamageText dmgText = text.GetComponent<DamageText>();
         dmgText.SetText(dmg);
+        dmgText.SetSize(dmgText.DefaultSize);
         dmgText.SetColor(type);
+
+        if (isReinforced)
+        {
+            //text.transform.localScale = Vector3.one * 2.0f;
+            dmgText.SetSize(48);
+            dmgText.SetColor((int)DamageType.REINFORCED);
+        }
 
         ActivationTimer timer = text.GetComponent<ActivationTimer>();
         timer.IsStart = true;

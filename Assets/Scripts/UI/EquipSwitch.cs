@@ -19,7 +19,10 @@ public class EquipSwitch : MonoBehaviour
         else
         {
             Player.EqData befEq = GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[curBulletType].GetEquipIndex());
-            string befStr = GameManager.Inst().EquipDatas[befEq.Type, befEq.Rarity, 0].ToString();
+
+            string befStr = "";
+            if (GameManager.Inst().EquipDatas[befEq.Type, befEq.Rarity, 0] > 0)
+                befStr = GameManager.Inst().EquipDatas[befEq.Type, befEq.Rarity, 0].ToString();
             befStr += GameManager.Inst().TxtManager.EquipDetailFront[befEq.Type];
             if (befEq.Value > 0)
                 befStr += befEq.Value.ToString();
@@ -28,7 +31,9 @@ public class EquipSwitch : MonoBehaviour
         }
 
         Player.EqData aftEq = GameManager.Inst().Player.GetItem(selected);
-        string aftStr = GameManager.Inst().EquipDatas[aftEq.Type, aftEq.Rarity, 0].ToString();
+        string aftStr = "";
+        if (GameManager.Inst().EquipDatas[aftEq.Type, aftEq.Rarity, 0] > 0)
+            aftStr = GameManager.Inst().EquipDatas[aftEq.Type, aftEq.Rarity, 0].ToString();
         aftStr += GameManager.Inst().TxtManager.EquipDetailFront[aftEq.Type];
         if (aftEq.Value > 0)
             aftStr += aftEq.Value.ToString();

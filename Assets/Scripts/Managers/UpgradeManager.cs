@@ -453,6 +453,51 @@ public class UpgradeManager : MonoBehaviour
             }
         }
     }
+
+    public void CheckEquip(int bulletType)
+    {
+        if (BData[bulletType].GetEquipIndex() == -1)
+            return;
+
+        if (GameManager.Inst().Player.GetItem(BData[bulletType].GetEquipIndex()).Type == (int)Item_ZzinEquipment.EquipType.VAMP)
+        {
+            if (GameManager.Inst().Player.GetBulletType() == bulletType)
+                GameManager.Inst().Player.SetIsVamp(true);
+            else
+            {
+                for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
+                {
+                    if (GameManager.Inst().GetSubweapons(i) == null)
+                        continue;
+
+                    if (GameManager.Inst().GetSubweapons(i).GetBulletType() == bulletType)
+                    {
+                        GameManager.Inst().GetSubweapons(i).SetIsVamp(true);
+                        break;
+                    }
+                }
+            }
+        }
+        else if (GameManager.Inst().Player.GetItem(BData[bulletType].GetEquipIndex()).Type == (int)Item_ZzinEquipment.EquipType.REINFORCE)
+        {
+            if (GameManager.Inst().Player.GetBulletType() == bulletType)
+                GameManager.Inst().Player.IsReinforce = true;
+            else
+            {
+                for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
+                {
+                    if (GameManager.Inst().GetSubweapons(i) == null)
+                        continue;
+
+                    if (GameManager.Inst().GetSubweapons(i).GetBulletType() == bulletType)
+                    {
+                        GameManager.Inst().GetSubweapons(i).IsReinforce = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 /*

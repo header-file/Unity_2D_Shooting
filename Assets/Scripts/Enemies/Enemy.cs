@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
         transform.position = pos;
     }
 
-    public void OnHit(float Damage)
+    public void OnHit(float Damage, bool isReinforced)
     {
         if (IsInvincible)
             return;
@@ -106,7 +106,7 @@ public class Enemy : MonoBehaviour
         }
 
         //DamageText
-        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, Damage, (int)TextManager.DamageType.BYPLYAER);
+        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, Damage, (int)TextManager.DamageType.BYPLYAER, isReinforced);
 
         IsInvincible = true;
 
@@ -253,12 +253,13 @@ public class Enemy : MonoBehaviour
             if (bullet.IsReinforce)
                 dmg *= 2;
             bullet.BloodSuck(dmg);
-            collision.gameObject.SetActive(false);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
-            OnHit(dmg);
+            OnHit(dmg, bullet.IsReinforce);
+
+            collision.gameObject.SetActive(false);
         }
         else if (collision.gameObject.tag == "Laser")
         {
@@ -271,12 +272,9 @@ public class Enemy : MonoBehaviour
             bullet.BloodSuck(dmg);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            /*RaycastHit rayHit;
-            if (Physics.Raycast(bullet.transform.position, bullet.transform.up, out rayHit))
-                hit.transform.position = rayHit.point;*/
             hit.transform.position = collision.gameObject.GetComponent<BoxCollider2D>().ClosestPoint(transform.position);
 
-            OnHit(dmg);
+            OnHit(dmg, bullet.IsReinforce);
         }
         else if (collision.gameObject.tag == "PierceBullet")
         {
@@ -291,7 +289,7 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
-            OnHit(dmg);
+            OnHit(dmg, bullet.IsReinforce);
         }
         else if (collision.gameObject.tag == "Chain")
         {
@@ -308,7 +306,7 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
-            OnHit(dmg);
+            OnHit(dmg, bullet.IsReinforce);
         }
         else if(collision.gameObject.name == "Bottom")
         {

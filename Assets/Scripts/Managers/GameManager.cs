@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
     {
         int rand = type;
         if (rand == -1)
-            rand = Random.Range(0, Constants.MAXEQUIPTYPE);
+            rand = /*Random.Range(0, Constants.MAXEQUIPTYPE);*/3;
 
         int uid = 0;
         switch (rand)

@@ -6,15 +6,19 @@ using UnityEngine.UI;
 public class DamageText : MonoBehaviour
 {
     public Color[] Colors;
+    public int DefaultSize;
 
     TextMesh DmgText;
     
+    
     public void SetText(float dmg) { DmgText.text = ((int)dmg).ToString(); }
     public void SetColor(int type) { DmgText.color = Colors[type]; }
+    public void SetSize(int size) { DmgText.fontSize = size; }
 
     void Awake()
     {
         DmgText = gameObject.transform.GetChild(0).GetComponent<TextMesh>();
+        DefaultSize = DmgText.fontSize;
         gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().sortingOrder = 10;
     }
 
