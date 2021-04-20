@@ -651,7 +651,7 @@ public class UIManager : MonoBehaviour
         //}
         //else if(count < 3)
         if(index < 3)
-            SynthesisUI.SortAsQuantity();
+            SynthesisUI.SortAsDefault();
         else if (index == 3)
             SynthesisUI.ShowConfirmWindow();
     }

@@ -27,7 +27,7 @@ public class Synthesis : MonoBehaviour
     Color TextColor;
 
     int Grade;
-    //int CurrentIndex;
+    int CurrentIndex;
     int LastIndex;
     int[] InputTypes;
     int[] SelectedIndex;
@@ -105,6 +105,7 @@ public class Synthesis : MonoBehaviour
         Rate = 0;
         Timer = 0.0f;
         SynthType = -1;
+        CurrentIndex = 0;
 
         gameObject.SetActive(false);
     }
@@ -128,7 +129,7 @@ public class Synthesis : MonoBehaviour
         Inventories.ResetInventory();
         Inventories.ShowInventory();
 
-        SortAsQuantity();
+        SortAsDefault();
     }
 
     //public void DiscardMaxGrade()
@@ -186,7 +187,7 @@ public class Synthesis : MonoBehaviour
     //    LastIndex = CurrentIndex;
     //}
 
-    public void SortAsQuantity()
+    public void SortAsDefault()
     {
         Inventories.ResetInventory();
 
@@ -196,9 +197,66 @@ public class Synthesis : MonoBehaviour
 
             if (eq != null)
             {
-                if (eq.Quantity >= 3)
+                if (eq.UID / 100 == 3)
                 {
-                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                    if (eq.Quantity >= 3)
+                    {
+                        Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                        InventorySlot slot = Inventories.GetSlot(i);
+                        slot.gameObject.SetActive(true);
+
+                        slot.GetNotExist().SetActive(false);
+                        slot.GetExist().SetActive(true);
+                        slot.SetIcon(icon);
+                        slot.SetDisable(false);
+                        slot.SetGradeSprite(eq.Rarity);
+                    }
+                    else
+                    {
+                        Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                        InventorySlot slot = Inventories.GetSlot(i);
+                        slot.gameObject.SetActive(true);
+
+                        slot.GetNotExist().SetActive(false);
+                        slot.GetExist().SetActive(true);
+                        slot.SetIcon(icon);
+                        slot.SetDisable(true);
+                        slot.SetGradeSprite(eq.Rarity);
+                    }
+                }
+                else if(eq.UID / 100 == 6)
+                {
+                    Sprite icon = eq.Icon;
+                    InventorySlot slot = Inventories.GetSlot(i);
+                    slot.gameObject.SetActive(true);
+
+                    slot.GetNotExist().SetActive(false);
+                    slot.GetExist().SetActive(true);
+                    slot.SetIcon(icon);
+                    slot.SetDisable(false);
+                    slot.SetGradeSprite(eq.Rarity);
+                }
+            }
+        }
+        
+        GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.SYNTHESIS;
+
+        Inventories.Sort();
+    }
+
+    public void SortAsGrade(int rarity)
+    {
+        Inventories.ResetInventory();
+
+        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        {
+            Player.EqData eq = GameManager.Inst().Player.GetItem(i);
+
+            if (eq != null)
+            {
+                if (eq.UID / 100 == 6 && eq.Rarity == rarity)
+                {
+                    Sprite icon = eq.Icon;
                     InventorySlot slot = Inventories.GetSlot(i);
                     slot.gameObject.SetActive(true);
 
@@ -210,7 +268,11 @@ public class Synthesis : MonoBehaviour
                 }
                 else
                 {
-                    Sprite icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                    Sprite icon = null;
+                    if (eq.UID / 100 == 3)
+                        icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                    else if (eq.UID / 100 == 6)
+                        icon = eq.Icon;
                     InventorySlot slot = Inventories.GetSlot(i);
                     slot.gameObject.SetActive(true);
 
@@ -220,11 +282,11 @@ public class Synthesis : MonoBehaviour
                     slot.SetDisable(true);
                     slot.SetGradeSprite(eq.Rarity);
                 }
-                    
+
             }
         }
-        
-        GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.SYNTHESIS;
+
+        GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.SYNTHESIS_EQUIP + rarity;
 
         Inventories.Sort();
     }
@@ -243,35 +305,37 @@ public class Synthesis : MonoBehaviour
     {
         Player.EqData eq = GameManager.Inst().Player.GetItem(index);
 
-        ////UID
-        //{
-        //    int count = 0;
-        //    for (int i = 0; i < 3; i++)
-        //        if (SelectedUIDs[i] == eq.UID)
-        //            count++;
-
-        //    if (count > 0)
-        //    {
-        //        if (count + 1 > eq.Quantity)
-        //            return;
-        //    }
-        //    else if (count == 0)
-        //        Grade = eq.Rarity;
-
-        //    SelectedUIDs[CurrentIndex] = eq.UID;
-        //    SelectedIndex[CurrentIndex] = index;
-        //}
-
-        //ui
-        //SuccessRate.SetActive(false);
-        for(int i = 0; i < 3; i++)
+        if(eq.UID / 100 == 3)
         {
-            Buttons[i].Icon.sprite = eq.Icon;
-            Buttons[i].Frame.sprite = Frames[eq.Rarity];
-            InputTypes[i] = eq.Type;
-            SelectedIndex[i] = index;
+            for (int i = 0; i < 3; i++)
+            {
+                Buttons[i].Icon.sprite = eq.Icon;
+                Buttons[i].Frame.sprite = Frames[eq.Rarity];
+                InputTypes[i] = eq.Type;
+                SelectedIndex[i] = index;
+                SelectedUIDs[i] = eq.UID;
+            }
+            Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).Checked.SetActive(true);
         }
-        Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).Checked.SetActive(true);
+        else if(eq.UID / 100 == 6)
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                if (SelectedIndex[i] == index)
+                    return;
+            }
+
+            Buttons[CurrentIndex].Frame.sprite = Frames[eq.Rarity];
+            Buttons[CurrentIndex].Icon.sprite = eq.Icon;
+            InputTypes[CurrentIndex] = eq.Type;
+            SelectedIndex[CurrentIndex] = index;
+            SelectedUIDs[CurrentIndex] = eq.UID;
+
+            Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).Checked.SetActive(true);
+
+            CurrentIndex++;
+            SortAsGrade(eq.Rarity);
+        }        
 
         //합성 가능
         {
@@ -293,7 +357,15 @@ public class Synthesis : MonoBehaviour
             int need = (int)Mathf.Pow(10, (eq.Rarity + 2));
             Need.text = need.ToString();
 
-            Buttons[3].Icon.sprite = GameManager.Inst().UiManager.FoodImages[eq.Type + (eq.Rarity + 1) * 3];
+            if (eq.UID / 100 == 3)
+                Buttons[3].Icon.sprite = GameManager.Inst().UiManager.FoodImages[eq.Type + (eq.Rarity + 1) * 3];
+            else if (eq.UID / 100 == 6)
+            {
+                if (InputTypes[0] == InputTypes[1] && InputTypes[1] == InputTypes[2])
+                    Buttons[3].Icon.sprite = eq.Icon;
+                else
+                    Buttons[3].Icon.sprite = OriginalSprite;
+            }
             Buttons[3].Frame.sprite = Frames[eq.Rarity + 1];
             SynthType = InputTypes[0];
         }
@@ -322,7 +394,11 @@ public class Synthesis : MonoBehaviour
         if (rand < Rate)
             rarity++;
 
-        int add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEuipData(SynthType, rarity));
+        int add = -1;
+        if(SelectedUIDs[0] / 100 == 3)
+            add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeReinforceData(SynthType, rarity));
+        else if(SelectedUIDs[0] / 100 == 6)
+            add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEquipData(SynthType, rarity));
         EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
         ShowInventory();
 
@@ -339,16 +415,15 @@ public class Synthesis : MonoBehaviour
         {
             Buttons[i].Icon.sprite = OriginalSprite;
             Buttons[i].Frame.sprite = Frames[0];
-            //Lines.transform.GetChild(i).GetComponent<Image>().material.SetColor("_GlowColor", Color.black);
+            
             if(SelectedIndex[i] > -1)
-            {
-                //Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).SetSelected(false);
                 Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).Checked.SetActive(false);
-            }
                 
             SelectedIndex[i] = -1;
+            SelectedUIDs[i] = -1;
             InputTypes[i] = -1;
         }
+        CurrentIndex = 0;
 
         SuccessRate.SetActive(false);
         SelectDetail.SetActive(false);

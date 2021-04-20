@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
     {
         int rand = type;
         if (rand == -1)
-            rand = /*Random.Range(0, Constants.MAXEQUIPTYPE);*/3;
+            rand = Random.Range(0, Constants.MAXEQUIPTYPE);
 
         int uid = 0;
         switch (rand)
@@ -223,6 +223,97 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Item_ZzinEquipment MakeEquipData(int type, int grade)
+    {
+        int rand = type;
+        if (rand == -1)
+            rand = Random.Range(0, Constants.MAXEQUIPTYPE);
+
+        int uid = 0;
+        Item_ZzinEquipment eqp = null;
+        switch (rand)
+        {
+            case 0:
+                GameObject eq = ObjManager.MakeObj("EqMagnet");
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.0f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                int rarity = eqp.SetGrade(grade);
+                int val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.MAGNET, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.MAGNET, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.MAGNET, rarity, 0], val, uid);
+                break;
+
+            case 1:
+                eq = ObjManager.MakeObj("EqHoming");
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.0f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.HOMING, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.HOMING, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.HOMING, rarity, 0], val, uid);
+                break;
+
+            case 2:
+                eq = ObjManager.MakeObj("EqHeal");
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.0f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.HEAL, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.HEAL, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.HEAL, rarity, 0], val, uid);
+                break;
+
+            case 3:
+                eq = ObjManager.MakeObj("EqVamp");
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.0f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.VAMP, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.VAMP, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.VAMP, rarity, 0], val, uid);
+                break;
+
+            case 4:
+                eq = ObjManager.MakeObj("EqShield");
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.0f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.SHIELD, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.SHIELD, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.SHIELD, rarity, 0], val, uid);
+                break;
+
+            case 5:
+                eq = ObjManager.MakeObj("EqRevive");
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.0f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.REVIVE, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.REVIVE, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.REVIVE, rarity, 0], val, uid);
+                break;
+
+            case 6:
+                eq = ObjManager.MakeObj("EqReinforce");
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.0f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.REINFORCE, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.REINFORCE, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.REINFORCE, rarity, 0], val, uid);
+                break;
+        }
+
+        return eqp;
+    }
+
     public void MakeReinforce(int type, int grade, Transform transform)
     {
         int rand = type;
@@ -262,7 +353,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public Item_Equipment MakeEuipData(int type, int grade)
+    public Item_Equipment MakeReinforceData(int type, int grade)
     {
         int rand = type;
         if (rand == -1)

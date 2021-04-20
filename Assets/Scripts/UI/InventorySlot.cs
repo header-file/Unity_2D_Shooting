@@ -13,6 +13,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
         TYPE_RARITY = 10,
         SAMERARITY = 100,
         SYNTHESIS = 1000,
+        SYNTHESIS_EQUIP = 2000,
     }
 
     public GameObject EMark;
@@ -58,7 +59,21 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     {
         Weight = 0;
 
-        if (GameManager.Inst().Player.SortOption >= (int)SortOption.SYNTHESIS)
+        if (GameManager.Inst().Player.SortOption >= (int)SortOption.SYNTHESIS_EQUIP)
+        {
+            if (ItemUID / 100 == 6 && obj.ItemUID / 100 == 3)
+                Weight += 32;
+            else if (ItemUID / 100 == 3 && obj.ItemUID / 100 == 6)
+                Weight -= 32;
+
+            if (ItemRarity == GameManager.Inst().Player.SortOption - (int)SortOption.SYNTHESIS_EQUIP &&
+                obj.ItemRarity != GameManager.Inst().Player.SortOption - (int)SortOption.SYNTHESIS_EQUIP)
+                Weight += 16;
+            else if (ItemRarity != GameManager.Inst().Player.SortOption - (int)SortOption.SYNTHESIS_EQUIP &&
+                obj.ItemRarity == GameManager.Inst().Player.SortOption - (int)SortOption.SYNTHESIS_EQUIP)
+                Weight -= 16;
+        }
+        else if (GameManager.Inst().Player.SortOption >= (int)SortOption.SYNTHESIS)
         {
             if (ItemRarity >= 0 && ItemRarity < Constants.MAXRARITY - 1 &&
                 obj.ItemRarity == Constants.MAXRARITY - 1)
