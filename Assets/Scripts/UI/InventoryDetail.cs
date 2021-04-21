@@ -79,7 +79,8 @@ public class InventoryDetail : MonoBehaviour
         Detail.SetActive(true);
 
         string detail = "";
-        detail += GameManager.Inst().EquipDatas[type, rarity, 0].ToString();
+        if (GameManager.Inst().EquipDatas[type, rarity, 0] > 0)
+            detail += GameManager.Inst().EquipDatas[type, rarity, 0].ToString();
         detail += GameManager.Inst().TxtManager.EquipDetailFront[type];
         if (value > 0)
             detail += value.ToString();

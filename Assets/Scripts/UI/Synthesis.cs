@@ -126,6 +126,11 @@ public class Synthesis : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(2);
 
+        Sort();
+    }
+
+    public void Sort()
+    {
         Inventories.ResetInventory();
         Inventories.ShowInventory();
 
@@ -235,6 +240,12 @@ public class Synthesis : MonoBehaviour
                     slot.SetIcon(icon);
                     slot.SetDisable(false);
                     slot.SetGradeSprite(eq.Rarity);
+
+                    for (int j = 0; j < Constants.MAXBULLETS; j++)
+                    {
+                        if (GameManager.Inst().UpgManager.BData[j].GetEquipIndex() == Inventories.GetSwitchedIndex(i))
+                            slot.EMark.SetActive(true);
+                    }
                 }
             }
         }
@@ -304,6 +315,8 @@ public class Synthesis : MonoBehaviour
     public void SetButtons(int index)
     {
         Player.EqData eq = GameManager.Inst().Player.GetItem(index);
+        if (eq.Rarity >= Constants.MAXRARITY - 1)
+            return;
 
         if(eq.UID / 100 == 3)
         {
@@ -324,6 +337,9 @@ public class Synthesis : MonoBehaviour
                 if (SelectedIndex[i] == index)
                     return;
             }
+
+            if (Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).EMark.activeSelf)
+                return;
 
             Buttons[CurrentIndex].Frame.sprite = Frames[eq.Rarity];
             Buttons[CurrentIndex].Icon.sprite = eq.Icon;
@@ -362,12 +378,17 @@ public class Synthesis : MonoBehaviour
             else if (eq.UID / 100 == 6)
             {
                 if (InputTypes[0] == InputTypes[1] && InputTypes[1] == InputTypes[2])
+                {
                     Buttons[3].Icon.sprite = eq.Icon;
+                    SynthType = InputTypes[0];
+                }
                 else
-                    Buttons[3].Icon.sprite = OriginalSprite;
+                {
+                    Buttons[3].Icon.sprite = QuestionSprite;
+                    SynthType = -1;
+                }
             }
             Buttons[3].Frame.sprite = Frames[eq.Rarity + 1];
-            SynthType = InputTypes[0];
         }
     }
 
@@ -400,7 +421,7 @@ public class Synthesis : MonoBehaviour
         else if(SelectedUIDs[0] / 100 == 6)
             add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEquipData(SynthType, rarity));
         EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
-        ShowInventory();
+        Sort();
 
         //결과창
         ConfirmWindow.SetActive(false);
