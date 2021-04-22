@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
     public GameObject InfoArea;
     public GameObject EquipArea;
     public GameObject ZzinBottom;
+    public Weapon WeaponUI;
 
     //기타 UI
     public Text CoinText;
@@ -50,6 +51,9 @@ public class UIManager : MonoBehaviour
     public Text PlayerTimerText;
     public GameObject PlayerHPUI;
     public Image PlayerHPBar;
+    public GameObject PlayerEquipUI;
+    public Image PlayerEquipBar;
+    public Image PlayerEquipIcon;
 
     //보스용 UI
     public GameObject BossHPBarCanvas;
@@ -64,12 +68,12 @@ public class UIManager : MonoBehaviour
     //새 윈도우
     public GameObject[] NewWindows;
 
+    //UI용 이미지
     public Sprite[] WeaponImages;
     public Sprite[] FoodImages;
     public Sprite[] EquipImages;
 
-    public Weapon WeaponUI;
-
+    
     MainUI MainUi;
     //Detail DetailUI;
     Slot[] SlotUI;
@@ -158,6 +162,9 @@ public class UIManager : MonoBehaviour
         GameManager.Inst().Player.TimerText = PlayerTimerText;
         GameManager.Inst().Player.HPUI = PlayerHPUI;
         GameManager.Inst().Player.HPBar = PlayerHPBar;
+        GameManager.Inst().Player.EquipUI = PlayerEquipUI;
+        GameManager.Inst().Player.EquipBar = PlayerEquipBar;
+        GameManager.Inst().Player.EquipIcon = PlayerEquipIcon;
     }
 
     void Start()
@@ -323,7 +330,12 @@ public class UIManager : MonoBehaviour
 
         ScrollViewUI.MoveToSelected(CurrentBulletType);
 
-        //NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().ShowInfo(Type, CurrentBulletType);
+        GameManager.Inst().Player.ShowEquipUI();
+        for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
+        {
+            if (GameManager.Inst().GetSubweapons(i) != null)
+                GameManager.Inst().GetSubweapons(i).ShowEquipUI();
+        }
     }
 
     //public void ShowDetail(int Type)
@@ -361,7 +373,7 @@ public class UIManager : MonoBehaviour
         return SideMenuUI.Slots[i].gameObject;
     }
 
-
+    //Click Interactions
     public void OnClickManageCancel()
     {
         if (!IsMoveDown)
@@ -370,6 +382,13 @@ public class UIManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
+
+        GameManager.Inst().Player.EquipUI.SetActive(false);
+        for(int i = 0; i < Constants.MAXSUBWEAPON; i++)
+        {
+            if (GameManager.Inst().GetSubweapons(i) != null)
+                GameManager.Inst().UiManager.Turrets[i].EquipUI.SetActive(false);
+        }
     }
 
     public void OnClickToWeapon()

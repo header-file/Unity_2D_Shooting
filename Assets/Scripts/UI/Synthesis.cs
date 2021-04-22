@@ -125,6 +125,7 @@ public class Synthesis : MonoBehaviour
         Inventories = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(2);
+        Inventories.ShowInventory();
 
         Sort();
     }
@@ -132,7 +133,6 @@ public class Synthesis : MonoBehaviour
     public void Sort()
     {
         Inventories.ResetInventory();
-        Inventories.ShowInventory();
 
         SortAsDefault();
     }
@@ -194,8 +194,6 @@ public class Synthesis : MonoBehaviour
 
     public void SortAsDefault()
     {
-        Inventories.ResetInventory();
-
         for (int i = 0; i < Constants.MAXINVENTORY; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
@@ -229,7 +227,7 @@ public class Synthesis : MonoBehaviour
                         slot.SetGradeSprite(eq.Rarity);
                     }
                 }
-                else if(eq.UID / 100 == 6)
+                else if (eq.UID / 100 == 6)
                 {
                     Sprite icon = eq.Icon;
                     InventorySlot slot = Inventories.GetSlot(i);
@@ -248,6 +246,8 @@ public class Synthesis : MonoBehaviour
                     }
                 }
             }
+            else
+                Inventories.HideSlot(i);
         }
         
         GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.SYNTHESIS;
@@ -267,31 +267,30 @@ public class Synthesis : MonoBehaviour
             {
                 if (eq.UID / 100 == 6 && eq.Rarity == rarity)
                 {
-                    Sprite icon = eq.Icon;
+                    //Sprite icon = eq.Icon;
                     InventorySlot slot = Inventories.GetSlot(i);
-                    slot.gameObject.SetActive(true);
+                    //slot.gameObject.SetActive(true);
 
-                    slot.GetNotExist().SetActive(false);
-                    slot.GetExist().SetActive(true);
-                    slot.SetIcon(icon);
+                    //slot.GetNotExist().SetActive(false);
+                    //slot.GetExist().SetActive(true);
+                    //slot.SetIcon(icon);
                     slot.SetDisable(false);
-                    slot.SetGradeSprite(eq.Rarity);
+                    //slot.SetGradeSprite(eq.Rarity);
                 }
                 else
                 {
-                    Sprite icon = null;
-                    if (eq.UID / 100 == 3)
-                        icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
-                    else if (eq.UID / 100 == 6)
-                        icon = eq.Icon;
+                    //Sprite icon = eq.Icon;
+                    //if (eq.UID / 100 == 3)
+                    //    icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                        
                     InventorySlot slot = Inventories.GetSlot(i);
-                    slot.gameObject.SetActive(true);
+                    //slot.gameObject.SetActive(true);
 
-                    slot.GetNotExist().SetActive(false);
-                    slot.GetExist().SetActive(true);
-                    slot.SetIcon(icon);
+                    //slot.GetNotExist().SetActive(false);
+                    //slot.GetExist().SetActive(true);
+                    //slot.SetIcon(icon);
                     slot.SetDisable(true);
-                    slot.SetGradeSprite(eq.Rarity);
+                    //slot.SetGradeSprite(eq.Rarity);
                 }
 
             }
@@ -421,11 +420,12 @@ public class Synthesis : MonoBehaviour
         else if(SelectedUIDs[0] / 100 == 6)
             add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEquipData(SynthType, rarity));
         EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
-        Sort();
 
         //결과창
         ConfirmWindow.SetActive(false);
         ResetSprites();
+
+        SortAsDefault();
 
         EquipDetail.SetActive(true);
     }

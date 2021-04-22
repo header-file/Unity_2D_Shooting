@@ -42,15 +42,22 @@ public class Player : MonoBehaviour
     public GameObject ChargePos;
     public GameObject[] BoomerangPos;
     public GameObject[] BossSubPoses;
-    //public GameObject Booster;
+
     public GameObject Shield;
+
     public GameObject UI;
     public Image TimerImage;
     public Text TimerText;
     public GameObject HPUI;
     public Image HPBar;
-    public ObjectShake Shaker;
+    public GameObject EquipUI;
+    public Image EquipBar;
+    public Image EquipIcon;
+    public Sprite QuestionMark;
+
     public ShieldPart[] ShieldParts;
+
+    public ObjectShake Shaker;
 
     public int SortOption;
     public bool IsRevive;
@@ -61,6 +68,7 @@ public class Player : MonoBehaviour
     EqData[] Inventory;
     Vector3 OriginalPos;
     CanvasGroup canvasGroup;
+    
 
     Vector3 PlayerPos;
     bool IsReload;
@@ -371,10 +379,13 @@ public class Player : MonoBehaviour
 
     void EquipCount()
     {
-        if (GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() == -1 || CheckPassive())
+        if (IsDead || GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() == -1 || CheckPassive())
             return;
 
         GameManager.Inst().EquManager.Count(gameObject, GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex(), 2);
+
+        if (EquipUI.activeSelf)
+            SetEquipUI();
     }
 
     bool CheckPassive()
@@ -393,6 +404,44 @@ public class Player : MonoBehaviour
         TimerImage.gameObject.SetActive(false);
         HPUI.SetActive(false);
         HPBar.fillAmount = 0.415f;
+
+        EquipUI.SetActive(false);
+        EquipBar.fillAmount = 0.0f;
+        QuestionMark = EquipIcon.sprite;
+    }
+
+    public void ShowEquipUI()
+    {
+        EquipUI.SetActive(true);
+
+        SetEquipUI();
+    }
+
+    public void SetEquipUI()
+    {
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() > -1)
+        {
+            EqData e = GetItem(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex());
+
+            EquipIcon.sprite = e.Icon;
+
+            if (GameManager.Inst().EquipDatas[e.Type, e.Rarity, 0] > 0)
+            {
+                EquipBar.fillAmount = 1.0f - (e.CoolTime / GameManager.Inst().EquipDatas[e.Type, e.Rarity, 0]);
+            }
+            else
+            {
+                if (e.Type == 3)
+                    EquipBar.fillAmount = 1.0f;
+                else if (e.Type == 6)
+                    EquipBar.fillAmount = 1.0f - (ShootCount / e.Value);
+            }
+        }
+        else
+        {
+            EquipIcon.sprite = QuestionMark;
+            EquipBar.fillAmount = 0.0f;
+        }
     }
 
     public void Rotate(Vector2 MousePos)

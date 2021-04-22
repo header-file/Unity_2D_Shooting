@@ -14,9 +14,11 @@ public class SubWeapon : MonoBehaviour
     public GameObject LaserPos;
     public GameObject ChargePos;
     public GameObject Arrow;
+
     public GameObject Shield;
-    public GameObject Booster;
+
     public ObjectShake Shaker;
+
     public ShieldPart[] ShieldParts;
 
     public bool IsRevive;
@@ -38,7 +40,7 @@ public class SubWeapon : MonoBehaviour
     bool IsShaking;
     bool IsVamp;
 
-    const int COOLTIME = 90;
+    const int COOLTIME = 300;
     int MaxHP;
     int CurHP;
 
@@ -105,12 +107,8 @@ public class SubWeapon : MonoBehaviour
         if (!IsMoving || !IsShaking)
             SetPosition();
 
-        UIPos = gameObject.transform.position;
-        UIPos.z = 90.0f;
-        //if(NumID > 1)
-        //    GameManager.Inst().Turrets[NumID - 1].transform.position = UIPos;
-        //else
-        GameManager.Inst().UiManager.Turrets[NumID].transform.position = UIPos;
+        SetUIPos();
+        EquipCount();
 
         if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
             return;
@@ -130,11 +128,40 @@ public class SubWeapon : MonoBehaviour
             Fire();
     }
 
+    void SetUIPos()
+    {
+        UIPos = gameObject.transform.position;
+        UIPos.z = 90.0f;
+        GameManager.Inst().UiManager.Turrets[NumID].transform.position = UIPos;
+    }
+
+    void EquipCount()
+    {
+        if (!IsAlive || GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() == -1 || CheckPassive())
+            return;
+
+        GameManager.Inst().EquManager.Count(gameObject, GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex(), NumID);
+
+        if (GameManager.Inst().UiManager.Turrets[NumID].EquipUI.activeSelf)
+            SetEquipUI();
+    }
+
+    bool CheckPassive()
+    {
+        int type = GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex()).Type;
+
+        if (type == (int)Item_ZzinEquipment.EquipType.REINFORCE ||
+            type == (int)Item_ZzinEquipment.EquipType.VAMP)
+            return true;
+        else
+            return false;
+    }
+
     public void BossMode()
     {
         IsBoss = true;
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        Booster.SetActive(true);
+        //Booster.SetActive(true);
     }
 
     public void EndBossMode()
@@ -154,7 +181,7 @@ public class SubWeapon : MonoBehaviour
         else
         {
             IsMoving = false;
-            Booster.SetActive(false);
+            //Booster.SetActive(false);
         }
     }
 
@@ -231,24 +258,49 @@ public class SubWeapon : MonoBehaviour
     {
         if(IsBoss)
         {
-            //int index = NumID;
-            //if (index > 2)
-            //    index--;
             float speed = 5.0f;
-            //if (index == 0 || index == 3)
             if(NumID == 0 || NumID == 3)
                 speed = 4.0f;
-            //transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.BossSubPoses[index].transform.position, Time.deltaTime * speed);
             transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.BossSubPoses[NumID].transform.position, Time.deltaTime * speed);
         } 
         else
         {
-            //int index = NumID;
-            //if (index > 2)
-            //    index--;
             transform.position = GameManager.Inst().UiManager.SubPositions[NumID].transform.position;
         }
-        
+    }
+
+    public void ShowEquipUI()
+    {
+        GameManager.Inst().UiManager.Turrets[NumID].EquipUI.SetActive(true);
+
+        SetEquipUI();
+    }
+
+    public void SetEquipUI()
+    {
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() > -1)
+        {
+            Player.EqData e = GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex());
+
+            GameManager.Inst().UiManager.Turrets[NumID].EquipIcon.sprite = e.Icon;
+
+            if (GameManager.Inst().EquipDatas[e.Type, e.Rarity, 0] > 0)
+            {
+                GameManager.Inst().UiManager.Turrets[NumID].EquipBar.fillAmount = 1.0f - (e.CoolTime / GameManager.Inst().EquipDatas[e.Type, e.Rarity, 0]);
+            }
+            else
+            {
+                if (e.Type == 3)
+                    GameManager.Inst().UiManager.Turrets[NumID].EquipBar.fillAmount = 1.0f;
+                else if (e.Type == 6)
+                    GameManager.Inst().UiManager.Turrets[NumID].EquipBar.fillAmount = 1.0f - (ShootCount / e.Value);
+            }
+        }
+        else
+        {
+            GameManager.Inst().UiManager.Turrets[NumID].EquipIcon.sprite = GameManager.Inst().Player.QuestionMark;
+            GameManager.Inst().UiManager.Turrets[NumID].EquipBar.fillAmount = 0.0f;
+        }
     }
 
     void StartEditMode()
@@ -297,10 +349,10 @@ public class SubWeapon : MonoBehaviour
             ShootCount >= GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex()).Value)
         {
             ShootCount = 0;
-            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, true);
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID, IsVamp, true);
         }
         else
-            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, false);
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID, IsVamp, false);
 
         Invoke("Reload", GameManager.Inst().UpgManager.BData[BulletType].GetReloadTime());
     }

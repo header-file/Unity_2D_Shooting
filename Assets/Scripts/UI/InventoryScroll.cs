@@ -69,21 +69,25 @@ public class InventoryScroll : MonoBehaviour
                 }
             }
             else
-            {
-                InventorySlot slot = GetSlot(i);
-
-                slot.GetNotExist().SetActive(true);
-                slot.GetExist().SetActive(false);
-
-                slot.SetItemRarity(-1);
-                slot.SetItemType(-1);
-                slot.SetItemUID(-1);
-            }
+                HideSlot(i);
         }
 
         GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.RARITY;
 
         Sort();
+    }
+
+    public void HideSlot(int i)
+    {
+        InventorySlot slot = GetSlot(i);
+
+        slot.GetNotExist().SetActive(true);
+        slot.GetExist().SetActive(false);
+
+        slot.SetItemRarity(-1);
+        slot.SetItemType(-1);
+        slot.SetItemUID(-1);
+        slot.SetItemQuantity(0);
     }
 
     public void Sort()
@@ -110,22 +114,7 @@ public class InventoryScroll : MonoBehaviour
     {
         GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.BASE;
 
-        Array.Sort(Slots);
-        Array.Reverse(Slots);
-
-        for(int i = 0; i < Constants.MAXINVENTORY; i++)
-        {
-            for(int j = 0; j < Constants.MAXINVENTORY; j++)
-            {
-                if (Slots[i].name == Contents.transform.GetChild(j + 1).gameObject.name)
-                {
-                    Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
-
-                    SwitchedIndices[int.Parse(Slots[i].name)] = i;
-                    break;
-                }
-            }
-        }
+        Sort();
     }
 
     //void QuickSort(InventorySlot[] array, int p, int r)

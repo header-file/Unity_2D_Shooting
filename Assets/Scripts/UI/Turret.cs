@@ -9,11 +9,15 @@ public class Turret : MonoBehaviour
     public Image HPBar;
     public Text CoolTime;
     public ObjectShake Shaker;
+    public GameObject EquipUI;
+    public Image EquipBar;
+    public Image EquipIcon;
 
     void Awake()
     {
         HPUI.SetActive(false);
         CoolTime.gameObject.SetActive(false);
+        EquipUI.SetActive(false);
     }
 
     public void SetCoolTime(int time)

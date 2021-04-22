@@ -34,7 +34,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     int ItemRarity = -1;
     int ItemType = -1;
     int ItemUID = -1;
-    int ItemQuantity = -1;
+    int ItemQuantity = 0;
     int Weight = 0;
 
     public int GetIndex() { return Index; }

@@ -281,6 +281,18 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &76287893 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5505642145862240002, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004403706982993367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &79048093
 GameObject:
   m_ObjectHideFlags: 0
@@ -6220,12 +6232,16 @@ MonoBehaviour:
   TimerText: {fileID: 0}
   HPUI: {fileID: 0}
   HPBar: {fileID: 0}
-  Shaker: {fileID: 237372647}
+  EquipUI: {fileID: 0}
+  EquipBar: {fileID: 0}
+  EquipIcon: {fileID: 0}
+  QuestionMark: {fileID: 0}
   ShieldParts:
   - {fileID: 1837147809}
   - {fileID: 1697980024}
   - {fileID: 674988686}
   - {fileID: 2058393741}
+  Shaker: {fileID: 237372647}
   SortOption: 0
   IsRevive: 0
   IsReinforce: 0
@@ -7167,7 +7183,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 411321351}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.96, z: 0}
+  m_LocalPosition: {x: 0, y: 0.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 129585460}
@@ -15366,6 +15382,7 @@ MonoBehaviour:
   InfoArea: {fileID: 638058304}
   EquipArea: {fileID: 250340607}
   ZzinBottom: {fileID: 2100104983}
+  WeaponUI: {fileID: 0}
   CoinText: {fileID: 739101574}
   Turrets:
   - {fileID: 1329591701}
@@ -15390,6 +15407,9 @@ MonoBehaviour:
   PlayerTimerText: {fileID: 2072331218}
   PlayerHPUI: {fileID: 1966348897}
   PlayerHPBar: {fileID: 1676655161}
+  PlayerEquipUI: {fileID: 1817170349}
+  PlayerEquipBar: {fileID: 76287893}
+  PlayerEquipIcon: {fileID: 1296613411}
   BossHPBarCanvas: {fileID: 1118611214}
   BossHPBar: {fileID: 1383247355}
   BossHPBarText: {fileID: 1986469844}
@@ -15435,7 +15455,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2c70eea087a4b5445b2b5eafc19cc753, type: 3}
   - {fileID: 21300000, guid: 5cb23b702fa00f34b8bcd2832636faf9, type: 3}
   - {fileID: 21300000, guid: 7b25837acc6c6894dbaec7db339b644f, type: 3}
-  WeaponUI: {fileID: 0}
 --- !u!4 &900159746
 Transform:
   m_ObjectHideFlags: 0
@@ -18007,6 +18026,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1287776651}
   m_CullTransparentMesh: 0
+--- !u!114 &1296613411 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8375400317277517485, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004403706982993367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1298781304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25931,6 +25962,12 @@ Transform:
   m_Father: {fileID: 300872348}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1817170349 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7907284935667788018, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004403706982993367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1822540469
 GameObject:
   m_ObjectHideFlags: 0
@@ -28559,6 +28596,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 900159745}
+    - target: {fileID: 954535443795292638, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 995142187652113246, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}
       propertyPath: m_Camera
@@ -30571,6 +30613,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 900159745}
+    - target: {fileID: 7907284935667788018, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7949759317196176182, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

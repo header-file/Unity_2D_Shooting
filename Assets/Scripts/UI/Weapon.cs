@@ -374,6 +374,9 @@ public class Weapon : MonoBehaviour
         if (GameManager.Inst().Player.GetItem(index).Type == (int)Item_ZzinEquipment.EquipType.VAMP)
             EquipVamp();
 
+        //Reinforce
+        EquipReinforce();
+
         //Weapon UI
         SetWeaponUI();
 
@@ -401,6 +404,7 @@ public class Weapon : MonoBehaviour
             if (GameManager.Inst().UpgManager.BData[i].GetEquipIndex() == index)
             {
                 UnEquipVamp(i);
+                UnEquipReinforce(i);
                 if (GameManager.Inst().UpgManager.BData[i].GetEquipIndex() != -1)
                     Equip(i, GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex());
             }
@@ -436,6 +440,35 @@ public class Weapon : MonoBehaviour
                 if (GameManager.Inst().GetSubweapons(i) != null && GameManager.Inst().GetSubweapons(i).GetBulletType() == bulletType)
                     GameManager.Inst().GetSubweapons(i).SetIsVamp(false);
             }
+        }
+    }
+
+    void EquipReinforce()
+    {
+        if (GameManager.Inst().Player.GetBulletType() == CurBulletType)
+            GameManager.Inst().Player.IsReinforce = true;
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (GameManager.Inst().GetSubweapons(i) != null && GameManager.Inst().GetSubweapons(i).GetBulletType() == CurBulletType)
+                    GameManager.Inst().GetSubweapons(i).IsReinforce = true; ;
+            }
+        }
+    }
+
+    void UnEquipReinforce(int bulletType)
+    {
+        if (GameManager.Inst().Player.GetBulletType() == bulletType)
+            GameManager.Inst().Player.IsReinforce = false;
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (GameManager.Inst().GetSubweapons(i) != null && GameManager.Inst().GetSubweapons(i).GetBulletType() == bulletType)
+                    GameManager.Inst().GetSubweapons(i).IsReinforce = false;
+            }
+
         }
     }
 
