@@ -368,9 +368,9 @@ public class UIManager : MonoBehaviour
         StageScrollUI.Planets[index].Lock.SetActive(false);
     }
 
-    public GameObject GetSideMenuSlot(int i)
+    public SideMenuSlot GetSideMenuSlot(int i)
     {
-        return SideMenuUI.Slots[i].gameObject;
+        return SideMenuUI.Slots[i];
     }
 
     //Click Interactions

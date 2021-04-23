@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public UpgradeManager UpgManager;
     public StageManager StgManager;
     public DataManager DatManager;
+    public ResourceManager ResManager;
 
     //씬마다 생성
     public ShootingManager ShtManager;

@@ -8,4 +8,7 @@ public class SideMenuSlot : MonoBehaviour
     public Text PlanetName;
     public Image PlanetImg;
     public Transform ContentTransform;
+    public Text Timer;
+    public Image ResourceIcon;
+    public Text[] Resources;
 }
