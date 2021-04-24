@@ -55,6 +55,16 @@ public class GameData
         COUNT = 1,
     }
 
+    public enum TIMEData
+    {
+        YEAR = 0,
+        MONTH = 1,
+        DATE = 2,
+        HOUR = 3,
+        MINUTE = 4,
+        SECOND = 5,
+    }
+
     public int Coin;
     public int[] Resources;
 
@@ -70,6 +80,8 @@ public class GameData
     public int[] Quests;
 
     public int[] BossGauges;
+
+    public int[] CountStartTimes;
 
 
     public void SaveData()
@@ -102,6 +114,16 @@ public class GameData
                         id++;
                     SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR] = GameManager.Inst().ShtManager.GetColorSelection(id);
                 }
+            }
+
+            //for(int j = 0; j < Constants.TIMEDATASIZE; j++)
+            {
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = GameManager.Inst().ResManager.StartTimes[i].Year;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = GameManager.Inst().ResManager.StartTimes[i].Month;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = GameManager.Inst().ResManager.StartTimes[i].Day;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = GameManager.Inst().ResManager.StartTimes[i].Hour;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = GameManager.Inst().ResManager.StartTimes[i].Minute;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = GameManager.Inst().ResManager.StartTimes[i].Second;
             }
         }
 
@@ -275,6 +297,23 @@ public class GameData
         }
         else
             Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
+
+        if (CountStartTimes != null)
+            for (int i = 0; i < Constants.MAXSTAGES; i++)
+            {
+                string str = "";
+                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR].ToString() + "/";
+                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH].ToString() + "/";
+                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE].ToString() + " ";
+                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR].ToString() + ":";
+                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE].ToString() + ":";
+                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND].ToString();
+
+                GameManager.Inst().ResManager.StartTimes[i] = Convert.ToDateTime(str);
+                GameManager.Inst().ResManager.LoadCount(i);
+            }
+        else
+            CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
     }
 
     public void ResetData()
@@ -293,6 +332,8 @@ public class GameData
         Weapons = new float[Constants.MAXBULLETS * Constants.WPDATASIZE];
 
         Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
+
+        CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
     }
 }
 

@@ -158,6 +158,7 @@ public class QuestManager : MonoBehaviour
             GameManager.Inst().UiManager.UnlockStage(nextStage - 1);
             GameManager.Inst().StgManager.UnlockBullet(nextStage);
             GameManager.Inst().DatManager.GameData.ReachedStage = nextStage;
+            GameManager.Inst().ResManager.StartCount(nextStage - 2);
         }
     }
 }
