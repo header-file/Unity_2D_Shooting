@@ -11,4 +11,10 @@ public class SideMenuSlot : MonoBehaviour
     public Text Timer;
     public Image ResourceIcon;
     public Text[] Resources;
+    public int Index;
+
+    public void OnClickGetBtn()
+    {
+        GameManager.Inst().ResManager.GetTempResources(Index);
+    }
 }

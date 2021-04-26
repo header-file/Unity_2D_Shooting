@@ -77,6 +77,7 @@ public class SideMenu : MonoBehaviour
                 Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideCleared").GetComponent<SideMenuSlot>();
 
             Slots[i].transform.SetParent(ContentTransform, false);
+            Slots[i].Index = i;
         }
     }
 }

@@ -10,7 +10,9 @@ public class ResourceManager : MonoBehaviour
     bool[] IsStartCount;
     int[] NowSec;
     int[,] TempResources;
+    string time;
 
+    public int GetTempResources(int stage, int type) { return TempResources[stage, type]; }
 
     void Start()
     {
@@ -39,7 +41,6 @@ public class ResourceManager : MonoBehaviour
 
             if (NowSec[i] != Now.Second)
             {
-                //Debug.Log(Now);
                 Count(i);
                 NowSec[i] = Now.Second;
             }
@@ -60,15 +61,21 @@ public class ResourceManager : MonoBehaviour
 
         System.TimeSpan comp = Now - StartTimes[stage];
 
+        if (comp.Hours >= 12 || comp.Days > 0)
+        {
+            FullTime(stage);
+            return;
+        }
+
         if (comp.Hours > 0)
         {
-            TempResources[stage, 0] += 100 * (stage + 1) * 6 * comp.Hours;
-            TempResources[stage, 1] += 5 * (stage + 1) * 6 * comp.Hours;
+            TempResources[stage, 0] = 100 * (stage + 1) * 6 * comp.Hours;
+            TempResources[stage, 1] = 5 * (stage + 1) * 6 * comp.Hours;
         }
         if(comp.Minutes > 10)
         {
-            TempResources[stage, 0] += 100 * (stage + 1)  * (comp.Minutes / 10);
-            TempResources[stage, 1] += 5 * (stage + 1) * (comp.Minutes / 10);
+            TempResources[stage, 0] = 100 * (stage + 1)  * (comp.Minutes / 10);
+            TempResources[stage, 1] = 5 * (stage + 1) * (comp.Minutes / 10);
         }
 
         //SideMenuSlot에 표시
@@ -81,18 +88,24 @@ public class ResourceManager : MonoBehaviour
 
     void Count(int stage)
     {
-        string str = "";
+        time = "";
         System.TimeSpan comp = Now - StartTimes[stage];
 
+        if(comp.Hours >= 12 || comp.Days > 0)
+        {
+            FullTime(stage);
+            return;
+        }
+
         if (comp.Hours < 10)
-            str += "0";
-        str += comp.Hours.ToString() + " : ";
+            time += "0";
+        time += comp.Hours.ToString() + " : ";
         if (comp.Minutes < 10)
-            str += "0";
-        str += comp.Minutes.ToString() + " : ";
+            time += "0";
+        time += comp.Minutes.ToString() + " : ";
         if (comp.Seconds < 10)
-            str += "0";
-        str += comp.Seconds.ToString();
+            time += "0";
+        time += comp.Seconds.ToString();
 
         if(comp.Minutes % 10 == 0 && comp.Seconds == 0)
         {
@@ -101,7 +114,7 @@ public class ResourceManager : MonoBehaviour
             TempResources[stage, 1] += 5 * (stage + 1);
         }
 
-        ShowData(stage, str);
+        ShowData(stage, time);
     }
 
     void ShowData(int stage, string str)
@@ -115,5 +128,31 @@ public class ResourceManager : MonoBehaviour
 
         if (GameManager.Inst().UiManager.GetSideMenuSlot(stage).Timer != null)
             GameManager.Inst().UiManager.GetSideMenuSlot(stage).Timer.text = str;
+    }
+
+    void FullTime(int stage)
+    {
+        string str = "12 : 00 : 00";
+
+        TempResources[stage, 0] = 100 * (stage + 1) * 6 * 12;
+        TempResources[stage, 1] = 5 * (stage + 1) * 6 * 12;
+
+        ShowData(stage, str);
+    }
+
+    public void GetTempResources(int stage)
+    {
+        GameManager.Inst().Resources[stage] += TempResources[stage, 1];
+        GameManager.Inst().Player.AddCoin(TempResources[stage, 0]);
+
+        for(int i = 0; i < 2; i++)
+            TempResources[stage, i] = 0;
+
+        GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
+        GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
+
+        GameManager.Inst().UiManager.GetSideMenuSlot(stage).Timer.text = "00 : 00 : 00";
+
+        StartTimes[stage] = Now;
     }
 }

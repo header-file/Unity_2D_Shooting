@@ -69,6 +69,9 @@ public class ObjectManager : MonoBehaviour
     public GameObject ExplosionPref;
     public GameObject HitPref;
     public GameObject[] EquipPopPref;
+    public GameObject EquipActionPref;
+    public GameObject MagnetActionPref;
+    public GameObject HealActionPref;
 
     GameObject[] Enemies_S;
     GameObject[] Enemies_M;
@@ -124,6 +127,9 @@ public class ObjectManager : MonoBehaviour
     GameObject[] EquipPopsB;
     GameObject[] EquipPopsP;
     GameObject[] EquipPopsY;
+    GameObject[] EquipActions;
+    GameObject[] MagnetActions;
+    GameObject[] HealActions;
 
 
     GameObject[] TargetPool;
@@ -340,6 +346,18 @@ public class ObjectManager : MonoBehaviour
             case "EquipPopY":
                 TargetPool = EquipPopsY;
                 break;
+
+            case "EquipAction":
+                TargetPool = EquipActions;
+                break;
+
+            case "MagnetAction":
+                TargetPool = MagnetActions;
+                break;
+
+            case "HealAction":
+                TargetPool = HealActions;
+                break;
         }
 
         for (int i = 0; i < TargetPool.Length; i++)
@@ -412,6 +430,9 @@ public class ObjectManager : MonoBehaviour
         EquipPopsB = new GameObject[5];
         EquipPopsP = new GameObject[5];
         EquipPopsY = new GameObject[5];
+        EquipActions = new GameObject[5];
+        MagnetActions = new GameObject[5];
+        HealActions = new GameObject[5];
 
         Generate();
     }
@@ -786,6 +807,27 @@ public class ObjectManager : MonoBehaviour
             EquipPopsY[i] = Instantiate(EquipPopPref[4]);
             EquipPopsY[i].transform.SetParent(EffectPool.transform, false);
             EquipPopsY[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EquipActions.Length; i++)
+        {
+            EquipActions[i] = Instantiate(EquipActionPref);
+            EquipActions[i].transform.SetParent(EffectPool.transform, false);
+            EquipActions[i].SetActive(false);
+        }
+
+        for (int i = 0; i < MagnetActions.Length; i++)
+        {
+            MagnetActions[i] = Instantiate(MagnetActionPref);
+            MagnetActions[i].transform.SetParent(EffectPool.transform, false);
+            MagnetActions[i].SetActive(false);
+        }
+
+        for (int i = 0; i < HealActions.Length; i++)
+        {
+            HealActions[i] = Instantiate(HealActionPref);
+            HealActions[i].transform.SetParent(EffectPool.transform, false);
+            HealActions[i].SetActive(false);
         }
     }
 }

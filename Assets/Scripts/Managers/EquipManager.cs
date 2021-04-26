@@ -19,9 +19,17 @@ public class EquipManager : MonoBehaviour
 
     void Activate(GameObject actor, int index, int id)
     {
+        GameObject EquipAction = GameManager.Inst().ObjManager.MakeObj("EquipAction");
+        EquipAction.transform.position = actor.transform.position;
+        EquipAction.GetComponent<ActivationTimer>().IsStart = true;
+
         switch(GameManager.Inst().Player.GetItem(index).Type)
         {
             case (int)Item_ZzinEquipment.EquipType.MAGNET:
+                GameObject MagnetEff = GameManager.Inst().ObjManager.MakeObj("MagnetAction");
+                MagnetEff.transform.position = actor.transform.position;
+                MagnetEff.GetComponent<ActivationTimer>().IsStart = true;
+
                 Item_Resource[] resources = FindObjectsOfType<Item_Resource>();
                 for(int i = 0; i < resources.Length; i++)
                 {
@@ -35,7 +43,11 @@ public class EquipManager : MonoBehaviour
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.HEAL:
-                if(id == 2)
+                GameObject HealEff = GameManager.Inst().ObjManager.MakeObj("HealAction");
+                HealEff.transform.position = actor.transform.position;
+                HealEff.GetComponent<ActivationTimer>().IsStart = true;
+
+                if (id == 2)
                     actor.GetComponent<Player>().Heal((int)GameManager.Inst().Player.GetItem(index).Value);
                 else
                     actor.GetComponent<SubWeapon>().Heal((int)GameManager.Inst().Player.GetItem(index).Value);
