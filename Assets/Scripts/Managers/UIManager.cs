@@ -35,6 +35,8 @@ public class UIManager : MonoBehaviour
     public GameObject InfoArea;
     public GameObject EquipArea;
     public GameObject ZzinBottom;
+    public GameObject Shop;
+
     public Weapon WeaponUI;
 
     //기타 UI
@@ -75,18 +77,17 @@ public class UIManager : MonoBehaviour
 
     
     MainUI MainUi;
-    //Detail DetailUI;
     Slot[] SlotUI;
     BuySubWeapon BuySWUI;
     LoopScroll ScrollViewUI;
     Inventory InventoryUI;
     InventoryDetail InvDetailUI;
-    //Equip EquipUI;
     Synthesis SynthesisUI;
     SideMenu SideMenuUI;
     StageLoop StageScrollUI;
     InfoArea InfoAreaUI;
     ZzinBottom ZzinBottomUI;
+    Shop ShopUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -155,6 +156,7 @@ public class UIManager : MonoBehaviour
         StageScrollUI = StageScroll.GetComponent<StageLoop>();
         InfoAreaUI = InfoArea.GetComponent<InfoArea>();
         ZzinBottomUI = ZzinBottom.GetComponent<ZzinBottom>();
+        ShopUI = Shop.GetComponent<Shop>();
 
         //Player UI Setting
         GameManager.Inst().Player.UI = PlayerUI;
@@ -224,13 +226,19 @@ public class UIManager : MonoBehaviour
             }
 
             Time.timeScale = 1.0f;
-        } 
+        }
     }
 
     public void SetSubWeaponInteratable(bool b)
     {
         Turret.transform.GetChild(BuySWUI.GetSelectedIndex()).GetChild(0).gameObject.GetComponent<Button>().interactable = b;
         Turret.transform.GetChild(BuySWUI.GetSelectedIndex()).GetChild(0).gameObject.SetActive(false);
+    }
+
+    public void SetSubWeaponInteratable(int index, bool b)
+    {
+        Turret.transform.GetChild(index).GetChild(0).gameObject.GetComponent<Button>().interactable = b;
+        Turret.transform.GetChild(index).GetChild(0).gameObject.SetActive(false);
     }
 
     public void SelectBullet(int BulletType)
@@ -736,6 +744,9 @@ public class UIManager : MonoBehaviour
         SideMenuUI.IsOpen = true;
         SideMenuUI.SideMenuOpen();
 
+        for(int i = 0; i < GameManager.Inst().StgManager.ReachedStage - 1; i++)
+            GetSideMenuSlot(i).ShowGatheringArea(i);
+
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
     }
@@ -806,6 +817,8 @@ public class UIManager : MonoBehaviour
             OnClickInventoryBackBtn();
         if (Synthesis.activeSelf)
             OnClickSynthesisBackBtn();
+        if (Shop.activeSelf)
+            OnClickShopBackBtn();
     }
 
     public void OnClickWeaponInfoBtn()
@@ -822,5 +835,31 @@ public class UIManager : MonoBehaviour
     public void OnClickLandingBtn()
     {
         StageScrollUI.MoveScene();
+    }
+
+    public void OnClickShopBtn()
+    {
+        OnClickHomeBtn();
+
+        Shop.SetActive(true);
+
+        ZzinBottomUI.ShopIcon[0].SetActive(false);
+        ZzinBottomUI.ShopIcon[1].SetActive(true);
+        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+    }
+
+    public void OnClickShopBackBtn()
+    {
+        Shop.SetActive(false);
+
+        ZzinBottomUI.ShopIcon[0].SetActive(true);
+        ZzinBottomUI.ShopIcon[1].SetActive(false);
+        ZzinBottomUI.HomeIcon.alpha = 0.0f;
+
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
     }
 }

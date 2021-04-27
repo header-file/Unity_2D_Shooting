@@ -174,6 +174,12 @@ public class GameData
         if (GameManager.Inst().StgManager.Stage < ReachedStage)
             GameManager.Inst().StgManager.UnlockStages(ReachedStage);
 
+        if(ReachedStage > 1)
+        {
+            for (int i = 0; i < ReachedStage; i++)
+                GameManager.Inst().ResManager.StartCount(i);
+        }
+
         if (Resources.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
                 GameManager.Inst().Resources[i] = Resources[i];
@@ -334,6 +340,12 @@ public class GameData
         Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
 
         CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
+    }
+
+    public void LoadReachedStage()
+    {
+        if (GameManager.Inst().StgManager.ReachedStage < ReachedStage)
+            GameManager.Inst().StgManager.ReachedStage = ReachedStage;
     }
 }
 

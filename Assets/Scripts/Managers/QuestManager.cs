@@ -84,14 +84,14 @@ public class QuestManager : MonoBehaviour
 
         for(int i = 0; i < Quests.Count; i++)
         {
-            if (Quests[i].QuestId / 10000 == GameManager.Inst().StgManager.Stage)
+            if (Quests[i].QuestId / 10000 == GameManager.Inst().StgManager.ReachedStage)
             {
                 QuestSlot slot = GameManager.Inst().ObjManager.MakeObj("QuestSlot").GetComponent<QuestSlot>();
                 slot.Desc.text = Quests[i].QuestDesc;
                 slot.Count.text = "0 / " + Quests[i].GoalCount;
                 slot.QuestID = Quests[i].QuestId;
                 slot.Check.SetActive(false);
-                slot.transform.SetParent(GameManager.Inst().UiManager.GetSideMenuSlot(GameManager.Inst().StgManager.Stage - 1).ContentTransform, false);
+                slot.transform.SetParent(GameManager.Inst().UiManager.GetSideMenuSlot(GameManager.Inst().StgManager.ReachedStage - 1).ContentTransform, false);
 
                 QuestSlots.Add(slot);
                 CurStageQuests++;

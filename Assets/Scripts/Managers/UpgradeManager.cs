@@ -414,7 +414,7 @@ public class UpgradeManager : MonoBehaviour
         GameManager.Inst().TxtManager.SetSPrice(SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, curIndex]]);
         if (SubWeaponLevel[GameManager.Inst().StgManager.Stage, curIndex] >= 5)
             GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
-        GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
+        GameManager.Inst().UiManager.SetSubWeaponInteratable(curIndex, false);
     }
 
     bool CheckSW(int index, int i)

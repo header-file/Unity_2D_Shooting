@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SideMenuSlot : MonoBehaviour
 {
+    public Button GatherBtn;
     public Text PlanetName;
     public Image PlanetImg;
     public Transform ContentTransform;
@@ -12,6 +13,17 @@ public class SideMenuSlot : MonoBehaviour
     public Image ResourceIcon;
     public Text[] Resources;
     public int Index;
+
+    public void ShowGatheringArea(int stage)
+    {
+        if (GatherBtn == null)
+            return;
+
+        if (GameManager.Inst().ResManager.CheckAble(stage))
+            GatherBtn.interactable = true;
+        else
+            GatherBtn.interactable = false;
+    }
 
     public void OnClickGetBtn()
     {

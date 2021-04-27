@@ -4,6 +4,7 @@ using UnityEngine;
 public class StageManager : MonoBehaviour
 {
     public int Stage = 0;
+    public int ReachedStage = 1;
     public int[] BossCount;
     public bool IsBoss;
     public float BossTimer;

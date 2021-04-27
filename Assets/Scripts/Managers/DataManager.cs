@@ -31,13 +31,15 @@ public class DataManager : MonoBehaviour
             Destroy(gameObject);
         else
             DontDestroyOnLoad(gameObject);
+
+        LoadData();
     }
 
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
-        LoadData();
+        GameData.LoadData();        
         SaveData();
     }
 
@@ -51,8 +53,10 @@ public class DataManager : MonoBehaviour
 
             string fromJsonData = File.ReadAllText(filePath);
             _gameData = JsonUtility.FromJson<GameData>(fromJsonData);
-            GameData.LoadData();
+
             //GameData.ResetData();
+
+            GameData.LoadReachedStage();
         }
         else
         {

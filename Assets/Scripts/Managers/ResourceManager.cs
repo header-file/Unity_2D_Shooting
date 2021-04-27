@@ -112,6 +112,8 @@ public class ResourceManager : MonoBehaviour
             //자원 상승
             TempResources[stage, 0] += 100 * (stage + 1);
             TempResources[stage, 1] += 5 * (stage + 1);
+
+            GameManager.Inst().UiManager.GetSideMenuSlot(stage).GatherBtn.interactable = true;
         }
 
         ShowData(stage, time);
@@ -142,7 +144,7 @@ public class ResourceManager : MonoBehaviour
 
     public void GetTempResources(int stage)
     {
-        GameManager.Inst().Resources[stage] += TempResources[stage, 1];
+        GameManager.Inst().AddResource(stage + 1, TempResources[stage, 1]);
         GameManager.Inst().Player.AddCoin(TempResources[stage, 0]);
 
         for(int i = 0; i < 2; i++)
@@ -153,6 +155,16 @@ public class ResourceManager : MonoBehaviour
 
         GameManager.Inst().UiManager.GetSideMenuSlot(stage).Timer.text = "00 : 00 : 00";
 
+        GameManager.Inst().UiManager.GetSideMenuSlot(stage).GatherBtn.interactable = false;
+
         StartTimes[stage] = Now;
+    }
+
+    public bool CheckAble(int stage)
+    {
+        if (TempResources[stage, 0] > 0)
+            return true;
+
+        return false;
     }
 }

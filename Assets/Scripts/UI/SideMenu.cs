@@ -69,9 +69,9 @@ public class SideMenu : MonoBehaviour
     {
         for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
-            if (i == GameManager.Inst().StgManager.Stage - 1)
+            if (i == GameManager.Inst().StgManager.ReachedStage - 1)
                 Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideNow").GetComponent<SideMenuSlot>();
-            else if(i > GameManager.Inst().StgManager.Stage - 1)
+            else if(i > GameManager.Inst().StgManager.ReachedStage - 1)
                 Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideNotYet").GetComponent<SideMenuSlot>();
             else
                 Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideCleared").GetComponent<SideMenuSlot>();
