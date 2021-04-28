@@ -36,6 +36,7 @@ public class UIManager : MonoBehaviour
     public GameObject EquipArea;
     public GameObject ZzinBottom;
     public GameObject Shop;
+    public GameObject Cheat;
 
     public Weapon WeaponUI;
 
@@ -88,6 +89,7 @@ public class UIManager : MonoBehaviour
     InfoArea InfoAreaUI;
     ZzinBottom ZzinBottomUI;
     Shop ShopUI;
+    Cheat CheatUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -157,6 +159,7 @@ public class UIManager : MonoBehaviour
         InfoAreaUI = InfoArea.GetComponent<InfoArea>();
         ZzinBottomUI = ZzinBottom.GetComponent<ZzinBottom>();
         ShopUI = Shop.GetComponent<Shop>();
+        CheatUI = Cheat.GetComponent<Cheat>();
 
         //Player UI Setting
         GameManager.Inst().Player.UI = PlayerUI;
@@ -819,6 +822,8 @@ public class UIManager : MonoBehaviour
             OnClickSynthesisBackBtn();
         if (Shop.activeSelf)
             OnClickShopBackBtn();
+        if (Cheat.activeSelf)
+            OnClickCheatBackBtn();
     }
 
     public void OnClickWeaponInfoBtn()
@@ -857,6 +862,28 @@ public class UIManager : MonoBehaviour
 
         ZzinBottomUI.ShopIcon[0].SetActive(true);
         ZzinBottomUI.ShopIcon[1].SetActive(false);
+        ZzinBottomUI.HomeIcon.alpha = 0.0f;
+
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+    }
+
+    public void OnClickCheatBtn()
+    {
+        OnClickHomeBtn();
+
+        Cheat.gameObject.SetActive(true);
+
+        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+    }
+
+    public void OnClickCheatBackBtn()
+    {
+        Cheat.SetActive(false);
+
         ZzinBottomUI.HomeIcon.alpha = 0.0f;
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
