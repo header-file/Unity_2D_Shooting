@@ -21,6 +21,9 @@ public class SubWeapon : MonoBehaviour
 
     public ShieldPart[] ShieldParts;
 
+    //Cheat
+    public bool IsGodMode;
+
     public bool IsRevive;
     public bool IsReinforce;
     public int ShootCount;
@@ -187,7 +190,9 @@ public class SubWeapon : MonoBehaviour
 
     public void Damage(int damage)
     {
-        if (IsInvincible)
+        if (IsGodMode)
+            return;
+        else if (IsInvincible)
             return;
         else if (!IsAlive)
             return;
@@ -405,7 +410,7 @@ public class SubWeapon : MonoBehaviour
         }
     }
 
-    void Revive()
+    public void Revive()
     {
         IsAlive = true;
         IsInvincible = true;
@@ -448,6 +453,13 @@ public class SubWeapon : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
             ShieldParts[i].gameObject.SetActive(true);
+    }
+
+    public void Disable()
+    {
+        GameManager.Inst().SetSubWeapons(null, NumID);
+
+        gameObject.SetActive(false);
     }
 
     private void OnMouseDown()

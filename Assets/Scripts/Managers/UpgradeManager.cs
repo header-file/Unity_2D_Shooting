@@ -352,15 +352,7 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Inst().Player.MinusCoin(SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]]);
             }
 
-            //Data 처리
-            SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]++;
-            GameManager.Inst().GetSubweapons(CurrentSubWeaponIndex).SetHP(10 * SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]);
-
-            //UI
-            GameManager.Inst().TxtManager.SetSPrice(SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]]);
-            if (SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex] >= 5)
-                GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
-            GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
+            AfterWork(CurrentSubWeaponIndex);
         }
         /*else
         {
@@ -406,6 +398,21 @@ public class UpgradeManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void AfterWork(int curIndex)
+    {
+        //Data 처리
+        SubWeaponLevel[GameManager.Inst().StgManager.Stage, curIndex]++;
+        //GameManager.Inst().GetSubweapons(CurrentSubWeaponIndex).SetHP(10 * SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]);
+        GameManager.Inst().GetSubweapons(curIndex).SetHP(GameManager.Inst().UpgManager.BData[GameManager.Inst().GetSubweapons(curIndex).GetBulletType()].GetHealth() +
+                                                                       GameManager.Inst().UpgManager.BData[GameManager.Inst().GetSubweapons(curIndex).GetBulletType()].GetHp());
+
+        //UI
+        GameManager.Inst().TxtManager.SetSPrice(SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, curIndex]]);
+        if (SubWeaponLevel[GameManager.Inst().StgManager.Stage, curIndex] >= 5)
+            GameManager.Inst().UiManager.GetBuySWUI().SetBuyBtnInteratable(false);
+        GameManager.Inst().UiManager.SetSubWeaponInteratable(false);
     }
 
     public void SWUiInteract(int curIndex)

@@ -64,6 +64,9 @@ public class Player : MonoBehaviour
     public bool IsReinforce;
     public int ShootCount;
 
+    //Cheat
+    public bool IsGodMode;
+
     GameObject[] SubWeapons;
     EqData[] Inventory;
     Vector3 OriginalPos;
@@ -498,7 +501,9 @@ public class Player : MonoBehaviour
 
     public void Damage(int damage)
     {
-        if (IsInvincible)
+        if (IsGodMode)
+            return;
+        else if (IsInvincible)
             return;
         else if (IsDead)
             return;
@@ -510,9 +515,9 @@ public class Player : MonoBehaviour
         }
         else
         {
-            for(int i = 0; i < ShieldParts.Length; i++)
+            for (int i = 0; i < ShieldParts.Length; i++)
             {
-                if(ShieldParts[i].gameObject.activeSelf)
+                if (ShieldParts[i].gameObject.activeSelf)
                 {
                     ShieldParts[i].gameObject.SetActive(false);
                     return;
@@ -592,7 +597,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Revive()
+    public void Revive()
     {
         IsDead = false;
         IsInvincible = true;
