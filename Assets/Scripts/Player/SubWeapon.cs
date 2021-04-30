@@ -458,6 +458,11 @@ public class SubWeapon : MonoBehaviour
     public void Disable()
     {
         GameManager.Inst().SetSubWeapons(null, NumID);
+        GameManager.Inst().UpgManager.SetSubWeaponLevel(GameManager.Inst().StgManager.Stage, NumID, 0);
+        int id = NumID;
+        if (id > 1)
+            id++;
+        GameManager.Inst().ShtManager.SetColorSelection(id, 0);
 
         gameObject.SetActive(false);
     }

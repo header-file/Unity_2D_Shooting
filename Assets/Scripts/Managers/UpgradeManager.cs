@@ -31,7 +31,7 @@ public class UpgradeManager : MonoBehaviour
         public void SetReloadTime(float Time) { ReloadTime = Time; }
         public void SetDuration(float Time) { Duration = Time; }
         public void SetPrice(int price) { Price = price; }
-        public void AddRarity() { Rarity++; }
+        //public void AddRarity() { Rarity++; }
         public void SetActive(bool b) { IsActive = b; }
         public void SetAtk(int atk)
         {
@@ -77,7 +77,7 @@ public class UpgradeManager : MonoBehaviour
         public int GetBaseDamage() { return BaseDamage; }
         public bool GetActive() { return IsActive; }
         public int GetEquipIndex() { return EquipIndex; }
-        
+
         public void ResetData()
         {
             PowerLevel = 1;
@@ -145,6 +145,7 @@ public class UpgradeManager : MonoBehaviour
     };
 
     public BulletData[] BData;
+    public BulletData[] BulletDatas;
 
     int PlayerLevel;
     int[] PlayerUpgradePriceData;
@@ -156,7 +157,7 @@ public class UpgradeManager : MonoBehaviour
     int[] WeaponPriceData;
     int[,,] WeaponReinforceMaxData;
 
-    public int GetPlayerLevel(){ return PlayerLevel; }
+    public int GetPlayerLevel() { return PlayerLevel; }
     public int GetPlayerUpgradePriceData(int index) { return PlayerUpgradePriceData[index]; }
     public int GetSubWeaponLevel(int stage, int index) { return SubWeaponLevel[stage, index]; }
     public int GetSubWeaponPrice(int index) { return SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, index]]; }
@@ -176,12 +177,13 @@ public class UpgradeManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
         List<Dictionary<string, object>> data = CSVReader.Read("Datas/BulletData");
-        BData = new BulletData[Constants.MAXBULLETS * 5];
+        BData = new BulletData[Constants.MAXBULLETS];
         for (int i = 0; i < BData.Length; i++)
-        {
-            BData[i].ResetData();
             BData[i].SetBulletDatas(data, i);
-        }
+
+        BulletDatas = new BulletData[Constants.MAXBULLETS * Constants.MAXRARITY];
+        for (int i = 0; i < BulletDatas.Length; i++)
+            BulletDatas[i].SetBulletDatas(data, i);
 
         data = CSVReader.Read("Datas/WpAwakenData");
         ResourceData = new int[Constants.MAXRARITY, Constants.MAXSTAGES];
@@ -190,14 +192,14 @@ public class UpgradeManager : MonoBehaviour
 
         data = CSVReader.Read("Datas/WpUpgradeData");
         WeaponPriceData = new int[50];
-        for(int i = 0; i < 50; i++)
+        for (int i = 0; i < 50; i++)
             WeaponPriceData[i] = int.Parse(data[i]["Price"].ToString());
 
         data = CSVReader.Read("Datas/WpReinforceMaxData");
         WeaponReinforceMaxData = new int[Constants.MAXBULLETS, 5, 3];
         for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
-            for(int j = 0; j < 3; j++)
+            for (int j = 0; j < 3; j++)
                 SetWeaponReinforceMaxDatas(data, i, j);
 
             SetMaxData(i);
@@ -210,12 +212,12 @@ public class UpgradeManager : MonoBehaviour
 
         data = CSVReader.Read("Datas/PlayerUpgradePriceData");
         PlayerUpgradePriceData = new int[Constants.MAXPLAYERLEVEL];
-        for(int i = 0; i < Constants.MAXPLAYERLEVEL; i++)
+        for (int i = 0; i < Constants.MAXPLAYERLEVEL; i++)
             PlayerUpgradePriceData[i] = int.Parse(data[i]["Price"].ToString());
 
         SubWeaponLevel = new int[Constants.MAXSTAGES, 4];
-        for(int j = 0; j < Constants.MAXSTAGES; j++)
-            for(int i = 0; i < 4; i++)
+        for (int j = 0; j < Constants.MAXSTAGES; j++)
+            for (int i = 0; i < 4; i++)
                 SubWeaponLevel[j, i] = 0;
 
         CurrentSubWeaponIndex = -1;
@@ -260,14 +262,14 @@ public class UpgradeManager : MonoBehaviour
 
     public void AddLevel(int UpgType)
     {
-        if(UpgType < (int)UpgradeType.SUBWEAPON)
+        if (UpgType < (int)UpgradeType.SUBWEAPON)
         {
             if (BData[UpgType].GetPowerLevel() > BData[UpgType].GetMaxBulletLevel())
                 return;
-            else if(BData[UpgType].GetPowerLevel() == BData[UpgType].GetMaxBulletLevel())   //레어도 상승
+            else if (BData[UpgType].GetPowerLevel() == BData[UpgType].GetMaxBulletLevel())   //레어도 상승
             {
                 //가격
-                for(int i = 0; i < Constants.MAXSTAGES; i++)
+                for (int i = 0; i < Constants.MAXSTAGES; i++)
                 {
                     if (GameManager.Inst().Resources[i] < ResourceData[BData[UpgType].GetRarity(), i])
                         return;
@@ -275,13 +277,7 @@ public class UpgradeManager : MonoBehaviour
                 for (int i = 0; i < Constants.MAXSTAGES; i++)
                     GameManager.Inst().SubtractResource(i, ResourceData[BData[UpgType].GetRarity(), i]);
 
-                //BData 처리
-                BData[UpgType].SetPowerLevel(1);
-                BData[UpgType].AddRarity();
-                BData[UpgType].SetPrice((int)Mathf.Pow(10.0f, BData[UpgType].GetRarity()));
-                BData[UpgType].SetMaxAtk(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 0]);
-                BData[UpgType].SetMaxHp(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 1]);
-                BData[UpgType].SetMaxSpd(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 2]);
+                RarityUp(UpgType);
 
                 //UI
                 GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
@@ -292,17 +288,6 @@ public class UpgradeManager : MonoBehaviour
                 //퀘스트 처리
                 GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.FORGE, BData[UpgType].GetRarity(), 1);
 
-                //기타 능력치
-                if (BData[UpgType].GetBaseDamage() != BData[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage())
-                    BData[UpgType].SetBaseDamage(BData[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage());
-                if (BData[UpgType].GetReloadTime() != BData[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime())
-                    BData[UpgType].SetReloadTime(BData[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime());
-                if (BData[UpgType].GetDuration() != BData[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration())
-                    BData[UpgType].SetDuration(BData[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration());
-
-                //HP적용
-                SetHPData(UpgType);
-
                 return;
             }
 
@@ -312,10 +297,7 @@ public class UpgradeManager : MonoBehaviour
             else
                 GameManager.Inst().Player.MinusCoin(BData[UpgType].GetPrice());
 
-            //BData 처리
-            BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() + 1);
-            BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel()]);
-            BData[UpgType].SetHealth(BData[UpgType].GetHealth() + 5);
+            LevelUp(UpgType);
 
             //UI
             GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
@@ -323,11 +305,8 @@ public class UpgradeManager : MonoBehaviour
             GameManager.Inst().UiManager.ShowInfoArea(UpgType);
             GameManager.Inst().UiManager.WeaponUI.InfoWindow.Show(UpgType);
             GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
-
-            //HP적용
-            SetHPData(UpgType);
         }
-        else if(UpgType == (int)UpgradeType.SUBWEAPON)
+        else if (UpgType == (int)UpgradeType.SUBWEAPON)
         {
             if (SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex] >= Constants.MAXSUBLEVEL)
                 return;
@@ -348,7 +327,7 @@ public class UpgradeManager : MonoBehaviour
             {
                 if (GameManager.Inst().Player.GetCoin() < SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]])
                     return;
-                
+
                 GameManager.Inst().Player.MinusCoin(SubWpPriceData[GameManager.Inst().StgManager.Stage, SubWeaponLevel[GameManager.Inst().StgManager.Stage, CurrentSubWeaponIndex]]);
             }
 
@@ -370,6 +349,72 @@ public class UpgradeManager : MonoBehaviour
             GameManager.Inst().Player.SetCurHP(GameManager.Inst().Player.GetCurHP() + 5);
             GameManager.Inst().Player.SetMaxHP(PlayerLevel * 5);
         }*/
+    }
+
+    public void RarityUp(int UpgType)
+    {
+        //BData 처리
+        BData[UpgType].SetPowerLevel(1);
+        BData[UpgType].SetRarity(BData[UpgType].GetRarity() + 1);
+        BData[UpgType].SetPrice((int)Mathf.Pow(10.0f, BData[UpgType].GetRarity()));
+        BData[UpgType].SetMaxAtk(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 0]);
+        BData[UpgType].SetMaxHp(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 1]);
+        BData[UpgType].SetMaxSpd(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 2]);
+
+        //기타 능력치
+        if (BData[UpgType].GetBaseDamage() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage())
+            BData[UpgType].SetBaseDamage(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage());
+        if (BData[UpgType].GetReloadTime() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime())
+            BData[UpgType].SetReloadTime(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime());
+        if (BData[UpgType].GetDuration() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration())
+            BData[UpgType].SetDuration(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration());
+
+        //HP적용
+        SetHPData(UpgType);
+    }
+
+    public void RarityDown(int UpgType)
+    {
+        //BData 처리
+        BData[UpgType].SetRarity(BData[UpgType].GetRarity() - 1);
+        BData[UpgType].SetPowerLevel(BData[UpgType].GetMaxBulletLevel());
+        BData[UpgType].SetPrice((int)Mathf.Pow(10.0f, BData[UpgType].GetRarity()));
+        BData[UpgType].SetMaxAtk(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 0]);
+        BData[UpgType].SetMaxHp(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 1]);
+        BData[UpgType].SetMaxSpd(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 2]);
+
+        //기타 능력치
+        if (BData[UpgType].GetBaseDamage() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage())
+            BData[UpgType].SetBaseDamage(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage());
+        if (BData[UpgType].GetReloadTime() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime())
+            BData[UpgType].SetReloadTime(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime());
+        if (BData[UpgType].GetDuration() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration())
+            BData[UpgType].SetDuration(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration());
+
+        //HP적용
+        SetHPData(UpgType);
+    }
+
+    public void LevelUp(int UpgType)
+    {
+        //BData 처리
+        BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() + 1);
+        BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel() - 1]);
+        BData[UpgType].SetHealth(BData[UpgType].GetHealth() + 5);
+
+        //HP적용
+        SetHPData(UpgType);
+    }
+
+    public void LevelDown(int UpgType)
+    {
+        //BData 처리
+        BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() - 1);
+        BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel() - 1]);
+        BData[UpgType].SetHealth(BData[UpgType].GetHealth() - 5);
+
+        //HP적용
+        SetHPData(UpgType);
     }
 
     public void AddSW(int curIndex)

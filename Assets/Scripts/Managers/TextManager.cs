@@ -23,6 +23,8 @@ public class TextManager : MonoBehaviour
     public string[] EquipDetailFront;
     public string[] EquipDetailBack;
     public string[] EquipDetailSimple;
+    public string[] BulletTypeNames;
+    public string[] RarityNames;
 
     Text[] BNames;
     Text[] BLevels;
