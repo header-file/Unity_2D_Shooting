@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public Player Player;
 
     public int[,] SubWID;
+    public int Jewel;
     public int[] Resources;
     public int[,,] EquipDatas;
 
@@ -38,8 +39,10 @@ public class GameManager : MonoBehaviour
     public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[StgManager.Stage - 1, index] = Sub; }
+    public void AddJewel(int value) { Jewel += value; UiManager.JewelText.text = Jewel.ToString(); }
+    public void SubtractJewel(int value) { Jewel -= value; UiManager.JewelText.text = Jewel.ToString(); }
     public void AddResource(int stage, int value) { Resources[stage - 1] += value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
-    public void SubtractResource(int index, int value) { Resources[index] -= value; TxtManager.Resources[index].text = Resources[index].ToString(); }
+    public void SubtractResource(int stage, int value) { Resources[stage - 1] -= value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
 
     void Awake()
     {
@@ -56,6 +59,7 @@ public class GameManager : MonoBehaviour
 
         //SetManagers();
 
+        Jewel = 0;
         Resources = new int[Constants.MAXSTAGES];
 
         SubWeapons = new SubWeapon[Constants.MAXSTAGES, 4];
@@ -98,6 +102,8 @@ public class GameManager : MonoBehaviour
         }
 
         TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));
+
+        UiManager.JewelText.text = Jewel.ToString();
     }
 
     void SetDropRateData()
@@ -400,7 +406,24 @@ public class GameManager : MonoBehaviour
     void SetInventory()
     {
         InventoryScroll inventory = UiManager.InventoryScroll.GetComponent<InventoryScroll>();
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < Player.MaxInventory; i++)
+        {
+            GameObject inventorySlot = Inst().ObjManager.MakeObj("InventorySlot");
+            inventorySlot.transform.SetParent(inventory.Contents.transform, false);
+            InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
+            slot.SetIndex(i);
+            slot.SetType(-1);
+            inventory.SetInventory(i, slot);
+            inventorySlot.name = i.ToString();
+        }
+    }
+
+    public void AddInventory()
+    {
+        InventoryScroll inventory = UiManager.InventoryScroll.GetComponent<InventoryScroll>();
+        inventory.AddSlots();
+
+        for (int i = Player.MaxInventory; i < Player.MaxInventory + 10; i++)
         {
             GameObject inventorySlot = Inst().ObjManager.MakeObj("InventorySlot");
             inventorySlot.transform.SetParent(inventory.Contents.transform, false);

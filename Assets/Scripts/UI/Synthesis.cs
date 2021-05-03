@@ -141,7 +141,7 @@ public class Synthesis : MonoBehaviour
     //{
     //    Inventories.ResetInventory();
 
-    //    for (int i = 0; i < Constants.MAXINVENTORY; i++)
+    //    for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
     //    {
     //        Player.EqData eq = GameManager.Inst().Player.GetItem(i);
     //        Inventories.GetSlot(i).Selected.SetActive(false);
@@ -194,7 +194,7 @@ public class Synthesis : MonoBehaviour
 
     public void SortAsDefault()
     {
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
 
@@ -259,7 +259,7 @@ public class Synthesis : MonoBehaviour
     {
         Inventories.ResetInventory();
 
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
 
@@ -458,7 +458,7 @@ public class Synthesis : MonoBehaviour
 
     public void ResetDisable()
     {
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
         {
             if (GameManager.Inst().Player.GetItem(i) != null)
                 Inventories.GetSlot(Inventories.GetSwitchedIndex(i)).SetDisable(false);

@@ -6,7 +6,8 @@ static class Constants
 {
     public const int MAXSUBWEAPON = 4;
 
-    public const int MAXINVENTORY = 40;
+    public const int MAXINVENTORY = 200;
+    public const int MININVENTORY = 40;
 
     public const int MAXSTAGES = 4;
     public const float MAXBOSSTIME = 30.0f;

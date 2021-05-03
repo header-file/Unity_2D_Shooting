@@ -25,15 +25,78 @@ public class Cheat : MonoBehaviour
     public Text[] ReinforceText;
     public Image[] ReinforceImage;
 
-    int CurrentBulletType;
+    public Text CoinText;
+    public Text JewelText;
+    public Text[] ResourceTexts;
+    public Button[] CoinBtns;
+    public Button[] JewelBtns;
+    public Button[] PlusResourceBtns;
+    public Button[] MinusResourceBtns;
 
+    public Text ReinforceValueText;
+    public Text EquipValueText;
+    public Button[] EquipValueBtns;
+    public Text EquipDetailText;
+    public string[] ReinforceTypes;
+    public Text MaxInventoryText;
+    public Button[] InventoryBtns;
+
+    int CurrentBulletType;
+    bool IsResourcePage;
+    bool IsCoinUp;
+    bool IsCoinDown;
+    bool IsJewelUp;
+    bool IsJewelDown;
+    bool[] IsResourceUp;
+    bool[] IsResourceDown;
+    int ReinforceType;
+    int ReinforceRarity;
+    int EquipType;
+    int EquipRarity;
 
     void Start()
     {
         //Toggles[0].isOn = true;
 
         CurrentBulletType = 0;
+
+        IsResourcePage = false;
+        IsCoinUp = false;
+        IsCoinDown = false;
+        IsJewelUp = false;
+        IsJewelDown = false;
+        IsResourceUp = new bool[Constants.MAXSTAGES];
+        IsResourceDown = new bool[Constants.MAXSTAGES];
+        for (int i = 0; i < Constants.MAXSTAGES; i++)
+        {
+            IsResourceUp[i] = false;
+            IsResourceDown[i] = false;
+        }
+
         gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (IsCoinUp)
+            GameManager.Inst().Player.AddCoin(1);
+        else if(IsCoinDown)
+            GameManager.Inst().Player.MinusCoin(1);
+
+        if (IsJewelUp)
+            GameManager.Inst().AddJewel(1);
+        else if (IsJewelDown)
+            GameManager.Inst().SubtractJewel(1);
+
+        for(int i = 0; i < Constants.MAXSTAGES; i++)
+        {
+            if (IsResourceUp[i])
+                GameManager.Inst().AddResource(i + 1, 1);
+            else if (IsResourceDown[i])
+                GameManager.Inst().SubtractResource(i + 1, 1);
+        }
+
+        ShowResourcePage();
     }
 
     public void SwitchPage(int index)
@@ -51,6 +114,8 @@ public class Cheat : MonoBehaviour
 
     void ShowPage(int index)
     {
+        IsResourcePage = false;
+
         switch(index)
         {
             case 0:
@@ -60,8 +125,11 @@ public class Cheat : MonoBehaviour
                 ShowWeaponPage();
                 break;
             case 2:
+                IsResourcePage = true;
+                ShowResourcePage();
                 break;
             case 3:
+                ShowItemPage();
                 break;
             case 4:
                 break;
@@ -163,6 +231,45 @@ public class Cheat : MonoBehaviour
             MinusReinforceBtn[2].interactable = false;
         else
             MinusReinforceBtn[2].interactable = true;
+    }
+
+    void ShowResourcePage()
+    {
+        CoinText.text = GameManager.Inst().Player.GetCoin().ToString();
+        JewelText.text = GameManager.Inst().Jewel.ToString();
+        for (int i = 0; i < Constants.MAXSTAGES; i++)
+            ResourceTexts[i].text = GameManager.Inst().Resources[i].ToString();
+
+        if (GameManager.Inst().Player.GetCoin() <= 0)
+            CoinBtns[0].interactable = false;
+        else
+            CoinBtns[0].interactable = true;
+
+        if (GameManager.Inst().Jewel <= 0)
+            JewelBtns[0].interactable = false;
+        else
+            JewelBtns[0].interactable = true;
+
+        for(int i = 0; i < Constants.MAXSTAGES; i++)
+        {
+            if (GameManager.Inst().Resources[i] <= 0)
+                PlusResourceBtns[i].interactable = false;
+            else
+                PlusResourceBtns[i].interactable = true;
+        }
+    }
+
+    void ShowItemPage()
+    {
+        MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
+
+        for (int i = 0; i < 2; i++)
+            InventoryBtns[i].interactable = true;
+
+        if (GameManager.Inst().Player.MaxInventory >= Constants.MAXINVENTORY)
+            InventoryBtns[0].interactable = false;
+        else if (GameManager.Inst().Player.MaxInventory <= Constants.MININVENTORY)
+            InventoryBtns[1].interactable = false;
     }
 
     //Button
@@ -297,5 +404,204 @@ public class Cheat : MonoBehaviour
         }
 
         ShowWeaponData();
+    }
+
+    void ShowReinforceDetail()
+    {
+        string str = ReinforceTypes[ReinforceType];
+        str += " + ";
+        switch (ReinforceRarity)
+        {
+            case 0:
+                str += "1";
+                break;
+
+            case 1:
+                str += "5";
+                break;
+
+            case 2:
+                str += "20";
+                break;
+
+            case 3:
+                str += "75";
+                break;
+
+            case 4:
+                str += "250";
+                break;
+        }
+        ReinforceValueText.text = str;
+    }
+
+    void ShowEquipValue()
+    {
+        EquipValueText.text = GameManager.Inst().EquipDatas[EquipType, EquipRarity, 1].ToString();
+        EquipValueBtns[1].interactable = false;
+        if (GameManager.Inst().EquipDatas[EquipType, EquipRarity, 2] <= 0)
+            EquipValueBtns[0].interactable = false;
+        else
+            EquipValueBtns[0].interactable = true;
+    }
+
+    void ShowEquipDetail()
+    {
+        string detail = "";
+        if (GameManager.Inst().EquipDatas[EquipType, EquipRarity, 0] > 0)
+            detail += GameManager.Inst().EquipDatas[EquipType, EquipRarity, 0].ToString();
+        detail += GameManager.Inst().TxtManager.EquipDetailFront[EquipType];
+        if (int.Parse(EquipValueText.text) > 0)
+            detail += EquipValueText.text;
+        detail += GameManager.Inst().TxtManager.EquipDetailBack[EquipType];
+
+        EquipDetailText.text = detail;
+    }
+
+    public void OnClickPlusCoinBtn(bool b)
+    {
+        IsCoinUp = b;
+    }
+
+    public void OnClickMinusCoinBtn(bool b)
+    {
+        IsCoinDown = b;
+    }
+
+    public void OnClickPlusJewelBtn(bool b)
+    {
+        IsJewelUp = b;
+    }
+
+    public void OnClickMinusJewelBtn(bool b)
+    {
+        IsJewelDown = b;
+    }
+
+    public void OnClickPlusResource1Btn(bool b)
+    {
+        IsResourceUp[0] = b;
+    }
+
+    public void OnClickMinusResource1Btn(bool b)
+    {
+        IsResourceDown[0] = b;
+    }
+
+    public void OnClickPlusResource2Btn(bool b)
+    {
+        IsResourceUp[1] = b;
+    }
+
+    public void OnClickMinusResource2Btn(bool b)
+    {
+        IsResourceDown[1] = b;
+    }
+
+    public void OnClickPlusResource3Btn(bool b)
+    {
+        IsResourceUp[2] = b;
+    }
+
+    public void OnClickMinusResource3Btn(bool b)
+    {
+        IsResourceDown[2] = b;
+    }
+
+    public void OnClickPlusResource4Btn(bool b)
+    {
+        IsResourceUp[3] = b;
+    }
+
+    public void OnClickMinusResource4Btn(bool b)
+    {
+        IsResourceDown[3] = b;
+    }
+
+    public void OnSelectReinforceType(int type)
+    {
+        ReinforceType = type;
+
+        ShowReinforceDetail();
+    }
+
+    public void OnSelectReinforceRarity(int rarity)
+    {
+        ReinforceRarity = rarity;
+
+        ShowReinforceDetail();
+    }
+
+    public void OnClickMakeReinforceBtn()
+    {
+        GameManager.Inst().MakeReinforceData(ReinforceType, ReinforceRarity);
+    }
+
+    public void OnSelectEquipType(int type)
+    {
+        EquipType = type;
+
+        ShowEquipValue();
+        ShowEquipDetail();
+    }
+
+    public void OnSelectEquipRarity(int rarity)
+    {
+        EquipRarity = rarity;
+
+        ShowEquipValue();
+        ShowEquipDetail();
+    }
+
+    public void OnClickEquipValueBtn(int index)
+    {
+        if (index == 0)
+        {
+            EquipValueBtns[1].interactable = true;
+
+            EquipValueText.text = (int.Parse(EquipValueText.text) + 1).ToString();
+            if (int.Parse(EquipValueText.text) >= GameManager.Inst().EquipDatas[EquipType, EquipRarity, 2])
+                EquipValueBtns[0].interactable = false;
+        }
+        else
+        {
+            EquipValueBtns[0].interactable = true;
+
+            EquipValueText.text = (int.Parse(EquipValueText.text) - 1).ToString();
+            if (int.Parse(EquipValueText.text) <= GameManager.Inst().EquipDatas[EquipType, EquipRarity, 1])
+                EquipValueBtns[1].interactable = false;
+        }
+
+        ShowEquipDetail();
+    }
+
+    public void OnClickMakeEquipBtn()
+    {
+        GameManager.Inst().MakeEquipData(EquipType, EquipRarity);
+    }
+
+    public void OnClickInventoryBtn(int index)
+    {
+        if(index == 0)
+        {
+            InventoryBtns[1].interactable = true;
+
+            GameManager.Inst().AddInventory();
+            GameManager.Inst().Player.MaxInventory += 10;
+            MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
+
+            if (GameManager.Inst().Player.MaxInventory >= Constants.MAXINVENTORY)
+                InventoryBtns[0].interactable = false;
+        }
+        else
+        {
+            //InventoryBtns[0].interactable = true;
+
+            //GameManager.Inst().Player.MaxInventory -= 10;
+            //MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
+
+            //if (GameManager.Inst().Player.MaxInventory <= Constants.MININVENTORY)
+            //    InventoryBtns[1].interactable = false;
+        }
     }
 }

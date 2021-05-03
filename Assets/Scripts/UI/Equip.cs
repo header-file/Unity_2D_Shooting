@@ -374,7 +374,7 @@ public class Equip : MonoBehaviour
 
         Inventories.ResetInventory();
 
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
             Inventories.GetSlot(i).Selected.SetActive(false);

@@ -68,6 +68,8 @@ public class GameData
     public int Coin;
     public int[] Resources;
 
+    public int MaxInventory;
+
     public int CurrentStage;
     public int ReachedStage;
 
@@ -88,6 +90,8 @@ public class GameData
     {
         Coin = GameManager.Inst().Player.GetCoin();
         CurrentStage = GameManager.Inst().StgManager.Stage;
+
+        MaxInventory = GameManager.Inst().Player.MaxInventory;
 
         PlayerDatas[(int)PlaData.LEVEL] = GameManager.Inst().UpgManager.GetPlayerLevel();
         PlayerDatas[(int)PlaData.CURHP] = GameManager.Inst().Player.GetCurHP();
@@ -127,7 +131,8 @@ public class GameData
             }
         }
 
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        Inventories = new int[Constants.INVDATASIZE * GameManager.Inst().Player.MaxInventory];
+        for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
             if (eq != null)
@@ -167,6 +172,18 @@ public class GameData
     {
         if (Coin > 0)
             GameManager.Inst().Player.AddCoin(Coin);
+
+        if (MaxInventory > 0)
+        {
+            if(MaxInventory > Constants.MININVENTORY)
+            {
+                int count = (MaxInventory - Constants.MININVENTORY) / 10;
+                for (int i = 0; i < count; i++)
+                    GameManager.Inst().AddInventory();
+            }
+
+            GameManager.Inst().Player.MaxInventory = MaxInventory;
+        }
 
         if (GameManager.Inst().StgManager.Stage < CurrentStage)
             GameManager.Inst().StgManager.Stage = CurrentStage;
@@ -240,9 +257,9 @@ public class GameData
         else
             SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
 
-        if (Inventories != null && Inventories.Length == Constants.MAXINVENTORY * Constants.INVDATASIZE)
+        if (Inventories != null && Inventories.Length == GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE)
         {
-            for (int i = 0; i < Constants.MAXINVENTORY; i++)
+            for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
             {
                 if (Inventories[Constants.INVDATASIZE * i + (int)InvData.ID] > 0)
                 {
@@ -264,7 +281,7 @@ public class GameData
             }
         }
         else
-            Inventories = new int[Constants.MAXINVENTORY * Constants.INVDATASIZE];
+            Inventories = new int[GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE];
         
 
         if (Weapons != null)
@@ -333,7 +350,7 @@ public class GameData
 
         SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
 
-        Inventories = new int[Constants.MAXINVENTORY * Constants.INVDATASIZE];
+        Inventories = new int[GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE];
 
         Weapons = new float[Constants.MAXBULLETS * Constants.WPDATASIZE];
 

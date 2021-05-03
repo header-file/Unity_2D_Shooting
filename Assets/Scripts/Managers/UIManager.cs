@@ -47,6 +47,7 @@ public class UIManager : MonoBehaviour
     public PlayerHitArea[] PlayerHitAreas;
     public GameObject InventoryScroll;
     public GameObject[] SubPositions;
+    public Text JewelText;
 
     //플레이어용 UI
     public GameObject PlayerUI;

@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
 
     public ObjectShake Shaker;
 
+    public int MaxInventory;
     public int SortOption;
     public bool IsRevive;
     public bool IsReinforce;
@@ -163,7 +164,7 @@ public class Player : MonoBehaviour
 
     public int AddItem(Item_Equipment item)
     {
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < MaxInventory; i++)
         {
             if (Inventory[i] != null)
             {
@@ -176,7 +177,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < MaxInventory; i++)
         {
             if (Inventory[i] == null)
             {
@@ -198,7 +199,7 @@ public class Player : MonoBehaviour
 
     public int AddItem(Item_ZzinEquipment item)
     {
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < MaxInventory; i++)
         {
             if (Inventory[i] == null)
             {
@@ -220,7 +221,7 @@ public class Player : MonoBehaviour
 
     public int AddItem(EqData item)
     {
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < MaxInventory; i++)
         {
             if (Inventory[i] != null)
             {
@@ -235,7 +236,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < Constants.MAXINVENTORY; i++)
+        for (int i = 0; i < MaxInventory; i++)
         {
             if (Inventory[i] == null)
             {
@@ -301,7 +302,7 @@ public class Player : MonoBehaviour
     {
         for (int n = 1; n <= count; n++)
         {
-            for (int i = 0; i < Constants.MAXINVENTORY; i++)
+            for (int i = 0; i < MaxInventory; i++)
             {
                 if (Inventory[i] == null)
                     continue;
@@ -327,6 +328,8 @@ public class Player : MonoBehaviour
             Destroy(gameObject);
         else
             DontDestroyOnLoad(gameObject);
+
+        MaxInventory = 40;
 
         Coin = 10000;
 
