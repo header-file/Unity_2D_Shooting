@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Cheat : MonoBehaviour
 {
@@ -41,6 +42,10 @@ public class Cheat : MonoBehaviour
     public Text MaxInventoryText;
     public Button[] InventoryBtns;
 
+    public Button[] StageBtns;
+    public QuestSlot[] QuestSlots;
+    public Button[] QuestBtns;
+
     int CurrentBulletType;
     bool IsResourcePage;
     bool IsCoinUp;
@@ -56,8 +61,6 @@ public class Cheat : MonoBehaviour
 
     void Start()
     {
-        //Toggles[0].isOn = true;
-
         CurrentBulletType = 0;
 
         IsResourcePage = false;
@@ -129,11 +132,13 @@ public class Cheat : MonoBehaviour
                 ShowResourcePage();
                 break;
             case 3:
-                ShowItemPage();
+                ShowStagePage();
                 break;
             case 4:
+                ShowItemPage();
                 break;
             case 5:
+                ShowDataPage();
                 break;
         }
     }
@@ -259,6 +264,42 @@ public class Cheat : MonoBehaviour
         }
     }
 
+    void ShowStagePage()
+    {
+        for (int i = 0; i < GameManager.Inst().StgManager.ReachedStage; i++)
+            StageBtns[i].interactable = false;
+
+        int count = 0;
+        for(int i = 0; i < GameManager.Inst().QstManager.Quests.Count; i++)
+        {
+            if(GameManager.Inst().QstManager.Quests[i].QuestId / 10000 == GameManager.Inst().StgManager.ReachedStage)
+            {
+                QuestSlots[count].Desc.text = GameManager.Inst().QstManager.Quests[i].QuestDesc;
+                QuestSlots[count].Count.text = GameManager.Inst().QstManager.Quests[i].CurrentCount.ToString() + " / " + GameManager.Inst().QstManager.Quests[i].GoalCount.ToString();
+                QuestSlots[count].ProgressBar.fillAmount = (float)GameManager.Inst().QstManager.Quests[i].CurrentCount / GameManager.Inst().QstManager.Quests[i].GoalCount;
+                QuestSlots[count].QuestID = GameManager.Inst().QstManager.Quests[i].QuestId;
+
+                if (GameManager.Inst().QstManager.Quests[i].CurrentCount <= 0)
+                    QuestBtns[count * 2 + 1].interactable = false;
+                else
+                    QuestBtns[count * 2 + 1].interactable = true;
+
+                if (GameManager.Inst().QstManager.Quests[i].CurrentCount >= GameManager.Inst().QstManager.Quests[i].GoalCount)
+                {
+                    QuestSlots[count].Check.SetActive(true);
+                    QuestBtns[count * 2].interactable = false;
+                }
+                else
+                {
+                    QuestSlots[count].Check.SetActive(false);
+                    QuestBtns[count * 2].interactable = true;
+                }                    
+
+                count++;
+            }
+        }
+    }
+
     void ShowItemPage()
     {
         MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
@@ -270,6 +311,11 @@ public class Cheat : MonoBehaviour
             InventoryBtns[0].interactable = false;
         else if (GameManager.Inst().Player.MaxInventory <= Constants.MININVENTORY)
             InventoryBtns[1].interactable = false;
+    }
+
+    void ShowDataPage()
+    {
+
     }
 
     //Button
@@ -586,8 +632,8 @@ public class Cheat : MonoBehaviour
         {
             InventoryBtns[1].interactable = true;
 
-            GameManager.Inst().AddInventory();
             GameManager.Inst().Player.MaxInventory += 10;
+            GameManager.Inst().AddInventory();
             MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
 
             if (GameManager.Inst().Player.MaxInventory >= Constants.MAXINVENTORY)
@@ -595,13 +641,44 @@ public class Cheat : MonoBehaviour
         }
         else
         {
-            //InventoryBtns[0].interactable = true;
+            InventoryBtns[0].interactable = true;
 
-            //GameManager.Inst().Player.MaxInventory -= 10;
-            //MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
+            GameManager.Inst().Player.MaxInventory -= 10;
+            MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
 
-            //if (GameManager.Inst().Player.MaxInventory <= Constants.MININVENTORY)
-            //    InventoryBtns[1].interactable = false;
+            if (GameManager.Inst().Player.MaxInventory <= Constants.MININVENTORY)
+                InventoryBtns[1].interactable = false;
         }
+    }
+
+    public void OnClickStageBtn(int index)
+    {
+        GameManager.Inst().StgManager.ReachedStage = index + 1;
+
+        ShowStagePage();
+    }
+
+    public void OnClickQuestUpBtn(int index)
+    {
+        int id = QuestSlots[index].QuestID;
+
+        GameManager.Inst().QstManager.QuestProgress(id % 10000 / 1000, id % 1000 / 100, 1);
+        ShowStagePage();
+    }
+
+    public void OnClickQuestDownBtn(int index)
+    {
+        int id = QuestSlots[index].QuestID;
+
+        GameManager.Inst().QstManager.QuestProgress(id % 10000 / 1000, id % 1000 / 100, -1);
+        ShowStagePage();
+    }
+
+    public void OnClickDateDeleteBtn()
+    {
+        GameManager.Inst().DatManager.GameData.ResetData();
+        GameManager.Inst().DatManager.GameData.IsEraseData = true;
+
+        Application.Quit();
     }
 }

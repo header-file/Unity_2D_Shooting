@@ -331,7 +331,7 @@ public class Player : MonoBehaviour
 
         MaxInventory = 40;
 
-        Coin = 10000;
+        Coin = 0;
 
         IsReload = true;
         BulletType = 0;

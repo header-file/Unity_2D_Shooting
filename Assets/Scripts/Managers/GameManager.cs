@@ -423,7 +423,7 @@ public class GameManager : MonoBehaviour
         InventoryScroll inventory = UiManager.InventoryScroll.GetComponent<InventoryScroll>();
         inventory.AddSlots();
 
-        for (int i = Player.MaxInventory; i < Player.MaxInventory + 10; i++)
+        for (int i = Player.MaxInventory - 10; i < Player.MaxInventory; i++)
         {
             GameObject inventorySlot = Inst().ObjManager.MakeObj("InventorySlot");
             inventorySlot.transform.SetParent(inventory.Contents.transform, false);

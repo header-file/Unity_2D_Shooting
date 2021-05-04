@@ -85,9 +85,14 @@ public class GameData
 
     public int[] CountStartTimes;
 
+    public bool IsEraseData;
+
 
     public void SaveData()
     {
+        if (IsEraseData)
+            return;
+
         Coin = GameManager.Inst().Player.GetCoin();
         CurrentStage = GameManager.Inst().StgManager.Stage;
 
@@ -170,6 +175,12 @@ public class GameData
 
     public void LoadData()
     {
+        if (IsEraseData)
+        {
+            IsEraseData = false;
+            return;
+        }
+
         if (Coin > 0)
             GameManager.Inst().Player.AddCoin(Coin);
 
@@ -179,10 +190,11 @@ public class GameData
             {
                 int count = (MaxInventory - Constants.MININVENTORY) / 10;
                 for (int i = 0; i < count; i++)
+                {
+                    GameManager.Inst().Player.MaxInventory += 10;
                     GameManager.Inst().AddInventory();
+                }
             }
-
-            GameManager.Inst().Player.MaxInventory = MaxInventory;
         }
 
         if (GameManager.Inst().StgManager.Stage < CurrentStage)
@@ -343,6 +355,7 @@ public class GameData
     {
         Coin = 0;
         Resources = new int[Constants.MAXSTAGES];
+        MaxInventory = Constants.MININVENTORY;
 
         CurrentStage = 1;
         ReachedStage = 1;
@@ -365,46 +378,3 @@ public class GameData
             GameManager.Inst().StgManager.ReachedStage = ReachedStage;
     }
 }
-
-
-//public struct InventoryData
-//{
-//    int Type;
-//    int Grade;
-//    int Value;
-//    int Amount;
-
-//    public int GetItemType() { return Type; }
-//    public int GetGrade() { return Grade; }
-//    public int GetValue() { return Value; }
-//    public int GetAmount() { return Amount; }
-
-//    public void SetData(int type, int grade, int value, int amount)
-//    {
-//        Type = type;
-//        Grade = grade;
-//        Value = value;
-//        Amount = amount;
-//    }
-//}
-
-//public struct SubWeaponData
-//{
-//    int Level;
-//    int CurHP;
-//    int MaxHP;
-//    int BulletType;
-
-//    public int GetLevel() { return Level; }
-//    public int GetCurHP() { return CurHP; }
-//    public int GetMaxHP() { return MaxHP; }
-//    public int GetBulletType() { return BulletType; }
-
-//    public void SetData(int level, int curHP, int maxHP, int bType)
-//    {
-//        Level = level;
-//        CurHP = curHP;
-//        MaxHP = maxHP;
-//        BulletType = bType;
-//    }
-//}

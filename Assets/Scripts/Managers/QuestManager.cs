@@ -104,7 +104,7 @@ public class QuestManager : MonoBehaviour
         for (int i = 0; i < Quests.Count; i++)
         {
             int id = Quests[i].QuestId;
-            if (id / 10000 == GameManager.Inst().StgManager.Stage)
+            if (id / 10000 == GameManager.Inst().StgManager.ReachedStage)
             {
                 id %= 10000;
                 if(id / 1000 == qType)

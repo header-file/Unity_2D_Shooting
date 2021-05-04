@@ -32,25 +32,31 @@ public class InventoryScroll : MonoBehaviour
 
     void Start()
     {
-        Slots = new InventorySlot[GameManager.Inst().Player.MaxInventory];
+        Slots = new InventorySlot[Constants.MAXINVENTORY];
         SwitchedIndices = new int[Constants.MAXINVENTORY];
         for (int i = 0; i < Constants.MAXINVENTORY; i++)
             SwitchedIndices[i] = i;
+
+        Contents.GetComponent<RectTransform>().sizeDelta = new Vector2(540, 100 * GameManager.Inst().Player.MaxInventory / 5 + 10 * (GameManager.Inst().Player.MaxInventory / 5 - 1));
     }
 
     public void AddSlots()
     {
-        InventorySlot[] temp = new InventorySlot[GameManager.Inst().Player.MaxInventory];
+        InventorySlot[] temp = new InventorySlot[GameManager.Inst().Player.MaxInventory - 10];
         for (int i = 0; i < temp.Length; i++)
             temp[i] = Slots[i];
 
-        Slots = new InventorySlot[GameManager.Inst().Player.MaxInventory + 10];
+        Slots = new InventorySlot[GameManager.Inst().Player.MaxInventory];
         for (int i = 0; i < temp.Length; i++)
             Slots[i] = temp[i];
+
+        //Contents.GetComponent<RectTransform>().sizeDelta = new Vector2(540, 100 * GameManager.Inst().Player.MaxInventory / 5 + 10 * (GameManager.Inst().Player.MaxInventory / 5 - 1));
     }
 
     public void ShowInventory()
     {
+        Contents.GetComponent<RectTransform>().sizeDelta = new Vector2(540, 100 * GameManager.Inst().Player.MaxInventory / 5 + 10 * (GameManager.Inst().Player.MaxInventory / 5 - 1));
+
         for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetItem(i);
