@@ -7,11 +7,13 @@ public class EquipSwitch : MonoBehaviour
 {
     public Text BeforeDetail;
     public Text AfterDetail;
+    public int EquippedIndex;
     public int SelectedIndex;
 
     public void Show(int curBulletType, int selected)
     {
         gameObject.SetActive(true);
+        EquippedIndex = GameManager.Inst().UpgManager.BData[curBulletType].GetEquipIndex();
         SelectedIndex = selected;
 
         if (GameManager.Inst().UpgManager.BData[curBulletType].GetEquipIndex() == -1)

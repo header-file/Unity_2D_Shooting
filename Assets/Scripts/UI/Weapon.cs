@@ -375,7 +375,8 @@ public class Weapon : MonoBehaviour
             EquipVamp();
 
         //Reinforce
-        EquipReinforce();
+        if (GameManager.Inst().Player.GetItem(index).Type == (int)Item_ZzinEquipment.EquipType.REINFORCE)
+            EquipReinforce();
 
         //Weapon UI
         SetWeaponUI();
@@ -390,7 +391,8 @@ public class Weapon : MonoBehaviour
 
     public void Switch()
     {
-        int index = EquipSwitch.SelectedIndex;
+        int eqindex = EquipSwitch.EquippedIndex;
+        int selindex = EquipSwitch.SelectedIndex;
 
         InventorySlot slot = null;
         if (GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex() != -1)
@@ -399,20 +401,22 @@ public class Weapon : MonoBehaviour
             slot.EMark.SetActive(false);
         }
 
+        //
         for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
-            if (GameManager.Inst().UpgManager.BData[i].GetEquipIndex() == index)
+            if (GameManager.Inst().UpgManager.BData[i].GetEquipIndex() == eqindex)
             {
                 UnEquipVamp(i);
                 UnEquipReinforce(i);
-                if (GameManager.Inst().UpgManager.BData[i].GetEquipIndex() != -1)
+
+                if (i != CurBulletType && GameManager.Inst().UpgManager.BData[i].GetEquipIndex() != -1)
                     Equip(i, GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex());
             }
         }
 
         EquipSwitch.gameObject.SetActive(false);
 
-        Equip(CurBulletType, index);
+        Equip(CurBulletType, selindex);
     }
 
     void EquipVamp()

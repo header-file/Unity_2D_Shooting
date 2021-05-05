@@ -37,16 +37,12 @@ public class GameData
     public enum WPData
     {
         POWERLEVEL = 0,
-        BASEDAMAGE = 1,
-        RARITY = 2,
-        PRICE = 3,
-        SPEED = 4,
-        RELOAD = 5,
-        DURATION = 6,
-        ATK = 7,
-        HP = 8,
-        SPD = 9,
-        EQUIP = 10,
+        RARITY = 1,
+        PRICE = 2,
+        ATK = 3,
+        HP = 4,
+        SPD = 5,
+        EQUIP = 6,
     }
 
     public enum QSTData
@@ -154,12 +150,8 @@ public class GameData
         for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             Weapons[Constants.WPDATASIZE * i + (int)WPData.POWERLEVEL] = GameManager.Inst().UpgManager.BData[i].GetPowerLevel();
-            Weapons[Constants.WPDATASIZE * i + (int)WPData.BASEDAMAGE] = GameManager.Inst().UpgManager.BData[i].GetBaseDamage();
             Weapons[Constants.WPDATASIZE * i + (int)WPData.RARITY] = GameManager.Inst().UpgManager.BData[i].GetRarity();
             Weapons[Constants.WPDATASIZE * i + (int)WPData.PRICE] = GameManager.Inst().UpgManager.BData[i].GetPrice();
-            Weapons[Constants.WPDATASIZE * i + (int)WPData.SPEED] = GameManager.Inst().UpgManager.BData[i].GetSpeed();
-            Weapons[Constants.WPDATASIZE * i + (int)WPData.RELOAD] = GameManager.Inst().UpgManager.BData[i].GetReloadTime();
-            Weapons[Constants.WPDATASIZE * i + (int)WPData.DURATION] = GameManager.Inst().UpgManager.BData[i].GetDuration();
             Weapons[Constants.WPDATASIZE * i + (int)WPData.ATK] = GameManager.Inst().UpgManager.BData[i].GetAtk();
             Weapons[Constants.WPDATASIZE * i + (int)WPData.HP] = GameManager.Inst().UpgManager.BData[i].GetHp();
             Weapons[Constants.WPDATASIZE * i + (int)WPData.SPD] = GameManager.Inst().UpgManager.BData[i].GetSpd();
@@ -302,16 +294,13 @@ public class GameData
             {
                 GameManager.Inst().UpgManager.BData[i].SetRarity((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.RARITY]);
                 GameManager.Inst().UpgManager.BData[i].SetPowerLevel((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.POWERLEVEL]);
-                GameManager.Inst().UpgManager.BData[i].SetBaseDamage((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.BASEDAMAGE]);
                 GameManager.Inst().UpgManager.BData[i].SetPrice((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.PRICE]);
-                GameManager.Inst().UpgManager.BData[i].SetSpeed(Weapons[Constants.WPDATASIZE * i + (int)WPData.SPEED]);
-                GameManager.Inst().UpgManager.BData[i].SetReloadTime(Weapons[Constants.WPDATASIZE * i + (int)WPData.RELOAD]);
-                GameManager.Inst().UpgManager.BData[i].SetDuration(Weapons[Constants.WPDATASIZE * i + (int)WPData.DURATION]);
                 GameManager.Inst().UpgManager.BData[i].SetAtk((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.ATK]);
                 GameManager.Inst().UpgManager.BData[i].SetHp((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.HP]);
                 GameManager.Inst().UpgManager.BData[i].SetSpd((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.SPD]);
                 GameManager.Inst().UpgManager.BData[i].SetEquipIndex((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.EQUIP]);
 
+                GameManager.Inst().UpgManager.SetBasicData(i);
                 GameManager.Inst().UpgManager.CheckEquip(i);
                 GameManager.Inst().UpgManager.SetMaxData(i);
             }

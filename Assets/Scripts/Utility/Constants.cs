@@ -27,7 +27,7 @@ static class Constants
     public const int PLADATASIZE = 5;
     public const int INVDATASIZE = 6;
     public const int SWDATASIZE = 5;
-    public const int WPDATASIZE = 11;
+    public const int WPDATASIZE = 7;
     public const int QSTDATASIZE = 2;
     public const int TIMEDATASIZE = 6;
 }

@@ -506,6 +506,14 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
+    public void SetBasicData(int type)
+    {
+        BData[type].SetBaseDamage(BulletDatas[type + BData[type].GetRarity() * Constants.MAXBULLETS].GetBaseDamage());
+        BData[type].SetReloadTime(BulletDatas[type + BData[type].GetRarity() * Constants.MAXBULLETS].GetReloadTime());
+        BData[type].SetDuration(BulletDatas[type + BData[type].GetRarity() * Constants.MAXBULLETS].GetDuration());
+        BData[type].SetSpeed(BulletDatas[type + BData[type].GetRarity() * Constants.MAXBULLETS].GetSpeed());
+    }
+
     public void CheckEquip(int bulletType)
     {
         if (BData[bulletType].GetEquipIndex() == -1)
