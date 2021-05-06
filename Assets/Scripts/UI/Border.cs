@@ -15,6 +15,8 @@ public class Border : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Chain")
             collision.gameObject.GetComponent<Chain>().Die();
+        else if(collision.gameObject.tag == "EquipBullet")
+            collision.gameObject.SetActive(false);
         else if (collision.gameObject.tag == "BossBullet")
             collision.gameObject.SetActive(false);
     }

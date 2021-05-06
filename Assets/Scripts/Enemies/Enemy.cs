@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     public Image HP_Bar;
     public GameObject Canvas;
 
+    public float SpeedMultiplier;
+
     protected float Speed;
     protected float Health;
     protected float CurHP;
@@ -26,6 +28,7 @@ public class Enemy : MonoBehaviour
     protected EnemyType Type;
 
     SpriteRenderer SpriteRenderer;
+    Rigidbody2D Rig;
     HitArea HitArea;
 
     bool IsBarVisible;
@@ -50,6 +53,9 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
+        Rig = GetComponent<Rigidbody2D>();
+
+        SpeedMultiplier = 1.0f;
 
         GameObject player = GameObject.Find("Player");
         MidPoint = player.transform.position;
@@ -66,10 +72,22 @@ public class Enemy : MonoBehaviour
         IsInvincible = false;
     }
 
+    public void StartMove()
+    {
+        Rig.velocity = Vector3.zero;
+        Rig.AddForce(-transform.up * Speed, ForceMode2D.Impulse);
+    }
+
+    public void StartMove(float time)
+    {
+        Invoke("StartMove", time);
+    }
+
     void FixedUpdate()
     {
-        Vector3 pos = Vector3.MoveTowards(transform.position, TargetPosition, Speed * Time.deltaTime);
-        transform.position = pos;
+        //Vector3 pos = Vector3.MoveTowards(transform.position, TargetPosition, Speed * Time.deltaTime * SpeedMultiplier);
+        //transform.position = pos;
+
     }
 
     public void OnHit(float Damage, bool isReinforced)
@@ -307,6 +325,17 @@ public class Enemy : MonoBehaviour
             hit.transform.position = bullet.transform.position;
 
             OnHit(dmg, bullet.IsReinforce);
+        }
+        else if(collision.gameObject.tag == "EquipBullet")
+        {
+            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+            float damage = GameManager.Inst().Player.GetItem(bullet.InventoryIndex).Value;
+            //float damage = 0;
+
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = bullet.transform.position;
+
+            OnHit(damage, bullet.IsReinforce);
         }
         else if(collision.gameObject.name == "Bottom")
         {

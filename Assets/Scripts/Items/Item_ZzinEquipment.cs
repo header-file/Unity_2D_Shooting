@@ -13,6 +13,8 @@ public class Item_ZzinEquipment : Item
         SHIELD = 4,
         REVIVE = 5,
         REINFORCE = 6,
+        KNOCKBACK = 7,
+        SLOW = 8,
     }
 
     public enum Rarity

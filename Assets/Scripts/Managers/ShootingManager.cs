@@ -47,7 +47,7 @@ public class ShootingManager : MonoBehaviour
             ColorSelection[i] = 0;
     }
 
-    public void Shoot(Bullet.BulletType Type, GameObject Shooter, int ID, bool IsVamp, bool IsReinfoce)
+    public void Shoot(Bullet.BulletType Type, GameObject Shooter, int ID, bool IsVamp, bool IsReinfoce, int index)
     {
         SetPos(Shooter, ID);
 
@@ -89,8 +89,16 @@ public class ShootingManager : MonoBehaviour
                 Chain(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
-            case Bullet.BulletType.EQUIP:
-                Equipment(rarity, colorIndex);
+            case Bullet.BulletType.EQUIP_MISSILE:
+                Equip_Missile(index);
+                break;
+
+            case Bullet.BulletType.EQUIP_KNOCKBACK:
+                Equip_Knockback(index);
+                break;
+
+            case Bullet.BulletType.EQUIP_SLOW:
+                Equip_Slow();
                 break;
         }
     }
@@ -340,19 +348,53 @@ public class ShootingManager : MonoBehaviour
         bullet.Shoot(NormalPos[0].transform.up);
     }
 
-    void Equipment(int Rarity, int Index)
+    void Equip_Missile(int index)
     {
-        Missile[] bullets = new Missile[2];
+        Missile bullet;
         float rad = 2.0f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeObj("EqMissile");
         Objs[0].transform.position = SpreadPos[0].transform.position;
         Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
 
-        bullets[0] = Objs[0].gameObject.GetComponent<Missile>();
-        bullets[0].ResetTarget();
+        bullet = Objs[0].gameObject.GetComponent<Missile>();
+        bullet.SetBulletType((int)Bullet.BulletType.EQUIP_MISSILE);
+        bullet.InventoryIndex = index;
+        bullet.ResetTarget();
 
-        bullets[0].SearchArea.GetComponent<SearchArea>().SetArea(rad);
-        bullets[0].Shoot(SpreadPos[0].transform.up);
+        bullet.SearchArea.GetComponent<SearchArea>().SetArea(rad);
+        bullet.ShootEquip(SpreadPos[0].transform.up, (int)Bullet.BulletType.MISSILE);
+    }
+
+    void Equip_Knockback(int index)
+    {
+        KnockBack bullet;
+
+        Objs[0] = GameManager.Inst().ObjManager.MakeObj("EqKnockback");
+        Objs[0].transform.position = NormalPos[0].transform.position;
+        Objs[0].transform.rotation = NormalPos[0].transform.rotation;
+
+        bullet = Objs[0].gameObject.GetComponent<KnockBack>();
+        bullet.SetBulletType((int)Bullet.BulletType.EQUIP_KNOCKBACK);
+        bullet.InventoryIndex = index;
+        bullet.Direction = NormalPos[0].transform.up;
+
+        bullet.ShootEquip(NormalPos[0].transform.up, (int)Bullet.BulletType.KNOCKBACK);
+    }
+
+    void Equip_Slow()
+    {
+        Slow bullet;
+
+        Objs[0] = GameManager.Inst().ObjManager.MakeObj("EqSlow");
+        Objs[0].transform.position = NormalPos[0].transform.position;
+        Objs[0].transform.rotation = NormalPos[0].transform.rotation;
+
+        bullet = Objs[0].gameObject.GetComponent<Slow>();
+        bullet.SetBulletType((int)Bullet.BulletType.EQUIP_SLOW);
+        bullet.Col.radius = 1.2f;
+        bullet.Area.transform.localScale = Vector3.one * 1.2f;
+
+        bullet.ShootEquip(NormalPos[0].transform.up, (int)Bullet.BulletType.SLOW);
     }
 }

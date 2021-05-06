@@ -34,6 +34,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject EqShieldPref;
     public GameObject EqRevivePref;
     public GameObject EqReinforcePref;
+    public GameObject EqBackPref;
+    public GameObject EqSlowerPref;
     public GameObject ResourcePref;
 
     //Player Bullet
@@ -45,6 +47,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject[] BoomerangPref;
     public GameObject[] ChainPref;
     public GameObject EqMissilePref;
+    public GameObject EqKnockBackPref;
+    public GameObject EqSlowPref;
 
     //BossBullet
     public GameObject BossNormalPref;
@@ -92,6 +96,8 @@ public class ObjectManager : MonoBehaviour
     GameObject[] EqShields;
     GameObject[] EqRevives;
     GameObject[] EqReinforces;
+    GameObject[] EqBacks;
+    GameObject[] EqSlowers;
     GameObject[] Resources;
 
     GameObject[,] Normals;
@@ -102,6 +108,8 @@ public class ObjectManager : MonoBehaviour
     GameObject[,] Boomerangs;
     GameObject[,] Chains;
     GameObject[] EqMissiles;
+    GameObject[] EqKnockbacks;
+    GameObject[] EqSlows;
 
     GameObject[] BossNormals;
     GameObject[] BossLasers;
@@ -283,6 +291,22 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = EqReinforces;
                 break;
 
+            case "EqBack":
+                TargetPool = EqBacks;
+                break;
+
+            case "EqKnockback":
+                TargetPool = EqKnockbacks;
+                break;
+
+            case "EqSlower":
+                TargetPool = EqSlowers;
+                break;
+
+            case "EqSlow":
+                TargetPool = EqSlows;
+                break;
+
             case "Resource":
                 TargetPool = Resources;
                 break;
@@ -396,6 +420,8 @@ public class ObjectManager : MonoBehaviour
         EqShields = new GameObject[10];
         EqRevives = new GameObject[10];
         EqReinforces = new GameObject[10];
+        EqBacks = new GameObject[10];
+        EqSlowers = new GameObject[10];
         Resources = new GameObject[40];
 
         Normals = new GameObject[8, 100];
@@ -406,6 +432,8 @@ public class ObjectManager : MonoBehaviour
         Boomerangs = new GameObject[8, 10];
         Chains = new GameObject[8, 10];
         EqMissiles = new GameObject[10];
+        EqKnockbacks = new GameObject[10];
+        EqSlows = new GameObject[10];
 
         BossNormals = new GameObject[60];
         BossLasers = new GameObject[3];
@@ -609,6 +637,34 @@ public class ObjectManager : MonoBehaviour
             EqReinforces[i] = Instantiate(EqReinforcePref);
             EqReinforces[i].transform.SetParent(ItemPool.transform, false);
             EqReinforces[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqBacks.Length; i++)
+        {
+            EqBacks[i] = Instantiate(EqBackPref);
+            EqBacks[i].transform.SetParent(ItemPool.transform, false);
+            EqBacks[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqKnockbacks.Length; i++)
+        {
+            EqKnockbacks[i] = Instantiate(EqKnockBackPref);
+            EqKnockbacks[i].transform.SetParent(PBulletPool.transform, false);
+            EqKnockbacks[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqSlowers.Length; i++)
+        {
+            EqSlowers[i] = Instantiate(EqSlowerPref);
+            EqSlowers[i].transform.SetParent(ItemPool.transform, false);
+            EqSlowers[i].SetActive(false);
+        }
+
+        for (int i = 0; i < EqSlows.Length; i++)
+        {
+            EqSlows[i] = Instantiate(EqSlowPref);
+            EqSlows[i].transform.SetParent(PBulletPool.transform, false);
+            EqSlows[i].SetActive(false);
         }
 
         for (int i = 0; i < Resources.Length; i++)

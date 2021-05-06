@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
     {
         int rand = type;
         if (rand == -1)
-            rand = Random.Range(0, Constants.MAXEQUIPTYPE);
+            rand = Random.Range(7, Constants.MAXEQUIPTYPE);
 
         int uid = 0;
         switch (rand)
@@ -226,6 +226,30 @@ public class GameManager : MonoBehaviour
                 val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.REINFORCE, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.REINFORCE, rarity, 2]);
 
                 eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.REINFORCE, rarity, 0], val, uid);
+                break;
+
+            case 7:
+                eq = ObjManager.MakeObj("EqBack");
+                eq.transform.position = transform.position;
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.5f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.KNOCKBACK, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.KNOCKBACK, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.KNOCKBACK, rarity, 0], val, uid);
+                break;
+
+            case 8:
+                eq = ObjManager.MakeObj("EqSlower");
+                eq.transform.position = transform.position;
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.5f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.SLOW, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.SLOW, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.SLOW, rarity, 0], val, uid);
                 break;
         }
     }
@@ -315,6 +339,28 @@ public class GameManager : MonoBehaviour
                 val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.REINFORCE, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.REINFORCE, rarity, 2]);
 
                 eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.REINFORCE, rarity, 0], val, uid);
+                break;
+
+            case 7:
+                eq = ObjManager.MakeObj("EqBack");
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.0f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.KNOCKBACK, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.KNOCKBACK, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.KNOCKBACK, rarity, 0], val, uid);
+                break;
+
+            case 8:
+                eq = ObjManager.MakeObj("EqSlower");
+                eqp = eq.GetComponent<Item_ZzinEquipment>();
+                eqp.StartAbsorb(0.0f);
+                uid = (int)Item.UIDCombination.EQUIPMENT + (grade + 1) * 10 + (int)Item.UIDCombination.ETC;
+                rarity = eqp.SetGrade(grade);
+                val = Random.Range(EquipDatas[(int)Item_ZzinEquipment.EquipType.SLOW, rarity, 1], EquipDatas[(int)Item_ZzinEquipment.EquipType.SLOW, rarity, 2]);
+
+                eqp.SetValues(EquipDatas[(int)Item_ZzinEquipment.EquipType.SLOW, rarity, 0], val, uid);
                 break;
         }
 

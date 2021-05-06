@@ -14,13 +14,18 @@ public class Bullet : MonoBehaviour
         CHARGE = 4,
         BOOMERANG = 5,
         CHAIN = 6,
-        EQUIP = 100,
+        KNOCKBACK = 7,
+        SLOW = 8,
+        EQUIP_MISSILE = 101,
+        EQUIP_KNOCKBACK = 107,
+        EQUIP_SLOW = 108,
     };
     
     public Color GlowColor;
     public bool IsVamp;
     public GameObject Vamp;
     public bool IsReinforce;
+    public int InventoryIndex;
 
     //protected float Damage;
     protected BulletType Type;
@@ -36,6 +41,13 @@ public class Bullet : MonoBehaviour
         Rigidbody2D rig = GetComponent<Rigidbody2D>();
         float spd = 1.0f + (GameManager.Inst().UpgManager.BData[(int)Type].GetSpd() / 500.0f);
         float speed = GameManager.Inst().UpgManager.BData[(int)Type].GetSpeed() * spd;
+        rig.AddForce(Direction * speed, ForceMode2D.Impulse);
+    }
+
+    public void ShootEquip(Vector2 Direction, int type)
+    {
+        Rigidbody2D rig = GetComponent<Rigidbody2D>();
+        float speed = GameManager.Inst().UpgManager.BulletDatas[type].GetSpeed();
         rig.AddForce(Direction * speed, ForceMode2D.Impulse);
     }
 
@@ -68,5 +80,6 @@ public class Bullet : MonoBehaviour
         IsVamp = false;
         Vamp = null;
         IsReinforce = false;
+        InventoryIndex = -1;
     }
 }

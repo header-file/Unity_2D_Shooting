@@ -39,7 +39,7 @@ public class EquipManager : MonoBehaviour
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.HOMING:
-                GameManager.Inst().ShtManager.Shoot(Bullet.BulletType.EQUIP, actor, id, false, false);
+                GameManager.Inst().ShtManager.Shoot(Bullet.BulletType.EQUIP_MISSILE, actor, id, false, false, index);
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.HEAL:
@@ -65,6 +65,14 @@ public class EquipManager : MonoBehaviour
                     actor.GetComponent<Player>().IsRevive = true;
                 else
                     actor.GetComponent<SubWeapon>().IsRevive = true;
+                break;
+
+            case (int)Item_ZzinEquipment.EquipType.KNOCKBACK:
+                GameManager.Inst().ShtManager.Shoot(Bullet.BulletType.EQUIP_KNOCKBACK, actor, id, false, false, index);
+                break;
+
+            case (int)Item_ZzinEquipment.EquipType.SLOW:
+                GameManager.Inst().ShtManager.Shoot(Bullet.BulletType.EQUIP_SLOW, actor, id, false, false, index);
                 break;
         }
 

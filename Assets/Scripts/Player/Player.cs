@@ -478,10 +478,10 @@ public class Player : MonoBehaviour
             ShootCount >= GetItem(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex()).Value)
         {
             ShootCount = 0;
-            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, true);
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, true, -1);
         }
         else
-            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, false);
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, false, -1);
 
         Invoke("Reload", GameManager.Inst().UpgManager.BData[BulletType].GetReloadTime());
     }

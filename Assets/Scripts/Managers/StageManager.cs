@@ -194,6 +194,7 @@ public class StageManager : MonoBehaviour
             angle *= -1;
         Quaternion rot = Quaternion.Euler(0.0f, 0.0f, angle);
         Enemy.transform.rotation = rot;
+        Enemy.StartMove();
     }
 
     void FeverMode()

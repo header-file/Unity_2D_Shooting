@@ -181,7 +181,7 @@ public class UpgradeManager : MonoBehaviour
         for (int i = 0; i < BData.Length; i++)
             BData[i].SetBulletDatas(data, i);
 
-        BulletDatas = new BulletData[Constants.MAXBULLETS * Constants.MAXRARITY];
+        BulletDatas = new BulletData[(Constants.MAXBULLETS + 2) * Constants.MAXRARITY];
         for (int i = 0; i < BulletDatas.Length; i++)
             BulletDatas[i].SetBulletDatas(data, i);
 
@@ -362,12 +362,12 @@ public class UpgradeManager : MonoBehaviour
         BData[UpgType].SetMaxSpd(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 2]);
 
         //기타 능력치
-        if (BData[UpgType].GetBaseDamage() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage())
-            BData[UpgType].SetBaseDamage(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage());
-        if (BData[UpgType].GetReloadTime() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime())
-            BData[UpgType].SetReloadTime(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime());
-        if (BData[UpgType].GetDuration() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration())
-            BData[UpgType].SetDuration(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration());
+        if (BData[UpgType].GetBaseDamage() != BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetBaseDamage())
+            BData[UpgType].SetBaseDamage(BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetBaseDamage());
+        if (BData[UpgType].GetReloadTime() != BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetReloadTime())
+            BData[UpgType].SetReloadTime(BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetReloadTime());
+        if (BData[UpgType].GetDuration() != BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetDuration())
+            BData[UpgType].SetDuration(BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetDuration());
 
         //HP적용
         SetHPData(UpgType);
@@ -384,12 +384,12 @@ public class UpgradeManager : MonoBehaviour
         BData[UpgType].SetMaxSpd(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 2]);
 
         //기타 능력치
-        if (BData[UpgType].GetBaseDamage() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage())
-            BData[UpgType].SetBaseDamage(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetBaseDamage());
-        if (BData[UpgType].GetReloadTime() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime())
-            BData[UpgType].SetReloadTime(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetReloadTime());
-        if (BData[UpgType].GetDuration() != BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration())
-            BData[UpgType].SetDuration(BulletDatas[UpgType + BData[UpgType].GetRarity() * Constants.MAXBULLETS].GetDuration());
+        if (BData[UpgType].GetBaseDamage() != BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetBaseDamage())
+            BData[UpgType].SetBaseDamage(BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetBaseDamage());
+        if (BData[UpgType].GetReloadTime() != BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetReloadTime())
+            BData[UpgType].SetReloadTime(BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetReloadTime());
+        if (BData[UpgType].GetDuration() != BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetDuration())
+            BData[UpgType].SetDuration(BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetDuration());
 
         //HP적용
         SetHPData(UpgType);
