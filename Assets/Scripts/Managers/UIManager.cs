@@ -848,6 +848,7 @@ public class UIManager : MonoBehaviour
         OnClickHomeBtn();
 
         Shop.SetActive(true);
+        ShopUI.OnSelectToggle(0);
 
         ZzinBottomUI.ShopIcon[0].SetActive(false);
         ZzinBottomUI.ShopIcon[1].SetActive(true);
