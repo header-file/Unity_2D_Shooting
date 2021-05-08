@@ -20,29 +20,9 @@ public class Shop : MonoBehaviour
 
     public void OnSelectToggle(int index)
     {
-        if (!Toggles[index].isOn)
-        {
-            Pages[index].SetActive(false);
-            return;
-        }
-
-        Toggles[index].Select();
-        Pages[index].SetActive(true);
-        ShowPage(index);
+        Pages[index].SetActive(Toggles[index].isOn);
         
+        if (Toggles[index].isOn)
+            ShowPage(index);
     }
 }
-
-/*
- for (int i = 0; i < Pages.Length; i++)
-        {
-            if (i == index)
-            {
-                Pages[i].SetActive(true);
-                Toggles[i].transition
-                ShowPage(i);
-            }
-            else
-                Pages[i].SetActive(false);
-        }
-     */
