@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public ShakeManager ShkManager;
     public EquipManager EquManager;
 
+    Firebase.FirebaseApp App;
+
     public Player Player;
 
     public int[,] SubWID;
@@ -79,6 +81,27 @@ public class GameManager : MonoBehaviour
         SetResources();
         
         //StgManager.BeginStage();
+    }
+
+    void CheckGooglePlayVersion()
+    {
+        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
+            var dependencyStatus = task.Result;
+            if (dependencyStatus == Firebase.DependencyStatus.Available)
+            {
+                // Create and hold a reference to your FirebaseApp,
+                // where app is a Firebase.FirebaseApp property of your application class.
+                App = Firebase.FirebaseApp.DefaultInstance;
+
+                // Set a flag here to indicate whether Firebase is ready to use by your app.
+            }
+            else
+            {
+                UnityEngine.Debug.LogError(System.String.Format(
+                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+                // Firebase Unity SDK is not safe to use here.
+            }
+        });
     }
 
     public void SetManagers()
