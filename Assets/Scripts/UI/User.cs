@@ -2,7 +2,7 @@
 
 public class User : MonoBehaviour
 {
-    /*// 스레드에 안전한 싱글톤 선언
+    // 스레드에 안전한 싱글톤 선언
     private static bool shuttingDown = false;
     private static object Lock = new object();
     private static User instance;
@@ -104,5 +104,5 @@ public class User : MonoBehaviour
     public void GetUserInven(string uid, System.Action callback)
     {
         Server.Instance.GetUserInvenDB(uid, callback);
-    }*/
+    }
 }
