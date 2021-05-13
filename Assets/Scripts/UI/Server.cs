@@ -75,7 +75,7 @@ public class Server : MonoBehaviour
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
         // Firebase Hosting 후 발급받는 도메인을 입력한다.
-        using (UnityWebRequest www = UnityWebRequest.Get("firebase도메인/chat?test=asd"))
+        using (UnityWebRequest www = UnityWebRequest.Get("http://unityshtdef.web.app/chat?test=asd"))
 #endif
         {
             yield return www.SendWebRequest();
@@ -104,7 +104,7 @@ public class Server : MonoBehaviour
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
         // Firebase Hosting 후 발급받는 도메인을 입력한다.
-        using (UnityWebRequest www = UnityWebRequest.Post("firebase도메인/chatpost", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://unityshtdef.web.app/chatpost", form))
 #endif
         {
             yield return www.SendWebRequest();
@@ -131,7 +131,7 @@ public class Server : MonoBehaviour
             StartCoroutine(UserDataGet("http://localhost:5000/main/userDataReturn?uid=", uid, callback));
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-			StartCoroutine(UserDataGet("firebase도메인/main/userDataReturn?uid=", uid, callback));
+			StartCoroutine(UserDataGet("http://unityshtdef.web.app/main/userDataReturn?uid=", uid, callback));
 #endif
         }
         catch (Exception err)
@@ -173,7 +173,7 @@ public class Server : MonoBehaviour
             StartCoroutine(UserInvenDataGet("http://localhost:5000/main/userInvenDataReturn?uid=", uid, callback));
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-			StartCoroutine(UserInvenDataGet("firebase도메인/main/userInvenDataReturn?uid=", uid, callback));
+			StartCoroutine(UserInvenDataGet("http://unityshtdef.web.app/main/userInvenDataReturn?uid=", uid, callback));
 #endif
         }
         catch (Exception err)
@@ -217,7 +217,7 @@ public class Server : MonoBehaviour
             StartCoroutine(JsonDBSavePost("http://localhost:5000/main/newUserCreate", json, callback));
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-			StartCoroutine(JsonDBSavePost("firebase도메인/main/newUserCreate", json, callback));
+			StartCoroutine(JsonDBSavePost("http://unityshtdef.web.app/main/newUserCreate", json, callback));
 #endif
         }
         catch (Exception err)
@@ -235,7 +235,7 @@ public class Server : MonoBehaviour
             StartCoroutine(JsonDBSavePost("http://localhost:5000/main/userReceiptSave", json));
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-			StartCoroutine(JsonDBSavePost("firebase도메인/main/userReceiptSave", json));
+			StartCoroutine(JsonDBSavePost("http://unityshtdef.web.app/main/userReceiptSave", json));
 #endif
         }
         catch (Exception err)
@@ -253,7 +253,7 @@ public class Server : MonoBehaviour
             StartCoroutine(JsonDBSavePost("http://localhost:5000/main/newUserInvenCreate", json, callback));
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-			StartCoroutine(JsonDBSavePost("firebase도메인/main/newUserInvenCreate", json, callback));
+			StartCoroutine(JsonDBSavePost("http://unityshtdef.web.app/main/newUserInvenCreate", json, callback));
 #endif
         }
         catch (Exception err)
@@ -324,7 +324,7 @@ public class Server : MonoBehaviour
             StartCoroutine(JsonDBSavePost("http://localhost:5000/main/userRenewCoin", json));
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-			StartCoroutine(JsonDBSavePost("firebase도메인/main/userRenewCoin", json));
+			StartCoroutine(JsonDBSavePost("http://unityshtdef.web.app/main/userRenewCoin", json));
 #endif
         }
         catch (Exception err)
@@ -343,7 +343,7 @@ public class Server : MonoBehaviour
             StartCoroutine(userRenewCoin("http://localhost:5000/main/userRenewCoin", uid, coin, tid));
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-			StartCoroutine(userRenewCoin("firebase도메인/main/userRenewCoin", uid, coin, tid));
+			StartCoroutine(userRenewCoin("http://unityshtdef.web.app/main/userRenewCoin", uid, coin, tid));
 #endif
         }
         catch (Exception err)
@@ -382,7 +382,7 @@ public class Server : MonoBehaviour
                         StartCoroutine(ReceiptGiveCheckDB("http://localhost:5000/main/userReceiptUpdate", uid, tid, "1"));
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-			            StartCoroutine(ReceiptGiveCheckDB("firebase도메인/main/userReceiptUpdate", uid, tid, "1"));
+			            StartCoroutine(ReceiptGiveCheckDB("http://unityshtdef.web.app/main/userReceiptUpdate", uid, tid, "1"));
 #endif
                         receiptSave = false;
                     }
@@ -418,7 +418,7 @@ public class Server : MonoBehaviour
             StartCoroutine(ReceiptGiveCheckDB("http://localhost:5000/main/userReceiptUpdate", uid, tid, "1"));
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-		    StartCoroutine(ReceiptGiveCheckDB("firebase도메인/main/userReceiptUpdate", uid, tid, "1"));
+		    StartCoroutine(ReceiptGiveCheckDB("http://unityshtdef.web.app/main/userReceiptUpdate", uid, tid, "1"));
 #endif
             receiptSave = false;
         }
@@ -442,7 +442,7 @@ public class Server : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("uid", uid);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("firebase도메인/main/testinit", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://unityshtdef.web.app/main/testinit", form))
         {
             yield return www.SendWebRequest();
 
@@ -457,3 +457,6 @@ public class Server : MonoBehaviour
         }
     }
 }
+
+//unityshtdef.web.app
+//unityshtdef.firebaseapp.com
