@@ -68,7 +68,8 @@ public class QuestManager : MonoBehaviour
 
     void LoadQuestData()
     {
-        if (GameManager.Inst().DatManager.GameData.Quests.Length <= 0)
+        if (GameManager.Inst().DatManager.GameData.Quests == null ||
+            GameManager.Inst().DatManager.GameData.Quests.Length == 0)
             return;
 
         for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)

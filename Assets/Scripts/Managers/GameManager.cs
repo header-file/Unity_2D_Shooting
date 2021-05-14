@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public StageManager StgManager;
     public DataManager DatManager;
     public ResourceManager ResManager;
+    public AdvertiseManager AdsManager;
 
     //씬마다 생성
     public ShootingManager ShtManager;

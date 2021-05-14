@@ -201,13 +201,13 @@ public class GameData
                 GameManager.Inst().ResManager.StartCount(i);
         }
 
-        if (Resources.Length == Constants.MAXSTAGES)
+        if (Resources != null && Resources.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
                 GameManager.Inst().Resources[i] = Resources[i];
         else
             Resources = new int[Constants.MAXSTAGES];
 
-        if (BossGauges.Length == Constants.MAXSTAGES)
+        if (BossGauges != null && BossGauges.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
             {
                 GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
@@ -215,7 +215,6 @@ public class GameData
                 if (i == GameManager.Inst().StgManager.Stage)
                     GameManager.Inst().StgManager.FillGauge();
             }
-                
         else
             BossGauges = new int[Constants.MAXSTAGES];
 
