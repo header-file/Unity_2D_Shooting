@@ -39,6 +39,8 @@ public class UIManager : MonoBehaviour
     public GameObject Cheat;
 
     public Weapon WeaponUI;
+    public Shop ShopUI;
+    public ReviveAlert ReviveAlertUI;
 
     //기타 UI
     public Text CoinText;
@@ -89,7 +91,6 @@ public class UIManager : MonoBehaviour
     StageLoop StageScrollUI;
     InfoArea InfoAreaUI;
     ZzinBottom ZzinBottomUI;
-    Shop ShopUI;
     Cheat CheatUI;
 
     Vector3 PlayerPosOrigin;
@@ -384,6 +385,14 @@ public class UIManager : MonoBehaviour
     {
         return SideMenuUI.Slots[i];
     }
+
+    public void ShowReviveAlert(int index)
+    {
+        ReviveAlertUI.gameObject.SetActive(true);
+
+        ReviveAlertUI.Show(index);
+    }
+
 
     //Click Interactions
     public void OnClickManageCancel()
@@ -890,5 +899,13 @@ public class UIManager : MonoBehaviour
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+    }
+
+    public void OnClickReviveBtn()
+    {
+        GameManager.Inst().AddJewel(-1);
+        ReviveAlertUI.gameObject.SetActive(false);
+
+        GameManager.Inst().GetSubweapons(ReviveAlertUI.Index).CoolTime = 0;
     }
 }

@@ -62,6 +62,7 @@ public class GameData
     }
 
     public int Coin;
+    public int Jewel;
     public int[] Resources;
 
     public int MaxInventory;
@@ -90,6 +91,7 @@ public class GameData
             return;
 
         Coin = GameManager.Inst().Player.GetCoin();
+        Jewel = GameManager.Inst().Jewel;
         CurrentStage = GameManager.Inst().StgManager.Stage;
 
         MaxInventory = GameManager.Inst().Player.MaxInventory;
@@ -175,6 +177,9 @@ public class GameData
 
         if (Coin > 0)
             GameManager.Inst().Player.AddCoin(Coin);
+
+        if (Jewel > 0)
+            GameManager.Inst().AddJewel(Jewel);
 
         if (MaxInventory > 0)
         {
@@ -342,6 +347,7 @@ public class GameData
     public void ResetData()
     {
         Coin = 0;
+        Jewel = 0;
         Resources = new int[Constants.MAXSTAGES];
         MaxInventory = Constants.MININVENTORY;
 

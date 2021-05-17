@@ -27,6 +27,7 @@ public class SubWeapon : MonoBehaviour
     public bool IsRevive;
     public bool IsReinforce;
     public int ShootCount;
+    public int CoolTime;
 
     int BulletType;
     int DownCount;
@@ -38,7 +39,6 @@ public class SubWeapon : MonoBehaviour
     bool IsMoving;
     bool IsShield;
     int NumID;
-    int CoolTime;
     bool IsInvincible;
     bool IsShaking;
     bool IsVamp;
@@ -382,7 +382,7 @@ public class SubWeapon : MonoBehaviour
         HideHPUI();
         GetComponent<Animator>().SetInteger("Color", 0);
 
-        CoolTime = COOLTIME;
+        CoolTime = COOLTIME + 300 * GameManager.Inst().UpgManager.BData[GetBulletType()].GetRarity();
         
         //int id = NumID;
         //if (id > 1)
@@ -483,7 +483,10 @@ public class SubWeapon : MonoBehaviour
             if (id > 1)
                 id++;
 
-            GameManager.Inst().UiManager.OnClickManageBtn(id);
+            if (IsAlive)
+                GameManager.Inst().UiManager.OnClickManageBtn(id);
+            else
+                GameManager.Inst().UiManager.ShowReviveAlert(NumID);
         }
     }
 }
