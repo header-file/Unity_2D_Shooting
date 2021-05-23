@@ -28,7 +28,7 @@ static class Constants
     public const int MAX_SHOP_RESOURCE = 5;
     public const int MAX_SHOP_PACKAGE = 1;
     public const int SHOP_EXPAND_TYPES = 2;
-    public const int SHOP_RESOURCE_TYPES = 3;
+    public const int SHOP_RESOURCE_TYPES = 4;
     public const int SHOP_PACKAGE_TYPES = 2;
 
     public const int PLADATASIZE = 5;

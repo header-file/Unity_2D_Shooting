@@ -208,7 +208,7 @@ public class GameData
 
         if (Resources != null && Resources.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
-                GameManager.Inst().Resources[i] = Resources[i];
+                GameManager.Inst().AddResource(i + 1, Resources[i]);
         else
             Resources = new int[Constants.MAXSTAGES];
 

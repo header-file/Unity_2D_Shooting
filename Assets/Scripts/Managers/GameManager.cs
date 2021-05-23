@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
-            Resources[i] = 10000;
+            Resources[i] = 0;
             TxtManager.Resources[i].text = Resources[i].ToString();
         }
     }

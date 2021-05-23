@@ -7,6 +7,8 @@ public class ShopSlot : MonoBehaviour
 {
     public Image Icon;
     public Text NameText;
+    public GameObject Money;
+    public GameObject Jewel;
     public Text PriceText;
 
     public int Index;

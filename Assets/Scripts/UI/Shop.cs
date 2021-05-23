@@ -11,8 +11,18 @@ public class Shop : MonoBehaviour
     public ShopSlot[] Resources;
     public ShopSlot[] Packages;
     public Sprite[] ResourceIcons;
+    public Sprite[] ExpandIcons;
+    public Sprite[] PackageIcons;
     public Text AdLeftText;
     public int AdLeft;
+
+    //Confirm
+    public GameObject Confirm;
+    public Image Icon;
+    public Text NameText;
+    public GameObject Money;
+    public GameObject Jewel;
+    public Text PriceText;
 
     const int Ads = 5;
     List<Dictionary<string, object>> Data;
@@ -22,6 +32,8 @@ public class Shop : MonoBehaviour
     int[,] ExpandDatas;
     int[,] ResourceDatas;
     int[,] PackageDatas;
+    int CurrentPage;
+    int CurrentItem;
 
     void Awake()
     {
@@ -32,7 +44,10 @@ public class Shop : MonoBehaviour
 
     void Start()
     {
+        CurrentPage = 0;
+        CurrentItem = -1;
         AdLeft = Ads;
+        Confirm.SetActive(false);
         gameObject.SetActive(false);
     }
 
@@ -48,6 +63,8 @@ public class Shop : MonoBehaviour
                 {
                     Expands[i].NameText.text = ExpandNames[i];
                     Expands[i].PriceText.text = ExpandDatas[i, 1].ToString();
+                    Expands[i].Icon.sprite = ExpandIcons[i];
+                    Expands[i].Jewel.SetActive(true);
                 }
                 break;
             case 2:
@@ -56,6 +73,7 @@ public class Shop : MonoBehaviour
                     Resources[i].NameText.text = ResourceNames[i];
                     Resources[i].PriceText.text = ResourceDatas[i, 1].ToString();
                     Resources[i].Icon.sprite = ResourceIcons[ResourceDatas[i, 2]];
+                    Resources[i].Jewel.SetActive(true);
                 }
                 break;
             case 3:
@@ -63,6 +81,8 @@ public class Shop : MonoBehaviour
                 {
                     Packages[i].NameText.text = PackageNames[i];
                     Packages[i].PriceText.text = PackageDatas[i, 1].ToString();
+                    Packages[i].Icon.sprite = PackageIcons[i];
+                    Packages[i].Jewel.SetActive(true);
                 }
                 break;
         }
@@ -96,6 +116,7 @@ public class Shop : MonoBehaviour
             ResourceDatas[i, 0] = int.Parse(Data[i]["Amount"].ToString());
             ResourceDatas[i, 1] = int.Parse(Data[i]["Price"].ToString());
             ResourceDatas[i, 2] = int.Parse(Data[i]["Icon"].ToString());
+            ResourceDatas[i, 3] = int.Parse(Data[i]["Type"].ToString());
         }
     }
 
@@ -123,11 +144,119 @@ public class Shop : MonoBehaviour
         AdLeftText.text = AdLeft.ToString() + " / " + Ads.ToString();
     }
 
+    void BuyExpand()
+    {
+        if (GameManager.Inst().Jewel < ExpandDatas[CurrentItem, 1])
+            return;
+        else if (GameManager.Inst().Player.MaxInventory + ExpandDatas[CurrentItem, 0] > 200)
+            return;
+
+        GameManager.Inst().AddJewel(-ExpandDatas[CurrentItem, 1]);
+
+        GameManager.Inst().Player.MaxInventory += ExpandDatas[CurrentItem, 0];
+        GameManager.Inst().AddInventory();
+    }
+
+    void BuyResource()
+    {
+        if (GameManager.Inst().Jewel < ResourceDatas[CurrentItem, 1])
+            return;
+
+        GameManager.Inst().AddJewel(-ResourceDatas[CurrentItem, 1]);
+
+        switch (ResourceDatas[CurrentItem, 3])
+        {
+            case 0:
+                GameManager.Inst().Player.AddCoin(ResourceDatas[CurrentItem, 0]);
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                GameManager.Inst().AddResource(ResourceDatas[CurrentItem, 3], ResourceDatas[CurrentItem, 0]);
+                break;
+        }
+    }
+
+    void BuyPackage()
+    {
+
+    }
+
+    void ShowConfirm()
+    {
+        switch(CurrentPage)
+        {
+            case 0:
+                Money.SetActive(true);
+                Jewel.SetActive(false);
+                break;
+            case 1:
+                Icon.sprite = ExpandIcons[CurrentItem];
+                NameText.text = ExpandNames[CurrentItem];
+                Money.SetActive(false);
+                Jewel.SetActive(true);
+                PriceText.text = ExpandDatas[CurrentItem, 1].ToString();
+                break;
+            case 2:
+                Icon.sprite = ResourceIcons[CurrentItem];
+                NameText.text = ResourceNames[CurrentItem];
+                Money.SetActive(false);
+                Jewel.SetActive(true);
+                PriceText.text = ResourceDatas[CurrentItem, 1].ToString();
+                break;
+            case 3:
+                Icon.sprite = PackageIcons[CurrentItem];
+                NameText.text = PackageNames[CurrentItem];
+                Money.SetActive(false);
+                Jewel.SetActive(true);
+                PriceText.text = PackageDatas[CurrentItem, 1].ToString();
+                break;
+        }
+    }
+
     public void OnSelectToggle(int index)
     {
         Pages[index].SetActive(Toggles[index].isOn);
+        CurrentPage = index;
         
         if (Toggles[index].isOn)
             ShowPage(index);
+    }
+
+    public void OnClickItem(int index)
+    {
+        CurrentItem = index;
+
+        Confirm.SetActive(true);
+        ShowConfirm();
+    }
+
+    public void OnClickBuyBtn()
+    {
+        Confirm.SetActive(false);
+
+        switch(CurrentPage)
+        {
+            case 1:
+                BuyExpand();
+                break;
+            case 2:
+                BuyResource();
+                break;
+            case 3:
+                BuyPackage();
+                break;
+        }
+    }
+
+    public void OnClickConfirmCancel()
+    {
+        Confirm.SetActive(false);
+    }
+
+    public void OnClickBuyJewel(int index)
+    {
+
     }
 }
