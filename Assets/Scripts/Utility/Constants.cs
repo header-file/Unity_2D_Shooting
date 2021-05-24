@@ -24,12 +24,14 @@ static class Constants
     public const int MAXPLAYERLEVEL = 30;
     public const int MAXSUBLEVEL = 5;
 
+    public const int MAX_SHOP_JEWEL = 7;
     public const int MAX_SHOP_EXPAND = 4;
     public const int MAX_SHOP_RESOURCE = 5;
-    public const int MAX_SHOP_PACKAGE = 1;
-    public const int SHOP_EXPAND_TYPES = 2;
-    public const int SHOP_RESOURCE_TYPES = 4;
-    public const int SHOP_PACKAGE_TYPES = 2;
+    public const int MAX_SHOP_PACKAGE = 6;
+    public const int SHOP_JEWEL_TYPES = 4;
+    public const int SHOP_EXPAND_TYPES = 4;
+    public const int SHOP_RESOURCE_TYPES = 6;
+    public const int SHOP_PACKAGE_TYPES = 9;
 
     public const int PLADATASIZE = 5;
     public const int INVDATASIZE = 6;
