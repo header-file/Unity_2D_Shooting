@@ -5,7 +5,7 @@ using UnityEngine.Advertisements;
 
 public class AdvertiseManager : MonoBehaviour
 {
-    const string GooglePlay_ID = "4128875";
+    const string GooglePlay_ID = "4142451";
     const string Rewarded_Android = "Rewarded_Android";
     const string Interstitial_Android = "Interstitial_Android";
     const string Banner_Android = "Banner_Android";
