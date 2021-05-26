@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using static System.DateTime;
 
 [Serializable]
 public class GameData
@@ -64,6 +65,12 @@ public class GameData
     public int Coin;
     public int Jewel;
     public int[] Resources;
+
+    public bool IsDaily;
+    public int DailyLeft;
+    public bool IsDailyPlus;
+    public int DailyPlusLeft;
+    public int[] LastDailyTime;
 
     public int MaxInventory;
 
@@ -180,6 +187,14 @@ public class GameData
 
         if (Jewel > 0)
             GameManager.Inst().AddJewel(Jewel);
+
+        if (LastDailyTime != null)
+        {
+            if (IsDaily || IsDailyPlus)
+                DailyJewel();
+        }
+        else
+            LastDailyTime = new int[6];
 
         if (MaxInventory > 0)
         {
@@ -349,6 +364,13 @@ public class GameData
         Coin = 0;
         Jewel = 0;
         Resources = new int[Constants.MAXSTAGES];
+
+        LastDailyTime = new int[6];
+        IsDaily = false;
+        DailyLeft = 0;
+        IsDailyPlus = false;
+        DailyPlusLeft = 0;
+
         MaxInventory = Constants.MININVENTORY;
 
         CurrentStage = 1;
@@ -370,5 +392,55 @@ public class GameData
     {
         if (GameManager.Inst().StgManager.ReachedStage < ReachedStage)
             GameManager.Inst().StgManager.ReachedStage = ReachedStage;
+    }
+
+    void DailyJewel()
+    {
+        DateTime last = new DateTime(LastDailyTime[0], LastDailyTime[1], LastDailyTime[2], LastDailyTime[3], LastDailyTime[4], LastDailyTime[5]);
+
+        if ((Now - last).Hours >= 24)
+        {
+            if (IsDaily)
+            {
+                if (DailyLeft > 0)
+                {
+                    GameManager.Inst().AddJewel(4);
+                    DailyLeft--;
+
+                    if (DailyLeft <= 0)
+                        IsDaily = false;
+                }
+            }
+
+            if (IsDailyPlus)
+            {
+                if (DailyPlusLeft > 0)
+                {
+                    GameManager.Inst().AddJewel(12);
+                    DailyPlusLeft--;
+
+                    if (DailyPlusLeft <= 0)
+                        IsDailyPlus = false;
+                }
+            }
+
+            SetLastDailyTime();
+        }
+    }
+
+    public void StartDailyJewel()
+    {
+        LastDailyTime = new int[6];
+        SetLastDailyTime();
+    }
+
+    void SetLastDailyTime()
+    {
+        LastDailyTime[0] = Now.Year;
+        LastDailyTime[1] = Now.Month;
+        LastDailyTime[2] = Now.Day;
+        LastDailyTime[3] = 9;
+        LastDailyTime[4] = 0;
+        LastDailyTime[5] = 0;
     }
 }

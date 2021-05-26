@@ -51,7 +51,7 @@ namespace Google {
 
 #if !UNITY_ANDROID && !UNITY_IOS
   static GoogleSignIn() {
-    Debug.LogError("This platform is not supported");
+    //Debug.LogError("This platform is not supported");
   }
 #endif
 

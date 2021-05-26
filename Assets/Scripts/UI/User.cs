@@ -13,7 +13,7 @@ public class User : MonoBehaviour
         {
             if (shuttingDown)
             {
-                Debug.LogWarning("User Instance already destroyed. return null");
+                //Debug.LogWarning("User Instance already destroyed. return null");
                 return null;
             }
 

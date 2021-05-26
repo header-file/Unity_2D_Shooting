@@ -221,7 +221,7 @@ public class EnemyB : Enemy
 
     void LastSpurt()
     {
-        Debug.Log("LastSpurt");
+        //Debug.Log("LastSpurt");
     }
 
     void AbleAttack()

@@ -152,7 +152,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
 
     public void OnClick()
     {
-        Debug.Log(Index);
+        //Debug.Log(Index);
         switch(Type)
         {
             case 0:

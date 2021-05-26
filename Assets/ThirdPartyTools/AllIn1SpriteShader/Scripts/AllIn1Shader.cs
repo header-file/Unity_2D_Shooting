@@ -103,7 +103,7 @@ public class AllIn1Shader : MonoBehaviour
         }
         else if (allIn1Shader == null)
         {
-            Debug.LogError("Make sure the AllIn1SpriteShader file is inside the Resource folder!");
+            //Debug.LogError("Make sure the AllIn1SpriteShader file is inside the Resource folder!");
         }
     }
 
@@ -332,7 +332,7 @@ public class AllIn1Shader : MonoBehaviour
         {
             createdMat = new Material(matToSave);
             AssetDatabase.CreateAsset(createdMat, fileName);
-            Debug.Log(fileName + " has been saved!");
+            //Debug.Log(fileName + " has been saved!");
         }
         if (sr != null)
         {

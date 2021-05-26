@@ -18,7 +18,7 @@ public class Server : MonoBehaviour
         {
             if (shuttingDown)
             {
-                Debug.LogWarning("Server Instance already destroyed. return null");
+                //Debug.LogWarning("Server Instance already destroyed. return null");
                 return null;
             }
 
@@ -82,11 +82,11 @@ public class Server : MonoBehaviour
 
             if (www.isNetworkError)
             {
-                Debug.Log("Error While Sending: " + www.error);
+                //Debug.Log("Error While Sending: " + www.error);
             }
             else
             {
-                Debug.Log("Received: " + www.downloadHandler.text);
+                //Debug.Log("Received: " + www.downloadHandler.text);
             }
         }
     }
@@ -111,11 +111,11 @@ public class Server : MonoBehaviour
 
             if (www.isNetworkError)
             {
-                Debug.Log("Error While Sending: " + www.error);
+                //Debug.Log("Error While Sending: " + www.error);
             }
             else
             {
-                Debug.Log("Received: " + www.downloadHandler.text);
+                //Debug.Log("Received: " + www.downloadHandler.text);
             }
         }
     }
@@ -136,7 +136,7 @@ public class Server : MonoBehaviour
         }
         catch (Exception err)
         {
-            Debug.Log(err);
+            //Debug.Log(err);
         }
     }
     private IEnumerator UserDataGet(string url, string uid, Action callback)
@@ -147,15 +147,15 @@ public class Server : MonoBehaviour
 
             if (www.isNetworkError)
             {
-                Debug.Log("Error While Sending: " + www.error);
+                //Debug.Log("Error While Sending: " + www.error);
             }
             else
             {
-                Debug.LogFormat("Received: ({0}) {1}", url, www.downloadHandler.text);
+                //Debug.LogFormat("Received: ({0}) {1}", url, www.downloadHandler.text);
 
                 var user = JsonUtility.FromJson<User.userLoginData>(www.downloadHandler.text);
 
-                Debug.Log(user);
+                //Debug.Log(user);
 
                 User.Instance.mainUser = user;
 
@@ -178,7 +178,7 @@ public class Server : MonoBehaviour
         }
         catch (Exception err)
         {
-            Debug.Log(err);
+            //Debug.Log(err);
         }
     }
     private IEnumerator UserInvenDataGet(string url, string uid, Action callback)
@@ -189,15 +189,15 @@ public class Server : MonoBehaviour
 
             if (www.isNetworkError)
             {
-                Debug.Log("Error While Sending: " + www.error);
+                //Debug.Log("Error While Sending: " + www.error);
             }
             else
             {
-                Debug.LogFormat("Received: ({0}) {1}", url, www.downloadHandler.text);
+                //Debug.LogFormat("Received: ({0}) {1}", url, www.downloadHandler.text);
 
                 var user = JsonUtility.FromJson<User.userGoodsData>(www.downloadHandler.text);
 
-                Debug.Log(user);
+                //Debug.Log(user);
 
                 User.Instance.mainInventory = user;
 
@@ -222,7 +222,7 @@ public class Server : MonoBehaviour
         }
         catch (Exception err)
         {
-            Debug.Log(err);
+            //Debug.Log(err);
         }
     }
 
@@ -240,7 +240,7 @@ public class Server : MonoBehaviour
         }
         catch (Exception err)
         {
-            Debug.LogError(err);
+            //Debug.LogError(err);
         }
     }
 
@@ -258,7 +258,7 @@ public class Server : MonoBehaviour
         }
         catch (Exception err)
         {
-            Debug.LogError(err);
+            //Debug.LogError(err);
         }
     }
 
@@ -266,7 +266,7 @@ public class Server : MonoBehaviour
     {
         using (var uwr = new UnityWebRequest(url, "POST"))
         {
-            Debug.Log(json);
+            //Debug.Log(json);
 
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
             uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
@@ -277,11 +277,11 @@ public class Server : MonoBehaviour
 
             if (uwr.isNetworkError)
             {
-                Debug.Log("Error While Sending: " + uwr.error);
+                //Debug.Log("Error While Sending: " + uwr.error);
             }
             else
             {
-                Debug.LogFormat("Received: ({0}) {1}", url, uwr.downloadHandler.text);
+                //Debug.LogFormat("Received: ({0}) {1}", url, uwr.downloadHandler.text);
 
                 receiptSave = bool.Parse(uwr.downloadHandler.text);
 
@@ -305,11 +305,11 @@ public class Server : MonoBehaviour
 
             if (uwr.isNetworkError)
             {
-                Debug.Log("Error While Sending: " + uwr.error);
+                //Debug.Log("Error While Sending: " + uwr.error);
             }
             else
             {
-                Debug.LogFormat("Received: ({0}) {1}", url, uwr.downloadHandler.text);
+                //Debug.LogFormat("Received: ({0}) {1}", url, uwr.downloadHandler.text);
             }
         }
     }
@@ -329,7 +329,7 @@ public class Server : MonoBehaviour
         }
         catch (Exception err)
         {
-            Debug.LogError(err);
+            //Debug.LogError(err);
         }
     }
 
@@ -348,7 +348,7 @@ public class Server : MonoBehaviour
         }
         catch (Exception err)
         {
-            Debug.LogError(err);
+            //Debug.LogError(err);
         }
     }
     private IEnumerator userRenewCoin(string url, string uid, int coin, string tid)
@@ -363,11 +363,11 @@ public class Server : MonoBehaviour
 
             if (uwr.isNetworkError)
             {
-                Debug.Log("Error While Sending: " + uwr.error);
+                //Debug.Log("Error While Sending: " + uwr.error);
             }
             else
             {
-                Debug.LogFormat("Received: ({0}) {1}", url, uwr.downloadHandler.text);
+                //Debug.LogFormat("Received: ({0}) {1}", url, uwr.downloadHandler.text);
 
                 if (bool.Parse(uwr.downloadHandler.text))
                 {
@@ -388,7 +388,7 @@ public class Server : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("영수증 정보를 DB에 저장하지 못했습니다!");
+                        //Debug.Log("영수증 정보를 DB에 저장하지 못했습니다!");
                     }
                 }
                 
@@ -424,7 +424,7 @@ public class Server : MonoBehaviour
         }
         else
         {
-            Debug.Log("영수증 갱신 실패!");
+            //Debug.Log("영수증 갱신 실패!");
         }
     }
 
@@ -448,11 +448,11 @@ public class Server : MonoBehaviour
 
             if (www.isNetworkError)
             {
-                Debug.Log("Error While Sending: " + www.error);
+                //Debug.Log("Error While Sending: " + www.error);
             }
             else
             {
-                Debug.Log("Received: " + www.downloadHandler.text);
+                //Debug.Log("Received: " + www.downloadHandler.text);
             }
         }
     }

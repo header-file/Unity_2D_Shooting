@@ -83,14 +83,14 @@ public class Login : MonoBehaviour
 
             if (!signedIn && user != null)
             {
-                UnityEngine.Debug.Log("Signed out " + user.UserId);
+                //UnityEngine.Debug.Log("Signed out " + user.UserId);
             }
 
             user = auth.CurrentUser;
 
             if (signedIn)
             {
-                UnityEngine.Debug.Log("Signed in " + user.UserId);
+                //UnityEngine.Debug.Log("Signed in " + user.UserId);
             }
         }
     }
@@ -117,7 +117,7 @@ public class Login : MonoBehaviour
 
         // 유저 정보
         User.Instance.GetUserData(auth.CurrentUser.UserId, new System.Action(() => {
-            Debug.Log("유저 정보 로드 완료!");
+            //Debug.Log("유저 정보 로드 완료!");
             // 유저 인벤 정보
             User.Instance.GetUserInven(auth.CurrentUser.UserId, new System.Action(() => {
                 // 다음 씬으로 넘긴다.
@@ -131,7 +131,7 @@ public class Login : MonoBehaviour
     // 게임씬으로 넘어감
     public void NextSecne()
     {
-        Debug.Log("GameScene 으로...");
+        //Debug.Log("GameScene 으로...");
 
         SceneManager.LoadSceneAsync(1);
     }
@@ -146,12 +146,12 @@ public class Login : MonoBehaviour
         {
             if (task.IsCanceled)
             {
-                Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                //Debug.LogError("SignInAnonymouslyAsync was canceled.");
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                //Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
                 return;
             }
 
@@ -199,7 +199,7 @@ public class Login : MonoBehaviour
         }
         catch (System.Exception err)
         {
-            Debug.LogError(err);
+            //Debug.LogError(err);
             LoadingPanel.SetActive(false);
         }
     }
@@ -228,12 +228,12 @@ public class Login : MonoBehaviour
         {
             if (task.IsCanceled)
             {
-                Debug.Log("Google Login task.IsCanceled");
+                //Debug.Log("Google Login task.IsCanceled");
                 callback(false);
             }
             else if (task.IsFaulted)
             {
-                Debug.Log("Google Login task.IsFaulted");
+                //Debug.Log("Google Login task.IsFaulted");
                 callback(false);
             }
             else
@@ -244,20 +244,20 @@ public class Login : MonoBehaviour
                     if (authTask.IsCanceled)
                     {
                         signInCompleted.SetCanceled();
-                        Debug.Log("Google Login authTask.IsCanceled");
+                        //Debug.Log("Google Login authTask.IsCanceled");
                         callback(false);
                         return;
                     }
                     if (authTask.IsFaulted)
                     {
                         signInCompleted.SetException(authTask.Exception);
-                        Debug.Log("Google Login authTask.IsFaulted");
+                        //Debug.Log("Google Login authTask.IsFaulted");
                         callback(false);
                         return;
                     }
 
                     user = authTask.Result;
-                    Debug.LogFormat("Google User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
+                    //Debug.LogFormat("Google User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
                     callback(true);
                     return;
                 });
@@ -273,7 +273,7 @@ public class Login : MonoBehaviour
 
         if (email.Length < 1 || pw.Length < 1)
         {
-            Debug.Log("이메일 ID 나 PW 가 비어있습니다.");
+            //Debug.Log("이메일 ID 나 PW 가 비어있습니다.");
             return;
         }
 
@@ -284,18 +284,18 @@ public class Login : MonoBehaviour
         {
             if (task.IsCanceled)
             {
-                UnityEngine.Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                //UnityEngine.Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
                 return;
             }
             if (task.IsFaulted)
             {
-                UnityEngine.Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                //UnityEngine.Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
                 return;
             }
 
             // firebase email user create
             Firebase.Auth.FirebaseUser newUser = task.Result;
-            UnityEngine.Debug.LogFormat("Firebase Email user created successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
+            //UnityEngine.Debug.LogFormat("Firebase Email user created successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
             return;
         });
 
@@ -323,7 +323,7 @@ public class Login : MonoBehaviour
         }
         else
         {
-            Debug.Log("별명을 입력해주세요.");
+            //Debug.Log("별명을 입력해주세요.");
             return;
         }
     }

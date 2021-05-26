@@ -49,7 +49,7 @@ public class DataManager : MonoBehaviour
 
         if(File.Exists(filePath))
         {
-            Debug.Log("Load Success");
+            //Debug.Log("Load Success");
 
             string fromJsonData = File.ReadAllText(filePath);
             _gameData = JsonUtility.FromJson<GameData>(fromJsonData);
@@ -60,7 +60,7 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Write New File");
+            //Debug.Log("Write New File");
 
             _gameData = new GameData();
         }
@@ -72,7 +72,7 @@ public class DataManager : MonoBehaviour
         string ToJsonData = JsonUtility.ToJson(GameData);
         string filePath = Application.persistentDataPath + SaveDataFileName;
         File.WriteAllText(filePath, ToJsonData);
-        Debug.Log("Save Complete");
+        //Debug.Log("Save Complete");
     }
 
     void OnApplicationQuit()

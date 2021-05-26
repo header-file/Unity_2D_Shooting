@@ -53,7 +53,7 @@ public class AdvertiseManager : MonoBehaviour
         {
             case ShowResult.Finished:
                 {
-                    Debug.Log("The ad was successfully shown.");
+                    //Debug.Log("The ad was successfully shown.");
 
                     // 광고 시청이 완료되었을 때 처리
                     GameManager.Inst().UiManager.ShopUI.MinusAdLeft();
@@ -63,7 +63,7 @@ public class AdvertiseManager : MonoBehaviour
                 }
             case ShowResult.Skipped:
                 {
-                    Debug.Log("The ad was skipped before reaching the end.");
+                    //Debug.Log("The ad was skipped before reaching the end.");
 
                     // 광고가 스킵되었을 때 처리
                     GameManager.Inst().UiManager.ShopUI.MinusAdLeft();
@@ -73,7 +73,7 @@ public class AdvertiseManager : MonoBehaviour
                 }
             case ShowResult.Failed:
                 {
-                    Debug.LogError("The ad failed to be shown.");
+                    //Debug.LogError("The ad failed to be shown.");
 
                     // 광고 시청에 실패했을 때 처리
 
