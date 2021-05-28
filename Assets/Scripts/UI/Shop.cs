@@ -171,9 +171,14 @@ public class Shop : MonoBehaviour
         AdLeftText.text = AdLeft.ToString() + " / " + Ads.ToString();
     }
 
-    void BuyJewel()
+    void BuyDailyJewel(int type)
     {
 
+    }
+
+    public void FailBuyJewel()
+    {
+        print("구매에 실패했습니다.");
     }
 
     void BuyExpand()
@@ -312,6 +317,11 @@ public class Shop : MonoBehaviour
 
     public void OnClickBuyJewel(int index)
     {
+        //구매 완료 알림
 
+        if (index > 4)
+            BuyDailyJewel(index - 5);
+        else
+            GameManager.Inst().AddJewel(int.Parse(JewelDatas[index, 1]));
     }
 }

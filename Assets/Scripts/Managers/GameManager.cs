@@ -60,7 +60,11 @@ public class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        //SetManagers();
+#if UNITY_EDITOR
+        Debug.unityLogger.logEnabled = true;
+#else
+        Debug.unityLogger.logEnabled=false;
+#endif
 
         Jewel = 0;
         Resources = new int[Constants.MAXSTAGES];
