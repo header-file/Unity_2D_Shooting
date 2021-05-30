@@ -190,7 +190,7 @@ public class GameData
 
         if (LastDailyTime != null)
         {
-            if (IsDaily || IsDailyPlus)
+            if (DailyLeft > 0 || DailyPlusLeft > 0)
                 DailyJewel();
         }
         else
@@ -394,38 +394,54 @@ public class GameData
             GameManager.Inst().StgManager.ReachedStage = ReachedStage;
     }
 
-    void DailyJewel()
+    public void DailyJewel()
     {
         DateTime last = new DateTime(LastDailyTime[0], LastDailyTime[1], LastDailyTime[2], LastDailyTime[3], LastDailyTime[4], LastDailyTime[5]);
 
-        if ((Now - last).Hours >= 24)
+        if(Now.Day != last.Day)
         {
-            if (IsDaily)
-            {
-                if (DailyLeft > 0)
-                {
-                    GameManager.Inst().AddJewel(4);
-                    DailyLeft--;
-
-                    if (DailyLeft <= 0)
-                        IsDaily = false;
-                }
-            }
-
-            if (IsDailyPlus)
-            {
-                if (DailyPlusLeft > 0)
-                {
-                    GameManager.Inst().AddJewel(12);
-                    DailyPlusLeft--;
-
-                    if (DailyPlusLeft <= 0)
-                        IsDailyPlus = false;
-                }
-            }
-
-            SetLastDailyTime();
+            IsDaily = true;
+            IsDailyPlus = true;
         }
+        
+        if (Now.Date <= last.Date || Now.Hour < 9)
+            return;
+
+        GiveDaily();
+    }
+
+    public void GiveDaily()
+    {
+        if (DailyLeft > 0 && IsDaily)
+        {
+            if (DailyPlusLeft > 0 && IsDailyPlus)
+                GameManager.Inst().UiManager.DailyJewelUI.Show(2);
+            else
+                GameManager.Inst().UiManager.DailyJewelUI.Show(0);
+        }
+        else if (DailyPlusLeft > 0 && IsDailyPlus)
+            GameManager.Inst().UiManager.DailyJewelUI.Show(1);
+    }
+
+    public void ProcessDailyJewel()
+    {
+        if (DailyLeft > 0)
+        {
+            GameManager.Inst().AddJewel(4);
+            DailyLeft--;
+
+            IsDaily = false;
+        }
+
+        if (DailyPlusLeft > 0)
+        {
+            GameManager.Inst().AddJewel(12);
+            DailyPlusLeft--;
+
+            IsDailyPlus = false;
+        }
+
+        SetLastDailyTime();
     }
 
     public void StartDailyJewel()

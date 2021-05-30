@@ -10,6 +10,7 @@ public class ShopSlot : MonoBehaviour
     public GameObject Money;
     public GameObject Jewel;
     public Text PriceText;
+    public Button Button;
 
     public int Index;
 }

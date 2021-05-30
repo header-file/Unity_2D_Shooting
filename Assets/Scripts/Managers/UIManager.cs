@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
     public Weapon WeaponUI;
     public Shop ShopUI;
     public ReviveAlert ReviveAlertUI;
+    public DailyJewel DailyJewelUI;
 
     //기타 UI
     public Text CoinText;

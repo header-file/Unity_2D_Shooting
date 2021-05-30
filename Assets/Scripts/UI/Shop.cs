@@ -67,6 +67,19 @@ public class Shop : MonoBehaviour
                     Jewels[i].PriceText.text = JewelDatas[i, 2];
                     Jewels[i].Icon.sprite = JewelIcons[i];
                     Jewels[i].Jewel.SetActive(false);
+
+                    if(i > 4)
+                    {
+                        if (GameManager.Inst().DatManager.GameData.DailyLeft > 0)
+                            Jewels[5].Button.interactable = false;
+                        else
+                            Jewels[5].Button.interactable = true;
+
+                        if (GameManager.Inst().DatManager.GameData.DailyPlusLeft > 0)
+                            Jewels[6].Button.interactable = false;
+                        else
+                            Jewels[6].Button.interactable = true;
+                    }
                 }
                 break;
             case 1:
@@ -173,7 +186,22 @@ public class Shop : MonoBehaviour
 
     void BuyDailyJewel(int type)
     {
+        GameManager.Inst().DatManager.GameData.StartDailyJewel();
 
+        if(type ==  0)
+        {
+            GameManager.Inst().DatManager.GameData.IsDaily = true;
+            GameManager.Inst().DatManager.GameData.DailyLeft = 30;
+            Jewels[5].Button.interactable = false;
+        }
+        else
+        {
+            GameManager.Inst().DatManager.GameData.IsDailyPlus = true;
+            GameManager.Inst().DatManager.GameData.DailyPlusLeft = 30;
+            Jewels[6].Button.interactable = false;
+        }
+
+        GameManager.Inst().DatManager.GameData.GiveDaily();
     }
 
     public void FailBuyJewel()
