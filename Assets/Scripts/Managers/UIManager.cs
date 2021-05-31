@@ -42,6 +42,8 @@ public class UIManager : MonoBehaviour
     public Shop ShopUI;
     public ReviveAlert ReviveAlertUI;
     public DailyJewel DailyJewelUI;
+    public DailyLeft DailyLeft;
+    public DailyLeft DailyPlusLeft;
 
     //기타 UI
     public Text CoinText;

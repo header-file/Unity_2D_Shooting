@@ -519,7 +519,8 @@ public class UpgradeManager : MonoBehaviour
         if (BData[bulletType].GetEquipIndex() == -1)
             return;
 
-        if (GameManager.Inst().Player.GetItem(BData[bulletType].GetEquipIndex()).Type == (int)Item_ZzinEquipment.EquipType.VAMP)
+        if (BData[bulletType].GetEquipIndex() >= 0 &&
+            GameManager.Inst().Player.GetItem(BData[bulletType].GetEquipIndex()).Type == (int)Item_ZzinEquipment.EquipType.VAMP)
         {
             if (GameManager.Inst().Player.GetBulletType() == bulletType)
                 GameManager.Inst().Player.SetIsVamp(true);
@@ -538,7 +539,8 @@ public class UpgradeManager : MonoBehaviour
                 }
             }
         }
-        else if (GameManager.Inst().Player.GetItem(BData[bulletType].GetEquipIndex()).Type == (int)Item_ZzinEquipment.EquipType.REINFORCE)
+        else if (BData[bulletType].GetEquipIndex() >= 0 &&
+                GameManager.Inst().Player.GetItem(BData[bulletType].GetEquipIndex()).Type == (int)Item_ZzinEquipment.EquipType.REINFORCE)
         {
             if (GameManager.Inst().Player.GetBulletType() == bulletType)
                 GameManager.Inst().Player.IsReinforce = true;

@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
     {
         int rand = type;
         if (rand == -1)
-            rand = Random.Range(7, Constants.MAXEQUIPTYPE);
+            rand = Random.Range(0, Constants.MAXEQUIPTYPE);
 
         int uid = 0;
         switch (rand)
@@ -399,7 +399,7 @@ public class GameManager : MonoBehaviour
     {
         int rand = type;
         if (rand == -1)
-            rand = (int)(Random.value * 3.0f);
+            rand = Random.Range(0, 3);
 
         int uid = 0;
         switch (rand)
@@ -438,7 +438,7 @@ public class GameManager : MonoBehaviour
     {
         int rand = type;
         if (rand == -1)
-            rand = (int)(Random.value * 3.0f);
+            rand = Random.Range(0, 3);
 
         GameObject eq;
         Item_Equipment ieq = null;

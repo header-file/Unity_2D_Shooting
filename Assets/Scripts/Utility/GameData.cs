@@ -382,6 +382,8 @@ public class GameData
         Inventories = new int[GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE];
 
         Weapons = new float[Constants.MAXBULLETS * Constants.WPDATASIZE];
+        for (int i = 0; i < Constants.MAXBULLETS; i++)
+            Weapons[Constants.WPDATASIZE * i + (int)WPData.EQUIP] = -1.0f;
 
         Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
 
@@ -403,7 +405,12 @@ public class GameData
             IsDaily = true;
             IsDailyPlus = true;
         }
-        
+
+        if (DailyLeft > 0)
+            GameManager.Inst().UiManager.DailyLeft.Show(DailyLeft);
+        if (DailyPlusLeft > 0)
+            GameManager.Inst().UiManager.DailyPlusLeft.Show(DailyPlusLeft);
+
         if (Now.Date <= last.Date || Now.Hour < 9)
             return;
 
@@ -425,21 +432,27 @@ public class GameData
 
     public void ProcessDailyJewel()
     {
-        if (DailyLeft > 0)
+        if (DailyLeft > 0 && IsDailyPlus)
         {
             GameManager.Inst().AddJewel(4);
             DailyLeft--;
 
+            GameManager.Inst().UiManager.DailyLeft.Show(DailyLeft);
             IsDaily = false;
         }
+        else
+            GameManager.Inst().UiManager.DailyLeft.gameObject.SetActive(false);
 
-        if (DailyPlusLeft > 0)
+        if (DailyPlusLeft > 0 && IsDailyPlus)
         {
             GameManager.Inst().AddJewel(12);
             DailyPlusLeft--;
 
+            GameManager.Inst().UiManager.DailyPlusLeft.Show(DailyPlusLeft);
             IsDailyPlus = false;
         }
+        else
+            GameManager.Inst().UiManager.DailyPlusLeft.gameObject.SetActive(false);
 
         SetLastDailyTime();
     }
