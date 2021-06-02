@@ -6,10 +6,15 @@ using Google;
 using Firebase.Auth;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
-
+using Firebase;
+using Firebase.Database;
 
 public class Login : MonoBehaviour
 {
+    FirebaseApp App;
+    public DatabaseReference DBRef;
+    public string PlayerID;
+
     // Auth 용 instance
     FirebaseAuth auth = null;
 
@@ -41,6 +46,30 @@ public class Login : MonoBehaviour
 
     private void Awake()
     {
+        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
+            var dependencyStatus = task.Result;
+            if (dependencyStatus == Firebase.DependencyStatus.Available)
+            {
+                // Create and hold a reference to your FirebaseApp,
+                // where app is a Firebase.FirebaseApp property of your application class.
+                App = Firebase.FirebaseApp.DefaultInstance;
+
+                // Set a flag here to indicate whether Firebase is ready to use by your app.
+            }
+            else
+            {
+                UnityEngine.Debug.LogError(System.String.Format(
+                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+                // Firebase Unity SDK is not safe to use here.
+            }
+        });
+
+        Login[] objs = FindObjectsOfType<Login>();
+        if (objs.Length > 1)
+            Destroy(gameObject);
+        else
+            DontDestroyOnLoad(gameObject);
+
         // 초기화
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 
@@ -56,8 +85,10 @@ public class Login : MonoBehaviour
     private void Start()
     {
         //#if UNITY_EDITOR
-        //TestInit();
+        //        TestInit();
         //#endif
+
+        DBRef = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
     // 테스트용 초기화 함수
@@ -363,6 +394,8 @@ public class Login : MonoBehaviour
         newUser.createDate = auth.CurrentUser.Metadata.CreationTimestamp;
         string json = JsonUtility.ToJson(newUser);
 
+        PlayerID = user.UserId;
+        DBRef.Child("users").Child(newUser.uid).Child("username").SetValueAsync(newUser.nickname);
 
         // 코인 저장용
         var newUserInventory = new User.userGoodsData();
