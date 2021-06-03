@@ -62,6 +62,8 @@ public class GameData
         SECOND = 5,
     }
 
+    public string UID;
+
     public int Coin;
     public int Jewel;
     public int[] Resources;
@@ -94,6 +96,9 @@ public class GameData
 
     public void SaveData()
     {
+        if(GameManager.Inst().Login.PlayerID != "")
+            UID = GameManager.Inst().Login.PlayerID;
+
         if (IsEraseData)
             return;
 
@@ -183,10 +188,10 @@ public class GameData
         }
 
         if (Coin > 0)
-            GameManager.Inst().Player.AddCoin(Coin);
+            GameManager.Inst().Player.SetCoin(Coin);
 
         if (Jewel > 0)
-            GameManager.Inst().AddJewel(Jewel);
+            GameManager.Inst().SetJewel(Jewel);
 
         if (LastDailyTime != null)
         {
@@ -223,7 +228,7 @@ public class GameData
 
         if (Resources != null && Resources.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
-                GameManager.Inst().AddResource(i + 1, Resources[i]);
+                GameManager.Inst().SetResource(i + 1, Resources[i]);
         else
             Resources = new int[Constants.MAXSTAGES];
 
@@ -232,7 +237,7 @@ public class GameData
             {
                 GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
 
-                if (i == GameManager.Inst().StgManager.Stage)
+                if (i + 1 == GameManager.Inst().StgManager.Stage)
                     GameManager.Inst().StgManager.FillGauge();
             }
         else
@@ -471,5 +476,94 @@ public class GameData
         LastDailyTime[3] = 9;
         LastDailyTime[4] = 0;
         LastDailyTime[5] = 0;
+    }
+
+    public void UploadSave()
+    {
+        //SaveData();
+
+        //Login login = GameObject.Find("LoginManager").GetComponent<Login>();
+        
+        //login.DBRef.Child("users").Child(UID).Child("Coin").SetValueAsync(Coin);
+        //login.DBRef.Child("users").Child(UID).Child("Jewel").SetValueAsync(Jewel);
+        //login.DBRef.Child("users").Child(UID).Child("CurrentStage").SetValueAsync(CurrentStage);
+        //login.DBRef.Child("users").Child(UID).Child("ReachedStage").SetValueAsync(GameManager.Inst().StgManager.ReachedStage);
+        //login.DBRef.Child("users").Child(UID).Child("MaxInventory").SetValueAsync(MaxInventory);
+
+        ////Resource
+        //login.DBRef.Child("users").Child(UID).Child("Resource").Child("A").SetValueAsync(GameManager.Inst().Resources[0]);
+        //login.DBRef.Child("users").Child(UID).Child("Resource").Child("B").SetValueAsync(GameManager.Inst().Resources[1]);
+        //login.DBRef.Child("users").Child(UID).Child("Resource").Child("C").SetValueAsync(GameManager.Inst().Resources[2]);
+        //login.DBRef.Child("users").Child(UID).Child("Resource").Child("D").SetValueAsync(GameManager.Inst().Resources[3]);
+
+        ////Player Data
+        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("Level").SetValueAsync(GameManager.Inst().UpgManager.GetPlayerLevel());
+        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("CurHp").SetValueAsync(GameManager.Inst().Player.GetCurHP());
+        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("MaxHp").SetValueAsync(GameManager.Inst().Player.GetMaxHP());
+        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("BulletType").SetValueAsync(GameManager.Inst().Player.GetBulletType());
+        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("Color").SetValueAsync(GameManager.Inst().ShtManager.GetColorSelection(2));
+
+
+        ////Stage Data
+        //for (int i = 0; i < Constants.MAXSTAGES; i++)
+        //{
+        //    string stageName = "Stage" + (i + 1).ToString();
+        //    login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("BossGauge").SetValueAsync(GameManager.Inst().StgManager.BossCount[i]);
+
+        //    for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
+        //    {
+        //        if (GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j) > 0)
+        //        {
+        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("Level").SetValueAsync(GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j));
+        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("CurHp").SetValueAsync(GameManager.Inst().GetSubweapons(j).GetCurHP());
+        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("MaxHp").SetValueAsync(GameManager.Inst().GetSubweapons(j).GetCurHP());
+        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("BulletType").SetValueAsync(GameManager.Inst().GetSubweapons(j).GetBulletType());
+        //            int id = j;
+        //            if (id > 1)
+        //                id++;
+        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("Color").SetValueAsync(GameManager.Inst().ShtManager.GetColorSelection(id));
+        //        }
+        //        else
+        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).SetValueAsync(null);
+        //    }
+
+        //    login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("StartTime").SetValueAsync(GameManager.Inst().ResManager.StartTimes[i].ToString());
+        //}
+
+        ////Inventory Data
+        //for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
+        //{
+        //    Player.EqData eq = GameManager.Inst().Player.GetItem(i);
+        //    if (eq != null)
+        //    {
+        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("UID").SetValueAsync(eq.UID);
+        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("Type").SetValueAsync(eq.Type);
+        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("Rarity").SetValueAsync(eq.Rarity);
+        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("Value").SetValueAsync((int)eq.Value);
+        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("Quantity").SetValueAsync(eq.Quantity);
+        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("CoolTime").SetValueAsync((int)eq.CoolTime);
+        //    }
+        //    else
+        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).SetValueAsync(null);
+        //}
+
+        ////Bullet Data
+        //for (int i = 0; i < Constants.MAXBULLETS; i++)
+        //{
+        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("PowerLevel").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetPowerLevel());
+        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Rarity").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetRarity());
+        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Price").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetPrice());
+        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Atk").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetAtk());
+        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Hp").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetHp());
+        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Spd").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetSpd());
+        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("EquipIndex").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetEquipIndex());
+        //}
+
+        ////Qeust Data
+        //for (int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+        //{
+        //    login.DBRef.Child("users").Child(UID).Child("Quest").Child(i.ToString()).Child("ID").SetValueAsync(GameManager.Inst().QstManager.Quests[i].QuestId);
+        //    login.DBRef.Child("users").Child(UID).Child("Quest").Child(i.ToString()).Child("Count").SetValueAsync(GameManager.Inst().QstManager.Quests[i].CurrentCount);
+        //}
     }
 }

@@ -911,4 +911,15 @@ public class UIManager : MonoBehaviour
 
         GameManager.Inst().GetSubweapons(ReviveAlertUI.Index).CoolTime = 0;
     }
+
+    public void OnClickUploadDataBtn()
+    {
+        //GameManager.Inst().DatManager.GameData.UploadSave();
+        GameManager.Inst().DatManager.UploadSaveData();
+    }
+
+    public void OnClickDownloadDataBtn()
+    {
+        GameManager.Inst().DatManager.DownloadSaveData();
+    }
 }

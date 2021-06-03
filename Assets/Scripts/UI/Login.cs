@@ -13,6 +13,7 @@ public class Login : MonoBehaviour
 {
     FirebaseApp App;
     public DatabaseReference DBRef;
+    public FirebaseDatabase DB;
     public string PlayerID;
 
     // Auth 용 instance
@@ -89,6 +90,7 @@ public class Login : MonoBehaviour
         //#endif
 
         DBRef = FirebaseDatabase.DefaultInstance.RootReference;
+        DB = FirebaseDatabase.DefaultInstance;
     }
 
     // 테스트용 초기화 함수
@@ -152,6 +154,7 @@ public class Login : MonoBehaviour
             // 유저 인벤 정보
             User.Instance.GetUserInven(auth.CurrentUser.UserId, new System.Action(() => {
                 // 다음 씬으로 넘긴다.
+                PlayerID = auth.CurrentUser.UserId;
                 NextSecne();
             }));
         }));
@@ -394,7 +397,7 @@ public class Login : MonoBehaviour
         newUser.createDate = auth.CurrentUser.Metadata.CreationTimestamp;
         string json = JsonUtility.ToJson(newUser);
 
-        PlayerID = user.UserId;
+        PlayerID = newUser.uid;
         DBRef.Child("users").Child(newUser.uid).Child("username").SetValueAsync(newUser.nickname);
 
         // 코인 저장용

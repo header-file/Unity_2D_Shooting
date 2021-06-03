@@ -83,16 +83,16 @@ public class StageManager : MonoBehaviour
     {
         if (!IsBoss)
         {
-            BossCount[Stage]++;
+            BossCount[Stage - 1]++;
             FillGauge();
 
-            if (BossCount[Stage] >= BossMax)
+            if (BossCount[Stage - 1] >= BossMax)
             {
                 IsBoss = true;
                 BossTimer = Constants.MAXBOSSTIME;
                 GameManager.Inst().UiManager.BossGauge.SetActive(false);
-                BossCount[Stage] = 0;
-                GameManager.Inst().UiManager.BossGaugeBar.fillAmount = (float)BossCount[Stage] / BossMax;
+                BossCount[Stage - 1] = 0;
+                GameManager.Inst().UiManager.BossGaugeBar.fillAmount = (float)BossCount[Stage - 1] / BossMax;
                 CancelEnemies();
                 GameManager.Inst().UiManager.WarningAnim.SetTrigger("Start");
                 Invoke("SpawnBoss", 2.5f);
@@ -104,7 +104,7 @@ public class StageManager : MonoBehaviour
 
     public void FillGauge()
     {
-        float percent = (float)BossCount[Stage] / BossMax;
+        float percent = (float)BossCount[Stage - 1] / BossMax;
         GameManager.Inst().UiManager.BossGaugeBar.fillAmount = percent;
 
         if (!IsFeverMode && percent >= 0.4f && percent < 0.6f)

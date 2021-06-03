@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public DataManager DatManager;
     public ResourceManager ResManager;
     public AdvertiseManager AdsManager;
+    public Login Login;
 
     //씬마다 생성
     public ShootingManager ShtManager;
@@ -42,8 +43,10 @@ public class GameManager : MonoBehaviour
     public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[StgManager.Stage - 1, index] = Sub; }
+    public void SetJewel(int value) { Jewel = value; UiManager.JewelText.text = Jewel.ToString(); }
     public void AddJewel(int value) { Jewel += value; UiManager.JewelText.text = Jewel.ToString(); }
     public void SubtractJewel(int value) { Jewel -= value; UiManager.JewelText.text = Jewel.ToString(); }
+    public void SetResource(int stage, int value) { Resources[stage - 1] = value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
     public void AddResource(int stage, int value) { Resources[stage - 1] += value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
     public void SubtractResource(int stage, int value) { Resources[stage - 1] -= value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
 
@@ -84,7 +87,8 @@ public class GameManager : MonoBehaviour
         SetDropRateData();
         SetEquipDatas();
         SetResources();
-        
+
+        Login = GameObject.Find("LoginManager").GetComponent<Login>();
         //StgManager.BeginStage();
     }
 

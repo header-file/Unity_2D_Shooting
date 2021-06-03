@@ -148,6 +148,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetCoin(int c)
+    {
+        Coin = c;
+
+        GameManager.Inst().UiManager.SetCoinText(Coin);
+    }
+
     public void AddCoin(int c)
     {
         Coin += c;
