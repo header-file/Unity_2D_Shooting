@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
     public DailyJewel DailyJewelUI;
     public DailyLeft DailyLeft;
     public DailyLeft DailyPlusLeft;
+    public Alarm Alarm;
 
     //기타 UI
     public Text CoinText;

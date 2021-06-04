@@ -82,12 +82,14 @@ public class DataManager : MonoBehaviour
         string filePath = Application.persistentDataPath + SaveDataFileName;
         File.WriteAllText(filePath, ToJsonData);
 
-        GameObject.Find("LoginManager").GetComponent<Login>().DBRef.Child("users").Child(GameData.UID).SetRawJsonValueAsync(ToJsonData);
+        GameManager.Inst().Login.DBRef.Child("users").Child(GameData.UID).Child("SaveData").SetRawJsonValueAsync(ToJsonData);
+
+        GameManager.Inst().UiManager.Alarm.SaveComplete();
     }
 
     async public void DownloadSaveData()
     {
-        await GameManager.Inst().Login.DBRef.Child("users").Child(GameData.UID).GetValueAsync().ContinueWith(task =>
+        await GameManager.Inst().Login.DBRef.Child("users").Child(GameData.UID).Child("SaveData").GetValueAsync().ContinueWith(task =>
         {
             if (task.IsFaulted)
             {
@@ -104,7 +106,16 @@ public class DataManager : MonoBehaviour
         GameData.LoadData();
         SaveData();
 
+        GameManager.Inst().UiManager.Alarm.LoadComplete();
+
         //SceneManager.LoadScene("AuthWebServer");
+    }
+
+    public void AutoSave()
+    {
+        SaveData();
+
+        UploadSaveData();
     }
 
     void OnApplicationQuit()

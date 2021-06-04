@@ -336,6 +336,9 @@ public class Shop : MonoBehaviour
         }
 
         Confirm.SetActive(false);
+
+        //자동 저장 및 데이터 업로드
+        GameManager.Inst().DatManager.AutoSave();
     }
 
     public void OnClickConfirmCancel()
@@ -351,5 +354,8 @@ public class Shop : MonoBehaviour
             BuyDailyJewel(index - 5);
         else
             GameManager.Inst().AddJewel(int.Parse(JewelDatas[index, 1]));
+
+        //자동 저장 및 데이터 업로드
+        GameManager.Inst().DatManager.AutoSave();
     }
 }
