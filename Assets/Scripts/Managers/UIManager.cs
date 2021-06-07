@@ -315,6 +315,7 @@ public class UIManager : MonoBehaviour
         NewWindows[(int)NewWindowType.WEAPON].SetActive(true);
         NewWindows[(int)NewWindowType.DETAIL].SetActive(false);
         NewWindows[(int)NewWindowType.BUYSUBWEAPON].SetActive(false);
+        NewWindows[(int)NewWindowType.INFO].GetComponent<Info>().SetColorSelected(GameManager.Inst().ShtManager.GetColorSelection(Type));
         //NewWindows[(int)NewWindowType.INFO].SetActive(false);
 
         for (int i = 0; i < 5; i++)
