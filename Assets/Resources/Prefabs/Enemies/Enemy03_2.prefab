@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 605807053899396518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.221, z: 0}
+  m_LocalPosition: {x: 0, y: 0.152, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1953892360650323741}
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 1360828921885169221, guid: dde5518beaa9a1c47a020e4b4bdfcd12,
+  m_Sprite: {fileID: -1315463054858552789, guid: 75dfbf14630da0f40ac19748a51875e3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1953892360650323740}
   - component: {fileID: 6256838105892670259}
   m_Layer: 0
-  m_Name: Enemy02_2
+  m_Name: Enemy03_2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,7 +132,7 @@ PolygonCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.34}
+  m_Offset: {x: 0, y: 0.46}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -144,11 +144,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.35221896, y: 0.32194266}
-      - {x: 0.3553176, y: 0.32381096}
-      - {x: 0.1935029, y: -0.64980876}
-      - {x: 0.0050992966, y: -0.7591965}
-      - {x: -0.2309556, y: -0.64980876}
+    - - {x: -0.3302927, y: -0.12365088}
+      - {x: 0.0014921725, y: 0.088178426}
+      - {x: 0.3434984, y: -0.16726637}
+      - {x: 0.2847438, y: -0.5195147}
+      - {x: 0.018222213, y: -0.7069168}
+      - {x: -0.3026619, y: -0.5504841}
 --- !u!114 &1953892360650323728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +196,7 @@ Animator:
   m_GameObject: {fileID: 1953892360650323729}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: e8d3ec58def1fa849bd0dd580794d2aa, type: 2}
+  m_Controller: {fileID: 22100000, guid: 669694db7cdf09445af6a7eff6405c3d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -254,9 +255,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.01}
+  m_Offset: {x: 0, y: 0.13}
   serializedVersion: 2
-  m_Radius: 0.23
+  m_Radius: 0.24
 --- !u!114 &892525670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,7 +341,7 @@ PrefabInstance:
     - target: {fileID: 1110604774695685132, guid: 0d07db676980b6540b550abead4cec47,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.5
+      value: 0.517
       objectReference: {fileID: 0}
     - target: {fileID: 1110604774695685132, guid: 0d07db676980b6540b550abead4cec47,
         type: 3}
