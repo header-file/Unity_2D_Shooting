@@ -41,12 +41,13 @@ public class DataManager : MonoBehaviour
 
         GameData.LoadData();        
         SaveData();
+        Debug.Log(gameObject.name + "Start_End");
     }
 
     public void LoadData()
     {
         string filePath = Application.persistentDataPath + SaveDataFileName;
-
+        
         if(File.Exists(filePath))
         {
             //Debug.Log("Load Success");
@@ -69,10 +70,12 @@ public class DataManager : MonoBehaviour
     public void SaveData()
     {
         GameData.SaveData();
+        Debug.Log("Save Data");
         string ToJsonData = JsonUtility.ToJson(GameData);
         string filePath = Application.persistentDataPath + SaveDataFileName;
         File.WriteAllText(filePath, ToJsonData);
         //Debug.Log("Save Complete");
+        Debug.Log(ToJsonData);
     }
 
     public void UploadSaveData()

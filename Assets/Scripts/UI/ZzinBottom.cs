@@ -10,7 +10,7 @@ public class ZzinBottom : MonoBehaviour
     public GameObject[] ShopIcon;
     public CanvasGroup HomeIcon;
 
-    void Start()
+    void Awake()
     {
         UniverseIcon[0].SetActive(true);
         WeaponIcon[0].SetActive(true);

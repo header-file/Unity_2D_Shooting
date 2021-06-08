@@ -45,25 +45,25 @@ public class Login : MonoBehaviour
     private string tempemail = string.Empty;
     private string temppw = string.Empty;
 
-    private void Awake()
+    void Awake()
     {
-        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
-            var dependencyStatus = task.Result;
-            if (dependencyStatus == Firebase.DependencyStatus.Available)
-            {
-                // Create and hold a reference to your FirebaseApp,
-                // where app is a Firebase.FirebaseApp property of your application class.
-                App = Firebase.FirebaseApp.DefaultInstance;
+        //Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
+        //    var dependencyStatus = task.Result;
+        //    if (dependencyStatus == Firebase.DependencyStatus.Available)
+        //    {
+        //        // Create and hold a reference to your FirebaseApp,
+        //        // where app is a Firebase.FirebaseApp property of your application class.
+        //        App = Firebase.FirebaseApp.DefaultInstance;
 
-                // Set a flag here to indicate whether Firebase is ready to use by your app.
-            }
-            else
-            {
-                UnityEngine.Debug.LogError(System.String.Format(
-                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-                // Firebase Unity SDK is not safe to use here.
-            }
-        });
+        //        // Set a flag here to indicate whether Firebase is ready to use by your app.
+        //    }
+        //    else
+        //    {
+        //        UnityEngine.Debug.LogError(System.String.Format(
+        //          "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+        //        // Firebase Unity SDK is not safe to use here.
+        //    }
+        //});
 
         Login[] objs = FindObjectsOfType<Login>();
         if (objs.Length > 1)
@@ -72,7 +72,7 @@ public class Login : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
         // 초기화
-        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth = FirebaseAuth.DefaultInstance;
 
         // 유저의 로그인 정보에 어떠한 변경점이 생기면 실행되게 이벤트를 걸어준다.
         auth.StateChanged += AuthStateChanged;
@@ -116,14 +116,14 @@ public class Login : MonoBehaviour
 
             if (!signedIn && user != null)
             {
-                //UnityEngine.Debug.Log("Signed out " + user.UserId);
+                UnityEngine.Debug.Log("Signed out " + user.UserId);
             }
 
             user = auth.CurrentUser;
 
             if (signedIn)
             {
-                //UnityEngine.Debug.Log("Signed in " + user.UserId);
+                UnityEngine.Debug.Log("Signed in " + user.UserId);
             }
         }
     }
@@ -150,7 +150,7 @@ public class Login : MonoBehaviour
 
         // 유저 정보
         User.Instance.GetUserData(auth.CurrentUser.UserId, new System.Action(() => {
-            //Debug.Log("유저 정보 로드 완료!");
+            Debug.Log("유저 정보 로드 완료!");
             // 유저 인벤 정보
             User.Instance.GetUserInven(auth.CurrentUser.UserId, new System.Action(() => {
                 // 다음 씬으로 넘긴다.
@@ -165,9 +165,9 @@ public class Login : MonoBehaviour
     // 게임씬으로 넘어감
     public void NextSecne()
     {
-        //Debug.Log("GameScene 으로...");
+        Debug.Log("Stage 1 으로...");
 
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadScene(1);
     }
 
     // 익명 로그인
@@ -180,12 +180,12 @@ public class Login : MonoBehaviour
         {
             if (task.IsCanceled)
             {
-                //Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                Debug.LogError("SignInAnonymouslyAsync was canceled.");
                 return;
             }
             if (task.IsFaulted)
             {
-                //Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
                 return;
             }
 
@@ -208,7 +208,7 @@ public class Login : MonoBehaviour
     public void GoogleLogin()
     {
         LoadingPanel.SetActive(true);
-
+        Debug.Log(auth);
         try
         {
             // 구글 로그인 처리부분
@@ -233,7 +233,7 @@ public class Login : MonoBehaviour
         }
         catch (System.Exception err)
         {
-            //Debug.LogError(err);
+            Debug.LogError(err);
             LoadingPanel.SetActive(false);
         }
     }
@@ -262,12 +262,12 @@ public class Login : MonoBehaviour
         {
             if (task.IsCanceled)
             {
-                //Debug.Log("Google Login task.IsCanceled");
+                Debug.Log("Google Login task.IsCanceled");
                 callback(false);
             }
             else if (task.IsFaulted)
             {
-                //Debug.Log("Google Login task.IsFaulted");
+                Debug.Log("Google Login task.IsFaulted");
                 callback(false);
             }
             else
@@ -278,20 +278,20 @@ public class Login : MonoBehaviour
                     if (authTask.IsCanceled)
                     {
                         signInCompleted.SetCanceled();
-                        //Debug.Log("Google Login authTask.IsCanceled");
+                        Debug.Log("Google Login authTask.IsCanceled");
                         callback(false);
                         return;
                     }
                     if (authTask.IsFaulted)
                     {
                         signInCompleted.SetException(authTask.Exception);
-                        //Debug.Log("Google Login authTask.IsFaulted");
+                        Debug.Log("Google Login authTask.IsFaulted");
                         callback(false);
                         return;
                     }
 
                     user = authTask.Result;
-                    //Debug.LogFormat("Google User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
+                    Debug.LogFormat("Google User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
                     callback(true);
                     return;
                 });

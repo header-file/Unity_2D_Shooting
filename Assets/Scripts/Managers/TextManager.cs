@@ -84,8 +84,10 @@ public class TextManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(gameObject.name + "Start");
         for (int i = 0; i < Constants.MAXBULLETS; i++)
             SetBLevels(i, GameManager.Inst().UpgManager.BData[i].GetPowerLevel());
+        Debug.Log(gameObject.name + "Start_End");
     }
 
     void FixedUpdate()

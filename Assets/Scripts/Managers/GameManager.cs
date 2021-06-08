@@ -63,11 +63,11 @@ public class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-#if UNITY_EDITOR
-        Debug.unityLogger.logEnabled = true;
-#else
-        Debug.unityLogger.logEnabled=false;
-#endif
+//#if UNITY_EDITOR
+//        Debug.unityLogger.logEnabled = true;
+//#else
+//        Debug.unityLogger.logEnabled=false;
+//#endif
 
         Jewel = 0;
         Resources = new int[Constants.MAXSTAGES];
@@ -76,8 +76,6 @@ public class GameManager : MonoBehaviour
         SubWID = new int[Constants.MAXSTAGES, 4];
 
         EquipDatas = new int[Constants.MAXEQUIPTYPE, Constants.MAXRARITY, Constants.MAXEQUIPDATAS];
-
-        StgManager.Stage = 1;
     }
 
     void Start()

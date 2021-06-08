@@ -44,6 +44,8 @@ public class StageManager : MonoBehaviour
         for (int i = 0; i < Constants.MAXBULLETS; i++)
             UnlockBulletStages[i] = 0;
 
+        Stage = 1;
+
         SetUnlockData();
     }
 
