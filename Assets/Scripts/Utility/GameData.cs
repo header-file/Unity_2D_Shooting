@@ -96,10 +96,11 @@ public class GameData
 
     public void SaveData()
     {
-        Debug.Log(GameManager.Inst().Login.name);
-        Debug.Log(GameManager.Inst().Login.PlayerID);
-        if (GameManager.Inst().Login.PlayerID != "")
-            UID = GameManager.Inst().Login.PlayerID;
+        /*Debug.Log(GameManager.Inst().Login.name);
+        Debug.Log(GameManager.Inst().Login.PlayerID);*/
+        if (GameManager.Inst().Login != null)
+            if (GameManager.Inst().Login.PlayerID != "")
+                UID = GameManager.Inst().Login.PlayerID;
 
         if (IsEraseData)
             return;

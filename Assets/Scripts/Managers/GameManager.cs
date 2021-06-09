@@ -77,7 +77,8 @@ public class GameManager : MonoBehaviour
 
         EquipDatas = new int[Constants.MAXEQUIPTYPE, Constants.MAXRARITY, Constants.MAXEQUIPDATAS];
 
-        Login = GameObject.Find("LoginManager").GetComponent<Login>();
+        if(GameObject.Find("LoginManager") != null)
+            Login =  GameObject.Find("LoginManager").GetComponent<Login>();
         Debug.Log(Login != null ? true : false);
     }
 
