@@ -96,7 +96,9 @@ public class GameData
 
     public void SaveData()
     {
-        if(GameManager.Inst().Login.PlayerID != "")
+        Debug.Log(GameManager.Inst().Login.name);
+        Debug.Log(GameManager.Inst().Login.PlayerID);
+        if (GameManager.Inst().Login.PlayerID != "")
             UID = GameManager.Inst().Login.PlayerID;
 
         if (IsEraseData)
@@ -107,7 +109,7 @@ public class GameData
         CurrentStage = GameManager.Inst().StgManager.Stage;
 
         MaxInventory = GameManager.Inst().Player.MaxInventory;
-
+        
         PlayerDatas[(int)PlaData.LEVEL] = GameManager.Inst().UpgManager.GetPlayerLevel();
         PlayerDatas[(int)PlaData.CURHP] = GameManager.Inst().Player.GetCurHP();
         PlayerDatas[(int)PlaData.MAXHP] = GameManager.Inst().Player.GetMaxHP();
@@ -116,6 +118,7 @@ public class GameData
 
         for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
+            Debug.Log("Stage " + i.ToString());
             Resources[i] = GameManager.Inst().Resources[i];
             BossGauges[i] = GameManager.Inst().StgManager.BossCount[i];
 
@@ -134,7 +137,6 @@ public class GameData
                     SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR] = GameManager.Inst().ShtManager.GetColorSelection(id);
                 }
             }
-
             //for(int j = 0; j < Constants.TIMEDATASIZE; j++)
             {
                 CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = GameManager.Inst().ResManager.StartTimes[i].Year;
@@ -145,7 +147,6 @@ public class GameData
                 CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = GameManager.Inst().ResManager.StartTimes[i].Second;
             }
         }
-
         Inventories = new int[Constants.INVDATASIZE * GameManager.Inst().Player.MaxInventory];
         for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
         {
@@ -171,8 +172,8 @@ public class GameData
             Weapons[Constants.WPDATASIZE * i + (int)WPData.SPD] = GameManager.Inst().UpgManager.BData[i].GetSpd();
             Weapons[Constants.WPDATASIZE * i + (int)WPData.EQUIP] = GameManager.Inst().UpgManager.BData[i].GetEquipIndex();
         }
-
-        for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+        
+        for (int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
         {
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID] = GameManager.Inst().QstManager.Quests[i].QuestId;
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT] = GameManager.Inst().QstManager.Quests[i].CurrentCount;
@@ -356,8 +357,9 @@ public class GameData
                 str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR].ToString() + ":";
                 str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE].ToString() + ":";
                 str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND].ToString();
-
-                GameManager.Inst().ResManager.StartTimes[i] = Convert.ToDateTime(str);
+                Debug.Log(i);
+                GameManager.Inst().ResManager.StartTimes[i] = new DateTime(CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE],
+                                                                            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND]);
                 GameManager.Inst().ResManager.LoadCount(i);
             }
         else
@@ -366,6 +368,7 @@ public class GameData
 
     public void ResetData()
     {
+        UID = "";
         Coin = 0;
         Jewel = 0;
         Resources = new int[Constants.MAXSTAGES];

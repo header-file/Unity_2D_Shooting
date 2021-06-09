@@ -76,17 +76,20 @@ public class GameManager : MonoBehaviour
         SubWID = new int[Constants.MAXSTAGES, 4];
 
         EquipDatas = new int[Constants.MAXEQUIPTYPE, Constants.MAXRARITY, Constants.MAXEQUIPDATAS];
+
+        Login = GameObject.Find("LoginManager").GetComponent<Login>();
+        Debug.Log(Login != null ? true : false);
     }
 
     void Start()
     {
+
         SetTexts();
         SetInventory();
         SetDropRateData();
         SetEquipDatas();
         SetResources();
-
-        Login = GameObject.Find("LoginManager").GetComponent<Login>();
+        
         //StgManager.BeginStage();
     }
 

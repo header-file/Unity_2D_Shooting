@@ -38,44 +38,42 @@ public class DataManager : MonoBehaviour
     void Start()
     {
         //DontDestroyOnLoad(gameObject);
-
-        GameData.LoadData();        
+        GameData.LoadData();
         SaveData();
-        Debug.Log(gameObject.name + "Start_End");
     }
 
     public void LoadData()
     {
         string filePath = Application.persistentDataPath + SaveDataFileName;
-        
+        //Debug.Log(filePath);
         if(File.Exists(filePath))
         {
-            //Debug.Log("Load Success");
+            Debug.Log("Load Success");
 
             string fromJsonData = File.ReadAllText(filePath);
             _gameData = JsonUtility.FromJson<GameData>(fromJsonData);
-
+            
             //GameData.ResetData();
             
             GameData.LoadReachedStage();
         }
         else
         {
-            //Debug.Log("Write New File");
+            Debug.Log("Write New File");
 
             _gameData = new GameData();
+            //GameData.ResetData();
         }
     }
 
     public void SaveData()
     {
         GameData.SaveData();
-        Debug.Log("Save Data");
+        
         string ToJsonData = JsonUtility.ToJson(GameData);
         string filePath = Application.persistentDataPath + SaveDataFileName;
         File.WriteAllText(filePath, ToJsonData);
         //Debug.Log("Save Complete");
-        Debug.Log(ToJsonData);
     }
 
     public void UploadSaveData()

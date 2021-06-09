@@ -147,7 +147,7 @@ public class Login : MonoBehaviour
     public IEnumerator CurrentUserDataGet()
     {
         LoadingPanel.SetActive(true);
-
+        Debug.Log(auth.CurrentUser.UserId);
         // 유저 정보
         User.Instance.GetUserData(auth.CurrentUser.UserId, new System.Action(() => {
             Debug.Log("유저 정보 로드 완료!");
