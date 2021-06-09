@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     public void SubtractJewel(int value) { Jewel -= value; UiManager.JewelText.text = Jewel.ToString(); }
     public void SetResource(int stage, int value) { Resources[stage - 1] = value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
     public void AddResource(int stage, int value) { Resources[stage - 1] += value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
-    public void SubtractResource(int stage, int value) { Resources[stage - 1] -= value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
+    public void SubtractResource(int stage, int value) { Resources[stage] -= value; TxtManager.Resources[stage].text = Resources[stage].ToString(); }
 
     void Awake()
     {
