@@ -30,9 +30,13 @@ public class InventoryScroll : MonoBehaviour
             Contents.transform.GetChild(i + 1).GetComponent<InventorySlot>().SetType(type);
     }
 
-    void Start()
+    void Awake()
     {
         Slots = new InventorySlot[Constants.MAXINVENTORY];
+    }
+
+    void Start()
+    {
         SwitchedIndices = new int[Constants.MAXINVENTORY];
         for (int i = 0; i < Constants.MAXINVENTORY; i++)
             SwitchedIndices[i] = i;

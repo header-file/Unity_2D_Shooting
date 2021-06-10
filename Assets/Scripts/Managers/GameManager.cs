@@ -79,18 +79,16 @@ public class GameManager : MonoBehaviour
 
         if(GameObject.Find("LoginManager") != null)
             Login =  GameObject.Find("LoginManager").GetComponent<Login>();
-        Debug.Log(Login != null ? true : false);
     }
 
     void Start()
     {
-
+        Debug.Log("Game Manager Start");
         SetTexts();
         SetInventory();
         SetDropRateData();
         SetEquipDatas();
         SetResources();
-        
         //StgManager.BeginStage();
     }
 
@@ -488,7 +486,7 @@ public class GameManager : MonoBehaviour
         InventoryScroll inventory = UiManager.InventoryScroll.GetComponent<InventoryScroll>();
         for (int i = 0; i < Player.MaxInventory; i++)
         {
-            GameObject inventorySlot = Inst().ObjManager.MakeObj("InventorySlot");
+            GameObject inventorySlot = ObjManager.MakeObj("InventorySlot");
             inventorySlot.transform.SetParent(inventory.Contents.transform, false);
             InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
             slot.SetIndex(i);

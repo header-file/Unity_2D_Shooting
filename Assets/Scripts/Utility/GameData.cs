@@ -96,8 +96,6 @@ public class GameData
 
     public void SaveData()
     {
-        /*Debug.Log(GameManager.Inst().Login.name);
-        Debug.Log(GameManager.Inst().Login.PlayerID);*/
         if (GameManager.Inst().Login != null)
             if (GameManager.Inst().Login.PlayerID != "")
                 UID = GameManager.Inst().Login.PlayerID;
@@ -119,7 +117,6 @@ public class GameData
 
         for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
-            Debug.Log("Stage " + i.ToString());
             Resources[i] = GameManager.Inst().Resources[i];
             BossGauges[i] = GameManager.Inst().StgManager.BossCount[i];
 
@@ -358,7 +355,6 @@ public class GameData
                 str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR].ToString() + ":";
                 str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE].ToString() + ":";
                 str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND].ToString();
-                Debug.Log(i);
                 GameManager.Inst().ResManager.StartTimes[i] = new DateTime(CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE],
                                                                             CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND]);
                 GameManager.Inst().ResManager.LoadCount(i);

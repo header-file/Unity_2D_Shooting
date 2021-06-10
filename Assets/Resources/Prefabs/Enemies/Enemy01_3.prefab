@@ -113,7 +113,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5935262042939582432}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -201,8 +201,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 618846997367887467}
   - {fileID: 7235567171175041541}
+  - {fileID: 618846997367887467}
   - {fileID: 4671105432371910709}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -247,6 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP_Bar: {fileID: 618846996582581945}
   Canvas: {fileID: 618846997367887479}
+  HitArea: {fileID: 360056780}
   SpeedMultiplier: 0
 --- !u!50 &6863987839129686936
 Rigidbody2D:
@@ -333,7 +334,7 @@ PrefabInstance:
     - target: {fileID: 1110604774695685132, guid: 0d07db676980b6540b550abead4cec47,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1110604774695685132, guid: 0d07db676980b6540b550abead4cec47,
         type: 3}

@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     //public Sprite[] Sprites;
     public Image HP_Bar;
     public GameObject Canvas;
+    public HitArea HitArea;
 
     public float SpeedMultiplier;
 
@@ -28,8 +29,7 @@ public class Enemy : MonoBehaviour
     protected EnemyType Type;
 
     SpriteRenderer SpriteRenderer;
-    Rigidbody2D Rig;
-    HitArea HitArea;
+    Rigidbody2D Rig;    
 
     bool IsBarVisible;
     Vector3 TargetPosition;
@@ -341,12 +341,16 @@ public class Enemy : MonoBehaviour
         {
             GameManager.Inst().UiManager.RedMask.gameObject.GetComponent<RedMask>().SetIsAlert(true);
             //GameManager.Inst().Camerashake.Vibrate(0.05f);
-            
+            Debug.Log("아군 피격");
             //아군 피격
             for(int i = 0; i < 5; i++)
             {
+                if(HitArea == null)
+                    HitArea = transform.GetChild(0).GetComponent<HitArea>();
+                
                 if (HitArea.HitObjects[i] == null)
                     continue;
+
                 SubWeapon sub = HitArea.HitObjects[i].GetComponent<SubWeapon>();
                 if(sub == null)
                     HitArea.HitObjects[i].GetComponent<Player>().Damage(Atk);
