@@ -860,6 +860,7 @@ public class UIManager : MonoBehaviour
     public void OnClickShopBtn()
     {
         OnClickHomeBtn();
+        Debug.Log("ShopBtn");
 
         Shop.SetActive(true);
         ShopUI.OnSelectToggle(0);
