@@ -400,7 +400,7 @@ public class UpgradeManager : MonoBehaviour
         //BData 처리
         BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() + 1);
         BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel() - 1]);
-        BData[UpgType].SetHealth(BData[UpgType].GetHealth() + 5);
+        BData[UpgType].SetHealth(BData[UpgType].GetRarity() * 30 + BData[UpgType].GetPowerLevel() * 3);
 
         //HP적용
         SetHPData(UpgType);
@@ -411,7 +411,7 @@ public class UpgradeManager : MonoBehaviour
         //BData 처리
         BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() - 1);
         BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel() - 1]);
-        BData[UpgType].SetHealth(BData[UpgType].GetHealth() - 5);
+        BData[UpgType].SetHealth(BData[UpgType].GetRarity() * 30 + BData[UpgType].GetPowerLevel() * 3);
 
         //HP적용
         SetHPData(UpgType);

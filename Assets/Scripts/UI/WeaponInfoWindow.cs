@@ -23,11 +23,17 @@ public class WeaponInfoWindow : MonoBehaviour
         HPBefore.text = GameManager.Inst().UpgManager.BData[type].GetHealth().ToString();
         SPDBefore.text = GameManager.Inst().UpgManager.BData[type].GetSpeed().ToString();
 
-        ATKAfter.text = (GameManager.Inst().UpgManager.BData[type].GetDamage() + 1).ToString();
-        HPAfter.text = (GameManager.Inst().UpgManager.BData[type].GetHealth() + 5).ToString();
-        if(GameManager.Inst().UpgManager.BData[type].GetPowerLevel() == GameManager.Inst().UpgManager.BData[type].GetMaxBulletLevel())
-            SPDAfter.text = (GameManager.Inst().UpgManager.BData[type + (GameManager.Inst().UpgManager.BData[type].GetRarity() + 1) * Constants.MAXBULLETS].GetSpeed()).ToString();
+        if (GameManager.Inst().UpgManager.BData[type].GetPowerLevel() == GameManager.Inst().UpgManager.BData[type].GetMaxBulletLevel())
+        {
+            ATKAfter.text = (GameManager.Inst().UpgManager.BulletDatas[type + (GameManager.Inst().UpgManager.BData[type].GetRarity() + 1) * (Constants.MAXBULLETS + 2)].GetDamage()).ToString();
+            HPAfter.text = (GameManager.Inst().UpgManager.BulletDatas[type + (GameManager.Inst().UpgManager.BData[type].GetRarity() + 1) * (Constants.MAXBULLETS + 2)].GetHealth()).ToString();
+            SPDAfter.text = (GameManager.Inst().UpgManager.BulletDatas[type + (GameManager.Inst().UpgManager.BData[type].GetRarity() + 1) * (Constants.MAXBULLETS + 2)].GetSpeed()).ToString();
+        }
         else
+        {
+            ATKAfter.text = (GameManager.Inst().UpgManager.BData[type].GetDamage() + 1).ToString();
+            HPAfter.text = (GameManager.Inst().UpgManager.BData[type].GetHealth() + 5).ToString();
             SPDAfter.text = GameManager.Inst().UpgManager.BData[type].GetSpeed().ToString();
+        }
     }
 }

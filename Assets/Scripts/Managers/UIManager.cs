@@ -440,6 +440,7 @@ public class UIManager : MonoBehaviour
     public void OnClickBulletUpgradeBtn()
     {
         //DetailUI.OnClickUpgradeBtn();
+        CurrentBulletType = WeaponUI.GetCurBulletType();
         GameManager.Inst().UpgManager.AddLevel(CurrentBulletType);
     }
 
@@ -846,6 +847,7 @@ public class UIManager : MonoBehaviour
         if (!WeaponUI.InfoWindow.gameObject.activeSelf)
         {
             WeaponUI.InfoWindow.gameObject.SetActive(true);
+            CurrentBulletType = WeaponUI.GetCurBulletType();
             WeaponUI.InfoWindow.Show(CurrentBulletType);
         }
         else
