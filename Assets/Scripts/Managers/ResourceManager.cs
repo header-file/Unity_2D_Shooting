@@ -107,7 +107,7 @@ public class ResourceManager : MonoBehaviour
             time += "0";
         time += comp.Seconds.ToString();
 
-        if(comp.Minutes % 10 == 0 && comp.Seconds == 0)
+        if(comp.Minutes > 10 && comp.Minutes % 10 == 0 && comp.Seconds == 0)
         {
             //자원 상승
             TempResources[stage, 0] += 100 * (stage + 1);

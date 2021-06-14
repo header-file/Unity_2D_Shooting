@@ -106,6 +106,7 @@ public class GameData
         Coin = GameManager.Inst().Player.GetCoin();
         Jewel = GameManager.Inst().Jewel;
         CurrentStage = GameManager.Inst().StgManager.Stage;
+        ReachedStage = GameManager.Inst().StgManager.ReachedStage;
 
         MaxInventory = GameManager.Inst().Player.MaxInventory;
         

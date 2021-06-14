@@ -81,6 +81,20 @@ public class QuestManager : MonoBehaviour
 
     void MakeQuestSlot()
     {
+        if(QuestSlots != null && QuestSlots.Count > 0)
+        {
+            for (int i = 0; i < QuestSlots.Count; i++)
+            {
+                if (QuestSlots[i] == null)
+                    continue;
+
+                QuestSlots[i].transform.SetParent(GameManager.Inst().ObjManager.UIPool.transform, false);
+                QuestSlots[i].gameObject.SetActive(false);
+            }
+
+            QuestSlots.Clear();
+        }
+
         QuestSlots = new List<QuestSlot>();
 
         for(int i = 0; i < Quests.Count; i++)
@@ -91,6 +105,7 @@ public class QuestManager : MonoBehaviour
                 slot.Desc.text = Quests[i].QuestDesc;
                 slot.Count.text = "0 / " + Quests[i].GoalCount;
                 slot.QuestID = Quests[i].QuestId;
+                slot.ProgressBar.fillAmount = 0.0f;
                 slot.Check.SetActive(false);
                 slot.transform.SetParent(GameManager.Inst().UiManager.GetSideMenuSlot(GameManager.Inst().StgManager.ReachedStage - 1).ContentTransform, false);
 
@@ -105,7 +120,7 @@ public class QuestManager : MonoBehaviour
         for (int i = 0; i < Quests.Count; i++)
         {
             int id = Quests[i].QuestId;
-            if (id / 10000 == GameManager.Inst().StgManager.ReachedStage)
+            if (id / 10000 == GameManager.Inst().StgManager.Stage)
             {
                 id %= 10000;
                 if(id / 1000 == qType)
@@ -156,9 +171,10 @@ public class QuestManager : MonoBehaviour
             if (nextStage > Constants.MAXSTAGES)
                 return;
 
+            GameManager.Inst().StgManager.ReachedStage = nextStage;
             GameManager.Inst().UiManager.UnlockStage(nextStage - 1);
-            GameManager.Inst().StgManager.UnlockBullet(nextStage);
-            GameManager.Inst().DatManager.GameData.ReachedStage = nextStage;
+            MakeQuestSlot();
+            GameManager.Inst().StgManager.UnlockBullet(nextStage);            
             GameManager.Inst().ResManager.StartCount(nextStage - 2);
         }
     }

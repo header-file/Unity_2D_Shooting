@@ -384,6 +384,9 @@ public class UIManager : MonoBehaviour
     public void UnlockStage(int index)
     {
         StageScrollUI.Planets[index].Lock.SetActive(false);
+
+        if(GameManager.Inst().StgManager.ReachedStage > 1)
+            SideMenuUI.MakeSlot();
     }
 
     public SideMenuSlot GetSideMenuSlot(int i)

@@ -447,9 +447,9 @@ public class ObjectManager : MonoBehaviour
         InventorySlots = new GameObject[Constants.MAXINVENTORY];
         Lines = new GameObject[3];
         QuestSlots = new GameObject[10];
-        SideMenuSlotNows = new GameObject[1];
-        SideMenuSlotNotYets = new GameObject[5];
-        SideMenuSlotCleareds = new GameObject[5];
+        SideMenuSlotNows = new GameObject[4];
+        SideMenuSlotNotYets = new GameObject[4];
+        SideMenuSlotCleareds = new GameObject[4];
 
         Explosions = new GameObject[50];
         Hits = new GameObject[50];

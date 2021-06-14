@@ -43,8 +43,7 @@ public class Enemy : MonoBehaviour
     public void SetDatas(List<Dictionary<string, object>> data, int type)
     {
         Type = (EnemyType)type;
-
-        BeforeHP = CurHP = Health = float.Parse(data[type]["HP"].ToString());
+        BeforeHP = CurHP = Health = float.Parse(data[type + (GameManager.Inst().StgManager.Stage - 1) * 4]["HP"].ToString());
         Speed = float.Parse(data[type]["Speed"].ToString());
         Atk = int.Parse(data[type]["Atk"].ToString());
     }
