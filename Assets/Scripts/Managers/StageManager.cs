@@ -124,6 +124,8 @@ public class StageManager : MonoBehaviour
 
     void SpawnEnemies()
     {
+        CancelEnemies();
+
         GameManager.Inst().UiManager.BossGauge.SetActive(true);
 
         InvokeRepeating("SpawnSmall", 0.0f, SmallTime);
@@ -178,6 +180,23 @@ public class StageManager : MonoBehaviour
 
     void SetTransform(Enemy Enemy)
     {
+        switch(Stage)
+        {
+            case 1:
+                FallDown(Enemy);
+                break;
+            case 2:
+                Zigzag(Enemy);
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+
+    void FallDown(Enemy Enemy)
+    {
         Vector3 pos = Vector3.zero;
         pos.x = Random.Range(-2.5f, 2.5f);
         pos.y = Random.Range(11.0f, 15.0f);
@@ -197,6 +216,22 @@ public class StageManager : MonoBehaviour
         Quaternion rot = Quaternion.Euler(0.0f, 0.0f, angle);
         Enemy.transform.rotation = rot;
         Enemy.StartMove();
+    }
+
+    void Zigzag(Enemy Enemy)
+    {
+        Vector3 pos = Vector3.zero;
+        pos.x = Random.Range(-2.0f, 2.0f);
+        pos.y = Random.Range(9.0f, 11.0f);
+        Enemy.transform.position = pos;
+
+        float angleZ = Random.Range(45, 76);
+        int r = Random.Range(0, 2);
+        if (r == 1)
+            angleZ *= -1.0f;
+        Quaternion rot = Quaternion.Euler(0.0f, 0.0f, angleZ);
+        Enemy.transform.rotation = rot;
+        Enemy.StartMove(Time.deltaTime);
     }
 
     void FeverMode()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using static System.DateTime;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class GameData
@@ -362,6 +363,9 @@ public class GameData
             }
         else
             CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
+
+        if (GameManager.Inst().StgManager.Stage > 1)
+            SceneManager.LoadScene("Stage" + GameManager.Inst().StgManager.Stage.ToString());
     }
 
     public void ResetData()

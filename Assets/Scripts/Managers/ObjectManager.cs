@@ -401,7 +401,7 @@ public class ObjectManager : MonoBehaviour
     {
         GameManager.Inst().ObjManager = gameObject.GetComponent<ObjectManager>();
 
-        Enemies_S = new GameObject[50];
+        Enemies_S = new GameObject[100];
         Enemies_M = new GameObject[10];
         Enemies_L = new GameObject[10];
         Enemy_B = new GameObject();

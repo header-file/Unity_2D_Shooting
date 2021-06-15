@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour
     bool IsBarVisible;
     Vector3 TargetPosition;
     bool IsInvincible;
+    bool IsReflected;
 
     public int GetEnemyType() { return (int)Type; }
     public Vector3 GetTargetPosition() { return TargetPosition; }
@@ -69,17 +70,31 @@ public class Enemy : MonoBehaviour
 
         TargetPosition = Vector3.zero;
         IsInvincible = false;
+
+        IsReflected = false;
     }
 
     public void StartMove()
     {
-        Rig.velocity = Vector3.zero;
-        Rig.AddForce(-transform.up * Speed, ForceMode2D.Impulse);
+        switch(GameManager.Inst().StgManager.Stage)
+        {
+            case 1:
+                Rig.velocity = Vector3.zero;
+                Rig.AddForce(-transform.up * Speed, ForceMode2D.Impulse);
+                break;
+            case 2:
+                Rig.velocity = -transform.up * Speed;
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
     }
 
     public void StartMove(float time)
     {
-        Invoke("StartMove", time);
+        InvokeRepeating("StartMove", 0.0f, time);
     }
 
     void FixedUpdate()
@@ -165,7 +180,8 @@ public class Enemy : MonoBehaviour
 
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
             explosion.transform.position = transform.position;
-            
+
+            IsReflected = false;
             CurHP = Health;
 
             if (Type != EnemyType.BOSS)
@@ -359,10 +375,31 @@ public class Enemy : MonoBehaviour
 
             //적 사망 처리
             CurHP = Health;
+            IsReflected = false;
             gameObject.SetActive(false);
 
             //GameManager.Inst().Camerashake.Vibrate(0.05f);
         }
+        else if (collision.gameObject.name == "Right" || collision.gameObject.name == "Left")
+        {
+            if(GameManager.Inst().StgManager.Stage == 2)
+            {
+                if (IsReflected)
+                    return;
+
+                float rotZ = transform.rotation.eulerAngles.z;
+                Quaternion rot = Quaternion.Euler(0.0f, 0.0f, -rotZ);
+                transform.rotation = rot;
+
+                IsReflected = true;
+                Invoke("ReturnReflected", 1.0f);
+            }
+        }
+    }
+
+    void ReturnReflected()
+    {
+        IsReflected = false;
     }
 
     void ShowHPBar()
