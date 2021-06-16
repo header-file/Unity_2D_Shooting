@@ -54,6 +54,7 @@ public class UIManager : MonoBehaviour
     public GameObject InventoryScroll;
     public GameObject[] SubPositions;
     public Text JewelText;
+    public Animator BgAnim;
 
     //플레이어용 UI
     public GameObject PlayerUI;
@@ -72,7 +73,6 @@ public class UIManager : MonoBehaviour
     public GameObject BossGauge;
     public Image BossGaugeBar;
     public Animator WarningAnim;
-    public GameObject Ground;
     public GameObject TurretUI;
 
     //새 윈도우

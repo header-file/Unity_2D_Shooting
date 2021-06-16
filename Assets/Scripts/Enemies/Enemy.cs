@@ -86,6 +86,21 @@ public class Enemy : MonoBehaviour
                 Rig.velocity = -transform.up * Speed;
                 break;
             case 3:
+                if(IsReflected)
+                    Rig.velocity = -transform.up * Speed * 3.0f;
+                else
+                {
+                    if(transform.position.x > TargetPosition.x)
+                        Rig.velocity = -transform.right * Speed;
+                    else if(transform.position.x < TargetPosition.x)
+                        Rig.velocity = transform.right * Speed;
+
+                    if (Vector3.Distance(transform.position, TargetPosition) < 0.01f)
+                    {
+                        IsReflected = true;
+                        IsInvincible = true;
+                    }
+                }
                 break;
             case 4:
                 break;
@@ -376,6 +391,7 @@ public class Enemy : MonoBehaviour
             //적 사망 처리
             CurHP = Health;
             IsReflected = false;
+            IsInvincible = false;
             gameObject.SetActive(false);
 
             //GameManager.Inst().Camerashake.Vibrate(0.05f);

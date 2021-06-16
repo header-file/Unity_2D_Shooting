@@ -11,8 +11,6 @@ public class StageManager : MonoBehaviour
     public EnemyB Boss;
     public int[] UnlockBulletStages;
 
-    Vector3 Ground_Up;
-    Vector3 Ground_Down;
     bool[,] BulletUnlockData;
     float SmallTime;
     float MediumTime;
@@ -36,8 +34,6 @@ public class StageManager : MonoBehaviour
         GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(false);
         BossMax = 50;
         GameManager.Inst().UiManager.BossGauge.SetActive(true);
-        Ground_Up = new Vector3(0.0f, -0.8f, 0.0f);
-        Ground_Down = new Vector3(0.0f, -6.0f, 0.0f);
         IsFeverMode = false;
 
         UnlockBulletStages = new int[Constants.MAXBULLETS];
@@ -91,6 +87,7 @@ public class StageManager : MonoBehaviour
             if (BossCount[Stage - 1] >= BossMax)
             {
                 IsBoss = true;
+                GameManager.Inst().UiManager.BgAnim.SetTrigger("toBoss");
                 BossTimer = Constants.MAXBOSSTIME;
                 GameManager.Inst().UiManager.BossGauge.SetActive(false);
                 BossCount[Stage - 1] = 0;
@@ -99,7 +96,6 @@ public class StageManager : MonoBehaviour
                 GameManager.Inst().UiManager.WarningAnim.SetTrigger("Start");
                 Invoke("SpawnBoss", 2.5f);
                 GameManager.Inst().Player.BossMode();
-                GroundDown();
             }
         }
     }
@@ -164,9 +160,9 @@ public class StageManager : MonoBehaviour
 
     public void RestartStage()
     {
+        GameManager.Inst().UiManager.BgAnim.SetTrigger("toNormal");
         GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(false);
         GameManager.Inst().Player.EndBossMode();
-        GroundUp();
 
         SpawnEnemies();
     }
@@ -189,6 +185,7 @@ public class StageManager : MonoBehaviour
                 Zigzag(Enemy);
                 break;
             case 3:
+                Break(Enemy);
                 break;
             case 4:
                 break;
@@ -234,6 +231,26 @@ public class StageManager : MonoBehaviour
         Enemy.StartMove(Time.deltaTime);
     }
 
+    void Break(Enemy Enemy)
+    {
+        Vector3 pos = Vector3.zero;
+        pos.x = Random.Range(3.5f, 5.0f);
+        int r = Random.Range(0, 2);
+        if (r == 1)
+            pos.x *= -1;
+        pos.y = Random.Range(7.0f, 9.0f);
+        Enemy.transform.position = pos;
+
+        Vector3 target = Vector3.zero;
+        target.x = Random.Range(-2.5f, 2.5f);
+        target.y = -1.0f;
+        Enemy.SetTargetPosition(target);
+
+        Quaternion rot = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        Enemy.transform.rotation = rot;
+        Enemy.StartMove(Time.deltaTime);
+    }
+
     void FeverMode()
     {
         IsFeverMode = true;
@@ -248,26 +265,6 @@ public class StageManager : MonoBehaviour
         CancelEnemies();
 
         SpawnEnemies();
-    }
-
-    void GroundDown()
-    {
-        GameManager.Inst().UiManager.Ground.transform.position = Vector3.Lerp(GameManager.Inst().UiManager.Ground.transform.position, Ground_Down, Time.deltaTime * 5.0f);
-
-        GameManager.Inst().UiManager.TurretUI.transform.position = Vector3.Lerp(GameManager.Inst().UiManager.TurretUI.transform.position, new Vector3(0.0f, 1.8f, 90.0f), Time.deltaTime * 5.0f);
-
-        if (Vector3.Distance(GameManager.Inst().UiManager.Ground.transform.position, Ground_Down) > 0.001f)
-            Invoke("GroundDown", Time.deltaTime);
-    }
-
-    void GroundUp()
-    {
-        GameManager.Inst().UiManager.Ground.transform.position = Vector3.Lerp(GameManager.Inst().UiManager.Ground.transform.position, Ground_Up, Time.deltaTime * 5.0f);
-
-        GameManager.Inst().UiManager.TurretUI.transform.position = Vector3.Lerp(GameManager.Inst().UiManager.TurretUI.transform.position, new Vector3(0.0f, 4.0f, 90.0f), Time.deltaTime * 5.0f);
-
-        if (Vector3.Distance(GameManager.Inst().UiManager.Ground.transform.position, Ground_Up) > 0.001f)
-            Invoke("GroundUp", Time.deltaTime);
     }
 
     public void BeginStage()
