@@ -45,8 +45,8 @@ public class Enemy : MonoBehaviour
     {
         Type = (EnemyType)type;
         BeforeHP = CurHP = Health = float.Parse(data[type + (GameManager.Inst().StgManager.Stage - 1) * 4]["HP"].ToString());
-        Speed = float.Parse(data[type]["Speed"].ToString());
-        Atk = int.Parse(data[type]["Atk"].ToString());
+        Speed = float.Parse(data[type + (GameManager.Inst().StgManager.Stage - 1) * 4]["Speed"].ToString());
+        Atk = int.Parse(data[type + (GameManager.Inst().StgManager.Stage - 1) * 4]["Atk"].ToString());
     }
     
     
@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour
                 break;
             case 3:
                 if(IsReflected)
-                    Rig.velocity = -transform.up * Speed * 3.0f;
+                    Rig.velocity = -transform.up * 5.0f;
                 else
                 {
                     if(transform.position.x > TargetPosition.x)
@@ -95,7 +95,7 @@ public class Enemy : MonoBehaviour
                     else if(transform.position.x < TargetPosition.x)
                         Rig.velocity = transform.right * Speed;
 
-                    if (Vector3.Distance(transform.position, TargetPosition) < 0.01f)
+                    if (Vector3.Distance(transform.position, TargetPosition) < 0.05f)
                     {
                         IsReflected = true;
                         IsInvincible = true;

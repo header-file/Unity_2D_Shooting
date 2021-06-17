@@ -85,7 +85,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game Manager Start");
         SetTexts();
-        SetInventory();
         SetDropRateData();
         SetEquipDatas();
         SetResources();
@@ -481,7 +480,7 @@ public class GameManager : MonoBehaviour
         return ieq;
     }
 
-    void SetInventory()
+    public void SetInventory()
     {
         InventoryScroll inventory = UiManager.InventoryScroll.GetComponent<InventoryScroll>();
         for (int i = 0; i < Player.MaxInventory; i++)

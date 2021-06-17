@@ -24,9 +24,7 @@ public class InventoryScroll : MonoBehaviour
 
     public void SetSlotType(int type)
     {
-        int max = GameManager.Inst().Player.MaxInventory;
-
-        for (int i = 0; i < max; i++)
+        for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
             Contents.transform.GetChild(i + 1).GetComponent<InventorySlot>().SetType(type);
     }
 
@@ -42,6 +40,8 @@ public class InventoryScroll : MonoBehaviour
             SwitchedIndices[i] = i;
 
         Contents.GetComponent<RectTransform>().sizeDelta = new Vector2(540, 100 * GameManager.Inst().Player.MaxInventory / 5 + 10 * (GameManager.Inst().Player.MaxInventory / 5 - 1));
+
+        GameManager.Inst().SetInventory();
     }
 
     public void AddSlots()

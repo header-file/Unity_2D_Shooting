@@ -243,7 +243,7 @@ public class StageManager : MonoBehaviour
 
         Vector3 target = Vector3.zero;
         target.x = Random.Range(-2.5f, 2.5f);
-        target.y = -1.0f;
+        target.y = pos.y;
         Enemy.SetTargetPosition(target);
 
         Quaternion rot = Quaternion.Euler(0.0f, 0.0f, 0.0f);

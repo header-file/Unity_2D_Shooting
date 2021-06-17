@@ -508,10 +508,11 @@ public class UpgradeManager : MonoBehaviour
 
     public void SetBasicData(int type)
     {
-        BData[type].SetBaseDamage(BulletDatas[type + BData[type].GetRarity() * Constants.MAXBULLETS].GetBaseDamage());
-        BData[type].SetReloadTime(BulletDatas[type + BData[type].GetRarity() * Constants.MAXBULLETS].GetReloadTime());
-        BData[type].SetDuration(BulletDatas[type + BData[type].GetRarity() * Constants.MAXBULLETS].GetDuration());
-        BData[type].SetSpeed(BulletDatas[type + BData[type].GetRarity() * Constants.MAXBULLETS].GetSpeed());
+        BData[type].SetBaseDamage(BulletDatas[type + BData[type].GetRarity() * (Constants.MAXBULLETS + 2)].GetBaseDamage());
+        BData[type].SetReloadTime(BulletDatas[type + BData[type].GetRarity() * (Constants.MAXBULLETS + 2)].GetReloadTime());
+        BData[type].SetDuration(BulletDatas[type + BData[type].GetRarity() * (Constants.MAXBULLETS + 2)].GetDuration());
+        BData[type].SetSpeed(BulletDatas[type + BData[type].GetRarity() * (Constants.MAXBULLETS + 2)].GetSpeed());
+        BData[type].SetHealth(BData[type].GetRarity() * 30 + BData[type].GetPowerLevel() * 3);
     }
 
     public void CheckEquip(int bulletType)
