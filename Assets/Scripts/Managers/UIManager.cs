@@ -720,6 +720,11 @@ public class UIManager : MonoBehaviour
         SynthesisUI.SetButtons(index);
     }
 
+    public void OnClickSynthesisUnselectBtn(int index)
+    {
+        SynthesisUI.CancelSelect(index);
+    }
+
     public void OnClickSynthesisResultBackBtn()
     {
         SynthesisUI.CloseResult();

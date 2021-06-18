@@ -328,6 +328,7 @@ public class GameData
                 GameManager.Inst().UpgManager.SetBasicData(i);
                 GameManager.Inst().UpgManager.CheckEquip(i);
                 GameManager.Inst().UpgManager.SetMaxData(i);
+                GameManager.Inst().UpgManager.SetHPData(i);
             }
         }
         else

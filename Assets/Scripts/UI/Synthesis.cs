@@ -52,7 +52,7 @@ public class Synthesis : MonoBehaviour
         EnterItemText.SetActive(true);
         RateText.text = "0";
         Need.text = "0";
-        SuccessRate.SetActive(false);        
+        SuccessRate.SetActive(false);
         ConfirmWindow.SetActive(false);
         EquipDetail.SetActive(false);
         SelectDetail.SetActive(false);
@@ -112,7 +112,7 @@ public class Synthesis : MonoBehaviour
 
     void Update()
     {
-        if(SuccessRate.activeSelf)
+        if (SuccessRate.activeSelf)
         {
             Timer += Time.deltaTime * 10.0f;
             TextColor.a = Mathf.Abs(Mathf.Sin(Timer));
@@ -249,7 +249,7 @@ public class Synthesis : MonoBehaviour
             else
                 Inventories.HideSlot(i);
         }
-        
+
         GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.SYNTHESIS;
 
         Inventories.Sort();
@@ -282,7 +282,7 @@ public class Synthesis : MonoBehaviour
                     //Sprite icon = eq.Icon;
                     //if (eq.UID / 100 == 3)
                     //    icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
-                        
+
                     InventorySlot slot = Inventories.GetSlot(i);
                     //slot.gameObject.SetActive(true);
 
@@ -317,8 +317,11 @@ public class Synthesis : MonoBehaviour
         if (eq.Rarity >= Constants.MAXRARITY - 1)
             return;
 
-        if(eq.UID / 100 == 3)
+        if (eq.UID / 100 == 3)
         {
+            if (SelectedIndex[0] > -1)
+                Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[0])).Checked.SetActive(false);
+
             for (int i = 0; i < 3; i++)
             {
                 Buttons[i].Icon.sprite = eq.Icon;
@@ -329,15 +332,15 @@ public class Synthesis : MonoBehaviour
             }
             Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).Checked.SetActive(true);
         }
-        else if(eq.UID / 100 == 6)
+        else if (eq.UID / 100 == 6)
         {
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 if (SelectedIndex[i] == index)
                     return;
             }
 
-            if (Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).EMark.activeSelf)
+            if (Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).EMark.activeSelf || CurrentIndex > 2)
                 return;
 
             Buttons[CurrentIndex].Frame.sprite = Frames[eq.Rarity];
@@ -350,7 +353,7 @@ public class Synthesis : MonoBehaviour
 
             CurrentIndex++;
             SortAsGrade(eq.Rarity);
-        }        
+        }
 
         //합성 가능
         {
@@ -388,6 +391,54 @@ public class Synthesis : MonoBehaviour
                 }
             }
             Buttons[3].Frame.sprite = Frames[eq.Rarity + 1];
+        }
+    }
+
+    public void CancelSelect(int index)
+    {
+        if (IsAbleSynthesize)
+        {
+            IsAbleSynthesize = false;
+            MergetBtn.interactable = false;
+            EnterItemText.SetActive(true);
+            SuccessRate.SetActive(false);
+        }
+
+        Player.EqData eq = GameManager.Inst().Player.GetItem(index);
+        if (eq.UID / 100 == 3)
+        {
+            CurrentIndex = 0;
+            Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[0])).Checked.SetActive(false);
+
+            for (int i = 0; i < 3; i++)
+            {
+                Buttons[i].Icon.sprite = QuestionSprite;
+                Buttons[i].Frame.sprite = Frames[0];
+                InputTypes[i] = -1;
+                SelectedIndex[i] = -1;
+                SelectedUIDs[i] = -1;
+            }
+
+            Inventories.ResetInventory();
+            ResetDisable();
+        }
+        else if (eq.UID / 100 == 6)
+        {
+            CurrentIndex = index;
+            Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[index])).Checked.SetActive(false);
+
+            Buttons[index].Icon.sprite = QuestionSprite;
+            Buttons[index].Frame.sprite = Frames[0];
+            InputTypes[index] = -1;
+            SelectedUIDs[index] = -1;
+            SelectedIndex[index] = -1;
+
+            for (int i = 0; i < 3; i++)
+                if (SelectedIndex[i] > -1)
+                    return;
+
+            Inventories.ResetInventory();
+            ResetDisable();
         }
     }
 
