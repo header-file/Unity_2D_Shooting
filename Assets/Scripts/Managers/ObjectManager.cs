@@ -453,14 +453,14 @@ public class ObjectManager : MonoBehaviour
 
         Explosions = new GameObject[50];
         Hits = new GameObject[50];
-        EquipPopsW = new GameObject[5];
-        EquipPopsG = new GameObject[5];
-        EquipPopsB = new GameObject[5];
-        EquipPopsP = new GameObject[5];
-        EquipPopsY = new GameObject[5];
-        EquipActions = new GameObject[5];
-        MagnetActions = new GameObject[5];
-        HealActions = new GameObject[5];
+        EquipPopsW = new GameObject[25];
+        EquipPopsG = new GameObject[25];
+        EquipPopsB = new GameObject[25];
+        EquipPopsP = new GameObject[25];
+        EquipPopsY = new GameObject[25];
+        EquipActions = new GameObject[10];
+        MagnetActions = new GameObject[10];
+        HealActions = new GameObject[10];
 
         Generate();
     }

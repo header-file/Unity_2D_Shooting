@@ -193,6 +193,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
+            //폭발 이펙트
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
             explosion.transform.position = transform.position;
 
@@ -204,11 +205,20 @@ public class Enemy : MonoBehaviour
                 GameManager.Inst().StgManager.AddBossCount();
                 gameObject.SetActive(false);
 
+#if UNITY_EDITOR
                 rand = Random.Range(0, 2);
                 if (rand > 0)
                     GameManager.Inst().MakeReinforce(-1, -1, transform);
                 else
                     GameManager.Inst().MakeEquip(-1, -1, transform);
+#endif
+#if UNITY_ANDROID && !UNITY_EDITOR
+                rand = Random.Range(0, 20);
+                if (rand == 0)
+                    GameManager.Inst().MakeReinforce(-1, -1, transform);
+                else if (rand == 1)
+                    GameManager.Inst().MakeEquip(-1, -1, transform);
+#endif
             }
             else
             {

@@ -394,52 +394,13 @@ public class Synthesis : MonoBehaviour
         }
     }
 
-    public void CancelSelect(int index)
+    public void CancelSelect()
     {
-        if (IsAbleSynthesize)
-        {
-            IsAbleSynthesize = false;
-            MergetBtn.interactable = false;
-            EnterItemText.SetActive(true);
-            SuccessRate.SetActive(false);
-        }
+        if (InputTypes[0] == InputTypes[1] && InputTypes[0] == InputTypes[2] && InputTypes[0] == -1)
+            return;
 
-        Player.EqData eq = GameManager.Inst().Player.GetItem(index);
-        if (eq.UID / 100 == 3)
-        {
-            CurrentIndex = 0;
-            Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[0])).Checked.SetActive(false);
-
-            for (int i = 0; i < 3; i++)
-            {
-                Buttons[i].Icon.sprite = QuestionSprite;
-                Buttons[i].Frame.sprite = Frames[0];
-                InputTypes[i] = -1;
-                SelectedIndex[i] = -1;
-                SelectedUIDs[i] = -1;
-            }
-
-            Inventories.ResetInventory();
-            ResetDisable();
-        }
-        else if (eq.UID / 100 == 6)
-        {
-            CurrentIndex = index;
-            Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[index])).Checked.SetActive(false);
-
-            Buttons[index].Icon.sprite = QuestionSprite;
-            Buttons[index].Frame.sprite = Frames[0];
-            InputTypes[index] = -1;
-            SelectedUIDs[index] = -1;
-            SelectedIndex[index] = -1;
-
-            for (int i = 0; i < 3; i++)
-                if (SelectedIndex[i] > -1)
-                    return;
-
-            Inventories.ResetInventory();
-            ResetDisable();
-        }
+        ResetSprites();
+        ShowInventory();
     }
 
     public void Synthesize()
@@ -570,107 +531,47 @@ public class Synthesis : MonoBehaviour
 
 
 
-////기존에 선택된 장비랑 같은 장비일 때
-//for (int i = 0; i < 3; i++)
+//if (IsAbleSynthesize)
 //{
-//    if (SelectedIndex[CurrentIndex] > -1)
-//    {
-//        if (CurrentIndex != i && index == SelectedIndex[i])
-//            return;
-//    }
+//    IsAbleSynthesize = false;
+//    MergetBtn.interactable = false;
+//    EnterItemText.SetActive(true);
+//    SuccessRate.SetActive(false);
 //}
 
 //Player.EqData eq = GameManager.Inst().Player.GetItem(index);
-//if (eq.Rarity >= 4)
-//    return;
-
-//if (eq != null)
+//if (eq.UID / 100 == 3)
 //{
-//    //첫번째 버튼일 때
-//    if (CurrentIndex == 0)
-//    {
-//        Grade = eq.Rarity;
+//    CurrentIndex = 0;
+//    Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[0])).Checked.SetActive(false);
 
-//        if((SelectedIndex[1] > -1 && eq.Rarity != GameManager.Inst().Player.GetItem(SelectedIndex[1]).Rarity) || 
-//            (SelectedIndex[2] > -1 && eq.Rarity != GameManager.Inst().Player.GetItem(SelectedIndex[2]).Rarity))
-//        {
-//            for(int i = 1; i < 2; i++)
-//            {
-//                Buttons[i].transform.GetChild(0).GetComponent<Image>().sprite = OriginalSprite;
-//                Lines.transform.GetChild(i).GetComponent<Image>().material.SetColor("_GlowColor", Color.black);
-//                if (SelectedIndex[i] > -1)
-//                    Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[i])).SetChecked(false);
-//                SelectedIndex[i] = -1;
-//            }
-
-//            Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite = QuestionSprite;
-//        }
-//    }
-//    else
-//    {
-//        if (SelectedIndex[0] <= -1)
-//            return;
-//    }
-
-//    //UID
-//    SelectedUIDs[CurrentIndex] = eq.UID;
-
-//    //ui
-//    SuccessRate.SetActive(false);
-//    Buttons[CurrentIndex].transform.GetChild(0).GetComponent<Image>().sprite = eq.Icon;
-//    InputTypes[CurrentIndex] = eq.Type;
-
-//    ShowSelectDetail(eq);
-
-//    if(SelectedIndex[CurrentIndex] != -1)
-//        Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[CurrentIndex])).SetChecked(false);
-//    SelectedIndex[CurrentIndex] = index;
-//    Inventories.GetSlot(Inventories.GetSwitchedIndex(index)).SetChecked(true);
-
-//    if (InputTypes[0] > -1 && InputTypes[1] > -1)
-//    {
-//        if (InputTypes[0] == InputTypes[1])
-//            Lines.transform.GetChild(0).GetComponent<Image>().material.SetColor("_GlowColor", Colors[InputTypes[0]]);
-//        else
-//            Lines.transform.GetChild(0).GetComponent<Image>().material.SetColor("_GlowColor", Color.white);
-//    }
-//    if(InputTypes[0] > -1 && InputTypes[2] > -1)
-//    {
-//        if (InputTypes[0] == InputTypes[2])
-//            Lines.transform.GetChild(1).GetComponent<Image>().material.SetColor("_GlowColor", Colors[InputTypes[0]]);
-//        else
-//            Lines.transform.GetChild(1).GetComponent<Image>().material.SetColor("_GlowColor", Color.white);
-//    }
-//    if (InputTypes[1] > -1 && InputTypes[2] > -1)
-//    {
-//        if (InputTypes[1] == InputTypes[2])
-//            Lines.transform.GetChild(2).GetComponent<Image>().material.SetColor("_GlowColor", Colors[InputTypes[1]]);
-//        else
-//            Lines.transform.GetChild(2).GetComponent<Image>().material.SetColor("_GlowColor", Color.white);
-//    }
-
-//    InputTypes[CurrentIndex] = eq.Type;
 //    for (int i = 0; i < 3; i++)
 //    {
-//        if (InputTypes[i] == -1)
-//        {
-//            IsAbleSynthesize = false;
-//            return;
-//        }
+//        Buttons[i].Icon.sprite = QuestionSprite;
+//        Buttons[i].Frame.sprite = Frames[0];
+//        InputTypes[i] = -1;
+//        SelectedIndex[i] = -1;
+//        SelectedUIDs[i] = -1;
 //    }
-//    IsAbleSynthesize = true;
-//    SuccessRate.SetActive(true);
-//    Rate = 100 - eq.Rarity * 10;
-//    RateText.text = Rate.ToString();
 
-//    if (InputTypes[0] == InputTypes[1] && InputTypes[0] == InputTypes[2])
-//    {
-//        Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite = eq.Icon;
-//        SynthType = InputTypes[0];
-//    }
-//    else
-//    {
-//        Buttons[3].transform.GetChild(0).GetComponent<Image>().sprite = QuestionSprite;
-//        SynthType = -1;
-//    }
+//    Inventories.ResetInventory();
+//    ResetDisable();
+//}
+//else if (eq.UID / 100 == 6)
+//{
+//    CurrentIndex = index;
+//    Inventories.GetSlot(Inventories.GetSwitchedIndex(SelectedIndex[index])).Checked.SetActive(false);
+
+//    Buttons[index].Icon.sprite = QuestionSprite;
+//    Buttons[index].Frame.sprite = Frames[0];
+//    InputTypes[index] = -1;
+//    SelectedUIDs[index] = -1;
+//    SelectedIndex[index] = -1;
+
+//    for (int i = 0; i < 3; i++)
+//        if (SelectedIndex[i] > -1)
+//            return;
+
+//    Inventories.ResetInventory();
+//    ResetDisable();
 //}
