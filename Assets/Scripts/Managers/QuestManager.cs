@@ -41,8 +41,9 @@ public class QuestManager : MonoBehaviour
 
     void Start()
     {
-        LoadQuestData();
+        //LoadQuestData();
         MakeQuestSlot();
+        GameManager.Inst().DatManager.GameData.LoadQuests();
 
         GameManager.Inst().Player.UISetting();
         GameManager.Inst().StgManager.BeginStage();
@@ -129,7 +130,10 @@ public class QuestManager : MonoBehaviour
                     if(id / 100 == objType)
                     {
                         Quests[i].CurrentCount += value;
-                        
+
+                        if (Quests[i].CurrentCount > Quests[i].GoalCount)
+                            Quests[i].CurrentCount = Quests[i].GoalCount;
+
                         CheckFinish(i);
                     }
                 }

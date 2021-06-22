@@ -8,6 +8,7 @@ public class Cheat : MonoBehaviour
 {
     public Toggle[] Toggles;
     public GameObject[] Pages;
+    public NumInput NumInput;
 
     public Button[] CharReviveBtns;
     public Button[] CharGodModeBtns;
@@ -29,10 +30,6 @@ public class Cheat : MonoBehaviour
     public Text CoinText;
     public Text JewelText;
     public Text[] ResourceTexts;
-    public Button[] CoinBtns;
-    public Button[] JewelBtns;
-    public Button[] PlusResourceBtns;
-    public Button[] MinusResourceBtns;
 
     public Text ReinforceValueText;
     public Text EquipValueText;
@@ -47,7 +44,6 @@ public class Cheat : MonoBehaviour
     public Button[] QuestBtns;
 
     int CurrentBulletType;
-    bool IsResourcePage;
     bool IsCoinUp;
     bool IsCoinDown;
     bool IsJewelUp;
@@ -63,7 +59,6 @@ public class Cheat : MonoBehaviour
     {
         CurrentBulletType = 0;
 
-        IsResourcePage = false;
         IsCoinUp = false;
         IsCoinDown = false;
         IsJewelUp = false;
@@ -117,8 +112,6 @@ public class Cheat : MonoBehaviour
 
     void ShowPage(int index)
     {
-        IsResourcePage = false;
-
         switch(index)
         {
             case 0:
@@ -128,7 +121,6 @@ public class Cheat : MonoBehaviour
                 ShowWeaponPage();
                 break;
             case 2:
-                IsResourcePage = true;
                 ShowResourcePage();
                 break;
             case 3:
@@ -245,23 +237,7 @@ public class Cheat : MonoBehaviour
         for (int i = 0; i < Constants.MAXSTAGES; i++)
             ResourceTexts[i].text = GameManager.Inst().Resources[i].ToString();
 
-        if (GameManager.Inst().Player.GetCoin() <= 0)
-            CoinBtns[0].interactable = false;
-        else
-            CoinBtns[0].interactable = true;
-
-        if (GameManager.Inst().Jewel <= 0)
-            JewelBtns[0].interactable = false;
-        else
-            JewelBtns[0].interactable = true;
-
-        for(int i = 0; i < Constants.MAXSTAGES; i++)
-        {
-            if (GameManager.Inst().Resources[i] <= 0)
-                PlusResourceBtns[i].interactable = false;
-            else
-                PlusResourceBtns[i].interactable = true;
-        }
+        
     }
 
     void ShowStagePage()
@@ -504,64 +480,38 @@ public class Cheat : MonoBehaviour
         EquipDetailText.text = detail;
     }
 
-    public void OnClickPlusCoinBtn(bool b)
+   public void OnClickInputBtn(int type)
     {
-        IsCoinUp = b;
-    }
+        string str = "";
+        switch(type)
+        {
+            case 0:
+                str = CoinText.text;
+                break;
 
-    public void OnClickMinusCoinBtn(bool b)
-    {
-        IsCoinDown = b;
-    }
+            case 1:
+                str = JewelText.text;
+                break;
 
-    public void OnClickPlusJewelBtn(bool b)
-    {
-        IsJewelUp = b;
-    }
+            case 2:
+                str = ResourceTexts[0].text;
+                break;
 
-    public void OnClickMinusJewelBtn(bool b)
-    {
-        IsJewelDown = b;
-    }
+            case 3:
+                str = ResourceTexts[1].text;
+                break;
 
-    public void OnClickPlusResource1Btn(bool b)
-    {
-        IsResourceUp[0] = b;
-    }
+            case 4:
+                str = ResourceTexts[2].text;
+                break;
 
-    public void OnClickMinusResource1Btn(bool b)
-    {
-        IsResourceDown[0] = b;
-    }
+            case 5:
+                str = ResourceTexts[3].text;
+                break;
+        }
 
-    public void OnClickPlusResource2Btn(bool b)
-    {
-        IsResourceUp[1] = b;
-    }
-
-    public void OnClickMinusResource2Btn(bool b)
-    {
-        IsResourceDown[1] = b;
-    }
-
-    public void OnClickPlusResource3Btn(bool b)
-    {
-        IsResourceUp[2] = b;
-    }
-
-    public void OnClickMinusResource3Btn(bool b)
-    {
-        IsResourceDown[2] = b;
-    }
-
-    public void OnClickPlusResource4Btn(bool b)
-    {
-        IsResourceUp[3] = b;
-    }
-
-    public void OnClickMinusResource4Btn(bool b)
-    {
-        IsResourceDown[3] = b;
+        NumInput.gameObject.SetActive(true);
+        NumInput.Show(str, type);
     }
 
     public void OnSelectReinforceType(int type)

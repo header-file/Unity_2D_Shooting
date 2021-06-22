@@ -194,14 +194,6 @@ public class GameData
         if (Jewel > 0)
             GameManager.Inst().SetJewel(Jewel);
 
-        if (LastDailyTime != null)
-        {
-            if (DailyLeft > 0 || DailyPlusLeft > 0)
-                DailyJewel();
-        }
-        else
-            LastDailyTime = new int[6];
-
         if (MaxInventory > 0)
         {
             if(MaxInventory > Constants.MININVENTORY)
@@ -255,37 +247,6 @@ public class GameData
         else
             PlayerDatas = new int[Constants.PLADATASIZE];
 
-        //if (SubWeaponDatas.Length == StageManager.MAXSTAGES * 4 * SWDATASIZE)
-        if(SubWeaponDatas != null && SubWeaponDatas.Length == Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE)
-        {
-            for (int i = 0; i < Constants.MAXSTAGES; i++)
-            {
-                for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
-                {
-                    GameManager.Inst().UpgManager.SetSubWeaponLevel(i, j, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.LEVEL]);
-
-                    if (i == GameManager.Inst().StgManager.Stage && 
-                        GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j) > 0)
-                    {
-                        GameManager.Inst().UpgManager.AddSW(j);
-
-                        GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
-                        GameManager.Inst().GetSubweapons(j).SetMaxHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP]);
-                        GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
-                        int id = j;
-                        if (id > 1)
-                            id++;
-                        GameManager.Inst().ShtManager.SetColorSelection(id, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
-                        GameManager.Inst().GetSubweapons(j).SetSkinColor(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
-
-                        GameManager.Inst().UpgManager.SWUiInteract(j);
-                    }
-                }
-            }
-        }
-        else
-            SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
-
         if (Inventories != null && Inventories.Length == GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE)
         {
             for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
@@ -311,7 +272,36 @@ public class GameData
         }
         else
             Inventories = new int[GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE];
-        
+
+        if (SubWeaponDatas != null && SubWeaponDatas.Length == Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE)
+        {
+            for (int i = 0; i < Constants.MAXSTAGES; i++)
+            {
+                for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
+                {
+                    GameManager.Inst().UpgManager.SetSubWeaponLevel(i, j, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.LEVEL]);
+
+                    if (i == GameManager.Inst().StgManager.Stage &&
+                        GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j) > 0)
+                    {
+                        GameManager.Inst().UpgManager.AddSW(j);
+
+                        GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
+                        GameManager.Inst().GetSubweapons(j).SetMaxHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP]);
+                        GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
+                        int id = j;
+                        if (id > 1)
+                            id++;
+                        GameManager.Inst().ShtManager.SetColorSelection(id, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
+                        GameManager.Inst().GetSubweapons(j).SetSkinColor(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
+
+                        GameManager.Inst().UpgManager.SWUiInteract(j);
+                    }
+                }
+            }
+        }
+        else
+            SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
 
         if (Weapons != null)
         {
@@ -333,20 +323,6 @@ public class GameData
         }
         else
             Weapons = new float[Constants.MAXBULLETS * Constants.WPDATASIZE];
-
-        if (Quests != null)
-        {
-            for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
-            {
-                if(GameManager.Inst().QstManager.Quests[i].QuestId == Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID])
-                {
-                    GameManager.Inst().QstManager.Quests[i].CurrentCount = Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT];
-                    GameManager.Inst().QstManager.CheckFinish(i);
-                }
-            }
-        }
-        else
-            Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
 
         if (CountStartTimes != null)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
@@ -484,92 +460,62 @@ public class GameData
         LastDailyTime[5] = 0;
     }
 
-    public void UploadSave()
+    public void LoadSubWeapon()
     {
-        //SaveData();
+        if (SubWeaponDatas != null && SubWeaponDatas.Length == Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE)
+        {
+            for (int i = 0; i < Constants.MAXSTAGES; i++)
+            {
+                for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
+                {
+                    if (i == GameManager.Inst().StgManager.Stage &&
+                        GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j) > 0)
+                    {
+                        GameManager.Inst().UpgManager.AddSW(j);
 
-        //Login login = GameObject.Find("LoginManager").GetComponent<Login>();
-        
-        //login.DBRef.Child("users").Child(UID).Child("Coin").SetValueAsync(Coin);
-        //login.DBRef.Child("users").Child(UID).Child("Jewel").SetValueAsync(Jewel);
-        //login.DBRef.Child("users").Child(UID).Child("CurrentStage").SetValueAsync(CurrentStage);
-        //login.DBRef.Child("users").Child(UID).Child("ReachedStage").SetValueAsync(GameManager.Inst().StgManager.ReachedStage);
-        //login.DBRef.Child("users").Child(UID).Child("MaxInventory").SetValueAsync(MaxInventory);
+                        GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
+                        GameManager.Inst().GetSubweapons(j).SetMaxHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP]);
+                        GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
+                        int id = j;
+                        if (id > 1)
+                            id++;
+                        GameManager.Inst().ShtManager.SetColorSelection(id, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
+                        GameManager.Inst().GetSubweapons(j).SetSkinColor(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
 
-        ////Resource
-        //login.DBRef.Child("users").Child(UID).Child("Resource").Child("A").SetValueAsync(GameManager.Inst().Resources[0]);
-        //login.DBRef.Child("users").Child(UID).Child("Resource").Child("B").SetValueAsync(GameManager.Inst().Resources[1]);
-        //login.DBRef.Child("users").Child(UID).Child("Resource").Child("C").SetValueAsync(GameManager.Inst().Resources[2]);
-        //login.DBRef.Child("users").Child(UID).Child("Resource").Child("D").SetValueAsync(GameManager.Inst().Resources[3]);
+                        GameManager.Inst().UpgManager.SWUiInteract(j);
+                    }
+                }
+            }
+        }
+        else
+            SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
+    }
 
-        ////Player Data
-        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("Level").SetValueAsync(GameManager.Inst().UpgManager.GetPlayerLevel());
-        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("CurHp").SetValueAsync(GameManager.Inst().Player.GetCurHP());
-        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("MaxHp").SetValueAsync(GameManager.Inst().Player.GetMaxHP());
-        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("BulletType").SetValueAsync(GameManager.Inst().Player.GetBulletType());
-        //login.DBRef.Child("users").Child(UID).Child("PlayerData").Child("Color").SetValueAsync(GameManager.Inst().ShtManager.GetColorSelection(2));
+    public void LoadQuests()
+    {
+        if (Quests != null)
+        {
+            for (int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+            {
+                if (GameManager.Inst().QstManager.Quests[i].QuestId == Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID])
+                {
+                    GameManager.Inst().QstManager.Quests[i].CurrentCount = Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT];
+                    GameManager.Inst().QstManager.CheckFinish(i);
+                }
+            }
+        }
+        else
+            Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
+    }
 
-
-        ////Stage Data
-        //for (int i = 0; i < Constants.MAXSTAGES; i++)
-        //{
-        //    string stageName = "Stage" + (i + 1).ToString();
-        //    login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("BossGauge").SetValueAsync(GameManager.Inst().StgManager.BossCount[i]);
-
-        //    for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
-        //    {
-        //        if (GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j) > 0)
-        //        {
-        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("Level").SetValueAsync(GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j));
-        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("CurHp").SetValueAsync(GameManager.Inst().GetSubweapons(j).GetCurHP());
-        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("MaxHp").SetValueAsync(GameManager.Inst().GetSubweapons(j).GetCurHP());
-        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("BulletType").SetValueAsync(GameManager.Inst().GetSubweapons(j).GetBulletType());
-        //            int id = j;
-        //            if (id > 1)
-        //                id++;
-        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).Child("Color").SetValueAsync(GameManager.Inst().ShtManager.GetColorSelection(id));
-        //        }
-        //        else
-        //            login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("SubWeapon").Child((j).ToString()).SetValueAsync(null);
-        //    }
-
-        //    login.DBRef.Child("users").Child(UID).Child("Stage").Child(stageName).Child("StartTime").SetValueAsync(GameManager.Inst().ResManager.StartTimes[i].ToString());
-        //}
-
-        ////Inventory Data
-        //for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
-        //{
-        //    Player.EqData eq = GameManager.Inst().Player.GetItem(i);
-        //    if (eq != null)
-        //    {
-        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("UID").SetValueAsync(eq.UID);
-        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("Type").SetValueAsync(eq.Type);
-        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("Rarity").SetValueAsync(eq.Rarity);
-        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("Value").SetValueAsync((int)eq.Value);
-        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("Quantity").SetValueAsync(eq.Quantity);
-        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).Child("CoolTime").SetValueAsync((int)eq.CoolTime);
-        //    }
-        //    else
-        //        login.DBRef.Child("users").Child(UID).Child("Inventory").Child(i.ToString()).SetValueAsync(null);
-        //}
-
-        ////Bullet Data
-        //for (int i = 0; i < Constants.MAXBULLETS; i++)
-        //{
-        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("PowerLevel").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetPowerLevel());
-        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Rarity").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetRarity());
-        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Price").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetPrice());
-        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Atk").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetAtk());
-        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Hp").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetHp());
-        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("Spd").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetSpd());
-        //    login.DBRef.Child("users").Child(UID).Child("Bullet").Child(i.ToString()).Child("EquipIndex").SetValueAsync(GameManager.Inst().UpgManager.BData[i].GetEquipIndex());
-        //}
-
-        ////Qeust Data
-        //for (int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
-        //{
-        //    login.DBRef.Child("users").Child(UID).Child("Quest").Child(i.ToString()).Child("ID").SetValueAsync(GameManager.Inst().QstManager.Quests[i].QuestId);
-        //    login.DBRef.Child("users").Child(UID).Child("Quest").Child(i.ToString()).Child("Count").SetValueAsync(GameManager.Inst().QstManager.Quests[i].CurrentCount);
-        //}
+    public void LoadDaily()
+    {
+        if (LastDailyTime != null)
+        {
+            if (DailyLeft > 0 || DailyPlusLeft > 0)
+                DailyJewel();
+        }
+        else
+            LastDailyTime = new int[6];
     }
 }
