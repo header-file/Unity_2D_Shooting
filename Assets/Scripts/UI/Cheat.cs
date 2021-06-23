@@ -44,31 +44,23 @@ public class Cheat : MonoBehaviour
     public Button[] QuestBtns;
 
     int CurrentBulletType;
-    bool IsCoinUp;
-    bool IsCoinDown;
-    bool IsJewelUp;
-    bool IsJewelDown;
-    bool[] IsResourceUp;
-    bool[] IsResourceDown;
     int ReinforceType;
     int ReinforceRarity;
     int EquipType;
     int EquipRarity;
+    bool[] IsQstUps;
+    bool[] IsQstDowns;
 
     void Start()
     {
         CurrentBulletType = 0;
 
-        IsCoinUp = false;
-        IsCoinDown = false;
-        IsJewelUp = false;
-        IsJewelDown = false;
-        IsResourceUp = new bool[Constants.MAXSTAGES];
-        IsResourceDown = new bool[Constants.MAXSTAGES];
-        for (int i = 0; i < Constants.MAXSTAGES; i++)
+        IsQstUps = new bool[4];
+        IsQstDowns = new bool[4];
+        for (int i = 0; i < 4; i++)
         {
-            IsResourceUp[i] = false;
-            IsResourceDown[i] = false;
+            IsQstUps[i] = false;
+            IsQstDowns[i] = false;
         }
 
         gameObject.SetActive(false);
@@ -76,25 +68,13 @@ public class Cheat : MonoBehaviour
 
     void Update()
     {
-        if (IsCoinUp)
-            GameManager.Inst().Player.AddCoin(1);
-        else if(IsCoinDown)
-            GameManager.Inst().Player.MinusCoin(1);
-
-        if (IsJewelUp)
-            GameManager.Inst().AddJewel(1);
-        else if (IsJewelDown)
-            GameManager.Inst().SubtractJewel(1);
-
-        for(int i = 0; i < Constants.MAXSTAGES; i++)
+        for(int i = 0; i < 4; i++)
         {
-            if (IsResourceUp[i])
-                GameManager.Inst().AddResource(i + 1, 1);
-            else if (IsResourceDown[i])
-                GameManager.Inst().SubtractResource(i + 1, 1);
+            if (IsQstUps[i])
+                QuestUp(i);
+            else if (IsQstDowns[i])
+                QuestDown(i);
         }
-
-        ShowResourcePage();
     }
 
     public void SwitchPage(int index)
@@ -236,8 +216,6 @@ public class Cheat : MonoBehaviour
         JewelText.text = GameManager.Inst().Jewel.ToString();
         for (int i = 0; i < Constants.MAXSTAGES; i++)
             ResourceTexts[i].text = GameManager.Inst().Resources[i].ToString();
-
-        
     }
 
     void ShowStagePage()
@@ -274,6 +252,22 @@ public class Cheat : MonoBehaviour
                 count++;
             }
         }
+    }
+
+    void QuestUp(int index)
+    {
+        int id = QuestSlots[index].QuestID;
+
+        GameManager.Inst().QstManager.QuestProgress(id % 10000 / 1000, id % 1000 / 100, 1);
+        ShowStagePage();
+    }
+
+    void QuestDown(int index)
+    {
+        int id = QuestSlots[index].QuestID;
+
+        GameManager.Inst().QstManager.QuestProgress(id % 10000 / 1000, id % 1000 / 100, -1);
+        ShowStagePage();
     }
 
     void ShowItemPage()
@@ -388,6 +382,30 @@ public class Cheat : MonoBehaviour
             GameManager.Inst().UpgManager.LevelDown(CurrentBulletType);
         else
             GameManager.Inst().UpgManager.RarityDown(CurrentBulletType);
+
+        ShowWeaponData();
+    }
+
+    public void OnClickReinforceGauge(int index)
+    {
+        Vector3 mPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        int val = (int)(GameManager.Inst().UpgManager.BData[CurrentBulletType].GetMaxAtk() * (0.5f + mPos.x * 0.5f));
+        Debug.Log(val);
+        if (val < 0)
+            val = 0;
+
+        switch (index)
+        {
+            case 0:
+                GameManager.Inst().UpgManager.BData[CurrentBulletType].SetAtk(val);
+                break;
+            case 1:
+                GameManager.Inst().UpgManager.BData[CurrentBulletType].SetSpd(val);
+                break;
+            case 2:
+                GameManager.Inst().UpgManager.BData[CurrentBulletType].SetHp(val);
+                break;
+        }
 
         ShowWeaponData();
     }
@@ -610,18 +628,22 @@ public class Cheat : MonoBehaviour
 
     public void OnClickQuestUpBtn(int index)
     {
-        int id = QuestSlots[index].QuestID;
+        IsQstUps[index] = true;
+    }
 
-        GameManager.Inst().QstManager.QuestProgress(id % 10000 / 1000, id % 1000 / 100, 1);
-        ShowStagePage();
+    public void OnReleaseQuestUpBtn(int index)
+    {
+        IsQstUps[index] = false;
     }
 
     public void OnClickQuestDownBtn(int index)
     {
-        int id = QuestSlots[index].QuestID;
+        IsQstDowns[index] = true;
+    }
 
-        GameManager.Inst().QstManager.QuestProgress(id % 10000 / 1000, id % 1000 / 100, -1);
-        ShowStagePage();
+    public void OnReleaseQuestDownBtn(int index)
+    {
+        IsQstDowns[index] = false;
     }
 
     public void OnClickDateDeleteBtn()

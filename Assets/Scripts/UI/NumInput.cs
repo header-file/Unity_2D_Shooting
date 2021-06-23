@@ -84,24 +84,37 @@ public class NumInput : MonoBehaviour
 
     void Calculate()
     {
-        switch(Type)
+        Cheat cheatUI = GameManager.Inst().UiManager.Cheat.GetComponent<Cheat>();
+        switch (Type)
         {
-            case 0:                
+            case 0:
+                cheatUI.CoinText.text = NumText.text;
+                GameManager.Inst().Player.SetCoin(int.Parse(NumText.text));
                 break;
 
-            case 1:                
+            case 1:
+                cheatUI.JewelText.text = NumText.text;
+                GameManager.Inst().SetJewel(int.Parse(NumText.text));
                 break;
 
-            case 2:                
+            case 2:
+                cheatUI.ResourceTexts[0].text = NumText.text;
+                GameManager.Inst().SetResource(1, int.Parse(NumText.text));
                 break;
 
-            case 3:                
+            case 3:
+                cheatUI.ResourceTexts[1].text = NumText.text;
+                GameManager.Inst().SetResource(2, int.Parse(NumText.text));
                 break;
 
-            case 4:                
+            case 4:
+                cheatUI.ResourceTexts[2].text = NumText.text;
+                GameManager.Inst().SetResource(3, int.Parse(NumText.text));
                 break;
 
-            case 5:                
+            case 5:
+                cheatUI.ResourceTexts[3].text = NumText.text;
+                GameManager.Inst().SetResource(4, int.Parse(NumText.text));
                 break;
         }
     }

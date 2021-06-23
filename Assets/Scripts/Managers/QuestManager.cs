@@ -129,6 +129,9 @@ public class QuestManager : MonoBehaviour
                     id %= 1000;
                     if(id / 100 == objType)
                     {
+                        if (Quests[i].CurrentCount <= 0 && value < 0)
+                            return;
+
                         Quests[i].CurrentCount += value;
 
                         if (Quests[i].CurrentCount > Quests[i].GoalCount)
