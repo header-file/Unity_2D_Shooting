@@ -287,6 +287,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void RemoveItem(int index, int quantity)
+    {
+        Inventory[index].Quantity -= quantity;
+
+        if (Inventory[index].Quantity <= 0)
+            DiscardItem(index);
+    }
+
     public void RemoveItem(int index)
     {
         Inventory[index] = null;
@@ -305,28 +313,28 @@ public class Player : MonoBehaviour
         return e;
     }
 
-    public void DragItem(int count)
-    {
-        for (int n = 1; n <= count; n++)
-        {
-            for (int i = 0; i < MaxInventory; i++)
-            {
-                if (Inventory[i] == null)
-                    continue;
-                else
-                {
-                    InventoryScroll inven = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
-                    for (int j = i; j > 0; j--)
-                    {
-                        if (Inventory[j - 1] == null)
-                        {
-                            Swap(j - 1, j);
-                        }
-                    }
-                }
-            }
-        }
-    }
+    //public void DragItem(int count)
+    //{
+    //    for (int n = 1; n <= count; n++)
+    //    {
+    //        for (int i = 0; i < MaxInventory; i++)
+    //        {
+    //            if (Inventory[i] == null)
+    //                continue;
+    //            else
+    //            {
+    //                InventoryScroll inven = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
+    //                for (int j = i; j > 0; j--)
+    //                {
+    //                    if (Inventory[j - 1] == null)
+    //                    {
+    //                        Swap(j - 1, j);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
     void Awake()
     {

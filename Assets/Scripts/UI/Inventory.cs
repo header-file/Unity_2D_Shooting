@@ -33,4 +33,9 @@ public class Inventory : MonoBehaviour
     {
         Inventories.ResetInventory();
     }
+
+    public void OnClickSell()
+    {
+        GameManager.Inst().UiManager.InventoryDetail.GetComponent<InventoryDetail>().ShowSell();
+    }
 }

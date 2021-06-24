@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryDetail : MonoBehaviour
 {
-    public GameObject Icon;
+    public Image Icon;
     public GameObject Type;
     public Text Value;
     public GameObject[] Grades;
@@ -13,13 +13,18 @@ public class InventoryDetail : MonoBehaviour
     public GameObject Values;
     public GameObject Detail;
     public Text DetailText;
+    public GameObject Grade;
+    public SellConfirm SellConfirm;
+
+    int Index;
 
 
     public void ShowDetail(int index)
     {
         Player.EqData equip = GameManager.Inst().Player.GetItem(index);
+        Index = index;
 
-        Icon.GetComponent<Image>().sprite = equip.Icon;
+        Icon.sprite = equip.Icon;
         
         int rarity = equip.Rarity;
         SetRarityColor(rarity);
@@ -29,11 +34,17 @@ public class InventoryDetail : MonoBehaviour
 
         if (equip.UID / 100 == 3)
         {
+            Icon.gameObject.SetActive(false);
             int val = (int)equip.Value;
+            Grade.SetActive(true);
             SetValue(val);
         }
-        else if(equip.UID / 100 == 6)
+        else if (equip.UID / 100 == 6)
+        {
+            Icon.gameObject.SetActive(true);
+            Grade.SetActive(false);
             SetDetail(equip.Type, equip.Rarity, equip.Value);
+        }
     }    
 
     void SetRarityColor(int rarity)
@@ -87,5 +98,75 @@ public class InventoryDetail : MonoBehaviour
         detail += GameManager.Inst().TxtManager.EquipDetailBack[type];
 
         DetailText.text = detail;
+    }
+
+    public void ShowSell()
+    {
+        Player.EqData equip = GameManager.Inst().Player.GetItem(Index);
+
+        SellConfirm.gameObject.SetActive(true);
+
+        SellConfirm.PriceText.text = Mathf.Pow(10, equip.Rarity + 1).ToString();
+        SellConfirm.QuantityText.text = "1";
+
+        if(equip.UID / 100 == 3)
+        {
+            if(equip.Quantity > 1)
+                SellConfirm.UpBtn.interactable = true;
+            SellConfirm.DownBtn.interactable = false;
+        }
+        else if (equip.UID / 100 == 6)
+        {
+            SellConfirm.UpBtn.interactable = false;
+            SellConfirm.DownBtn.interactable = false;
+        }
+    }
+
+    public void OnClickUpBtn()
+    {
+        Player.EqData equip = GameManager.Inst().Player.GetItem(Index);
+        int quantity = int.Parse(SellConfirm.QuantityText.text);
+        quantity++;
+
+        SellConfirm.QuantityText.text = quantity.ToString();
+        SellConfirm.PriceText.text = (quantity * Mathf.Pow(10, equip.Rarity + 1)).ToString();
+
+        SellConfirm.DownBtn.interactable = true;
+        if (quantity >= equip.Quantity)
+            SellConfirm.UpBtn.interactable = false;
+    }
+
+    public void OnClickDownBtn()
+    {
+        Player.EqData equip = GameManager.Inst().Player.GetItem(Index);
+        int quantity = int.Parse(SellConfirm.QuantityText.text);
+        quantity--;
+
+        SellConfirm.QuantityText.text = quantity.ToString();
+        SellConfirm.PriceText.text = (quantity * Mathf.Pow(10, equip.Rarity + 1)).ToString();
+
+        SellConfirm.UpBtn.interactable = true;
+        if (quantity <= 1)
+            SellConfirm.DownBtn.interactable = false;
+    }
+
+    public void OnClickYesBtn()
+    {
+        int quantity = int.Parse(SellConfirm.QuantityText.text);
+        GameManager.Inst().Player.RemoveItem(Index, quantity);
+
+        int price = int.Parse(SellConfirm.PriceText.text);
+        GameManager.Inst().Player.AddCoin(price);
+
+        SellConfirm.gameObject.SetActive(false);
+        Inventory inv = GameManager.Inst().UiManager.Inventory.GetComponent<Inventory>();
+        inv.CloseInventory();
+        inv.ShowInventory();
+        gameObject.SetActive(false);
+    }
+
+    public void OnClickNoBtn()
+    {
+        SellConfirm.gameObject.SetActive(false);
     }
 }
