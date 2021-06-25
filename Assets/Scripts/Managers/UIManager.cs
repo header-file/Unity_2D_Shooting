@@ -302,11 +302,6 @@ public class UIManager : MonoBehaviour
 
 
     //Button Interact
-    public void OnClickUpgradeBtn()
-    {
-        MainUi.OnClickUpgradeBtn();
-    }
-
     public void OnClickManageBtn(int Type)
     {
         //Time.timeScale = 0.0f;
@@ -520,9 +515,8 @@ public class UIManager : MonoBehaviour
 
         InventoryUI.ShowInventory();
 
-        ZzinBottomUI.InventoryIcon[0].SetActive(false);
-        ZzinBottomUI.InventoryIcon[1].SetActive(true);
-        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        ZzinBottomUI.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -533,9 +527,8 @@ public class UIManager : MonoBehaviour
         InventoryUI.CloseInventory();
         Inventory.SetActive(false);
 
-        ZzinBottomUI.InventoryIcon[0].SetActive(true);
-        ZzinBottomUI.InventoryIcon[1].SetActive(false);
-        ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        ZzinBottomUI.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -591,7 +584,8 @@ public class UIManager : MonoBehaviour
 
         ZzinBottomUI.WeaponIcon[0].SetActive(false);
         ZzinBottomUI.WeaponIcon[1].SetActive(true);
-        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        ZzinBottomUI.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -611,7 +605,8 @@ public class UIManager : MonoBehaviour
 
         ZzinBottomUI.WeaponIcon[0].SetActive(true);
         ZzinBottomUI.WeaponIcon[1].SetActive(false);
-        ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        ZzinBottomUI.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -673,7 +668,10 @@ public class UIManager : MonoBehaviour
         InventoryDetail.SetActive(false);
         Inventory.SetActive(false);
 
-        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        ZzinBottomUI.SynthesisIcon[0].SetActive(false);
+        ZzinBottomUI.SynthesisIcon[1].SetActive(true);
+        ZzinBottomUI.HomeBtn.SetActive(true);
 
         Synthesis.SetActive(true);
         SynthesisUI.ShowInventory();
@@ -686,6 +684,10 @@ public class UIManager : MonoBehaviour
     {
         SynthesisUI.ResetSprites();
         Synthesis.SetActive(false);
+
+        ZzinBottomUI.SynthesisIcon[0].SetActive(true);
+        ZzinBottomUI.SynthesisIcon[1].SetActive(false);
+        ZzinBottomUI.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -803,7 +805,8 @@ public class UIManager : MonoBehaviour
 
         ZzinBottomUI.UniverseIcon[0].SetActive(false);
         ZzinBottomUI.UniverseIcon[1].SetActive(true);
-        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        ZzinBottomUI.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -815,7 +818,8 @@ public class UIManager : MonoBehaviour
 
         ZzinBottomUI.UniverseIcon[0].SetActive(true);
         ZzinBottomUI.UniverseIcon[1].SetActive(false);
-        ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        ZzinBottomUI.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -884,7 +888,8 @@ public class UIManager : MonoBehaviour
 
         ZzinBottomUI.ShopIcon[0].SetActive(false);
         ZzinBottomUI.ShopIcon[1].SetActive(true);
-        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        ZzinBottomUI.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -896,7 +901,8 @@ public class UIManager : MonoBehaviour
 
         ZzinBottomUI.ShopIcon[0].SetActive(true);
         ZzinBottomUI.ShopIcon[1].SetActive(false);
-        ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        ZzinBottomUI.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -908,7 +914,8 @@ public class UIManager : MonoBehaviour
 
         Cheat.gameObject.SetActive(true);
 
-        ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
+        ZzinBottomUI.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -918,7 +925,8 @@ public class UIManager : MonoBehaviour
     {
         Cheat.SetActive(false);
 
-        ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
+        ZzinBottomUI.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);

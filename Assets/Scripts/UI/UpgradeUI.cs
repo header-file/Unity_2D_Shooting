@@ -142,7 +142,7 @@ public class UpgradeUI : MonoBehaviour
     public void OnClickBackBtn()
     {
         IsDisappear = true;
-        MainUI.gameObject.GetComponent<MainUI>().UpgradeBtnInteractable();
+        //MainUI.gameObject.GetComponent<MainUI>().UpgradeBtnInteractable();
         time = 1.0f;
         UIName = "Upgrade UI";
     }

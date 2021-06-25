@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class MainUI : MonoBehaviour
 {
-    public Button UpgradeBtn;
-    public Canvas UpgradeUI;
     public GameObject Arrows;
 
     void Awake()
@@ -15,24 +13,33 @@ public class MainUI : MonoBehaviour
             Arrows.transform.GetChild(i).gameObject.SetActive(false);
     }
 
-    void Update()
+    public void OnClickUniverse()
     {
-        
+        GameManager.Inst().UiManager.OnClickSpaceBtn();
     }
 
-    public void OnClickUpgradeBtn()
+    public void OnClickWeapon()
     {
-        UpgradeUI upUI = UpgradeUI.gameObject.GetComponent<UpgradeUI>();
-        upUI.AppearStart();
-        
-        UpgradeBtn.interactable = false;
-        //Time.timeScale = 0.0f;
-
-        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().UiManager.OnClickWeaponBtn();
     }
 
-    public void UpgradeBtnInteractable()
+    public void OnClickInventory()
     {
-        UpgradeBtn.interactable = true;
+        GameManager.Inst().UiManager.OnClickInventoryBtn();
+    }
+
+    public void OnClickSynthesis()
+    {
+        GameManager.Inst().UiManager.OnClickSynthesisBtn();
+    }
+
+    public void OnClickShop()
+    {
+        GameManager.Inst().UiManager.OnClickShopBtn();
+    }
+
+    public void OnClickHome()
+    {
+        GameManager.Inst().UiManager.OnClickHomeBtn();
     }
 }
