@@ -94,6 +94,8 @@ public class GameData
 
     public bool IsEraseData;
 
+    public bool IsTutorial;
+
 
     public void SaveData()
     {
@@ -188,10 +190,10 @@ public class GameData
             return;
         }
 
-        if (Coin > 0)
+        if (Coin >= 0)
             GameManager.Inst().Player.SetCoin(Coin);
 
-        if (Jewel > 0)
+        if (Jewel >= 0)
             GameManager.Inst().SetJewel(Jewel);
 
         if (MaxInventory > 0)
@@ -342,7 +344,12 @@ public class GameData
             CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
 
         if (GameManager.Inst().StgManager.Stage > 1)
-            SceneManager.LoadScene("Stage" + GameManager.Inst().StgManager.Stage.ToString());
+        {
+            if (IsTutorial)
+                SceneManager.LoadScene("Stage0");
+            else
+                SceneManager.LoadScene("Stage" + GameManager.Inst().StgManager.Stage.ToString());
+        }
     }
 
     public void ResetData()
@@ -375,6 +382,8 @@ public class GameData
         Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
 
         CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
+
+        IsTutorial = true;
     }
 
     public void LoadReachedStage()

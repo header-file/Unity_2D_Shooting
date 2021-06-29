@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class QuestManager : MonoBehaviour
 {
@@ -46,7 +47,9 @@ public class QuestManager : MonoBehaviour
         GameManager.Inst().DatManager.GameData.LoadQuests();
 
         GameManager.Inst().Player.UISetting();
-        GameManager.Inst().StgManager.BeginStage();
+
+        if(SceneManager.GetActiveScene().name != "Stage0")
+            GameManager.Inst().StgManager.BeginStage();
     }
 
     void GenerateData()

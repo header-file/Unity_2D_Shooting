@@ -39,4 +39,6 @@ static class Constants
     public const int WPDATASIZE = 7;
     public const int QSTDATASIZE = 2;
     public const int TIMEDATASIZE = 6;
+
+    public const int TUTORIALCOUNT = 6;
 }

@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Game Manager Start");
         SetTexts();
         SetDropRateData();
         SetEquipDatas();
