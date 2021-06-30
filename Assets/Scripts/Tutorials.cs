@@ -14,8 +14,10 @@ public class Tutorials : MonoBehaviour
         public string Txt;
     }
 
+    public GameObject ZzinBottomBlock;
+    public int Step;
+
     List<TutorialData> TutDatas;
-    int Step;
 
 
     void Awake()
@@ -44,11 +46,14 @@ public class Tutorials : MonoBehaviour
 
     IEnumerator TutorialStart()
     {
-        GoStep();
-        yield return new WaitWhile(() => Step < 1);
+        int goal = 1;
 
-        GoStep();
-        yield return new WaitWhile(() => Step < 2);
+        while(true)
+        {
+            GoStep();
+            yield return new WaitWhile(() => Step < goal);
+            goal++;
+        }
     }
 
     void GoStep()
@@ -62,9 +67,40 @@ public class Tutorials : MonoBehaviour
 
         switch (Step)
         {
-            case 0:
-                break;
             case 1:
+                EnemySpawn();
+                break;
+            case 4:
+                Invoke("ToggleResUI", 3.0f);
+                GameManager.Inst().IptManager.SetIsAbleControl(false);
+                EnemySpawn();
+                break;
+            case 5:
+                GameManager.Inst().IptManager.SetIsAbleControl(true);
+                break;
+            case 6:
+                Invoke("AddStep", 5.0f);
+                break;
+            case 9:
+                GameManager.Inst().Player.AddCoin(1000);
+                break;
+            case 10:                
+                Invoke("AddStep", 5.0f);
+                break;
+            case 11:
+                GameManager.Inst().UiManager.OnClickManageCancel();
+                ZzinBottomBlock.SetActive(true);
+                break;
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+                Invoke("AddStep", 3.0f);
+                break;
+            case 18:
+                ZzinBottomBlock.SetActive(false);
                 break;
         }
     }
@@ -72,5 +108,25 @@ public class Tutorials : MonoBehaviour
     void AddStep()
     {
         Step++;
+    }
+
+    public void EnemySpawn()
+    {
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
+
+        Vector3 pos = Vector3.zero;
+        pos.y = Random.Range(11.0f, 15.0f);
+        enemy.transform.position = pos;
+
+        Vector3 target = Vector3.zero;
+        target.y = -1.0f;
+        enemy.SetTargetPosition(target);
+
+        enemy.StartMove();
+    }
+
+    void ToggleResUI()
+    {
+        GameManager.Inst().UiManager.OnClickResourceToggleBtn();
     }
 }

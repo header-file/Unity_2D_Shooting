@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
@@ -172,6 +173,9 @@ public class Enemy : MonoBehaviour
 
             //퀘스트 처리
             GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.KILL, (int)Type, 1);
+
+            if (SceneManager.GetActiveScene().name == "Stage0")
+                GameManager.Inst().Tutorials.Step++;
 
             if(Type == EnemyType.LARGE)
             {
@@ -394,7 +398,7 @@ public class Enemy : MonoBehaviour
                 if(sub == null)
                     HitArea.HitObjects[i].GetComponent<Player>().Damage(Atk);
                 else
-                sub.Damage(Atk);
+                    sub.Damage(Atk);
                 HitArea.HitObjects[i] = null;
             }
 

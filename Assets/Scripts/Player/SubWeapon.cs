@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Experimental.U2D.Animation;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class SubWeapon : MonoBehaviour
 {
@@ -476,7 +477,12 @@ public class SubWeapon : MonoBehaviour
     {
         IsDown = false;
         if (IsEditMode)
+        {
             EndEditMode();
+
+            if (SceneManager.GetActiveScene().name == "Stage0")
+                GameManager.Inst().Tutorials.Step++;
+        }
         else
         {
             int id = NumID;

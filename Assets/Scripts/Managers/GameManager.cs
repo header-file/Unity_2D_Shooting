@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     public ShakeManager ShkManager;
     public EquipManager EquManager;
 
+    //튜토리얼용
+    public Tutorials Tutorials;
+
     //Firebase.FirebaseApp App;
 
     public Player Player;

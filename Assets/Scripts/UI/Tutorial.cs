@@ -39,7 +39,7 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
-        
+        SetWindow();
     }
 
     void SetEmpSize()

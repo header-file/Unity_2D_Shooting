@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -330,6 +331,9 @@ public class UIManager : MonoBehaviour
         {
             case 2:
                 CurrentBulletType = GameManager.Inst().Player.GetBulletType();
+
+                if (SceneManager.GetActiveScene().name == "Stage0")
+                    GameManager.Inst().Tutorials.Step++;
                 break;
 
             case 0:
@@ -470,6 +474,9 @@ public class UIManager : MonoBehaviour
         MainUi.Arrows.transform.GetChild(index).gameObject.SetActive(true);
 
         CurrentWeapon = index;
+
+        if (SceneManager.GetActiveScene().name == "Stage0")
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickBuySWBtn()
@@ -477,6 +484,9 @@ public class UIManager : MonoBehaviour
         BuySWUI.Buy();
 
         OnClickManageBtn(CurrentWeapon);
+
+        if (SceneManager.GetActiveScene().name == "Stage0")
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickUpgradeSWBtn()
@@ -508,6 +518,9 @@ public class UIManager : MonoBehaviour
                 idx--;
             GameManager.Inst().GetSubweapons(idx).SetSkinColor(index);
         }
+
+        if (SceneManager.GetActiveScene().name == "Stage0")
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickInventoryBtn()
@@ -767,7 +780,12 @@ public class UIManager : MonoBehaviour
         if (Resource.activeSelf)
             Resource.SetActive(false);
         else
+        {
             Resource.SetActive(true);
+
+            if (SceneManager.GetActiveScene().name == "Stage0")
+                GameManager.Inst().Tutorials.Step++;
+        }            
     }
 
     public void OnClickSideBarBtn()
