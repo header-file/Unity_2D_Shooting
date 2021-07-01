@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -397,6 +398,12 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        {
+            Player.AddItem(eqp);
+            eqp.gameObject.SetActive(false);
+        }
+        
         return eqp;
     }
 
@@ -477,6 +484,12 @@ public class GameManager : MonoBehaviour
                 ieq.SetValues(grade, uid, rand);
                 ieq.gameObject.SetActive(false);
                 break;
+        }
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        {
+            Player.AddItem(ieq);
+            ieq.gameObject.SetActive(false);
         }
 
         return ieq;

@@ -173,9 +173,7 @@ public class Enemy : MonoBehaviour
 
             //퀘스트 처리
             GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.KILL, (int)Type, 1);
-
-            if (SceneManager.GetActiveScene().name == "Stage0")
-                GameManager.Inst().Tutorials.Step++;
+            
 
             if(Type == EnemyType.LARGE)
             {
@@ -208,6 +206,12 @@ public class Enemy : MonoBehaviour
             {
                 GameManager.Inst().StgManager.AddBossCount();
                 gameObject.SetActive(false);
+
+                if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+                {
+                    GameManager.Inst().Tutorials.Step++;
+                    return;
+                }
 
 #if UNITY_EDITOR
                 rand = Random.Range(0, 2);

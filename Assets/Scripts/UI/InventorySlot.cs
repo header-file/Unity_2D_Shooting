@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
 {
@@ -165,5 +166,8 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
                 GameManager.Inst().UiManager.OnClickSynthesisSelectBtn(Index);
                 break;
         }
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
 }

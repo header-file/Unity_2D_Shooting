@@ -332,7 +332,7 @@ public class UIManager : MonoBehaviour
             case 2:
                 CurrentBulletType = GameManager.Inst().Player.GetBulletType();
 
-                if (SceneManager.GetActiveScene().name == "Stage0")
+                if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
                     GameManager.Inst().Tutorials.Step++;
                 break;
 
@@ -452,6 +452,9 @@ public class UIManager : MonoBehaviour
         //DetailUI.OnClickUpgradeBtn();
         CurrentBulletType = WeaponUI.GetCurBulletType();
         GameManager.Inst().UpgManager.AddLevel(CurrentBulletType);
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickSubWeapon(int index)
@@ -475,7 +478,7 @@ public class UIManager : MonoBehaviour
 
         CurrentWeapon = index;
 
-        if (SceneManager.GetActiveScene().name == "Stage0")
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -485,7 +488,7 @@ public class UIManager : MonoBehaviour
 
         OnClickManageBtn(CurrentWeapon);
 
-        if (SceneManager.GetActiveScene().name == "Stage0")
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -519,7 +522,7 @@ public class UIManager : MonoBehaviour
             GameManager.Inst().GetSubweapons(idx).SetSkinColor(index);
         }
 
-        if (SceneManager.GetActiveScene().name == "Stage0")
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -629,6 +632,9 @@ public class UIManager : MonoBehaviour
     public void OnClickEquipAreaBtn()
     {
         WeaponUI.ShowEquipArea();
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickWeaponTypeSortBtn(int index)
@@ -783,7 +789,7 @@ public class UIManager : MonoBehaviour
         {
             Resource.SetActive(true);
 
-            if (SceneManager.GetActiveScene().name == "Stage0")
+            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
                 GameManager.Inst().Tutorials.Step++;
         }            
     }
@@ -804,6 +810,9 @@ public class UIManager : MonoBehaviour
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickSideBarBackBtn()
@@ -813,6 +822,9 @@ public class UIManager : MonoBehaviour
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
    
     public void OnClickSpaceBtn()
@@ -878,6 +890,9 @@ public class UIManager : MonoBehaviour
             OnClickShopBackBtn();
         if (Cheat.activeSelf)
             OnClickCheatBackBtn();
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickWeaponInfoBtn()
@@ -890,6 +905,9 @@ public class UIManager : MonoBehaviour
         }
         else
             WeaponUI.InfoWindow.gameObject.SetActive(false);
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickLandingBtn()

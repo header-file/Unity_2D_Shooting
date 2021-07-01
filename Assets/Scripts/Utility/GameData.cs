@@ -103,7 +103,7 @@ public class GameData
             if (GameManager.Inst().Login.PlayerID != "")
                 UID = GameManager.Inst().Login.PlayerID;
 
-        if (IsEraseData)
+        if (IsEraseData || IsTutorial)
             return;
 
         Coin = GameManager.Inst().Player.GetCoin();

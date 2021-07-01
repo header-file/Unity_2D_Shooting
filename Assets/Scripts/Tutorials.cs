@@ -15,10 +15,13 @@ public class Tutorials : MonoBehaviour
     }
 
     public GameObject ZzinBottomBlock;
+    public GameObject WeaponInventoryBlock;
     public int Step;
 
     List<TutorialData> TutDatas;
 
+
+    public int GetDataStep(int index) { return TutDatas[index].Step; }
 
     void Awake()
     {
@@ -79,13 +82,18 @@ public class Tutorials : MonoBehaviour
                 GameManager.Inst().IptManager.SetIsAbleControl(true);
                 break;
             case 6:
+            case 10:
+            case 19:
+            case 20:
+            case 21:
+            case 24:
+            case 28:
+            case 33:
+            case 37:
                 Invoke("AddStep", 5.0f);
                 break;
             case 9:
                 GameManager.Inst().Player.AddCoin(1000);
-                break;
-            case 10:                
-                Invoke("AddStep", 5.0f);
                 break;
             case 11:
                 GameManager.Inst().UiManager.OnClickManageCancel();
@@ -97,10 +105,35 @@ public class Tutorials : MonoBehaviour
             case 15:
             case 16:
             case 17:
-                Invoke("AddStep", 3.0f);
+                Invoke("AddStep", 2.0f);
                 break;
             case 18:
                 ZzinBottomBlock.SetActive(false);
+                break;
+            case 25:
+                GameManager.Inst().MakeEquipData(0, 0);
+                GameManager.Inst().MakeReinforceData(0, 0);
+                Invoke("AddStep", 5.0f);
+                break;
+            case 29:
+                WeaponInventoryBlock.SetActive(true);
+                Invoke("AddStep", 5.0f);
+                break;
+            case 30:
+                WeaponInventoryBlock.SetActive(false);
+                break;
+            case 32:
+                GameManager.Inst().Player.AddCoin(20);
+                break;
+            case 35:
+                WeaponInventoryBlock.SetActive(true);
+                Invoke("AddStep", 3.0f);
+                break;
+            case 36:
+                WeaponInventoryBlock.SetActive(false);
+                break;
+            case 39:
+                Invoke("ExitWeaponInfo", 5.0f);
                 break;
         }
     }
@@ -128,5 +161,11 @@ public class Tutorials : MonoBehaviour
     void ToggleResUI()
     {
         GameManager.Inst().UiManager.OnClickResourceToggleBtn();
+    }
+
+    void ExitWeaponInfo()
+    {
+        GameManager.Inst().UiManager.EquipArea.GetComponent<SwitchWindow>().OnClickInfoBackBtn();
+        AddStep();
     }
 }

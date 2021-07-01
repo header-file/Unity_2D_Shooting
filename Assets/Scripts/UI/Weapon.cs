@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Experimental.U2D.Animation;
+using UnityEngine.SceneManagement;
 
 public class Weapon : MonoBehaviour
 {
@@ -220,8 +221,6 @@ public class Weapon : MonoBehaviour
         }
         Show(SlotIndices[1]);
 
-        ShowInventory();
-
         ShowBulletType = 1;
         ShowInfoArea();
     }
@@ -232,6 +231,12 @@ public class Weapon : MonoBehaviour
         InfoArea.ShowDetail(CurBulletType);
         InfoArea.UpgradeBtn.interactable = GameManager.Inst().UpgManager.BData[CurBulletType].GetActive();
         InfoArea.EquipAreaBtn.interactable = GameManager.Inst().UpgManager.BData[CurBulletType].GetActive();
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step) && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        {
+            InfoArea.UpgradeBtn.interactable = true;
+            InfoArea.EquipAreaBtn.interactable = true;
+        }
 
         for (int i = 0; i < 3; i++)
             InfoArea.PaintGauge(i, CurBulletType);
@@ -258,6 +263,8 @@ public class Weapon : MonoBehaviour
         InfoArea.gameObject.SetActive(false);
         EquipArea.gameObject.SetActive(true);
         EquipArea.InfoWindow.SetActive(false);
+
+        ShowInventory();
 
         for (int i = 0; i < 3; i++)
             Show(CurBulletType);
@@ -648,5 +655,8 @@ public class Weapon : MonoBehaviour
             SwitchWindows[ShowBulletType].Lock.SetActive(true);
             SwitchWindows[ShowBulletType].LockText.text = "Stage" + GameManager.Inst().StgManager.UnlockBulletStages[SlotIndices[ShowBulletType]] + "\n클리어 시 해금";
         }
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
 }
