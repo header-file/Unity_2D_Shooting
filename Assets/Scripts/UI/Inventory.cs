@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Inventory : MonoBehaviour
 {
@@ -37,5 +38,8 @@ public class Inventory : MonoBehaviour
     public void OnClickSell()
     {
         GameManager.Inst().UiManager.InventoryDetail.GetComponent<InventoryDetail>().ShowSell();
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
 }

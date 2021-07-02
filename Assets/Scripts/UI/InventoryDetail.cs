@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InventoryDetail : MonoBehaviour
 {
@@ -120,6 +121,9 @@ public class InventoryDetail : MonoBehaviour
             SellConfirm.UpBtn.interactable = false;
             SellConfirm.DownBtn.interactable = false;
         }
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 5 || GameManager.Inst().Tutorials.Step == 41))
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickUpBtn()

@@ -331,9 +331,6 @@ public class UIManager : MonoBehaviour
         {
             case 2:
                 CurrentBulletType = GameManager.Inst().Player.GetBulletType();
-
-                if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
-                    GameManager.Inst().Tutorials.Step++;
                 break;
 
             case 0:
@@ -361,6 +358,9 @@ public class UIManager : MonoBehaviour
             if (GameManager.Inst().GetSubweapons(i) != null)
                 GameManager.Inst().GetSubweapons(i).ShowEquipUI();
         }
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 5 || GameManager.Inst().Tutorials.Step == 41))
+            GameManager.Inst().Tutorials.Step++;
     }
 
     //public void ShowDetail(int Type)
@@ -752,6 +752,9 @@ public class UIManager : MonoBehaviour
     public void OnClickSynthesisUnselectBtn()
     {
         SynthesisUI.CancelSelect();
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickSynthesisResultBackBtn()

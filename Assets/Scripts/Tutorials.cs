@@ -53,6 +53,9 @@ public class Tutorials : MonoBehaviour
 
         while(true)
         {
+            if (goal > 62)
+                break;
+
             GoStep();
             yield return new WaitWhile(() => Step < goal);
             goal++;
@@ -71,6 +74,8 @@ public class Tutorials : MonoBehaviour
         switch (Step)
         {
             case 1:
+                GameManager.Inst().IptManager.SetIsAbleControl(false);
+                Invoke("SetAbleControl", 2.0f);
                 EnemySpawn();
                 break;
             case 4:
@@ -90,6 +95,10 @@ public class Tutorials : MonoBehaviour
             case 28:
             case 33:
             case 37:
+            case 42:
+            case 50:
+            case 55:
+            case 60:
                 Invoke("AddStep", 5.0f);
                 break;
             case 9:
@@ -135,6 +144,12 @@ public class Tutorials : MonoBehaviour
             case 39:
                 Invoke("ExitWeaponInfo", 5.0f);
                 break;
+            case 43:
+                GameManager.Inst().UiManager.OnClickManageCancel();
+                break;
+            case 46:
+                Invoke("ExitSell", 5.0f);
+                break;
         }
     }
 
@@ -143,12 +158,17 @@ public class Tutorials : MonoBehaviour
         Step++;
     }
 
+    void SetAbleControl()
+    {
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+    }
+
     public void EnemySpawn()
     {
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
 
         Vector3 pos = Vector3.zero;
-        pos.y = Random.Range(11.0f, 15.0f);
+        pos.y = 11.0f;
         enemy.transform.position = pos;
 
         Vector3 target = Vector3.zero;
@@ -166,6 +186,23 @@ public class Tutorials : MonoBehaviour
     void ExitWeaponInfo()
     {
         GameManager.Inst().UiManager.EquipArea.GetComponent<SwitchWindow>().OnClickInfoBackBtn();
+
         AddStep();
+    }
+
+    void ExitSell()
+    {
+        GameManager.Inst().UiManager.InventoryDetail.GetComponent<InventoryDetail>().OnClickNoBtn();
+        GameManager.Inst().UiManager.OnClickInventoryDetailBackBtn();
+
+        AddStep();
+
+        for(int i = 0; i < 2; i++)
+            GameManager.Inst().MakeEquipData(0, 0);
+
+        for (int i = 0; i < 2; i++)
+            GameManager.Inst().MakeReinforceData(0, 0);
+
+        GameManager.Inst().MakeReinforceData(1, 0);
     }
 }

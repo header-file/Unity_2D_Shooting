@@ -485,6 +485,9 @@ public class SubWeapon : MonoBehaviour
         }
         else
         {
+            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 11)
+                return;
+
             int id = NumID;
             if (id > 1)
                 id++;
