@@ -14,6 +14,7 @@ public class Tutorials : MonoBehaviour
         public string Txt;
     }
 
+    public GameObject EnemyFin;
     public GameObject ZzinBottomBlock;
     public GameObject WeaponInventoryBlock;
     public int Step;
@@ -76,12 +77,12 @@ public class Tutorials : MonoBehaviour
             case 1:
                 GameManager.Inst().IptManager.SetIsAbleControl(false);
                 Invoke("SetAbleControl", 2.0f);
-                EnemySpawn();
+                EnemySpawn(0);
                 break;
             case 4:
                 Invoke("ToggleResUI", 3.0f);
                 GameManager.Inst().IptManager.SetIsAbleControl(false);
-                EnemySpawn();
+                EnemySpawn(0);
                 break;
             case 5:
                 GameManager.Inst().IptManager.SetIsAbleControl(true);
@@ -99,6 +100,13 @@ public class Tutorials : MonoBehaviour
             case 50:
             case 55:
             case 60:
+            case 61:
+            case 62:
+            case 63:
+            case 65:
+            case 68:
+            case 70:
+            case 71:
                 Invoke("AddStep", 5.0f);
                 break;
             case 9:
@@ -150,6 +158,24 @@ public class Tutorials : MonoBehaviour
             case 46:
                 Invoke("ExitSell", 5.0f);
                 break;
+            case 64:
+                Invoke("FeverMode", 3.0f);
+                break;
+            case 66:
+                GameManager.Inst().StgManager.SetBossCount(1, 31);
+                Invoke("AddStep", 5.0f);
+                break;
+            case 67:
+                EnemyFin.SetActive(true);
+                EnemySpawn(1);
+                break;
+            case 69:
+                GameManager.Inst().StgManager.SetBossCount(1, 50);
+                Invoke("AddStep", 7.0f);
+                break;
+            case 72:
+                Invoke("EndTutorial", 5.0f);
+                break;
         }
     }
 
@@ -163,9 +189,13 @@ public class Tutorials : MonoBehaviour
         GameManager.Inst().IptManager.SetIsAbleControl(true);
     }
 
-    public void EnemySpawn()
+    public void EnemySpawn(int type)
     {
-        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
+        Enemy enemy;
+        if(type == 0)
+            enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
+        else
+            enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").gameObject.GetComponent<Enemy>();
 
         Vector3 pos = Vector3.zero;
         pos.y = 11.0f;
@@ -204,5 +234,16 @@ public class Tutorials : MonoBehaviour
             GameManager.Inst().MakeReinforceData(0, 0);
 
         GameManager.Inst().MakeReinforceData(1, 0);
+    }
+
+    void FeverMode()
+    {
+        GameManager.Inst().StgManager.SetBossCount(1, 20);
+        AddStep();
+    }
+
+    void EndTutorial()
+    {
+
     }
 }

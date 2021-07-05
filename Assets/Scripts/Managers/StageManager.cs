@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
@@ -50,11 +51,6 @@ public class StageManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void Update()
-    {
-        
-    }
-
     void SetUnlockData()
     {
         List<Dictionary<string, object>> data = CSVReader.Read("Datas/BulletUnlockData");
@@ -85,19 +81,31 @@ public class StageManager : MonoBehaviour
             FillGauge();
 
             if (BossCount[Stage - 1] >= BossMax)
-            {
-                IsBoss = true;
-                GameManager.Inst().UiManager.BgAnim.SetTrigger("toBoss");
-                BossTimer = Constants.MAXBOSSTIME;
-                GameManager.Inst().UiManager.BossGauge.SetActive(false);
-                BossCount[Stage - 1] = 0;
-                GameManager.Inst().UiManager.BossGaugeBar.fillAmount = (float)BossCount[Stage - 1] / BossMax;
-                CancelEnemies();
-                GameManager.Inst().UiManager.WarningAnim.SetTrigger("Start");
-                Invoke("SpawnBoss", 2.5f);
-                GameManager.Inst().Player.BossMode();
-            }
+                StartBossMode();
         }
+    }
+
+    public void SetBossCount(int stage, int count)
+    {
+        BossCount[stage - 1] = count;
+        FillGauge();
+
+        if (BossCount[Stage - 1] >= BossMax)
+            StartBossMode();
+    }
+
+    void StartBossMode()
+    {
+        IsBoss = true;
+        GameManager.Inst().UiManager.BgAnim.SetTrigger("toBoss");
+        BossTimer = Constants.MAXBOSSTIME;
+        GameManager.Inst().UiManager.BossGauge.SetActive(false);
+        BossCount[Stage - 1] = 0;
+        GameManager.Inst().UiManager.BossGaugeBar.fillAmount = (float)BossCount[Stage - 1] / BossMax;
+        CancelEnemies();
+        GameManager.Inst().UiManager.WarningAnim.SetTrigger("Start");
+        Invoke("SpawnBoss", 2.5f);
+        GameManager.Inst().Player.BossMode();
     }
 
     public void FillGauge()
@@ -262,7 +270,11 @@ public class StageManager : MonoBehaviour
     void EndFeverMode()
     {
         IsFeverMode = false;
+
         CancelEnemies();
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            EraseCurEnemies();
 
         SpawnEnemies();
     }
@@ -301,5 +313,14 @@ public class StageManager : MonoBehaviour
     public bool CheckBulletUnlocked(int type)
     {
         return BulletUnlockData[GameManager.Inst().DatManager.GameData.ReachedStage, type];
+    }
+
+    void EraseCurEnemies()
+    {
+        EnemyS[] enemies = new EnemyS[100];
+        enemies = FindObjectsOfType<EnemyS>();
+        for (int i = 0; i < enemies.Length; i++)
+            if (enemies != null)
+                enemies[i].gameObject.SetActive(false);
     }
 }
