@@ -274,7 +274,10 @@ public class StageManager : MonoBehaviour
         CancelEnemies();
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        {
             EraseCurEnemies();
+            return;
+        }            
 
         SpawnEnemies();
     }

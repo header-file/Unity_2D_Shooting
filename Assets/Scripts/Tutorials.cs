@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Tutorials : MonoBehaviour
 {
@@ -50,11 +51,11 @@ public class Tutorials : MonoBehaviour
 
     IEnumerator TutorialStart()
     {
-        int goal = 1;
+        int goal = Step + 1;
 
         while(true)
         {
-            if (goal > 62)
+            if (goal > 74)
                 break;
 
             GoStep();
@@ -171,9 +172,13 @@ public class Tutorials : MonoBehaviour
                 break;
             case 69:
                 GameManager.Inst().StgManager.SetBossCount(1, 50);
-                Invoke("AddStep", 7.0f);
+                Invoke("AddStep", 6.0f);
                 break;
             case 72:
+                GameManager.Inst().StgManager.BossTimer = 0.1f;
+                Invoke("AddStep", 5.0f);
+                break;
+            case 73:
                 Invoke("EndTutorial", 5.0f);
                 break;
         }
@@ -227,23 +232,26 @@ public class Tutorials : MonoBehaviour
 
         AddStep();
 
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i < 3; i++)
             GameManager.Inst().MakeEquipData(0, 0);
 
         for (int i = 0; i < 2; i++)
             GameManager.Inst().MakeReinforceData(0, 0);
 
-        GameManager.Inst().MakeReinforceData(1, 0);
+        GameManager.Inst().MakeEquipData(1, 0);
     }
 
     void FeverMode()
     {
-        GameManager.Inst().StgManager.SetBossCount(1, 20);
+        GameManager.Inst().StgManager.SetBossCount(1, 21);
         AddStep();
     }
 
     void EndTutorial()
     {
-
+        GameManager.Inst().DatManager.GameData.ResetData();
+        GameManager.Inst().DatManager.GameData.LoadData();
+        GameManager.Inst().DatManager.GameData.IsTutorial = false;
+        SceneManager.LoadScene("Stage1");
     }
 }

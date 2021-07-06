@@ -60,7 +60,10 @@ public class TutorialObj : MonoBehaviour
             Debug.Log(Count);
 
             if (Count <= 0)
+            {
                 GameManager.Inst().Tutorials.Step++;
+                gameObject.SetActive(false);
+            }                
         }
     }
 }

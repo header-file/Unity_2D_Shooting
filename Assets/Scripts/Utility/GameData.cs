@@ -329,21 +329,25 @@ public class GameData
         if (CountStartTimes != null)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
             {
-                string str = "";
-                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR].ToString() + "/";
-                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH].ToString() + "/";
-                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE].ToString() + " ";
-                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR].ToString() + ":";
-                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE].ToString() + ":";
-                str += CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND].ToString();
                 GameManager.Inst().ResManager.StartTimes[i] = new DateTime(CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE],
                                                                             CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND]);
                 GameManager.Inst().ResManager.LoadCount(i);
             }
         else
+        {
             CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
+            for (int i = 0; i < Constants.MAXSTAGES; i++)
+            {
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = Now.Year;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = Now.Month;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = Now.Day;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = Now.Hour;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = Now.Minute;
+                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = Now.Second;
+            }
+        }
 
-        if (GameManager.Inst().StgManager.Stage > 1)
+        if (GameManager.Inst().StgManager.Stage >= 1)
         {
             if (IsTutorial)
                 SceneManager.LoadScene("Stage0");
@@ -382,6 +386,15 @@ public class GameData
         Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
 
         CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
+        for(int i = 0; i < Constants.MAXSTAGES; i++)
+        {
+            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = Now.Year;
+            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = Now.Month;
+            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = Now.Day;
+            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = Now.Hour;
+            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = Now.Minute;
+            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = Now.Second;
+        }
 
         IsTutorial = true;
     }

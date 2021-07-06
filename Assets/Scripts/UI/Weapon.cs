@@ -223,6 +223,7 @@ public class Weapon : MonoBehaviour
 
         ShowBulletType = 1;
         ShowInfoArea();
+        ShowInventory();
     }
 
     void ShowInfoArea()
@@ -264,7 +265,7 @@ public class Weapon : MonoBehaviour
         EquipArea.gameObject.SetActive(true);
         EquipArea.InfoWindow.SetActive(false);
 
-        ShowInventory();
+        //ShowInventory();
 
         for (int i = 0; i < 3; i++)
             Show(CurBulletType);
