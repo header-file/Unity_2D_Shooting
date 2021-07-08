@@ -9,6 +9,7 @@ public class Tutorial : MonoBehaviour
     public RectTransform[] Blurs;
     public RectTransform TextBg;
     public Text TutorialText;
+    public GameObject SkipWindow;
 
     public Vector2 Size;
     public Vector2 Pos;
@@ -34,12 +35,13 @@ public class Tutorial : MonoBehaviour
         Size = new Vector2(100, 100);
         Pos = Vector2.zero;
 
+        SkipWindow.SetActive(false);
         //gameObject.SetActive(false);
     }
 
     void Update()
     {
-        SetWindow();
+        //SetWindow();
     }
 
     void SetEmpSize()
@@ -66,5 +68,20 @@ public class Tutorial : MonoBehaviour
 
         Blurs[3].sizeDelta = new Vector2(Width / 2.0f - (Emp.anchoredPosition.x + (Emp.sizeDelta.x / 2.0f)), Emp.sizeDelta.y);
         Blurs[3].anchoredPosition = new Vector2(-Blurs[3].sizeDelta.x / 2.0f, Emp.anchoredPosition.y);
+    }
+
+    public void OnClickSkip()
+    {
+        SkipWindow.SetActive(true);
+    }
+
+    public void OnClickYes()
+    {
+        GameManager.Inst().Tutorials.EndTutorial();
+    }
+
+    public void OnClickNo()
+    {
+        SkipWindow.SetActive(false);
     }
 }

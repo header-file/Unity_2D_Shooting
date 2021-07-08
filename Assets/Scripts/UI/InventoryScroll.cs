@@ -96,6 +96,7 @@ public class InventoryScroll : MonoBehaviour
         GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.RARITY;
 
         Sort();
+        FitArea();
     }
 
     public void HideSlot(int i)
@@ -136,6 +137,25 @@ public class InventoryScroll : MonoBehaviour
         GameManager.Inst().Player.SortOption = (int)InventorySlot.SortOption.BASE;
 
         Sort();
+    }
+
+    public void FitArea()
+    {
+        Vector2 anchPos = Contents.GetComponent<RectTransform>().anchoredPosition;
+        switch (Slots[0].GetSlotType())
+        {
+            case 0:     //Inventory
+                anchPos.y = 450.0f;
+                break;
+            case 1:     //Weapon
+                anchPos.y = 250.0f;
+                break;
+            case 2:     //Synthesis
+                anchPos.y = 220.0f;
+                break;
+        }
+
+        Contents.GetComponent<RectTransform>().anchoredPosition = anchPos;
     }
 
     //void QuickSort(InventorySlot[] array, int p, int r)

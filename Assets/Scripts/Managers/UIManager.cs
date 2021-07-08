@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
     public Sprite[] FoodImages;
     public Sprite[] EquipImages;
 
-    
+
     MainUI MainUi;
     Slot[] SlotUI;
     BuySubWeapon BuySWUI;
@@ -216,8 +216,8 @@ public class UIManager : MonoBehaviour
             IsMoveUp = false;
             GameManager.Inst().IptManager.SetIsAbleControl(false);
             GameManager.Inst().IptManager.SetIsAbleSWControl(false);
-            
-        }  
+
+        }
     }
 
     void MoveDown()
@@ -234,10 +234,10 @@ public class UIManager : MonoBehaviour
         {
             IsMoveDown = false;
 
-            for(int i = 0; i < NewWindows.Length; i++)
+            for (int i = 0; i < NewWindows.Length; i++)
                 NewWindows[i].SetActive(false);
 
-            if(!IsEquip)
+            if (!IsEquip)
             {
                 GameManager.Inst().IptManager.SetIsAbleControl(true);
                 GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -261,7 +261,7 @@ public class UIManager : MonoBehaviour
 
     public void SelectBullet(int BulletType)
     {
-        switch(CurrentWeapon)
+        switch (CurrentWeapon)
         {
             case 2:
                 GameManager.Inst().Player.SetBulletType(BulletType);
@@ -324,10 +324,10 @@ public class UIManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
-        
+
         MainUi.Arrows.transform.GetChild(Type).gameObject.SetActive(true);
 
-        switch(CurrentWeapon)
+        switch (CurrentWeapon)
         {
             case 2:
                 CurrentBulletType = GameManager.Inst().Player.GetBulletType();
@@ -392,7 +392,7 @@ public class UIManager : MonoBehaviour
     {
         StageScrollUI.Planets[index].Lock.SetActive(false);
 
-        if(GameManager.Inst().StgManager.ReachedStage > 1)
+        if (GameManager.Inst().StgManager.ReachedStage > 1)
             SideMenuUI.MakeSlot();
     }
 
@@ -420,7 +420,7 @@ public class UIManager : MonoBehaviour
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
 
         GameManager.Inst().Player.EquipUI.SetActive(false);
-        for(int i = 0; i < Constants.MAXSUBWEAPON; i++)
+        for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
         {
             if (GameManager.Inst().GetSubweapons(i) != null)
                 GameManager.Inst().UiManager.Turrets[i].EquipUI.SetActive(false);
@@ -453,7 +453,7 @@ public class UIManager : MonoBehaviour
         CurrentBulletType = WeaponUI.GetCurBulletType();
         GameManager.Inst().UpgManager.AddLevel(CurrentBulletType);
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 32)
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -478,7 +478,7 @@ public class UIManager : MonoBehaviour
 
         CurrentWeapon = index;
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 8)
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -488,7 +488,7 @@ public class UIManager : MonoBehaviour
 
         OnClickManageBtn(CurrentWeapon);
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 9)
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -503,7 +503,7 @@ public class UIManager : MonoBehaviour
             Timer = 0.0f;
         IsMoveDown = true;
 
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
             MainUi.Arrows.transform.GetChild(i).gameObject.SetActive(false);
     }
 
@@ -522,7 +522,7 @@ public class UIManager : MonoBehaviour
             GameManager.Inst().GetSubweapons(idx).SetSkinColor(index);
         }
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 7)
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -633,7 +633,7 @@ public class UIManager : MonoBehaviour
     {
         WeaponUI.ShowEquipArea();
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -728,7 +728,7 @@ public class UIManager : MonoBehaviour
         //        SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
         //}
         //else if(count < 3)
-        if(index < 3)
+        if (index < 3)
             SynthesisUI.SortAsDefault();
         else if (index == 3)
             SynthesisUI.ShowConfirmWindow();
@@ -753,7 +753,7 @@ public class UIManager : MonoBehaviour
     {
         SynthesisUI.CancelSelect();
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 51 || GameManager.Inst().Tutorials.Step == 56))
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -792,7 +792,7 @@ public class UIManager : MonoBehaviour
         {
             Resource.SetActive(true);
 
-            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 3)
                 GameManager.Inst().Tutorials.Step++;
         }            
     }
@@ -814,7 +814,7 @@ public class UIManager : MonoBehaviour
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 18)
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -826,7 +826,7 @@ public class UIManager : MonoBehaviour
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 22)
             GameManager.Inst().Tutorials.Step++;
     }
    
@@ -894,7 +894,10 @@ public class UIManager : MonoBehaviour
         if (Cheat.activeSelf)
             OnClickCheatBackBtn();
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && 
+            (GameManager.Inst().Tutorials.Step == 23 || GameManager.Inst().Tutorials.Step == 26 || GameManager.Inst().Tutorials.Step == 27 || GameManager.Inst().Tutorials.Step ==  23 ||
+            GameManager.Inst().Tutorials.Step == 40 || GameManager.Inst().Tutorials.Step == 43 || GameManager.Inst().Tutorials.Step == 47 || GameManager.Inst().Tutorials.Step == 48 ||
+            GameManager.Inst().Tutorials.Step == 61))
             GameManager.Inst().Tutorials.Step++;
     }
 
@@ -909,7 +912,7 @@ public class UIManager : MonoBehaviour
         else
             WeaponUI.InfoWindow.gameObject.SetActive(false);
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 31)
             GameManager.Inst().Tutorials.Step++;
     }
 

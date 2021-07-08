@@ -480,7 +480,7 @@ public class SubWeapon : MonoBehaviour
         {
             EndEditMode();
 
-            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 11)
                 GameManager.Inst().Tutorials.Step++;
         }
         else

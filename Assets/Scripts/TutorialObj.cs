@@ -59,7 +59,7 @@ public class TutorialObj : MonoBehaviour
             Count--;
             Debug.Log(Count);
 
-            if (Count <= 0)
+            if (Count <= 0 && GameManager.Inst().Tutorials.Step == 2)
             {
                 GameManager.Inst().Tutorials.Step++;
                 gameObject.SetActive(false);

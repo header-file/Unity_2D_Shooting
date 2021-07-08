@@ -23,8 +23,6 @@ public class Tutorials : MonoBehaviour
     List<TutorialData> TutDatas;
 
 
-    public int GetDataStep(int index) { return TutDatas[index].Step; }
-
     void Awake()
     {
         Step = 0;
@@ -42,6 +40,8 @@ public class Tutorials : MonoBehaviour
 
             TutDatas.Add(tData);
         }
+
+        GameManager.Inst().Tutorials = gameObject.GetComponent<Tutorials>();
     }
 
     void Start()
@@ -55,7 +55,7 @@ public class Tutorials : MonoBehaviour
 
         while(true)
         {
-            if (goal > 74)
+            if (goal > TutDatas.Count)
                 break;
 
             GoStep();
@@ -247,7 +247,7 @@ public class Tutorials : MonoBehaviour
         AddStep();
     }
 
-    void EndTutorial()
+    public void EndTutorial()
     {
         GameManager.Inst().DatManager.GameData.ResetData();
         GameManager.Inst().DatManager.GameData.LoadData();

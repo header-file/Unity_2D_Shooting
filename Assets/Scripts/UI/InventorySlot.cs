@@ -43,6 +43,7 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
     public GameObject GetExist() { return Exist; }
     public GameObject GetNotExist() { return NotExist; }
     public int GetItemUID() { return ItemUID; }
+    public int GetSlotType() { return Type; }
 
     public void SetIndex(int i) { Index = i; }
     public void SetType(int t) { Type = t; }
@@ -167,7 +168,9 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
                 break;
         }
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 36 || GameManager.Inst().Tutorials.Step == 38 || GameManager.Inst().Tutorials.Step == 44 ||
+            GameManager.Inst().Tutorials.Step == 49 || GameManager.Inst().Tutorials.Step == 52 || GameManager.Inst().Tutorials.Step == 53 || GameManager.Inst().Tutorials.Step == 54  ||
+            GameManager.Inst().Tutorials.Step == 57 || GameManager.Inst().Tutorials.Step == 58 || GameManager.Inst().Tutorials.Step == 59))
             GameManager.Inst().Tutorials.Step++;
     }
 }

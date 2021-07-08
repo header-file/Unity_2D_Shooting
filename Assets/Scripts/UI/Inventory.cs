@@ -39,7 +39,7 @@ public class Inventory : MonoBehaviour
     {
         GameManager.Inst().UiManager.InventoryDetail.GetComponent<InventoryDetail>().ShowSell();
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == GameManager.Inst().Tutorials.GetDataStep(GameManager.Inst().Tutorials.Step))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 45)
             GameManager.Inst().Tutorials.Step++;
     }
 }
