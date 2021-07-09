@@ -6679,7 +6679,7 @@ MonoBehaviour:
     BossGauges: 
     CountStartTimes: 
     IsEraseData: 0
-    IsTutorials: 
+    IsTutorial: 0
 --- !u!4 &674988685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5802069160009883248, guid: f7a8c48e6ac166e4a8ff1f1268faaf78,
@@ -12218,7 +12218,7 @@ MonoBehaviour:
   DailyLeft: {fileID: 785277000}
   DailyPlusLeft: {fileID: 1066491563}
   Alarm: {fileID: 548901866}
-  Tutorial: {fileID: 5004403706982993370}
+  Tutorial: {fileID: 0}
   CoinText: {fileID: 739101574}
   Turrets:
   - {fileID: 1329591701}
@@ -12690,6 +12690,7 @@ GameObject:
   - component: {fileID: 1112935005}
   - component: {fileID: 1112935004}
   - component: {fileID: 1112935006}
+  - component: {fileID: 1112935008}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -12714,6 +12715,7 @@ MonoBehaviour:
   DatManager: {fileID: 1112935003}
   ResManager: {fileID: 1112935006}
   AdsManager: {fileID: 1112935007}
+  SodManager: {fileID: 1112935008}
   Login: {fileID: 0}
   ShtManager: {fileID: 0}
   ObjManager: {fileID: 0}
@@ -12723,6 +12725,7 @@ MonoBehaviour:
   QstManager: {fileID: 0}
   ShkManager: {fileID: 0}
   EquManager: {fileID: 0}
+  Tutorials: {fileID: 0}
   Player: {fileID: 237372650}
   Jewel: 0
   Resources: 
@@ -12774,7 +12777,7 @@ MonoBehaviour:
     BossGauges: 
     CountStartTimes: 
     IsEraseData: 0
-    IsTutorials: 
+    IsTutorial: 0
 --- !u!114 &1112935004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12828,6 +12831,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c682bd5c9fb0474d8354788f50f0098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1112935008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112935000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9521d488bd977394ea5cab51dd017ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1118611214 stripped
@@ -27535,18 +27550,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5004403706982993367}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5004403706982993370 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7948257873635324351, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 5004403706982993367}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c6c1ce75345e774fbe7074f3287425a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6761168542200213462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2535238218644431927, guid: d0d06d007ac6e81468cb8034cecc2901,

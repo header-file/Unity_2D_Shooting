@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -6752,6 +6752,10 @@ MonoBehaviour:
     Quests: 
     BossGauges: 
     CountStartTimes: 
+    BGMVolume: 0.5
+    EffectVolume: 0.5
+    IsMuteBGM: 0
+    IsMuteEffect: 0
     IsEraseData: 0
     IsTutorial: 0
 --- !u!4 &674988685 stripped
@@ -12841,6 +12845,7 @@ GameObject:
   - component: {fileID: 1112935005}
   - component: {fileID: 1112935004}
   - component: {fileID: 1112935006}
+  - component: {fileID: 1112935008}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -12865,6 +12870,7 @@ MonoBehaviour:
   DatManager: {fileID: 1112935003}
   ResManager: {fileID: 1112935006}
   AdsManager: {fileID: 1112935007}
+  SodManager: {fileID: 1112935008}
   Login: {fileID: 0}
   ShtManager: {fileID: 0}
   ObjManager: {fileID: 0}
@@ -12925,6 +12931,10 @@ MonoBehaviour:
     Quests: 
     BossGauges: 
     CountStartTimes: 
+    BGMVolume: 0.5
+    EffectVolume: 0.5
+    IsMuteBGM: 0
+    IsMuteEffect: 0
     IsEraseData: 0
     IsTutorial: 0
 --- !u!114 &1112935004
@@ -12982,6 +12992,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c682bd5c9fb0474d8354788f50f0098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1112935008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112935000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9521d488bd977394ea5cab51dd017ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BGMSource: {fileID: 0}
+  EffectSources: []
 --- !u!1 &1118611214 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7652251635706608712, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
@@ -27975,7 +27999,7 @@ PrefabInstance:
     - target: {fileID: 8732379300006775283, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8732379300006775283, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}

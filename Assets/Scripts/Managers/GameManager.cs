@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public DataManager DatManager;
     public ResourceManager ResManager;
     public AdvertiseManager AdsManager;
+    public SoundManager SodManager;
     public Login Login;
 
     //씬마다 생성

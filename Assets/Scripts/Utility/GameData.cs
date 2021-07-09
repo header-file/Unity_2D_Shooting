@@ -92,6 +92,11 @@ public class GameData
 
     public int[] CountStartTimes;
 
+    public float BGMVolume = 0.5f;
+    public float EffectVolume = 0.5f;
+    public bool IsMuteBGM;
+    public bool IsMuteEffect;
+
     public bool IsEraseData;
 
     public bool IsTutorial;
@@ -395,6 +400,11 @@ public class GameData
             CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = Now.Minute;
             CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = Now.Second;
         }
+
+        BGMVolume = 0.5f;
+        EffectVolume = 0.5f;
+        IsMuteBGM = false;
+        IsMuteEffect = false;
 
         IsTutorial = true;
     }

@@ -40,5 +40,7 @@ static class Constants
     public const int QSTDATASIZE = 2;
     public const int TIMEDATASIZE = 6;
 
+    public const int MAX_EFFECT_LAYER = 5;
+
     public const int TUTORIALCOUNT = 6;
 }
