@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class MainUI : MonoBehaviour
 {
     public GameObject Arrows;
+    public Menu Menu;
+
 
     void Awake()
     {
@@ -41,5 +43,13 @@ public class MainUI : MonoBehaviour
     public void OnClickHome()
     {
         GameManager.Inst().UiManager.OnClickHomeBtn();
+    }
+
+    public void OnClickMenu()
+    {
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+
+        Menu.gameObject.SetActive(true);
     }
 }
