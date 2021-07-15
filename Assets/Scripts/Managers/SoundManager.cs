@@ -8,6 +8,11 @@ public class SoundManager : MonoBehaviour
     public AudioSource BGMSource;
     public AudioSource[] EffectSources;
 
+    public float BgmVolume;
+    public float EffectVolume;
+    public bool IsBgmMute;
+    public bool IsEffectMute;
+
     int EffectIndex = 0;
 
     void Awake()
@@ -19,6 +24,8 @@ public class SoundManager : MonoBehaviour
             SoundLists.Add(clip.name, clip);
         }
 
+        BgmVolume = 0.5f;
+        EffectVolume = 0.5f;
         EffectSources = new AudioSource[Constants.MAX_EFFECT_LAYER];
     }
 
@@ -38,7 +45,7 @@ public class SoundManager : MonoBehaviour
 
         BGMSource.clip = clip;
         BGMSource.loop = true;
-        BGMSource.volume = GameManager.Inst().DatManager.GameData.BGMVolume;
+        BGMSource.volume = BgmVolume;
         BGMSource.Play();
     }
 
@@ -56,7 +63,7 @@ public class SoundManager : MonoBehaviour
         if (clip == null || EffectSources[EffectIndex] == null)
             return;
 
-        EffectSources[EffectIndex].PlayOneShot(clip, GameManager.Inst().DatManager.GameData.EffectVolume);
+        EffectSources[EffectIndex].PlayOneShot(clip, EffectVolume);
 
         EffectIndex++;
         if (EffectIndex > Constants.MAX_EFFECT_LAYER)

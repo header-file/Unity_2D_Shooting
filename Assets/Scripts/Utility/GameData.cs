@@ -185,6 +185,11 @@ public class GameData
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID] = GameManager.Inst().QstManager.Quests[i].QuestId;
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT] = GameManager.Inst().QstManager.Quests[i].CurrentCount;
         }
+
+        IsMuteBGM = GameManager.Inst().SodManager.IsBgmMute;
+        IsMuteEffect = GameManager.Inst().SodManager.IsEffectMute;
+        BGMVolume = GameManager.Inst().SodManager.BgmVolume;
+        EffectVolume = GameManager.Inst().SodManager.EffectVolume;
     }
 
     public void LoadData()
@@ -351,6 +356,11 @@ public class GameData
                 CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = Now.Second;
             }
         }
+
+        GameManager.Inst().SodManager.IsBgmMute = IsMuteBGM;
+        GameManager.Inst().SodManager.IsEffectMute = IsMuteEffect;
+        GameManager.Inst().SodManager.BgmVolume = BGMVolume;
+        GameManager.Inst().SodManager.EffectVolume = EffectVolume;
 
         if (GameManager.Inst().StgManager.Stage >= 1)
         {
