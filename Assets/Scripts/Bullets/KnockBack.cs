@@ -20,8 +20,8 @@ public class KnockBack : Bullet
             if (enemy.GetEnemyType() == (int)Enemy.EnemyType.BOSS)
                 return;
 
+            enemy.StopMove(0.5f);
             enemy.GetComponent<Rigidbody2D>().AddForce(Direction * 5.0f, ForceMode2D.Impulse);
-            enemy.StartMove(0.5f);
         }
     }
 }

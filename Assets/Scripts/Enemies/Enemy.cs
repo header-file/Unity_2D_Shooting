@@ -36,6 +36,7 @@ public class Enemy : MonoBehaviour
     Vector3 TargetPosition;
     bool IsInvincible;
     bool IsReflected;
+    bool IsStop;
 
     public int GetEnemyType() { return (int)Type; }
     public Vector3 GetTargetPosition() { return TargetPosition; }
@@ -80,8 +81,9 @@ public class Enemy : MonoBehaviour
         switch(GameManager.Inst().StgManager.Stage)
         {
             case 1:
-                Rig.velocity = Vector3.zero;
-                Rig.AddForce(-transform.up * Speed, ForceMode2D.Impulse);
+                Rig.velocity = Vector2.zero;
+                //Rig.AddForce(-transform.up * Speed, ForceMode2D.Impulse);
+                Rig.velocity = -transform.up * Speed;
                 break;
             case 2:
                 Rig.velocity = -transform.up * Speed;
@@ -110,7 +112,24 @@ public class Enemy : MonoBehaviour
 
     public void StartMove(float time)
     {
+        if (IsStop)
+            return;
+
         InvokeRepeating("StartMove", 0.0f, time);
+    }
+
+    public void StopMove(float time)
+    {
+        IsStop = true;
+        CancelInvoke("StartMove");
+        Rig.velocity = Vector2.zero;
+        Invoke("ReturnMove", time);
+    }
+
+    void ReturnMove()
+    {
+        IsStop = false;
+        StartMove(0.0f);
     }
 
     void FixedUpdate()
