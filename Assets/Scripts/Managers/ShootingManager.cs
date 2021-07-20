@@ -378,6 +378,7 @@ public class ShootingManager : MonoBehaviour
         bullet.SetBulletType((int)Bullet.BulletType.EQUIP_KNOCKBACK);
         bullet.InventoryIndex = index;
         bullet.Direction = NormalPos[0].transform.up;
+        Objs[0].GetComponent<ActivationTimer>().IsStart = true;
 
         bullet.ShootEquip(NormalPos[0].transform.up, (int)Bullet.BulletType.KNOCKBACK);
     }
