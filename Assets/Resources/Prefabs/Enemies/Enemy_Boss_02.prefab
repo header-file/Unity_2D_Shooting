@@ -655,6 +655,8 @@ Transform:
   - {fileID: 6929277421098190954}
   - {fileID: 5231387704473778275}
   - {fileID: 4349652703833980476}
+  - {fileID: 8460400818770672003}
+  - {fileID: 5353642084839714359}
   m_Father: {fileID: 1100582162558038571}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -864,6 +866,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -1.31}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &4914871049595376935
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8460400818770672003}
+  m_Layer: 0
+  m_Name: LaserPos
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8460400818770672003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4914871049595376935}
+  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: -7.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6849932892764682275}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &5091483738121149460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,6 +1071,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &6444240263682539143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5353642084839714359}
+  m_Layer: 0
+  m_Name: BigBulletPos
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5353642084839714359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6444240263682539143}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6849932892764682275}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6503448176481812590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,33 +1306,6 @@ MonoBehaviour:
   Canvas: {fileID: 0}
   HitArea: {fileID: 0}
   SpeedMultiplier: 0
-  SpriteRenderers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 6550484670309857623}
-  - {fileID: 24463692147101502}
-  - {fileID: 0}
-  - {fileID: 0}
-  Original:
-  - {fileID: 8469156746113284895, guid: 2f0198f5f6837dc4d93697bcde7792ed, type: 3}
-  - {fileID: -2320713415869174669, guid: 2f0198f5f6837dc4d93697bcde7792ed, type: 3}
-  - {fileID: -3792393687708447564, guid: 2f0198f5f6837dc4d93697bcde7792ed, type: 3}
-  - {fileID: 1881319003691897897, guid: 2f0198f5f6837dc4d93697bcde7792ed, type: 3}
-  - {fileID: -2892103943499581719, guid: 2f0198f5f6837dc4d93697bcde7792ed, type: 3}
-  - {fileID: -3757392437420690749, guid: 2f0198f5f6837dc4d93697bcde7792ed, type: 3}
-  - {fileID: 2098721153930165602, guid: 2f0198f5f6837dc4d93697bcde7792ed, type: 3}
-  - {fileID: -3425059377751850210, guid: 2f0198f5f6837dc4d93697bcde7792ed, type: 3}
-  Hit:
-  - {fileID: 8477432480398013558, guid: 94d40316cd353e946bbe75720225f74b, type: 3}
-  - {fileID: 2044314293318162842, guid: 94d40316cd353e946bbe75720225f74b, type: 3}
-  - {fileID: 8473533817677248115, guid: 94d40316cd353e946bbe75720225f74b, type: 3}
-  - {fileID: -5670964344750856909, guid: 94d40316cd353e946bbe75720225f74b, type: 3}
-  - {fileID: 3846158871743145039, guid: 94d40316cd353e946bbe75720225f74b, type: 3}
-  - {fileID: -2558309669571422641, guid: 94d40316cd353e946bbe75720225f74b, type: 3}
-  - {fileID: -9217140341387991640, guid: 94d40316cd353e946bbe75720225f74b, type: 3}
-  - {fileID: -488265957535557829, guid: 94d40316cd353e946bbe75720225f74b, type: 3}
   SpreadPoses:
   - {fileID: 3239852577865335409}
   - {fileID: 1973184291958664569}
@@ -1292,11 +1327,8 @@ MonoBehaviour:
   - {fileID: 1837619978710061437}
   - {fileID: 7388053712745992069}
   - {fileID: 1979767681988890910}
-  Arms:
-  - {fileID: 3597566280974120796}
-  - {fileID: 4641181328875341814}
-  LaserPos: {fileID: 0}
-  BigBulletPos: {fileID: 0}
+  LaserPos: {fileID: 4914871049595376935}
+  BigBulletPos: {fileID: 6444240263682539143}
   Anim: {fileID: 7329061257880702211}
 --- !u!1 &7318053644139633552
 GameObject:

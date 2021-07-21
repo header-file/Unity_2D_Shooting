@@ -1,14 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AllIn1SpriteShader;
 
 public class EnemyB : Enemy
 {
-    public SpriteRenderer[] SpriteRenderers;
-    public Sprite[] Original;
-    public Sprite[] Hit;
     public GameObject[] SpreadPoses;
-    public GameObject[] Arms;
     public GameObject LaserPos;
     public GameObject BigBulletPos;
     public Animator Anim;
@@ -19,6 +16,7 @@ public class EnemyB : Enemy
     Vector3 NowPosition;
     float Gyesu;
     int WayDir;
+    int GatlingCount;
 
 
     void Start()
@@ -27,6 +25,7 @@ public class EnemyB : Enemy
         Gyesu = 0.1f;
         IsReady = false;
         WayDir = 0;
+        GatlingCount = 0;
     }
 
     void FixedUpdate()
@@ -67,47 +66,130 @@ public class EnemyB : Enemy
         
         if (CurHP / Health > 0.1f)
         {
-            int rand = Random.Range(2, 4);
+            int rand = Random.Range(0, 3);
             switch (rand)
             {
                 case 0:
-                    Anim.SetTrigger("Attack1");
-                    Invoke("Spread", 0.38f);
+                    Attack1();
                     break;
                 case 1:
-                    Anim.SetTrigger("Attack2");
-                    Invoke("Laser", 0.34f);
+                    Attack2();
                     break;
                 case 2:
-                    WayDir = Random.Range(0, 3);
-                    switch(WayDir)
-                    {
-                        case 0:
-                            Anim.SetTrigger("Attack4R");
-                            break;
-                        case 1:
-                            Anim.SetTrigger("Attack4L");
-                            break;
-                        case 2:
-                            Anim.SetTrigger("Attack4");
-                            break;
-                    }
-                    Invoke("ShotOneWay", 0.45f);
-                    break;
-                case 3:
-                    Anim.SetTrigger("Attack5");
-                    Invoke("Bounce", 0.6f);
+                    Attack3();
                     break;
             }
         }
         else
         {
-            Anim.SetTrigger("Attack3");
-            Invoke("BigBullet", 0.9f);
+            FinalAttack();
         }
 
         Invoke("AbleAttack", 4.0f);
         Invoke("FinishAttacking", 2.25f);
+    }
+
+    void Attack1()
+    {
+        switch(GameManager.Inst().StgManager.Stage)
+        {
+            case 1:
+                WayDir = Random.Range(0, 3);
+                switch (WayDir)
+                {
+                    case 0:
+                        Anim.SetTrigger("Attack1R");
+                        break;
+                    case 1:
+                        Anim.SetTrigger("Attack1L");
+                        break;
+                    case 2:
+                        Anim.SetTrigger("Attack1");
+                        break;
+                }
+                Invoke("ShotOneWay", 0.45f);
+                break;
+            case 2:
+                Anim.SetTrigger("Attack1");
+                Invoke("Spread", 0.38f);
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+
+    void Attack2()
+    {
+        switch (GameManager.Inst().StgManager.Stage)
+        {
+            case 1:
+                Anim.SetTrigger("Attack2");
+                Invoke("Gatling", 0.15f);
+                break;
+            case 2:
+                Anim.SetTrigger("Attack2");
+                Invoke("Bounce", 0.6f);
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+
+    void Attack3()
+    {
+        switch (GameManager.Inst().StgManager.Stage)
+        {
+            case 1:
+                Anim.SetTrigger("Attack3");
+                Invoke("Laser", 0.34f);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+    
+    void FinalAttack()
+    {
+        switch (GameManager.Inst().StgManager.Stage)
+        {
+            case 1:
+                Anim.SetTrigger("Attack3");
+                Invoke("BigBullet", 0.9f);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+
+    void Gatling()
+    {
+        GatlingCount++;
+        if(GatlingCount > 2)
+        {
+            GatlingCount = 0;
+            return;
+        }
+
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
+
+        BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
+        bullet.Shoot(BigBulletPos.transform.up);
+
+        Invoke("Gatling", 0.1f);
     }
 
     void Spread()
@@ -117,7 +199,7 @@ public class EnemyB : Enemy
             GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
             obj.transform.position = SpreadPoses[i].transform.position;
             obj.transform.rotation = SpreadPoses[i].transform.rotation;
-            obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+            //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
             BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
             bullet.Shoot(SpreadPoses[i].transform.up);
@@ -129,7 +211,7 @@ public class EnemyB : Enemy
         GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
         obj.transform.position = LaserPos.transform.position;
         obj.transform.rotation = LaserPos.transform.rotation;
-        obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+        //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
     }
 
     void ShotOneWay()
@@ -144,7 +226,7 @@ public class EnemyB : Enemy
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
                     obj.transform.position = SpreadPoses[index].transform.position;
                     obj.transform.rotation = SpreadPoses[index].transform.rotation;
-                    obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+                    //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
                     BossOneWay bullet = obj.gameObject.GetComponent<BossOneWay>();
                     bullet.Shoot(SpreadPoses[index].transform.up);
@@ -158,7 +240,7 @@ public class EnemyB : Enemy
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
                     obj.transform.position = SpreadPoses[index].transform.position;
                     obj.transform.rotation = SpreadPoses[index].transform.rotation;
-                    obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+                    //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
                     BossOneWay bullet = obj.gameObject.GetComponent<BossOneWay>();
                     bullet.Shoot(SpreadPoses[index].transform.up);
@@ -174,7 +256,7 @@ public class EnemyB : Enemy
                         GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
                         obj.transform.position = SpreadPoses[index].transform.position;
                         obj.transform.rotation = SpreadPoses[index].transform.rotation;
-                        obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+                        //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
                         BossOneWay bullet = obj.gameObject.GetComponent<BossOneWay>();
                         bullet.Shoot(SpreadPoses[index].transform.up);
@@ -189,7 +271,7 @@ public class EnemyB : Enemy
         GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossBigBullet");
         obj.transform.position = BigBulletPos.transform.position;
         obj.transform.rotation = BigBulletPos.transform.rotation;
-        obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+        //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
         BossBigBullet bbb = obj.GetComponent<BossBigBullet>();
         bbb.SetHP(Health * 0.1f);
@@ -203,15 +285,12 @@ public class EnemyB : Enemy
             GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossBounce");
             int index = 4 + 11 * i;
 
-            //float x = Random.Range(-2.5f, 2.5f);
-            //float y = Random.Range(4.5f, 8.5f);
-            //obj.transform.position = new Vector3(x, y, 0.0f);
             obj.transform.position = SpreadPoses[index].transform.position;
 
             float z = Random.Range(13, 23) * 10.0f;
             obj.transform.rotation = Quaternion.Euler(0.0f, 0.0f, z);
 
-            obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+            //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
             BossBounce bullet = obj.gameObject.GetComponent<BossBounce>();
             bullet.SetStartPos(obj.transform.position);
@@ -258,15 +337,6 @@ public class EnemyB : Enemy
 
     public void HitEffect()
     {
-        for (int i = 0; i < 8; i++)
-            SpriteRenderers[i].sprite = Hit[i];
-
-        Invoke("ResetSprites", 0.1f);
-    }
-
-    void ResetSprites()
-    {
-        for (int i = 0; i < 8; i++)
-            SpriteRenderers[i].sprite = Original[i];
+        Anim.SetTrigger("Damage");
     }
 }
