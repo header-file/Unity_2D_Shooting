@@ -11,6 +11,7 @@ public class StageManager : MonoBehaviour
     public float BossTimer;
     public EnemyB Boss;
     public int[] UnlockBulletStages;
+    public int[] BossDeathCounts;
 
     bool[,] BulletUnlockData;
     float SmallTime;
@@ -18,6 +19,7 @@ public class StageManager : MonoBehaviour
     float LargeTime;
     int BossMax;
     bool IsFeverMode;
+    
     
     void StartEnemy() { Invoke("SpawnEnemies", 2.0f); }
 
@@ -30,8 +32,13 @@ public class StageManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
         BossCount = new int[Constants.MAXSTAGES];
-        for(int i = 0; i < Constants.MAXSTAGES; i++)
+        BossDeathCounts = new int[Constants.MAXSTAGES];
+        for (int i = 0; i < Constants.MAXSTAGES; i++)
+        {
             BossCount[i] = 0;
+            BossDeathCounts[i] = 0;
+        }
+            
         GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(false);
         BossMax = 50;
         GameManager.Inst().UiManager.BossGauge.SetActive(true);
@@ -42,6 +49,7 @@ public class StageManager : MonoBehaviour
             UnlockBulletStages[i] = 0;
 
         Stage = 1;
+        
 
         SetUnlockData();
     }
@@ -137,26 +145,31 @@ public class StageManager : MonoBehaviour
         InvokeRepeating("SpawnLarge", 0.0f, LargeTime);
     }
 
-    void SpawnSmall()
+    public void SpawnSmall(float posX = 0.0f, float posY = 0.0f)
     {
+        Vector2 pos = new Vector2(posX, posY);
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
-        SetTransform(enemy);
+        SetTransform(enemy, pos);
     }
 
-    void SpawnMedium()
+    public void SpawnMedium(float posX = 0.0f, float posY = 0.0f)
     {
+        Vector2 pos = new Vector2(posX, posY);
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyM").gameObject.GetComponent<Enemy>();
-        SetTransform(enemy);
+        SetTransform(enemy, pos);
     }
 
-    void SpawnLarge()
+    public void SpawnLarge(float posX = 0.0f, float posY = 0.0f)
     {
+        Vector2 pos = new Vector2(posX, posY);
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").gameObject.GetComponent<Enemy>();
-        SetTransform(enemy);
+        SetTransform(enemy, pos);
     }
 
     void SpawnBoss()
     {
+        EraseCurEnemies();
+
         Boss = GameManager.Inst().ObjManager.MakeObj("EnemyB").gameObject.GetComponent<EnemyB>();
         Vector3 pos = Vector3.zero;
         pos.y = 13.0f;
@@ -182,30 +195,33 @@ public class StageManager : MonoBehaviour
         CancelInvoke("SpawnLarge");
     }
 
-    void SetTransform(Enemy Enemy)
+    void SetTransform(Enemy Enemy, Vector2 pos)
     {
         switch(Stage)
         {
             case 1:
-                FallDown(Enemy);
+                FallDown(Enemy, pos);
                 break;
             case 2:
-                Zigzag(Enemy);
+                Zigzag(Enemy, pos);
                 break;
             case 3:
-                Break(Enemy);
+                Break(Enemy, pos);
                 break;
             case 4:
                 break;
         }
     }
 
-    void FallDown(Enemy Enemy)
+    void FallDown(Enemy Enemy, Vector2 fixedPos)
     {
-        Vector3 pos = Vector3.zero;
-        pos.x = Random.Range(-2.5f, 2.5f);
-        pos.y = Random.Range(11.0f, 15.0f);
-        Enemy.transform.position = pos;
+        Vector3 pos = fixedPos;
+        if (fixedPos == Vector2.zero)
+        {
+            pos.x = Random.Range(-2.5f, 2.5f);
+            pos.y = Random.Range(11.0f, 15.0f);
+            Enemy.transform.position = pos;
+        }        
 
         Vector3 target = Vector3.zero;
         target.x = Random.Range(-2.5f, 2.5f);
@@ -223,12 +239,15 @@ public class StageManager : MonoBehaviour
         Enemy.StartMove(Time.deltaTime);
     }
 
-    void Zigzag(Enemy Enemy)
+    void Zigzag(Enemy Enemy, Vector2 fixedPos)
     {
-        Vector3 pos = Vector3.zero;
-        pos.x = Random.Range(-2.0f, 2.0f);
-        pos.y = Random.Range(9.0f, 11.0f);
-        Enemy.transform.position = pos;
+        Vector3 pos = fixedPos;
+        if (fixedPos == Vector2.zero)
+        {            
+            pos.x = Random.Range(-2.0f, 2.0f);
+            pos.y = Random.Range(9.0f, 11.0f);
+            Enemy.transform.position = pos;
+        }
 
         float angleZ = Random.Range(45, 76);
         int r = Random.Range(0, 2);
@@ -239,15 +258,18 @@ public class StageManager : MonoBehaviour
         Enemy.StartMove(Time.deltaTime);
     }
 
-    void Break(Enemy Enemy)
+    void Break(Enemy Enemy, Vector2 fixedPos)
     {
-        Vector3 pos = Vector3.zero;
-        pos.x = Random.Range(3.5f, 5.0f);
-        int r = Random.Range(0, 2);
-        if (r == 1)
-            pos.x *= -1;
-        pos.y = Random.Range(7.0f, 9.0f);
-        Enemy.transform.position = pos;
+        Vector3 pos = fixedPos;
+        if (fixedPos == Vector2.zero)
+        {
+            pos.x = Random.Range(3.5f, 5.0f);
+            int r = Random.Range(0, 2);
+            if (r == 1)
+                pos.x *= -1;
+            pos.y = Random.Range(7.0f, 9.0f);
+            Enemy.transform.position = pos;
+        }
 
         Vector3 target = Vector3.zero;
         target.x = Random.Range(-2.5f, 2.5f);

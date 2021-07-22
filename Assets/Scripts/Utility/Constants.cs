@@ -10,7 +10,7 @@ static class Constants
     public const int MININVENTORY = 40;
 
     public const int MAXSTAGES = 4;
-    public const float MAXBOSSTIME = 30.0f;
+    public const float MAXBOSSTIME = 60.0f;
 
     public const int MAXQUESTS = 4;
 

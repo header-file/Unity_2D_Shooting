@@ -8,6 +8,7 @@ public class EnemyB : Enemy
     public GameObject[] SpreadPoses;
     public GameObject LaserPos;
     public GameObject BigBulletPos;
+    public GameObject[] SummonPoses;
     public Animator Anim;
 
     bool IsReady;
@@ -17,6 +18,7 @@ public class EnemyB : Enemy
     float Gyesu;
     int WayDir;
     int GatlingCount;
+    int SummonPhase;
 
 
     void Start()
@@ -26,6 +28,7 @@ public class EnemyB : Enemy
         IsReady = false;
         WayDir = 0;
         GatlingCount = 0;
+        SummonPhase = 0;
     }
 
     void FixedUpdate()
@@ -66,23 +69,33 @@ public class EnemyB : Enemy
         
         if (CurHP / Health > 0.1f)
         {
-            int rand = Random.Range(0, 3);
-            switch (rand)
+            if (SummonPhase == 0 && CurHP / Health <= 0.5f)
+                Summon();
+            else if (SummonPhase == 1 && CurHP / Health <= 0.3f)
+                Summon();
+            else
             {
-                case 0:
-                    Attack1();
-                    break;
-                case 1:
-                    Attack2();
-                    break;
-                case 2:
-                    Attack3();
-                    break;
+                int rand = Random.Range(0, 3);
+                switch (rand)
+                {
+                    case 0:
+                        Attack1();
+                        break;
+                    case 1:
+                        Attack2();
+                        break;
+                    case 2:
+                        Attack3();
+                        break;
+                }
             }
         }
         else
         {
-            FinalAttack();
+            if(SummonPhase == 2)
+                Summon();
+            else
+                FinalAttack();
         }
 
         Invoke("AbleAttack", 4.0f);
@@ -145,6 +158,7 @@ public class EnemyB : Enemy
         {
             case 1:
                 Anim.SetTrigger("Attack3");
+                Invoke("Summon", 0.25f);
                 Invoke("Laser", 0.34f);
                 break;
             case 2:
@@ -175,19 +189,19 @@ public class EnemyB : Enemy
 
     void Gatling()
     {
-        GatlingCount++;
-        if(GatlingCount > 2)
-        {
-            GatlingCount = 0;
-            return;
-        }
-
         GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
         obj.transform.position = BigBulletPos.transform.position;
         obj.transform.rotation = BigBulletPos.transform.rotation;
 
         BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
         bullet.Shoot(BigBulletPos.transform.up);
+
+        GatlingCount++;
+        if (GatlingCount > 1)
+        {
+            GatlingCount = 0;
+            return;
+        }
 
         Invoke("Gatling", 0.1f);
     }
@@ -298,9 +312,34 @@ public class EnemyB : Enemy
         }
     }
 
-    void LastSpurt()
+    void Summon()
     {
-        //Debug.Log("LastSpurt");
+        Anim.SetTrigger("Summon");
+        Invoke("SummonEnemies", 0.25f);
+
+        SummonPhase++;
+    }
+
+    void SummonEnemies()
+    {
+        int rand = Random.Range(0, 5);
+        if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 2)
+            GameManager.Inst().StgManager.SpawnSmall(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
+        else if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 4)
+            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
+        else if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 6)
+            GameManager.Inst().StgManager.SpawnLarge(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
+        else if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 8)
+        {
+            GameManager.Inst().StgManager.SpawnSmall(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
+            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[(rand + 2) % 5].transform.position.x, SummonPoses[rand].transform.position.y);
+        }
+        else
+        {
+            GameManager.Inst().StgManager.SpawnSmall(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
+            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[(rand + 2) % 5].transform.position.x, SummonPoses[rand].transform.position.y);
+            GameManager.Inst().StgManager.SpawnLarge(SummonPoses[(rand + 3) % 5].transform.position.x, SummonPoses[rand].transform.position.y);
+        }
     }
 
     void AbleAttack()
@@ -329,6 +368,9 @@ public class EnemyB : Enemy
         IsReady = false;
         IsAbleAttack = false;
         IsAttacking = false;
+        SummonPhase = 0;
+
+        CurHP = Health = (Health + Health * 0.05f * GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1]);
 
         GameManager.Inst().UiManager.BossHPBar.fillAmount = CurHP / Health;
         GameManager.Inst().UiManager.BossHPBarText.text = CurHP.ToString() + "/" + Health.ToString();

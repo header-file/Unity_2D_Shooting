@@ -89,6 +89,7 @@ public class GameData
     public int[] Quests;
 
     public int[] BossGauges;
+    public int[] BossDeathCounts;
 
     public int[] CountStartTimes;
 
@@ -128,6 +129,7 @@ public class GameData
         {
             Resources[i] = GameManager.Inst().Resources[i];
             BossGauges[i] = GameManager.Inst().StgManager.BossCount[i];
+            BossDeathCounts[i] = GameManager.Inst().StgManager.BossDeathCounts[i];
 
             for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
             {
@@ -154,6 +156,7 @@ public class GameData
                 CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = GameManager.Inst().ResManager.StartTimes[i].Second;
             }
         }
+
         Inventories = new int[Constants.INVDATASIZE * GameManager.Inst().Player.MaxInventory];
         for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
         {
@@ -247,6 +250,12 @@ public class GameData
             }
         else
             BossGauges = new int[Constants.MAXSTAGES];
+
+        if (BossDeathCounts != null && BossDeathCounts.Length == Constants.MAXSTAGES)
+            for (int i = 0; i < Constants.MAXSTAGES; i++)
+                GameManager.Inst().StgManager.BossDeathCounts[i] = BossDeathCounts[i];
+        else
+            BossDeathCounts = new int[Constants.MAXSTAGES];
 
         if (PlayerDatas != null && PlayerDatas.Length == Constants.PLADATASIZE)
         {
@@ -389,6 +398,7 @@ public class GameData
         CurrentStage = 1;
         ReachedStage = 1;
         BossGauges = new int[Constants.MAXSTAGES];
+        BossDeathCounts = new int[Constants.MAXSTAGES];
 
         SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
 
