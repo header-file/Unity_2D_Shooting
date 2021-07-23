@@ -120,11 +120,11 @@ public class EnemyB : Enemy
                         Anim.SetTrigger("Attack1");
                         break;
                 }
-                Invoke("ShotOneWay", 0.45f);
+                //Invoke("ShotOneWay", 0.45f);
                 break;
             case 2:
                 Anim.SetTrigger("Attack1");
-                Invoke("Spread", 0.38f);
+                //Invoke("Spread", 0.38f);
                 break;
             case 3:
                 break;
@@ -139,11 +139,11 @@ public class EnemyB : Enemy
         {
             case 1:
                 Anim.SetTrigger("Attack2");
-                Invoke("Gatling", 0.15f);
+                //Invoke("Gatling", 0.15f);
                 break;
             case 2:
                 Anim.SetTrigger("Attack2");
-                Invoke("Bounce", 0.6f);
+                //Invoke("Bounce", 0.6f);
                 break;
             case 3:
                 break;
@@ -158,8 +158,7 @@ public class EnemyB : Enemy
         {
             case 1:
                 Anim.SetTrigger("Attack3");
-                Invoke("Summon", 0.25f);
-                Invoke("Laser", 0.34f);
+                //Invoke("Laser", 0.34f);
                 break;
             case 2:
                 break;
@@ -176,7 +175,7 @@ public class EnemyB : Enemy
         {
             case 1:
                 Anim.SetTrigger("Attack3");
-                Invoke("BigBullet", 0.9f);
+                //Invoke("BigBullet", 0.9f);
                 break;
             case 2:
                 break;
@@ -315,30 +314,46 @@ public class EnemyB : Enemy
     void Summon()
     {
         Anim.SetTrigger("Summon");
-        Invoke("SummonEnemies", 0.25f);
+        //Invoke("SummonEnemies", 0.25f);
 
         SummonPhase++;
     }
 
     void SummonEnemies()
     {
-        int rand = Random.Range(0, 5);
+        //int rand = Random.Range(0, 5);
         if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 2)
-            GameManager.Inst().StgManager.SpawnSmall(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
+        {
+            for (int i = 1; i <= 3; i++)
+                GameManager.Inst().StgManager.SpawnSmall(SummonPoses[i].transform.position);
+        }
         else if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 4)
-            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
+        {
+            for (int i = 1; i <= 3; i++)
+                GameManager.Inst().StgManager.SpawnMedium(SummonPoses[i].transform.position);
+        }
         else if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 6)
-            GameManager.Inst().StgManager.SpawnLarge(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
+        {
+            GameManager.Inst().StgManager.SpawnLarge(SummonPoses[1].transform.position);
+            GameManager.Inst().StgManager.SpawnLarge(SummonPoses[3].transform.position);
+        }
         else if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 8)
         {
-            GameManager.Inst().StgManager.SpawnSmall(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
-            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[(rand + 2) % 5].transform.position.x, SummonPoses[rand].transform.position.y);
+            for (int i = 1; i <= 3; i++)
+                GameManager.Inst().StgManager.SpawnSmall(SummonPoses[i].transform.position);
+
+            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[0].transform.position);
+            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[4].transform.position);
         }
         else
         {
-            GameManager.Inst().StgManager.SpawnSmall(SummonPoses[rand].transform.position.x, SummonPoses[rand].transform.position.y);
-            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[(rand + 2) % 5].transform.position.x, SummonPoses[rand].transform.position.y);
-            GameManager.Inst().StgManager.SpawnLarge(SummonPoses[(rand + 3) % 5].transform.position.x, SummonPoses[rand].transform.position.y);
+            GameManager.Inst().StgManager.SpawnSmall(SummonPoses[1].transform.position);
+            GameManager.Inst().StgManager.SpawnSmall(SummonPoses[3].transform.position);
+
+            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[0].transform.position);
+            GameManager.Inst().StgManager.SpawnMedium(SummonPoses[4].transform.position);
+
+            GameManager.Inst().StgManager.SpawnLarge(SummonPoses[2].transform.position);
         }
     }
 

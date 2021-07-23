@@ -132,13 +132,6 @@ public class Enemy : MonoBehaviour
         StartMove(0.0f);
     }
 
-    void FixedUpdate()
-    {
-        //Vector3 pos = Vector3.MoveTowards(transform.position, TargetPosition, Speed * Time.deltaTime * SpeedMultiplier);
-        //transform.position = pos;
-
-    }
-
     public void OnHit(float Damage, bool isReinforced)
     {
         if (IsInvincible)

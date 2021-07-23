@@ -145,24 +145,42 @@ public class StageManager : MonoBehaviour
         InvokeRepeating("SpawnLarge", 0.0f, LargeTime);
     }
 
-    public void SpawnSmall(float posX = 0.0f, float posY = 0.0f)
+    void SpawnSmall()
     {
-        Vector2 pos = new Vector2(posX, posY);
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
+        SetTransform(enemy, new Vector2(0.0f, 0.0f));
+    }
+
+    public void SpawnSmall(Vector2 pos)
+    {
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
+        enemy.transform.position = pos;
         SetTransform(enemy, pos);
     }
 
-    public void SpawnMedium(float posX = 0.0f, float posY = 0.0f)
+    public void SpawnMedium()
     {
-        Vector2 pos = new Vector2(posX, posY);
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyM").gameObject.GetComponent<Enemy>();
+        SetTransform(enemy, new Vector2(0.0f, 0.0f));
+    }
+
+    public void SpawnMedium(Vector2 pos)
+    {
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyM").gameObject.GetComponent<Enemy>();
+        enemy.transform.position = pos;
         SetTransform(enemy, pos);
     }
 
-    public void SpawnLarge(float posX = 0.0f, float posY = 0.0f)
+    public void SpawnLarge()
     {
-        Vector2 pos = new Vector2(posX, posY);
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").gameObject.GetComponent<Enemy>();
+        SetTransform(enemy, new Vector2(0.0f, 0.0f));
+    }
+
+    public void SpawnLarge(Vector2 pos)
+    {
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").gameObject.GetComponent<Enemy>();
+        enemy.transform.position = pos;
         SetTransform(enemy, pos);
     }
 
@@ -221,7 +239,7 @@ public class StageManager : MonoBehaviour
             pos.x = Random.Range(-2.5f, 2.5f);
             pos.y = Random.Range(11.0f, 15.0f);
             Enemy.transform.position = pos;
-        }        
+        }
 
         Vector3 target = Vector3.zero;
         target.x = Random.Range(-2.5f, 2.5f);
