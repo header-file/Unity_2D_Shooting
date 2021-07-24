@@ -61,8 +61,6 @@ public class Player : MonoBehaviour
 
     public int MaxInventory;
     public int SortOption;
-    public bool IsRevive;
-    public bool IsReinforce;
     public int ShootCount;
 
     //Cheat
@@ -85,7 +83,6 @@ public class Player : MonoBehaviour
     bool IsDead;
     bool IsInvincible;
     float DeathTimer;
-    bool IsVamp;
     
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
@@ -101,7 +98,6 @@ public class Player : MonoBehaviour
 
     public void SetMaxHP(int hp) { MaxHP = hp; }
     public void SetCurHP(int hp) { CurHP = hp; }
-    public void SetIsVamp(bool b) { IsVamp = b; }
     public void SetSubWeapon(GameObject obj, int index) { SubWeapons[index] = obj; }
     public void SetBulletType(int type)
     {
@@ -365,9 +361,6 @@ public class Player : MonoBehaviour
         DeathTimer = 0.0f;
         CurHP = MaxHP = 0;
 
-        IsVamp = false;
-        IsRevive = false;
-        IsReinforce = false;
         ShootCount = 0;
 
         Shield.SetActive(false);
@@ -486,17 +479,17 @@ public class Player : MonoBehaviour
         
         IsReload = false;
 
-        if(IsReinforce)
+        if(GameManager.Inst().UpgManager.BData[BulletType].GetIsReinforce())
             ShootCount++;
 
-        if (GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() > -1 &&
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetIsReinforce() &&
             ShootCount >= GetItem(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex()).Value)
         {
             ShootCount = 0;
-            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, true, -1);
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, false, true, -1);
         }
         else
-            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, IsVamp, false, -1);
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, 2, GameManager.Inst().UpgManager.BData[BulletType].GetIsVamp(), false, -1);
 
         Invoke("Reload", GameManager.Inst().UpgManager.BData[BulletType].GetReloadTime());
     }
@@ -583,9 +576,9 @@ public class Player : MonoBehaviour
 
     public void Dead()
     {
-        if(IsRevive)
+        if(GameManager.Inst().UpgManager.BData[BulletType].GetIsRevive())
         {
-            IsRevive = false;
+            GameManager.Inst().UpgManager.BData[BulletType].SetIsRevive(false);
             Revive();
             return;
         }

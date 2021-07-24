@@ -62,9 +62,9 @@ public class EquipManager : MonoBehaviour
 
             case (int)Item_ZzinEquipment.EquipType.REVIVE:
                 if (id == 2)
-                    actor.GetComponent<Player>().IsRevive = true;
+                    GameManager.Inst().UpgManager.BData[actor.GetComponent<Player>().GetBulletType()].SetIsRevive(true);
                 else
-                    actor.GetComponent<SubWeapon>().IsRevive = true;
+                    GameManager.Inst().UpgManager.BData[actor.GetComponent<SubWeapon>().GetBulletType()].SetIsRevive(true);
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.KNOCKBACK:

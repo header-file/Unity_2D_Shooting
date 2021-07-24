@@ -58,6 +58,9 @@ public class UpgradeManager : MonoBehaviour
         public void SetMaxHp(int max) { MaxHp = max; }
         public void SetMaxSpd(int max) { MaxSpd = max; }
         public void SetEquipIndex(int index) { EquipIndex = index; }
+        public void SetIsRevive(bool b) { IsRevive = b; }
+        public void SetIsReinforce(bool b) { IsReinforce = b; }
+        public void SetIsVamp(bool b) { IsVamp = b; }
 
         public int GetMaxBulletLevel() { return MaxBulletLevel * (Rarity + 1); }
         public int GetPowerLevel() { return PowerLevel; }
@@ -77,6 +80,9 @@ public class UpgradeManager : MonoBehaviour
         public int GetBaseDamage() { return BaseDamage; }
         public bool GetActive() { return IsActive; }
         public int GetEquipIndex() { return EquipIndex; }
+        public bool GetIsVamp() { return IsVamp; }
+        public bool GetIsRevive() { return IsRevive; }
+        public bool GetIsReinforce() { return IsReinforce; }
 
         public void ResetData()
         {
@@ -100,6 +106,10 @@ public class UpgradeManager : MonoBehaviour
             MaxSpd = 0;
 
             EquipIndex = -1;
+            
+            IsVamp = false;
+            IsRevive = false;
+            IsReinforce = false;
 
             IsActive = false;
         }
@@ -117,6 +127,9 @@ public class UpgradeManager : MonoBehaviour
             MaxHp = 0;
             MaxSpd = 0;
             EquipIndex = -1;
+            IsVamp = false;
+            IsRevive = false;
+            IsReinforce = false;
         }
 
         const int MaxBulletLevel = 10;
@@ -140,6 +153,10 @@ public class UpgradeManager : MonoBehaviour
         private int MaxSpd;
 
         private int EquipIndex;
+
+        private bool IsVamp;
+        private bool IsRevive;
+        private bool IsReinforce;
 
         bool IsActive;
     };
@@ -523,42 +540,12 @@ public class UpgradeManager : MonoBehaviour
         if (BData[bulletType].GetEquipIndex() >= 0 &&
             GameManager.Inst().Player.GetItem(BData[bulletType].GetEquipIndex()).Type == (int)Item_ZzinEquipment.EquipType.VAMP)
         {
-            if (GameManager.Inst().Player.GetBulletType() == bulletType)
-                GameManager.Inst().Player.SetIsVamp(true);
-            else
-            {
-                for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
-                {
-                    if (GameManager.Inst().GetSubweapons(i) == null)
-                        continue;
-
-                    if (GameManager.Inst().GetSubweapons(i).GetBulletType() == bulletType)
-                    {
-                        GameManager.Inst().GetSubweapons(i).SetIsVamp(true);
-                        break;
-                    }
-                }
-            }
+            BData[bulletType].SetIsVamp(true);
         }
         else if (BData[bulletType].GetEquipIndex() >= 0 &&
                 GameManager.Inst().Player.GetItem(BData[bulletType].GetEquipIndex()).Type == (int)Item_ZzinEquipment.EquipType.REINFORCE)
         {
-            if (GameManager.Inst().Player.GetBulletType() == bulletType)
-                GameManager.Inst().Player.IsReinforce = true;
-            else
-            {
-                for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
-                {
-                    if (GameManager.Inst().GetSubweapons(i) == null)
-                        continue;
-
-                    if (GameManager.Inst().GetSubweapons(i).GetBulletType() == bulletType)
-                    {
-                        GameManager.Inst().GetSubweapons(i).IsReinforce = true;
-                        break;
-                    }
-                }
-            }
+            BData[bulletType].SetIsReinforce(true);
         }
     }
 }

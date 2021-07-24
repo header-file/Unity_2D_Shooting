@@ -35,6 +35,7 @@ public class Weapon : MonoBehaviour
     float TargetX;
     int[] TempCount;
     bool IsDelay;
+    Vector2 DefaultWindowPos;
 
 
     public int GetCurBulletType() { return CurBulletType; }
@@ -77,6 +78,8 @@ public class Weapon : MonoBehaviour
             EquipDetail[i].text = "";
         }
         EquipSwitch.gameObject.SetActive(false);
+
+        DefaultWindowPos = SwitchWindow.GetComponent<RectTransform>().anchoredPosition;
     }
 
     void Update()
@@ -206,13 +209,7 @@ public class Weapon : MonoBehaviour
 
     public void ShowUI()
     {
-        SlotIndices[1] = CurBulletType;
-        SlotIndices[0] = CurBulletType - 1;
-        if (SlotIndices[0] < 0)
-            SlotIndices[0] = Constants.MAXBULLETS - 1;
-        SlotIndices[2] = CurBulletType + 1;
-        if (SlotIndices[2] >= Constants.MAXBULLETS)
-            SlotIndices[2] = 0;
+        ResetSwitchWindow();
 
         for (int i = 0; i < 3; i++)
         {
@@ -221,9 +218,41 @@ public class Weapon : MonoBehaviour
         }
         Show(SlotIndices[1]);
 
-        ShowBulletType = 1;
+        
         ShowInfoArea();
         ShowInventory();
+    }
+
+    void ResetSwitchWindow()
+    {
+        SwitchWindow.GetComponent<RectTransform>().anchoredPosition = DefaultWindowPos;
+        for (int i = 0; i < 3; i++)
+        {
+            Vector2 pos = Vector2.zero;
+            pos.x = (i - 1) * 720.0f;
+            SwitchWindows[i].GetComponent<RectTransform>().anchoredPosition = pos;
+        }
+
+        CurBulletType = GameManager.Inst().Player.GetBulletType();
+        ShowBulletType = 1;
+
+        SlotIndices[1] = CurBulletType;
+        SlotIndices[0] = CurBulletType - 1;
+        if (SlotIndices[0] < 0)
+            SlotIndices[0] = Constants.MAXBULLETS - 1;
+        SlotIndices[2] = CurBulletType + 1;
+        if (SlotIndices[2] >= Constants.MAXBULLETS)
+            SlotIndices[2] = 0;
+
+        TargetX = 0.0f;
+
+        if (GameManager.Inst().StgManager.CheckBulletUnlocked(SlotIndices[ShowBulletType]))
+            SwitchWindows[ShowBulletType].Lock.SetActive(false);
+        else
+        {
+            SwitchWindows[ShowBulletType].Lock.SetActive(true);
+            SwitchWindows[ShowBulletType].LockText.text = "Stage" + GameManager.Inst().StgManager.UnlockBulletStages[SlotIndices[ShowBulletType]] + "\n클리어 시 해금";
+        }
     }
 
     void ShowInfoArea()
@@ -429,59 +458,28 @@ public class Weapon : MonoBehaviour
 
     void EquipVamp()
     {
-        if (GameManager.Inst().Player.GetBulletType() == CurBulletType)
-            GameManager.Inst().Player.SetIsVamp(true);
-        else
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                if (GameManager.Inst().GetSubweapons(i) != null && GameManager.Inst().GetSubweapons(i).GetBulletType() == CurBulletType)
-                    GameManager.Inst().GetSubweapons(i).SetIsVamp(true);
-            }
-        }
+        UnEquipReinforce(CurBulletType);
+
+        GameManager.Inst().UpgManager.BData[CurBulletType].SetIsVamp(true);
     }
 
     void UnEquipVamp(int bulletType)
     {
-        if (GameManager.Inst().Player.GetBulletType() == bulletType)
-            GameManager.Inst().Player.SetIsVamp(false);
-        else
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                if (GameManager.Inst().GetSubweapons(i) != null && GameManager.Inst().GetSubweapons(i).GetBulletType() == bulletType)
-                    GameManager.Inst().GetSubweapons(i).SetIsVamp(false);
-            }
-        }
+        if (GameManager.Inst().UpgManager.BData[CurBulletType].GetIsVamp())
+            GameManager.Inst().UpgManager.BData[CurBulletType].SetIsVamp(false);
     }
 
     void EquipReinforce()
     {
-        if (GameManager.Inst().Player.GetBulletType() == CurBulletType)
-            GameManager.Inst().Player.IsReinforce = true;
-        else
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                if (GameManager.Inst().GetSubweapons(i) != null && GameManager.Inst().GetSubweapons(i).GetBulletType() == CurBulletType)
-                    GameManager.Inst().GetSubweapons(i).IsReinforce = true; ;
-            }
-        }
+        UnEquipVamp(CurBulletType);
+
+        GameManager.Inst().UpgManager.BData[CurBulletType].SetIsReinforce(true);
     }
 
     void UnEquipReinforce(int bulletType)
     {
-        if (GameManager.Inst().Player.GetBulletType() == bulletType)
-            GameManager.Inst().Player.IsReinforce = false;
-        else
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                if (GameManager.Inst().GetSubweapons(i) != null && GameManager.Inst().GetSubweapons(i).GetBulletType() == bulletType)
-                    GameManager.Inst().GetSubweapons(i).IsReinforce = false;
-            }
-
-        }
+        if (GameManager.Inst().UpgManager.BData[CurBulletType].GetIsReinforce())
+            GameManager.Inst().UpgManager.BData[CurBulletType].SetIsReinforce(false);
     }
 
     void SetWeaponUI()

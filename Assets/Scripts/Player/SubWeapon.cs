@@ -25,8 +25,6 @@ public class SubWeapon : MonoBehaviour
     //Cheat
     public bool IsGodMode;
 
-    public bool IsRevive;
-    public bool IsReinforce;
     public int ShootCount;
     public int CoolTime;
 
@@ -42,7 +40,6 @@ public class SubWeapon : MonoBehaviour
     int NumID;
     bool IsInvincible;
     bool IsShaking;
-    bool IsVamp;
 
     const int COOLTIME = 300;
     int MaxHP;
@@ -58,7 +55,6 @@ public class SubWeapon : MonoBehaviour
     public void SetHP(int hp) { CurHP = MaxHP = hp; }
     public void SetCurHP(int hp) { CurHP = hp; }
     public void SetMaxHP(int hp) { MaxHP = hp; }
-    public void SetIsVamp(bool b) { IsVamp = b; }
 
     public void SetBulletType(int T)
     {
@@ -98,9 +94,6 @@ public class SubWeapon : MonoBehaviour
 
         MaxHP = CurHP = 0;
         GameManager.Inst().UiManager.Turrets[NumID].HPBar.fillAmount = 0.415f;
-
-        IsVamp = false;
-        IsRevive = false;
 
         for (int i = 0; i < ShieldParts.Length; i++)
             ShieldParts[i].gameObject.SetActive(false);
@@ -351,14 +344,14 @@ public class SubWeapon : MonoBehaviour
 
         IsReload = false;
 
-        if (GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex() > -1 &&
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetIsReinforce() &&
             ShootCount >= GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex()).Value)
         {
             ShootCount = 0;
-            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID, IsVamp, true, -1);
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID, false, true, -1);
         }
         else
-            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID, IsVamp, false, -1);
+            GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID, GameManager.Inst().UpgManager.BData[BulletType].GetIsVamp(), false, -1);
 
         Invoke("Reload", GameManager.Inst().UpgManager.BData[BulletType].GetReloadTime());
     }
@@ -370,9 +363,9 @@ public class SubWeapon : MonoBehaviour
 
     public void Dead()
     {
-        if(IsRevive)
+        if(GameManager.Inst().UpgManager.BData[BulletType].GetIsRevive())
         {
-            IsRevive = false;
+            GameManager.Inst().UpgManager.BData[BulletType].SetIsRevive(false);
             Revive();
             return;
         }
