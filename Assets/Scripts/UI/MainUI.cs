@@ -7,6 +7,7 @@ public class MainUI : MonoBehaviour
 {
     public GameObject Arrows;
     public Menu Menu;
+    public BossGauge BossGauge;
 
 
     void Awake()

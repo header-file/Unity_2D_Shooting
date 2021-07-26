@@ -88,6 +88,7 @@ public class GameData
 
     public int[] Quests;
 
+    public float[] FeverGauges;
     public int[] BossGauges;
     public int[] BossDeathCounts;
 
@@ -222,7 +223,7 @@ public class GameData
             }
         }
 
-        if (GameManager.Inst().StgManager.Stage < CurrentStage)
+        if (GameManager.Inst().StgManager.Stage <= CurrentStage)
             GameManager.Inst().StgManager.Stage = CurrentStage;
 
         if (GameManager.Inst().StgManager.Stage < ReachedStage)
@@ -239,6 +240,14 @@ public class GameData
                 GameManager.Inst().SetResource(i + 1, Resources[i]);
         else
             Resources = new int[Constants.MAXSTAGES];
+
+        if (FeverGauges != null && FeverGauges.Length == 6)
+        {
+            for (int i = 0; i < 3; i++)
+                GameManager.Inst().StgManager.SetFever(i, FeverGauges[i * 2], FeverGauges[i * 2 + 1]);
+        }
+        else
+            FeverGauges = new float[6];
 
         if (BossGauges != null && BossGauges.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
@@ -397,6 +406,7 @@ public class GameData
 
         CurrentStage = 1;
         ReachedStage = 1;
+        FeverGauges = new float[3 * 2];
         BossGauges = new int[Constants.MAXSTAGES];
         BossDeathCounts = new int[Constants.MAXSTAGES];
 
