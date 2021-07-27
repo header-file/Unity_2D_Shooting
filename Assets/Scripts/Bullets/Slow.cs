@@ -20,10 +20,10 @@ public class Slow : Bullet
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy.SpeedMultiplier >= 1.0f)
             {
-                enemy.SpeedMultiplier = 0.5f;
+                enemy.SpeedMultiplier = 0.3f;
 
                 if (enemy.GetEnemyType() == (int)Enemy.EnemyType.BOSS)
-                    enemy.SpeedMultiplier = 0.75f;
+                    enemy.SpeedMultiplier = 0.6f;
             }
         }
     }

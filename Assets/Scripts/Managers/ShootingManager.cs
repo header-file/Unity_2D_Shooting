@@ -288,16 +288,12 @@ public class ShootingManager : MonoBehaviour
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Laser", Index);
         Vector3 scale = Objs[0].gameObject.transform.localScale;
         scale.x = (0.25f * (Rarity + 1));
-        Objs[0].transform.localScale = scale;
-        Objs[0].transform.position = LaserPos.transform.position;
-        Objs[0].transform.rotation = LaserPos.transform.rotation;
+        Objs[0].transform.SetParent(LaserPos.transform, false);
 
         Laser bullet = Objs[0].GetComponent<Laser>();
         bullet.IsVamp = isVamp;
         bullet.Vamp = shooter;
         bullet.IsReinforce = IsReinforce;
-
-        GameManager.Inst().IptManager.SetIsAbleControl(false);
     }
 
     void Charge(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)

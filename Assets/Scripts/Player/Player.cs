@@ -640,6 +640,9 @@ public class Player : MonoBehaviour
 
     public void ShieldOn()
     {
+        if (IsDead)
+            return;
+
         IsShield = true;
         Shield.SetActive(true);
 
@@ -662,6 +665,9 @@ public class Player : MonoBehaviour
 
     public void RestoreShield(int amount)
     {
+        if (IsDead)
+            return;
+
         for (int i = 0; i < amount; i++)
             ShieldParts[i].gameObject.SetActive(true);
     }

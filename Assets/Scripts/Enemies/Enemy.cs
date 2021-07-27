@@ -83,10 +83,10 @@ public class Enemy : MonoBehaviour
             case 1:
                 Rig.velocity = Vector2.zero;
                 //Rig.AddForce(-transform.up * Speed, ForceMode2D.Impulse);
-                Rig.velocity = -transform.up * Speed;
+                Rig.velocity = -transform.up * Speed * SpeedMultiplier;
                 break;
             case 2:
-                Rig.velocity = -transform.up * Speed;
+                Rig.velocity = -transform.up * Speed * SpeedMultiplier;
                 break;
             case 3:
                 if(IsReflected)
@@ -94,9 +94,9 @@ public class Enemy : MonoBehaviour
                 else
                 {
                     if(transform.position.x > TargetPosition.x)
-                        Rig.velocity = -transform.right * Speed;
+                        Rig.velocity = -transform.right * Speed * SpeedMultiplier;
                     else if(transform.position.x < TargetPosition.x)
-                        Rig.velocity = transform.right * Speed;
+                        Rig.velocity = transform.right * Speed * SpeedMultiplier;
 
                     if (Vector3.Distance(transform.position, TargetPosition) < 0.05f)
                     {

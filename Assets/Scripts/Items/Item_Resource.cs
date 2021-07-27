@@ -7,6 +7,7 @@ public class Item_Resource : Item
     public Color[] Colors;
     public Vector3 TargetPosition;
     public bool IsScatter;
+    public ActivationTimer Timer;
 
     Rigidbody2D Rig;
     Vector3 InitPos;
@@ -40,6 +41,7 @@ public class Item_Resource : Item
         {
             IsScatter = false;
             transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+            Timer.IsStart = true;
         }
             
     }

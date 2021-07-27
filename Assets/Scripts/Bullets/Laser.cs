@@ -43,7 +43,6 @@ public class Laser : Bullet
 
     void Destroy()
     {
-        GameManager.Inst().IptManager.SetIsAbleControl(true);
         IsStopped = false;
         gameObject.SetActive(false);
     }

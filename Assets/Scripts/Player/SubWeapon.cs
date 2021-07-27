@@ -74,6 +74,9 @@ public class SubWeapon : MonoBehaviour
 
     public void ShowShield()
     {
+        if (!IsAlive)
+            return;
+
         IsShield = true;
         Shield.SetActive(true);
     }
@@ -445,6 +448,9 @@ public class SubWeapon : MonoBehaviour
 
     public void RestoreShield(int amount)
     {
+        if (!IsAlive)
+            return;
+
         for (int i = 0; i < amount; i++)
             ShieldParts[i].gameObject.SetActive(true);
     }
