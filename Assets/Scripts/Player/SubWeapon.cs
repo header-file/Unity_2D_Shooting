@@ -14,6 +14,7 @@ public class SubWeapon : MonoBehaviour
     public GameObject[] SpreadPos;
     public GameObject LaserPos;
     public GameObject ChargePos;
+    public GameObject[] GatlingPoses;
     public GameObject Arrow;
 
     public GameObject Shield;
@@ -40,6 +41,7 @@ public class SubWeapon : MonoBehaviour
     int NumID;
     bool IsInvincible;
     bool IsShaking;
+    float GatlingGyesu;
 
     const int COOLTIME = 300;
     int MaxHP;
@@ -100,6 +102,8 @@ public class SubWeapon : MonoBehaviour
 
         for (int i = 0; i < ShieldParts.Length; i++)
             ShieldParts[i].gameObject.SetActive(false);
+
+        GatlingGyesu = 1.0f;
     }
 
     void Update()
@@ -109,6 +113,9 @@ public class SubWeapon : MonoBehaviour
 
         SetUIPos();
         EquipCount();
+
+        if (BulletType == (int)Bullet.BulletType.GATLING)
+            GatlingMove();
 
         if (!IsAlive || !GameManager.Inst().IptManager.GetIsAbleSWControl())
             return;
@@ -144,6 +151,18 @@ public class SubWeapon : MonoBehaviour
 
         if (GameManager.Inst().UiManager.Turrets[NumID].EquipUI.activeSelf)
             SetEquipUI();
+    }
+
+    void GatlingMove()
+    {
+        Vector2 gatPos = GatlingPoses[0].transform.localPosition;
+        gatPos.x -= Time.fixedDeltaTime * GatlingGyesu;
+
+        GatlingPoses[0].transform.localPosition = gatPos;
+        GatlingPoses[1].transform.localPosition = -gatPos;
+
+        if (Mathf.Abs(gatPos.x) >= 0.5f)
+            GatlingGyesu *= -1.0f;
     }
 
     bool CheckPassive()

@@ -46,6 +46,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject[] ChargePref;
     public GameObject[] BoomerangPref;
     public GameObject[] ChainPref;
+    public GameObject[] GatlingPref;
     public GameObject EqMissilePref;
     public GameObject EqKnockBackPref;
     public GameObject EqSlowPref;
@@ -107,6 +108,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[,] Charges;
     GameObject[,] Boomerangs;
     GameObject[,] Chains;
+    GameObject[,] Gatlings;
     GameObject[] EqMissiles;
     GameObject[] EqKnockbacks;
     GameObject[] EqSlows;
@@ -176,6 +178,9 @@ public class ObjectManager : MonoBehaviour
                 TargetPools = Chains;
                 break;
 
+            case "Gatling":
+                TargetPools = Gatlings;
+                break;
         }
 
         for (int i = 0; i < TargetPools.Length / GameManager.Inst().ShtManager.MAXCOLOR; i++)
@@ -431,6 +436,7 @@ public class ObjectManager : MonoBehaviour
         Charges = new GameObject[8, 20];
         Boomerangs = new GameObject[8, 10];
         Chains = new GameObject[8, 10];
+        Gatlings = new GameObject[8, 100];
         EqMissiles = new GameObject[10];
         EqKnockbacks = new GameObject[10];
         EqSlows = new GameObject[10];
@@ -753,7 +759,18 @@ public class ObjectManager : MonoBehaviour
                 Chains[j, i].SetActive(false);
             }
         }
-       
+
+        for (int j = 0; j < maxColor; j++)
+        {
+            for (int i = 0; i < Gatlings.Length / maxColor; i++)
+            {
+                Gatlings[j, i] = Instantiate(GatlingPref[j]);
+                Gatlings[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
+                Gatlings[j, i].transform.SetParent(PBulletPool.transform, false);
+                Gatlings[j, i].SetActive(false);
+            }
+        }
+
 
         for (int i = 0; i < SubWeapons.Length; i++)
         {

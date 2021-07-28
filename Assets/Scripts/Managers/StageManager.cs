@@ -80,6 +80,7 @@ public class StageManager : MonoBehaviour
             BulletUnlockData[i, (int)Bullet.BulletType.CHARGE] = bool.Parse(data[i]["Charge"].ToString());
             BulletUnlockData[i, (int)Bullet.BulletType.BOOMERANG] = bool.Parse(data[i]["Boomerang"].ToString());
             BulletUnlockData[i, (int)Bullet.BulletType.CHAIN] = bool.Parse(data[i]["Chain"].ToString());
+            BulletUnlockData[i, (int)Bullet.BulletType.GATLING] = bool.Parse(data[i]["Gatling"].ToString());
 
             if (i != 0)
                 for (int j = 0; j < Constants.MAXBULLETS; j++)

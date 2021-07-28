@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     public GameObject LaserPos;
     public GameObject ChargePos;
     public GameObject[] BoomerangPos;
+    public GameObject[] GatlingPoses;
     public GameObject[] BossSubPoses;
 
     public GameObject Shield;
@@ -83,6 +84,7 @@ public class Player : MonoBehaviour
     bool IsDead;
     bool IsInvincible;
     float DeathTimer;
+    float GatlingGyesu;
     
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
@@ -367,6 +369,8 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < ShieldParts.Length; i++)
             ShieldParts[i].gameObject.SetActive(false);
+
+        GatlingGyesu = 1.0f;
     }
 
     void Start()
@@ -381,6 +385,9 @@ public class Player : MonoBehaviour
         SetUIPos();
 
         EquipCount();
+
+        if (BulletType == (int)Bullet.BulletType.NORMAL)
+            GatlingMove();
     }
 
     void SetUIPos()
@@ -400,6 +407,18 @@ public class Player : MonoBehaviour
 
         if (EquipUI.activeSelf)
             SetEquipUI();
+    }
+
+    void GatlingMove()
+    {
+        Vector2 gatPos = GatlingPoses[0].transform.localPosition;
+        gatPos.x -= Time.fixedDeltaTime * GatlingGyesu;
+
+        GatlingPoses[0].transform.localPosition = gatPos;
+        GatlingPoses[1].transform.localPosition = -gatPos;
+
+        if (Mathf.Abs(gatPos.x) >= 0.5f)
+            GatlingGyesu *= -1.0f;
     }
 
     bool CheckPassive()

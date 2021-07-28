@@ -5414,6 +5414,7 @@ Transform:
   - {fileID: 1977993665}
   - {fileID: 1958698801}
   - {fileID: 428836825}
+  - {fileID: 1669108905}
   - {fileID: 259568478}
   - {fileID: 2118460366}
   m_Father: {fileID: 0}
@@ -5461,6 +5462,7 @@ MonoBehaviour:
   - Charge
   - Boomerang
   - Chain
+  - Gatling
   NormalPos:
   - {fileID: 559854180}
   - {fileID: 250722046}
@@ -5481,6 +5483,9 @@ MonoBehaviour:
   - {fileID: 1141995386}
   - {fileID: 1499639136}
   - {fileID: 1142376649}
+  GatlingPoses:
+  - {fileID: 1107684049}
+  - {fileID: 1512132758}
   BossSubPoses:
   - {fileID: 724029570}
   - {fileID: 1399522839}
@@ -5591,7 +5596,7 @@ Transform:
   m_Children:
   - {fileID: 661898210}
   m_Father: {fileID: 237372648}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &259568479
 SpriteRenderer:
@@ -5650,6 +5655,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5004403706982993367}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &279339531 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2291608593728904257, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004403706982993367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &292903684 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1710196048072507949, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
@@ -6278,7 +6295,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2719678840941768292, guid: 797bc8437a573654faa06a51b0d5e177,
+      objectReference: {fileID: -7705698058572404105, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}
     - target: {fileID: -387898127573411680, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}
@@ -6514,7 +6531,7 @@ PrefabInstance:
     - target: {fileID: 8711168010763638288, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}
       propertyPath: m_labelHash
-      value: 5.878249e-16
+      value: -3.0484627e+21
       objectReference: {fileID: 0}
     - target: {fileID: 8711168010763638288, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}
@@ -6732,6 +6749,12 @@ Transform:
   m_Father: {fileID: 411321352}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &692404372 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1431156348095816346, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004403706982993367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &693239850 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1030800057049975220, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
@@ -12193,6 +12216,7 @@ MonoBehaviour:
   - {fileID: 1829137691}
   - {fileID: 1243555219}
   - {fileID: 1256584081}
+  - {fileID: 692404372}
   Colors:
   - {fileID: 1891646846}
   - {fileID: 1644231672}
@@ -12273,6 +12297,7 @@ MonoBehaviour:
   - {fileID: -9133299727316825483, guid: f43303ca9057233408748fde195b0e33, type: 3}
   - {fileID: 2447380864415184977, guid: f43303ca9057233408748fde195b0e33, type: 3}
   - {fileID: 1549255290723003946, guid: f43303ca9057233408748fde195b0e33, type: 3}
+  - {fileID: -1148448924405063644, guid: 2d8cf684a0bfed1438a11777cff63450, type: 3}
   FoodImages:
   - {fileID: -2883103069307587992, guid: 878400bea14953849b6777adc3b390c7, type: 3}
   - {fileID: -4033203155671849381, guid: 878400bea14953849b6777adc3b390c7, type: 3}
@@ -12559,6 +12584,36 @@ Transform:
   m_Father: {fileID: 1909418532}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1107684049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1107684050}
+  m_Layer: 0
+  m_Name: GatlingPos1
+  m_TagString: Untagged
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1107684050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107684049}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1669108905}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1112415269
 GameObject:
   m_ObjectHideFlags: 0
@@ -12596,6 +12651,7 @@ MonoBehaviour:
   - {fileID: 1619721319}
   - {fileID: 1273063100}
   - {fileID: 569561494}
+  - {fileID: 2097929693}
   BulletLevels:
   - {fileID: 1177271220}
   - {fileID: 963524176}
@@ -12604,6 +12660,7 @@ MonoBehaviour:
   - {fileID: 1402215994}
   - {fileID: 19081490}
   - {fileID: 13149402}
+  - {fileID: 1392905469}
   SubPrice: {fileID: 5004403706982993368}
   SubName: {fileID: 605576719}
   Resources:
@@ -12658,8 +12715,9 @@ MonoBehaviour:
   - Missile
   - Laser
   - Charge
-  - Chain
   - Boomerang
+  - Chain
+  - Gatling
   RarityNames:
   - WHITE
   - GREEN
@@ -13622,6 +13680,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1392905469 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1412847599376116755, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004403706982993367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1399522839
 GameObject:
   m_ObjectHideFlags: 0
@@ -13892,6 +13956,36 @@ Transform:
   m_Father: {fileID: 1977993665}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1512132758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1512132759}
+  m_Layer: 0
+  m_Name: GatlingPos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1512132759
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512132758}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1669108905}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1526092127
 GameObject:
   m_ObjectHideFlags: 0
@@ -14157,6 +14251,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7a8c48e6ac166e4a8ff1f1268faaf78, type: 3}
+--- !u!1 &1669108904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1669108905}
+  m_Layer: 0
+  m_Name: GatlingPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1669108905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669108904}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1107684050}
+  - {fileID: 1512132759}
+  m_Father: {fileID: 237372648}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1676513454 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7808502235311750573, guid: 797bc8437a573654faa06a51b0d5e177,
@@ -19410,6 +19536,15 @@ MonoBehaviour:
   - {fileID: 8644585126113286032, guid: 1fc4fcf8b4ae3534cbe144e11534493e, type: 3}
   - {fileID: 3514848690105375501, guid: f693cff5ee97bd24fb7f9cb2026e1262, type: 3}
   - {fileID: 8766512897117843863, guid: 57ae6aa809c9e104397fb434a7190ad0, type: 3}
+  GatlingPref:
+  - {fileID: 2802849461176364025, guid: 605832d0fffb544478ee24f03ce43e00, type: 3}
+  - {fileID: 2802849461176364025, guid: c1418d1409832704c9afca08b7a2f957, type: 3}
+  - {fileID: 2802849461176364025, guid: 2305c120df7ffb9418d9c3a7d5a3f90f, type: 3}
+  - {fileID: 2802849461176364025, guid: f70ce3d8b442fa840a49e7230cf151ac, type: 3}
+  - {fileID: 2802849461176364025, guid: 8921ca05b57fbf04c864e1d19dc844de, type: 3}
+  - {fileID: 2802849461176364025, guid: 1e4f64bf44dcdbe4481f341b335c384d, type: 3}
+  - {fileID: 2802849461176364025, guid: df6dddbec6db32c4c9e7e7e9a38ad8ef, type: 3}
+  - {fileID: 2802849461176364025, guid: 400ea0752ab23464cbd2f5d5935e6bf2, type: 3}
   EqMissilePref: {fileID: 8097622429590642108, guid: 60ac33401785fd5478c9ce23f2e5b555,
     type: 3}
   EqKnockBackPref: {fileID: 6874623759900405838, guid: a9e429ebe94d0d847aa2b48600d997b6,
@@ -20235,6 +20370,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2097929693 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2881352697000487217, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004403706982993367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2100104983 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7825766459664008351, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
@@ -20282,7 +20423,7 @@ Transform:
   m_Children:
   - {fileID: 1767685081}
   m_Father: {fileID: 237372648}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2133605995 stripped
 MonoBehaviour:
@@ -21179,6 +21320,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772677314573285800, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 920055693724354065, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}
@@ -24845,6 +24991,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 160.00003
       objectReference: {fileID: 0}
+    - target: {fileID: 5685467240819948263, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5707813765208165951, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -26058,6 +26209,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6897348048809240633, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 279339531}
+    - target: {fileID: 6897348048809240633, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 900159745}
     - target: {fileID: 6905585291776984592, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
         type: 3}
       propertyPath: m_AnchorMin.y

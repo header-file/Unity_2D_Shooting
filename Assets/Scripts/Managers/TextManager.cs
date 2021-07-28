@@ -68,6 +68,7 @@ public class TextManager : MonoBehaviour
         BulNames[4] = "Charge";
         BulNames[5] = "Boomerang";
         BulNames[6] = "Chain";
+        BulNames[7] = "Gatling";
 
         SubNames = new string[4];
         for(int i = 0; i < Constants.MAXSUBWEAPON; i++)

@@ -333,7 +333,7 @@ public class GameData
         else
             SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
 
-        if (Weapons != null)
+        if (Weapons != null && Weapons.Length == Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE)
         {
             for (int i = 0; i < Constants.MAXBULLETS; i++)
             {

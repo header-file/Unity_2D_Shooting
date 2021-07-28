@@ -147,7 +147,7 @@ public class Weapon : MonoBehaviour
 
                     SwitchWindows[i].GetComponent<RectTransform>().anchoredPosition = newPos;
 
-                    SlotIndices[i] += 4;
+                    SlotIndices[i] += (Constants.MAXBULLETS - 3);
                     if (SlotIndices[i] >= Constants.MAXBULLETS)
                         SlotIndices[i] -= Constants.MAXBULLETS;
                     SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
@@ -162,7 +162,7 @@ public class Weapon : MonoBehaviour
 
                     SwitchWindows[i].GetComponent<RectTransform>().anchoredPosition = newPos;
 
-                    SlotIndices[i] -= 4;
+                    SlotIndices[i] -= (Constants.MAXBULLETS - 3);
                     if (SlotIndices[i] < 0)
                         SlotIndices[i] += Constants.MAXBULLETS;
                     SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);

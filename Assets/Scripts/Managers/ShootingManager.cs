@@ -11,6 +11,7 @@ public class ShootingManager : MonoBehaviour
     GameObject[] SpreadPos;
     GameObject LaserPos;
     GameObject ChargePos;
+    GameObject[] GatlingPos;
 
     GameObject[] Objs;
     Color[] Colors;
@@ -31,6 +32,7 @@ public class ShootingManager : MonoBehaviour
         SpreadPos = new GameObject[7];
         LaserPos = new GameObject();
         ChargePos = new GameObject();
+        GatlingPos = new GameObject[2];
 
         Colors = new Color[MAXCOLOR];
         ColorSelection = new int[5];
@@ -89,6 +91,10 @@ public class ShootingManager : MonoBehaviour
                 Chain(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
+            case Bullet.BulletType.GATLING:
+                Gatling(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
+                break;
+
             case Bullet.BulletType.EQUIP_MISSILE:
                 Equip_Missile(index);
                 break;
@@ -112,6 +118,8 @@ public class ShootingManager : MonoBehaviour
                 NormalPos[i] = player.NormalPos[i];
             for (int i = 0; i < 7; i++)
                 SpreadPos[i] = player.SpreadPos[i];
+            for (int i = 0; i < 2; i++)
+                GatlingPos[i] = player.GatlingPoses[i];
 
             LaserPos = player.LaserPos;
             ChargePos = player.ChargePos;
@@ -128,6 +136,8 @@ public class ShootingManager : MonoBehaviour
                 NormalPos[j] = sub.NormalPos[j];
             for (int j = 0; j < 7; j++)
                 SpreadPos[j] = sub.SpreadPos[j];
+            for (int i = 0; i < 2; i++)
+                GatlingPos[i] = sub.GatlingPoses[i];
 
             LaserPos = sub.LaserPos;
             ChargePos = sub.ChargePos;
@@ -342,6 +352,23 @@ public class ShootingManager : MonoBehaviour
         bullet.IsReinforce = IsReinforce;
         bullet.ResetData();
         bullet.Shoot(NormalPos[0].transform.up);
+    }
+
+    void Gatling(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
+    {
+        Gatling[] bullets = new Gatling[2];
+        for (int i = 0; i < 2; i++)
+        {
+            Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Gatling", Index);
+            Objs[i].transform.position = GatlingPos[i].transform.position;
+            Objs[i].transform.rotation = GatlingPos[i].transform.rotation;
+
+            bullets[i] = Objs[i].gameObject.GetComponent<Gatling>();
+            bullets[i].IsVamp = isVamp;
+            bullets[i].Vamp = shooter;
+            bullets[i].IsReinforce = IsReinforce;
+            bullets[i].Shoot(GatlingPos[i].transform.up);
+        }
     }
 
     void Equip_Missile(int index)
