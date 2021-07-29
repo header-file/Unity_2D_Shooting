@@ -95,6 +95,14 @@ public class ShootingManager : MonoBehaviour
                 Gatling(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
                 break;
 
+            case Bullet.BulletType.EXPLOSION:
+                Explosion(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
+                break;
+
+            case Bullet.BulletType.DOT:
+                Dot(Shooter, rarity, colorIndex, IsVamp, IsReinfoce);
+                break;
+
             case Bullet.BulletType.EQUIP_MISSILE:
                 Equip_Missile(index);
                 break;
@@ -368,6 +376,56 @@ public class ShootingManager : MonoBehaviour
             bullets[i].Vamp = shooter;
             bullets[i].IsReinforce = IsReinforce;
             bullets[i].Shoot(GatlingPos[i].transform.up);
+        }
+    }
+
+    void Explosion(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
+    {
+        Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Explosion", Index);
+        Objs[0].transform.position = NormalPos[0].transform.position;
+        Objs[0].transform.rotation = NormalPos[0].transform.rotation;
+
+        Explosion bullet = Objs[0].gameObject.GetComponent<Explosion>();
+        bullet.IsVamp = isVamp;
+        bullet.Vamp = shooter;
+        bullet.IsReinforce = IsReinforce;
+        bullet.Shoot(NormalPos[0].transform.up);
+    }
+
+    void Dot(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
+    {
+        Dot[] bullets = new Dot[3];
+
+        switch (Rarity)
+        {
+            case 0:
+            case 1:
+            case 2:
+                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Dot", Index);
+                Objs[0].transform.position = SpreadPos[0].transform.position;
+                Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
+
+                bullets[0] = Objs[0].gameObject.GetComponent<Dot>();
+                bullets[0].IsVamp = isVamp;
+                bullets[0].Vamp = shooter;
+                bullets[0].Shoot(SpreadPos[0].transform.up);
+                break;
+
+            case 3:
+            case 4:
+                for (int i = 0; i < 3; i++)
+                {
+                    Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Dot", Index);
+                    Objs[i].transform.position = SpreadPos[i].transform.position;
+                    Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
+
+                    bullets[i] = Objs[i].gameObject.GetComponent<Dot>();
+                    bullets[i].IsVamp = isVamp;
+                    bullets[i].Vamp = shooter;
+                    bullets[i].IsReinforce = IsReinforce;
+                    bullets[i].Shoot(SpreadPos[i].transform.up);
+                }
+                break;
         }
     }
 

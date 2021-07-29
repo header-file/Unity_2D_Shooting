@@ -358,6 +358,8 @@ public class Enemy : MonoBehaviour
         else if (collision.gameObject.tag == "PierceBullet")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+            if (bullet == null)
+                bullet = collision.transform.parent.GetComponent<Bullet>();
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage + atk;

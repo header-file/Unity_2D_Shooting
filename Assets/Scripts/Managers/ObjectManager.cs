@@ -47,6 +47,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject[] BoomerangPref;
     public GameObject[] ChainPref;
     public GameObject[] GatlingPref;
+    public GameObject[] ExplodePref;
+    public GameObject[] DotPref;
     public GameObject EqMissilePref;
     public GameObject EqKnockBackPref;
     public GameObject EqSlowPref;
@@ -109,6 +111,8 @@ public class ObjectManager : MonoBehaviour
     GameObject[,] Boomerangs;
     GameObject[,] Chains;
     GameObject[,] Gatlings;
+    GameObject[,] Explodes;
+    GameObject[,] Dots;
     GameObject[] EqMissiles;
     GameObject[] EqKnockbacks;
     GameObject[] EqSlows;
@@ -180,6 +184,14 @@ public class ObjectManager : MonoBehaviour
 
             case "Gatling":
                 TargetPools = Gatlings;
+                break;
+
+            case "Explosion":
+                TargetPools = Explodes;
+                break;
+
+            case "Dot":
+                TargetPools = Dots;
                 break;
         }
 
@@ -437,6 +449,8 @@ public class ObjectManager : MonoBehaviour
         Boomerangs = new GameObject[8, 10];
         Chains = new GameObject[8, 10];
         Gatlings = new GameObject[8, 100];
+        Explodes = new GameObject[8, 20];
+        Dots = new GameObject[8, 30];
         EqMissiles = new GameObject[10];
         EqKnockbacks = new GameObject[10];
         EqSlows = new GameObject[10];
@@ -768,6 +782,28 @@ public class ObjectManager : MonoBehaviour
                 Gatlings[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Gatlings[j, i].transform.SetParent(PBulletPool.transform, false);
                 Gatlings[j, i].SetActive(false);
+            }
+        }
+
+        for (int j = 0; j < maxColor; j++)
+        {
+            for (int i = 0; i < Explodes.Length / maxColor; i++)
+            {
+                Explodes[j, i] = Instantiate(ExplodePref[j]);
+                Explodes[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
+                Explodes[j, i].transform.SetParent(PBulletPool.transform, false);
+                Explodes[j, i].SetActive(false);
+            }
+        }
+
+        for (int j = 0; j < maxColor; j++)
+        {
+            for (int i = 0; i < Dots.Length / maxColor; i++)
+            {
+                Dots[j, i] = Instantiate(DotPref[j]);
+                Dots[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
+                Dots[j, i].transform.SetParent(PBulletPool.transform, false);
+                Dots[j, i].SetActive(false);
             }
         }
 

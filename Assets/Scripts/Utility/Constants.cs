@@ -14,7 +14,7 @@ static class Constants
 
     public const int MAXQUESTS = 4;
 
-    public const int MAXBULLETS = 8;
+    public const int MAXBULLETS = 10;
 
     public const int MAXRARITY = 5;
     public const int MAXREINFORCETYPE = 3;

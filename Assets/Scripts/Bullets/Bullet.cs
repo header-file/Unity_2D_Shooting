@@ -15,6 +15,8 @@ public class Bullet : MonoBehaviour
         BOOMERANG = 5,
         CHAIN = 6,
         GATLING = 7,
+        EXPLOSION = 8,
+        DOT = 9,
         KNOCKBACK = 10,
         SLOW = 11,
         EQUIP_MISSILE = 101,

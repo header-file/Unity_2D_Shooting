@@ -36,7 +36,7 @@ public class Info : MonoBehaviour
     public void ShowInfo(int Type, int CurrentBulletType)
     {
         CharacterType = Type;
-        WeaponName.text = GameManager.Inst().TxtManager.GetBulNames(CurrentBulletType);
+        WeaponName.text = GameManager.Inst().TxtManager.BulletTypeNames[CurrentBulletType];
         WeaponImage.sprite = GameManager.Inst().UiManager.WeaponImages[CurrentBulletType];
 
         for (int i = 0; i < GameManager.Inst().ShtManager.MAXCOLOR; i++)

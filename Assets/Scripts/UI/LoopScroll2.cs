@@ -39,7 +39,7 @@ public class LoopScroll2 : MonoBehaviour
             DistReposition[i] = Center.transform.position.x - Slots[i].transform.position.x;
             Distances[i] = Mathf.Abs(DistReposition[i]);
 
-            if(DistReposition[i] > 2.2f)
+            if(DistReposition[i] > 2.5f)
             {
                 float curX = Slots[i].anchoredPosition.x;
                 float curY = Slots[i].anchoredPosition.y;
@@ -48,7 +48,7 @@ public class LoopScroll2 : MonoBehaviour
                 Slots[i].anchoredPosition = newAnchoredPos;
             }
 
-            if(DistReposition[i] < -2.2f)
+            if(DistReposition[i] < -2.5f)
             {
                 float curX = Slots[i].anchoredPosition.x;
                 float curY = Slots[i].anchoredPosition.y;

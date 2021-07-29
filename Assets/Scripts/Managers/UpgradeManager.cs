@@ -14,6 +14,8 @@ public class UpgradeManager : MonoBehaviour
         BOOMERANG = 5,
         CHAIN = 6,
         GATLING = 7,
+        EXPLOSION = 8,
+        DOT = 9,
         SUBWEAPON = 100,
         PLAYER = 1000
     };

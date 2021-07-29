@@ -31,12 +31,10 @@ public class TextManager : MonoBehaviour
     string[] BPrices;
 
     string[] SubNames;
-    string[] BulNames;
 
     public string GetBNames(int index) { return BNames[index].text; }
     public string GetBLevels(int index) { return BLevels[index].text; }
     public string GetBPrices(int index) { return BPrices[index]; }
-    public string GetBulNames(int index) { return BulNames[index]; }
     public string GetSubNames(int index) { return SubNames[index]; }
 
     public void SetBLevels(int index, int level)
@@ -60,16 +58,6 @@ public class TextManager : MonoBehaviour
         BLevels = new Text[Constants.MAXBULLETS];
         BPrices = new string[Constants.MAXBULLETS];
 
-        BulNames = new string[Constants.MAXBULLETS];
-        BulNames[0] = "Normal";
-        BulNames[1] = "Spread";
-        BulNames[2] = "Missile";
-        BulNames[3] = "Laser";
-        BulNames[4] = "Charge";
-        BulNames[5] = "Boomerang";
-        BulNames[6] = "Chain";
-        BulNames[7] = "Gatling";
-
         SubNames = new string[4];
         for(int i = 0; i < Constants.MAXSUBWEAPON; i++)
            SubNames[i] = "Turret - 0" + (i + 1).ToString();
@@ -77,7 +65,7 @@ public class TextManager : MonoBehaviour
         for (int i = 0; i < Constants.MAXBULLETS; i++)
         {
             BNames[i] = BulletNames[i].GetComponent<Text>();
-            BNames[i].text = BulNames[i];
+            BNames[i].text = BulletTypeNames[i];
             BLevels[i] = BulletLevels[i].GetComponent<Text>();
             BPrices[i] = "0";
         }
