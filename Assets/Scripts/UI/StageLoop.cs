@@ -97,9 +97,12 @@ public class StageLoop : MonoBehaviour
         Planets[index].PlanetImage.transform.localScale = Vector3.one * newScale;
 
         //행성 색
-        float newR = Mathf.Abs((Slots[index].transform.position.y - 4.2f) / 5.5f) * -0.75f + 1.0f;
-        Color newColor = new Color(newR, newR, newR);
-        Planets[index].PlanetImage.color = newColor;
+        for (int i = 0; i < Planets[index].Images.Length; i++)
+        {
+            float newR = Mathf.Abs((Slots[index].transform.position.y - 4.2f) / 5.5f) * -0.75f + 1.0f;
+            Color newColor = new Color(newR, newR, newR);
+            Planets[index].Images[i].color = newColor;
+        }
 
         //행성 이름
         float dist = Mathf.Abs(Vector3.Distance(Planets[index].transform.position, Center.transform.position));
