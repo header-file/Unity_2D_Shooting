@@ -211,6 +211,8 @@ public class Enemy : MonoBehaviour
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
             explosion.transform.position = transform.position;
 
+            GameManager.Inst().SodManager.PlayEffect("Error 2");
+
             IsReflected = false;
             CurHP = Health;
 

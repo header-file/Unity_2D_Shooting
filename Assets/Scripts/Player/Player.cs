@@ -386,7 +386,7 @@ public class Player : MonoBehaviour
 
         EquipCount();
 
-        if (BulletType == (int)Bullet.BulletType.NORMAL)
+        if (BulletType == (int)Bullet.BulletType.GATLING)
             GatlingMove();
     }
 

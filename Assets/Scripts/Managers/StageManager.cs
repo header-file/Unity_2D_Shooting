@@ -412,6 +412,8 @@ public class StageManager : MonoBehaviour
 
         RandFever();
         StartEnemy();
+
+        GameManager.Inst().SodManager.PlayBGM("TestBGM");
     }
 
     public void UnlockStages(int stage)

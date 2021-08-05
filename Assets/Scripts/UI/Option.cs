@@ -33,24 +33,22 @@ public class Option : MonoBehaviour
 
     public void IsBgmMute()
     {
-        bool isMute = !BgmMute.isOn;
-        BgmMute.isOn = isMute;
-        GameManager.Inst().SodManager.IsBgmMute = isMute;
+        bool isMute = BgmMute.isOn;
+        GameManager.Inst().SodManager.SetBGMMute(isMute);
     }
 
     public void IsEffectMute()
     {
-        bool isMute = !EffectMute.isOn;
-        EffectMute.isOn = isMute;
-        GameManager.Inst().SodManager.IsEffectMute = isMute;
+        bool isMute = EffectMute.isOn;
+        GameManager.Inst().SodManager.SetEffectMute(isMute);
     }
 
     public void OnClickBgmVolumeBtn(bool IsAdd)
     {
         if (IsAdd)
-            GameManager.Inst().SodManager.BgmVolume += 0.01f;
+            GameManager.Inst().SodManager.SetBGMVolume(GameManager.Inst().SodManager.BgmVolume + 0.01f);
         else
-            GameManager.Inst().SodManager.BgmVolume -= 0.01f;
+            GameManager.Inst().SodManager.SetBGMVolume(GameManager.Inst().SodManager.BgmVolume - 0.01f);
 
         Bgm.value = GameManager.Inst().SodManager.BgmVolume;
         BgmVolume.text = ((int)(GameManager.Inst().SodManager.BgmVolume * 100)).ToString();
@@ -72,7 +70,7 @@ public class Option : MonoBehaviour
         if (Bgm.value == 0.5f)
             return;
 
-        GameManager.Inst().SodManager.BgmVolume = Bgm.value;
+        GameManager.Inst().SodManager.SetBGMVolume(Bgm.value);
         BgmVolume.text = ((int)(GameManager.Inst().SodManager.BgmVolume * 100)).ToString();
     }
 

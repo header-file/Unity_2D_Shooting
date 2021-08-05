@@ -193,7 +193,8 @@ public class ShootingManager : MonoBehaviour
                 }
                 break;
         }
-        
+
+        GameManager.Inst().SodManager.PlayEffect("Magical Impact 1");
     }
 
     void Spread(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -377,6 +378,8 @@ public class ShootingManager : MonoBehaviour
             bullets[i].IsReinforce = IsReinforce;
             bullets[i].Shoot(GatlingPos[i].transform.up);
         }
+
+        GameManager.Inst().SodManager.PlayEffect("Magical Swoosh 18");
     }
 
     void Explosion(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
