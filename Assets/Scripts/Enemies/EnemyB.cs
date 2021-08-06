@@ -120,11 +120,9 @@ public class EnemyB : Enemy
                         Anim.SetTrigger("Attack1");
                         break;
                 }
-                //Invoke("ShotOneWay", 0.45f);
                 break;
             case 2:
                 Anim.SetTrigger("Attack1");
-                //Invoke("Spread", 0.38f);
                 break;
             case 3:
                 break;
@@ -139,13 +137,12 @@ public class EnemyB : Enemy
         {
             case 1:
                 Anim.SetTrigger("Attack2");
-                //Invoke("Gatling", 0.15f);
                 break;
             case 2:
                 Anim.SetTrigger("Attack2");
-                //Invoke("Bounce", 0.6f);
                 break;
             case 3:
+                Anim.SetTrigger("Attack2");
                 break;
             case 4:
                 break;
@@ -158,11 +155,12 @@ public class EnemyB : Enemy
         {
             case 1:
                 Anim.SetTrigger("Attack3");
-                //Invoke("Laser", 0.34f);
                 break;
             case 2:
+                Anim.SetTrigger("Attack3");
                 break;
             case 3:
+                Anim.SetTrigger("Attack3");
                 break;
             case 4:
                 break;
@@ -175,11 +173,12 @@ public class EnemyB : Enemy
         {
             case 1:
                 Anim.SetTrigger("Attack3");
-                //Invoke("BigBullet", 0.9f);
                 break;
             case 2:
+                Anim.SetTrigger("Attack3");
                 break;
             case 3:
+                Anim.SetTrigger("Attack3");
                 break;
             case 4:
                 break;
@@ -293,21 +292,46 @@ public class EnemyB : Enemy
 
     void Bounce()
     {
-        for(int i = 0; i < 2; i++)
+        int index = 4 + 11 * WayDir;
+        switch (WayDir)
         {
-            GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossBounce");
-            int index = 4 + 11 * i;
+            case 0:
+                GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossBounce");
+                obj.transform.position = SpreadPoses[index].transform.position;
+                obj.transform.rotation = SpreadPoses[index].transform.rotation;
 
-            obj.transform.position = SpreadPoses[index].transform.position;
+                BossBounce bullet = obj.gameObject.GetComponent<BossBounce>();
+                bullet.SetStartPos(obj.transform.position);
+                bullet.Shoot(obj.transform.up);
+                break;
 
-            float z = Random.Range(13, 23) * 10.0f;
-            obj.transform.rotation = Quaternion.Euler(0.0f, 0.0f, z);
+            case 1:
+                obj = GameManager.Inst().ObjManager.MakeObj("BossBounce");
+                obj.transform.position = SpreadPoses[index].transform.position;
+                obj.transform.rotation = SpreadPoses[index].transform.rotation;
 
-            //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+                bullet = obj.gameObject.GetComponent<BossBounce>();
+                bullet.SetStartPos(obj.transform.position);
+                bullet.Shoot(obj.transform.up);
+                break;
 
-            BossBounce bullet = obj.gameObject.GetComponent<BossBounce>();
-            bullet.SetStartPos(obj.transform.position);
-            bullet.Shoot(obj.transform.up);
+            case 2:
+                for (int i = 0; i < 2; i++)
+                {
+                    obj = GameManager.Inst().ObjManager.MakeObj("BossBounce");
+                    index = 4 + 11 * i;
+
+                    obj.transform.position = SpreadPoses[index].transform.position;
+                    obj.transform.rotation = SpreadPoses[index].transform.rotation;
+
+                    //float z = Random.Range(13, 23) * 10.0f;
+                    //obj.transform.rotation = Quaternion.Euler(0.0f, 0.0f, z);
+
+                    bullet = obj.gameObject.GetComponent<BossBounce>();
+                    bullet.SetStartPos(obj.transform.position);
+                    bullet.Shoot(obj.transform.up);
+                }
+                break;
         }
     }
 
