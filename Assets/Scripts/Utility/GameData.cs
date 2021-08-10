@@ -203,7 +203,7 @@ public class GameData
             IsEraseData = false;
             return;
         }
-
+        
         if (Coin >= 0)
             GameManager.Inst().Player.SetCoin(Coin);
 
@@ -333,7 +333,7 @@ public class GameData
         else
             SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
 
-        if (Weapons != null && Weapons.Length == Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE)
+        if (Weapons != null && Weapons.Length == Constants.MAXBULLETS * Constants.WPDATASIZE)
         {
             for (int i = 0; i < Constants.MAXBULLETS; i++)
             {
@@ -380,13 +380,14 @@ public class GameData
         GameManager.Inst().SodManager.BgmVolume = BGMVolume;
         GameManager.Inst().SodManager.EffectVolume = EffectVolume;
 
-        if (GameManager.Inst().StgManager.Stage >= 1)
+        if (IsTutorial)
+            SceneManager.LoadScene("Stage0");
+        else if (GameManager.Inst().StgManager.Stage >= 1)
         {
-            if (IsTutorial)
-                SceneManager.LoadScene("Stage0");
-            else
+            if (SceneManager.GetActiveScene().name != ("Stage" + GameManager.Inst().StgManager.Stage.ToString()))
                 SceneManager.LoadScene("Stage" + GameManager.Inst().StgManager.Stage.ToString());
         }
+
     }
 
     public void ResetData()

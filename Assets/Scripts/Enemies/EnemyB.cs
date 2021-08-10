@@ -104,85 +104,41 @@ public class EnemyB : Enemy
 
     void Attack1()
     {
-        switch(GameManager.Inst().StgManager.Stage)
+        WayDir = 2;/*Random.Range(0, 3);*/
+        switch (WayDir)
         {
+            case 0:
+                Anim.SetTrigger("Attack1R");
+                break;
             case 1:
-                WayDir = Random.Range(0, 3);
-                switch (WayDir)
-                {
-                    case 0:
-                        Anim.SetTrigger("Attack1R");
-                        break;
-                    case 1:
-                        Anim.SetTrigger("Attack1L");
-                        break;
-                    case 2:
-                        Anim.SetTrigger("Attack1");
-                        break;
-                }
+                Anim.SetTrigger("Attack1L");
                 break;
             case 2:
                 Anim.SetTrigger("Attack1");
-                break;
-            case 3:
-                break;
-            case 4:
                 break;
         }
     }
 
     void Attack2()
     {
-        switch (GameManager.Inst().StgManager.Stage)
-        {
-            case 1:
-                Anim.SetTrigger("Attack2");
-                break;
-            case 2:
-                Anim.SetTrigger("Attack2");
-                break;
-            case 3:
-                Anim.SetTrigger("Attack2");
-                break;
-            case 4:
-                break;
-        }
+        Anim.SetTrigger("Attack2");
     }
 
     void Attack3()
     {
-        switch (GameManager.Inst().StgManager.Stage)
-        {
-            case 1:
-                Anim.SetTrigger("Attack3");
-                break;
-            case 2:
-                Anim.SetTrigger("Attack3");
-                break;
-            case 3:
-                Anim.SetTrigger("Attack3");
-                break;
-            case 4:
-                break;
-        }
+        Anim.SetTrigger("Attack3");
     }
     
     void FinalAttack()
     {
-        switch (GameManager.Inst().StgManager.Stage)
-        {
-            case 1:
-                Anim.SetTrigger("Attack3");
-                break;
-            case 2:
-                Anim.SetTrigger("Attack3");
-                break;
-            case 3:
-                Anim.SetTrigger("Attack3");
-                break;
-            case 4:
-                break;
-        }
+        Anim.SetTrigger("Attack3");
+    }
+
+    void Summon()
+    {
+        Anim.SetTrigger("Summon");
+
+        SummonPhase++;
     }
 
     void Gatling()
@@ -206,15 +162,37 @@ public class EnemyB : Enemy
 
     void Spread()
     {
-        for (int i = 0; i < 20; i++)
+        switch(GameManager.Inst().StgManager.Stage)
         {
-            GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
-            obj.transform.position = SpreadPoses[i].transform.position;
-            obj.transform.rotation = SpreadPoses[i].transform.rotation;
-            //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+            case 1:
+                for (int i = 0; i < 20; i++)
+                {
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+                    obj.transform.position = SpreadPoses[i].transform.position;
+                    obj.transform.rotation = SpreadPoses[i].transform.rotation;
+                    //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
-            BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
-            bullet.Shoot(SpreadPoses[i].transform.up);
+                    BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
+                    bullet.Shoot(SpreadPoses[i].transform.up);
+                }
+                break;
+            case 2:
+                
+                break;
+            case 3:
+                for (int i = 0; i < 8; i++)
+                {
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossBounce");
+                    obj.transform.position = SpreadPoses[i * 2].transform.position;
+                    obj.transform.rotation = SpreadPoses[i * 2].transform.rotation;
+                    //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+
+                    BossBounce bullet = obj.gameObject.GetComponent<BossBounce>();
+                    bullet.Shoot(SpreadPoses[i].transform.up);
+                }
+                break;
+            case 4:
+                break;
         }
     }
 
@@ -333,14 +311,6 @@ public class EnemyB : Enemy
                 }
                 break;
         }
-    }
-
-    void Summon()
-    {
-        Anim.SetTrigger("Summon");
-        //Invoke("SummonEnemies", 0.25f);
-
-        SummonPhase++;
     }
 
     void SummonEnemies()

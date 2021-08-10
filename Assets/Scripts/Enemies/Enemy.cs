@@ -338,6 +338,8 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
+            GameManager.Inst().SodManager.PlayEffect("Notification");
+
             OnHit(dmg, bullet.IsReinforce);
 
             collision.gameObject.SetActive(false);
@@ -354,6 +356,8 @@ public class Enemy : MonoBehaviour
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = collision.gameObject.GetComponent<BoxCollider2D>().ClosestPoint(transform.position);
+
+            GameManager.Inst().SodManager.PlayEffect("Notification");
 
             OnHit(dmg, bullet.IsReinforce);
         }
@@ -372,6 +376,8 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
+            GameManager.Inst().SodManager.PlayEffect("Notification");
+
             OnHit(dmg, bullet.IsReinforce);
         }
         else if (collision.gameObject.tag == "Chain")
@@ -389,6 +395,8 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
+            GameManager.Inst().SodManager.PlayEffect("Notification");
+
             OnHit(dmg, bullet.IsReinforce);
         }
         else if(collision.gameObject.tag == "EquipBullet")
@@ -399,6 +407,8 @@ public class Enemy : MonoBehaviour
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
+
+            GameManager.Inst().SodManager.PlayEffect("Notification");
 
             OnHit(damage, bullet.IsReinforce);
         }
