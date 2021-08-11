@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ef_Boss1_bullet2
+  m_Name: ef_Boss2_bullet_unlit
   m_Shader: {fileID: 4800000, guid: a36b7719ff0465b42ab1407d67672c5f, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA GLOW_ON
+  m_ShaderKeywords: DISTORT_ON ETC1_EXTERNAL_ALPHA GLOW_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -30,7 +30,7 @@ Material:
     - _DistortTex:
         m_Texture: {fileID: 2800000, guid: 7aad8c583ef292e48b06af0d1f2fab97, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 0.5, y: 0.5}
     - _Emission:
         m_Texture: {fileID: 2800000, guid: 884c618f55a965346badfd6ad5cd6dff, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -85,16 +85,16 @@ Material:
     - _ColorSwapBlueLuminosity: 0.5
     - _ColorSwapGreenLuminosity: 0.5
     - _ColorSwapRedLuminosity: 0.5
-    - _DistortAmount: 0.371
-    - _DistortTexXSpeed: 3.2
-    - _DistortTexYSpeed: -39.6
+    - _DistortAmount: 0.25
+    - _DistortTexXSpeed: 8
+    - _DistortTexYSpeed: -13
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 2
     - _FadeBurnTransition: 0.075
     - _FadeBurnWidth: 0.025
     - _FishEyeUvAmount: 0.35
     - _FlickerAlpha: 0
-    - _FlickerFreq: 0.2
+    - _FlickerFreq: 1.79
     - _FlickerPercent: 0.05
     - _GhostColorBoost: 1
     - _GhostTransparency: 0
@@ -195,7 +195,7 @@ Material:
     - Color_6C2731AF: {r: 0, g: 0, b: 0, a: 1}
     - Color_F2720158: {r: 1.7824348, g: 1.7824348, b: 1.7824348, a: 1}
     - Vector4_4CE5D0A0: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 0.27898905, b: 0.031372547, a: 1}
+    - _Color: {r: 0.058823533, g: 0.30588236, b: 0.7568628, a: 1}
     - _ColorChangeNewCol: {r: 1, g: 1, b: 0, a: 1}
     - _ColorChangeTarget: {r: 1, g: 0, b: 0, a: 1}
     - _ColorMask: {r: 1, g: 1, b: 1, a: 1}
@@ -203,7 +203,7 @@ Material:
     - _ColorSwapGreen: {r: 1, g: 1, b: 1, a: 1}
     - _ColorSwapRed: {r: 1, g: 1, b: 1, a: 1}
     - _FadeBurnColor: {r: 1, g: 1, b: 0, a: 1}
-    - _GlowColor: {r: 1, g: 0.6303877, b: 0.12549019, a: 1}
+    - _GlowColor: {r: 0.14117648, g: 0.5568628, b: 0.8588236, a: 1}
     - _GradBotLeftCol: {r: 0.93165475, g: 1, b: 0.4198113, a: 1}
     - _GradBotRightCol: {r: 1, g: 0.96858394, b: 0.08962262, a: 1}
     - _GradTopLeftCol: {r: 0.9974991, g: 1, b: 0, a: 1}
@@ -212,6 +212,6 @@ Material:
     - _HitEffectColor: {r: 1, g: 1, b: 1, a: 1}
     - _HologramStripeColor: {r: 1, g: 1, b: 1, a: 1}
     - _InnerOutlineColor: {r: 1, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0.43867922, g: 0.9595131, b: 1, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShineColor: {r: 1, g: 1, b: 1, a: 1}
