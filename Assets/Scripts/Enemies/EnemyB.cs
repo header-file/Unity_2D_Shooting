@@ -313,6 +313,21 @@ public class EnemyB : Enemy
         }
     }
 
+    void Boomerang()
+    {
+
+    }
+
+    void Missile()
+    {
+
+    }
+
+    void Explosion()
+    {
+        //4, 15
+    }
+
     void SummonEnemies()
     {
         //int rand = Random.Range(0, 5);
