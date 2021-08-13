@@ -52,19 +52,38 @@ public class BossBigBullet : MonoBehaviour
 
     void Shot()
     {
-        for(int i = 0; i < 12; i++)
+        switch(GameManager.Inst().StgManager.Stage)
         {
-            GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
-            obj.transform.position = ShotDir[i].transform.position;
-            obj.transform.rotation = ShotDir[i].transform.rotation;
-            obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
+            case 1:
+                for (int i = 0; i < 12; i++)
+                {
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+                    obj.transform.position = ShotDir[i].transform.position;
+                    obj.transform.rotation = ShotDir[i].transform.rotation;
+                    
+                    BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
+                    bullet.Shoot(ShotDir[i].transform.up);
+                }
+                break;
+            case 2:
+                for (int i = 0; i < 2; i++)
+                {
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
+                    obj.transform.position = ShotDir[ShotCount].transform.position;
+                    obj.transform.rotation = ShotDir[ShotCount + 6].transform.rotation;
 
-            BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
-            bullet.Shoot(ShotDir[i].transform.up);
+                    BossLaser bullet = obj.GetComponent<BossLaser>();
+                    bullet.StopTime = 0.0f;
+                }
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
         }
 
         ShotCount++;
-        if (ShotCount >= 5)
+        if (ShotCount >= 6)
             Die();
         else
             Invoke("Shot", 0.1f);

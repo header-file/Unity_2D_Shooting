@@ -456,7 +456,7 @@ public class ObjectManager : MonoBehaviour
         EqSlows = new GameObject[10];
 
         BossNormals = new GameObject[60];
-        BossLasers = new GameObject[3];
+        BossLasers = new GameObject[12];
         BossOneWays = new GameObject[15];
         BossBigBullets = new GameObject[3];
         BossBounces = new GameObject[10];

@@ -67,7 +67,7 @@ public class EnemyB : Enemy
         IsAbleAttack = false;
         IsAttacking = true;
         
-        if (CurHP / Health > 0.1f)
+        if (CurHP / Health < 0.1f)
         {
             if (SummonPhase == 0 && CurHP / Health <= 0.5f)
                 Summon();
@@ -131,7 +131,7 @@ public class EnemyB : Enemy
     
     void FinalAttack()
     {
-        Anim.SetTrigger("Attack3");
+        Anim.SetTrigger("Attack4");
     }
 
     void Summon()
@@ -201,6 +201,9 @@ public class EnemyB : Enemy
         GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
         obj.transform.position = LaserPos.transform.position;
         obj.transform.rotation = LaserPos.transform.rotation;
+
+        BossLaser bullet = obj.GetComponent<BossLaser>();
+        bullet.StopTime = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
         //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
     }
 
@@ -320,12 +323,51 @@ public class EnemyB : Enemy
 
     void Missile()
     {
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
 
+        BossMissile bullet = obj.gameObject.GetComponent<BossMissile>();
+        bullet.Shoot(BigBulletPos.transform.up);
     }
 
     void Explosion()
     {
-        //4, 15
+        int index = 4 + 11 * WayDir;
+        switch (WayDir)
+        {
+            case 0:
+                GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                obj.transform.position = SpreadPoses[index].transform.position;
+                obj.transform.rotation = SpreadPoses[index].transform.rotation;
+
+                BossExplosion bullet = obj.gameObject.GetComponent<BossExplosion>();
+                bullet.Shoot(obj.transform.up);
+                break;
+
+            case 1:
+                obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                obj.transform.position = SpreadPoses[index].transform.position;
+                obj.transform.rotation = SpreadPoses[index].transform.rotation;
+
+                bullet = obj.gameObject.GetComponent<BossExplosion>();
+                bullet.Shoot(obj.transform.up);
+                break;
+
+            case 2:
+                for (int i = 0; i < 2; i++)
+                {
+                    obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                    index = 4 + 11 * i;
+
+                    obj.transform.position = SpreadPoses[index].transform.position;
+                    obj.transform.rotation = SpreadPoses[index].transform.rotation;
+
+                    bullet = obj.gameObject.GetComponent<BossExplosion>();
+                    bullet.Shoot(obj.transform.up);
+                }
+                break;
+        }
     }
 
     void SummonEnemies()

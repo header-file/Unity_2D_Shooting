@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossLaser : Bullet
 {
     public int Damage;
+    public float StopTime;
 
     Animator Anim; 
     bool IsStopped;
@@ -13,7 +14,7 @@ public class BossLaser : Bullet
     {
         Type = BulletType.LASER;
         GetComponent<SpriteRenderer>().color = Color.white;
-        Damage = 20;
+        Damage = 20 * GameManager.Inst().StgManager.Stage;
         IsStopped = false;
     }
 
@@ -29,8 +30,7 @@ public class BossLaser : Bullet
             Anim.speed = 0.0f;
             IsStopped = true;
 
-            float stopTime = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
-            Invoke("Restart", stopTime);
+            Invoke("Restart", StopTime);
         }
 
         if (Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)

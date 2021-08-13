@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class SearchArea : MonoBehaviour
 {
+    public enum ParentType
+    {
+        PLAYER = 0,
+        ENEMY = 1
+    }
+
+    public ParentType PType;
+
     Missile Parent;
     CircleCollider2D Col;
 
@@ -21,15 +29,21 @@ public class SearchArea : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if(PType == ParentType.PLAYER)
         {
-            if (Parent.Target == null || Parent.Target.activeSelf == false)
+            if (collision.gameObject.tag == "Enemy")
             {
-                /*if ((collision.gameObject.transform.position.x <= 3.5f && collision.gameObject.transform.position.x >= -3.5f) &&
-                    (collision.gameObject.transform.position.y <= 6.0f && collision.gameObject.transform.position.y >= -6.0f))*/
-                {
+                if (Parent.Target == null || Parent.Target.activeSelf == false)
                     Parent.Target = collision.gameObject;
-                }
+            }
+        }
+        else
+        {
+            if (collision.gameObject.tag == "Player" ||
+                collision.gameObject.tag == "SubWeapon")
+            {
+                if (Parent.Target == null || Parent.Target.activeSelf == false)
+                    Parent.Target = collision.gameObject;
             }
         }
     }

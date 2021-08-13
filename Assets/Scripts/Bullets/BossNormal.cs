@@ -9,7 +9,7 @@ public class BossNormal : Bullet
     void Awake()
     {
         Type = BulletType.NORMAL;
-        Damage = 10;
+        Damage = 10 * GameManager.Inst().StgManager.Stage;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
