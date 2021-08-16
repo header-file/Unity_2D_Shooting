@@ -16,6 +16,7 @@ public class EnemyB : Enemy
     bool IsAttacking;
     Vector3 NowPosition;
     float Gyesu;
+    float FinTimer;
     int WayDir;
     int GatlingCount;
     int SummonPhase;
@@ -29,6 +30,7 @@ public class EnemyB : Enemy
         WayDir = 0;
         GatlingCount = 0;
         SummonPhase = 0;
+        FinTimer = 0.0f;
     }
 
     void FixedUpdate()
@@ -66,8 +68,9 @@ public class EnemyB : Enemy
 
         IsAbleAttack = false;
         IsAttacking = true;
+        FinTimer = 4.0f;
         
-        if (CurHP / Health < 0.1f)
+        if (CurHP / Health <= 0.1f)
         {
             if (SummonPhase == 0 && CurHP / Health <= 0.5f)
                 Summon();
@@ -75,7 +78,7 @@ public class EnemyB : Enemy
                 Summon();
             else
             {
-                int rand = Random.Range(0, 3);
+                int rand = 1/*Random.Range(0, 3)*/;
                 switch (rand)
                 {
                     case 0:
@@ -92,19 +95,22 @@ public class EnemyB : Enemy
         }
         else
         {
-            if(SummonPhase == 2)
+            if (SummonPhase == 2)
                 Summon();
             else
+            {
+                FinTimer = 7.0f;
                 FinalAttack();
+            }
         }
 
-        Invoke("AbleAttack", 4.0f);
+        Invoke("AbleAttack", FinTimer);
         Invoke("FinishAttacking", 2.25f);
     }
 
     void Attack1()
     {
-        WayDir = 2;/*Random.Range(0, 3);*/
+        WayDir = 2;
         switch (WayDir)
         {
             case 0:
@@ -318,7 +324,12 @@ public class EnemyB : Enemy
 
     void Boomerang()
     {
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
 
+        BossBoomerang bullet = obj.gameObject.GetComponent<BossBoomerang>();
+        bullet.StartMove(obj.transform.position);
     }
 
     void Missile()

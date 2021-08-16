@@ -16,15 +16,21 @@ public class BossOneWay : Bullet
     {
         if (collision.gameObject.tag == "SubWeapon")
         {
+            HitEffect(collision.gameObject);
             collision.gameObject.GetComponent<SubWeapon>().Damage(Damage);
-            gameObject.SetActive(false);
         }
         else if (collision.gameObject.tag == "Player")
         {
-            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = collision.gameObject.transform.position;
-
-            gameObject.SetActive(false);
+            HitEffect(collision.gameObject);
+            collision.gameObject.GetComponent<Player>().Damage(Damage);
         }
+
+        gameObject.SetActive(false);
+    }
+
+    void HitEffect(GameObject obj)
+    {
+        GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+        hit.transform.position = obj.transform.position;
     }
 }

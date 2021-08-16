@@ -66,6 +66,8 @@ public class BossMissile : Bullet
             collision.gameObject.GetComponent<Player>().Damage(Damage);
             gameObject.SetActive(false);
         }
+
+        gameObject.SetActive(false);
     }
 
     void HitEffect(GameObject obj)

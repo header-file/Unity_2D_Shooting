@@ -16,7 +16,7 @@ public class BossBounce : Bullet
     {
         Type = BulletType.MISSILE;
         Rig = gameObject.GetComponent<Rigidbody2D>();
-        Damage = 10;
+        Damage = 10 * GameManager.Inst().StgManager.Stage;
         BounceCount = 3;
     }
 
@@ -45,12 +45,23 @@ public class BossBounce : Bullet
         }
         else if (collision.gameObject.tag == "SubWeapon")
         {
+            HitEffect(collision.gameObject);
             collision.gameObject.GetComponent<SubWeapon>().Damage(Damage);
+
+            gameObject.SetActive(false);
         }
-        else if(collision.gameObject.tag == "Player")
+        else if (collision.gameObject.tag == "Player")
         {
-            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = collision.gameObject.transform.position;
-        }
+            HitEffect(collision.gameObject);
+            collision.gameObject.GetComponent<Player>().Damage(Damage);
+
+            gameObject.SetActive(false);
+        }        
+    }
+
+    void HitEffect(GameObject obj)
+    {
+        GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+        hit.transform.position = obj.transform.position;
     }
 }

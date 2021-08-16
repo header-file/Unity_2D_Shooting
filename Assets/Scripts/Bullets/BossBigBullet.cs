@@ -41,20 +41,28 @@ public class BossBigBullet : MonoBehaviour
             else
                 IsShrink = true;
 
-            if (Vector3.Distance(transform.position, TargetPos) <= 1.2f)
+            if (Vector3.Distance(transform.position, TargetPos) <= 1.3f)
             {
                 ShotCount = 0;
                 IsFinish = true;
                 Shot();
             }
         }
+        //else
+        //{
+        //    if(GameManager.Inst().StgManager.Stage == 3)
+        //        transform.Rotate(Vector3.forward, 0.1f);
+        //}
     }
 
     void Shot()
     {
+        int maxCount = 6;
+        float shotTime = 0.0f;
         switch(GameManager.Inst().StgManager.Stage)
         {
             case 1:
+                shotTime = 0.1f;
                 for (int i = 0; i < 12; i++)
                 {
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
@@ -66,6 +74,7 @@ public class BossBigBullet : MonoBehaviour
                 }
                 break;
             case 2:
+                shotTime = 0.1f;
                 for (int i = 0; i < 2; i++)
                 {
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
@@ -77,16 +86,38 @@ public class BossBigBullet : MonoBehaviour
                 }
                 break;
             case 3:
+                //maxCount = 4;
+                //shotTime = 0.1f;
+                //for (int i = 0; i < 3; i++)
+                //{
+                //    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+                //    obj.transform.position = ShotDir[ShotCount + (i * 4)].transform.position;
+                //    obj.transform.rotation = ShotDir[ShotCount + (i * 4)].transform.rotation;
+
+                //    BossBoomerang bullet = obj.GetComponent<BossBoomerang>();
+                //    bullet.StartMove(obj.transform.position);
+                //}
+                maxCount = 12;
+                shotTime = 0.05f;
+                for (int i = 0; i < 1; i++)
+                {
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+                    obj.transform.position = ShotDir[ShotCount].transform.position;
+                    obj.transform.rotation = ShotDir[ShotCount].transform.rotation;
+
+                    BossBoomerang bullet = obj.GetComponent<BossBoomerang>();
+                    bullet.StartMove(obj.transform.position);
+                }
                 break;
             case 4:
                 break;
         }
 
         ShotCount++;
-        if (ShotCount >= 6)
+        if (ShotCount >= maxCount)
             Die();
         else
-            Invoke("Shot", 0.1f);
+            Invoke("Shot", shotTime);
     }
 
     void Damage(float dmg, bool isReinforced)

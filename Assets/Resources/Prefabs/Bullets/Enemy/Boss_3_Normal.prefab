@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6281153566678554471
+--- !u!1 &5015661319605352103
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7216688390341619415}
-  - component: {fileID: 8522356480472443152}
-  - component: {fileID: -6451955701977544684}
-  - component: {fileID: 3275512003759902060}
-  - component: {fileID: -8379669098770298155}
+  - component: {fileID: 5015661319605352090}
+  - component: {fileID: 5015661319605352089}
+  - component: {fileID: -3686909676485446656}
+  - component: {fileID: 5015661319605352092}
+  - component: {fileID: 5015661319605352091}
   m_Layer: 0
-  m_Name: BossOneWay_Base
+  m_Name: Boss_3_Normal
   m_TagString: BossBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7216688390341619415
+--- !u!4 &5015661319605352090
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6281153566678554471}
+  m_GameObject: {fileID: 5015661319605352103}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.24, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 2.5, z: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &8522356480472443152
+--- !u!212 &5015661319605352089
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6281153566678554471}
+  m_GameObject: {fileID: 5015661319605352103}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0a67146005e369f449ced58200062aac, type: 2}
+  - {fileID: 2100000, guid: 1e22dc62d0a895348acdf40290f19102, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -72,27 +72,77 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -514365737612142433, guid: 0e47ea17439cdbb4eaec045acb60d192,
+  m_SortingOrder: 20
+  m_Sprite: {fileID: 2297057621570107139, guid: 0e47ea17439cdbb4eaec045acb60d192,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.27, y: 0.33}
+  m_Size: {x: 2.09, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &-6451955701977544684
+--- !u!114 &-3686909676485446656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5015661319605352103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c1633bb4d7ec18409c79b96a621c3ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlowColor: {r: 0, g: 0, b: 0, a: 0}
+  IsVamp: 0
+  Vamp: {fileID: 0}
+  IsReinforce: 0
+  InventoryIndex: 0
+  Curve2:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.1537845
+      outSlope: 3.1537845
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.2324472
+    - serializedVersion: 3
+      time: 1.0041504
+      value: 1.0053711
+      inSlope: -0.002789855
+      outSlope: -0.002789855
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2.0006738
+      value: 0.0020758638
+      inSlope: -3.8030112
+      outSlope: -3.8030112
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.19574615
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!50 &5015661319605352092
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6281153566678554471}
+  m_GameObject: {fileID: 5015661319605352103}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -106,13 +156,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &3275512003759902060
-PolygonCollider2D:
+--- !u!58 &5015661319605352091
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6281153566678554471}
+  m_GameObject: {fileID: 5015661319605352103}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -120,38 +170,5 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.27, y: 0.33}
-    newSize: {x: 0.27, y: 0.33}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.08362508, y: 0.112330675}
-      - {x: 0, y: 0.165}
-      - {x: -0.082909346, y: 0.11655927}
-      - {x: -0.12095794, y: 0.019862972}
-      - {x: -0.11842602, y: -0.15631264}
-      - {x: 0.123959266, y: -0.15769593}
-      - {x: 0.12303288, y: 0.024013031}
---- !u!114 &-8379669098770298155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6281153566678554471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf76c4e0d30f1dd40893583689a4870c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlowColor: {r: 0, g: 0, b: 0, a: 0}
-  IsVamp: 0
-  Vamp: {fileID: 0}
-  IsReinforce: 0
-  InventoryIndex: 0
+  serializedVersion: 2
+  m_Radius: 0.33333334
