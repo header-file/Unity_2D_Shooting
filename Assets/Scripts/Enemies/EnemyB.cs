@@ -70,7 +70,7 @@ public class EnemyB : Enemy
         IsAttacking = true;
         FinTimer = 4.0f;
         
-        if (CurHP / Health <= 0.1f)
+        if (CurHP / Health > 0.1f)
         {
             if (SummonPhase == 0 && CurHP / Health <= 0.5f)
                 Summon();
@@ -78,7 +78,7 @@ public class EnemyB : Enemy
                 Summon();
             else
             {
-                int rand = 1/*Random.Range(0, 3)*/;
+                int rand = Random.Range(0, 3);
                 switch (rand)
                 {
                     case 0:
@@ -110,7 +110,7 @@ public class EnemyB : Enemy
 
     void Attack1()
     {
-        WayDir = 2;
+        WayDir = Random.Range(0, 3);
         switch (WayDir)
         {
             case 0:
@@ -168,39 +168,39 @@ public class EnemyB : Enemy
 
     void Spread()
     {
-        switch(WayDir)
+        switch (WayDir)
         {
             case 0:
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
-                    obj.transform.position = SpreadPoses[i].transform.position;
-                    obj.transform.rotation = SpreadPoses[i].transform.rotation;
+                    obj.transform.position = SpreadPoses[i * 2].transform.position;
+                    obj.transform.rotation = SpreadPoses[i * 2].transform.rotation;
 
                     BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
-                    bullet.Shoot(SpreadPoses[i].transform.up);
+                    bullet.Shoot(SpreadPoses[i].transform.up, 5);
                 }
                 break;
             case 1:
-                for (int i = 11; i < 20; i++)
+                for (int i = 6; i < 10; i++)
                 {
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
-                    obj.transform.position = SpreadPoses[i].transform.position;
-                    obj.transform.rotation = SpreadPoses[i].transform.rotation;
+                    obj.transform.position = SpreadPoses[i * 2].transform.position;
+                    obj.transform.rotation = SpreadPoses[i * 2].transform.rotation;
 
                     BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
-                    bullet.Shoot(SpreadPoses[i].transform.up);
+                    bullet.Shoot(SpreadPoses[i].transform.up, 5);
                 }
                 break;
             case 2:
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
-                    obj.transform.position = SpreadPoses[i].transform.position;
-                    obj.transform.rotation = SpreadPoses[i].transform.rotation;
-                    
+                    obj.transform.position = SpreadPoses[i * 2].transform.position;
+                    obj.transform.rotation = SpreadPoses[i * 2].transform.rotation;
+
                     BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
-                    bullet.Shoot(SpreadPoses[i].transform.up);
+                    bullet.Shoot(SpreadPoses[i].transform.up, 5);
                 }
                 break;
         }
@@ -214,7 +214,6 @@ public class EnemyB : Enemy
 
         BossLaser bullet = obj.GetComponent<BossLaser>();
         bullet.StopTime = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
-        //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
     }
 
     void ShotOneWay()
@@ -229,7 +228,6 @@ public class EnemyB : Enemy
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
                     obj.transform.position = SpreadPoses[index].transform.position;
                     obj.transform.rotation = SpreadPoses[index].transform.rotation;
-                    //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
                     BossOneWay bullet = obj.gameObject.GetComponent<BossOneWay>();
                     bullet.Shoot(SpreadPoses[index].transform.up);
@@ -243,7 +241,6 @@ public class EnemyB : Enemy
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
                     obj.transform.position = SpreadPoses[index].transform.position;
                     obj.transform.rotation = SpreadPoses[index].transform.rotation;
-                    //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
                     BossOneWay bullet = obj.gameObject.GetComponent<BossOneWay>();
                     bullet.Shoot(SpreadPoses[index].transform.up);
@@ -259,7 +256,6 @@ public class EnemyB : Enemy
                         GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
                         obj.transform.position = SpreadPoses[index].transform.position;
                         obj.transform.rotation = SpreadPoses[index].transform.rotation;
-                        //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
                         BossOneWay bullet = obj.gameObject.GetComponent<BossOneWay>();
                         bullet.Shoot(SpreadPoses[index].transform.up);
@@ -274,10 +270,9 @@ public class EnemyB : Enemy
         GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossBigBullet");
         obj.transform.position = BigBulletPos.transform.position;
         obj.transform.rotation = BigBulletPos.transform.rotation;
-        //obj.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", new Color(0.5f, 0.5f, 0.5f));
 
         BossBigBullet bbb = obj.GetComponent<BossBigBullet>();
-        bbb.SetHP(Health * 0.1f);
+        bbb.SetHP(Health * 0.05f);
         bbb.SetTargetPos(new Vector3(0.0f, 3.0f, 0.0f));
     }
 
@@ -287,29 +282,25 @@ public class EnemyB : Enemy
         switch (WayDir)
         {
             case 0:
-                GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossBounce");
-                obj.transform.position = SpreadPoses[index].transform.position;
-                obj.transform.rotation = SpreadPoses[index].transform.rotation;
-
-                BossBounce bullet = obj.gameObject.GetComponent<BossBounce>();
-                bullet.SetStartPos(obj.transform.position);
-                bullet.Shoot(obj.transform.up);
-                break;
-
             case 1:
-                obj = GameManager.Inst().ObjManager.MakeObj("BossBounce");
-                obj.transform.position = SpreadPoses[index].transform.position;
-                obj.transform.rotation = SpreadPoses[index].transform.rotation;
+                for (int i = -1; i <= 1; i+=2)
+                {
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                    index += i;
 
-                bullet = obj.gameObject.GetComponent<BossBounce>();
-                bullet.SetStartPos(obj.transform.position);
-                bullet.Shoot(obj.transform.up);
+                    obj.transform.position = SpreadPoses[index].transform.position;
+                    obj.transform.rotation = SpreadPoses[index].transform.rotation;
+
+                    BossBounce bullet = obj.gameObject.GetComponent<BossBounce>();
+                    bullet.SetStartPos(obj.transform.position);
+                    bullet.Shoot(obj.transform.up);
+                }                
                 break;
 
             case 2:
                 for (int i = 0; i < 2; i++)
                 {
-                    obj = GameManager.Inst().ObjManager.MakeObj("BossBounce");
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
                     index = 4 + 11 * i;
 
                     obj.transform.position = SpreadPoses[index].transform.position;
@@ -318,7 +309,7 @@ public class EnemyB : Enemy
                     //float z = Random.Range(13, 23) * 10.0f;
                     //obj.transform.rotation = Quaternion.Euler(0.0f, 0.0f, z);
 
-                    bullet = obj.gameObject.GetComponent<BossBounce>();
+                    BossBounce bullet = obj.gameObject.GetComponent<BossBounce>();
                     bullet.SetStartPos(obj.transform.position);
                     bullet.Shoot(obj.transform.up);
                 }
@@ -387,12 +378,26 @@ public class EnemyB : Enemy
 
     void Charge()
     {
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
 
+        BossCharge bullet = obj.gameObject.GetComponent<BossCharge>();
+        bullet.StartCharge(BigBulletPos);
+    }
+
+    void Slow()
+    {
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
+
+        BossSlow bullet = obj.gameObject.GetComponent<BossSlow>();
+        bullet.Shoot(BigBulletPos.transform.up, 1);
     }
 
     void SummonEnemies()
     {
-        //int rand = Random.Range(0, 5);
         if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 2)
         {
             for (int i = 1; i <= 3; i++)

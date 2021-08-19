@@ -47,6 +47,12 @@ public class Bullet : MonoBehaviour
         rig.AddForce(Direction * speed, ForceMode2D.Impulse);
     }
 
+    public void Shoot(Vector2 Direction, float Speed)
+    {
+        Rigidbody2D rig = GetComponent<Rigidbody2D>();
+        rig.AddForce(Direction * Speed, ForceMode2D.Impulse);
+    }
+
     public void ShootEquip(Vector2 Direction, int type)
     {
         Rigidbody2D rig = GetComponent<Rigidbody2D>();

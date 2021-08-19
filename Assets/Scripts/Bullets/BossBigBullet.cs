@@ -50,8 +50,9 @@ public class BossBigBullet : MonoBehaviour
         }
         //else
         //{
-        //    if(GameManager.Inst().StgManager.Stage == 3)
-        //        transform.Rotate(Vector3.forward, 0.1f);
+        //    //if (GameManager.Inst().StgManager.Stage == 4)
+        //    if (GameManager.Inst().StgManager.Stage == 3)
+        //        transform.Rotate(Vector3.forward, 10.0f);
         //}
     }
 
@@ -78,25 +79,14 @@ public class BossBigBullet : MonoBehaviour
                 for (int i = 0; i < 2; i++)
                 {
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
-                    obj.transform.position = ShotDir[ShotCount].transform.position;
-                    obj.transform.rotation = ShotDir[ShotCount + 6].transform.rotation;
+                    obj.transform.position = ShotDir[ShotCount + i * 6].transform.position;
+                    obj.transform.rotation = ShotDir[ShotCount + i * 6].transform.rotation;
 
                     BossLaser bullet = obj.GetComponent<BossLaser>();
                     bullet.StopTime = 0.0f;
                 }
                 break;
             case 3:
-                //maxCount = 4;
-                //shotTime = 0.1f;
-                //for (int i = 0; i < 3; i++)
-                //{
-                //    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
-                //    obj.transform.position = ShotDir[ShotCount + (i * 4)].transform.position;
-                //    obj.transform.rotation = ShotDir[ShotCount + (i * 4)].transform.rotation;
-
-                //    BossBoomerang bullet = obj.GetComponent<BossBoomerang>();
-                //    bullet.StartMove(obj.transform.position);
-                //}
                 maxCount = 12;
                 shotTime = 0.05f;
                 for (int i = 0; i < 1; i++)
@@ -110,6 +100,22 @@ public class BossBigBullet : MonoBehaviour
                 }
                 break;
             case 4:
+                maxCount = 5;
+                shotTime = 0.1f;
+                int rand = Random.Range(0, 12);
+                for (int i = 0; i < 6; i++)
+                {
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                    obj.transform.position = ShotDir[0].transform.position;
+                    obj.transform.rotation = ShotDir[(rand + (i % 2) * 6) % 12].transform.rotation;
+                    //obj.transform.rotation = ShotDir[rand % 12].transform.rotation;
+
+                    BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
+                    bullet.Shoot(ShotDir[(rand + (i % 2) * 6) % 12].transform.up, rand % 5 + 1);
+                    //bullet.Shoot(ShotDir[rand % 12].transform.up);
+
+                    rand++;
+                }
                 break;
         }
 

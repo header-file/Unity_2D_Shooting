@@ -18,14 +18,16 @@ public class BossOneWay : Bullet
         {
             HitEffect(collision.gameObject);
             collision.gameObject.GetComponent<SubWeapon>().Damage(Damage);
+
+            gameObject.SetActive(false);
         }
         else if (collision.gameObject.tag == "Player")
         {
             HitEffect(collision.gameObject);
             collision.gameObject.GetComponent<Player>().Damage(Damage);
-        }
 
-        gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
     }
 
     void HitEffect(GameObject obj)
