@@ -4,23 +4,15 @@ using UnityEngine;
 
 public class BackGround : MonoBehaviour
 {
-    public Player Player;
-
-    void Start()
+    void TurretDisappear()
     {
-        
+        for (int i = 0; i < 4; i++)
+            GameManager.Inst().UiManager.Turrets[i].gameObject.SetActive(false);
     }
 
-    void Update()
+    void TurretAppear()
     {
-        
+        for (int i = 0; i < 4; i++)
+            GameManager.Inst().UiManager.Turrets[i].gameObject.SetActive(true);
     }
-
-    /*void OnMouseDrag()
-    {
-        Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 MPos = new Vector2(MousePos.x, MousePos.y);
-
-        Player.Fire(MPos);
-    }*/
 }
