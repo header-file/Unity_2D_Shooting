@@ -74,7 +74,6 @@ public class UIManager : MonoBehaviour
     public Text BossHPBarText;
     public GameObject BossGauge;
     public Image BossGaugeBar;
-    public Animator WarningAnim;
     public GameObject TurretUI;
 
     //새 윈도우
@@ -300,6 +299,16 @@ public class UIManager : MonoBehaviour
     {
         SlotUI[index].Locked.SetActive(!isActive);
         SlotUI[index].StageName.text = "Stage" + unlockStage.ToString();
+    }
+
+    public void InventoryFull()
+    {
+        MainUi.InventoryFull.Play();
+    }
+
+    public void BossWarning()
+    {
+        MainUi.BossWarning.Play();
     }
 
 

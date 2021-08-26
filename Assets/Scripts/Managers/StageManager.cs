@@ -121,7 +121,6 @@ public class StageManager : MonoBehaviour
         BossCount[Stage - 1] = 0;
         GameManager.Inst().UiManager.BossGaugeBar.fillAmount = (float)BossCount[Stage - 1] / BossMax;
         CancelEnemies();
-        GameManager.Inst().UiManager.WarningAnim.SetTrigger("Start");
         Invoke("SpawnBoss", 2.5f);
         GameManager.Inst().Player.BossMode();
 

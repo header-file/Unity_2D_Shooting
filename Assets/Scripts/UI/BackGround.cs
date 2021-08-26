@@ -15,4 +15,9 @@ public class BackGround : MonoBehaviour
         for (int i = 0; i < 4; i++)
             GameManager.Inst().UiManager.Turrets[i].gameObject.SetActive(true);
     }
+
+    void Warning()
+    {
+        GameManager.Inst().UiManager.BossWarning();
+    }
 }

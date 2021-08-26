@@ -8,6 +8,8 @@ public class MainUI : MonoBehaviour
     public GameObject Arrows;
     public Menu Menu;
     public BossGauge BossGauge;
+    public Animation InventoryFull;
+    public Animation BossWarning;
 
 
     void Awake()

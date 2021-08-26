@@ -199,6 +199,8 @@ public class Player : MonoBehaviour
             }
         }
 
+        GameManager.Inst().UiManager.InventoryFull();
+
         return -1;
     }
 
@@ -220,6 +222,8 @@ public class Player : MonoBehaviour
                 return i;
             }
         }
+
+        GameManager.Inst().UiManager.InventoryFull();
 
         return -1;
     }
