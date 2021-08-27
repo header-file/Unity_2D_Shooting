@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     public Image HP_Bar;
     public GameObject Canvas;
     public HitArea HitArea;
+    public SpriteRenderer SpriteRenderer;
 
     public float SpeedMultiplier;
 
@@ -28,9 +29,7 @@ public class Enemy : MonoBehaviour
     protected int Atk;
     protected Vector3 MidPoint;
     protected EnemyType Type;
-
-    SpriteRenderer SpriteRenderer;
-    Rigidbody2D Rig;    
+    protected Rigidbody2D Rig;    
 
     bool IsBarVisible;
     Vector3 TargetPosition;
@@ -54,7 +53,6 @@ public class Enemy : MonoBehaviour
     
     void Awake()
     {
-        SpriteRenderer = GetComponent<SpriteRenderer>();
         Rig = GetComponent<Rigidbody2D>();
 
         SpeedMultiplier = 1.0f;

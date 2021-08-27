@@ -89,6 +89,7 @@ public class GameData
     public int[] Quests;
 
     public float[] FeverGauges;
+    public int[] FullFevers;
     public int[] BossGauges;
     public int[] BossDeathCounts;
 
@@ -131,6 +132,13 @@ public class GameData
             Resources[i] = GameManager.Inst().Resources[i];
             BossGauges[i] = GameManager.Inst().StgManager.BossCount[i];
             BossDeathCounts[i] = GameManager.Inst().StgManager.BossDeathCounts[i];
+
+            for(int j = 0; j < 3; j++)
+            {
+                FeverGauges[i * 3 + j * 2] = GameManager.Inst().StgManager.MinFever[i * 3 + j];
+                FeverGauges[i * 3 + j * 2 + 1] = GameManager.Inst().StgManager.MaxFever[i * 3 + j];
+            }
+            FullFevers[i] = GameManager.Inst().StgManager.FullFever[i];
 
             for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
             {
@@ -241,13 +249,17 @@ public class GameData
         else
             Resources = new int[Constants.MAXSTAGES];
 
-        if (FeverGauges != null && FeverGauges.Length == 6)
+        if (FeverGauges != null && FeverGauges.Length == 6 * Constants.MAXSTAGES)
         {
-            for (int i = 0; i < 3; i++)
-                GameManager.Inst().StgManager.SetFever(i, FeverGauges[i * 2], FeverGauges[i * 2 + 1]);
+            for (int j = 0; j < Constants.MAXSTAGES; j++)
+                for (int i = 0; i < 3; i++)
+                    GameManager.Inst().StgManager.SetFever(j, i, FeverGauges[i * 2], FeverGauges[i * 2 + 1]);
         }
         else
-            FeverGauges = new float[6];
+            FeverGauges = new float[2 * 3 * Constants.MAXSTAGES];
+
+        if (FullFevers == null || FullFevers.Length == Constants.MAXSTAGES)
+            FullFevers = new int[Constants.MAXSTAGES];
 
         if (BossGauges != null && BossGauges.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
@@ -407,7 +419,8 @@ public class GameData
 
         CurrentStage = 1;
         ReachedStage = 1;
-        FeverGauges = new float[3 * 2];
+        FullFevers = new int[Constants.MAXSTAGES];
+        FeverGauges = new float[2 * 3 * Constants.MAXSTAGES];
         BossGauges = new int[Constants.MAXSTAGES];
         BossDeathCounts = new int[Constants.MAXSTAGES];
 
