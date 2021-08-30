@@ -114,6 +114,6 @@ public class SoundManager : MonoBehaviour
         if (EffectIndex >= Constants.MAX_EFFECT_LAYER)
             EffectIndex = 0;
 
-        Debug.Log("Play " + clip.name + ", " + EffectVolume);
+        //Debug.Log("Play " + clip.name + ", " + EffectVolume);
     }
 }

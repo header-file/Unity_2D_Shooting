@@ -22,7 +22,7 @@ public class StageManager : MonoBehaviour
     float LargeTime;
     int BossMax;
     bool IsFeverMode;
-    
+
     
     void StartEnemy() { Invoke("SpawnEnemies", 2.0f); }
 
@@ -138,21 +138,28 @@ public class StageManager : MonoBehaviour
         {
             if (!IsFeverMode && percent >= MinFever[i] && percent < MaxFever[i])
             {
+                Debug.Log("Min " + i.ToString() + " : " + MinFever[i].ToString());
                 FeverMode();
                 return;
             }
-            if (IsFeverMode && percent > MaxFever[i])
+            else if (IsFeverMode && percent > MaxFever[i])
             {
+                if (i < 2 && percent > MinFever[i + 1])
+                    continue;
+
+                Debug.Log("Max " + i.ToString() + " : " + MaxFever[i].ToString());
                 EndFeverMode();
                 return;
             }
         }
+
+        Debug.Log("CurrentGauge : " + percent.ToString());
     }
 
     public void SetFever(int stage, int index, float min, float max)
     {
-        MinFever[stage * 3 + index] = min;
-        MaxFever[stage * 3 + index] = max;
+        MinFever[stage * 3 + index] = min / 100.0f;
+        MaxFever[stage * 3 + index] = max / 100.0f;
         float mid = (MinFever[stage * 3 + index] + MaxFever[stage * 3 + index]) / 2.0f;
 
         GameManager.Inst().UiManager.MainUI.GetComponent<MainUI>().BossGauge.SetFeverZones(index, mid, (MaxFever[stage * 3 + index] - MinFever[stage * 3 + index]));
@@ -416,7 +423,8 @@ public class StageManager : MonoBehaviour
         for (int i = 0; i < Stage; i++)
             GameManager.Inst().UiManager.UnlockStage(i);
 
-        RandFever();
+        if(MinFever[3 * (Stage - 1)] == 0)
+           RandFever();
         StartEnemy();
 
         GameManager.Inst().SodManager.PlayBGM("TestBGM");
