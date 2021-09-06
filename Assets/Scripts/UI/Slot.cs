@@ -40,5 +40,9 @@ public class Slot : MonoBehaviour
         Icon.sprite = GameManager.Inst().UiManager.WeaponImages[index];
         Name.text = GameManager.Inst().TxtManager.GetBNames(index);
         Level.text = GameManager.Inst().UpgManager.BData[index].GetPowerLevel().ToString();
+
+        if (Locked.gameObject.activeSelf == true &&
+            GameManager.Inst().StgManager.UnlockBulletStages[index] < GameManager.Inst().StgManager.Stage)
+            Locked.gameObject.SetActive(false);
     }
 }

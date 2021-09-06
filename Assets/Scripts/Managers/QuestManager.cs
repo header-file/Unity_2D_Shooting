@@ -48,8 +48,8 @@ public class QuestManager : MonoBehaviour
 
         GameManager.Inst().Player.UISetting();
 
-        if(SceneManager.GetActiveScene().name != "Stage0")
-            GameManager.Inst().StgManager.BeginStage();
+        //if(SceneManager.GetActiveScene().name != "Stage0")
+        //    GameManager.Inst().StgManager.BeginStage();
     }
 
     void GenerateData()

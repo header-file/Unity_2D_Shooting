@@ -391,15 +391,6 @@ public class GameData
         GameManager.Inst().SodManager.IsEffectMute = IsMuteEffect;
         GameManager.Inst().SodManager.BgmVolume = BGMVolume;
         GameManager.Inst().SodManager.EffectVolume = EffectVolume;
-
-        if (IsTutorial)
-            SceneManager.LoadScene("Stage0");
-        else if (GameManager.Inst().StgManager.Stage >= 1)
-        {
-            if (SceneManager.GetActiveScene().name != ("Stage" + GameManager.Inst().StgManager.Stage.ToString()))
-                SceneManager.LoadScene("Stage" + GameManager.Inst().StgManager.Stage.ToString());
-        }
-
     }
 
     public void ResetData()
@@ -457,6 +448,17 @@ public class GameData
     {
         if (GameManager.Inst().StgManager.ReachedStage < ReachedStage)
             GameManager.Inst().StgManager.ReachedStage = ReachedStage;
+    }
+
+    public void MoveScene()
+    {
+        if (IsTutorial)
+            SceneManager.LoadScene("Stage0");
+        else if (GameManager.Inst().StgManager.Stage >= 1)
+        {
+            if (SceneManager.GetActiveScene().name != ("Stage" + GameManager.Inst().StgManager.Stage.ToString()))
+                SceneManager.LoadScene("Stage" + GameManager.Inst().StgManager.Stage.ToString());
+        }
     }
 
     public void DailyJewel()

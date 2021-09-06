@@ -55,6 +55,7 @@ public class DataManager : MonoBehaviour
 
             //GameData.ResetData();
             GameData.LoadReachedStage();
+            GameData.MoveScene();
         }
         else
         {

@@ -86,8 +86,8 @@ public class StageManager : MonoBehaviour
 
             if (i != 0)
                 for (int j = 0; j < Constants.MAXBULLETS; j++)
-                    if (UnlockBulletStages[j] == 0 && BulletUnlockData[i, j])
-                        UnlockBulletStages[j] = i - 1;
+                    if (!BulletUnlockData[i, j])
+                        UnlockBulletStages[j] = i;
         }
     }
 

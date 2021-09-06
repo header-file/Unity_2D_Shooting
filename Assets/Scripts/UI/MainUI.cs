@@ -11,6 +11,8 @@ public class MainUI : MonoBehaviour
     public Animation InventoryFull;
     public Animation BossWarning;
 
+    public Bottom Bottom;
+
 
     void Awake()
     {
