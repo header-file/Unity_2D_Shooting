@@ -220,14 +220,14 @@ public class Tutorials : MonoBehaviour
 
     void ExitWeaponInfo()
     {
-        GameManager.Inst().UiManager.EquipArea.GetComponent<SwitchWindow>().OnClickInfoBackBtn();
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.EquipArea.OnClickInfoBackBtn();
 
         AddStep();
     }
 
     void ExitSell()
     {
-        GameManager.Inst().UiManager.InventoryDetail.GetComponent<InventoryDetail>().OnClickNoBtn();
+        GameManager.Inst().UiManager.MainUI.Center.Inventory.InventoryDetail.OnClickNoBtn();
         GameManager.Inst().UiManager.OnClickInventoryDetailBackBtn();
 
         AddStep();

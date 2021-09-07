@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Inventory : MonoBehaviour
 {
     public GameObject InventoryArea;
+    public InventoryDetail InventoryDetail;
 
     InventoryScroll Inventories;
     Player Player;
@@ -37,7 +38,7 @@ public class Inventory : MonoBehaviour
 
     public void OnClickSell()
     {
-        GameManager.Inst().UiManager.InventoryDetail.GetComponent<InventoryDetail>().ShowSell();
+        InventoryDetail.ShowSell();
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 45)
             GameManager.Inst().Tutorials.Step++;

@@ -31,7 +31,7 @@ public class AdvertiseManager : MonoBehaviour
 
     public void PlayAd()
     {
-        if (GameManager.Inst().UiManager.ShopUI.AdLeft <= 0)
+        if (GameManager.Inst().UiManager.MainUI.Center.Shop.AdLeft <= 0)
             return;
 
         ShowOptions options = new ShowOptions { resultCallback = HandleShowResult };
@@ -56,7 +56,7 @@ public class AdvertiseManager : MonoBehaviour
                     //Debug.Log("The ad was successfully shown.");
 
                     // 광고 시청이 완료되었을 때 처리
-                    GameManager.Inst().UiManager.ShopUI.MinusAdLeft();
+                    GameManager.Inst().UiManager.MainUI.Center.Shop.MinusAdLeft();
                     GameManager.Inst().AddJewel(5);
 
                     break;
@@ -66,7 +66,7 @@ public class AdvertiseManager : MonoBehaviour
                     //Debug.Log("The ad was skipped before reaching the end.");
 
                     // 광고가 스킵되었을 때 처리
-                    GameManager.Inst().UiManager.ShopUI.MinusAdLeft();
+                    GameManager.Inst().UiManager.MainUI.Center.Shop.MinusAdLeft();
                     GameManager.Inst().AddJewel(5);
 
                     break;

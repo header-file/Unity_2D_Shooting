@@ -85,7 +85,7 @@ public class DataManager : MonoBehaviour
 
         GameManager.Inst().Login.DBRef.Child("users").Child(GameData.UID).Child("SaveData").SetRawJsonValueAsync(ToJsonData);
 
-        GameManager.Inst().UiManager.Alarm.SaveComplete();
+        GameManager.Inst().UiManager.MainUI.Alarm.SaveComplete();
     }
 
     async public void DownloadSaveData()
@@ -107,7 +107,7 @@ public class DataManager : MonoBehaviour
         GameData.LoadData();
         SaveData();
 
-        GameManager.Inst().UiManager.Alarm.LoadComplete();
+        GameManager.Inst().UiManager.MainUI.Alarm.LoadComplete();
 
         //SceneManager.LoadScene("AuthWebServer");
     }

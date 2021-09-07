@@ -22,28 +22,6 @@ public class UIManager : MonoBehaviour
 
     //기능 구현용
     public MainUI MainUI;
-    public GameObject[] Colors;
-    public GameObject Inventory;
-    public GameObject InventoryDetail;
-    public GameObject Weapon;
-    public GameObject ConfirmSwitch;
-    public GameObject Synthesis;
-    public GameObject Resource;
-    public GameObject SideMenu;
-    public GameObject StageScroll;
-    public GameObject InfoArea;
-    public GameObject EquipArea;
-    public GameObject ZzinBottom;
-    public GameObject Shop;
-    public GameObject Cheat;
-
-    public Weapon WeaponUI;
-    public Shop ShopUI;
-    public ReviveAlert ReviveAlertUI;
-    public DailyJewel DailyJewelUI;
-    public DailyLeft DailyLeft;
-    public DailyLeft DailyPlusLeft;
-    public Alarm Alarm;
     public Tutorial Tutorial;
 
     //기타 UI
@@ -84,14 +62,6 @@ public class UIManager : MonoBehaviour
 
 
     BuySubWeapon BuySWUI;
-    Inventory InventoryUI;
-    InventoryDetail InvDetailUI;
-    Synthesis SynthesisUI;
-    SideMenu SideMenuUI;
-    StageLoop StageScrollUI;
-    InfoArea InfoAreaUI;
-    ZzinBottom ZzinBottomUI;
-    Cheat CheatUI;
 
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
@@ -144,19 +114,7 @@ public class UIManager : MonoBehaviour
         CurrentBulletType = 0;
         IsEquip = false;
 
-        //DetailUI = NewWindows[(int)NewWindowType.DETAIL].GetComponent<Detail>();
         BuySWUI = NewWindows[(int)NewWindowType.BUYSUBWEAPON].GetComponent<BuySubWeapon>();
-        InventoryUI = Inventory.GetComponent<Inventory>();
-        InvDetailUI = InventoryDetail.GetComponent<InventoryDetail>();
-        //EquipUI = Equip.GetComponent<Equip>();
-        WeaponUI = Weapon.GetComponent<Weapon>();
-        SynthesisUI = Synthesis.GetComponent<Synthesis>();
-        SideMenuUI = SideMenu.GetComponent<SideMenu>();
-        StageScrollUI = StageScroll.GetComponent<StageLoop>();
-        InfoAreaUI = InfoArea.GetComponent<InfoArea>();
-        ZzinBottomUI = ZzinBottom.GetComponent<ZzinBottom>();
-        ShopUI = Shop.GetComponent<Shop>();
-        CheatUI = Cheat.GetComponent<Cheat>();
 
         //Player UI Setting
         GameManager.Inst().Player.UI = PlayerUI;
@@ -374,12 +332,12 @@ public class UIManager : MonoBehaviour
     //}
     public void ShowInfoArea(int Type)
     {
-        InfoAreaUI.ShowDetail(Type);
+        MainUI.Center.Weapon.InfoArea.ShowDetail(Type);
     }
 
     public void InfoAreaTrigger(string trigger)
     {
-        InfoAreaUI.SetAnimTrigger(trigger);
+        MainUI.Center.Weapon.InfoArea.SetAnimTrigger(trigger);
     }
 
     void SetBulletSelected()
@@ -392,22 +350,22 @@ public class UIManager : MonoBehaviour
 
     public void UnlockStage(int index)
     {
-        StageScrollUI.Planets[index].Lock.SetActive(false);
+        MainUI.Center.StageScroll.Planets[index].Lock.SetActive(false);
 
         if (GameManager.Inst().StgManager.ReachedStage > 1)
-            SideMenuUI.MakeSlot();
+            MainUI.SideMenu.MakeSlot();
     }
 
     public SideMenuSlot GetSideMenuSlot(int i)
     {
-        return SideMenuUI.Slots[i];
+        return MainUI.SideMenu.Slots[i];
     }
 
     public void ShowReviveAlert(int index)
     {
-        ReviveAlertUI.gameObject.SetActive(true);
+        MainUI.Center.ReviveAlert.gameObject.SetActive(true);
 
-        ReviveAlertUI.Show(index);
+        MainUI.Center.ReviveAlert.Show(index);
     }
 
 
@@ -452,7 +410,7 @@ public class UIManager : MonoBehaviour
     public void OnClickBulletUpgradeBtn()
     {
         //DetailUI.OnClickUpgradeBtn();
-        CurrentBulletType = WeaponUI.GetCurBulletType();
+        CurrentBulletType = MainUI.Center.Weapon.GetCurBulletType();
         GameManager.Inst().UpgManager.AddLevel(CurrentBulletType);
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 32)
@@ -532,10 +490,9 @@ public class UIManager : MonoBehaviour
     {
         OnClickHomeBtn();
 
-        InventoryUI.ShowInventory();
+        MainUI.Center.Inventory.ShowInventory();
 
-        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
-        ZzinBottomUI.HomeBtn.SetActive(true);
+        MainUI.ZzinBottom.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -543,11 +500,10 @@ public class UIManager : MonoBehaviour
 
     public void OnClickInventoryBackBtn()
     {
-        InventoryUI.CloseInventory();
-        Inventory.SetActive(false);
+        MainUI.Center.Inventory.CloseInventory();
+        MainUI.Center.Inventory.gameObject.SetActive(false);
 
-        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
-        ZzinBottomUI.HomeBtn.SetActive(false);
+        MainUI.ZzinBottom.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -555,56 +511,35 @@ public class UIManager : MonoBehaviour
 
     public void OnClickInventoryDetailBtn(int index)
     {
-        InventoryDetail.SetActive(true);
+        MainUI.Center.Inventory.InventoryDetail.gameObject.SetActive(true);
 
-        InvDetailUI.ShowDetail(index);
+        MainUI.Center.Inventory.InventoryDetail.ShowDetail(index);
     }
 
     public void OnClickInventoryDetailBackBtn()
     {
-        InventoryDetail.SetActive(false);
+        MainUI.Center.Inventory.InventoryDetail.gameObject.SetActive(false);
     }
-
-    //public void OnClickEquipBtn()
-    //{
-    //    if (!IsMoveDown)
-    //    {
-    //        Timer = 0.0f;
-    //        IsMoveDown = true;
-    //    }
-
-    //    Inventory.SetActive(false);
-    //    InventoryDetail.SetActive(false);
-    //    Equip.SetActive(true);
-
-    //    EquipUI.SetCurBulletType(CurrentBulletType);
-    //    EquipUI.ShowUI();
-    //    IsEquip = true;
-    //}
 
     public void OnClickWeaponBtn()
     {
         OnClickHomeBtn();
 
-        Inventory.SetActive(false);
-        InventoryDetail.SetActive(false);
-        //Equip.SetActive(true);
-        Weapon.SetActive(true);
+        MainUI.Center.Inventory.gameObject.SetActive(false);
+        MainUI.Center.Inventory.InventoryDetail.gameObject.SetActive(false);
+        MainUI.Center.Weapon.gameObject.SetActive(true);
 
-        //EquipUI.SetCurBulletType(GameManager.Inst().GameManager.Inst().Player.GetBulletType());
-        //EquipUI.ShowUI();
         CurrentBulletType = GameManager.Inst().Player.GetBulletType();
-        WeaponUI.SetCurBulletType(CurrentBulletType);
-        WeaponUI.ShowUI();
+        MainUI.Center.Weapon.SetCurBulletType(CurrentBulletType);
+        MainUI.Center.Weapon.ShowUI();
         IsEquip = true;
 
-        InfoArea.SetActive(true);
-        EquipArea.SetActive(false);
+        MainUI.Center.Weapon.InfoArea.gameObject.SetActive(true);
+        MainUI.Center.Weapon.EquipArea.gameObject.SetActive(false);
 
-        ZzinBottomUI.WeaponIcon[0].SetActive(false);
-        ZzinBottomUI.WeaponIcon[1].SetActive(true);
-        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
-        ZzinBottomUI.HomeBtn.SetActive(true);
+        MainUI.ZzinBottom.WeaponIcon[0].SetActive(false);
+        MainUI.ZzinBottom.WeaponIcon[1].SetActive(true);
+        MainUI.ZzinBottom.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -612,20 +547,14 @@ public class UIManager : MonoBehaviour
 
     public void OnClickWeaponBackBtn()
     {
-        //EquipUI.DisableSelectedSlot();
-        //EquipUI.ResetEquip();
-        //EquipUI.SetIsShowingSwitch(false);
-        //ConfirmSwitch.SetActive(false);
-        //Equip.SetActive(false);
-        WeaponUI.ResetData();
-        WeaponUI.ResetInventory();
-        Weapon.SetActive(false);
+        MainUI.Center.Weapon.ResetData();
+        MainUI.Center.Weapon.ResetInventory();
+        MainUI.Center.Weapon.gameObject.SetActive(false);
         IsEquip = false;
 
-        ZzinBottomUI.WeaponIcon[0].SetActive(true);
-        ZzinBottomUI.WeaponIcon[1].SetActive(false);
-        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
-        ZzinBottomUI.HomeBtn.SetActive(false);
+        MainUI.ZzinBottom.WeaponIcon[0].SetActive(true);
+        MainUI.ZzinBottom.WeaponIcon[1].SetActive(false);
+        MainUI.ZzinBottom.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -633,7 +562,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickEquipAreaBtn()
     {
-        WeaponUI.ShowEquipArea();
+        MainUI.Center.Weapon.ShowEquipArea();
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
             GameManager.Inst().Tutorials.Step++;
@@ -641,25 +570,12 @@ public class UIManager : MonoBehaviour
 
     public void OnClickWeaponTypeSortBtn(int index)
     {
-        //EquipUI.SortAsType(index);
-        WeaponUI.SortAsType(index);
+        MainUI.Center.Weapon.SortAsType(index);
     }
 
     public void OnClickEquipSelectBtn(int index)
     {
-        //if (EquipUI.GetSelected(EquipUI.GetCurBulletType()) == -1 &&
-        //    !EquipUI.CheckAlreadyEquip(index))
-        //    EquipUI.Select(index, EquipUI.GetCurBulletType());            
-        //else
-        //{
-        //    if (EquipUI.GetSelected(EquipUI.GetCurBulletType()) == index)
-        //        return;
-
-        //    EquipUI.ShowSwitch(index);
-        //    ConfirmSwitch.SetActive(true);
-        //    EquipUI.SetSwichBuffer(index);
-        //}
-        WeaponUI.Select(index, WeaponUI.GetCurBulletType());
+        MainUI.Center.Weapon.Select(index, MainUI.Center.Weapon.GetCurBulletType());
     }
 
     public void OnClickUnequipBtn()
@@ -669,34 +585,32 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSwitchBtn()
     {
-        WeaponUI.Switch();
+        MainUI.Center.Weapon.Switch();
     }
 
     public void OnClickSwitchCancelBtn()
     {
-        WeaponUI.EquipSwitch.gameObject.SetActive(false);
+        MainUI.Center.Weapon.EquipSwitch.gameObject.SetActive(false);
     }
 
     public void OnClickNextButton(bool IsNext)
     {
-        //EquipUI.Next(IsNext);
-        WeaponUI.Next(IsNext);
+        MainUI.Center.Weapon.Next(IsNext);
     }
 
     public void OnClickSynthesisBtn()
     {
         OnClickHomeBtn();
 
-        InventoryDetail.SetActive(false);
-        Inventory.SetActive(false);
+        MainUI.Center.Inventory.InventoryDetail.gameObject.SetActive(false);
+        MainUI.Center.Inventory.gameObject.SetActive(false);
 
-        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
-        ZzinBottomUI.SynthesisIcon[0].SetActive(false);
-        ZzinBottomUI.SynthesisIcon[1].SetActive(true);
-        ZzinBottomUI.HomeBtn.SetActive(true);
+        MainUI.ZzinBottom.SynthesisIcon[0].SetActive(false);
+        MainUI.ZzinBottom.SynthesisIcon[1].SetActive(true);
+        MainUI.ZzinBottom.HomeBtn.SetActive(true);
 
-        Synthesis.SetActive(true);
-        SynthesisUI.ShowInventory();
+        MainUI.Center.Synthesis.gameObject.SetActive(true);
+        MainUI.Center.Synthesis.ShowInventory();
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -704,12 +618,12 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSynthesisBackBtn()
     {
-        SynthesisUI.ResetSprites();
-        Synthesis.SetActive(false);
+        MainUI.Center.Synthesis.ResetSprites();
+        MainUI.Center.Synthesis.gameObject.SetActive(false);
 
-        ZzinBottomUI.SynthesisIcon[0].SetActive(true);
-        ZzinBottomUI.SynthesisIcon[1].SetActive(false);
-        ZzinBottomUI.HomeBtn.SetActive(false);
+        MainUI.ZzinBottom.SynthesisIcon[0].SetActive(true);
+        MainUI.ZzinBottom.SynthesisIcon[1].SetActive(false);
+        MainUI.ZzinBottom.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -717,43 +631,30 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSynthesisSlotBtn(int index)
     {
-        //SynthesisUI.SetCurrentIndex(index);
-
-        //int count = SynthesisUI.CheckInputTypes();
-        //if (count == 0)
-        //    SynthesisUI.DiscardMaxGrade();
-        //else if (count == 1)
-        //{
-        //    if(index == SynthesisUI.GetLastIndex())
-        //        SynthesisUI.DiscardMaxGrade();
-        //    else
-        //        SynthesisUI.SortAsGrade(SynthesisUI.GetGrade());
-        //}
-        //else if(count < 3)
         if (index < 3)
-            SynthesisUI.SortAsDefault();
+            MainUI.Center.Synthesis.SortAsDefault();
         else if (index == 3)
-            SynthesisUI.ShowConfirmWindow();
+            MainUI.Center.Synthesis.ShowConfirmWindow();
     }
 
     public void OnClickSynthesisConfirmBtn()
     {
-        SynthesisUI.Synthesize();
+        MainUI.Center.Synthesis.Synthesize();
     }
 
     public void OnClickSynthesisConfirmBackBtn()
     {
-        SynthesisUI.CancelConfirm();
+        MainUI.Center.Synthesis.CancelConfirm();
     }
 
     public void OnClickSynthesisSelectBtn(int index)
     {
-        SynthesisUI.SetButtons(index);
+        MainUI.Center.Synthesis.SetButtons(index);
     }
 
     public void OnClickSynthesisUnselectBtn()
     {
-        SynthesisUI.CancelSelect();
+        MainUI.Center.Synthesis.CancelSelect();
 
         if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 51 || GameManager.Inst().Tutorials.Step == 56))
             GameManager.Inst().Tutorials.Step++;
@@ -761,38 +662,36 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSynthesisResultBackBtn()
     {
-        SynthesisUI.CloseResult();
+        MainUI.Center.Synthesis.CloseResult();
     }
 
     public void OnClickSelectDetailBackBtn()
     {
-        SynthesisUI.CloseDetail();
+        MainUI.Center.Synthesis.CloseDetail();
     }
 
     public void OnClickSynthesisUnequipBtn()
     {
-        int index = SynthesisUI.GetUnequipIndex();
-        //int bulletType = EquipUI.GetBulletType(index);
+        int index = MainUI.Center.Synthesis.GetUnequipIndex();
         int equipType = GameManager.Inst().Player.GetItem(index).Type;
 
-        //EquipUI.Unequip(bulletType, equipType);
-        SynthesisUI.SetButtons(index);
+        MainUI.Center.Synthesis.SetButtons(index);
 
-        SynthesisUI.CloseUnequip();
+        MainUI.Center.Synthesis.CloseUnequip();
     }
 
     public void OnClickUnequipConfirmBackBtn()
     {
-        SynthesisUI.CloseUnequip();
+        MainUI.Center.Synthesis.CloseUnequip();
     }
 
     public void OnClickResourceToggleBtn()
     {
-        if (Resource.activeSelf)
-            Resource.SetActive(false);
+        if (MainUI.Resource.activeSelf)
+            MainUI.Resource.SetActive(false);
         else
         {
-            Resource.SetActive(true);
+            MainUI.Resource.SetActive(true);
 
             if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 3)
                 GameManager.Inst().Tutorials.Step++;
@@ -801,14 +700,14 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSideBarBtn()
     {
-        if (SideMenuUI.IsOpen)
+        if (MainUI.SideMenu.IsOpen)
         {
             OnClickSideBarBackBtn();
             return;
         }
 
-        SideMenuUI.IsOpen = true;
-        SideMenuUI.SideMenuOpen();
+        MainUI.SideMenu.IsOpen = true;
+        MainUI.SideMenu.SideMenuOpen();
 
         for(int i = 0; i < GameManager.Inst().StgManager.ReachedStage - 1; i++)
             GetSideMenuSlot(i).ShowGatheringArea(i);
@@ -822,8 +721,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSideBarBackBtn()
     {
-        SideMenuUI.IsOpen = false;
-        SideMenuUI.SideMenuClose();
+        MainUI.SideMenu.IsOpen = false;
+        MainUI.SideMenu.SideMenuClose();
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -836,13 +735,12 @@ public class UIManager : MonoBehaviour
     {
         OnClickHomeBtn();
 
-        StageScroll.SetActive(true);
-        StageScrollUI.Show();
+        MainUI.Center.StageScroll.gameObject.SetActive(true);
+        MainUI.Center.StageScroll.Show();
 
-        ZzinBottomUI.UniverseIcon[0].SetActive(false);
-        ZzinBottomUI.UniverseIcon[1].SetActive(true);
-        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
-        ZzinBottomUI.HomeBtn.SetActive(true);
+        MainUI.ZzinBottom.UniverseIcon[0].SetActive(false);
+        MainUI.ZzinBottom.UniverseIcon[1].SetActive(true);
+        MainUI.ZzinBottom.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -850,12 +748,11 @@ public class UIManager : MonoBehaviour
 
     public void OnClickSpaceBackBtn()
     {
-        StageScroll.SetActive(false);
+        MainUI.Center.StageScroll.gameObject.SetActive(false);
 
-        ZzinBottomUI.UniverseIcon[0].SetActive(true);
-        ZzinBottomUI.UniverseIcon[1].SetActive(false);
-        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
-        ZzinBottomUI.HomeBtn.SetActive(false);
+        MainUI.ZzinBottom.UniverseIcon[0].SetActive(true);
+        MainUI.ZzinBottom.UniverseIcon[1].SetActive(false);
+        MainUI.ZzinBottom.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -883,17 +780,17 @@ public class UIManager : MonoBehaviour
 
     public void OnClickHomeBtn()
     {
-        if (StageScroll.activeSelf)
+        if (MainUI.Center.StageScroll.gameObject.activeSelf)
             OnClickSpaceBackBtn();
-        if (Weapon.activeSelf)
+        if (MainUI.Center.Weapon.gameObject.activeSelf)
             OnClickWeaponBackBtn();
-        if (Inventory.activeSelf)
+        if (MainUI.Center.Inventory.gameObject.activeSelf)
             OnClickInventoryBackBtn();
-        if (Synthesis.activeSelf)
+        if (MainUI.Center.Synthesis.gameObject.activeSelf)
             OnClickSynthesisBackBtn();
-        if (Shop.activeSelf)
+        if (MainUI.Center.Shop.gameObject.activeSelf)
             OnClickShopBackBtn();
-        if (Cheat.activeSelf)
+        if (MainUI.Center.Cheat.gameObject.activeSelf)
             OnClickCheatBackBtn();
 
         if (SceneManager.GetActiveScene().name == "Stage0" && 
@@ -905,14 +802,14 @@ public class UIManager : MonoBehaviour
 
     public void OnClickWeaponInfoBtn()
     {
-        if (!WeaponUI.InfoWindow.gameObject.activeSelf)
+        if (!MainUI.Center.Weapon.InfoWindow.gameObject.activeSelf)
         {
-            WeaponUI.InfoWindow.gameObject.SetActive(true);
-            CurrentBulletType = WeaponUI.GetCurBulletType();
-            WeaponUI.InfoWindow.Show(CurrentBulletType);
+            MainUI.Center.Weapon.InfoWindow.gameObject.SetActive(true);
+            CurrentBulletType = MainUI.Center.Weapon.GetCurBulletType();
+            MainUI.Center.Weapon.InfoWindow.Show(CurrentBulletType);
         }
         else
-            WeaponUI.InfoWindow.gameObject.SetActive(false);
+            MainUI.Center.Weapon.InfoWindow.gameObject.SetActive(false);
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 31)
             GameManager.Inst().Tutorials.Step++;
@@ -920,7 +817,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickLandingBtn()
     {
-        StageScrollUI.MoveScene();
+        MainUI.Center.StageScroll.MoveScene();
     }
 
     public void OnClickShopBtn()
@@ -928,13 +825,12 @@ public class UIManager : MonoBehaviour
         OnClickHomeBtn();
         Debug.Log("ShopBtn");
 
-        Shop.SetActive(true);
-        ShopUI.OnSelectToggle(0);
+        MainUI.Center.Shop.gameObject.SetActive(true);
+        MainUI.Center.Shop.OnSelectToggle(0);
 
-        ZzinBottomUI.ShopIcon[0].SetActive(false);
-        ZzinBottomUI.ShopIcon[1].SetActive(true);
-        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
-        ZzinBottomUI.HomeBtn.SetActive(true);
+        MainUI.ZzinBottom.ShopIcon[0].SetActive(false);
+        MainUI.ZzinBottom.ShopIcon[1].SetActive(true);
+        MainUI.ZzinBottom.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -942,12 +838,11 @@ public class UIManager : MonoBehaviour
 
     public void OnClickShopBackBtn()
     {
-        Shop.SetActive(false);
+        MainUI.Center.Shop.gameObject.SetActive(false);
 
-        ZzinBottomUI.ShopIcon[0].SetActive(true);
-        ZzinBottomUI.ShopIcon[1].SetActive(false);
-        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
-        ZzinBottomUI.HomeBtn.SetActive(false);
+        MainUI.ZzinBottom.ShopIcon[0].SetActive(true);
+        MainUI.ZzinBottom.ShopIcon[1].SetActive(false);
+        MainUI.ZzinBottom.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -957,10 +852,9 @@ public class UIManager : MonoBehaviour
     {
         OnClickHomeBtn();
 
-        Cheat.gameObject.SetActive(true);
+        MainUI.Center.Cheat.gameObject.SetActive(true);
 
-        //ZzinBottomUI.HomeIcon.alpha = 1.0f;
-        ZzinBottomUI.HomeBtn.SetActive(true);
+        MainUI.ZzinBottom.HomeBtn.SetActive(true);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
@@ -968,10 +862,9 @@ public class UIManager : MonoBehaviour
 
     public void OnClickCheatBackBtn()
     {
-        Cheat.SetActive(false);
+        MainUI.Center.Cheat.gameObject.SetActive(false);
 
-        //ZzinBottomUI.HomeIcon.alpha = 0.0f;
-        ZzinBottomUI.HomeBtn.SetActive(false);
+        MainUI.ZzinBottom.HomeBtn.SetActive(false);
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
@@ -980,14 +873,13 @@ public class UIManager : MonoBehaviour
     public void OnClickReviveBtn()
     {
         GameManager.Inst().AddJewel(-1);
-        ReviveAlertUI.gameObject.SetActive(false);
+        MainUI.Center.ReviveAlert.gameObject.SetActive(false);
 
-        GameManager.Inst().GetSubweapons(ReviveAlertUI.Index).CoolTime = 0;
+        GameManager.Inst().GetSubweapons(MainUI.Center.ReviveAlert.Index).CoolTime = 0;
     }
 
     public void OnClickUploadDataBtn()
     {
-        //GameManager.Inst().DatManager.GameData.UploadSave();
         GameManager.Inst().DatManager.UploadSaveData();
     }
 

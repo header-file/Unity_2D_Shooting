@@ -5,14 +5,25 @@ using UnityEngine.UI;
 
 public class MainUI : MonoBehaviour
 {
+    //b
     public GameObject Arrows;
+
+    //c
     public Menu Menu;
-    public BossGauge BossGauge;
     public Animation InventoryFull;
     public Animation BossWarning;
+    public DailyJewel DailyJewelUI;
+
+    //t
+    public Alarm Alarm;
+
+    public BossGauge BossGauge;
+    public SideMenu SideMenu;
+    public GameObject Resource;
 
     public Bottom Bottom;
-
+    public Center Center;
+    public ZzinBottom ZzinBottom;
 
     void Awake()
     {

@@ -84,7 +84,7 @@ public class NumInput : MonoBehaviour
 
     void Calculate()
     {
-        Cheat cheatUI = GameManager.Inst().UiManager.Cheat.GetComponent<Cheat>();
+        Cheat cheatUI = GameManager.Inst().UiManager.MainUI.Center.Cheat.GetComponent<Cheat>();
         switch (Type)
         {
             case 0:

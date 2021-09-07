@@ -472,9 +472,9 @@ public class GameData
         }
 
         if (DailyLeft > 0)
-            GameManager.Inst().UiManager.DailyLeft.Show(DailyLeft);
+            GameManager.Inst().UiManager.MainUI.Center.DailyLeft.Show(DailyLeft);
         if (DailyPlusLeft > 0)
-            GameManager.Inst().UiManager.DailyPlusLeft.Show(DailyPlusLeft);
+            GameManager.Inst().UiManager.MainUI.Center.DailyPlusLeft.Show(DailyPlusLeft);
 
         if (Now.Date <= last.Date || Now.Hour < 9)
             return;
@@ -487,12 +487,12 @@ public class GameData
         if (DailyLeft > 0 && IsDaily)
         {
             if (DailyPlusLeft > 0 && IsDailyPlus)
-                GameManager.Inst().UiManager.DailyJewelUI.Show(2);
+                GameManager.Inst().UiManager.MainUI.DailyJewelUI.Show(2);
             else
-                GameManager.Inst().UiManager.DailyJewelUI.Show(0);
+                GameManager.Inst().UiManager.MainUI.DailyJewelUI.Show(0);
         }
         else if (DailyPlusLeft > 0 && IsDailyPlus)
-            GameManager.Inst().UiManager.DailyJewelUI.Show(1);
+            GameManager.Inst().UiManager.MainUI.DailyJewelUI.Show(1);
     }
 
     public void ProcessDailyJewel()
@@ -502,22 +502,22 @@ public class GameData
             GameManager.Inst().AddJewel(4);
             DailyLeft--;
 
-            GameManager.Inst().UiManager.DailyLeft.Show(DailyLeft);
+            GameManager.Inst().UiManager.MainUI.Center.DailyLeft.Show(DailyLeft);
             IsDaily = false;
         }
         else
-            GameManager.Inst().UiManager.DailyLeft.gameObject.SetActive(false);
+            GameManager.Inst().UiManager.MainUI.Center.DailyLeft.gameObject.SetActive(false);
 
         if (DailyPlusLeft > 0 && IsDailyPlus)
         {
             GameManager.Inst().AddJewel(12);
             DailyPlusLeft--;
 
-            GameManager.Inst().UiManager.DailyPlusLeft.Show(DailyPlusLeft);
+            GameManager.Inst().UiManager.MainUI.Center.DailyPlusLeft.Show(DailyPlusLeft);
             IsDailyPlus = false;
         }
         else
-            GameManager.Inst().UiManager.DailyPlusLeft.gameObject.SetActive(false);
+            GameManager.Inst().UiManager.MainUI.Center.DailyPlusLeft.gameObject.SetActive(false);
 
         SetLastDailyTime();
     }

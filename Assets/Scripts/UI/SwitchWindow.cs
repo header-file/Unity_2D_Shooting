@@ -40,9 +40,9 @@ public class SwitchWindow : MonoBehaviour
         if(IsPressing)
         {
             if (IsPlus)
-                GameManager.Inst().UiManager.WeaponUI.AddQuantity();
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.AddQuantity();
             else
-                GameManager.Inst().UiManager.WeaponUI.SubTQuantity();
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.SubTQuantity();
         }
     }
 
@@ -115,15 +115,15 @@ public class SwitchWindow : MonoBehaviour
         switch(eq.Type)
         {
             case 0:
-                if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetAtk() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetMaxAtk())
+                if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxAtk())
                     FeedBtn.interactable = false;
                 break;
             case 1:
-                if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetHp() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetMaxHp())
+                if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxHp())
                     FeedBtn.interactable = false;
                 break;
             case 2:
-                if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetSpd() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetMaxSpd())
+                if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxSpd())
                     FeedBtn.interactable = false;
                 break;
         }
@@ -145,7 +145,7 @@ public class SwitchWindow : MonoBehaviour
     {
         InfoWindow.SetActive(false);
 
-        GameManager.Inst().UiManager.WeaponUI.ResetData();
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ResetData();
 
         for (int i = 0; i < 3; i++)
         {
@@ -154,16 +154,16 @@ public class SwitchWindow : MonoBehaviour
             switch (i)
             {
                 case 0:
-                    Gauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2((float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetAtk() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetMaxAtk() * 160, 30);
-                    GaugeTexts[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetAtk().ToString();
+                    Gauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2((float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxAtk() * 160, 30);
+                    GaugeTexts[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk().ToString();
                     break;
                 case 1:
-                    Gauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2((float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetHp() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetMaxHp() * 160, 30);
-                    GaugeTexts[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetHp().ToString();
+                    Gauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2((float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxHp() * 160, 30);
+                    GaugeTexts[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp().ToString();
                     break;
                 case 2:
-                    Gauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2((float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetSpd() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetMaxSpd() * 160, 30);
-                    GaugeTexts[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetSpd().ToString();
+                    Gauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2((float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxSpd() * 160, 30);
+                    GaugeTexts[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd().ToString();
                     break;
             }
         }
@@ -171,9 +171,9 @@ public class SwitchWindow : MonoBehaviour
 
     public void OnClickFeedBtn()
     {
-        Player.EqData eq = GameManager.Inst().UiManager.WeaponUI.GetCurEquip();
+        Player.EqData eq = GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurEquip();
         AddGauges[eq.Type].GetComponent<RectTransform>().sizeDelta = new Vector2(0, 30);
-        GameManager.Inst().UiManager.WeaponUI.SetStatChange();
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.SetStatChange();
 
         StatCount.text = "+ 0";
         LeftCount.text = "0";
@@ -181,13 +181,13 @@ public class SwitchWindow : MonoBehaviour
         switch (eq.Type)
         {
             case 0:
-                GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetAtk().ToString();
+                GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk().ToString();
                 break;
             case 1:
-                GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetHp().ToString();
+                GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp().ToString();
                 break;
             case 2:
-                GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.WeaponUI.GetCurBulletType()].GetSpd().ToString();
+                GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd().ToString();
                 break;
         }
     }

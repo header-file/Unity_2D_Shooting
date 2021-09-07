@@ -163,7 +163,7 @@ public class InventoryDetail : MonoBehaviour
         GameManager.Inst().Player.AddCoin(price);
 
         SellConfirm.gameObject.SetActive(false);
-        Inventory inv = GameManager.Inst().UiManager.Inventory.GetComponent<Inventory>();
+        Inventory inv = GameManager.Inst().UiManager.MainUI.Center.Inventory.GetComponent<Inventory>();
         inv.CloseInventory();
         inv.ShowInventory();
         gameObject.SetActive(false);

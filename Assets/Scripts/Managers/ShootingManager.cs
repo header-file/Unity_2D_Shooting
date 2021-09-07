@@ -42,7 +42,7 @@ public class ShootingManager : MonoBehaviour
     void SetColor()
     {
         for (int i = 0; i < MAXCOLOR; i++)
-            Colors[i] = GameManager.Inst().UiManager.Colors[i].GetComponent<Image>().color;
+            Colors[i] = GameManager.Inst().UiManager.MainUI.Bottom.Colors[i].color;
 
 
         for (int i = 0; i < 5; i++)
