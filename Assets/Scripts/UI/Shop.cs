@@ -16,7 +16,8 @@ public class Shop : MonoBehaviour
     public Sprite[] ExpandIcons;
     public Sprite[] PackageIcons;
     public Text AdLeftText;
-    public int AdLeft;
+    public Text TimerText;
+    public Button AdButton;
 
     //Confirm
     public GameObject Confirm;
@@ -27,7 +28,6 @@ public class Shop : MonoBehaviour
     public Text PriceText;
     public Text DetailText;
 
-    const int Ads = 5;
     List<Dictionary<string, object>> Data;
     string[,] JewelDatas;
     string[,] ExpandDatas;
@@ -48,9 +48,15 @@ public class Shop : MonoBehaviour
     {
         CurrentPage = 0;
         CurrentItem = -1;
-        AdLeft = Ads;
+
         Confirm.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (GameManager.Inst().AdsManager.AdLeft <= 0)
+            SetTimer();
     }
 
     public void ShowPage(int index)
@@ -177,11 +183,15 @@ public class Shop : MonoBehaviour
 
     public void MinusAdLeft()
     {
-        if (AdLeft <= 0)
-            return;
+        GameManager.Inst().AdsManager.AdLeft--;
+        SetAdLeftText();
 
-        AdLeft--;
-        AdLeftText.text = AdLeft.ToString() + " / " + Ads.ToString();
+        if (GameManager.Inst().AdsManager.AdLeft <= 0)
+        {
+            DisableAd();
+            GameManager.Inst().AdsManager.SetLastTime();
+            return;
+        }
     }
 
     void BuyDailyJewel(int type)
@@ -301,6 +311,42 @@ public class Shop : MonoBehaviour
                 DetailText.text = PackageDatas[CurrentItem, 3];
                 break;
         }
+    }
+
+    public void EnableAd()
+    {
+        TimerText.gameObject.SetActive(false);
+        AdLeftText.gameObject.SetActive(true);
+        AdButton.interactable = true;
+        AdButton.targetGraphic.color = AdButton.colors.normalColor;
+    }
+
+    public void DisableAd()
+    {
+        TimerText.gameObject.SetActive(true);
+        AdLeftText.gameObject.SetActive(false);
+        AdButton.interactable = false;
+        AdButton.targetGraphic.color = AdButton.colors.disabledColor;
+    }
+
+    void SetTimer()
+    {
+        System.TimeSpan gap = GameManager.Inst().AdsManager.LastTime - System.DateTime.Now;
+
+        TimerText.text = gap.Hours.ToString() + " : " +
+                        gap.Minutes.ToString() + " : " +
+                        gap.Seconds.ToString();
+
+        if (gap.TotalSeconds <= 0)
+        {
+            EnableAd();
+            GameManager.Inst().AdsManager.AdLeft = Constants.ADMAX;
+        }
+    }
+
+    public void SetAdLeftText()
+    {
+        AdLeftText.text = GameManager.Inst().AdsManager.AdLeft.ToString() + " / " + Constants.ADMAX.ToString();
     }
 
     public void OnSelectToggle(int index)

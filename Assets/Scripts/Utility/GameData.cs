@@ -75,6 +75,9 @@ public class GameData
     public int DailyPlusLeft;
     public int[] LastDailyTime;
 
+    public int AdLeft;
+    public int[] LastAdTime;
+
     public int MaxInventory;
 
     public int CurrentStage;
@@ -197,6 +200,9 @@ public class GameData
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID] = GameManager.Inst().QstManager.Quests[i].QuestId;
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT] = GameManager.Inst().QstManager.Quests[i].CurrentCount;
         }
+
+        AdLeft = GameManager.Inst().AdsManager.AdLeft;
+        SaveLastAdTime();
 
         IsMuteBGM = GameManager.Inst().SodManager.IsBgmMute;
         IsMuteEffect = GameManager.Inst().SodManager.IsEffectMute;
@@ -387,6 +393,17 @@ public class GameData
             }
         }
 
+        GameManager.Inst().AdsManager.AdLeft = AdLeft;
+        GameManager.Inst().UiManager.MainUI.Center.Shop.SetAdLeftText();
+        if (GameManager.Inst().AdsManager.AdLeft > 0)
+            GameManager.Inst().UiManager.MainUI.Center.Shop.EnableAd();
+        else
+            GameManager.Inst().UiManager.MainUI.Center.Shop.DisableAd();
+        if (LastAdTime != null)
+            LoadLastAdTime();
+        else
+            LastAdTime = new int[6];
+
         GameManager.Inst().SodManager.IsBgmMute = IsMuteBGM;
         GameManager.Inst().SodManager.IsEffectMute = IsMuteEffect;
         GameManager.Inst().SodManager.BgmVolume = BGMVolume;
@@ -405,6 +422,9 @@ public class GameData
         DailyLeft = 0;
         IsDailyPlus = false;
         DailyPlusLeft = 0;
+
+        AdLeft = 0;
+        LastAdTime = new int[6];
 
         MaxInventory = Constants.MININVENTORY;
 
@@ -536,6 +556,22 @@ public class GameData
         LastDailyTime[3] = 9;
         LastDailyTime[4] = 0;
         LastDailyTime[5] = 0;
+    }
+
+    void SaveLastAdTime()
+    {
+        LastAdTime[0] = GameManager.Inst().AdsManager.LastTime.Year;
+        LastAdTime[1] = GameManager.Inst().AdsManager.LastTime.Month;
+        LastAdTime[2] = GameManager.Inst().AdsManager.LastTime.Day;
+        LastAdTime[3] = GameManager.Inst().AdsManager.LastTime.Hour;
+        LastAdTime[4] = GameManager.Inst().AdsManager.LastTime.Minute;
+        LastAdTime[5] = GameManager.Inst().AdsManager.LastTime.Second;
+    }
+
+    void LoadLastAdTime()
+    {
+        GameManager.Inst().AdsManager.LastTime = new DateTime(LastAdTime[0], LastAdTime[1], LastAdTime[2],
+                                                                LastAdTime[3], LastAdTime[4], LastAdTime[5]);
     }
 
     public void LoadSubWeapon()

@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
+using System;
 
 public class AdvertiseManager : MonoBehaviour
 {
+    public int AdLeft;
+    public DateTime LastTime;
+
     const string GooglePlay_ID = "4142451";
     const string Rewarded_Android = "Rewarded_Android";
     const string Interstitial_Android = "Interstitial_Android";
     const string Banner_Android = "Banner_Android";
+
 
     void Awake()
     {
@@ -17,6 +22,8 @@ public class AdvertiseManager : MonoBehaviour
             Destroy(gameObject);
         else
             DontDestroyOnLoad(gameObject);
+
+        AdLeft = Constants.ADMAX;
     }
 
     void Start()
@@ -31,7 +38,7 @@ public class AdvertiseManager : MonoBehaviour
 
     public void PlayAd()
     {
-        if (GameManager.Inst().UiManager.MainUI.Center.Shop.AdLeft <= 0)
+        if (AdLeft <= 0)
             return;
 
         ShowOptions options = new ShowOptions { resultCallback = HandleShowResult };
@@ -80,5 +87,11 @@ public class AdvertiseManager : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    public void SetLastTime()
+    {
+        LastTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
+        LastTime = LastTime.AddDays(1);
     }
 }
