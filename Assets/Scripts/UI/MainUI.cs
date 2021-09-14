@@ -5,17 +5,10 @@ using UnityEngine.UI;
 
 public class MainUI : MonoBehaviour
 {
-    //b
-    public GameObject Arrows;
-
-    //c
-    public Menu Menu;
-    public Animation InventoryFull;
-    public Animation BossWarning;
-    public DailyJewel DailyJewelUI;
-
     //t
     public Alarm Alarm;
+    public Text CoinText;
+    public Text JewelText;
 
     public BossGauge BossGauge;
     public SideMenu SideMenu;
@@ -28,7 +21,7 @@ public class MainUI : MonoBehaviour
     void Awake()
     {
         for (int i = 0; i < 5; i++)
-            Arrows.transform.GetChild(i).gameObject.SetActive(false);
+            Bottom.Arrows.transform.GetChild(i).gameObject.SetActive(false);
     }
 
     public void OnClickUniverse()
@@ -66,6 +59,6 @@ public class MainUI : MonoBehaviour
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
 
-        Menu.gameObject.SetActive(true);
+        Center.Menu.gameObject.SetActive(true);
     }
 }

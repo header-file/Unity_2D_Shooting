@@ -25,13 +25,10 @@ public class UIManager : MonoBehaviour
     public Tutorial Tutorial;
 
     //기타 UI
-    public Text CoinText;
-    public Turret[] Turrets;
     public GameObject RedMask;
     public PlayerHitArea[] PlayerHitAreas;
     public GameObject InventoryScroll;
     public GameObject[] SubPositions;
-    public Text JewelText;
     public Animator BgAnim;
 
     //플레이어용 UI
@@ -86,7 +83,7 @@ public class UIManager : MonoBehaviour
 
     public BuySubWeapon GetBuySWUI() { return BuySWUI; }
 
-    public void SetCoinText(int coin) { CoinText.text = coin.ToString(); }
+    public void SetCoinText(int coin) { MainUI.CoinText.text = coin.ToString(); }
     public void SetHitAreas(GameObject sub, int index) { PlayerHitAreas[index].Object = sub; }
     public void SetIsMoveUp(bool b) { IsMoveUp = b; }
 
@@ -254,12 +251,12 @@ public class UIManager : MonoBehaviour
 
     public void InventoryFull()
     {
-        MainUI.InventoryFull.Play();
+        MainUI.Center.InventoryFull.Play();
     }
 
     public void BossWarning()
     {
-        MainUI.BossWarning.Play();
+        MainUI.Center.BossWarning.Play();
     }
 
 
@@ -283,9 +280,9 @@ public class UIManager : MonoBehaviour
         //NewWindows[(int)NewWindowType.INFO].SetActive(false);
 
         for (int i = 0; i < 5; i++)
-            MainUI.Arrows.transform.GetChild(i).gameObject.SetActive(false);
+            MainUI.Bottom.Arrows.transform.GetChild(i).gameObject.SetActive(false);
 
-        MainUI.Arrows.transform.GetChild(Type).gameObject.SetActive(true);
+        MainUI.Bottom.Arrows.transform.GetChild(Type).gameObject.SetActive(true);
 
         switch (CurrentWeapon)
         {
@@ -377,13 +374,13 @@ public class UIManager : MonoBehaviour
         IsMoveDown = true;
 
         for (int i = 0; i < 5; i++)
-            MainUI.Arrows.transform.GetChild(i).gameObject.SetActive(false);
+            MainUI.Bottom.Arrows.transform.GetChild(i).gameObject.SetActive(false);
 
         GameManager.Inst().Player.EquipUI.SetActive(false);
         for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
         {
             if (GameManager.Inst().GetSubweapons(i) != null)
-                GameManager.Inst().UiManager.Turrets[i].EquipUI.SetActive(false);
+                GameManager.Inst().UiManager.MainUI.Center.Turrets[i].EquipUI.SetActive(false);
         }
     }
 
@@ -430,11 +427,11 @@ public class UIManager : MonoBehaviour
         NewWindows[(int)NewWindowType.INFO].SetActive(false);
 
         for (int i = 0; i < 5; i++)
-            MainUI.Arrows.transform.GetChild(i).gameObject.SetActive(false);
+            MainUI.Bottom.Arrows.transform.GetChild(i).gameObject.SetActive(false);
 
         if (index > 1)
             index++;
-        MainUI.Arrows.transform.GetChild(index).gameObject.SetActive(true);
+        MainUI.Bottom.Arrows.transform.GetChild(index).gameObject.SetActive(true);
 
         CurrentWeapon = index;
 
@@ -464,7 +461,7 @@ public class UIManager : MonoBehaviour
         IsMoveDown = true;
 
         for (int i = 0; i < 5; i++)
-            MainUI.Arrows.transform.GetChild(i).gameObject.SetActive(false);
+            MainUI.Bottom.Arrows.transform.GetChild(i).gameObject.SetActive(false);
     }
 
     public void OnClickColorBtn(int index)

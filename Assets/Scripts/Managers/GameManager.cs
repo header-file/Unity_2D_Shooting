@@ -48,9 +48,9 @@ public class GameManager : MonoBehaviour
     public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[StgManager.Stage - 1, index] = Sub; }
-    public void SetJewel(int value) { Jewel = value; UiManager.JewelText.text = Jewel.ToString(); }
-    public void AddJewel(int value) { Jewel += value; UiManager.JewelText.text = Jewel.ToString(); }
-    public void SubtractJewel(int value) { Jewel -= value; UiManager.JewelText.text = Jewel.ToString(); }
+    public void SetJewel(int value) { Jewel = value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
+    public void AddJewel(int value) { Jewel += value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
+    public void SubtractJewel(int value) { Jewel -= value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
     public void SetResource(int stage, int value) { Resources[stage - 1] = value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
     public void AddResource(int stage, int value) { Resources[stage - 1] += value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
     public void SubtractResource(int stage, int value) { Resources[stage] -= value; TxtManager.Resources[stage].text = Resources[stage].ToString(); }
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
 
         TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));
 
-        UiManager.JewelText.text = Jewel.ToString();
+        UiManager.MainUI.JewelText.text = Jewel.ToString();
     }
 
     void SetDropRateData()

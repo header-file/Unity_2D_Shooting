@@ -26,6 +26,6 @@ public class ShakeManager : MonoBehaviour
         }
 
         for (int i = 0; i < 4; i++)
-            GameManager.Inst().UiManager.Turrets[i].Shaker.Shake(ShakeTime, ShakeScale);
+            GameManager.Inst().UiManager.MainUI.Center.Turrets[i].Shaker.Shake(ShakeTime, ShakeScale);
     }
 }

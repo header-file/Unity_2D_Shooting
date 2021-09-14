@@ -13,4 +13,10 @@ public class Center : MonoBehaviour
     public ReviveAlert ReviveAlert;
     public DailyLeft DailyLeft;
     public DailyLeft DailyPlusLeft;
+    public Menu Menu;
+    public Animation InventoryFull;
+    public Animation BossWarning;
+    public DailyJewel DailyJewelUI;
+    public Turret[] Turrets;
+
 }

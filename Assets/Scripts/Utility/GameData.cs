@@ -507,12 +507,12 @@ public class GameData
         if (DailyLeft > 0 && IsDaily)
         {
             if (DailyPlusLeft > 0 && IsDailyPlus)
-                GameManager.Inst().UiManager.MainUI.DailyJewelUI.Show(2);
+                GameManager.Inst().UiManager.MainUI.Center.DailyJewelUI.Show(2);
             else
-                GameManager.Inst().UiManager.MainUI.DailyJewelUI.Show(0);
+                GameManager.Inst().UiManager.MainUI.Center.DailyJewelUI.Show(0);
         }
         else if (DailyPlusLeft > 0 && IsDailyPlus)
-            GameManager.Inst().UiManager.MainUI.DailyJewelUI.Show(1);
+            GameManager.Inst().UiManager.MainUI.Center.DailyJewelUI.Show(1);
     }
 
     public void ProcessDailyJewel()

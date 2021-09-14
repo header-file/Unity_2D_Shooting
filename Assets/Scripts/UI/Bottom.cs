@@ -8,4 +8,5 @@ public class Bottom : MonoBehaviour
     public Slot[] Slots;
     public LoopScroll WeaponScroll;
     public Image[] Colors;
+    public GameObject Arrows;
 }

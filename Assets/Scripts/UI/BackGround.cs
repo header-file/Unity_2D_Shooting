@@ -7,13 +7,13 @@ public class BackGround : MonoBehaviour
     void TurretDisappear()
     {
         for (int i = 0; i < 4; i++)
-            GameManager.Inst().UiManager.Turrets[i].gameObject.SetActive(false);
+            GameManager.Inst().UiManager.MainUI.Center.Turrets[i].gameObject.SetActive(false);
     }
 
     void TurretAppear()
     {
         for (int i = 0; i < 4; i++)
-            GameManager.Inst().UiManager.Turrets[i].gameObject.SetActive(true);
+            GameManager.Inst().UiManager.MainUI.Center.Turrets[i].gameObject.SetActive(true);
     }
 
     void Warning()
