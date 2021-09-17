@@ -28,6 +28,11 @@ public class Shop : MonoBehaviour
     public Text PriceText;
     public Text DetailText;
 
+    //Result
+    public GameObject Result;
+    public Image ResultIcon;
+    public Text ResultNameText;
+
     List<Dictionary<string, object>> Data;
     string[,] JewelDatas;
     string[,] ExpandDatas;
@@ -349,6 +354,12 @@ public class Shop : MonoBehaviour
         AdLeftText.text = GameManager.Inst().AdsManager.AdLeft.ToString() + " / " + Constants.ADMAX.ToString();
     }
 
+    void SetResultData(int index)
+    {
+        ResultIcon.sprite = JewelIcons[index];
+        ResultNameText.text = JewelDatas[index, 0];
+    }
+
     public void OnSelectToggle(int index)
     {
         Pages[index].SetActive(Toggles[index].isOn);
@@ -394,7 +405,9 @@ public class Shop : MonoBehaviour
 
     public void OnClickBuyJewel(int index)
     {
-        //구매 완료 알림
+        Confirm.SetActive(false);
+        Result.SetActive(true);
+        SetResultData(index);
 
         if (index > 4)
             BuyDailyJewel(index - 5);
@@ -403,5 +416,10 @@ public class Shop : MonoBehaviour
 
         //자동 저장 및 데이터 업로드
         GameManager.Inst().DatManager.AutoSave();
+    }
+
+    public void OnClickResultOK()
+    {
+        Result.SetActive(false);
     }
 }
