@@ -194,7 +194,7 @@ public class ShootingManager : MonoBehaviour
                 break;
         }
 
-        GameManager.Inst().SodManager.PlayEffect("Magical Impact 1");
+        GameManager.Inst().SodManager.PlayEffect("Wp_Normal");
     }
 
     void Spread(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -239,6 +239,8 @@ public class ShootingManager : MonoBehaviour
                 }
                 break;
         }
+
+        GameManager.Inst().SodManager.PlayEffect("Wp_Spread");
     }
 
     void Missile(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -300,6 +302,8 @@ public class ShootingManager : MonoBehaviour
                 }
                 break;
         }
+
+        GameManager.Inst().SodManager.PlayEffect("Wp_Missile");
     }
 
     void Laser(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -313,6 +317,8 @@ public class ShootingManager : MonoBehaviour
         bullet.IsVamp = isVamp;
         bullet.Vamp = shooter;
         bullet.IsReinforce = IsReinforce;
+
+        GameManager.Inst().SodManager.PlayEffect("Wp_Laser");
     }
 
     void Charge(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -327,6 +333,8 @@ public class ShootingManager : MonoBehaviour
         bullet.IsReinforce = IsReinforce;
         bullet.SetChargePos(ChargePos);
         bullet.StartCharge(GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.CHARGE].GetDuration());
+
+        GameManager.Inst().SodManager.PlayEffect("Wp_Charge");
     }
 
     void Boomerang(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -347,6 +355,8 @@ public class ShootingManager : MonoBehaviour
         bullet.SetStartPos(Objs[0].transform.position);
         bullet.SetTargetpos(Objs[0].transform.position + NormalPos[0].transform.up/*GameManager.Inst().IptManager.MousePosition*/);
         bullet.SetStart();
+
+        GameManager.Inst().SodManager.PlayEffect("Wp_Boomerang");
     }
 
     void Chain(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -361,6 +371,8 @@ public class ShootingManager : MonoBehaviour
         bullet.IsReinforce = IsReinforce;
         bullet.ResetData();
         bullet.Shoot(NormalPos[0].transform.up);
+
+        GameManager.Inst().SodManager.PlayEffect("Wp_Chain");
     }
 
     void Gatling(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -379,7 +391,7 @@ public class ShootingManager : MonoBehaviour
             bullets[i].Shoot(GatlingPos[i].transform.up);
         }
 
-        GameManager.Inst().SodManager.PlayEffect("Magical Swoosh 18");
+        GameManager.Inst().SodManager.PlayEffect("Wp_Gatling");
     }
 
     void Explosion(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -393,6 +405,8 @@ public class ShootingManager : MonoBehaviour
         bullet.Vamp = shooter;
         bullet.IsReinforce = IsReinforce;
         bullet.Shoot(NormalPos[0].transform.up);
+
+        GameManager.Inst().SodManager.PlayEffect("Wp_Explosion");
     }
 
     void Dot(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
@@ -430,6 +444,8 @@ public class ShootingManager : MonoBehaviour
                 }
                 break;
         }
+
+        GameManager.Inst().SodManager.PlayEffect("Wp_Dot");
     }
 
     void Equip_Missile(int index)
@@ -448,6 +464,8 @@ public class ShootingManager : MonoBehaviour
 
         bullet.SearchArea.GetComponent<SearchArea>().SetArea(rad);
         bullet.ShootEquip(SpreadPos[0].transform.up, (int)Bullet.BulletType.MISSILE);
+
+        GameManager.Inst().SodManager.PlayEffect("Wp_Missile");
     }
 
     void Equip_Knockback(int index)
@@ -465,6 +483,8 @@ public class ShootingManager : MonoBehaviour
         Objs[0].GetComponent<ActivationTimer>().IsStart = true;
 
         bullet.ShootEquip(NormalPos[0].transform.up, (int)Bullet.BulletType.KNOCKBACK);
+
+        GameManager.Inst().SodManager.PlayEffect("Eq_Wave");
     }
 
     void Equip_Slow()
@@ -481,5 +501,7 @@ public class ShootingManager : MonoBehaviour
         bullet.Area.transform.localScale = Vector3.one * 1.2f;
 
         bullet.ShootEquip(NormalPos[0].transform.up, (int)Bullet.BulletType.SLOW);
+
+        GameManager.Inst().SodManager.PlayEffect("Eq_Distort");
     }
 }

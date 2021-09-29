@@ -99,6 +99,8 @@ public class Item_Resource : Item
         {
             Add();
 
+            GameManager.Inst().SodManager.PlayEffect("Resource get");
+
             //퀘스트 처리
             GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.RESOURCE, GameManager.Inst().StgManager.Stage, Value);
         }

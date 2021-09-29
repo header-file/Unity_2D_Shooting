@@ -305,6 +305,8 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Inst().UiManager.ShowInfoArea(UpgType);
                 GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
 
+                GameManager.Inst().SodManager.PlayEffect("Level up");
+
                 //퀘스트 처리
                 GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.FORGE, BData[UpgType].GetRarity(), 1);
 
@@ -391,6 +393,8 @@ public class UpgradeManager : MonoBehaviour
 
         //HP적용
         SetHPData(UpgType);
+
+        GameManager.Inst().SodManager.PlayEffect("Weapon advance");
     }
 
     public void RarityDown(int UpgType)
@@ -424,6 +428,8 @@ public class UpgradeManager : MonoBehaviour
 
         //HP적용
         SetHPData(UpgType);
+
+        GameManager.Inst().SodManager.PlayEffect("Weapon forge");
     }
 
     public void LevelDown(int UpgType)

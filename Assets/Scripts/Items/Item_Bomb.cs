@@ -21,6 +21,8 @@ public class Item_Bomb : Item
 
         bomb.GetComponent<Bomb>().BombStart();
 
+        GameManager.Inst().SodManager.PlayEffect("Eq_Explosive");
+
         gameObject.SetActive(false);
     }
 }

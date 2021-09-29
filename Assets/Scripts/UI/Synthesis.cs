@@ -424,7 +424,13 @@ public class Synthesis : MonoBehaviour
 
         int rand = Random.Range(0, 100);
         if (rand < Rate)
+        {
             rarity++;
+            GameManager.Inst().SodManager.PlayEffect("Synth success");
+        }
+        else
+            GameManager.Inst().SodManager.PlayEffect("Synth fail");
+
 
         int add = -1;
         if(SelectedUIDs[0] / 100 == 3)

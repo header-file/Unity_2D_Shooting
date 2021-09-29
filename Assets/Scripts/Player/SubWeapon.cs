@@ -239,6 +239,8 @@ public class SubWeapon : MonoBehaviour
         IsShaking = true;
         GameManager.Inst().ShkManager.Damage();
 
+        GameManager.Inst().SodManager.PlayEffect("Player hit");
+
         IsInvincible = true;
         Invoke("ReturnInvincible", 0.1f);
 

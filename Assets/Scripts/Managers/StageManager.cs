@@ -127,6 +127,9 @@ public class StageManager : MonoBehaviour
         GameObject bomb = GameManager.Inst().ObjManager.MakeObj("Bomb");
         bomb.transform.position = Vector3.zero;
         bomb.GetComponent<Bomb>().BombStart();
+
+        GameManager.Inst().SodManager.StopBGM();
+        GameManager.Inst().SodManager.PlayBGM("Cjbeards - Fire and Thunder");
     }
 
     public void FillGauge()
@@ -295,6 +298,9 @@ public class StageManager : MonoBehaviour
 
         RandFever();
         SpawnEnemies();
+
+        GameManager.Inst().SodManager.StopBGM();
+        GameManager.Inst().SodManager.PlayBGM("TestBGM");
     }
 
     public void CancelEnemies()

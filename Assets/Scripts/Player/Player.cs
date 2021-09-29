@@ -567,6 +567,8 @@ public class Player : MonoBehaviour
         //Shake
         GameManager.Inst().ShkManager.Damage();
 
+        GameManager.Inst().SodManager.PlayEffect("Player hit");
+
         HPUI.SetActive(true);
         HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
         Invoke("HideHPUI", 1.0f);
@@ -643,6 +645,11 @@ public class Player : MonoBehaviour
         Invoke("ReturnInvincible", 1.0f);
     }
 
+    void LevelupSound()
+    {
+        GameManager.Inst().SodManager.PlayEffect("Level up");
+    }
+
     void ReturnColor()
     {
         GetComponent<Animator>().SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(2) + 1);
@@ -668,6 +675,8 @@ public class Player : MonoBehaviour
 
         IsShield = true;
         Shield.SetActive(true);
+
+        GameManager.Inst().SodManager.PlayEffect("Eq_Distort");
 
         for (int i = 0; i < 4; i++)
         {

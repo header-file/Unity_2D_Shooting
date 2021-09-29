@@ -119,6 +119,8 @@ public class BossBigBullet : MonoBehaviour
                 break;
         }
 
+        GameManager.Inst().SodManager.PlayEffect("Bigbullet trigger");
+
         ShotCount++;
         if (ShotCount >= maxCount)
             Die();

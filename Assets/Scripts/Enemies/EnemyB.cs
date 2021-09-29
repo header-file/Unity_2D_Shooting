@@ -164,6 +164,8 @@ public class EnemyB : Enemy
         }
 
         Invoke("Gatling", 0.1f);
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
 
     void Spread()
@@ -204,6 +206,8 @@ public class EnemyB : Enemy
                 }
                 break;
         }
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_OneWay");
     }
 
     void Laser()
@@ -214,6 +218,8 @@ public class EnemyB : Enemy
 
         BossLaser bullet = obj.GetComponent<BossLaser>();
         bullet.StopTime = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Laser");
     }
 
     void ShotOneWay()
@@ -263,6 +269,8 @@ public class EnemyB : Enemy
                 }
                 break;
         }
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_OneWay");
     }
 
     void BigBullet()
@@ -274,6 +282,8 @@ public class EnemyB : Enemy
         BossBigBullet bbb = obj.GetComponent<BossBigBullet>();
         bbb.SetHP(Health * 0.05f);
         bbb.SetTargetPos(new Vector3(0.0f, 3.0f, 0.0f));
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Bigbullet");
     }
 
     void Bounce()
@@ -315,6 +325,8 @@ public class EnemyB : Enemy
                 }
                 break;
         }
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_OneWay");
     }
 
     void Boomerang()
@@ -325,6 +337,8 @@ public class EnemyB : Enemy
 
         BossBoomerang bullet = obj.gameObject.GetComponent<BossBoomerang>();
         bullet.StartMove(obj.transform.position);
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
 
     void Missile()
@@ -335,6 +349,8 @@ public class EnemyB : Enemy
 
         BossMissile bullet = obj.gameObject.GetComponent<BossMissile>();
         bullet.Shoot(BigBulletPos.transform.up);
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
 
     void Explosion()
@@ -374,6 +390,8 @@ public class EnemyB : Enemy
                 }
                 break;
         }
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_OneWay");
     }
 
     void Charge()
@@ -384,6 +402,8 @@ public class EnemyB : Enemy
 
         BossCharge bullet = obj.gameObject.GetComponent<BossCharge>();
         bullet.StartCharge(BigBulletPos);
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Laser");
     }
 
     void Slow()
@@ -394,6 +414,8 @@ public class EnemyB : Enemy
 
         BossSlow bullet = obj.gameObject.GetComponent<BossSlow>();
         bullet.Shoot(BigBulletPos.transform.up, 1);
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
 
     void SummonEnemies()
@@ -431,6 +453,8 @@ public class EnemyB : Enemy
 
             GameManager.Inst().StgManager.SpawnLarge(SummonPoses[2].transform.position);
         }
+
+        GameManager.Inst().SodManager.PlayEffect("Boss summon");
     }
 
     void AbleAttack()
@@ -471,5 +495,15 @@ public class EnemyB : Enemy
     public void HitEffect()
     {
         Anim.SetTrigger("Damage");
+    }
+
+    void AppearSound()
+    {
+        GameManager.Inst().SodManager.PlayEffect("Boss appear");
+    }
+
+    void DeathSound()
+    {
+        GameManager.Inst().SodManager.PlayEffect("Boss die");
     }
 }

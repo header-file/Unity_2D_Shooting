@@ -209,8 +209,6 @@ public class Enemy : MonoBehaviour
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
             explosion.transform.position = transform.position;
 
-            GameManager.Inst().SodManager.PlayEffect("Error 2");
-
             IsReflected = false;
             CurHP = Health;
 
@@ -224,6 +222,8 @@ public class Enemy : MonoBehaviour
                     GameManager.Inst().Tutorials.Step++;
                     return;
                 }
+
+                GameManager.Inst().SodManager.PlayEffect("Enemy Die");
 
 #if UNITY_EDITOR
                 rand = Random.Range(0, 2);
@@ -336,7 +336,7 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
-            GameManager.Inst().SodManager.PlayEffect("Notification");
+            GameManager.Inst().SodManager.PlayEffect("Enemy hit");
 
             OnHit(dmg, bullet.IsReinforce);
 
@@ -355,7 +355,7 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = collision.gameObject.GetComponent<BoxCollider2D>().ClosestPoint(transform.position);
 
-            GameManager.Inst().SodManager.PlayEffect("Notification");
+            GameManager.Inst().SodManager.PlayEffect("Enemy hit");
 
             OnHit(dmg, bullet.IsReinforce);
         }
@@ -374,7 +374,7 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
-            GameManager.Inst().SodManager.PlayEffect("Notification");
+            GameManager.Inst().SodManager.PlayEffect("Enemy hit");
 
             OnHit(dmg, bullet.IsReinforce);
         }
@@ -393,7 +393,7 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
-            GameManager.Inst().SodManager.PlayEffect("Notification");
+            GameManager.Inst().SodManager.PlayEffect("Enemy hit");
 
             OnHit(dmg, bullet.IsReinforce);
         }
@@ -406,7 +406,7 @@ public class Enemy : MonoBehaviour
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
 
-            GameManager.Inst().SodManager.PlayEffect("Notification");
+            GameManager.Inst().SodManager.PlayEffect("Enemy hit");
 
             OnHit(damage, bullet.IsReinforce);
         }

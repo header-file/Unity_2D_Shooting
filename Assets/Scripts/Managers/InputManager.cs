@@ -50,7 +50,6 @@ public class InputManager : MonoBehaviour
                 else
                     GameManager.Inst().Player.transform.position = Vector3.MoveTowards(GameManager.Inst().Player.transform.position, MousePosition, Time.deltaTime * 5.0f * SpeedMultiplier);
             }
-                
         }
 
         GameManager.Inst().Player.Fire();

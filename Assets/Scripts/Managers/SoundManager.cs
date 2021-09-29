@@ -92,16 +92,22 @@ public class SoundManager : MonoBehaviour
         BGMSource.Play();
     }
 
+    public void StopBGM()
+    {
+        if(BGMSource != null && BGMSource.isPlaying)
+            BGMSource.Stop();
+    }
+
     public void PlayEffect(string fileName)
     {
         AudioClip clip = null;
         if (SoundLists.ContainsKey(fileName))
             clip = SoundLists[fileName];
-        else
-        {
-            clip = Resources.Load("Resources/Sounds/" + fileName) as AudioClip;
-            SoundLists.Add(clip.name, clip);
-        }
+        //else
+        //{
+        //    clip = Resources.Load("Resources/Sounds/" + fileName) as AudioClip;
+        //    SoundLists.Add(clip.name, clip);
+        //}
 
         if (clip == null)
             return;

@@ -47,6 +47,8 @@ public class EquipManager : MonoBehaviour
                 HealEff.transform.position = actor.transform.position;
                 HealEff.GetComponent<ActivationTimer>().IsStart = true;
 
+                GameManager.Inst().SodManager.PlayEffect("Eq_Heal");
+
                 if (id == 2)
                     actor.GetComponent<Player>().Heal((int)GameManager.Inst().Player.GetItem(index).Value);
                 else
@@ -54,6 +56,9 @@ public class EquipManager : MonoBehaviour
                 break;
 
             case (int)Item_ZzinEquipment.EquipType.SHIELD:
+
+                GameManager.Inst().SodManager.PlayEffect("Eq_Shield");
+
                 if (id == 2)
                     actor.GetComponent<Player>().RestoreShield((int)GameManager.Inst().Player.GetItem(index).Value);
                 else

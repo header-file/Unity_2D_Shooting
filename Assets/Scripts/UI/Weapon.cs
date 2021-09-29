@@ -425,6 +425,8 @@ public class Weapon : MonoBehaviour
 
         InventorySlot slot = Inventories.GetSlot(Inventories.GetSwitchedIndex(index));
         slot.EMark.SetActive(true);
+
+        GameManager.Inst().SodManager.PlayEffect("Equip change");
     }
 
     public void Switch()

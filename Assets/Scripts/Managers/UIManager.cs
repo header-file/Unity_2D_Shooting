@@ -257,6 +257,8 @@ public class UIManager : MonoBehaviour
     public void BossWarning()
     {
         MainUI.Center.BossWarning.Play();
+
+        GameManager.Inst().SodManager.PlayEffect("Warning boss");
     }
 
 
@@ -814,6 +816,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickLandingBtn()
     {
+        GameManager.Inst().SodManager.PlayEffect("Landing");
+
         MainUI.Center.StageScroll.MoveScene();
     }
 
