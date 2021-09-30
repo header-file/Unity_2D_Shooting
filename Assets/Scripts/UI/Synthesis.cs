@@ -19,6 +19,7 @@ public class Synthesis : MonoBehaviour
     public Text Need;
     public Sprite[] Frames;
     public Button MergetBtn;
+    public Animator Anim;
 
     InventoryScroll Inventories;
     Sprite OriginalSprite;
@@ -37,6 +38,7 @@ public class Synthesis : MonoBehaviour
     float Timer;
     int SynthType;
     int UnequipIndex;
+    bool IsSynthSuccess;
 
     public int GetGrade() { return Grade; }
     //public int GetCurrentIndex() { return CurrentIndex; }
@@ -79,33 +81,15 @@ public class Synthesis : MonoBehaviour
         for (int i = 0; i < 3; i++)
             InputTypes[i] = -1;
 
-        //for(int i = 0; i < 3; i++)
-        //{
-        //    GameObject line = GameManager.Inst().ObjManager.MakeObj("Line");
-        //    Image lineImg = line.GetComponent<Image>();
-        //    lineImg.material = Materials[i];
-        //    lineImg.material.SetColor("_GlowColor", Color.black);
-
-        //    line.transform.SetParent(Lines.transform, false);
-        //    if (i == 0)
-        //    {
-        //        line.GetComponent<RectTransform>().anchoredPosition = new Vector3(-80.0f, 17.0f, 0.0f);
-        //        line.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 60.0f);
-        //    }
-        //    else if (i == 1)
-        //    {
-        //        line.GetComponent<RectTransform>().anchoredPosition = new Vector3(80.0f, 17.0f, 0.0f);
-        //        line.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -60.0f);
-        //    }
-        //    else
-        //        line.GetComponent<RectTransform>().anchoredPosition = new Vector3(0.0f, -100.0f, 0.0f);
-        //}
+        Anim.speed = 0.0f;
 
         IsAbleSynthesize = false;
         Rate = 0;
         Timer = 0.0f;
         SynthType = -1;
         CurrentIndex = 0;
+
+        IsSynthSuccess = false;
 
         gameObject.SetActive(false);
     }
@@ -426,10 +410,10 @@ public class Synthesis : MonoBehaviour
         if (rand < Rate)
         {
             rarity++;
-            GameManager.Inst().SodManager.PlayEffect("Synth success");
+            IsSynthSuccess = true;
         }
         else
-            GameManager.Inst().SodManager.PlayEffect("Synth fail");
+            IsSynthSuccess = false;
 
 
         int add = -1;
@@ -437,10 +421,29 @@ public class Synthesis : MonoBehaviour
             add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeReinforceData(SynthType, rarity));
         else if(SelectedUIDs[0] / 100 == 6)
             add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEquipData(SynthType, rarity));
-        EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
+
+        if (add == -1)
+            GameManager.Inst().UiManager.MainUI.Center.InventoryFull.Play();
+        else
+        {
+            EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
+            ConfirmWindow.SetActive(false);
+
+            GameManager.Inst().SodManager.PlayEffect("Synth try");
+            Anim.speed = 1.0f;
+        }
+    }
+
+    public void ShowResultWindow()
+    {
+        Anim.speed = 0.0f;
+
+        if (IsSynthSuccess)
+            GameManager.Inst().SodManager.PlayEffect("Synth success");
+        else
+            GameManager.Inst().SodManager.PlayEffect("Synth fail");
 
         //결과창
-        ConfirmWindow.SetActive(false);
         ResetSprites();
 
         SortAsDefault();
