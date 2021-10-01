@@ -391,6 +391,13 @@ public class Synthesis : MonoBehaviour
     {
         if (!IsAbleSynthesize)
             return;
+        if(GameManager.Inst().Player.GetItem(SelectedIndex[0]).Quantity > 1 &&
+            GameManager.Inst().Player.FindQuantityAsGrade(GameManager.Inst().Player.GetItem(SelectedIndex[0]).Rarity + 1) == -1 &&
+            GameManager.Inst().Player.CurInventory >= GameManager.Inst().Player.MaxInventory)
+        {
+            GameManager.Inst().UiManager.MainUI.Center.InventoryFull.Play();
+            return;
+        }
         if (GameManager.Inst().Player.GetCoin() < int.Parse(Need.text))
             return;
         else
@@ -422,16 +429,11 @@ public class Synthesis : MonoBehaviour
         else if(SelectedUIDs[0] / 100 == 6)
             add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEquipData(SynthType, rarity));
 
-        if (add == -1)
-            GameManager.Inst().UiManager.MainUI.Center.InventoryFull.Play();
-        else
-        {
-            EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
-            ConfirmWindow.SetActive(false);
+        EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
+        ConfirmWindow.SetActive(false);
 
-            GameManager.Inst().SodManager.PlayEffect("Synth try");
-            Anim.speed = 1.0f;
-        }
+        GameManager.Inst().SodManager.PlayEffect("Synth try");
+        Anim.speed = 1.0f;
     }
 
     public void ShowResultWindow()

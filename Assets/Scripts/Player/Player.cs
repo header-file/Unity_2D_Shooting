@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
     public ObjectShake Shaker;
 
     public int MaxInventory;
+    public int CurInventory;
     public int SortOption;
     public int ShootCount;
 
@@ -195,6 +196,8 @@ public class Player : MonoBehaviour
                 Inventory[i].Quantity = 1;
                 Inventory[i].CoolTime = 0.0f;
 
+                CurInventory++;
+
                 return i;
             }
         }
@@ -218,6 +221,8 @@ public class Player : MonoBehaviour
                 Inventory[i].UID = item.GetUID();
                 Inventory[i].Quantity = 1;
                 Inventory[i].CoolTime = item.GetCoolTime();
+
+                CurInventory++;
 
                 return i;
             }
@@ -261,8 +266,23 @@ public class Player : MonoBehaviour
                     Inventory[i].Quantity = 1;
                 Inventory[i].CoolTime = item.CoolTime;
 
+                CurInventory++;
+                
                 return i;
             }
+        }
+
+        return -1;
+    }
+
+    public int FindQuantityAsGrade(int rarity)
+    {
+        for (int i = 0; i < MaxInventory; i++)
+        {
+            if(Inventory[i] != null)
+                if (Inventory[i].UID / 100 == 3 &&
+                    Inventory[i].Rarity == rarity)
+                    return Inventory[i].Quantity;
         }
 
         return -1;
@@ -311,6 +331,8 @@ public class Player : MonoBehaviour
         e.Value = Inventory[index].Value;
 
         Inventory[index] = null;
+
+        CurInventory--;
 
         return e;
     }
