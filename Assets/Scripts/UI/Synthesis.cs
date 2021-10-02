@@ -392,10 +392,9 @@ public class Synthesis : MonoBehaviour
         if (!IsAbleSynthesize)
             return;
         if(GameManager.Inst().Player.GetItem(SelectedIndex[0]).Quantity > 1 &&
-            GameManager.Inst().Player.FindQuantityAsGrade(GameManager.Inst().Player.GetItem(SelectedIndex[0]).Rarity + 1) == -1 &&
             GameManager.Inst().Player.CurInventory >= GameManager.Inst().Player.MaxInventory)
         {
-            GameManager.Inst().UiManager.MainUI.Center.InventoryFull.Play();
+            GameManager.Inst().UiManager.MainUI.Center.PlayInventoryFull();
             return;
         }
         if (GameManager.Inst().Player.GetCoin() < int.Parse(Need.text))

@@ -8,6 +8,7 @@ public class Inventory : MonoBehaviour
 {
     public GameObject InventoryArea;
     public InventoryDetail InventoryDetail;
+    public Text InventoryCount;
 
     InventoryScroll Inventories;
     Player Player;
@@ -27,6 +28,9 @@ public class Inventory : MonoBehaviour
         Inventories = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(0);
+
+        InventoryCount.text = GameManager.Inst().Player.CurInventory.ToString() + " / " +
+                                GameManager.Inst().Player.MaxInventory.ToString();
 
         Inventories.ShowInventory();
     }

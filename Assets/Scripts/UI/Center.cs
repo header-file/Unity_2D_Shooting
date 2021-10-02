@@ -19,4 +19,26 @@ public class Center : MonoBehaviour
     public DailyJewel DailyJewelUI;
     public Turret[] Turrets;
 
+
+    public void PlayBossWarning()
+    {
+        BossWarning.gameObject.SetActive(true);
+        BossWarning.Play();
+
+        Invoke("EndPlayWarning", 2.0f);
+    }
+
+    public void PlayInventoryFull()
+    {
+        InventoryFull.gameObject.SetActive(true);
+        InventoryFull.Play();
+
+        Invoke("EndPlayWarning", 0.45f);
+    }
+
+    void EndPlayWarning()
+    {
+        BossWarning.gameObject.SetActive(false);
+        InventoryFull.gameObject.SetActive(false);
+    }
 }

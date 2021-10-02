@@ -251,12 +251,12 @@ public class UIManager : MonoBehaviour
 
     public void InventoryFull()
     {
-        MainUI.Center.InventoryFull.Play();
+        MainUI.Center.PlayInventoryFull();
     }
 
     public void BossWarning()
     {
-        MainUI.Center.BossWarning.Play();
+        MainUI.Center.PlayBossWarning();
 
         GameManager.Inst().SodManager.PlayEffect("Warning boss");
     }
