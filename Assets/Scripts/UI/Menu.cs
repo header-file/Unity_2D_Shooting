@@ -5,6 +5,7 @@ using UnityEngine;
 public class Menu : MonoBehaviour
 {
     public Option Option;
+    public GameObject Credit;
 
 
     void Start()
@@ -33,5 +34,15 @@ public class Menu : MonoBehaviour
     public void OnClickDownloadBtn()
     {
         GameManager.Inst().UiManager.OnClickDownloadDataBtn();
+    }
+
+    public void OnClickCreditBtn()
+    {
+        Credit.SetActive(true);
+    }
+
+    public void OnClickCreditBackBtn()
+    {
+        Credit.SetActive(false);
     }
 }

@@ -122,4 +122,11 @@ public class SoundManager : MonoBehaviour
 
         //Debug.Log("Play " + clip.name + ", " + EffectVolume);
     }
+
+    public void StopEffect(string fileName)
+    {
+        for (int i = 0; i < Constants.MAX_EFFECT_LAYER; i++)
+            if (EffectSources[i].clip != null && EffectSources[i].clip.name == fileName)
+                EffectSources[i].Stop();
+    }
 }

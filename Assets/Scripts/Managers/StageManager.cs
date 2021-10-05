@@ -129,7 +129,7 @@ public class StageManager : MonoBehaviour
         bomb.GetComponent<Bomb>().BombStart();
 
         GameManager.Inst().SodManager.StopBGM();
-        GameManager.Inst().SodManager.PlayBGM("Cjbeards - Fire and Thunder");
+        GameManager.Inst().SodManager.PlayBGM("Stage" + Stage.ToString() + " Boss");
     }
 
     public void FillGauge()
@@ -300,7 +300,7 @@ public class StageManager : MonoBehaviour
         SpawnEnemies();
 
         GameManager.Inst().SodManager.StopBGM();
-        GameManager.Inst().SodManager.PlayBGM("TestBGM");
+        GameManager.Inst().SodManager.PlayBGM("Stage" + Stage.ToString());
     }
 
     public void CancelEnemies()
@@ -433,7 +433,7 @@ public class StageManager : MonoBehaviour
            RandFever();
         StartEnemy();
 
-        GameManager.Inst().SodManager.PlayBGM("TestBGM");
+        GameManager.Inst().SodManager.PlayBGM("Stage" + Stage.ToString());
     }
 
     public void UnlockStages(int stage)

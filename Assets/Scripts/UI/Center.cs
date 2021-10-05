@@ -25,6 +25,8 @@ public class Center : MonoBehaviour
         BossWarning.gameObject.SetActive(true);
         BossWarning.Play();
 
+        //GameManager.Inst().SodManager.PlayEffect("Warning boss");
+
         Invoke("EndPlayWarning", 2.0f);
     }
 
@@ -33,11 +35,16 @@ public class Center : MonoBehaviour
         InventoryFull.gameObject.SetActive(true);
         InventoryFull.Play();
 
+        GameManager.Inst().SodManager.PlayEffect("Warning inventoryFull");
+
         Invoke("EndPlayWarning", 0.45f);
     }
 
     void EndPlayWarning()
     {
+        //GameManager.Inst().SodManager.StopEffect("Warning boss");
+        GameManager.Inst().SodManager.StopEffect("Warning inventoryFull");
+
         BossWarning.gameObject.SetActive(false);
         InventoryFull.gameObject.SetActive(false);
     }

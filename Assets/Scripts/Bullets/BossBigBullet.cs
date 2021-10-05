@@ -73,6 +73,8 @@ public class BossBigBullet : MonoBehaviour
                     BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
                     bullet.Shoot(ShotDir[i].transform.up);
                 }
+
+                GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
                 break;
             case 2:
                 shotTime = 0.1f;
@@ -85,6 +87,8 @@ public class BossBigBullet : MonoBehaviour
                     BossLaser bullet = obj.GetComponent<BossLaser>();
                     bullet.StopTime = 0.0f;
                 }
+
+                GameManager.Inst().SodManager.PlayEffect("Bs_Laser");
                 break;
             case 3:
                 maxCount = 12;
@@ -98,6 +102,8 @@ public class BossBigBullet : MonoBehaviour
                     BossBoomerang bullet = obj.GetComponent<BossBoomerang>();
                     bullet.StartMove(obj.transform.position);
                 }
+
+                GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
                 break;
             case 4:
                 maxCount = 5;
@@ -108,18 +114,18 @@ public class BossBigBullet : MonoBehaviour
                     GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
                     obj.transform.position = ShotDir[0].transform.position;
                     obj.transform.rotation = ShotDir[(rand + (i % 2) * 6) % 12].transform.rotation;
-                    //obj.transform.rotation = ShotDir[rand % 12].transform.rotation;
 
                     BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
                     bullet.Shoot(ShotDir[(rand + (i % 2) * 6) % 12].transform.up, rand % 5 + 1);
-                    //bullet.Shoot(ShotDir[rand % 12].transform.up);
 
                     rand++;
                 }
+
+                GameManager.Inst().SodManager.PlayEffect("Bs_OneWay");
                 break;
         }
 
-        GameManager.Inst().SodManager.PlayEffect("Bigbullet trigger");
+        //GameManager.Inst().SodManager.PlayEffect("Bigbullet trigger");
 
         ShotCount++;
         if (ShotCount >= maxCount)
