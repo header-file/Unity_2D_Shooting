@@ -155,8 +155,6 @@ public class StageManager : MonoBehaviour
                 return;
             }
         }
-
-        Debug.Log("CurrentGauge : " + percent.ToString());
     }
 
     public void SetFever(int stage, int index, float min, float max)

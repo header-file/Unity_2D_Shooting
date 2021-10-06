@@ -501,6 +501,7 @@ public class ShootingManager : MonoBehaviour
         bullet.Area.transform.localScale = Vector3.one * 1.2f;
 
         bullet.ShootEquip(NormalPos[0].transform.up, (int)Bullet.BulletType.SLOW);
+        Objs[0].gameObject.GetComponent<ActivationTimer>().IsStart = true;
 
         GameManager.Inst().SodManager.PlayEffect("Eq_Distort");
     }
