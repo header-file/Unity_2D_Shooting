@@ -310,7 +310,9 @@ public class StageManager : MonoBehaviour
 
     void SetTransform(Enemy Enemy, Vector2 pos)
     {
-        switch(Stage)
+        Enemy.SpeedMultiplier = 1.0f;
+
+        switch (Stage)
         {
             case 1:
                 FallDown(Enemy, pos);
@@ -322,6 +324,7 @@ public class StageManager : MonoBehaviour
                 Break(Enemy, pos);
                 break;
             case 4:
+                Flower(Enemy, pos);
                 break;
         }
     }
@@ -391,6 +394,22 @@ public class StageManager : MonoBehaviour
 
         Quaternion rot = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         Enemy.transform.rotation = rot;
+        Enemy.StartMove(Time.deltaTime);
+    }
+
+    void Flower(Enemy Enemy, Vector2 fixedPos)
+    {
+        Vector3 pos = fixedPos;
+        if (fixedPos == Vector2.zero)
+        {
+            pos.x = Random.Range(-2.0f, 2.0f);
+            pos.y = Random.Range(9.0f, 11.0f);
+            Enemy.transform.position = pos;
+        }
+
+        Enemy.transform.localScale = Vector3.one;
+        Enemy.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        Enemy.RotGyesu = 1.0f;
         Enemy.StartMove(Time.deltaTime);
     }
 

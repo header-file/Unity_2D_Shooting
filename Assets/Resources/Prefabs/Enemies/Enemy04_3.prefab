@@ -168,7 +168,7 @@ Transform:
   m_GameObject: {fileID: 2505058309212980216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 4671105432371910709}
   - {fileID: 2505058310274207340}
@@ -405,7 +405,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 2}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!58 &5602656445252220159
 CircleCollider2D:
@@ -422,7 +422,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.05}
   serializedVersion: 2
-  m_Radius: 0.38
+  m_Radius: 0.5
 --- !u!114 &360056780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,7 +466,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5935262042939582432}
-  - component: {fileID: 6863987839129686919}
+  - component: {fileID: 88549829541463119}
   - component: {fileID: 6863987839129686916}
   - component: {fileID: 6863987839129686936}
   - component: {fileID: 2713826951143688905}
@@ -485,7 +485,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6863987839129686917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.595541, y: -3.2484877, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 618846997367887467}
@@ -494,8 +494,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &6863987839129686919
-BoxCollider2D:
+--- !u!58 &88549829541463119
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -507,19 +507,9 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.08}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.04, y: 1.7}
-    newSize: {x: 1.3333334, y: 1.125}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.04, y: 1.12}
-  m_EdgeRadius: 0
+  m_Radius: 0.5
 --- !u!114 &6863987839129686916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,7 +526,10 @@ MonoBehaviour:
   Canvas: {fileID: 618846997367887479}
   HitArea: {fileID: 360056780}
   SpriteRenderer: {fileID: 0}
+  Body: {fileID: 2505058309212980216}
+  Collider: {fileID: 88549829541463119}
   SpeedMultiplier: 0
+  RotGyesu: 0
 --- !u!50 &6863987839129686936
 Rigidbody2D:
   serializedVersion: 4

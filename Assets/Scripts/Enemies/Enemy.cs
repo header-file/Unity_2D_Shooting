@@ -19,8 +19,11 @@ public class Enemy : MonoBehaviour
     public GameObject Canvas;
     public HitArea HitArea;
     public SpriteRenderer SpriteRenderer;
+    public GameObject Body;
+    public CircleCollider2D Collider;
 
     public float SpeedMultiplier;
+    public float RotGyesu;
 
     protected float Speed;
     protected float Health;
@@ -36,6 +39,9 @@ public class Enemy : MonoBehaviour
     bool IsInvincible;
     bool IsReflected;
     bool IsStop;
+    float SizeTimer;
+    float BaseRad;
+
 
     public int GetEnemyType() { return (int)Type; }
     public Vector3 GetTargetPosition() { return TargetPosition; }
@@ -50,12 +56,14 @@ public class Enemy : MonoBehaviour
         Atk = int.Parse(data[type + (GameManager.Inst().StgManager.Stage - 1) * 4]["Atk"].ToString());
     }
     
-    
     void Awake()
     {
         Rig = GetComponent<Rigidbody2D>();
 
         SpeedMultiplier = 1.0f;
+        RotGyesu = 1.0f;
+        SizeTimer = 0.0f;
+        BaseRad = Collider.radius;
 
         GameObject player = GameObject.Find("Player");
         MidPoint = player.transform.position;
@@ -74,21 +82,54 @@ public class Enemy : MonoBehaviour
         IsReflected = false;
     }
 
+    void Update()
+    {
+        Canvas.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+
+        if (GameManager.Inst().StgManager.Stage == 4)
+            Bloom();
+    }
+
+    void Bloom()
+    {
+        SizeTimer += Time.deltaTime;
+
+        if (SizeTimer <= 0.1f)
+        {
+            Body.transform.localScale = Vector3.one * (0.5f + SizeTimer * 5.0f);
+            Collider.radius = BaseRad * (1.0f + SizeTimer * 10.0f);
+        }
+        else if (SizeTimer > 1.5f && SizeTimer <= 1.6f)
+        {
+            Body.transform.localScale = Vector3.one * (1.0f + (1.5f - SizeTimer) * 5.0f);
+            Collider.radius = BaseRad * (2.0f + (1.5f - SizeTimer) * 10.0f);
+        }
+        else if (SizeTimer >= 3.0f)
+            SizeTimer = 0.0f;
+    }
+
     public void StartMove()
     {
         switch(GameManager.Inst().StgManager.Stage)
         {
             case 1:
-                Rig.velocity = Vector2.zero;
-                //Rig.AddForce(-transform.up * Speed, ForceMode2D.Impulse);
+                //Rig.velocity = Vector2.zero;
+                //Rig.velocity = -transform.up * Speed * SpeedMultiplier;
+
+                if (transform.rotation.eulerAngles.z > 60.0f &&
+                    transform.rotation.eulerAngles.z < 300.0f)
+                    RotGyesu *= -1.0f;
+                    
+                transform.Rotate(0.0f, 0.0f, 0.5f * RotGyesu);
+
                 Rig.velocity = -transform.up * Speed * SpeedMultiplier;
                 break;
             case 2:
                 Rig.velocity = -transform.up * Speed * SpeedMultiplier;
                 break;
             case 3:
-                if(IsReflected)
-                    Rig.velocity = -transform.up * 5.0f;
+                if (IsReflected)
+                    Rig.velocity = -transform.up * 5.0f * SpeedMultiplier ;
                 else
                 {
                     if(transform.position.x > TargetPosition.x)
@@ -104,6 +145,15 @@ public class Enemy : MonoBehaviour
                 }
                 break;
             case 4:
+                if (transform.rotation.eulerAngles.z > 45.0f &&
+                    transform.rotation.eulerAngles.z < 315.0f)
+                {
+                    RotGyesu *= -1.0f;
+                    Debug.Log("Angle : " + transform.rotation.eulerAngles.z + ",    Gyesu : " + RotGyesu);
+                }
+                transform.Rotate(0.0f, 0.0f, 1.0f * RotGyesu);
+
+                Rig.velocity = -transform.up * Speed * SpeedMultiplier;
                 break;
         }
     }

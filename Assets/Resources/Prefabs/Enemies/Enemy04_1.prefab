@@ -168,7 +168,7 @@ Transform:
   m_GameObject: {fileID: 2055847301103501813}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 5853994704505096058}
   - {fileID: 2552807551699979965}
@@ -234,7 +234,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3525409877268188284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.9572983, y: 0.11435044, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7016408289633333973}
@@ -258,7 +258,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.15}
   serializedVersion: 2
-  m_Radius: 0.20000002
+  m_Radius: 0.2
 --- !u!114 &3525409877268188283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +275,10 @@ MonoBehaviour:
   Canvas: {fileID: 7016408289633333961}
   HitArea: {fileID: 1119690398}
   SpriteRenderer: {fileID: 4972089571570935934}
+  Body: {fileID: 2055847301103501813}
+  Collider: {fileID: 3525409877268188282}
   SpeedMultiplier: 0
+  RotGyesu: 0
 --- !u!50 &3525409877268188231
 Rigidbody2D:
   serializedVersion: 4
@@ -351,7 +354,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.8, y: 0.8}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!58 &3521095577175242365
 CircleCollider2D:
@@ -368,7 +371,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.12}
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.2
 --- !u!114 &1119690398
 MonoBehaviour:
   m_ObjectHideFlags: 0
