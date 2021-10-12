@@ -5399,7 +5399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.15}
   m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!58 &5602656445252220159
@@ -5417,7 +5417,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.05}
   serializedVersion: 2
-  m_Radius: 0.38
+  m_Radius: 0.6
 --- !u!114 &360056780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5461,10 +5461,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5935262042939582432}
-  - component: {fileID: 6863987839129686919}
   - component: {fileID: 6863987839129686916}
   - component: {fileID: 6863987839129686936}
   - component: {fileID: 2713826951143688905}
+  - component: {fileID: 7432739528065666742}
   m_Layer: 0
   m_Name: Enemy05_3
   m_TagString: Enemy
@@ -5490,32 +5490,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &6863987839129686919
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6863987839129686917}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.08}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.04, y: 1.7}
-    newSize: {x: 1.3333334, y: 1.125}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.04, y: 1.12}
-  m_EdgeRadius: 0
 --- !u!114 &6863987839129686916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5531,8 +5505,12 @@ MonoBehaviour:
   HP_Bar: {fileID: 618846996582581945}
   Canvas: {fileID: 618846997367887479}
   HitArea: {fileID: 360056780}
-  SpriteRenderer: {fileID: 0}
+  SpriteRenderer: {fileID: 6933403850120951628}
+  Body: {fileID: 1004897368499261322}
+  Collider: {fileID: 7432739528065666742}
   SpeedMultiplier: 0
+  RotGyesu: 0
+  BodyScale: {x: 0, y: 0, z: 0}
 --- !u!50 &6863987839129686936
 Rigidbody2D:
   serializedVersion: 4
@@ -5573,3 +5551,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &7432739528065666742
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6863987839129686917}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.19}
+  serializedVersion: 2
+  m_Radius: 0.6

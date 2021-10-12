@@ -315,7 +315,7 @@ public class StageManager : MonoBehaviour
         switch (Stage)
         {
             case 1:
-                FallDown(Enemy, pos);
+                //FallDown(Enemy, pos);
                 break;
             case 2:
                 Zigzag(Enemy, pos);
@@ -325,6 +325,9 @@ public class StageManager : MonoBehaviour
                 break;
             case 4:
                 Flower(Enemy, pos);
+                break;
+            case 5:
+                Meteor(Enemy, pos);
                 break;
         }
     }
@@ -410,6 +413,23 @@ public class StageManager : MonoBehaviour
         Enemy.transform.localScale = Vector3.one;
         Enemy.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         Enemy.RotGyesu = 1.0f;
+        Enemy.StartMove(Time.deltaTime);
+    }
+
+    void Meteor(Enemy Enemy, Vector2 fixedPos)
+    {
+        Vector3 pos = fixedPos;
+        if (fixedPos == Vector2.zero)
+        {
+            pos.x = Random.Range(-2.0f, 2.0f);
+            pos.y = Random.Range(9.0f, 11.0f);
+            Enemy.transform.position = pos;
+        }
+
+        int rand = Random.Range(0, 5);
+
+        Enemy.Body.transform.localScale = Vector3.one;
+        Enemy.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         Enemy.StartMove(Time.deltaTime);
     }
 

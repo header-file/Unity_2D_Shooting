@@ -30,9 +30,9 @@ public class Enemy : MonoBehaviour
     protected float CurHP;
     protected float BeforeHP;
     protected int Atk;
-    protected Vector3 MidPoint;
     protected EnemyType Type;
-    protected Rigidbody2D Rig;    
+    protected Rigidbody2D Rig;
+    public Vector3 BodyScale;
 
     bool IsBarVisible;
     Vector3 TargetPosition;
@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
     bool IsReflected;
     bool IsStop;
     float SizeTimer;
-    float BaseRad;
+    float BaseRad;    
 
 
     public int GetEnemyType() { return (int)Type; }
@@ -64,9 +64,9 @@ public class Enemy : MonoBehaviour
         RotGyesu = 1.0f;
         SizeTimer = 0.0f;
         BaseRad = Collider.radius;
+        BodyScale = Vector3.one;
 
         GameObject player = GameObject.Find("Player");
-        MidPoint = player.transform.position;
         
         IsBarVisible = false;
         if(HP_Bar != null)
@@ -113,15 +113,6 @@ public class Enemy : MonoBehaviour
         switch(GameManager.Inst().StgManager.Stage)
         {
             case 1:
-                //Rig.velocity = Vector2.zero;
-                //Rig.velocity = -transform.up * Speed * SpeedMultiplier;
-
-                if (transform.rotation.eulerAngles.z > 60.0f &&
-                    transform.rotation.eulerAngles.z < 300.0f)
-                    RotGyesu *= -1.0f;
-                    
-                transform.Rotate(0.0f, 0.0f, 0.5f * RotGyesu);
-
                 Rig.velocity = -transform.up * Speed * SpeedMultiplier;
                 break;
             case 2:
@@ -154,6 +145,12 @@ public class Enemy : MonoBehaviour
                 transform.Rotate(0.0f, 0.0f, 1.0f * RotGyesu);
 
                 Rig.velocity = -transform.up * Speed * SpeedMultiplier;
+                break;
+            case 5:
+                Rig.velocity = -transform.up * Speed * SpeedMultiplier;
+
+                BodyScale.y += Time.deltaTime * 5.0f;
+                Body.transform.localScale = BodyScale;
                 break;
         }
     }
