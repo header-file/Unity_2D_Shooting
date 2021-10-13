@@ -468,8 +468,8 @@ MonoBehaviour:
   - {fileID: 3689931259796399752}
   - {fileID: 3711219192205309103}
   m_Bounds:
-    m_Center: {x: 0.00000011920929, y: 0.013598442, z: 0.03}
-    m_Extent: {x: 0.59000003, y: 11.786398, z: 0.01}
+    m_Center: {x: 0.00000011920929, y: 0.013601303, z: 0.03}
+    m_Extent: {x: 0.59000003, y: 11.7864, z: 0.01}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!114 &7469102192865954658
@@ -5326,10 +5326,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 733005666362182418}
-  - component: {fileID: 1010305215154357360}
   - component: {fileID: 7134123700440513948}
   - component: {fileID: 3516071698608699769}
   - component: {fileID: 5797264220322188760}
+  - component: {fileID: 6042909846966938334}
   m_Layer: 0
   m_Name: Enemy05_3
   m_TagString: Enemy
@@ -5355,32 +5355,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1010305215154357360
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9037972664515892568}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.08}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.04, y: 1.7}
-    newSize: {x: 1.3333334, y: 1.125}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.04, y: 1.12}
-  m_EdgeRadius: 0
 --- !u!114 &7134123700440513948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5396,12 +5370,12 @@ MonoBehaviour:
   HP_Bar: {fileID: 2672929950748101126}
   Canvas: {fileID: 3819581727262879088}
   HitArea: {fileID: 4534011528119901575}
-  SpriteRenderer: {fileID: 0}
-  Body: {fileID: 0}
-  Collider: {fileID: 0}
+  SpriteRenderer: {fileID: 5494250527608390163}
+  Body: {fileID: 6650237309260907962}
+  Collider: {fileID: 6042909846966938334}
+  Skin: {fileID: 7469102192865954658}
   SpeedMultiplier: 0
   RotGyesu: 0
-  BodyScale: {x: 0, y: 0, z: 0}
 --- !u!50 &3516071698608699769
 Rigidbody2D:
   serializedVersion: 4
@@ -5442,3 +5416,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &6042909846966938334
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9037972664515892568}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.18}
+  serializedVersion: 2
+  m_Radius: 0.58

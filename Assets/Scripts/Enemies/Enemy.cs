@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Experimental.U2D.Animation;
 
 public class Enemy : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class Enemy : MonoBehaviour
     public SpriteRenderer SpriteRenderer;
     public GameObject Body;
     public CircleCollider2D Collider;
+    public SpriteResolver Skin;
 
     public float SpeedMultiplier;
     public float RotGyesu;
@@ -30,7 +32,6 @@ public class Enemy : MonoBehaviour
     protected float CurHP;
     protected float BeforeHP;
     protected int Atk;
-    protected Vector3 MidPoint;
     protected EnemyType Type;
     protected Rigidbody2D Rig;    
 
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour
     bool IsStop;
     float SizeTimer;
     float BaseRad;
+    Vector3 BodyScale;
 
 
     public int GetEnemyType() { return (int)Type; }
@@ -63,10 +65,9 @@ public class Enemy : MonoBehaviour
         SpeedMultiplier = 1.0f;
         RotGyesu = 1.0f;
         SizeTimer = 0.0f;
-        BaseRad = Collider.radius;
-
-        GameObject player = GameObject.Find("Player");
-        MidPoint = player.transform.position;
+        if(Collider != null)
+            BaseRad = Collider.radius;
+        BodyScale = Vector3.one;
         
         IsBarVisible = false;
         if(HP_Bar != null)
@@ -113,17 +114,6 @@ public class Enemy : MonoBehaviour
         switch(GameManager.Inst().StgManager.Stage)
         {
             case 1:
-                //Rig.velocity = Vector2.zero;
-                //Rig.velocity = -transform.up * Speed * SpeedMultiplier;
-
-                if (transform.rotation.eulerAngles.z > 60.0f &&
-                    transform.rotation.eulerAngles.z < 300.0f)
-                    RotGyesu *= -1.0f;
-                    
-                transform.Rotate(0.0f, 0.0f, 0.5f * RotGyesu);
-
-                Rig.velocity = -transform.up * Speed * SpeedMultiplier;
-                break;
             case 2:
                 Rig.velocity = -transform.up * Speed * SpeedMultiplier;
                 break;
@@ -145,13 +135,17 @@ public class Enemy : MonoBehaviour
                 }
                 break;
             case 4:
-                if (transform.rotation.eulerAngles.z > 45.0f &&
-                    transform.rotation.eulerAngles.z < 315.0f)
-                {
+                if (transform.rotation.eulerAngles.z > 60.0f &&
+                    transform.rotation.eulerAngles.z < 300.0f)
                     RotGyesu *= -1.0f;
-                    Debug.Log("Angle : " + transform.rotation.eulerAngles.z + ",    Gyesu : " + RotGyesu);
-                }
-                transform.Rotate(0.0f, 0.0f, 1.0f * RotGyesu);
+
+                transform.Rotate(0.0f, 0.0f, 0.5f * RotGyesu);
+
+                Rig.velocity = -transform.up * Speed * SpeedMultiplier;
+                break;
+            case 5:
+                BodyScale.x += (Time.deltaTime * Speed * 0.5f);
+                Body.transform.localScale = BodyScale;
 
                 Rig.velocity = -transform.up * Speed * SpeedMultiplier;
                 break;
@@ -202,7 +196,6 @@ public class Enemy : MonoBehaviour
 
             HP_Bar.fillAmount = CurHP / Health;
 
-            //SpriteRenderer.sprite = Sprites[1];
             GetComponent<Animator>().SetTrigger("hit");
             Invoke("ReturnInvincible", 0.1f);
         }
@@ -263,6 +256,8 @@ public class Enemy : MonoBehaviour
 
             IsReflected = false;
             CurHP = Health;
+            BodyScale = Vector3.one;
+            CancelInvoke("StartMove");
 
             if (Type != EnemyType.BOSS)
             {
@@ -329,7 +324,6 @@ public class Enemy : MonoBehaviour
             ic.SetTargetPosition(pos);
             ic.SetIsScatter(true);
             ic.SetIsAbsorb(false);
-            //ic.InvokeAbsorb();
         }
     }
 
@@ -361,7 +355,6 @@ public class Enemy : MonoBehaviour
 
     void ReturnSprite()
     {
-        //SpriteRenderer.sprite = Sprites[0];
         ReturnInvincible();
     }
 
@@ -445,7 +438,6 @@ public class Enemy : MonoBehaviour
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
             float damage = GameManager.Inst().Player.GetItem(bullet.InventoryIndex).Value;
-            //float damage = 0;
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
@@ -477,6 +469,8 @@ public class Enemy : MonoBehaviour
             CurHP = Health;
             IsReflected = false;
             IsInvincible = false;
+            BodyScale = Vector3.one;
+            CancelInvoke("StartMove");
             gameObject.SetActive(false);
 
             //GameManager.Inst().Camerashake.Vibrate(0.05f);
