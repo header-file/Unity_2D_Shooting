@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1619,6 +1619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c682bd5c9fb0474d8354788f50f0098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AdLeft: 0
 --- !u!114 &521530915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1679,6 +1680,9 @@ MonoBehaviour:
   Boss: {fileID: 0}
   UnlockBulletStages: 
   BossDeathCounts: 
+  MinFever: []
+  MaxFever: []
+  FullFever: 
 --- !u!114 &521530919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1702,6 +1706,8 @@ MonoBehaviour:
     IsDailyPlus: 0
     DailyPlusLeft: 0
     LastDailyTime: 
+    AdLeft: 0
+    LastAdTime: 
     MaxInventory: 0
     CurrentStage: 0
     ReachedStage: 0
@@ -1710,7 +1716,8 @@ MonoBehaviour:
     Weapons: []
     Inventories: 
     Quests: 
-    FeverGauges: []
+    FeverGauges: 
+    FullFevers: 
     BossGauges: 
     BossDeathCounts: 
     CountStartTimes: 
@@ -15854,6 +15861,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1020265513 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5004403707596948740, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
+    type: 3}
+  m_PrefabInstance: {fileID: 1020265507}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020265604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a63b7a63144da43ac1a6d0b22cbc33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1020265514 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1030800057049975220, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
@@ -16196,150 +16215,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1020265507}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1020265559 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6827707613946077070, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265560 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8886671605656832999, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 581aa1563cad66e478f1e61860194160, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265561 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 397029441216030329, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 581aa1563cad66e478f1e61860194160, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265562 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6093854794463678227, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 581aa1563cad66e478f1e61860194160, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265563 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5654867005794261475, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 581aa1563cad66e478f1e61860194160, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265564 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5004403706646709841, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265565 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8916189631720416925, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78f6095f03848644ebbaab638db60891, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265566 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4016889248115041366, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0725363a13283dc47b306e134382c9bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265567 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1006803384633511603, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0725363a13283dc47b306e134382c9bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265568 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 796673975289956990, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba54d214e1c65104a878c47538f249e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1020265569 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7418658287729251243, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fef7f48ca8090243ab6807180f4a6e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1020265570 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7116582132640782932, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1020265571 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1359993735238729696, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1020265572 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7825766459664008351, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
@@ -16457,24 +16332,6 @@ GameObject:
 --- !u!1 &1020265591 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4286593379548653710, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1020265592 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5689202504344499551, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1020265593 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 262494265659505470, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020265507}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1020265594 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1431156348095816346, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
     type: 3}
   m_PrefabInstance: {fileID: 1020265507}
   m_PrefabAsset: {fileID: 0}
@@ -16621,55 +16478,8 @@ MonoBehaviour:
   Turret: {fileID: 1020265603}
   Background: {fileID: 1001914174}
   Panel: {fileID: 1020265602}
-  MainUI: {fileID: 1020265604}
-  Slots:
-  - {fileID: 1020265601}
-  - {fileID: 1020265600}
-  - {fileID: 1020265599}
-  - {fileID: 1020265598}
-  - {fileID: 1020265597}
-  - {fileID: 1020265596}
-  - {fileID: 1020265595}
-  - {fileID: 1020265594}
-  - {fileID: 1020265593}
-  - {fileID: 1020265592}
-  Colors:
-  - {fileID: 1020265591}
-  - {fileID: 1020265590}
-  - {fileID: 1020265589}
-  - {fileID: 1020265588}
-  - {fileID: 1020265587}
-  - {fileID: 1020265586}
-  - {fileID: 1020265585}
-  - {fileID: 1020265584}
-  ScrollView: {fileID: 1020265583}
-  Inventory: {fileID: 1020265582}
-  InventoryDetail: {fileID: 1020265581}
-  Weapon: {fileID: 1020265580}
-  ConfirmSwitch: {fileID: 1020265579}
-  Synthesis: {fileID: 1020265578}
-  Resource: {fileID: 1020265577}
-  SideMenu: {fileID: 1020265576}
-  StageScroll: {fileID: 1020265575}
-  InfoArea: {fileID: 1020265574}
-  EquipArea: {fileID: 1020265573}
-  ZzinBottom: {fileID: 1020265572}
-  Shop: {fileID: 1020265571}
-  Cheat: {fileID: 1020265570}
-  WeaponUI: {fileID: 0}
-  ShopUI: {fileID: 0}
-  ReviveAlertUI: {fileID: 1020265569}
-  DailyJewelUI: {fileID: 1020265568}
-  DailyLeft: {fileID: 1020265567}
-  DailyPlusLeft: {fileID: 1020265566}
-  Alarm: {fileID: 1020265565}
+  MainUI: {fileID: 1020265513}
   Tutorial: {fileID: 0}
-  CoinText: {fileID: 1020265564}
-  Turrets:
-  - {fileID: 1020265563}
-  - {fileID: 1020265562}
-  - {fileID: 1020265561}
-  - {fileID: 1020265560}
   RedMask: {fileID: 2041961362}
   PlayerHitAreas:
   - {fileID: 2033163918}
@@ -16683,7 +16493,6 @@ MonoBehaviour:
   - {fileID: 1066278463}
   - {fileID: 334744362}
   - {fileID: 726751157}
-  JewelText: {fileID: 1020265559}
   BgAnim: {fileID: 278006027}
   PlayerUI: {fileID: 1020265558}
   PlayerTimerImg: {fileID: 1020265557}
@@ -16972,6 +16781,9 @@ MonoBehaviour:
   Boss: {fileID: 0}
   UnlockBulletStages: 
   BossDeathCounts: 
+  MinFever: []
+  MaxFever: []
+  FullFever: 
 --- !u!1 &1185962363
 GameObject:
   m_ObjectHideFlags: 0
@@ -17140,7 +16952,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7318560379148038866, guid: 797bc8437a573654faa06a51b0d5e177,
+      objectReference: {fileID: 2719678840941768292, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}
     - target: {fileID: -387898127573411680, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}
@@ -17376,7 +17188,7 @@ PrefabInstance:
     - target: {fileID: 8711168010763638288, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}
       propertyPath: m_labelHash
-      value: 0.10900547
+      value: 5.878249e-16
       objectReference: {fileID: 0}
     - target: {fileID: 8711168010763638288, guid: 797bc8437a573654faa06a51b0d5e177,
         type: 3}
@@ -18317,6 +18129,7 @@ MonoBehaviour:
   - {fileID: 1274398999}
   Shaker: {fileID: 1551883617}
   MaxInventory: 0
+  CurInventory: 0
   SortOption: 0
   ShootCount: 0
   IsGodMode: 0
@@ -18476,6 +18289,8 @@ MonoBehaviour:
     IsDailyPlus: 0
     DailyPlusLeft: 0
     LastDailyTime: 
+    AdLeft: 0
+    LastAdTime: 
     MaxInventory: 0
     CurrentStage: 0
     ReachedStage: 0
@@ -18484,7 +18299,8 @@ MonoBehaviour:
     Weapons: []
     Inventories: 
     Quests: 
-    FeverGauges: []
+    FeverGauges: 
+    FullFevers: 
     BossGauges: 
     BossDeathCounts: 
     CountStartTimes: 

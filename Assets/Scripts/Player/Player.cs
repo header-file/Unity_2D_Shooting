@@ -337,29 +337,6 @@ public class Player : MonoBehaviour
         return e;
     }
 
-    //public void DragItem(int count)
-    //{
-    //    for (int n = 1; n <= count; n++)
-    //    {
-    //        for (int i = 0; i < MaxInventory; i++)
-    //        {
-    //            if (Inventory[i] == null)
-    //                continue;
-    //            else
-    //            {
-    //                InventoryScroll inven = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>();
-    //                for (int j = i; j > 0; j--)
-    //                {
-    //                    if (Inventory[j - 1] == null)
-    //                    {
-    //                        Swap(j - 1, j);
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
     void Awake()
     {
         Player[] objs = FindObjectsOfType<Player>();
@@ -374,6 +351,7 @@ public class Player : MonoBehaviour
 
         IsReload = true;
         BulletType = 0;
+        SetSkin();
 
         SubWeapons = new GameObject[4];
         Inventory = new EqData[Constants.MAXINVENTORY];

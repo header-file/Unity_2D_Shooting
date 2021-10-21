@@ -68,6 +68,9 @@ public class SideMenu : MonoBehaviour
 
     public void MakeSlot()
     {
+        if (Slots.Length != Constants.MAXSTAGES)
+            return;
+
         for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
             if (Slots[i] != null)

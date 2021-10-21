@@ -79,7 +79,8 @@ public class ResourceManager : MonoBehaviour
         }
 
         //SideMenuSlot에 표시
-        if (GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources.Length == 2)
+        if (GameManager.Inst().UiManager.GetSideMenuSlot(stage) != null &&
+            GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources.Length == 2)
         {
             GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
             GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();

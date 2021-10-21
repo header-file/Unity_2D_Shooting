@@ -128,8 +128,8 @@ public class UIManager : MonoBehaviour
     {
         PlayerHitAreas[4].Object = GameManager.Inst().Player.gameObject;
 
-        GameManager.Inst().Player.AddCoin(0);
-        GameManager.Inst().AddJewel(0);
+        //GameManager.Inst().Player.AddCoin(0);
+        //GameManager.Inst().AddJewel(0);
         for (int i = 1; i <= Constants.MAXSTAGES; i++)
             GameManager.Inst().AddResource(i, 0);
         GameManager.Inst().DatManager.GameData.LoadSubWeapon();
@@ -357,7 +357,10 @@ public class UIManager : MonoBehaviour
 
     public SideMenuSlot GetSideMenuSlot(int i)
     {
-        return MainUI.SideMenu.Slots[i];
+        if(MainUI.SideMenu.Slots.Length == Constants.MAXSTAGES)
+            return MainUI.SideMenu.Slots[i];
+
+        return null;
     }
 
     public void ShowReviveAlert(int index)

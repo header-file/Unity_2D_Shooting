@@ -178,14 +178,19 @@ public class QuestManager : MonoBehaviour
         {
             int nextStage = GameManager.Inst().StgManager.Stage + 1;
 
-            if (nextStage > Constants.MAXSTAGES)
-                return;
-
-            GameManager.Inst().StgManager.ReachedStage = nextStage;
-            GameManager.Inst().UiManager.UnlockStage(nextStage - 1);
-            MakeQuestSlot();
-            GameManager.Inst().StgManager.UnlockBullet(nextStage);            
-            GameManager.Inst().ResManager.StartCount(nextStage - 2);
+            OpenNextStage(nextStage);
         }
+    }
+
+    public void OpenNextStage(int stage)
+    {
+        if (stage > Constants.MAXSTAGES)
+            return;
+
+        GameManager.Inst().StgManager.ReachedStage = stage;
+        GameManager.Inst().UiManager.UnlockStage(stage - 1);
+        MakeQuestSlot();
+        GameManager.Inst().StgManager.UnlockBullet(stage);
+        GameManager.Inst().ResManager.StartCount(stage - 2);
     }
 }

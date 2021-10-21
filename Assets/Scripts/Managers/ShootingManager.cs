@@ -36,6 +36,10 @@ public class ShootingManager : MonoBehaviour
 
         Colors = new Color[MAXCOLOR];
         ColorSelection = new int[5];
+    }
+
+    void Start()
+    {
         SetColor();
     }
 

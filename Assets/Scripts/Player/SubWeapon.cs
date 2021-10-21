@@ -98,12 +98,16 @@ public class SubWeapon : MonoBehaviour
         IsShaking = false;
 
         MaxHP = CurHP = 0;
-        GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = 0.415f;
 
         for (int i = 0; i < ShieldParts.Length; i++)
             ShieldParts[i].gameObject.SetActive(false);
 
         GatlingGyesu = 1.0f;
+    }
+
+    void Start()
+    {
+        GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = 0.415f;
     }
 
     void Update()

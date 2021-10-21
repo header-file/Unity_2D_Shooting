@@ -621,7 +621,7 @@ public class Cheat : MonoBehaviour
 
     public void OnClickStageBtn(int index)
     {
-        GameManager.Inst().StgManager.ReachedStage = index + 1;
+        GameManager.Inst().QstManager.OpenNextStage(index + 1);
 
         ShowStagePage();
     }
