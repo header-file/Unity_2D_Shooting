@@ -418,6 +418,31 @@ public class EnemyB : Enemy
         GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
 
+    void Mirror()
+    {
+
+    }
+
+    void Shield()
+    {
+
+    }
+
+    void Flower()
+    {
+
+    }
+    
+    void Lasers()
+    {
+
+    }
+
+    void Dot()
+    {
+
+    }
+
     void SummonEnemies()
     {
         if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 2)
