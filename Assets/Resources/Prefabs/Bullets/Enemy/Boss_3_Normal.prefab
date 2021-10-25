@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5015661319605352090}
   - component: {fileID: 5015661319605352089}
-  - component: {fileID: -3686909676485446656}
   - component: {fileID: 5015661319605352092}
   - component: {fileID: 5015661319605352091}
+  - component: {fileID: -1719356349203847213}
   m_Layer: 0
   m_Name: Boss_3_Normal
   m_TagString: BossBullet
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5015661319605352103}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,56 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-3686909676485446656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5015661319605352103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c1633bb4d7ec18409c79b96a621c3ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlowColor: {r: 0, g: 0, b: 0, a: 0}
-  IsVamp: 0
-  Vamp: {fileID: 0}
-  IsReinforce: 0
-  InventoryIndex: 0
-  Curve2:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.1537845
-      outSlope: 3.1537845
-      tangentMode: 0
-      weightedMode: 2
-      inWeight: 0
-      outWeight: 0.2324472
-    - serializedVersion: 3
-      time: 1.0041504
-      value: 1.0053711
-      inSlope: -0.002789855
-      outSlope: -0.002789855
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 2.0006738
-      value: 0.0020758638
-      inSlope: -3.8030112
-      outSlope: -3.8030112
-      tangentMode: 0
-      weightedMode: 3
-      inWeight: 0.19574615
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!50 &5015661319605352092
 Rigidbody2D:
   serializedVersion: 4
@@ -171,4 +121,54 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.33333334
+  m_Radius: 0.22
+--- !u!114 &-1719356349203847213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5015661319605352103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c1633bb4d7ec18409c79b96a621c3ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlowColor: {r: 0, g: 0, b: 0, a: 0}
+  IsVamp: 0
+  Vamp: {fileID: 0}
+  IsReinforce: 0
+  InventoryIndex: 0
+  Curve2:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.0140204
+      outSlope: 2.0140204
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.4965193
+    - serializedVersion: 3
+      time: 0.49954623
+      value: 1
+      inSlope: 0.028143225
+      outSlope: 0.028143225
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.13162866
+    - serializedVersion: 3
+      time: 1.0004883
+      value: 0
+      inSlope: -2.0061395
+      outSlope: -2.0061395
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.49846983
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

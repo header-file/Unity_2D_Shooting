@@ -80,7 +80,7 @@ public class BossBigBullet : MonoBehaviour
                 shotTime = 0.1f;
                 for (int i = 0; i < 2; i++)
                 {
-                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWayr");
                     obj.transform.position = ShotDir[ShotCount + i * 6].transform.position;
                     obj.transform.rotation = ShotDir[ShotCount + i * 6].transform.rotation;
 
@@ -88,7 +88,7 @@ public class BossBigBullet : MonoBehaviour
                     bullet.StopTime = 0.0f;
                 }
 
-                GameManager.Inst().SodManager.PlayEffect("Bs_Laser");
+                GameManager.Inst().SodManager.PlayEffect("Bs_OneWay");
                 break;
             case 3:
                 maxCount = 12;

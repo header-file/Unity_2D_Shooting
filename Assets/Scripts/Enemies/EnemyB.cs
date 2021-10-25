@@ -420,12 +420,26 @@ public class EnemyB : Enemy
 
     void Mirror()
     {
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
 
+        BossMirror bullet = obj.gameObject.GetComponent<BossMirror>();
+        bullet.Rotate();
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
 
     void Shield()
     {
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
 
+        BossShield bullet = obj.gameObject.GetComponent<BossShield>();
+        bullet.Fall();
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
 
     void Flower()
