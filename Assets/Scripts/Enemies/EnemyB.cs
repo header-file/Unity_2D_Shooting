@@ -78,7 +78,7 @@ public class EnemyB : Enemy
                 Summon();
             else
             {
-                int rand = Random.Range(0, 3);
+                int rand = Random.Range(2, 3);
                 switch (rand)
                 {
                     case 0:
@@ -316,9 +316,6 @@ public class EnemyB : Enemy
                     obj.transform.position = SpreadPoses[index].transform.position;
                     obj.transform.rotation = SpreadPoses[index].transform.rotation;
 
-                    //float z = Random.Range(13, 23) * 10.0f;
-                    //obj.transform.rotation = Quaternion.Euler(0.0f, 0.0f, z);
-
                     BossBounce bullet = obj.gameObject.GetComponent<BossBounce>();
                     bullet.SetStartPos(obj.transform.position);
                     bullet.Shoot(obj.transform.up);
@@ -444,17 +441,57 @@ public class EnemyB : Enemy
 
     void Flower()
     {
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
 
+        BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
+        bullet.Shoot(BigBulletPos.transform.up);
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
     
     void Lasers()
     {
+        for (int i = 0; i < 3; i++)
+        {
+            int rand = Random.Range(0, 2);
 
+            GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
+            BossLasers bullet = obj.GetComponent<BossLasers>();
+            bullet.StartLine(rand);
+        }
+        GameManager.Inst().SodManager.PlayEffect("Bs_Laser");
     }
 
     void Dot()
     {
+        switch (WayDir)
+        {
+            case 0:
+            case 1:
+                GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                obj.transform.position = SpreadPoses[WayDir].transform.position;
+                obj.transform.rotation = SpreadPoses[WayDir].transform.rotation;
 
+                BossLaser bullet = obj.GetComponent<BossLaser>();
+                bullet.StopTime = 0.0f;
+                break;
+
+            case 2:
+                for(int i = 0; i < WayDir; i++)
+                {
+                    obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                    obj.transform.position = SpreadPoses[i].transform.position;
+                    obj.transform.rotation = SpreadPoses[i].transform.rotation;
+
+                    bullet = obj.GetComponent<BossLaser>();
+                    bullet.StopTime = 0.0f;
+                }
+                break;
+        }
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Laser");
     }
 
     void SummonEnemies()

@@ -17,7 +17,7 @@ public class BossMirror : Bullet
     float Speed;
 
     
-    void Awake()
+    void Start()
     {
         Type = BulletType.NORMAL;
         IsAiming = true;

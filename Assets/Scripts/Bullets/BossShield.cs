@@ -7,7 +7,7 @@ public class BossShield : Bullet
     Rigidbody2D Rig;
     int Damage;
 
-    void Awake()
+    void Start()
     {
         Type = BulletType.NORMAL;
         Damage = 10 * GameManager.Inst().StgManager.Stage;
