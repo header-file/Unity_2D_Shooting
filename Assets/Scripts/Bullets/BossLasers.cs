@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BossLasers : Bullet
 {
+    public GameObject Warning;
+
     Vector3 Scale;
     float Gyesu;
     bool IsGaro;
@@ -31,6 +33,7 @@ public class BossLasers : Bullet
             Scale.y -= (Time.deltaTime * Gyesu * 0.5f);
             if (Scale.y <= 0.0f)
             {
+                Warning.SetActive(false);
                 Gyesu *= -10.0f;
                 IsAttack = true;
             }
@@ -42,6 +45,7 @@ public class BossLasers : Bullet
             Scale.x -= (Time.deltaTime * Gyesu * 0.5f);
             if (Scale.x <= 0.0f)
             {
+                Warning.SetActive(false);
                 Gyesu *= -10.0f;
                 IsAttack = true;
             }
@@ -53,6 +57,8 @@ public class BossLasers : Bullet
 
     public void StartLine(int Dir)
     {
+        Warning.SetActive(true);
+
         if (Dir == 0)
             IsGaro = true;
 
