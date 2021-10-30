@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c56ca2c9eb89af438ece158138cbf05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PType: 0
 --- !u!1 &1495268035
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +203,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 99
   m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
@@ -286,7 +287,7 @@ GameObject:
   - component: {fileID: 1060820922}
   - component: {fileID: 2109230421122215418}
   m_Layer: 0
-  m_Name: Missile
+  m_Name: Bullet_missile
   m_TagString: BlockBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +302,7 @@ Transform:
   m_GameObject: {fileID: 8097622429590642108}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.2100692, y: 1.1465924, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 270976283}
   - {fileID: 1495268036}
@@ -413,6 +414,7 @@ MonoBehaviour:
   IsVamp: 0
   Vamp: {fileID: 0}
   IsReinforce: 0
+  InventoryIndex: 0
   Target: {fileID: 0}
   SearchArea: {fileID: 270976282}
   Trail: {fileID: 8211576275016843288}
