@@ -7,6 +7,7 @@ public class InventoryScroll : MonoBehaviour
 {
     public GameObject Contents;
     public GameObject None;
+    public GameObject Lock;
 
     InventorySlot[] Slots;
 
@@ -40,6 +41,8 @@ public class InventoryScroll : MonoBehaviour
             SwitchedIndices[i] = i;
 
         Contents.GetComponent<RectTransform>().sizeDelta = new Vector2(540, 100 * GameManager.Inst().Player.MaxInventory / 5 + 10 * (GameManager.Inst().Player.MaxInventory / 5 - 1));
+
+        Lock.SetActive(false);
 
         GameManager.Inst().SetInventory();
     }

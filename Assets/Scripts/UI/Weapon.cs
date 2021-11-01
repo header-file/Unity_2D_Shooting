@@ -10,15 +10,17 @@ public class Weapon : MonoBehaviour
     public GameObject InventoryArea;
     public GameObject SwitchWindow;
     public WeaponSwitchWindow[] SwitchWindows;
-    public GameObject ArrowButtons;
+    public Button[] ArrowButtons;
     public InfoArea InfoArea;
     public SwitchWindow EquipArea;
     public Color GaugeColor;
     public WeaponInfoWindow InfoWindow;
     public Sprite[] WeaponIcons;
+    public Sprite[] FrameSprites;
     public WeaponCell[] WeaponCells;
     public LoopScroll2 WeaponCellScroll;
     public Image[] EquipImage;
+    public Image[] EquipFrame;
     public Text[] EquipName;
     public Text[] EquipDetail;
     public EquipSwitch EquipSwitch;
@@ -103,12 +105,21 @@ public class Weapon : MonoBehaviour
         SwitchWindow.GetComponent<RectTransform>().anchoredPosition = pos;
 
         if (MoveTimer <= 0.5f)
+        {
             InfoArea.SetAlpha(1.0f - MoveTimer * 2.0f);
+            EquipArea.SetAlpha(1.0f - MoveTimer * 2.0f);
+        }
         else if (MoveTimer <= 1.0f)
+        {
             InfoArea.SetAlpha(MoveTimer * 2.0f - 1.0f);
+            EquipArea.SetAlpha(MoveTimer * 2.0f - 1.0f);
+        }
 
         if (MoveTimer - 0.5f <= 0.001f)
+        {
             ShowInfoArea();
+            EquipArea.ShowEquipInfo(CurBulletType);
+        }
 
         WeaponCellScroll.MoveToSelected(CurBulletType);
 
@@ -117,8 +128,8 @@ public class Weapon : MonoBehaviour
             IsMoving = false;
             MoveTimer = 0.0f;
             
-            for (int i = 0; i < 2; i++)
-                ArrowButtons.transform.GetChild(i).GetComponent<Button>().interactable = true;
+            for (int i = 0; i < 4; i++)
+                ArrowButtons[i].interactable = true;
 
             InfoArea.SetWeaponName(SlotIndices[ShowBulletType]);
             InfoArea.ShowDetail(SlotIndices[ShowBulletType]);
@@ -153,7 +164,7 @@ public class Weapon : MonoBehaviour
                         SlotIndices[i] -= Constants.MAXBULLETS;
                     SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
                     InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
-                    Show(SlotIndices[i]);
+                    //Show(SlotIndices[i]);
                 }
 
                 if (SwitchWindows[i].transform.position.x < -6.0f)
@@ -168,7 +179,7 @@ public class Weapon : MonoBehaviour
                         SlotIndices[i] += Constants.MAXBULLETS;
                     SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
                     InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
-                    Show(SlotIndices[i]);
+                    //Show(SlotIndices[i]);
                 }
             }
 
@@ -217,7 +228,6 @@ public class Weapon : MonoBehaviour
             SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
             InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
         }
-        Show(SlotIndices[1]);
 
         
         ShowInfoArea();
@@ -283,6 +293,7 @@ public class Weapon : MonoBehaviour
             for (int i = 0; i < 2; i++)
             {
                 EquipImage[i].sprite = DefaultEquipImg;
+                EquipFrame[i].sprite = FrameSprites[0];
                 EquipName[i].text = "";
                 EquipDetail[i].text = "";
             }
@@ -295,16 +306,8 @@ public class Weapon : MonoBehaviour
         EquipArea.gameObject.SetActive(true);
         EquipArea.InfoWindow.SetActive(false);
 
+        EquipArea.ShowEquipInfo(CurBulletType);
         //ShowInventory();
-
-        for (int i = 0; i < 3; i++)
-            Show(CurBulletType);
-    }
-
-    void Show(int BulletType)
-    {
-        for (int i = 0; i < 3; i++)
-            PaintGauge(i, BulletType);
     }
 
     void ShowInventory()
@@ -490,6 +493,7 @@ public class Weapon : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             EquipImage[i].sprite = CurEquip.Icon;
+            EquipFrame[i].sprite = FrameSprites[CurEquip.Rarity];
             EquipName[i].text = GameManager.Inst().TxtManager.EquipName[CurEquip.Type];
         }
         EquipDetail[0].text = GameManager.Inst().TxtManager.EquipDetailSimple[CurEquip.Type];
@@ -501,6 +505,43 @@ public class Weapon : MonoBehaviour
         if (CurEquip.Value > 0)
             detail += CurEquip.Value.ToString();
         detail += GameManager.Inst().TxtManager.EquipDetailBack[CurEquip.Type];
+        EquipDetail[1].text = detail;
+    }
+
+    public void SetWeaponUI(int Type)
+    {
+        int eqIndex = GameManager.Inst().UpgManager.BData[Type].GetEquipIndex();
+
+        if (eqIndex <= -1)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                EquipImage[i].sprite = DefaultEquipImg;
+                EquipFrame[i].sprite = FrameSprites[0];
+                EquipName[i].text = "";
+                EquipDetail[i].text = "";
+            }
+
+            return;
+        }
+
+        Player.EqData eqData = GameManager.Inst().Player.GetItem(eqIndex);
+
+        for (int i = 0; i < 2; i++)
+        {
+            EquipImage[i].sprite = eqData.Icon;
+            EquipFrame[i].sprite = FrameSprites[eqData.Rarity];
+            EquipName[i].text = GameManager.Inst().TxtManager.EquipName[eqData.Type];
+        }
+        EquipDetail[0].text = GameManager.Inst().TxtManager.EquipDetailSimple[eqData.Type];
+
+        string detail = "";
+        if (GameManager.Inst().EquipDatas[eqData.Type, eqData.Rarity, 0] > 0)
+            detail += GameManager.Inst().EquipDatas[eqData.Type, eqData.Rarity, 0].ToString();
+        detail += GameManager.Inst().TxtManager.EquipDetailFront[eqData.Type];
+        if (eqData.Value > 0)
+            detail += eqData.Value.ToString();
+        detail += GameManager.Inst().TxtManager.EquipDetailBack[eqData.Type];
         EquipDetail[1].text = detail;
     }
 
@@ -617,6 +658,11 @@ public class Weapon : MonoBehaviour
         EquipArea.PaintGauge(type, bulletType, TempCount[type]);
     }
 
+    public void OnClickEquipBack()
+    {
+        EquipSwitch.gameObject.SetActive(false);
+    }
+
     public void Next(bool IsNext)
     {
         IsMoving = true;
@@ -646,16 +692,25 @@ public class Weapon : MonoBehaviour
                 ShowBulletType = 2;
         }
 
-        for (int i = 0; i < 2; i++)
-            ArrowButtons.transform.GetChild(i).GetComponent<Button>().interactable = false;
+        for (int i = 0; i < 4; i++)
+            ArrowButtons[i].interactable = false;
 
         //Lock
         if (GameManager.Inst().StgManager.CheckBulletUnlocked(SlotIndices[ShowBulletType]))
+        {
             SwitchWindows[ShowBulletType].Lock.SetActive(false);
+            EquipArea.Lock.SetActive(false);
+            GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Lock.SetActive(false);
+        }
         else
         {
             SwitchWindows[ShowBulletType].Lock.SetActive(true);
             SwitchWindows[ShowBulletType].LockText.text = "Stage" + GameManager.Inst().StgManager.UnlockBulletStages[SlotIndices[ShowBulletType]] + "\n클리어 시 해금";
+
+            EquipArea.Lock.SetActive(true);
+            EquipArea.LockText.text = "Stage" + GameManager.Inst().StgManager.UnlockBulletStages[SlotIndices[ShowBulletType]] + "\n클리어 시 해금";
+
+            GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Lock.SetActive(true);
         }
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 30)

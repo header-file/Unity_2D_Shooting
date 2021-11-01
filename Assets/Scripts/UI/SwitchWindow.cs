@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Experimental.U2D.Animation;
 
 public class SwitchWindow : MonoBehaviour
 {
-    public GameObject[] Buttons;
     public Image[] Gauges;
     public Image[] AddGauges;
     public Text[] GaugeTexts;
+    public SpriteResolver Skin;
+    public CanvasGroup InfoGroup;
+    public SpriteRenderer Player;
+    public GameObject Lock;
+    public Text LockText;
 
     public GameObject InfoWindow;
     public Image Line;
@@ -23,6 +28,8 @@ public class SwitchWindow : MonoBehaviour
     string[] statNames;
     bool IsPressing;
     bool IsPlus;
+    int CurType;
+    Color PlayerColor;
 
     void Start()
     {
@@ -33,6 +40,9 @@ public class SwitchWindow : MonoBehaviour
 
         InfoWindow.SetActive(false);
         IsPressing = false;
+        PlayerColor = Color.white;
+
+        Lock.SetActive(false);
     }
 
     void Update()
@@ -46,9 +56,27 @@ public class SwitchWindow : MonoBehaviour
         }
     }
 
+    public void SetAlpha(float alpha)
+    {
+        InfoGroup.alpha = alpha;
+        PlayerColor.a = alpha;
+        Player.color = PlayerColor;
+    }
+
     public void SetButtons(int index, bool b, Sprite img, int grade)
     {
         
+    }
+
+    public void ShowEquipInfo(int Type)
+    {
+        CurType = Type;
+        Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[Type]);
+
+        for (int i = 0; i < 3; i++)
+            PaintGauge(i, Type, 0);
+
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.SetWeaponUI(Type);
     }
 
     public void PaintGauge(int type, int bulletType, int count)
@@ -190,6 +218,11 @@ public class SwitchWindow : MonoBehaviour
                 GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd().ToString();
                 break;
         }
+    }
+
+    public void OnClickInfoBack()
+    {
+        InfoWindow.SetActive(false);
     }
 
     public void StartPress(bool isPlus)
