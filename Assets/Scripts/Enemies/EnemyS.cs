@@ -22,7 +22,11 @@ public class EnemyS : Enemy
         SpriteRenderer.color = color;
 
         if (color.a < 0.0f)
+        {
             gameObject.SetActive(false);
+            color.a = 1.0f;
+            SpriteRenderer.color = color;
+        }
         else
             Invoke("Disappear", Time.deltaTime);
     }

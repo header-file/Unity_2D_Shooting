@@ -40,6 +40,8 @@ public class DataManager : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
         GameData.LoadData();
         SaveData();
+
+        GameData.MoveScene();
     }
 
     public void LoadData()
@@ -55,7 +57,6 @@ public class DataManager : MonoBehaviour
 
             //GameData.ResetData();
             GameData.LoadReachedStage();
-            GameData.MoveScene();
         }
         else
         {

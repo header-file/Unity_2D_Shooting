@@ -70,7 +70,7 @@ public class EnemyB : Enemy
         IsAttacking = true;
         FinTimer = 4.0f;
         
-        if (CurHP / Health < 0.1f)
+        if (CurHP / Health > 0.1f)
         {
             if (SummonPhase == 0 && CurHP / Health <= 0.5f)
                 Summon();
@@ -78,7 +78,7 @@ public class EnemyB : Enemy
                 Summon();
             else
             {
-                int rand = Random.Range(2, 3);
+                int rand = Random.Range(0, 1);
                 switch (rand)
                 {
                     case 0:
@@ -441,12 +441,55 @@ public class EnemyB : Enemy
 
     void Flower()
     {
-        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
-        obj.transform.position = BigBulletPos.transform.position;
-        obj.transform.rotation = BigBulletPos.transform.rotation;
+        int index = 4 + 11 * WayDir;
+        switch (WayDir)
+        {
+            case 0:
+                for (int j = -2; j < 3; j += 2)
+                {
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                    obj.transform.position = SpreadPoses[index + j].transform.position;
+                    obj.transform.rotation = SpreadPoses[index + j].transform.rotation;
 
-        BossNormal bullet = obj.gameObject.GetComponent<BossNormal>();
-        bullet.Shoot(BigBulletPos.transform.up);
+                    BossFlower bullet = obj.gameObject.GetComponent<BossFlower>();
+                    bullet.RotGyesu = 1.0f;
+                    bullet.Shoot(obj.transform.up);
+                }
+                break;
+
+            case 1:
+                for (int j = -2; j < 3; j += 2)
+                {
+                    GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                    obj.transform.position = SpreadPoses[index + j].transform.position;
+                    obj.transform.rotation = SpreadPoses[index + j].transform.rotation;
+
+                    BossFlower bullet = obj.gameObject.GetComponent<BossFlower>();
+                    bullet.RotGyesu = -1.0f;
+                    bullet.Shoot(obj.transform.up);
+                }
+                break;
+
+            case 2:
+                for (int i = 0; i < 2; i++)
+                {
+                    for (int j = -2; j < 3; j += 2)
+                    {
+                        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                        index = 4 + 11 * i;
+
+                        obj.transform.position = SpreadPoses[index + j].transform.position;
+                        obj.transform.rotation = SpreadPoses[index + j].transform.rotation;
+
+                        BossFlower bullet = obj.gameObject.GetComponent<BossFlower>();
+                        bullet.RotGyesu = 1.0f;
+                        if (i == 1)
+                            bullet.RotGyesu = -1.0f;
+                        bullet.Shoot(obj.transform.up);
+                    }
+                }
+                break;
+        }
 
         GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }

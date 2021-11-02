@@ -103,7 +103,10 @@ public class TextManager : MonoBehaviour
         text.transform.position = pos;
         text.SetActive(true);
         DamageText dmgText = text.GetComponent<DamageText>();
-        dmgText.SetText(dmg);
+        if (type == (int)DamageType.PLAYERHEAL)
+            dmgText.SetPlusText(dmg);
+        else
+            dmgText.SetText(dmg);
         dmgText.SetSize(dmgText.DefaultSize);
         dmgText.SetColor(type);
 

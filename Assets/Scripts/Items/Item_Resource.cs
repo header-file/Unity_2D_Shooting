@@ -61,7 +61,7 @@ public class Item_Resource : Item
     public void SetColor()
     {
         if(GameManager.Inst().StgManager.Stage == 0)
-            stage = Random.Range(0, 4);
+            stage = Random.Range(0, Constants.MAXSTAGES + 1);
         else
             stage = GameManager.Inst().StgManager.Stage;
 

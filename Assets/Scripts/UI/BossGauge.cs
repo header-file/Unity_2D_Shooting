@@ -17,6 +17,7 @@ public class BossGauge : MonoBehaviour
         Vector2 s = Vector2.one * 12;
         p.x = (pos - 0.5f) * 600;
         s.x = size * 600;
+        s.y = 46.0f;
         FeverZones[index].anchoredPosition = p;
         FeverZones[index].sizeDelta = s;
     }

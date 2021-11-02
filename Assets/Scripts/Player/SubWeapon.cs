@@ -376,6 +376,12 @@ public class SubWeapon : MonoBehaviour
             ShootCount >= GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[BulletType].GetEquipIndex()).Value)
         {
             ShootCount = 0;
+
+            //장비 효과 발동 이펙트
+            GameObject EquipAction = GameManager.Inst().ObjManager.MakeObj("EquipAction");
+            EquipAction.transform.position = transform.position;
+            EquipAction.GetComponent<ActivationTimer>().IsStart = true;
+
             GameManager.Inst().ShtManager.Shoot((Bullet.BulletType)BulletType, gameObject, NumID, false, true, -1);
         }
         else

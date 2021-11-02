@@ -12,6 +12,7 @@ public class DamageText : MonoBehaviour
     
     
     public void SetText(float dmg) { DmgText.text = ((int)dmg).ToString(); }
+    public void SetPlusText(float dmg) { DmgText.text = "+" + ((int)dmg).ToString(); }
     public void SetColor(int type) { DmgText.color = Colors[type]; }
     public void SetSize(int size) { DmgText.fontSize = size; }
 
