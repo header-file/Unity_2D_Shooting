@@ -115,7 +115,7 @@ public class StageManager : MonoBehaviour
     void StartBossMode()
     {
         IsBoss = true;
-        GameManager.Inst().UiManager.BgAnim.SetTrigger("toBoss");
+        GameManager.Inst().UiManager.Background.BgAnim.SetTrigger("toBoss");
         BossTimer = Constants.MAXBOSSTIME;
         GameManager.Inst().UiManager.BossGauge.SetActive(false);
         BossCount[Stage - 1] = 0;
@@ -286,7 +286,7 @@ public class StageManager : MonoBehaviour
 
     public void RestartStage()
     {
-        GameManager.Inst().UiManager.BgAnim.SetTrigger("toNormal");
+        GameManager.Inst().UiManager.Background.BgAnim.SetTrigger("toNormal");
         GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(false);
         GameManager.Inst().Player.EndBossMode();
 

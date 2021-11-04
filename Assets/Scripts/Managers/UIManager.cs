@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
     //움직임용
     public GameObject SubWeapon;
     public GameObject Turret;
-    public GameObject Background;
+    public BackGround Background;
     public GameObject Panel;
 
     //기능 구현용
@@ -29,7 +29,6 @@ public class UIManager : MonoBehaviour
     public PlayerHitArea[] PlayerHitAreas;
     public GameObject InventoryScroll;
     public GameObject[] SubPositions;
-    public Animator BgAnim;
 
     //플레이어용 UI
     public GameObject PlayerUI;

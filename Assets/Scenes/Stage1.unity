@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -730,6 +730,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0d06d007ac6e81468cb8034cecc2901, type: 3}
+--- !u!114 &152872298 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1079187997226216091, guid: d0d06d007ac6e81468cb8034cecc2901,
+    type: 3}
+  m_PrefabInstance: {fileID: 152872297}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f94ed60f4b0fc246a35c4ff50f15c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &160994576
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,7 +1638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SubWeapon: {fileID: 1867595982}
   Turret: {fileID: 1026848221}
-  Background: {fileID: 1750566642}
+  Background: {fileID: 152872298}
   Panel: {fileID: 1707779952}
   MainUI: {fileID: 1765510112}
   Tutorial: {fileID: 0}
@@ -1643,7 +1655,6 @@ MonoBehaviour:
   - {fileID: 8906777}
   - {fileID: 1906623546}
   - {fileID: 1062375947}
-  BgAnim: {fileID: 623137715}
   PlayerUI: {fileID: 1216898086}
   PlayerTimerImg: {fileID: 938533828}
   PlayerTimerText: {fileID: 1967544153}
@@ -1735,12 +1746,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7825766459664008351, guid: c0a28b4cf6fa5ab4e80007d8b0c12795,
     type: 3}
   m_PrefabInstance: {fileID: 2121523592}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &623137715 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5438166758106996665, guid: d0d06d007ac6e81468cb8034cecc2901,
-    type: 3}
-  m_PrefabInstance: {fileID: 152872297}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &623137717 stripped
 Transform:

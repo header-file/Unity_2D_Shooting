@@ -320,6 +320,8 @@ public class Player : MonoBehaviour
     public void RemoveItem(int index)
     {
         Inventory[index] = null;
+
+        CurInventory--;
     }
 
     public EqData DiscardItem(int index)
