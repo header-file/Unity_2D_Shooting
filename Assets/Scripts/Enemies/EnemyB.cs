@@ -70,7 +70,7 @@ public class EnemyB : Enemy
         IsAttacking = true;
         FinTimer = 4.0f;
         
-        if (CurHP / Health <= 0.1f)
+        if (CurHP / Health > 0.1f)
         {
             if (SummonPhase == 0 && CurHP / Health <= 0.5f)
                 Summon();

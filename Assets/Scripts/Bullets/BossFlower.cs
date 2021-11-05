@@ -7,25 +7,47 @@ public class BossFlower : Bullet
     public float RotGyesu;
 
     Rigidbody2D Rig;
+    int Damage;
 
 
     void Start()
     {
         Rig = GetComponent<Rigidbody2D>();
         RotGyesu = 1.0f;
+        Damage = 10 * GameManager.Inst().StgManager.Stage;
     }
 
     void Update()
     {
-        //if ((transform.rotation.eulerAngles.z > 60.0f && transform.rotation.eulerAngles.z < 120.0f) || 
-        //            (transform.rotation.eulerAngles.z < -180.0f && transform.rotation.eulerAngles.z > -240.0f))
-        //    RotGyesu *= -1.0f;
-
-        transform.Rotate(0.0f, 0.0f, 1.0f * RotGyesu);
+        transform.Rotate(0.0f, 0.0f, 2.0f * RotGyesu);
 
         if (Random.Range(0, 10) == 1)
             RotGyesu *= -1.0f;
 
         Rig.velocity = transform.up * 4.5f;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "SubWeapon")
+        {
+            HitEffect(collision.gameObject);
+            collision.gameObject.GetComponent<SubWeapon>().Damage(Damage);
+
+            gameObject.SetActive(false);
+        }
+        else if (collision.gameObject.tag == "Player")
+        {
+            HitEffect(collision.gameObject);
+            collision.gameObject.GetComponent<Player>().Damage(Damage);
+
+            gameObject.SetActive(false);
+        }
+    }
+
+    void HitEffect(GameObject obj)
+    {
+        GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+        hit.transform.position = obj.transform.position;
     }
 }
