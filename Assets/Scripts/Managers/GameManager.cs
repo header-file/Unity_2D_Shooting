@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
 
     void SetResources()
     {
-        for (int i = 0; i < Constants.MAXSTAGES; i++)
+        for (int i = 0; i < Constants.MAXRESOURCETYPES; i++)
         {
             Resources[i] = 0;
             TxtManager.Resources[i].text = Resources[i].ToString();

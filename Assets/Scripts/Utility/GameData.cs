@@ -130,9 +130,11 @@ public class GameData
         PlayerDatas[(int)PlaData.BULLETTYPE] = GameManager.Inst().Player.GetBulletType();
         PlayerDatas[(int)PlaData.COLOR] = GameManager.Inst().ShtManager.GetColorSelection(2);
 
+        for(int i = 0; i < Constants.MAXRESOURCETYPES; i++)
+            Resources[i] = GameManager.Inst().Resources[i];
+
         for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
-            Resources[i] = GameManager.Inst().Resources[i];
             BossGauges[i] = GameManager.Inst().StgManager.BossCount[i];
             BossDeathCounts[i] = GameManager.Inst().StgManager.BossDeathCounts[i];
 
@@ -244,28 +246,46 @@ public class GameData
             GameManager.Inst().StgManager.UnlockStages(ReachedStage);
 
         if(ReachedStage > 1)
-        {
             for (int i = 0; i < ReachedStage; i++)
                 GameManager.Inst().ResManager.StartCount(i);
-        }
 
-        if (Resources != null && Resources.Length == Constants.MAXSTAGES)
-            for (int i = 0; i < Constants.MAXSTAGES; i++)
+        if (Resources != null && Resources.Length == Constants.MAXRESOURCETYPES)
+            for (int i = 0; i < Constants.MAXRESOURCETYPES; i++)
                 GameManager.Inst().SetResource(i + 1, Resources[i]);
         else
-            Resources = new int[Constants.MAXSTAGES];
+        {
+            if(Resources != null)
+                for(int i = 0; i < Resources.Length; i++)
+                    GameManager.Inst().SetResource(i + 1, Resources[i]);
+
+            Resources = new int[Constants.MAXRESOURCETYPES];
+        }
 
         if (FeverGauges != null && FeverGauges.Length == 6 * Constants.MAXSTAGES)
-        {
             for (int j = 0; j < Constants.MAXSTAGES; j++)
                 for (int i = 0; i < 3; i++)
                     GameManager.Inst().StgManager.SetFever(j, i, FeverGauges[i * 2], FeverGauges[i * 2 + 1]);
-        }
         else
-            FeverGauges = new int[2 * 3 * Constants.MAXSTAGES];
+        {
+            if (FeverGauges != null)
+                for (int j = 0; j < (FeverGauges.Length / 6); j++)
+                    for (int i = 0; i < 3; i++)
+                        GameManager.Inst().StgManager.SetFever(j, i, FeverGauges[i * 2], FeverGauges[i * 2 + 1]);
 
-        if (FullFevers == null || FullFevers.Length == Constants.MAXSTAGES)
+            FeverGauges = new int[2 * 3 * Constants.MAXSTAGES];
+        }
+
+        if (FullFevers != null && FullFevers.Length == Constants.MAXSTAGES)
+            for (int i = 0; i < Constants.MAXSTAGES; i++)
+                GameManager.Inst().StgManager.FullFever[i] = FullFevers[i];
+        else
+        {
+            if (FullFevers != null)
+                for (int i = 0; i < FullFevers.Length; i++)
+                    GameManager.Inst().StgManager.FullFever[i] = FullFevers[i];
+
             FullFevers = new int[Constants.MAXSTAGES];
+        }            
 
         if (BossGauges != null && BossGauges.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
@@ -276,13 +296,30 @@ public class GameData
                     GameManager.Inst().StgManager.FillGauge();
             }
         else
+        {
+            if (BossGauges != null)
+                for (int i = 0; i < BossGauges.Length; i++)
+                {
+                    GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
+
+                    if (i + 1 == GameManager.Inst().StgManager.Stage)
+                        GameManager.Inst().StgManager.FillGauge();
+                }
+
             BossGauges = new int[Constants.MAXSTAGES];
+        }
 
         if (BossDeathCounts != null && BossDeathCounts.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
                 GameManager.Inst().StgManager.BossDeathCounts[i] = BossDeathCounts[i];
         else
+        {
+            if (BossDeathCounts != null)
+                for (int i = 0; i < BossDeathCounts.Length; i++)
+                    GameManager.Inst().StgManager.BossDeathCounts[i] = BossDeathCounts[i];
+
             BossDeathCounts = new int[Constants.MAXSTAGES];
+        }
 
         if (PlayerDatas != null && PlayerDatas.Length == Constants.PLADATASIZE)
         {
@@ -293,7 +330,18 @@ public class GameData
             GameManager.Inst().Player.SetSkinColor(PlayerDatas[(int)PlaData.COLOR]);
         }
         else
+        {
+            if (PlayerDatas != null)
+            {
+                GameManager.Inst().UpgManager.SetPlayerLevel(PlayerDatas[(int)PlaData.LEVEL]);
+                GameManager.Inst().Player.SetCurHP(PlayerDatas[(int)PlaData.CURHP]);
+                GameManager.Inst().Player.SetMaxHP(PlayerDatas[(int)PlaData.MAXHP]);
+                GameManager.Inst().Player.SetBulletType(PlayerDatas[(int)PlaData.BULLETTYPE]);
+                GameManager.Inst().Player.SetSkinColor(PlayerDatas[(int)PlaData.COLOR]);
+            }
+
             PlayerDatas = new int[Constants.PLADATASIZE];
+        }
 
         if (Inventories != null && Inventories.Length == GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE)
         {
@@ -319,7 +367,32 @@ public class GameData
             }
         }
         else
+        {
+            if (Inventories != null)
+                for (int i = 0; i < (Inventories.Length / Constants.INVDATASIZE); i++)
+                {
+                    if (Inventories[Constants.INVDATASIZE * i + (int)InvData.ID] > 0)
+                    {
+                        Player.EqData eq = new Player.EqData();
+                        eq.Type = Inventories[Constants.INVDATASIZE * i + (int)InvData.TYPE];
+                        eq.Rarity = Inventories[Constants.INVDATASIZE * i + (int)InvData.GRADE];
+                        eq.Value = Inventories[Constants.INVDATASIZE * i + (int)InvData.VALUE];
+                        eq.Quantity = Inventories[Constants.INVDATASIZE * i + (int)InvData.AMOUNT];
+                        eq.UID = Inventories[Constants.INVDATASIZE * i + (int)InvData.ID];
+                        eq.CoolTime = Inventories[Constants.INVDATASIZE * i + (int)InvData.COOLTIME];
+
+                        if (eq.UID / 100 == 3)
+                            eq.Icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+                        else if (eq.UID / 100 == 6)
+                            eq.Icon = GameManager.Inst().UiManager.EquipImages[eq.Type];
+
+                        GameManager.Inst().Player.AddItem(eq);
+                    }
+                }
+
             Inventories = new int[GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE];
+        }
+
 
         if (SubWeaponDatas != null && SubWeaponDatas.Length == Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE)
         {
@@ -349,7 +422,35 @@ public class GameData
             }
         }
         else
+        {
+            if (SubWeaponDatas != null)
+                for (int i = 0; i < (SubWeaponDatas.Length / (Constants.MAXSUBWEAPON * Constants.SWDATASIZE)); i++)
+                {
+                    for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
+                    {
+                        GameManager.Inst().UpgManager.SetSubWeaponLevel(i, j, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.LEVEL]);
+
+                        if (i == GameManager.Inst().StgManager.Stage &&
+                            GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j) > 0)
+                        {
+                            GameManager.Inst().UpgManager.AddSW(j);
+
+                            GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
+                            GameManager.Inst().GetSubweapons(j).SetMaxHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP]);
+                            GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
+                            int id = j;
+                            if (id > 1)
+                                id++;
+                            GameManager.Inst().ShtManager.SetColorSelection(id, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
+                            GameManager.Inst().GetSubweapons(j).SetSkinColor(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
+
+                            GameManager.Inst().UpgManager.SWUiInteract(j);
+                        }
+                    }
+                }
+
             SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
+        }
 
         if (Weapons != null && Weapons.Length == Constants.MAXBULLETS * Constants.WPDATASIZE)
         {
@@ -370,9 +471,28 @@ public class GameData
             }
         }
         else
-            Weapons = new float[Constants.MAXBULLETS * Constants.WPDATASIZE];
+        {
+            if(Weapons != null)
+                for (int i = 0; i < (Weapons.Length / Constants.WPDATASIZE); i++)
+                {
+                    GameManager.Inst().UpgManager.BData[i].SetRarity((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.RARITY]);
+                    GameManager.Inst().UpgManager.BData[i].SetPowerLevel((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.POWERLEVEL]);
+                    GameManager.Inst().UpgManager.BData[i].SetPrice((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.PRICE]);
+                    GameManager.Inst().UpgManager.BData[i].SetAtk((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.ATK]);
+                    GameManager.Inst().UpgManager.BData[i].SetHp((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.HP]);
+                    GameManager.Inst().UpgManager.BData[i].SetSpd((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.SPD]);
+                    GameManager.Inst().UpgManager.BData[i].SetEquipIndex((int)Weapons[Constants.WPDATASIZE * i + (int)WPData.EQUIP]);
 
-        if (CountStartTimes != null)
+                    GameManager.Inst().UpgManager.SetBasicData(i);
+                    GameManager.Inst().UpgManager.CheckEquip(i);
+                    GameManager.Inst().UpgManager.SetMaxData(i);
+                    GameManager.Inst().UpgManager.SetHPData(i);
+                }
+
+            Weapons = new float[Constants.MAXBULLETS * Constants.WPDATASIZE];
+        }
+
+        if (CountStartTimes != null && CountStartTimes.Length == (Constants.MAXSTAGES * Constants.TIMEDATASIZE))
             for (int i = 0; i < Constants.MAXSTAGES; i++)
             {
                 GameManager.Inst().ResManager.StartTimes[i] = new DateTime(CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE],
@@ -381,6 +501,14 @@ public class GameData
             }
         else
         {
+            if (CountStartTimes != null)
+                for (int i = 0; i < (CountStartTimes.Length / Constants.TIMEDATASIZE); i++)
+                {
+                    GameManager.Inst().ResManager.StartTimes[i] = new DateTime(CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE],
+                                                                                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND]);
+                    GameManager.Inst().ResManager.LoadCount(i);
+                }
+
             CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
             for (int i = 0; i < Constants.MAXSTAGES; i++)
             {
@@ -577,7 +705,6 @@ public class GameData
     public void LoadSubWeapon()
     {
         if (SubWeaponDatas != null && SubWeaponDatas.Length == Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE)
-        {
             for (int i = 0; i < Constants.MAXSTAGES; i++)
             {
                 for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
@@ -600,15 +727,39 @@ public class GameData
                     }
                 }
             }
-        }
         else
+        {
+            if (SubWeaponDatas != null)
+                for (int i = 0; i < (SubWeaponDatas.Length / (Constants.MAXSUBWEAPON * Constants.SWDATASIZE)); i++)
+                {
+                    for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
+                    {
+                        if (i == GameManager.Inst().StgManager.Stage &&
+                            GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j) > 0)
+                        {
+                            GameManager.Inst().UpgManager.AddSW(j);
+
+                            GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
+                            GameManager.Inst().GetSubweapons(j).SetMaxHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP]);
+                            GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
+                            int id = j;
+                            if (id > 1)
+                                id++;
+                            GameManager.Inst().ShtManager.SetColorSelection(id, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
+                            GameManager.Inst().GetSubweapons(j).SetSkinColor(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
+
+                            GameManager.Inst().UpgManager.SWUiInteract(j);
+                        }
+                    }
+                }
+
             SubWeaponDatas = new int[Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE];
+        }
     }
 
     public void LoadQuests()
     {
-        if (Quests != null)
-        {
+        if (Quests != null && Quests.Length == (Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE))
             for (int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
             {
                 if (GameManager.Inst().QstManager.Quests[i].QuestId == Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID])
@@ -617,9 +768,20 @@ public class GameData
                     GameManager.Inst().QstManager.CheckFinish(i);
                 }
             }
-        }
         else
+        {
+            if (Quests != null)
+                for (int i = 0; i < (Quests.Length / Constants.QSTDATASIZE); i++)
+                {
+                    if (GameManager.Inst().QstManager.Quests[i].QuestId == Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID])
+                    {
+                        GameManager.Inst().QstManager.Quests[i].CurrentCount = Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT];
+                        GameManager.Inst().QstManager.CheckFinish(i);
+                    }
+                }
+
             Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
+        }
     }
 
     public void LoadDaily()

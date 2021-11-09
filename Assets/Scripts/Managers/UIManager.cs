@@ -129,7 +129,7 @@ public class UIManager : MonoBehaviour
 
         //GameManager.Inst().Player.AddCoin(0);
         //GameManager.Inst().AddJewel(0);
-        for (int i = 1; i <= Constants.MAXSTAGES; i++)
+        for (int i = 1; i <= Constants.MAXRESOURCETYPES; i++)
             GameManager.Inst().AddResource(i, 0);
         GameManager.Inst().DatManager.GameData.LoadSubWeapon();
         GameManager.Inst().DatManager.GameData.LoadDaily();
