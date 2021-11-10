@@ -15,7 +15,9 @@ public class StageManager : MonoBehaviour
     public float[] MinFever;
     public float[] MaxFever;
     public int[] FullFever;
+    public GameObject FeverPref;
 
+    FeverMode Fever;
     bool[,] BulletUnlockData;
     float SmallTime;
     float MediumTime;
@@ -438,6 +440,11 @@ public class StageManager : MonoBehaviour
         IsFeverMode = true;
         CancelEnemies();
 
+        if(Fever == null)
+            Fever = Instantiate(FeverPref).GetComponent<FeverMode>();
+        Fever.transform.position = GameManager.Inst().gameObject.transform.position;
+        Fever.Anim.Play();
+
         InvokeRepeating("SpawnSmall", 0.0f, 0.25f);
     }
 
@@ -452,7 +459,9 @@ public class StageManager : MonoBehaviour
         {
             EraseCurEnemies();
             return;
-        }            
+        }
+
+        Fever.ToEnd();
 
         SpawnEnemies();
     }
