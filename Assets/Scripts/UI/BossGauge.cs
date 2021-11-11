@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class BossGauge : MonoBehaviour
 {
-    public RectTransform[] FeverZones;
+    public GameObject[] FeverZones;
 
     void Start()
     {
-        
+        //for (int i = 0; i < FeverZones.Length; i++)
+        //    FeverZones[i].gameObject.SetActive(false);
+
+        GameManager.Inst().StgManager.SetFeverGauge();
+        GameManager.Inst().StgManager.FillGauge();
     }
 
     public void SetFeverZones(int index, float pos, float size)
@@ -18,7 +22,8 @@ public class BossGauge : MonoBehaviour
         p.x = (pos - 0.5f) * 600;
         s.x = size * 600;
         s.y = 46.0f;
-        FeverZones[index].anchoredPosition = p;
-        FeverZones[index].sizeDelta = s;
+
+        FeverZones[index].GetComponent<RectTransform>().anchoredPosition = p;
+        FeverZones[index].GetComponent<RectTransform>().sizeDelta = s;
     }
 }

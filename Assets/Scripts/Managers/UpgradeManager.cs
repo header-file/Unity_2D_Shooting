@@ -289,12 +289,12 @@ public class UpgradeManager : MonoBehaviour
             else if (BData[UpgType].GetPowerLevel() == BData[UpgType].GetMaxBulletLevel())   //레어도 상승
             {
                 //가격
-                for (int i = 0; i < Constants.MAXSTAGES; i++)
+                for (int i = 0; i < Constants.MAXRESOURCETYPES; i++)
                 {
                     if (GameManager.Inst().Resources[i] < ResourceData[BData[UpgType].GetRarity(), i])
                         return;
                 }
-                for (int i = 0; i < Constants.MAXSTAGES; i++)
+                for (int i = 0; i < Constants.MAXRESOURCETYPES; i++)
                     GameManager.Inst().SubtractResource(i, ResourceData[BData[UpgType].GetRarity(), i]);
 
                 RarityUp(UpgType);
