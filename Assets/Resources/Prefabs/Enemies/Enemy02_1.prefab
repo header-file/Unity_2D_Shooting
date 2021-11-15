@@ -82,6 +82,67 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1789458898951236389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7763042369644884910}
+  - component: {fileID: 5126661779658609360}
+  - component: {fileID: 3607403857241090195}
+  m_Layer: 0
+  m_Name: Buffer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7763042369644884910
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789458898951236389}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3525409877268188280}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &5126661779658609360
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789458898951236389}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.1
+--- !u!114 &3607403857241090195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789458898951236389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5991cc5d754480f44a2f59bd9a870c00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemy: {fileID: 3525409877268188283}
 --- !u!1 &3525409877268188284
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +177,7 @@ Transform:
   - {fileID: 8235365583703232796}
   - {fileID: 7016408289633333973}
   - {fileID: 5853994704505096058}
+  - {fileID: 7763042369644884910}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -138,8 +200,60 @@ MonoBehaviour:
   Body: {fileID: 0}
   Collider: {fileID: 0}
   Skin: {fileID: 0}
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.25
+      inSlope: 2.262742
+      outSlope: 2.262742
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.039222587
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.0013679974
+      outSlope: 0.0013679974
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08359045
+    - serializedVersion: 3
+      time: 10
+      value: 1
+      inSlope: 0.00016631326
+      outSlope: 0.00016631326
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.084679246
+      outWeight: 0.17202616
+    - serializedVersion: 3
+      time: 10.5
+      value: 0.25
+      inSlope: -3.6790688
+      outSlope: -3.6790688
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.041950703
+      outWeight: 0
+    - serializedVersion: 3
+      time: 12
+      value: 0.25
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   SpeedMultiplier: 0
   RotGyesu: 0
+  CurveTime: 0
 --- !u!50 &3525409877268188231
 Rigidbody2D:
   serializedVersion: 4

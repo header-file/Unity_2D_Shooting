@@ -23,9 +23,11 @@ public class Enemy : MonoBehaviour
     public GameObject Body;
     public CircleCollider2D Collider;
     public SpriteResolver Skin;
+    public AnimationCurve Curve;
 
     public float SpeedMultiplier;
     public float RotGyesu;
+    public float CurveTime;
 
     protected float Speed;
     protected float Health;
@@ -81,6 +83,7 @@ public class Enemy : MonoBehaviour
         IsInvincible = false;
 
         IsReflected = false;
+        CurveTime = 0.0f;
     }
 
     void Update()
@@ -114,8 +117,11 @@ public class Enemy : MonoBehaviour
         switch(GameManager.Inst().StgManager.Stage)
         {
             case 1:
-            case 2:
                 Rig.velocity = -transform.up * Speed * SpeedMultiplier;
+                break;
+            case 2:
+                Rig.velocity = -transform.up * Speed * Curve.Evaluate(CurveTime) * SpeedMultiplier;
+                CurveTime += Time.deltaTime;
                 break;
             case 3:
                 if (IsReflected)
@@ -128,10 +134,7 @@ public class Enemy : MonoBehaviour
                         Rig.velocity = transform.right * Speed * SpeedMultiplier;
 
                     if (Vector3.Distance(transform.position, TargetPosition) < 0.05f)
-                    {
                         IsReflected = true;
-                        IsInvincible = true;
-                    }
                 }
                 break;
             case 4:
@@ -472,20 +475,19 @@ public class Enemy : MonoBehaviour
             BodyScale = Vector3.one;
             CancelInvoke("StartMove");
             gameObject.SetActive(false);
-
-            //GameManager.Inst().Camerashake.Vibrate(0.05f);
         }
         else if (collision.gameObject.name == "Right" || collision.gameObject.name == "Left")
         {
             if(GameManager.Inst().StgManager.Stage == 2)
             {
-                if (IsReflected)
+                if (IsReflected || CurveTime <= 10.0f)
                     return;
 
                 float rotZ = transform.rotation.eulerAngles.z;
                 Quaternion rot = Quaternion.Euler(0.0f, 0.0f, -rotZ);
                 transform.rotation = rot;
-
+                
+                CurveTime = 0.0f;
                 IsReflected = true;
                 Invoke("ReturnReflected", 1.0f);
             }

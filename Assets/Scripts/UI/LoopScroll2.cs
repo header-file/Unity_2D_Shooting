@@ -39,7 +39,7 @@ public class LoopScroll2 : MonoBehaviour
             DistReposition[i] = Center.transform.position.x - Slots[i].transform.position.x;
             Distances[i] = Mathf.Abs(DistReposition[i]);
 
-            if(DistReposition[i] > 2.5f)
+            if(DistReposition[i] > 3.0f)
             {
                 float curX = Slots[i].anchoredPosition.x;
                 float curY = Slots[i].anchoredPosition.y;
@@ -48,7 +48,7 @@ public class LoopScroll2 : MonoBehaviour
                 Slots[i].anchoredPosition = newAnchoredPos;
             }
 
-            if(DistReposition[i] < -2.5f)
+            if(DistReposition[i] < -3.0f)
             {
                 float curX = Slots[i].anchoredPosition.x;
                 float curY = Slots[i].anchoredPosition.y;
@@ -79,7 +79,7 @@ public class LoopScroll2 : MonoBehaviour
 
     public void LerpToBtn(float position)
     {
-        float newX = Mathf.Lerp(Panel.anchoredPosition.x, position, Timer * 5.0f);
+        float newX = Mathf.Lerp(Panel.anchoredPosition.x, position, Timer * 1.5f);
         Vector2 newPosition = new Vector2(newX, Panel.anchoredPosition.y);
         Panel.anchoredPosition = newPosition;
         if (Timer < 1.0f)
