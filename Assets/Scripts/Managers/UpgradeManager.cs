@@ -391,6 +391,9 @@ public class UpgradeManager : MonoBehaviour
         if (BData[UpgType].GetDuration() != BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetDuration())
             BData[UpgType].SetDuration(BulletDatas[UpgType + BData[UpgType].GetRarity() * (Constants.MAXBULLETS + 2)].GetDuration());
 
+        //UI
+        ShowRarityupWindow(UpgType);
+
         //HP적용
         SetHPData(UpgType);
 
@@ -426,6 +429,9 @@ public class UpgradeManager : MonoBehaviour
         BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel() - 1]);
         BData[UpgType].SetHealth(BData[UpgType].GetRarity() * 30 + BData[UpgType].GetPowerLevel() * 3);
 
+        //UI
+        ShowLevelupWindow();
+
         //HP적용
         SetHPData(UpgType);
 
@@ -441,6 +447,34 @@ public class UpgradeManager : MonoBehaviour
 
         //HP적용
         SetHPData(UpgType);
+    }
+
+    void ShowLevelupWindow()
+    {
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.SetData(0, 3);
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.SetData(1, 1);
+
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.GetComponent<Animation>().Play();
+    }
+
+    void ShowRarityupWindow(int UpgType)
+    {
+        //30
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.SetData(0, 
+            BulletDatas[UpgType + (BData[UpgType].GetRarity()) * (Constants.MAXBULLETS + 2)].GetHealth() -
+            BulletDatas[UpgType + (BData[UpgType].GetRarity() - 1) * (Constants.MAXBULLETS + 2)].GetHealth());
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.SetData(1, 
+            BulletDatas[UpgType + (BData[UpgType].GetRarity()) * (Constants.MAXBULLETS + 2)].GetDamage() -
+            BulletDatas[UpgType + (BData[UpgType].GetRarity() - 1) * (Constants.MAXBULLETS + 2)].GetDamage());
+
+        if((BulletDatas[UpgType + (BData[UpgType].GetRarity()) * (Constants.MAXBULLETS + 2)].GetSpeed() -
+            BulletDatas[UpgType + (BData[UpgType].GetRarity() - 1) * (Constants.MAXBULLETS + 2)].GetSpeed()) != 0)
+            GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.SetData(2, 
+            (int)(BulletDatas[UpgType + (BData[UpgType].GetRarity()) * (Constants.MAXBULLETS + 2)].GetSpeed() -
+            BulletDatas[UpgType + (BData[UpgType].GetRarity() - 1) * (Constants.MAXBULLETS + 2)].GetSpeed()));
+
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.GetComponent<Animation>().Play();
+
     }
 
     public void AddSW(int curIndex)

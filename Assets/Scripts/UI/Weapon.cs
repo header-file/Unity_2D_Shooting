@@ -25,6 +25,7 @@ public class Weapon : MonoBehaviour
     public Text[] EquipDetail;
     public EquipSwitch EquipSwitch;
     public GameObject ConfirmSwitch;
+    public UpgradeDataWindow UpgDataWindow;
 
     InventoryScroll Inventories;
     Player.EqData CurEquip;

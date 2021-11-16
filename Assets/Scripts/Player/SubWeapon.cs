@@ -407,6 +407,9 @@ public class SubWeapon : MonoBehaviour
         IsAlive = false;
         IsDown = false;
 
+        if (IsShield)
+            Shield.SetActive(false);
+
         HideHPUI();
         GetComponent<Animator>().SetInteger("Color", 0);
 

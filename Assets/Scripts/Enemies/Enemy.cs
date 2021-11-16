@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     public CircleCollider2D Collider;
     public SpriteResolver Skin;
     public AnimationCurve Curve;
+    public ParticleSystem FallEffect;
 
     public float SpeedMultiplier;
     public float RotGyesu;
@@ -134,7 +135,11 @@ public class Enemy : MonoBehaviour
                         Rig.velocity = transform.right * Speed * SpeedMultiplier;
 
                     if (Vector3.Distance(transform.position, TargetPosition) < 0.05f)
+                    {
                         IsReflected = true;
+                        FallEffect.gameObject.SetActive(true);
+                        FallEffect.Play();
+                    }
                 }
                 break;
             case 4:
@@ -467,6 +472,9 @@ public class Enemy : MonoBehaviour
                     sub.Damage(Atk);
                 HitArea.HitObjects[i] = null;
             }
+
+            if (GameManager.Inst().StgManager.Stage == 3)
+                FallEffect.gameObject.SetActive(false);
 
             //적 사망 처리
             CurHP = Health;
