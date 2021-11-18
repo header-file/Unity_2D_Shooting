@@ -8,7 +8,7 @@ public class Slot : MonoBehaviour
     public GameObject Selected;
     public GameObject Locked;
     public Text StageName;
-    public Button DetailBtn;
+    public Button SelectBtn;
     public Image Icon;
     public Text Name;
     public Text Level;
@@ -36,13 +36,18 @@ public class Slot : MonoBehaviour
         Index = index;
 
         Selected.SetActive(false);
-        DetailBtn.gameObject.SetActive(false);
+        SelectBtn.gameObject.SetActive(false);
         Icon.sprite = GameManager.Inst().UiManager.WeaponImages[index];
-        Name.text = GameManager.Inst().TxtManager.GetBNames(index);
-        Level.text = GameManager.Inst().UpgManager.BData[index].GetPowerLevel().ToString();
+        Name.text = GameManager.Inst().TxtManager.BulletTypeNames[index];
+        Level.text = "Lv." + GameManager.Inst().UpgManager.BData[index].GetPowerLevel().ToString();
 
         if (Locked.gameObject.activeSelf == true &&
             GameManager.Inst().StgManager.UnlockBulletStages[index] < GameManager.Inst().StgManager.Stage)
             Locked.gameObject.SetActive(false);
+    }
+
+    public void OnClickSelectBtn()
+    {
+        GameManager.Inst().UiManager.MainUI.Bottom.OnClickSelectBullet(Index);
     }
 }

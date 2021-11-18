@@ -249,7 +249,7 @@ public class UpgradeManager : MonoBehaviour
     {
         SubWeaponBuyPrice = SubWpPriceData[GameManager.Inst().StgManager.Stage, 0];
 
-        GameManager.Inst().TxtManager.SetBLevels((int)Bullet.BulletType.NORMAL, BData[(int)Bullet.BulletType.NORMAL].GetPowerLevel());
+        GameManager.Inst().UiManager.MainUI.Bottom.Slots[(int)Bullet.BulletType.NORMAL].Level.text = BData[(int)Bullet.BulletType.NORMAL].GetPowerLevel().ToString();
         BData[(int)Bullet.BulletType.NORMAL].SetPrice(WeaponPriceData[BData[(int)Bullet.BulletType.NORMAL].GetPowerLevel()]);
     }
 
@@ -300,7 +300,7 @@ public class UpgradeManager : MonoBehaviour
                 RarityUp(UpgType);
 
                 //UI
-                GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
+                GameManager.Inst().UiManager.MainUI.Bottom.Slots[UpgType].Level.text = BData[UpgType].GetPowerLevel().ToString();
                 GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
                 GameManager.Inst().UiManager.ShowInfoArea(UpgType);
                 GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
@@ -322,7 +322,7 @@ public class UpgradeManager : MonoBehaviour
             LevelUp(UpgType);
 
             //UI
-            GameManager.Inst().TxtManager.SetBLevels(UpgType, BData[UpgType].GetPowerLevel());
+            GameManager.Inst().UiManager.MainUI.Bottom.Slots[UpgType].Level.text = BData[UpgType].GetPowerLevel().ToString();
             GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
             GameManager.Inst().UiManager.ShowInfoArea(UpgType);
             GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoWindow.Show(UpgType);

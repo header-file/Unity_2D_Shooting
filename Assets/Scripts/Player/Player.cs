@@ -714,7 +714,7 @@ public class Player : MonoBehaviour
         if (!GameManager.Inst().IptManager.GetIsAbleControl() || IsMovable)
             return;
 
-        GameManager.Inst().UiManager.OnClickManageBtn(2);
+        GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageBtn(2);
     }
 }
 

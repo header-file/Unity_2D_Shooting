@@ -13,10 +13,6 @@ public class TextManager : MonoBehaviour
         REINFORCED = 3,
     }
 
-    public GameObject[] BulletNames;
-    public GameObject[] BulletLevels;
-    public GameObject SubPrice;
-    public GameObject SubName;
     public Text[] Resources;
     public Text BossTimer;
     public string[] EquipName;
@@ -26,36 +22,21 @@ public class TextManager : MonoBehaviour
     public string[] BulletTypeNames;
     public string[] RarityNames;
 
-    Text[] BNames;
-    Text[] BLevels;
     string[] BPrices;
 
     string[] SubNames;
 
-    public string GetBNames(int index) { return BNames[index].text; }
-    public string GetBLevels(int index) { return BLevels[index].text; }
-    public string GetBPrices(int index) { return BPrices[index]; }
     public string GetSubNames(int index) { return SubNames[index]; }
 
-    public void SetBLevels(int index, int level)
-    {
-        if (level < GameManager.Inst().UpgManager.BData[index].GetMaxBulletLevel())
-            BLevels[index].text = "Lv." + level.ToString();
-        else
-            BLevels[index].text = "Lv." + "MAX";
-
-    }
     public void SetBPrices(int index, int price) { BPrices[index] = price.ToString(); }
-    public void SetSPrice(int price) { SubPrice.GetComponent<Text>().text = price.ToString(); }
-    public void SetSName(int index) { SubName.GetComponent<Text>().text = SubNames[index]; }
+    public void SetSPrice(int price) { GameManager.Inst().UiManager.MainUI.Bottom.SWPrice.text = price.ToString(); }
+    public void SetSName(int index) { GameManager.Inst().UiManager.MainUI.Bottom.SWName.text = SubNames[index]; }
     
 
     void Awake()
     {
         GameManager.Inst().TxtManager = gameObject.GetComponent<TextManager>();
 
-        BNames = new Text[Constants.MAXBULLETS];
-        BLevels = new Text[Constants.MAXBULLETS];
         BPrices = new string[Constants.MAXBULLETS];
 
         SubNames = new string[4];
@@ -63,18 +44,7 @@ public class TextManager : MonoBehaviour
            SubNames[i] = "Turret - 0" + (i + 1).ToString();
 
         for (int i = 0; i < Constants.MAXBULLETS; i++)
-        {
-            BNames[i] = BulletNames[i].GetComponent<Text>();
-            BNames[i].text = BulletTypeNames[i];
-            BLevels[i] = BulletLevels[i].GetComponent<Text>();
             BPrices[i] = "0";
-        }
-    }
-
-    void Start()
-    {
-        for (int i = 0; i < Constants.MAXBULLETS; i++)
-            SetBLevels(i, GameManager.Inst().UpgManager.BData[i].GetPowerLevel());
     }
 
     void FixedUpdate()

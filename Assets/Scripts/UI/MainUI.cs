@@ -24,36 +24,6 @@ public class MainUI : MonoBehaviour
             Bottom.Arrows.transform.GetChild(i).gameObject.SetActive(false);
     }
 
-    public void OnClickUniverse()
-    {
-        GameManager.Inst().UiManager.OnClickSpaceBtn();
-    }
-
-    public void OnClickWeapon()
-    {
-        GameManager.Inst().UiManager.OnClickWeaponBtn();
-    }
-
-    public void OnClickInventory()
-    {
-        GameManager.Inst().UiManager.OnClickInventoryBtn();
-    }
-
-    public void OnClickSynthesis()
-    {
-        GameManager.Inst().UiManager.OnClickSynthesisBtn();
-    }
-
-    public void OnClickShop()
-    {
-        GameManager.Inst().UiManager.OnClickShopBtn();
-    }
-
-    public void OnClickHome()
-    {
-        GameManager.Inst().UiManager.OnClickHomeBtn();
-    }
-
     public void OnClickMenu()
     {
         GameManager.Inst().IptManager.SetIsAbleControl(false);

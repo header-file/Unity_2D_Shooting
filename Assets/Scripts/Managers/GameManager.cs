@@ -130,13 +130,13 @@ public class GameManager : MonoBehaviour
 
     void SetTexts()
     {
-        for (int i = 0; i < Constants.MAXBULLETS; i++)
-        {
-            TxtManager.SetBLevels(i, UpgManager.BData[i].GetPowerLevel());
-            TxtManager.SetBPrices(i, UpgManager.BData[i].GetPrice());
-        }
+        //for (int i = 0; i < Constants.MAXBULLETS; i++)
+        //{
+        //    TxtManager.SetBLevels(i, UpgManager.BData[i].GetPowerLevel());
+        //    TxtManager.SetBPrices(i, UpgManager.BData[i].GetPrice());
+        //}
 
-        TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));
+        //TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));
 
         UiManager.MainUI.JewelText.text = Jewel.ToString();
     }

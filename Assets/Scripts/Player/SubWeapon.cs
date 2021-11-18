@@ -526,7 +526,7 @@ public class SubWeapon : MonoBehaviour
                 id++;
 
             if (IsAlive)
-                GameManager.Inst().UiManager.OnClickManageBtn(id);
+                GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageBtn(id);
             else
                 GameManager.Inst().UiManager.ShowReviveAlert(NumID);
         }

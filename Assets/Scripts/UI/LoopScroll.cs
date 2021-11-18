@@ -81,7 +81,7 @@ public class LoopScroll : MonoBehaviour
             if (minDistance == Distances[i])
             {
                 MinBtnNum = i;
-                GameManager.Inst().UiManager.ShowEquipBtn(MinBtnNum);
+                GameManager.Inst().UiManager.MainUI.Bottom.ShowEquipBtn(MinBtnNum);
                 //GameManager.Inst().UiManager.SelectBullet(i);
             }
         }
@@ -162,7 +162,7 @@ public class LoopScroll : MonoBehaviour
             }
         }
 
-        GameManager.Inst().UiManager.SelectBullet(MinBtnNum);
+        GameManager.Inst().UiManager.MainUI.Bottom.OnClickSelectBullet(MinBtnNum);
 
         return MinBtnNum;
     }

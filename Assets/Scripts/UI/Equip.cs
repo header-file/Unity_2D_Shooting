@@ -338,7 +338,7 @@ public class Equip : MonoBehaviour
         {
             if (Selected[i, (int)SelectableType] == index)
             {
-                BulletText.GetComponent<Text>().text = GameManager.Inst().TxtManager.GetBNames(i);
+                //BulletText.GetComponent<Text>().text = GameManager.Inst().TxtManager.GetBNames(i);
                 SwitchableBulletType = i;
                 IsBtoB = true;
                 break;

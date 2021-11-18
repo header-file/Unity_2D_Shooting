@@ -717,4 +717,12 @@ public class Weapon : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 30)
             GameManager.Inst().Tutorials.Step++;
     }
+
+    public void OnClickBulletUpgradeBtn()
+    {
+        GameManager.Inst().UpgManager.AddLevel(CurBulletType);
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 32)
+            GameManager.Inst().Tutorials.Step++;
+    }
 }

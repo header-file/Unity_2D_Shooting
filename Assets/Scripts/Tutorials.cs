@@ -114,7 +114,7 @@ public class Tutorials : MonoBehaviour
                 GameManager.Inst().Player.AddCoin(1000);
                 break;
             case 11:
-                GameManager.Inst().UiManager.OnClickManageCancel();
+                GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
                 ZzinBottomBlock.SetActive(true);
                 break;
             case 12:
@@ -154,7 +154,7 @@ public class Tutorials : MonoBehaviour
                 Invoke("ExitWeaponInfo", 5.0f);
                 break;
             case 43:
-                GameManager.Inst().UiManager.OnClickManageCancel();
+                GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
                 break;
             case 46:
                 Invoke("ExitSell", 5.0f);
