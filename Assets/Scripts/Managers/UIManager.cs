@@ -16,7 +16,6 @@ public class UIManager : MonoBehaviour
 
     //움직임용
     public GameObject SubWeapon;
-    public GameObject Turret;
     public BackGround Background;
 
     //기능 구현용
@@ -28,24 +27,6 @@ public class UIManager : MonoBehaviour
     public PlayerHitArea[] PlayerHitAreas;
     public GameObject InventoryScroll;
     public GameObject[] SubPositions;
-
-    //플레이어용 UI
-    public GameObject PlayerUI;
-    public Image PlayerTimerImg;
-    public Text PlayerTimerText;
-    public GameObject PlayerHPUI;
-    public Image PlayerHPBar;
-    public GameObject PlayerEquipUI;
-    public Image PlayerEquipBar;
-    public Image PlayerEquipIcon;
-
-    //보스용 UI
-    public GameObject BossHPBarCanvas;
-    public Image BossHPBar;
-    public Text BossHPBarText;
-    public GameObject BossGauge;
-    public Image BossGaugeBar;
-    public GameObject TurretUI;
 
     //UI용 이미지
     public Sprite[] WeaponImages;
@@ -68,7 +49,6 @@ public class UIManager : MonoBehaviour
     Vector3 PanelPosUI;
 
     public int CurrentBulletType;
-    public int CurrentPlayer;
 
     bool IsMoveUp;
     bool IsMoveDown;
@@ -94,7 +74,7 @@ public class UIManager : MonoBehaviour
 
         PlayerPosOrigin = GameManager.Inst().Player.transform.position;
         SubWeaponPosOrigin = SubWeapon.transform.position;
-        TurretPosOrigin = Turret.transform.position;
+        TurretPosOrigin = MainUI.Center.Turret.transform.position;
         BackgroundPosOrigin = Background.transform.position;
         PanelPosOrigin = MainUI.Bottom.Panel.transform.position;
 
@@ -111,16 +91,6 @@ public class UIManager : MonoBehaviour
         IsMoveDown = false;
         CurrentBulletType = 0;
         IsEquip = false;
-
-        //Player UI Setting
-        GameManager.Inst().Player.UI = PlayerUI;
-        GameManager.Inst().Player.TimerImage = PlayerTimerImg;
-        GameManager.Inst().Player.TimerText = PlayerTimerText;
-        GameManager.Inst().Player.HPUI = PlayerHPUI;
-        GameManager.Inst().Player.HPBar = PlayerHPBar;
-        GameManager.Inst().Player.EquipUI = PlayerEquipUI;
-        GameManager.Inst().Player.EquipBar = PlayerEquipBar;
-        GameManager.Inst().Player.EquipIcon = PlayerEquipIcon;
     }
 
     void Start()
@@ -151,7 +121,7 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Inst().Player.transform.position = Vector3.MoveTowards(GameManager.Inst().Player.transform.position, PlayerPosUI, Timer);
         SubWeapon.transform.position = Vector3.MoveTowards(SubWeapon.transform.position, SubWeaponPosUI, Timer);
-        Turret.transform.position = Vector3.MoveTowards(Turret.transform.position, TurretPosUI, Timer);
+        MainUI.Center.Turret.transform.position = Vector3.MoveTowards(MainUI.Center.Turret.transform.position, TurretPosUI, Timer);
         Background.transform.position = Vector3.MoveTowards(Background.transform.position, BackgroundPosUI, Timer);
         MainUI.Bottom.Panel.transform.position = Vector3.MoveTowards(MainUI.Bottom.Panel.transform.position, PanelPosUI, Timer);
 
@@ -170,7 +140,7 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Inst().Player.transform.position = Vector3.MoveTowards(GameManager.Inst().Player.transform.position, PlayerPosOrigin, Timer);
         SubWeapon.transform.position = Vector3.MoveTowards(SubWeapon.transform.position, SubWeaponPosOrigin, Timer);
-        Turret.transform.position = Vector3.MoveTowards(Turret.transform.position, TurretPosOrigin, Timer);
+        MainUI.Center.Turret.transform.position = Vector3.MoveTowards(MainUI.Center.Turret.transform.position, TurretPosOrigin, Timer);
         Background.transform.position = Vector3.MoveTowards(Background.transform.position, BackgroundPosOrigin, Timer);
         MainUI.Bottom.Panel.transform.position = Vector3.MoveTowards(MainUI.Bottom.Panel.transform.position, PanelPosOrigin, Timer);
 
@@ -192,14 +162,14 @@ public class UIManager : MonoBehaviour
 
     public void SetSubWeaponInteratable(bool b)
     {
-        Turret.transform.GetChild(BuySWUI.GetSelectedIndex()).GetChild(0).gameObject.GetComponent<Button>().interactable = b;
-        Turret.transform.GetChild(BuySWUI.GetSelectedIndex()).GetChild(0).gameObject.SetActive(false);
+        MainUI.Center.Turret.transform.GetChild(BuySWUI.GetSelectedIndex()).GetChild(0).gameObject.GetComponent<Button>().interactable = b;
+        MainUI.Center.Turret.transform.GetChild(BuySWUI.GetSelectedIndex()).GetChild(0).gameObject.SetActive(false);
     }
 
     public void SetSubWeaponInteratable(int index, bool b)
     {
-        Turret.transform.GetChild(index).GetChild(0).gameObject.GetComponent<Button>().interactable = b;
-        Turret.transform.GetChild(index).GetChild(0).gameObject.SetActive(false);
+        MainUI.Center.Turret.transform.GetChild(index).GetChild(0).gameObject.GetComponent<Button>().interactable = b;
+        MainUI.Center.Turret.transform.GetChild(index).GetChild(0).gameObject.SetActive(false);
     }
     
     public void SetSlotsActive(int index, bool isActive, int unlockStage)
@@ -221,17 +191,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    //Button Interact    
-    public void ShowInfoArea(int Type)
-    {
-        MainUI.Center.Weapon.InfoArea.ShowDetail(Type);
-    }
-
-    public void InfoAreaTrigger(string trigger)
-    {
-        MainUI.Center.Weapon.InfoArea.SetAnimTrigger(trigger);
-    }
-
+    //Button Interact   
     public void UnlockStage(int index)
     {
         MainUI.Center.StageScroll.Planets[index].Lock.SetActive(false);
@@ -248,222 +208,7 @@ public class UIManager : MonoBehaviour
         return null;
     }
 
-    public void ShowReviveAlert(int index)
-    {
-        MainUI.Center.ReviveAlert.gameObject.SetActive(true);
-
-        MainUI.Center.ReviveAlert.Show(index);
-    }
-
-
     //Click Interactions
-    public void OnClickInventoryDetailBtn(int index)
-    {
-        MainUI.Center.Inventory.InventoryDetail.gameObject.SetActive(true);
-
-        MainUI.Center.Inventory.InventoryDetail.ShowDetail(index);
-    }
-
-    public void OnClickInventoryDetailBackBtn()
-    {
-        MainUI.Center.Inventory.InventoryDetail.gameObject.SetActive(false);
-    }
-
-    public void OnClickEquipAreaBtn()
-    {
-        MainUI.Center.Weapon.ShowEquipArea();
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
-            GameManager.Inst().Tutorials.Step++;
-    }
-
-    public void OnClickWeaponTypeSortBtn(int index)
-    {
-        MainUI.Center.Weapon.SortAsType(index);
-    }
-
-    public void OnClickEquipSelectBtn(int index)
-    {
-        MainUI.Center.Weapon.Select(index, MainUI.Center.Weapon.GetCurBulletType());
-    }
-
-    public void OnClickUnequipBtn()
-    {
-        //EquipUI.Unequip(EquipUI.GetCurBulletType());
-    }
-
-    public void OnClickSwitchBtn()
-    {
-        MainUI.Center.Weapon.Switch();
-    }
-
-    public void OnClickSwitchCancelBtn()
-    {
-        MainUI.Center.Weapon.EquipSwitch.gameObject.SetActive(false);
-    }
-
-    public void OnClickNextButton(bool IsNext)
-    {
-        MainUI.Center.Weapon.Next(IsNext);
-    }
-
-    public void OnClickSynthesisSlotBtn(int index)
-    {
-        if (index < 3)
-            MainUI.Center.Synthesis.SortAsDefault();
-        else if (index == 3)
-            MainUI.Center.Synthesis.ShowConfirmWindow();
-    }
-
-    public void OnClickSynthesisConfirmBtn()
-    {
-        MainUI.Center.Synthesis.Synthesize();
-    }
-
-    public void OnClickSynthesisConfirmBackBtn()
-    {
-        MainUI.Center.Synthesis.CancelConfirm();
-    }
-
-    public void OnClickSynthesisSelectBtn(int index)
-    {
-        MainUI.Center.Synthesis.SetButtons(index);
-    }
-
-    public void OnClickSynthesisUnselectBtn()
-    {
-        MainUI.Center.Synthesis.CancelSelect();
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 51 || GameManager.Inst().Tutorials.Step == 56))
-            GameManager.Inst().Tutorials.Step++;
-    }
-
-    public void OnClickSynthesisResultBackBtn()
-    {
-        MainUI.Center.Synthesis.CloseResult();
-    }
-
-    public void OnClickSelectDetailBackBtn()
-    {
-        MainUI.Center.Synthesis.CloseDetail();
-    }
-
-    public void OnClickSynthesisUnequipBtn()
-    {
-        int index = MainUI.Center.Synthesis.GetUnequipIndex();
-        int equipType = GameManager.Inst().Player.GetItem(index).Type;
-
-        MainUI.Center.Synthesis.SetButtons(index);
-
-        MainUI.Center.Synthesis.CloseUnequip();
-    }
-
-    public void OnClickUnequipConfirmBackBtn()
-    {
-        MainUI.Center.Synthesis.CloseUnequip();
-    }
-
-    public void OnClickResourceToggleBtn()
-    {
-        if (MainUI.Resource.activeSelf)
-            MainUI.Resource.SetActive(false);
-        else
-        {
-            MainUI.Resource.SetActive(true);
-
-            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 3)
-                GameManager.Inst().Tutorials.Step++;
-        }            
-    }
-
-    public void OnClickSideBarBtn()
-    {
-        if (MainUI.SideMenu.IsOpen)
-        {
-            OnClickSideBarBackBtn();
-            return;
-        }
-
-        MainUI.SideMenu.IsOpen = true;
-        MainUI.SideMenu.SideMenuOpen();
-
-        for(int i = 0; i < GameManager.Inst().StgManager.ReachedStage - 1; i++)
-            GetSideMenuSlot(i).ShowGatheringArea(i);
-
-        GameManager.Inst().IptManager.SetIsAbleControl(false);
-        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 18)
-            GameManager.Inst().Tutorials.Step++;
-    }
-
-    public void OnClickSideBarBackBtn()
-    {
-        MainUI.SideMenu.IsOpen = false;
-        MainUI.SideMenu.SideMenuClose();
-
-        GameManager.Inst().IptManager.SetIsAbleControl(true);
-        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 22)
-            GameManager.Inst().Tutorials.Step++;
-    }
-   
-    public void OnClickBulletEquipBtn()
-    {
-        int num = MainUI.Bottom.WeaponScroll.OnClickEquipBtn();
-        if (num == -1)
-            return;
-
-        CurrentBulletType = num;
-
-        MainUI.Bottom.SetBulletSelected();
-    }
-
-    public void OnClickChangeEquipBtn()
-    {
-        int num = MainUI.Bottom.WeaponScroll.OnClickYesBtn();
-
-        CurrentBulletType = num;
-
-        MainUI.Bottom.SetBulletSelected();
-    }
-
-    public void OnClickWeaponInfoBtn()
-    {
-        if (!MainUI.Center.Weapon.InfoWindow.gameObject.activeSelf)
-        {
-            MainUI.Center.Weapon.InfoWindow.gameObject.SetActive(true);
-            CurrentBulletType = MainUI.Center.Weapon.GetCurBulletType();
-            MainUI.Center.Weapon.InfoWindow.Show(CurrentBulletType);
-        }
-        else
-            MainUI.Center.Weapon.InfoWindow.gameObject.SetActive(false);
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 31)
-            GameManager.Inst().Tutorials.Step++;
-    }
-
-    public void OnClickLandingBtn()
-    {
-        GameManager.Inst().SodManager.PlayEffect("Landing");
-
-        MainUI.Center.StageScroll.MoveScene();
-    }
-
-    
-    public void OnClickShopBackBtn()
-    {
-        MainUI.Center.Shop.gameObject.SetActive(false);
-
-        MainUI.ZzinBottom.ShopIcon[0].SetActive(true);
-        MainUI.ZzinBottom.ShopIcon[1].SetActive(false);
-        MainUI.ZzinBottom.HomeBtn.SetActive(false);
-
-        GameManager.Inst().IptManager.SetIsAbleControl(true);
-        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
-    }
-
     public void OnClickCheatBtn()
     {
         MainUI.ZzinBottom.OnClickHomeBtn();
@@ -484,23 +229,5 @@ public class UIManager : MonoBehaviour
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
-    }
-
-    public void OnClickReviveBtn()
-    {
-        GameManager.Inst().AddJewel(-1);
-        MainUI.Center.ReviveAlert.gameObject.SetActive(false);
-
-        GameManager.Inst().GetSubweapons(MainUI.Center.ReviveAlert.Index).CoolTime = 0;
-    }
-
-    public void OnClickUploadDataBtn()
-    {
-        GameManager.Inst().DatManager.UploadSaveData();
-    }
-
-    public void OnClickDownloadDataBtn()
-    {
-        GameManager.Inst().DatManager.DownloadSaveData();
     }
 }

@@ -302,8 +302,8 @@ public class UpgradeManager : MonoBehaviour
                 //UI
                 GameManager.Inst().UiManager.MainUI.Bottom.Slots[UpgType].Level.text = BData[UpgType].GetPowerLevel().ToString();
                 GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
-                GameManager.Inst().UiManager.ShowInfoArea(UpgType);
-                GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.ShowInfoArea(UpgType);
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoAreaTrigger("LevelUp");
 
                 GameManager.Inst().SodManager.PlayEffect("Level up");
 
@@ -324,9 +324,9 @@ public class UpgradeManager : MonoBehaviour
             //UI
             GameManager.Inst().UiManager.MainUI.Bottom.Slots[UpgType].Level.text = BData[UpgType].GetPowerLevel().ToString();
             GameManager.Inst().TxtManager.SetBPrices(UpgType, BData[UpgType].GetPrice());
-            GameManager.Inst().UiManager.ShowInfoArea(UpgType);
+            GameManager.Inst().UiManager.MainUI.Center.Weapon.ShowInfoArea(UpgType);
             GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoWindow.Show(UpgType);
-            GameManager.Inst().UiManager.InfoAreaTrigger("LevelUp");
+            GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoAreaTrigger("LevelUp");
         }
         else if (UpgType == (int)UpgradeType.SUBWEAPON)
         {

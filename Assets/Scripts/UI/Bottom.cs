@@ -198,4 +198,22 @@ public class Bottom : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 7)
             GameManager.Inst().Tutorials.Step++;
     }
+
+    public void OnClickBulletEquipBtn()
+    {
+        int num = GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.OnClickEquipBtn();
+        if (num == -1)
+            return;
+
+        GameManager.Inst().UiManager.CurrentBulletType = num;
+        GameManager.Inst().UiManager.MainUI.Bottom.SetBulletSelected();
+    }
+
+    public void OnClickChangeEquipBtn()
+    {
+        int num = GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.OnClickYesBtn();
+
+        GameManager.Inst().UiManager.CurrentBulletType = num;
+        GameManager.Inst().UiManager.MainUI.Bottom.SetBulletSelected();
+    }
 }

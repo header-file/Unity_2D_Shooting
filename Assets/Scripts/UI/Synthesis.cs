@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Synthesis : MonoBehaviour
 {
@@ -536,6 +537,62 @@ public class Synthesis : MonoBehaviour
         }
 
         return count;
+    }
+
+    public void OnClickSynthesisSlotBtn(int index)
+    {
+        if (index < 3)
+            SortAsDefault();
+        else if (index == 3)
+            ShowConfirmWindow();
+    }
+
+    public void OnClickSynthesisConfirmBtn()
+    {
+        Synthesize();
+    }
+
+    public void OnClickSynthesisConfirmBackBtn()
+    {
+        CancelConfirm();
+    }
+
+    public void OnClickSynthesisSelectBtn(int index)
+    {
+        SetButtons(index);
+    }
+
+    public void OnClickSynthesisUnselectBtn()
+    {
+        CancelSelect();
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 51 || GameManager.Inst().Tutorials.Step == 56))
+            GameManager.Inst().Tutorials.Step++;
+    }
+
+    public void OnClickSynthesisResultBackBtn()
+    {
+        CloseResult();
+    }
+
+    public void OnClickSelectDetailBackBtn()
+    {
+        CloseDetail();
+    }
+
+    public void OnClickSynthesisUnequipBtn()
+    {
+        int index = UnequipIndex;
+        int equipType = GameManager.Inst().Player.GetItem(index).Type;
+
+        SetButtons(index);
+
+        CloseUnequip();
+    }
+
+    public void OnClickUnequipConfirmBackBtn()
+    {
+        CloseUnequip();
     }
 }
 

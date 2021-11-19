@@ -155,4 +155,11 @@ public class StageLoop : MonoBehaviour
         GameManager.Inst().StgManager.Stage = MinBtnNum + 1;
         GameManager.Inst().StgManager.CancelEnemies();
     }
+
+    public void OnClickLandingBtn()
+    {
+        GameManager.Inst().SodManager.PlayEffect("Landing");
+
+        MoveScene();
+    }
 }

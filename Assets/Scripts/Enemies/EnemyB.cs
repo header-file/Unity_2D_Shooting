@@ -606,8 +606,8 @@ public class EnemyB : Enemy
 
         CurHP = Health = (Health + Health * 0.05f * GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1]);
 
-        GameManager.Inst().UiManager.BossHPBar.fillAmount = CurHP / Health;
-        GameManager.Inst().UiManager.BossHPBarText.text = CurHP.ToString() + "/" + Health.ToString();
+        GameManager.Inst().UiManager.MainUI.BossHPBar.fillAmount = CurHP / Health;
+        GameManager.Inst().UiManager.MainUI.BossHPBarText.text = CurHP.ToString() + "/" + Health.ToString();
     }
 
 

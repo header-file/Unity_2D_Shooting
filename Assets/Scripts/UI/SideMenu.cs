@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SideMenu : MonoBehaviour
 {
@@ -89,5 +90,38 @@ public class SideMenu : MonoBehaviour
             Slots[i].transform.SetParent(ContentTransform, false);
             Slots[i].Index = i;
         }
+    }
+
+    public void OnClickSideBarBtn()
+    {
+        if (IsOpen)
+        {
+            OnClickSideBarBackBtn();
+            return;
+        }
+
+        IsOpen = true;
+        SideMenuOpen();
+
+        for (int i = 0; i < GameManager.Inst().StgManager.ReachedStage - 1; i++)
+            Slots[i].ShowGatheringArea(i);
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 18)
+            GameManager.Inst().Tutorials.Step++;
+    }
+
+    public void OnClickSideBarBackBtn()
+    {
+        IsOpen = false;
+        SideMenuClose();
+
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 22)
+            GameManager.Inst().Tutorials.Step++;
     }
 }

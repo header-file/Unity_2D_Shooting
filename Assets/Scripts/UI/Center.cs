@@ -17,6 +17,7 @@ public class Center : MonoBehaviour
     public Animation InventoryFull;
     public Animation BossWarning;
     public DailyJewel DailyJewelUI;
+    public GameObject Turret;
     public Turret[] Turrets;
 
 
@@ -47,5 +48,20 @@ public class Center : MonoBehaviour
 
         BossWarning.gameObject.SetActive(false);
         InventoryFull.gameObject.SetActive(false);
+    }
+
+    public void ShowReviveAlert(int index)
+    {
+        ReviveAlert.gameObject.SetActive(true);
+
+        ReviveAlert.Show(index);
+    }
+
+    public void OnClickReviveBtn()
+    {
+        GameManager.Inst().AddJewel(-1);
+        ReviveAlert.gameObject.SetActive(false);
+
+        GameManager.Inst().GetSubweapons(ReviveAlert.Index).CoolTime = 0;
     }
 }

@@ -659,6 +659,16 @@ public class Weapon : MonoBehaviour
         EquipArea.PaintGauge(type, bulletType, TempCount[type]);
     }
 
+    public void ShowInfoArea(int Type)
+    {
+        InfoArea.ShowDetail(Type);
+    }
+
+    public void InfoAreaTrigger(string trigger)
+    {
+        InfoArea.SetAnimTrigger(trigger);
+    }
+
     public void OnClickEquipBack()
     {
         EquipSwitch.gameObject.SetActive(false);
@@ -723,6 +733,49 @@ public class Weapon : MonoBehaviour
         GameManager.Inst().UpgManager.AddLevel(CurBulletType);
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 32)
+            GameManager.Inst().Tutorials.Step++;
+    }
+
+    public void OnClickEquipAreaBtn()
+    {
+        ShowEquipArea();
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
+            GameManager.Inst().Tutorials.Step++;
+    }
+
+    public void OnClickWeaponTypeSortBtn(int index)
+    {
+       SortAsType(index);
+    }
+
+    public void OnClickEquipSelectBtn(int index)
+    {
+        Select(index, CurBulletType);
+    }
+
+    public void OnClickSwitchBtn()
+    {
+        Switch();
+    }
+
+    public void OnClickSwitchCancelBtn()
+    {
+        EquipSwitch.gameObject.SetActive(false);
+    }
+
+    public void OnClickWeaponInfoBtn()
+    {
+        if (!InfoWindow.gameObject.activeSelf)
+        {
+            InfoWindow.gameObject.SetActive(true);
+            GameManager.Inst().UiManager.CurrentBulletType = CurBulletType;
+            InfoWindow.Show(CurBulletType);
+        }
+        else
+            InfoWindow.gameObject.SetActive(false);
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 31)
             GameManager.Inst().Tutorials.Step++;
     }
 }

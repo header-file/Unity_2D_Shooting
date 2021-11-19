@@ -45,9 +45,9 @@ public class StageManager : MonoBehaviour
             BossDeathCounts[i] = 0;
         }
             
-        GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(false);
+        GameManager.Inst().UiManager.MainUI.BossHPBarCanvas.SetActive(false);
         BossMax = 100;
-        GameManager.Inst().UiManager.BossGauge.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.BossGauge.gameObject.SetActive(true);
         IsFeverMode = false;
 
         UnlockBulletStages = new int[Constants.MAXBULLETS];
@@ -121,9 +121,9 @@ public class StageManager : MonoBehaviour
         IsBoss = true;
         GameManager.Inst().UiManager.Background.BgAnim.SetTrigger("toBoss");
         BossTimer = Constants.MAXBOSSTIME;
-        GameManager.Inst().UiManager.BossGauge.SetActive(false);
+        GameManager.Inst().UiManager.MainUI.BossGauge.gameObject.SetActive(false);
         BossCount[Stage - 1] = 0;
-        GameManager.Inst().UiManager.BossGaugeBar.fillAmount = (float)BossCount[Stage - 1] / BossMax;
+        GameManager.Inst().UiManager.MainUI.BossGaugeBar.fillAmount = (float)BossCount[Stage - 1] / BossMax;
         CancelEnemies();
         Invoke("SpawnBoss", 2.5f);
         GameManager.Inst().Player.BossMode();
@@ -139,7 +139,7 @@ public class StageManager : MonoBehaviour
     public void FillGauge()
     {
         float percent = (float)BossCount[Stage - 1] / BossMax;
-        GameManager.Inst().UiManager.BossGaugeBar.fillAmount = percent;
+        GameManager.Inst().UiManager.MainUI.BossGaugeBar.fillAmount = percent;
 
         for (int i = 0; i < FullFever[Stage - 1]; i++)
         {
@@ -239,7 +239,7 @@ public class StageManager : MonoBehaviour
     {
         CancelEnemies();
 
-        GameManager.Inst().UiManager.BossGauge.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.BossGauge.gameObject.SetActive(true);
 
         InvokeRepeating("SpawnSmall", 0.0f, SmallTime);
         InvokeRepeating("SpawnMedium", 0.0f, MediumTime);
@@ -295,13 +295,13 @@ public class StageManager : MonoBehaviour
         Boss.transform.position = pos;
         Boss.ResetData();
 
-        GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.BossHPBarCanvas.SetActive(true);
     }
 
     public void RestartStage()
     {
         GameManager.Inst().UiManager.Background.BgAnim.SetTrigger("toNormal");
-        GameManager.Inst().UiManager.BossHPBarCanvas.SetActive(false);
+        GameManager.Inst().UiManager.MainUI.BossHPBarCanvas.SetActive(false);
         GameManager.Inst().Player.EndBossMode();
 
         GameObject bomb = GameManager.Inst().ObjManager.MakeObj("Bomb");

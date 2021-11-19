@@ -215,7 +215,7 @@ public class Tutorials : MonoBehaviour
 
     void ToggleResUI()
     {
-        GameManager.Inst().UiManager.OnClickResourceToggleBtn();
+        GameManager.Inst().UiManager.MainUI.OnClickResourceToggleBtn();
     }
 
     void ExitWeaponInfo()
@@ -228,7 +228,7 @@ public class Tutorials : MonoBehaviour
     void ExitSell()
     {
         GameManager.Inst().UiManager.MainUI.Center.Inventory.InventoryDetail.OnClickNoBtn();
-        GameManager.Inst().UiManager.OnClickInventoryDetailBackBtn();
+        GameManager.Inst().UiManager.MainUI.Center.Inventory.OnClickInventoryDetailBackBtn();
 
         AddStep();
 

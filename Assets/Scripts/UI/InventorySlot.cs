@@ -158,13 +158,13 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
         switch(Type)
         {
             case 0:
-                GameManager.Inst().UiManager.OnClickInventoryDetailBtn(Index);
+                GameManager.Inst().UiManager.MainUI.Center.Inventory.ShowInventoryDetail(Index);
                 break;
             case 1:
-                GameManager.Inst().UiManager.OnClickEquipSelectBtn(Index);
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.OnClickEquipSelectBtn(Index);
                 break;
             case 2:
-                GameManager.Inst().UiManager.OnClickSynthesisSelectBtn(Index);
+                GameManager.Inst().UiManager.MainUI.Center.Synthesis.OnClickSynthesisSelectBtn(Index);
                 break;
         }
 

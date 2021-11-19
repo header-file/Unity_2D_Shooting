@@ -40,6 +40,18 @@ public class Inventory : MonoBehaviour
         Inventories.ResetInventory();
     }
 
+    public void ShowInventoryDetail(int index)
+    {
+        GameManager.Inst().UiManager.MainUI.Center.Inventory.InventoryDetail.gameObject.SetActive(true);
+
+        GameManager.Inst().UiManager.MainUI.Center.Inventory.InventoryDetail.ShowDetail(index);
+    }
+
+    public void OnClickInventoryDetailBackBtn()
+    {
+        GameManager.Inst().UiManager.MainUI.Center.Inventory.InventoryDetail.gameObject.SetActive(false);
+    }
+
     public void OnClickSell()
     {
         InventoryDetail.ShowSell();

@@ -28,7 +28,7 @@ public class LoopScroll2 : MonoBehaviour
         SlotDistance = (int)Mathf.Abs(Slots[1].GetComponent<RectTransform>().anchoredPosition.x -
                                     Slots[0].GetComponent<RectTransform>().anchoredPosition.x);
 
-        Panel.anchoredPosition = new Vector2(-SlotDistance * (GameManager.Inst().Player.GetBulletType() + 1), 41.0f);
+        Panel.anchoredPosition = new Vector2(-SlotDistance * (GameManager.Inst().Player.GetBulletType() + 1), 0.0f);
         IsDragging = false;
     }
 
@@ -79,7 +79,7 @@ public class LoopScroll2 : MonoBehaviour
 
     public void LerpToBtn(float position)
     {
-        float newX = Mathf.Lerp(Panel.anchoredPosition.x, position, Timer * 1.5f);
+        float newX = Mathf.Lerp(Panel.anchoredPosition.x, position, Timer * 1.0f);
         Vector2 newPosition = new Vector2(newX, Panel.anchoredPosition.y);
         Panel.anchoredPosition = newPosition;
         if (Timer < 1.0f)

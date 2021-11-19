@@ -523,7 +523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4904337850009209504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -622,18 +622,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4947542826143907261}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnClickInventoryBackBtn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &8806765859472154016
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,6 +727,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462311966289666721, guid: 4e77d5efbaaf068408167ac18716c0d4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2300843350469946672}
+    - target: {fileID: 2462311966289666721, guid: 4e77d5efbaaf068408167ac18716c0d4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickInventoryDetailBackBtn
       objectReference: {fileID: 0}
     - target: {fileID: 2895162936285721193, guid: 4e77d5efbaaf068408167ac18716c0d4,
         type: 3}

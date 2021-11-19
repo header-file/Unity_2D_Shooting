@@ -28,12 +28,12 @@ public class Menu : MonoBehaviour
 
     public void OnClickUploadBtn()
     {
-        GameManager.Inst().UiManager.OnClickUploadDataBtn();
+        GameManager.Inst().DatManager.UploadSaveData();
     }
 
     public void OnClickDownloadBtn()
     {
-        GameManager.Inst().UiManager.OnClickDownloadDataBtn();
+        GameManager.Inst().DatManager.DownloadSaveData();
     }
 
     public void OnClickCreditBtn()
