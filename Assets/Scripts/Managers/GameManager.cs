@@ -51,9 +51,9 @@ public class GameManager : MonoBehaviour
     public void SetJewel(int value) { Jewel = value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
     public void AddJewel(int value) { Jewel += value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
     public void SubtractJewel(int value) { Jewel -= value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
-    public void SetResource(int stage, int value) { Resources[stage - 1] = value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
-    public void AddResource(int stage, int value) { Resources[stage - 1] += value; TxtManager.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
-    public void SubtractResource(int stage, int value) { Resources[stage] -= value; TxtManager.Resources[stage].text = Resources[stage].ToString(); }
+    public void SetResource(int stage, int value) { Resources[stage - 1] = value; UiManager.MainUI.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
+    public void AddResource(int stage, int value) { Resources[stage - 1] += value; UiManager.MainUI.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
+    public void SubtractResource(int stage, int value) { Resources[stage] -= value; UiManager.MainUI.Resources[stage].text = Resources[stage].ToString(); }
 
     void Awake()
     {
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < Constants.MAXRESOURCETYPES; i++)
         {
             Resources[i] = 0;
-            TxtManager.Resources[i].text = Resources[i].ToString();
+            UiManager.MainUI.Resources[i].text = Resources[i].ToString();
         }
     }
 

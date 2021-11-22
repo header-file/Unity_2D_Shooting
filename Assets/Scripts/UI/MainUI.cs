@@ -10,6 +10,7 @@ public class MainUI : MonoBehaviour
     public Alarm Alarm;
     public Text CoinText;
     public Text JewelText;
+    public Text[] Resources;
 
     //플레이어용 UI
     public GameObject PlayerUI;
@@ -26,6 +27,7 @@ public class MainUI : MonoBehaviour
     public Image BossHPBar;
     public Text BossHPBarText;
     public Image BossGaugeBar;
+    public Text BossTimer;
 
     public BossGauge BossGauge;
     public SideMenu SideMenu;

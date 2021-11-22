@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
     public Sprite[] FoodImages;
     public Sprite[] EquipImages;
 
+    //메인 UI Pref
+    public GameObject MainUIPref;
 
     BuySubWeapon BuySWUI;
 
@@ -72,6 +74,8 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Inst().UiManager = gameObject.GetComponent<UIManager>();
 
+        MainUI = Instantiate(MainUIPref).GetComponent<MainUI>();
+
         PlayerPosOrigin = GameManager.Inst().Player.transform.position;
         SubWeaponPosOrigin = SubWeapon.transform.position;
         TurretPosOrigin = MainUI.Center.Turret.transform.position;
@@ -81,7 +85,7 @@ public class UIManager : MonoBehaviour
         PlayerPosUI = new Vector3(0.0f, 3.3f, 0.0f);
         SubWeaponPosUI = new Vector3(0.0f, PlayerPosUI.y - 0.24f, 0.0f);
         TurretPosUI = new Vector3(0.0f, 6.15f, 90.0f);
-        BackgroundPosUI = new Vector3(0.0f, PlayerPosUI.y + 3.3f, 0.0f);
+        BackgroundPosUI = new Vector3(0.0f, PlayerPosUI.y - 2.0f, 0.0f);
         PanelPosUI = new Vector3(0.0f, 2.0f, 90.0f);
 
         Timer = 0.0f;

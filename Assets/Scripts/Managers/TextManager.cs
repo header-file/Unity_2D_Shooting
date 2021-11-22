@@ -13,8 +13,6 @@ public class TextManager : MonoBehaviour
         REINFORCED = 3,
     }
 
-    public Text[] Resources;
-    public Text BossTimer;
     public string[] EquipName;
     public string[] EquipDetailFront;
     public string[] EquipDetailBack;
@@ -54,7 +52,7 @@ public class TextManager : MonoBehaviour
 
         float time = GameManager.Inst().StgManager.BossTimer;
         time = (float)System.Math.Truncate((double)time * 100) / 100;
-        BossTimer.text = time.ToString();
+        GameManager.Inst().UiManager.MainUI.BossTimer.text = time.ToString();
 
         GameManager.Inst().StgManager.BossTimer -= Time.deltaTime;
 

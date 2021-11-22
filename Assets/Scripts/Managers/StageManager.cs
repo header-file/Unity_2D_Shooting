@@ -25,6 +25,7 @@ public class StageManager : MonoBehaviour
     int BossMax;
     bool IsFeverMode;
     int FeverCounter;
+    int EnemyCount;
 
     
     void StartEnemy() { Invoke("SpawnEnemies", 2.0f); }
@@ -60,6 +61,8 @@ public class StageManager : MonoBehaviour
         MaxFever = new float[3 * Constants.MAXSTAGES];
         FullFever = new int[Constants.MAXSTAGES];
         FeverCounter = 0;
+
+        EnemyCount = 0;
 
         SetUnlockData();
     }
@@ -235,6 +238,12 @@ public class StageManager : MonoBehaviour
         LargeTime = float.Parse(data[2]["SpawnTime"].ToString());
     }
 
+    void CheckEnemyCount()
+    {
+        if (EnemyCount >= 120)
+            EnemyCount = 0;
+    }
+
     void SpawnEnemies()
     {
         CancelEnemies();
@@ -249,40 +258,55 @@ public class StageManager : MonoBehaviour
     void SpawnSmall()
     {
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
-        SetTransform(enemy, new Vector2(0.0f, 0.0f));
+        SetTransform(enemy, new Vector3(0.0f, 0.0f, 0.05f * EnemyCount++));
+
+        CheckEnemyCount();
     }
 
-    public void SpawnSmall(Vector2 pos)
+    public void SpawnSmall(Vector3 pos)
     {
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
+        pos.z = 0.05f * EnemyCount++;
         enemy.transform.position = pos;
         SetTransform(enemy, pos);
+
+        CheckEnemyCount();
     }
 
     public void SpawnMedium()
     {
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyM").gameObject.GetComponent<Enemy>();
-        SetTransform(enemy, new Vector2(0.0f, 0.0f));
+        SetTransform(enemy, new Vector3(0.0f, 0.0f, 0.05f * EnemyCount++));
+
+        CheckEnemyCount();
     }
 
-    public void SpawnMedium(Vector2 pos)
+    public void SpawnMedium(Vector3 pos)
     {
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyM").gameObject.GetComponent<Enemy>();
+        pos.z = 0.05f * EnemyCount++;
         enemy.transform.position = pos;
         SetTransform(enemy, pos);
+
+        CheckEnemyCount();
     }
 
     public void SpawnLarge()
     {
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").gameObject.GetComponent<Enemy>();
-        SetTransform(enemy, new Vector2(0.0f, 0.0f));
+        SetTransform(enemy, new Vector3(0.0f, 0.0f, 0.05f * EnemyCount++));
+
+        CheckEnemyCount();
     }
 
-    public void SpawnLarge(Vector2 pos)
+    public void SpawnLarge(Vector3 pos)
     {
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").gameObject.GetComponent<Enemy>();
+        pos.z = 0.05f * EnemyCount++;
         enemy.transform.position = pos;
         SetTransform(enemy, pos);
+
+        CheckEnemyCount();
     }
 
     void SpawnBoss()
@@ -292,8 +316,11 @@ public class StageManager : MonoBehaviour
         Boss = GameManager.Inst().ObjManager.MakeObj("EnemyB").gameObject.GetComponent<EnemyB>();
         Vector3 pos = Vector3.zero;
         pos.y = 13.0f;
+        pos.z = 0.05f * EnemyCount++;
         Boss.transform.position = pos;
         Boss.ResetData();
+
+        CheckEnemyCount();
 
         GameManager.Inst().UiManager.MainUI.BossHPBarCanvas.SetActive(true);
     }
@@ -322,7 +349,7 @@ public class StageManager : MonoBehaviour
         CancelInvoke("SpawnLarge");
     }
 
-    void SetTransform(Enemy Enemy, Vector2 pos)
+    void SetTransform(Enemy Enemy, Vector3 pos)
     {
         Enemy.SpeedMultiplier = 1.0f;
 
@@ -346,13 +373,14 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    void FallDown(Enemy Enemy, Vector2 fixedPos)
+    void FallDown(Enemy Enemy, Vector3 fixedPos)
     {
         Vector3 pos = fixedPos;
-        if (fixedPos == Vector2.zero)
+        if (fixedPos.y == 0)
         {
             pos.x = Random.Range(-2.5f, 2.5f);
             pos.y = Random.Range(11.0f, 15.0f);
+            pos.z = 0.05f * EnemyCount++;
             Enemy.transform.position = pos;
         }
 
@@ -372,13 +400,14 @@ public class StageManager : MonoBehaviour
         Enemy.StartMove(Time.deltaTime);
     }
 
-    void Zigzag(Enemy Enemy, Vector2 fixedPos)
+    void Zigzag(Enemy Enemy, Vector3 fixedPos)
     {
         Vector3 pos = fixedPos;
-        if (fixedPos == Vector2.zero)
+        if (fixedPos.y == 0)
         {            
             pos.x = Random.Range(-2.0f, 2.0f);
             pos.y = Random.Range(9.0f, 11.0f);
+            pos.z = 0.05f * EnemyCount++;
             Enemy.transform.position = pos;
         }
 
@@ -391,16 +420,17 @@ public class StageManager : MonoBehaviour
         Enemy.StartMove(Time.deltaTime);
     }
 
-    void Break(Enemy Enemy, Vector2 fixedPos)
+    void Break(Enemy Enemy, Vector3 fixedPos)
     {
         Vector3 pos = fixedPos;
-        if (fixedPos == Vector2.zero)
+        if (fixedPos.y == 0)
         {
             pos.x = Random.Range(3.5f, 5.0f);
             int r = Random.Range(0, 2);
             if (r == 1)
                 pos.x *= -1;
             pos.y = Random.Range(7.0f, 9.0f);
+            pos.z = 0.05f * EnemyCount++;
             Enemy.transform.position = pos;
         }
 
@@ -414,13 +444,14 @@ public class StageManager : MonoBehaviour
         Enemy.StartMove(Time.deltaTime);
     }
 
-    void Flower(Enemy Enemy, Vector2 fixedPos)
+    void Flower(Enemy Enemy, Vector3 fixedPos)
     {
         Vector3 pos = fixedPos;
-        if (fixedPos == Vector2.zero)
+        if (fixedPos.y == 0)
         {
             pos.x = Random.Range(-2.0f, 2.0f);
             pos.y = Random.Range(9.0f, 11.0f);
+            pos.z = 0.05f * EnemyCount++;
             Enemy.transform.position = pos;
         }
 
@@ -430,13 +461,14 @@ public class StageManager : MonoBehaviour
         Enemy.StartMove(Time.deltaTime);
     }
 
-    void Meteor(Enemy Enemy, Vector2 fixedPos)
+    void Meteor(Enemy Enemy, Vector3 fixedPos)
     {
         Vector3 pos = fixedPos;
-        if (fixedPos == Vector2.zero)
+        if (fixedPos.y == 0)
         {
             pos.x = Random.Range(-2.0f, 2.0f);
             pos.y = Random.Range(9.0f, 10.0f);
+            pos.z = 0.05f * EnemyCount++;
             Enemy.transform.position = pos;
         }
 

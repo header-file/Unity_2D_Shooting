@@ -134,7 +134,7 @@ public class Enemy : MonoBehaviour
                     else if(transform.position.x < TargetPosition.x)
                         Rig.velocity = transform.right * Speed * SpeedMultiplier;
 
-                    if (Vector3.Distance(transform.position, TargetPosition) < 0.05f)
+                    if (Mathf.Abs(transform.position.x - TargetPosition.x) < 0.05f)
                     {
                         IsReflected = true;
                         FallEffect.gameObject.SetActive(true);

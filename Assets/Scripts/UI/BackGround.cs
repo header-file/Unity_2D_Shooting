@@ -20,6 +20,6 @@ public class BackGround : MonoBehaviour
 
     void Warning()
     {
-        //GameManager.Inst().UiManager.BossWarning();
+        GameManager.Inst().UiManager.BossWarning();
     }
 }
