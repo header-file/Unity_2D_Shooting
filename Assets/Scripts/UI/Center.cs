@@ -27,8 +27,6 @@ public class Center : MonoBehaviour
         BossWarning.Play();
 
         //GameManager.Inst().SodManager.PlayEffect("Warning boss");
-
-        Invoke("EndPlayWarning", 2.0f);
     }
 
     public void PlayInventoryFull()
@@ -41,7 +39,7 @@ public class Center : MonoBehaviour
         Invoke("EndPlayWarning", 0.45f);
     }
 
-    void EndPlayWarning()
+    public void EndPlayWarning()
     {
         //GameManager.Inst().SodManager.StopEffect("Warning boss");
         GameManager.Inst().SodManager.StopEffect("Warning inventoryFull");

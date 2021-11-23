@@ -20,6 +20,7 @@ public class InfoArea : MonoBehaviour
     public Button EquipAreaBtn;
     public Image[] GradeDeco;
     public Image GradeBg;
+    public Animation GradeUpAnim;
 
     public int[] DefaultColor;
     public Sprite[] Decos;
@@ -97,6 +98,12 @@ public class InfoArea : MonoBehaviour
                 Gauges[type].fillAmount = (float)GameManager.Inst().UpgManager.BData[bulletType].GetSpd() / GameManager.Inst().UpgManager.BData[bulletType].GetMaxSpd();
                 break;
         }
+    }
+
+    public void GradeUp(int bulletType)
+    {
+        GradeBg.color = GradeColors[GameManager.Inst().UpgManager.BData[bulletType].GetRarity()];
+        GradeUpAnim.Play();
     }
 }
 

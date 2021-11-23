@@ -393,6 +393,7 @@ public class UpgradeManager : MonoBehaviour
 
         //UI
         ShowRarityupWindow(UpgType);
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoArea.GradeUp(UpgType);
 
         //HP적용
         SetHPData(UpgType);

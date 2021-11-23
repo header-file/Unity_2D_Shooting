@@ -187,14 +187,6 @@ public class UIManager : MonoBehaviour
         MainUI.Center.PlayInventoryFull();
     }
 
-    public void BossWarning()
-    {
-        MainUI.Center.PlayBossWarning();
-
-        GameManager.Inst().SodManager.PlayEffect("Warning boss");
-    }
-
-
     //Button Interact   
     public void UnlockStage(int index)
     {

@@ -78,7 +78,7 @@ public class EnemyB : Enemy
                 Summon();
             else
             {
-                int rand = Random.Range(0, 1);
+                int rand = Random.Range(0, 3);
                 switch (rand)
                 {
                     case 0:
