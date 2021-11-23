@@ -488,8 +488,8 @@ public class Enemy : MonoBehaviour
         {
             if(GameManager.Inst().StgManager.Stage == 2)
             {
-                if (IsReflected || CurveTime <= 10.0f)
-                    return;
+                //if (IsReflected || CurveTime <= 10.0f)
+                //    return;
 
                 float rotZ = transform.rotation.eulerAngles.z;
                 Quaternion rot = Quaternion.Euler(0.0f, 0.0f, -rotZ);

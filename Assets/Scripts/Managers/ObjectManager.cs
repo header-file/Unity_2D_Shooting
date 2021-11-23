@@ -777,7 +777,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Explodes.Length / maxColor; i++)
             {
                 Explodes[j, i] = Instantiate(ExplodePref[j]);
-                Explodes[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
+                Explodes[j, i].GetComponent<Explosion>().Bullet.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Explodes[j, i].transform.SetParent(PBulletPool.transform, false);
                 Explodes[j, i].SetActive(false);
             }

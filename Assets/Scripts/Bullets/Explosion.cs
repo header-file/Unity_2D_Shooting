@@ -5,11 +5,12 @@ using UnityEngine;
 public class Explosion : Bullet
 {
     public GameObject Explode;
+    public GameObject Bullet;
 
     void Awake()
     {
         Type = BulletType.EXPLOSION;
-        GetComponent<SpriteRenderer>().color = Color.white;
+        Bullet.GetComponent<SpriteRenderer>().color = Color.white;
         Explode.SetActive(false);
     }
 
@@ -18,13 +19,16 @@ public class Explosion : Bullet
         if(collision.tag == "Enemy")
         {
             Explode.SetActive(true);
-            Invoke("Disappear", 0.15f);
+            Bullet.SetActive(false);
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            Invoke("Disappear", 0.5f);
         }
     }
 
     public void Disappear()
     {
         Explode.SetActive(false);
+        Bullet.SetActive(true);
         gameObject.SetActive(false);
     }
 }

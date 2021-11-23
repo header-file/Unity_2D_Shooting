@@ -12,18 +12,18 @@ public class SearchArea : MonoBehaviour
 
     public ParentType PType;
 
-    Missile Parent;
+    BossMissile Parent;
     CircleCollider2D Col;
 
     void Awake()
     {
-        Parent = transform.parent.gameObject.GetComponent<Missile>();
+        Parent = transform.parent.gameObject.GetComponent<BossMissile>();
         Col = gameObject.GetComponent<CircleCollider2D>();
     }
 
     void Update()
     {
-        if(Parent.Target != null && !Parent.Target.activeSelf)
+        if (Parent.Target != null && !Parent.Target.activeSelf)
             Parent.Target = null;
     }
 

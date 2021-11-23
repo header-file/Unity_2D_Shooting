@@ -62,8 +62,10 @@ public class Item_Resource : Item
     {
         if(GameManager.Inst().StgManager.Stage == 0)
             stage = Random.Range(0, Constants.MAXSTAGES + 1);
+        else if (GameManager.Inst().StgManager.Stage == 5)
+            stage = Random.Range(1, 5);
         else
-            stage = GameManager.Inst().StgManager.Stage;
+            stage = GameManager.Inst().StgManager.Stage;        
 
         GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Colors[stage]);
         GetComponent<SpriteRenderer>().material.SetFloat("_Intensity", 1.5f);

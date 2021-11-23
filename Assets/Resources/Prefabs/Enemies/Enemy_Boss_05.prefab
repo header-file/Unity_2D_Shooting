@@ -178,8 +178,16 @@ MonoBehaviour:
   Body: {fileID: 0}
   Collider: {fileID: 0}
   Skin: {fileID: 0}
+  Curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  FallEffect: {fileID: 0}
   SpeedMultiplier: 0
   RotGyesu: 0
+  CurveTime: 0
   SpreadPoses:
   - {fileID: 8304490680827007352}
   - {fileID: 10765832118697063}
@@ -4657,6 +4665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5597899274839257754}
+  - component: {fileID: 6437955852186039686}
   m_Layer: 0
   m_Name: offset
   m_TagString: Untagged
@@ -4692,6 +4701,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!111 &6437955852186039686
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7774330292872140531}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: c9446b03f1b8aff4fbce5abf7fe8d940, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: c9446b03f1b8aff4fbce5abf7fe8d940, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &7858725399573182889
 GameObject:
   m_ObjectHideFlags: 0

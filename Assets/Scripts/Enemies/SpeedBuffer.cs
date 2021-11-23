@@ -10,7 +10,7 @@ public class SpeedBuffer : MonoBehaviour
     {
         if (collision.gameObject.name == "Right" || collision.gameObject.name == "Left")
         {
-            Enemy.CurveTime = 10.0f;
+            //Enemy.CurveTime = 10.0f;
         }
     }
 }
