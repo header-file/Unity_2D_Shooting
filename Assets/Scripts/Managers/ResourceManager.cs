@@ -79,11 +79,11 @@ public class ResourceManager : MonoBehaviour
         }
 
         //SideMenuSlot에 표시
-        if (GameManager.Inst().UiManager.GetSideMenuSlot(stage) != null &&
-            GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources.Length == 2)
+        if (GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage) != null &&
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources.Length == 2)
         {
-            GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
-            GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
         }
     }
 
@@ -114,7 +114,7 @@ public class ResourceManager : MonoBehaviour
             TempResources[stage, 0] += 100 * (stage + 1);
             TempResources[stage, 1] += 5 * (stage + 1);
 
-            GameManager.Inst().UiManager.GetSideMenuSlot(stage).GatherBtn.interactable = true;
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).GatherBtn.interactable = true;
         }
 
         ShowData(stage, time);
@@ -123,14 +123,14 @@ public class ResourceManager : MonoBehaviour
     void ShowData(int stage, string str)
     {
         //SideMenuSlot에 표시
-        if (GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources.Length == 2)
+        if (GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources.Length == 2)
         {
-            GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
-            GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
         }
 
-        if (GameManager.Inst().UiManager.GetSideMenuSlot(stage).Timer != null)
-            GameManager.Inst().UiManager.GetSideMenuSlot(stage).Timer.text = str;
+        if (GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Timer != null)
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Timer.text = str;
     }
 
     void FullTime(int stage)
@@ -151,12 +151,12 @@ public class ResourceManager : MonoBehaviour
         for(int i = 0; i < 2; i++)
             TempResources[stage, i] = 0;
 
-        GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
-        GameManager.Inst().UiManager.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
+        GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
+        GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
 
-        GameManager.Inst().UiManager.GetSideMenuSlot(stage).Timer.text = "00 : 00 : 00";
+        GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Timer.text = "00 : 00 : 00";
 
-        GameManager.Inst().UiManager.GetSideMenuSlot(stage).GatherBtn.interactable = false;
+        GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).GatherBtn.interactable = false;
 
         StartTimes[stage] = Now;
     }

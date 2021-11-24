@@ -86,6 +86,7 @@ public class Player : MonoBehaviour
     bool IsInvincible;
     float DeathTimer;
     float GatlingGyesu;
+    int ColorIndex;
     
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
@@ -97,6 +98,7 @@ public class Player : MonoBehaviour
     public bool GetIsMovable() { return IsMovable; }
     public int GetMaxHP() { return MaxHP; }
     public int GetCurHP() { return CurHP; }
+    public int GetColorIndex() { return ColorIndex; }
 
 
     public void SetMaxHP(int hp) { MaxHP = hp; }
@@ -697,6 +699,8 @@ public class Player : MonoBehaviour
 
     public void SetSkinColor(int index)
     {
+        ColorIndex = index;
+        GameManager.Inst().ShtManager.SetColorSelection(2, index);
         GetComponent<Animator>().SetInteger("Color", ++index);
     }
 

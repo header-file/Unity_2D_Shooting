@@ -12,19 +12,34 @@ public class SearchArea : MonoBehaviour
 
     public ParentType PType;
 
-    BossMissile Parent;
+    BossMissile ParentB;
+    Missile ParentP;
     CircleCollider2D Col;
 
     void Awake()
     {
-        Parent = transform.parent.gameObject.GetComponent<BossMissile>();
+        ParentP = transform.parent.gameObject.GetComponent<Missile>();
+        ParentB = transform.parent.gameObject.GetComponent<BossMissile>();
         Col = gameObject.GetComponent<CircleCollider2D>();
+
+        if (ParentP != null)
+            PType = ParentType.PLAYER;
+        else if (ParentB != null)
+            PType = ParentType.ENEMY;
     }
 
     void Update()
     {
-        if (Parent.Target != null && !Parent.Target.activeSelf)
-            Parent.Target = null;
+        if (PType == ParentType.PLAYER)
+        {
+            if (ParentP.Target != null && !ParentP.Target.activeSelf)
+                ParentP.Target = null;
+        }
+        else
+        {
+            if (ParentB.Target != null && !ParentB.Target.activeSelf)
+                ParentB.Target = null;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -33,8 +48,8 @@ public class SearchArea : MonoBehaviour
         {
             if (collision.gameObject.tag == "Enemy")
             {
-                if (Parent.Target == null || Parent.Target.activeSelf == false)
-                    Parent.Target = collision.gameObject;
+                if (ParentP.Target == null || ParentP.Target.activeSelf == false)
+                    ParentP.Target = collision.gameObject;
             }
         }
         else
@@ -42,8 +57,8 @@ public class SearchArea : MonoBehaviour
             if (collision.gameObject.tag == "Player" ||
                 collision.gameObject.tag == "SubWeapon")
             {
-                if (Parent.Target == null || Parent.Target.activeSelf == false)
-                    Parent.Target = collision.gameObject;
+                if (ParentB.Target == null || ParentB.Target.activeSelf == false)
+                    ParentB.Target = collision.gameObject;
             }
         }
     }

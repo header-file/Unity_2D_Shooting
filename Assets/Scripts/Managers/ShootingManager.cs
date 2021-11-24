@@ -37,17 +37,33 @@ public class ShootingManager : MonoBehaviour
         Colors = new Color[MAXCOLOR];
         ColorSelection = new int[5];
 
+        for (int i = 0; i < MAXCOLOR; i++)
+            Colors[i] = GameManager.Inst().UiManager.MainUI.Bottom.Colors[i].color;
+
+        for (int i = 0; i < 5; i++)
+            ColorSelection[i] = 0;
+    }
+
+    void Start()
+    {
         SetColor();
     }
 
     void SetColor()
     {
-        for (int i = 0; i < MAXCOLOR; i++)
-            Colors[i] = GameManager.Inst().UiManager.MainUI.Bottom.Colors[i].color;
-
-
         for (int i = 0; i < 5; i++)
-            ColorSelection[i] = 0;
+        {
+            if (i == 2)
+                ColorSelection[i] = GameManager.Inst().Player.GetColorIndex();
+            else if (i > 2)
+            {
+                if (GameManager.Inst().GetSubweapons(i - 1) != null)
+                    ColorSelection[i] = GameManager.Inst().GetSubweapons(i - 1).GetColorIndex();
+            }
+            else if(i < 2)
+                if (GameManager.Inst().GetSubweapons(i) != null)
+                    ColorSelection[i] = GameManager.Inst().GetSubweapons(i).GetColorIndex();
+        }
     }
 
     public void Shoot(Bullet.BulletType Type, GameObject Shooter, int ID, bool IsVamp, bool IsReinfoce, int index)

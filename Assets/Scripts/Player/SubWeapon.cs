@@ -42,6 +42,7 @@ public class SubWeapon : MonoBehaviour
     bool IsInvincible;
     bool IsShaking;
     float GatlingGyesu;
+    int ColorIndex;
 
     const int COOLTIME = 300;
     int MaxHP;
@@ -52,6 +53,7 @@ public class SubWeapon : MonoBehaviour
     public int GetBulletType() { return BulletType; }
     public int GetCurHP() { return CurHP; }
     public int GetMaxHP() { return MaxHP; }
+    public int GetColorIndex() { return ColorIndex; }
     
     public void SetNumID(int id) { NumID = id; }
     public void SetHP(int hp) { CurHP = MaxHP = hp; }
@@ -477,6 +479,11 @@ public class SubWeapon : MonoBehaviour
 
     public void SetSkinColor(int index)
     {
+        ColorIndex = index;
+        int id = NumID;
+        if (id > 1)
+            id++;
+        GameManager.Inst().ShtManager.SetColorSelection(id, index);
         GetComponent<Animator>().SetInteger("Color", ++index);
     }
 

@@ -187,7 +187,7 @@ public class ZzinBottom : MonoBehaviour
         if (GameManager.Inst().UiManager.MainUI.Center.Shop.gameObject.activeSelf)
             OnClickShopBackBtn();
         if (GameManager.Inst().UiManager.MainUI.Center.Cheat.gameObject.activeSelf)
-            GameManager.Inst().UiManager.OnClickCheatBackBtn();
+            GameManager.Inst().UiManager.MainUI.OnClickCheatBackBtn();
 
         if (SceneManager.GetActiveScene().name == "Stage0" &&
             (GameManager.Inst().Tutorials.Step == 23 || GameManager.Inst().Tutorials.Step == 26 || GameManager.Inst().Tutorials.Step == 27 || GameManager.Inst().Tutorials.Step == 23 ||

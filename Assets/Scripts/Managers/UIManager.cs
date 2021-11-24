@@ -36,8 +36,6 @@ public class UIManager : MonoBehaviour
     //메인 UI Pref
     public GameObject MainUIPref;
 
-    BuySubWeapon BuySWUI;
-
     Vector3 PlayerPosOrigin;
     Vector3 SubWeaponPosOrigin;
     Vector3 TurretPosOrigin;
@@ -59,7 +57,6 @@ public class UIManager : MonoBehaviour
     bool IsEquip;
 
 
-    public BuySubWeapon GetBuySWUI() { return BuySWUI; }
     public bool GetIsMoveUp() { return IsMoveUp; }
     public bool GetIsMoveDown() { return IsMoveDown; }
 
@@ -166,8 +163,8 @@ public class UIManager : MonoBehaviour
 
     public void SetSubWeaponInteratable(bool b)
     {
-        MainUI.Center.Turret.transform.GetChild(BuySWUI.GetSelectedIndex()).GetChild(0).gameObject.GetComponent<Button>().interactable = b;
-        MainUI.Center.Turret.transform.GetChild(BuySWUI.GetSelectedIndex()).GetChild(0).gameObject.SetActive(false);
+        MainUI.Center.Turret.transform.GetChild(GameManager.Inst().UiManager.MainUI.Bottom.BuySW.GetSelectedIndex()).GetChild(0).gameObject.GetComponent<Button>().interactable = b;
+        MainUI.Center.Turret.transform.GetChild(GameManager.Inst().UiManager.MainUI.Bottom.BuySW.GetSelectedIndex()).GetChild(0).gameObject.SetActive(false);
     }
 
     public void SetSubWeaponInteratable(int index, bool b)
@@ -194,36 +191,5 @@ public class UIManager : MonoBehaviour
 
         if (GameManager.Inst().StgManager.ReachedStage > 1)
             MainUI.SideMenu.MakeSlot();
-    }
-
-    public SideMenuSlot GetSideMenuSlot(int i)
-    {
-        if(MainUI.SideMenu.Slots.Length == Constants.MAXSTAGES)
-            return MainUI.SideMenu.Slots[i];
-
-        return null;
-    }
-
-    //Click Interactions
-    public void OnClickCheatBtn()
-    {
-        MainUI.ZzinBottom.OnClickHomeBtn();
-
-        MainUI.Center.Cheat.gameObject.SetActive(true);
-
-        MainUI.ZzinBottom.HomeBtn.SetActive(true);
-
-        GameManager.Inst().IptManager.SetIsAbleControl(false);
-        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
-    }
-
-    public void OnClickCheatBackBtn()
-    {
-        MainUI.Center.Cheat.gameObject.SetActive(false);
-
-        MainUI.ZzinBottom.HomeBtn.SetActive(false);
-
-        GameManager.Inst().IptManager.SetIsAbleControl(true);
-        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
     }
 }

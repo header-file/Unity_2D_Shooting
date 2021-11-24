@@ -53,6 +53,14 @@ public class MainUI : MonoBehaviour
         GameManager.Inst().Player.EquipIcon = PlayerEquipIcon;
     }
 
+    public SideMenuSlot GetSideMenuSlot(int i)
+    {
+        if (SideMenu.Slots.Length == Constants.MAXSTAGES)
+            return SideMenu.Slots[i];
+
+        return null;
+    }
+
     public void OnClickMenu()
     {
         GameManager.Inst().IptManager.SetIsAbleControl(false);
@@ -72,5 +80,27 @@ public class MainUI : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 3)
                 GameManager.Inst().Tutorials.Step++;
         }
+    }
+
+    public void OnClickCheatBtn()
+    {
+        ZzinBottom.OnClickHomeBtn();
+
+        Center.Cheat.gameObject.SetActive(true);
+
+        GameManager.Inst().UiManager.MainUI.ZzinBottom.HomeBtn.SetActive(true);
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+    }
+
+    public void OnClickCheatBackBtn()
+    {
+        Center.Cheat.gameObject.SetActive(false);
+
+        ZzinBottom.HomeBtn.SetActive(false);
+
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
     }
 }

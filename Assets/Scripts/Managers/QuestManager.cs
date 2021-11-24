@@ -111,7 +111,7 @@ public class QuestManager : MonoBehaviour
                 slot.QuestID = Quests[i].QuestId;
                 slot.ProgressBar.fillAmount = 0.0f;
                 slot.Check.SetActive(false);
-                slot.transform.SetParent(GameManager.Inst().UiManager.GetSideMenuSlot(GameManager.Inst().StgManager.ReachedStage - 1).ContentTransform, false);
+                slot.transform.SetParent(GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(GameManager.Inst().StgManager.ReachedStage - 1).ContentTransform, false);
 
                 QuestSlots.Add(slot);
                 CurStageQuests++;
