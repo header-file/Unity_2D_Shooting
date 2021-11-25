@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
     EqData[] Inventory;
     Vector3 OriginalPos;
     CanvasGroup canvasGroup;
+    Vector3 NormalSize;
+    Vector3 BossSize;
     
 
     Vector3 PlayerPos;
@@ -125,9 +127,6 @@ public class Player : MonoBehaviour
         IsMovable = true;
 
         gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
-        //Booster.SetActive(true);
-        //Booster.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color.red);
-        //Booster.transform.GetChild(0).GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Color.yellow);
 
         for (int i = 0; i < 4; i++)
         {
@@ -379,6 +378,9 @@ public class Player : MonoBehaviour
             ShieldParts[i].gameObject.SetActive(false);
 
         GatlingGyesu = 1.0f;
+
+        NormalSize = Vector3.one * 0.8f;
+        BossSize = Vector3.one * 0.4f;
     }
 
     void Start()
@@ -396,6 +398,25 @@ public class Player : MonoBehaviour
 
         if (BulletType == (int)Bullet.BulletType.GATLING)
             GatlingMove();
+
+        if(IsMovable)
+        {
+            if(transform.localScale.x > BossSize.x)
+            {
+                Vector3 size = transform.localScale;
+                size -= Vector3.one * 0.05f;
+                transform.localScale = size;
+            }
+        }
+        else
+        {
+            if(transform.localScale.x < NormalSize.x)
+            {
+                Vector3 size = transform.localScale;
+                size += Vector3.one * 0.05f;
+                transform.localScale = size;
+            }
+        }
     }
 
     void SetUIPos()

@@ -92,6 +92,8 @@ public class Bottom : MonoBehaviour
                 GameManager.Inst().GetSubweapons(i).ShowEquipUI();
         }
 
+        GameManager.Inst().StgManager.UnlockBullet(GameManager.Inst().DatManager.GameData.ReachedStage);
+
         if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 5 || GameManager.Inst().Tutorials.Step == 41))
             GameManager.Inst().Tutorials.Step++;
     }

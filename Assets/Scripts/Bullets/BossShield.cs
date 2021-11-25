@@ -26,7 +26,9 @@ public class BossShield : Bullet
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "BlockBullet")
+        if (collision.gameObject.tag == "BlockBullet" ||
+            collision.gameObject.tag == "PierceBullet" ||
+            collision.gameObject.tag == "Chain")
         {
             collision.gameObject.SetActive(false);
         }

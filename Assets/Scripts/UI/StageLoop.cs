@@ -143,6 +143,8 @@ public class StageLoop : MonoBehaviour
         Panel.anchoredPosition = new Vector2(0.0f, -SlotDistance * (GameManager.Inst().StgManager.Stage - 1));
         IsDragging = false;
 
+        GameManager.Inst().StgManager.UnlockStages(GameManager.Inst().DatManager.GameData.ReachedStage);
+
         LandingBtn.interactable = false;
     }
 

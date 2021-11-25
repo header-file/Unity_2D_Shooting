@@ -70,7 +70,6 @@ public class StageManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-        FillGauge();
     }
 
     void SetUnlockData()
@@ -137,6 +136,12 @@ public class StageManager : MonoBehaviour
 
         GameManager.Inst().SodManager.StopBGM();
         GameManager.Inst().SodManager.PlayBGM("Stage" + Stage.ToString() + " Boss");
+    }
+
+    public void Fill()
+    {
+        float percent = (float)BossCount[Stage - 1] / BossMax;
+        GameManager.Inst().UiManager.MainUI.BossGaugeBar.fillAmount = percent;
     }
 
     public void FillGauge()
@@ -481,6 +486,9 @@ public class StageManager : MonoBehaviour
 
     void FeverMode()
     {
+        if (IsFeverMode)
+            return;
+
         IsFeverMode = true;
         CancelEnemies();
 

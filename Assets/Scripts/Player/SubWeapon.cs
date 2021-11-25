@@ -185,8 +185,8 @@ public class SubWeapon : MonoBehaviour
     public void BossMode()
     {
         IsBoss = true;
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        //Booster.SetActive(true);
+        //transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        transform.parent = GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].transform;
     }
 
     public void EndBossMode()
@@ -194,13 +194,6 @@ public class SubWeapon : MonoBehaviour
         IsBoss = false;
         IsMoving = true;
 
-        //int index = NumID;
-        //if (index > 2)
-        //    index--;
-        //transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position, Time.deltaTime * 3.0f);
-        transform.position = Vector3.Lerp(transform.position, GameManager.Inst().UiManager.SubPositions[NumID].transform.position, Time.deltaTime * 3.0f);
-
-        //if (Vector3.Distance(transform.position, GameManager.Inst().UpgManager.SubPositions[index].transform.position) > 0.001f)
         if (Vector3.Distance(transform.position, GameManager.Inst().UiManager.SubPositions[NumID].transform.position) > 0.001f)
             Invoke("EndBossMode", Time.deltaTime);
         else
@@ -285,14 +278,14 @@ public class SubWeapon : MonoBehaviour
 
     void SetPosition()
     {
-        if(IsBoss)
-        {
-            float speed = 5.0f;
-            if(NumID == 0 || NumID == 3)
-                speed = 4.0f;
-            transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.BossSubPoses[NumID].transform.position, Time.deltaTime * speed);
-        } 
-        else
+        //if(IsBoss)
+        //{
+        //    float speed = 5.0f;
+        //    if(NumID == 0 || NumID == 3)
+        //        speed = 4.0f;
+        //    transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.BossSubPoses[NumID].transform.position, Time.deltaTime * speed);
+        //} 
+        //else
         {
             transform.position = GameManager.Inst().UiManager.SubPositions[NumID].transform.position;
         }

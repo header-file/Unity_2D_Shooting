@@ -242,8 +242,8 @@ public class GameData
         if (GameManager.Inst().StgManager.Stage <= CurrentStage)
             GameManager.Inst().StgManager.Stage = CurrentStage;
 
-        if (GameManager.Inst().StgManager.Stage < ReachedStage)
-            GameManager.Inst().StgManager.UnlockStages(ReachedStage);
+        //if (GameManager.Inst().StgManager.Stage < ReachedStage)
+        //    GameManager.Inst().StgManager.UnlockStages(ReachedStage);
 
         if(ReachedStage > 1)
             for (int i = 0; i < ReachedStage; i++)
@@ -289,22 +289,12 @@ public class GameData
 
         if (BossGauges != null && BossGauges.Length == Constants.MAXSTAGES)
             for (int i = 0; i < Constants.MAXSTAGES; i++)
-            {
                 GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
-
-                if (i + 1 == GameManager.Inst().StgManager.Stage)
-                    GameManager.Inst().StgManager.FillGauge();
-            }
         else
         {
             if (BossGauges != null)
                 for (int i = 0; i < BossGauges.Length; i++)
-                {
                     GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
-
-                    if (i + 1 == GameManager.Inst().StgManager.Stage)
-                        GameManager.Inst().StgManager.FillGauge();
-                }
 
             BossGauges = new int[Constants.MAXSTAGES];
         }
