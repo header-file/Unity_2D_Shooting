@@ -7,7 +7,8 @@ public class BossMirror : Bullet
     public LineRenderer Line;
     public int Damage;
     public Rigidbody2D Rig;
-    public LayerMask LayerMask;
+    public LayerMask WallMask;
+    public LayerMask NothingMask;
 
     Vector3[] Poses;
     Vector3 Pos;
@@ -15,8 +16,9 @@ public class BossMirror : Bullet
     bool IsAiming;
     int BounceCount;
     float Speed;
+    RaycastHit2D Hit;
+    GameObject[] HitWalls;
 
-    
     void Start()
     {
         Type = BulletType.NORMAL;
@@ -26,6 +28,8 @@ public class BossMirror : Bullet
         BounceCount = 3;
         Speed = 20.0f;
         Poses = new Vector3[3];
+        //WallMask.value = 4;
+        HitWalls = new GameObject[4];
     }
 
     void Update()
@@ -45,15 +49,30 @@ public class BossMirror : Bullet
 
         for (int i = 1; i < 4; i++)
         {
-            RaycastHit2D hit = Physics2D.Raycast(Pos, Dir, 10.0f, LayerMask);
+            Hit = Physics2D.Raycast(Pos, Dir, 20.0f, WallMask);
+
+            if (HitWalls[i - 1] != null)
+                HitWalls[i - 1].layer = 8;
 
             Line.positionCount++;
-            Line.SetPosition(i, hit.point);
+            Line.SetPosition(i, Hit.point);
 
-            Pos = hit.point;
-            Poses[3 - i] = hit.point;
-            Dir = Vector3.Reflect(Dir, hit.normal);
+            Pos = Hit.point;
+            Poses[3 - i] = Hit.point;
+            Dir = Vector3.Reflect(Dir, Hit.normal);
+
+            HitWalls[i] = Hit.collider.gameObject;
+            HitWalls[i].layer = NothingMask;
         }
+
+        for (int i = 0; i < HitWalls.Length; i++)
+        {
+            if (HitWalls[i] == null)
+                continue;
+
+            HitWalls[i].layer = 8;
+            HitWalls[i] = null;
+        }            
 
         Line.widthMultiplier -= Time.deltaTime;
 
@@ -61,7 +80,6 @@ public class BossMirror : Bullet
         {
             Line.widthMultiplier = 0.0f;
             IsAiming = false;
-            //Shoot(-transform.up, Speed);
         }
     }
 
@@ -72,7 +90,8 @@ public class BossMirror : Bullet
 
     public void Rotate()
     {
-        int rand = Random.Range(-60, 61);
+        int rand = Random.Range(-12, 12);
+        rand *= 5;
         transform.rotation = Quaternion.AngleAxis(rand, Vector3.forward);
     }
 
@@ -89,6 +108,7 @@ public class BossMirror : Bullet
                 Rig.angularVelocity = 0.0f;
                 Line.widthMultiplier = 1.0f;
                 Line.positionCount = 0;
+                IsAiming = true;
                 gameObject.SetActive(false);
             }
         }

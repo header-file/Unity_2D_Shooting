@@ -77,7 +77,7 @@ SpriteRenderer:
   m_Sprite: {fileID: 21300000, guid: 387bc07b38fd46845984871e6da9e1aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
-  m_FlipY: 1
+  m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
@@ -126,9 +126,12 @@ MonoBehaviour:
   Line: {fileID: 4446889136492713967}
   Damage: 10
   Rig: {fileID: 7941293410646839045}
-  LayerMask:
+  WallMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 272
+  NothingMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!58 &1530840192691086453
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -139,7 +142,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
