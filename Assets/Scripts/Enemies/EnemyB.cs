@@ -78,7 +78,7 @@ public class EnemyB : Enemy
                 Summon();
             else
             {
-                int rand = Random.Range(2, 3);
+                int rand = Random.Range(0, 2);
                 switch (rand)
                 {
                     case 0:
@@ -352,43 +352,14 @@ public class EnemyB : Enemy
 
     void Explosion()
     {
-        int index = 4 + 11 * WayDir;
-        switch (WayDir)
-        {
-            case 0:
-                GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
-                obj.transform.position = SpreadPoses[index].transform.position;
-                obj.transform.rotation = SpreadPoses[index].transform.rotation;
+        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
+        obj.transform.position = BigBulletPos.transform.position;
+        obj.transform.rotation = BigBulletPos.transform.rotation;
 
-                BossExplosion bullet = obj.gameObject.GetComponent<BossExplosion>();
-                bullet.Shoot(obj.transform.up);
-                break;
+        BossExplosion bullet = obj.gameObject.GetComponent<BossExplosion>();
+        bullet.Shoot(obj.transform.up);
 
-            case 1:
-                obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
-                obj.transform.position = SpreadPoses[index].transform.position;
-                obj.transform.rotation = SpreadPoses[index].transform.rotation;
-
-                bullet = obj.gameObject.GetComponent<BossExplosion>();
-                bullet.Shoot(obj.transform.up);
-                break;
-
-            case 2:
-                for (int i = 0; i < 2; i++)
-                {
-                    obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
-                    index = 4 + 11 * i;
-
-                    obj.transform.position = SpreadPoses[index].transform.position;
-                    obj.transform.rotation = SpreadPoses[index].transform.rotation;
-
-                    bullet = obj.gameObject.GetComponent<BossExplosion>();
-                    bullet.Shoot(obj.transform.up);
-                }
-                break;
-        }
-
-        GameManager.Inst().SodManager.PlayEffect("Bs_OneWay");
+        GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
 
     void Charge()
@@ -437,6 +408,40 @@ public class EnemyB : Enemy
         bullet.Fall();
 
         GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
+    }
+
+    void Rock()
+    {
+        int dir = WayDir;
+        if (WayDir == 2)
+            dir = Random.Range(0, 2);
+
+        switch (dir)
+        {
+            case 0:
+                GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                Vector3 newPos = new Vector3(-3.5f, GameManager.Inst().Player.transform.position.y, 0.0f);
+                obj.transform.position = newPos;
+                obj.transform.rotation = Quaternion.Euler(Vector3.zero);
+
+                BossRock bullet = obj.gameObject.GetComponent<BossRock>();
+                bullet.StartCount();
+                bullet.Shoot(obj.transform.right, 5.0f);
+                break;
+
+            case 1:
+                obj = GameManager.Inst().ObjManager.MakeObj("BossOneWay");
+                newPos = new Vector3(3.5f, GameManager.Inst().Player.transform.position.y, 0.0f);
+                obj.transform.position = newPos;
+                obj.transform.rotation = Quaternion.Euler(Vector3.zero);
+
+                bullet = obj.gameObject.GetComponent<BossRock>();
+                bullet.StartCount();
+                bullet.Shoot(-obj.transform.right, 5.0f);
+                break;
+        }
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_OneWay");
     }
 
     void Flower()
