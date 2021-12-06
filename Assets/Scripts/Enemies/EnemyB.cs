@@ -78,7 +78,7 @@ public class EnemyB : Enemy
                 Summon();
             else
             {
-                int rand = Random.Range(0, 2);
+                int rand = Random.Range(2, 3);
                 switch (rand)
                 {
                     case 0:
@@ -362,18 +362,6 @@ public class EnemyB : Enemy
         GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
     }
 
-    void Charge()
-    {
-        GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
-        obj.transform.position = BigBulletPos.transform.position;
-        obj.transform.rotation = BigBulletPos.transform.rotation;
-
-        BossCharge bullet = obj.gameObject.GetComponent<BossCharge>();
-        bullet.StartCharge(BigBulletPos);
-
-        GameManager.Inst().SodManager.PlayEffect("Bs_Laser");
-    }
-
     void Slow()
     {
         GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossNormal");
@@ -497,6 +485,24 @@ public class EnemyB : Enemy
         }
 
         GameManager.Inst().SodManager.PlayEffect("Bs_Normal");
+    }
+
+    void Scatter()
+    {
+        int rand = Random.Range(0, 2);
+        for (int i = 1; i <= 4; i++)
+        {
+            GameObject obj = GameManager.Inst().ObjManager.MakeObj("BossLaser");
+            obj.transform.position = SpreadPoses[8 + 8 * rand].transform.position;
+            obj.transform.rotation = SpreadPoses[8 + 8 * rand].transform.rotation;
+
+            obj.GetComponent<ActivationTimer>().IsStart = true;
+            BossScatter bullet = obj.GetComponent<BossScatter>();
+            bullet.RotSpeed = i * 0.6f * (1 - rand * 2);
+            bullet.Shoot(obj.transform.up);
+        }
+
+        GameManager.Inst().SodManager.PlayEffect("Bs_Laser");
     }
     
     void Lasers()
