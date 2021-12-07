@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ShootingManager : MonoBehaviour
 {
     public int MAXCOLOR = 8;
+    public int BoomerangCount;
 
     GameObject[] NormalPos;
     GameObject[] SpreadPos;
@@ -17,6 +18,7 @@ public class ShootingManager : MonoBehaviour
     Color[] Colors;
 
     int[] ColorSelection;
+
 
     public Color GetColors(int index) { return Colors[index]; }
     public int GetColorSelection(int index) { return ColorSelection[index]; }
@@ -42,6 +44,8 @@ public class ShootingManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
             ColorSelection[i] = 0;
+
+        BoomerangCount = 0;
     }
 
     void Start()
@@ -356,6 +360,11 @@ public class ShootingManager : MonoBehaviour
 
     void Boomerang(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
+        if (BoomerangCount >= ((Rarity + 2) / 2))
+            return;
+
+        BoomerangCount++;
+        
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
         Objs[0].transform.rotation = NormalPos[0].transform.rotation;
@@ -442,6 +451,7 @@ public class ShootingManager : MonoBehaviour
                 bullets[0] = Objs[0].gameObject.GetComponent<Dot>();
                 bullets[0].IsVamp = isVamp;
                 bullets[0].Vamp = shooter;
+                bullets[0].Speed = GameManager.Inst().UpgManager.BData[(int)bullets[0].GetBulletType()].GetSpeed() * 2.0f;
                 bullets[0].Shoot(SpreadPos[0].transform.up);
                 break;
 
@@ -457,6 +467,7 @@ public class ShootingManager : MonoBehaviour
                     bullets[i].IsVamp = isVamp;
                     bullets[i].Vamp = shooter;
                     bullets[i].IsReinforce = IsReinforce;
+                    bullets[0].Speed = GameManager.Inst().UpgManager.BData[(int)bullets[0].GetBulletType()].GetSpeed() * 2.0f;
                     bullets[i].Shoot(SpreadPos[i].transform.up);
                 }
                 break;

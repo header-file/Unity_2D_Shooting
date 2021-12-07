@@ -788,7 +788,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Dots.Length / maxColor; i++)
             {
                 Dots[j, i] = Instantiate(DotPref[j]);
-                Dots[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
+                Dots[j, i].GetComponent<Dot>().SpriteRenderer.material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Dots[j, i].transform.SetParent(PBulletPool.transform, false);
                 Dots[j, i].SetActive(false);
             }

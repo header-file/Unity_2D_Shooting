@@ -5,22 +5,25 @@ using UnityEngine;
 public class Dot : Bullet
 {
     public GameObject Sparkle;
+    public float Speed;
+    public SpriteRenderer SpriteRenderer;
+    public AnimationCurve Curve;
 
-    SpriteRenderer SpriteRenderer;
+    Rigidbody2D Rig;
     bool IsAttach;
     Enemy AttachedObj;
     float Timer;
-    Color Origin;
     float TickTimer;
+    Bullet SelfBullet;
+
 
     void Awake()
     {
         Type = BulletType.DOT;
-        GetComponent<SpriteRenderer>().color = Color.white;
-        SpriteRenderer = GetComponent<SpriteRenderer>();
+        Rig = GetComponent<Rigidbody2D>();
         IsAttach = false;
-        Origin = SpriteRenderer.color;
         TickTimer = 0.0f;
+        SelfBullet = gameObject.GetComponent<Bullet>();
     }
 
     void Update()
@@ -30,31 +33,43 @@ public class Dot : Bullet
             transform.position = AttachedObj.transform.position;
 
             TickDmg();
+
+            CheckDie();
+        }
+        else
+        {
+            Speed = Curve.Evaluate(TickTimer);
+            TickTimer += Time.deltaTime;
+            if (TickTimer > 0.5f)
+                TickTimer = 0.5f;
+            //if (Speed < GameManager.Inst().UpgManager.BData[(int)Type].GetSpeed())
+            //    Speed = GameManager.Inst().UpgManager.BData[(int)Type].GetSpeed();
+
+            Rig.velocity = transform.up * Speed;
         }
     }
 
     void TickDmg()
     {
         TickTimer += Time.fixedDeltaTime;
-        if (TickTimer < 0.5f)
+        if (TickTimer < 1.0f)
             return;
 
         TickTimer = 0.0f;
 
-        Bullet bullet = gameObject.GetComponent<Bullet>();
-        if (bullet == null)
-            bullet = transform.parent.GetComponent<Bullet>();
-        float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
-        float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
+        if (SelfBullet == null)
+            SelfBullet = transform.parent.GetComponent<Bullet>();
+        float damage = GameManager.Inst().UpgManager.BData[SelfBullet.GetBulletType()].GetDamage();
+        float atk = GameManager.Inst().UpgManager.BData[SelfBullet.GetBulletType()].GetAtk();
         float dmg = damage + atk;
-        if (bullet.IsReinforce)
+        if (SelfBullet.IsReinforce)
             dmg *= 2;
-        bullet.BloodSuck(dmg);
+        SelfBullet.BloodSuck(dmg);
 
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-        hit.transform.position = bullet.transform.position;
+        hit.transform.position = SelfBullet.transform.position;
 
-        AttachedObj.OnHit(dmg, bullet.IsReinforce);
+        AttachedObj.OnHit(dmg, SelfBullet.IsReinforce);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -64,10 +79,11 @@ public class Dot : Bullet
             if (IsAttach)
                 return;
 
+            TickTimer = 0.0f;
             IsAttach = true;
             AttachedObj = collision.GetComponent<Enemy>();
 
-            SpriteRenderer.color = Color.clear;
+            SpriteRenderer.gameObject.SetActive(false);
             Sparkle.SetActive(true);
 
             Timer = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
@@ -75,9 +91,9 @@ public class Dot : Bullet
         }
     }
 
-    void OnTriggerExit2D(Collider2D collision)
+    void CheckDie()
     {
-        if (collision.tag == "Enemy" && collision.gameObject == AttachedObj)
+        if (!AttachedObj.gameObject.activeSelf)
             Disappear();
     }
 
@@ -89,8 +105,8 @@ public class Dot : Bullet
         Sparkle.SetActive(false);
         IsAttach = false;
         AttachedObj = null;
-        SpriteRenderer.color = Origin;
         TickTimer = 0.0f;
+        SpriteRenderer.gameObject.SetActive(true);
 
         gameObject.SetActive(false);
     }
