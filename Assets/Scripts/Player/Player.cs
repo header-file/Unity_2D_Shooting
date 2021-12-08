@@ -138,14 +138,9 @@ public class Player : MonoBehaviour
     public void EndBossMode()
     {
         IsMovable = false;
+        IsInvincible = true;
 
-        InvokeRepeating("MoveBack", 0.0f, Time.deltaTime);
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (GameManager.Inst().GetSubweapons(i) != null)
-                GameManager.Inst().GetSubweapons(i).EndBossMode();
-        }
+        InvokeRepeating("MoveBack", 0.0f, Time.deltaTime);        
     }
 
     public void SetCoin(int c)
@@ -558,7 +553,15 @@ public class Player : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, OriginalPos, Time.deltaTime * 3.0f);
 
         if (Vector3.Distance(transform.position, OriginalPos) <= 0.0001f)
+        {
             CancelInvoke("MoveBack");
+            IsInvincible = false;
+            for (int i = 0; i < 4; i++)
+            {
+                if (GameManager.Inst().GetSubweapons(i) != null)
+                    GameManager.Inst().GetSubweapons(i).EndBossMode();
+            }
+        }
     }
 
     public void Damage(int damage)

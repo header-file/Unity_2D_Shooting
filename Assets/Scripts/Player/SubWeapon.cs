@@ -35,7 +35,7 @@ public class SubWeapon : MonoBehaviour
     bool IsEditMode;
     bool IsReload;
     bool IsAlive;
-    bool IsBoss;
+    //bool IsBoss;
     bool IsMoving;
     bool IsShield;
     int NumID;
@@ -184,23 +184,14 @@ public class SubWeapon : MonoBehaviour
 
     public void BossMode()
     {
-        IsBoss = true;
-        //transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        //IsBoss = true;
         transform.parent = GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].transform;
     }
 
     public void EndBossMode()
     {
-        IsBoss = false;
-        IsMoving = true;
-
-        if (Vector3.Distance(transform.position, GameManager.Inst().UiManager.SubPositions[NumID].transform.position) > 0.001f)
-            Invoke("EndBossMode", Time.deltaTime);
-        else
-        {
-            IsMoving = false;
-            //Booster.SetActive(false);
-        }
+        //IsBoss = false;
+        transform.parent = GameManager.Inst().ObjManager.SubWeaponPool.transform;
     }
 
     public void Damage(int damage)
@@ -278,17 +269,7 @@ public class SubWeapon : MonoBehaviour
 
     void SetPosition()
     {
-        //if(IsBoss)
-        //{
-        //    float speed = 5.0f;
-        //    if(NumID == 0 || NumID == 3)
-        //        speed = 4.0f;
-        //    transform.position = Vector3.Lerp(transform.position, GameManager.Inst().Player.BossSubPoses[NumID].transform.position, Time.deltaTime * speed);
-        //} 
-        //else
-        {
-            transform.position = GameManager.Inst().UiManager.SubPositions[NumID].transform.position;
-        }
+        transform.position = GameManager.Inst().UiManager.SubPositions[NumID].transform.position;
     }
 
     public void ShowEquipUI()
