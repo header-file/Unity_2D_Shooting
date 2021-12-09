@@ -722,7 +722,6 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Lasers.Length / maxColor; i++)
             {
                 Lasers[j, i] = Instantiate(LaserPref[j]);
-                Lasers[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Lasers[j, i].transform.SetParent(PBulletPool.transform, false);
                 Lasers[j, i].SetActive(false);
             }

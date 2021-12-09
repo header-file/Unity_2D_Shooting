@@ -13,50 +13,17 @@ public class Laser : Bullet
     RaycastHit2D Hit;
     float SizeGyesu;
     Vector2 ColSize;
-    //Animator Anim;
     bool IsStopped;
 
     void Awake()
     {
         Type = BulletType.LASER;
-        GetComponent<SpriteRenderer>().color = Color.white;
         IsStopped = false;
         SizeGyesu = 1.0f;
         ColSize = Vector2.zero;
     }
 
-    //void Start()
-    //{
-    //    Anim = GetComponent<Animator>();
-    //}
-
-    //void Update()
-    //{
-    //    if (!IsStopped && Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5f)
-    //    {
-    //        Anim.speed = 0.0f;
-    //        IsStopped = true;
-
-    //        float stopTime = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
-    //        Invoke("Restart", stopTime);
-    //    }
-
-    //    if(Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-    //        Destroy();
-    //}
-
-    //void Restart()
-    //{
-    //    Anim.speed = 1.0f;
-    //}
-
-    //void Destroy()
-    //{
-    //    IsStopped = false;
-    //    gameObject.SetActive(false);
-    //}
-
-    void Start()
+    private void Start()
     {
         SetStartPos();
     }
@@ -64,16 +31,17 @@ public class Laser : Bullet
     void Update()
     {
         ShootRay();
-        LineRender();
+        if(!IsStopped)
+            LineRender();
         SetCol();
     }
 
     public void SetStartPos()
     {
-        transform.parent = GameManager.Inst().Player.LaserPos.transform;        
+        //transform.parent = GameManager.Inst().Player.LaserPos.transform;
 
-        Line.positionCount = 2;
-        Line.SetPosition(0, Pos);
+        SizeGyesu = 1.0f;
+        Line.positionCount = 2;        
         Line.widthMultiplier = 0.0f;
     }
 
@@ -83,6 +51,7 @@ public class Laser : Bullet
         Dir = GameManager.Inst().Player.LaserPos.transform.up;
         Hit = Physics2D.Raycast(Pos, Dir, 20.0f, WallMask);
 
+        Line.SetPosition(0, Pos);
         Line.SetPosition(1, Hit.point);
     }
 
@@ -90,16 +59,38 @@ public class Laser : Bullet
     {
         Line.widthMultiplier += (Time.deltaTime * SizeGyesu);
 
-        if (Line.widthMultiplier >= 0.25f)
+        if (SizeGyesu > 0.0f && Line.widthMultiplier >= 0.25f)
+        {
+            IsStopped = true;
             SizeGyesu *= -1.0f;
+            Invoke("Restart", GameManager.Inst().UpgManager.BData[(int)Type].GetDuration());
+        }
         else if (Line.widthMultiplier <= 0.0f)
-            SizeGyesu *= -1.0f;
+        {
+            //transform.SetParent(GameManager.Inst().ObjManager.PBulletPool.transform);
+            gameObject.SetActive(false);
+            //SizeGyesu *= -1.0f;
+        }
     }
 
     void SetCol()
     {
-        ColSize.x = Line.widthMultiplier;
+        transform.position = GameManager.Inst().Player.LaserPos.transform.position;
+        transform.rotation = GameManager.Inst().Player.LaserPos.transform.rotation;
+        transform.localScale = Vector3.one;
+
+        ColSize.x = (Line.widthMultiplier * 2.0f);
+        //ColSize.x = 1.25f;
         ColSize.y = Vector2.Distance(Line.GetPosition(0), Line.GetPosition(1));
         Col.size = ColSize;
+
+        Vector2 offset = Col.offset;
+        offset.y = (ColSize.y / 2.0f);
+        Col.offset = offset;
+    }
+
+    void Restart()
+    {
+        IsStopped = false;
     }
 }

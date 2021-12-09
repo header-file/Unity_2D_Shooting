@@ -330,14 +330,15 @@ public class ShootingManager : MonoBehaviour
     void Laser(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Laser", Index);
-        Vector3 scale = Objs[0].gameObject.transform.localScale;
-        scale.x = (0.25f * (Rarity + 1));
+        //Vector3 scale = Objs[0].gameObject.transform.localScale;
+        //scale.x = (0.25f * (Rarity + 1));
         Objs[0].transform.SetParent(LaserPos.transform, false);
 
         Laser bullet = Objs[0].GetComponent<Laser>();
         bullet.IsVamp = isVamp;
         bullet.Vamp = shooter;
         bullet.IsReinforce = IsReinforce;
+        bullet.SetStartPos();
 
         GameManager.Inst().SodManager.PlayEffect("Wp_Laser");
     }
