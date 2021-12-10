@@ -7,6 +7,7 @@ public class ShootingManager : MonoBehaviour
 {
     public int MAXCOLOR = 8;
     public int BoomerangCount;
+    public int[] BaseColor;
 
     GameObject[] NormalPos;
     GameObject[] SpreadPos;

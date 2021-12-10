@@ -11,6 +11,7 @@ public class SideMenu : MonoBehaviour
     public SideMenuSlot[] Slots;
     public Transform ContentTransform;
     public GameObject BtnArrow;
+    public Sprite[] PlanetImgs;
 
     public bool IsOpen = false;
 
@@ -103,8 +104,8 @@ public class SideMenu : MonoBehaviour
         IsOpen = true;
         SideMenuOpen();
 
-        for (int i = 0; i < GameManager.Inst().StgManager.ReachedStage - 1; i++)
-            Slots[i].ShowGatheringArea(i);
+        for (int i = 0; i < GameManager.Inst().StgManager.ReachedStage; i++)
+            Slots[i].Show(i);
 
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);

@@ -19,6 +19,7 @@ public class TextManager : MonoBehaviour
     public string[] EquipDetailSimple;
     public string[] BulletTypeNames;
     public string[] RarityNames;
+    public string[] PlanetNames;
 
     string[] BPrices;
 

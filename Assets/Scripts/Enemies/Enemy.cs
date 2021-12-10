@@ -87,6 +87,12 @@ public class Enemy : MonoBehaviour
         CurveTime = 0.0f;
     }
 
+    void Start()
+    {
+        if (FallEffect.gameObject != null)
+            FallEffect.gameObject.SetActive(false);
+    }
+
     void Update()
     {
         Canvas.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);

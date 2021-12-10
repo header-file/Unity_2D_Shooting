@@ -65,6 +65,7 @@ public class SubWeapon : MonoBehaviour
         BulletType = T;
         GameManager.Inst().UpgManager.SetHPData(BulletType);
         SetSkin();
+        SetSkinColor(GameManager.Inst().ShtManager.BaseColor[BulletType]);
 
         SetHPs();
     }

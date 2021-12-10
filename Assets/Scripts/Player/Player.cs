@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
     float DeathTimer;
     float GatlingGyesu;
     int ColorIndex;
+    bool IsAutoShot;
     
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
@@ -111,6 +112,7 @@ public class Player : MonoBehaviour
         BulletType = type;
         GameManager.Inst().UpgManager.SetHPData(BulletType);
         SetSkin();
+        SetSkinColor(GameManager.Inst().ShtManager.BaseColor[BulletType]);
 
         SetHPs();
     }
@@ -376,6 +378,8 @@ public class Player : MonoBehaviour
 
         NormalSize = Vector3.one * 0.8f;
         BossSize = Vector3.one * 0.4f;
+
+        IsAutoShot = false;
     }
 
     void Start()
@@ -412,6 +416,9 @@ public class Player : MonoBehaviour
                 transform.localScale = size;
             }
         }
+
+        if (IsAutoShot)
+            Fire();
     }
 
     void SetUIPos()
@@ -735,6 +742,16 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
             ShieldParts[i].gameObject.SetActive(true);
+    }
+
+    public void StartAutoShot()
+    {
+        IsAutoShot = true;
+    }
+
+    public void EndAutoShot()
+    {
+        IsAutoShot = false;
     }
     
     void OnMouseDown()

@@ -14,8 +14,15 @@ public class SideMenuSlot : MonoBehaviour
     public Text[] Resources;
     public int Index;
 
-    public void ShowGatheringArea(int stage)
+    public void Show(int stage)
     {
+
+        PlanetName.text = GameManager.Inst().TxtManager.PlanetNames[stage];
+        PlanetImg.sprite = GameManager.Inst().UiManager.MainUI.SideMenu.PlanetImgs[stage];
+
+        if (stage == GameManager.Inst().StgManager.ReachedStage - 1)
+            return;
+
         if (GatherBtn == null)
             return;
 

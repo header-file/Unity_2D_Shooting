@@ -47,4 +47,6 @@ static class Constants
     public const int MAX_EFFECT_LAYER = 5;
 
     public const int TUTORIALCOUNT = 6;
+
+    public const int MAXBUFFS = 5;
 }
