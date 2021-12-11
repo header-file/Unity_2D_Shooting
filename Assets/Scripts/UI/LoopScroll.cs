@@ -11,6 +11,8 @@ public class LoopScroll : MonoBehaviour
     public ActivationTimer ErrorMsg;
     public GameObject ChangeMsg;
 
+    public bool IsOpen;
+
     float[] Distances;              //Distance of buttons compare to Center
     float[] DistReposition;
     bool IsDragging = false;        //True when drag the panel
@@ -46,10 +48,15 @@ public class LoopScroll : MonoBehaviour
         for (int i = 0; i < 2; i++)
             SelectedNum[i] = -1;
         ChangeMsg.SetActive(false);
+
+        IsOpen = false;
     }
 
     void Update()
     {
+        if (!IsOpen)
+            return;
+
         for (int i = 0; i < Slots.Length; i++)
         {
             DistReposition[i] = Centers[CurrentCharacter].transform.position.x - Slots[i].transform.position.x;

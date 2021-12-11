@@ -67,9 +67,8 @@ public class Laser : Bullet
         }
         else if (Line.widthMultiplier <= 0.0f)
         {
-            //transform.SetParent(GameManager.Inst().ObjManager.PBulletPool.transform);
+            transform.SetParent(GameManager.Inst().ObjManager.PBulletPool.transform);
             gameObject.SetActive(false);
-            //SizeGyesu *= -1.0f;
         }
     }
 
@@ -79,13 +78,12 @@ public class Laser : Bullet
         transform.rotation = GameManager.Inst().Player.LaserPos.transform.rotation;
         transform.localScale = Vector3.one;
 
-        ColSize.x = (Line.widthMultiplier * 2.0f);
-        //ColSize.x = 1.25f;
-        ColSize.y = Vector2.Distance(Line.GetPosition(0), Line.GetPosition(1));
+        ColSize.x = Line.widthMultiplier * 2.0f;
+        ColSize.y = Vector3.Distance(Line.GetPosition(0), Line.GetPosition(1)) * 1.2f;
         Col.size = ColSize;
 
         Vector2 offset = Col.offset;
-        offset.y = (ColSize.y / 2.0f);
+        offset.y = ColSize.y / 2.0f;
         Col.offset = offset;
     }
 

@@ -19,13 +19,41 @@ public class Bottom : MonoBehaviour
 
     int CurrentPlayerNum;
 
+    void Start()
+    {
+        for (int i = 0; i < Colors.Length; i++)
+            Colors[i].gameObject.SetActive(true);
+    }
 
     public void ShowEquipBtn(int curBulletType)
     {
         for (int i = 0; i < Constants.MAXBULLETS; i++)
             Slots[i].SelectBtn.gameObject.SetActive(false);
 
-        Slots[curBulletType].SelectBtn.gameObject.SetActive(true);
+        if(GameManager.Inst().StgManager.UnlockBulletStages[curBulletType] < GameManager.Inst().DatManager.GameData.ReachedStage)
+        {
+            if (CurrentPlayerNum == 2)
+            {
+                if (GameManager.Inst().Player.GetBulletType() != curBulletType)
+                    Slots[curBulletType].SelectBtn.gameObject.SetActive(true);
+            }
+            else
+            {
+                if (CurrentPlayerNum > 1)
+                {
+                    if (GameManager.Inst().GetSubweapons(CurrentPlayerNum - 1) != null &&
+                        GameManager.Inst().GetSubweapons(CurrentPlayerNum - 1).GetBulletType() != curBulletType)
+                        Slots[curBulletType].SelectBtn.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (GameManager.Inst().GetSubweapons(CurrentPlayerNum) != null &&
+                        GameManager.Inst().GetSubweapons(CurrentPlayerNum).GetBulletType() != curBulletType)
+                        Slots[curBulletType].SelectBtn.gameObject.SetActive(true);
+                }
+            }
+        }
+            
     }
 
     public void SetBulletSelected()
@@ -44,6 +72,7 @@ public class Bottom : MonoBehaviour
 
         CurrentPlayerNum = Type;
         WeaponScroll.SetCurrentCharacter(CurrentPlayerNum);
+        WeaponScroll.IsOpen = true;
 
         if (!GameManager.Inst().UiManager.GetIsMoveUp())
             GameManager.Inst().UiManager.SetTimer(0.0f);
@@ -104,6 +133,7 @@ public class Bottom : MonoBehaviour
             GameManager.Inst().UiManager.SetTimer(0.0f);
 
         GameManager.Inst().UiManager.SetIsMoveDown(true);
+        WeaponScroll.IsOpen = false;
 
         for (int i = 0; i < 5; i++)
             GameManager.Inst().UiManager.MainUI.Bottom.Arrows.transform.GetChild(i).gameObject.SetActive(false);

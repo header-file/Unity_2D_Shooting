@@ -12,6 +12,7 @@ public class Slot : MonoBehaviour
     public Image Icon;
     public Text Name;
     public Text Level;
+    public GameObject[] Grades;
 
     int Index;
 
@@ -40,6 +41,10 @@ public class Slot : MonoBehaviour
         Icon.sprite = GameManager.Inst().UiManager.WeaponImages[index];
         Name.text = GameManager.Inst().TxtManager.BulletTypeNames[index];
         Level.text = "Lv." + GameManager.Inst().UpgManager.BData[index].GetPowerLevel().ToString();
+
+        for (int i = 0; i < Constants.MAXRARITY; i++)
+            Grades[i].SetActive(false);
+        Grades[GameManager.Inst().UpgManager.BData[index].GetRarity()].SetActive(true);
 
         if (Locked.gameObject.activeSelf == true &&
             GameManager.Inst().StgManager.UnlockBulletStages[index] < GameManager.Inst().StgManager.Stage)
