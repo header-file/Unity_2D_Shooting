@@ -601,7 +601,7 @@ public class Cheat : MonoBehaviour
             InventoryBtns[1].interactable = true;
 
             GameManager.Inst().Player.MaxInventory += 10;
-            GameManager.Inst().AddInventory();
+            GameManager.Inst().AddInventory(10);
             MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
 
             if (GameManager.Inst().Player.MaxInventory >= Constants.MAXINVENTORY)

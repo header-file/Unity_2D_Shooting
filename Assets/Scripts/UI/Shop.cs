@@ -226,18 +226,18 @@ public class Shop : MonoBehaviour
 
     void BuyExpand()
     {
-        int price = int.Parse(ExpandDatas[CurrentItem, 1]);
-        int amount = int.Parse(ExpandDatas[CurrentItem, 0]);
+        //int price = int.Parse(ExpandDatas[CurrentItem, 1]);
+        //int amount = int.Parse(ExpandDatas[CurrentItem, 0]);
 
-        if (GameManager.Inst().Jewel < price)
-            return;
-        else if (GameManager.Inst().Player.MaxInventory + amount > 200)
-            return;
+        //if (GameManager.Inst().Jewel < price)
+        //    return;
+        //else if (GameManager.Inst().Player.MaxInventory + amount > 200)
+        //    return;
 
-        GameManager.Inst().AddJewel(-price);
+        //GameManager.Inst().AddJewel(-price);
 
-        GameManager.Inst().Player.MaxInventory += amount;
-        GameManager.Inst().AddInventory();
+        //GameManager.Inst().Player.MaxInventory += amount;
+        //GameManager.Inst().AddInventory();
     }
 
     void BuyResource()

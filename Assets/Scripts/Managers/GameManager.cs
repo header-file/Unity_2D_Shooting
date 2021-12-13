@@ -511,12 +511,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddInventory()
+    public void AddInventory(int count)
     {
         InventoryScroll inventory = UiManager.InventoryScroll.GetComponent<InventoryScroll>();
-        inventory.AddSlots();
 
-        for (int i = Player.MaxInventory - 10; i < Player.MaxInventory; i++)
+        for (int i = Player.MaxInventory - count; i < Player.MaxInventory; i++)
         {
             GameObject inventorySlot = Inst().ObjManager.MakeObj("InventorySlot");
             inventorySlot.transform.SetParent(inventory.Contents.transform, false);
@@ -526,6 +525,9 @@ public class GameManager : MonoBehaviour
             inventory.SetInventory(i, slot);
             inventorySlot.name = i.ToString();
         }
+
+        inventory.ResetInventory();
+        inventory.ShowInventory();
     }
 }
 

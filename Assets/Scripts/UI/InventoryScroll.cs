@@ -13,16 +13,11 @@ public class InventoryScroll : MonoBehaviour
 
     int[] SwitchedIndices;
 
-    public InventorySlot GetSlot(int index) { return Slots[index]; /*return Contents.transform.GetChild(index + 1).gameObject.GetComponent<InventorySlot>();*/ }
+    public InventorySlot GetSlot(int index) { return Slots[index]; }
     public int GetSwitchedIndex(int index) { return SwitchedIndices[index]; }
 
     public void SetInventory(int index, InventorySlot slot) { Slots[index] = slot; }
-
-    //public void SetSlotIndex(int index)
-    //{
-    //    Contents.transform.GetChild(index + 1).GetComponent<InventorySlot>().SetIndex(index);
-    //}
-
+    
     public void SetSlotType(int type)
     {
         for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
@@ -45,19 +40,6 @@ public class InventoryScroll : MonoBehaviour
         Lock.SetActive(false);
 
         GameManager.Inst().SetInventory();
-    }
-
-    public void AddSlots()
-    {
-        InventorySlot[] temp = new InventorySlot[GameManager.Inst().Player.MaxInventory - 10];
-        for (int i = 0; i < temp.Length; i++)
-            temp[i] = Slots[i];
-
-        Slots = new InventorySlot[GameManager.Inst().Player.MaxInventory];
-        for (int i = 0; i < temp.Length; i++)
-            Slots[i] = temp[i];
-
-        //Contents.GetComponent<RectTransform>().sizeDelta = new Vector2(540, 100 * GameManager.Inst().Player.MaxInventory / 5 + 10 * (GameManager.Inst().Player.MaxInventory / 5 - 1));
     }
 
     public void ShowInventory()

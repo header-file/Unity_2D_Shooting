@@ -23,6 +23,8 @@ public class LoopScroll : MonoBehaviour
     int CurrentCharacter;           //Selected Character
     float Timer;
     const float TickCount = 1.0f / 60.0f;
+    bool IsMoving;
+    int GoalIndex;
 
     int[] CurrentNum;
     int[] SelectedNum;
@@ -50,6 +52,7 @@ public class LoopScroll : MonoBehaviour
         ChangeMsg.SetActive(false);
 
         IsOpen = false;
+        IsMoving = false;
     }
 
     void Update()
@@ -93,13 +96,17 @@ public class LoopScroll : MonoBehaviour
             }
         }
 
-        if (!IsDragging)
+        if(IsMoving)
+            LerpToBtn(Centers[CurrentCharacter].anchoredPosition.x - Slots[GoalIndex].anchoredPosition.x);
+        else if (!IsDragging)
             LerpToBtn(Centers[CurrentCharacter].anchoredPosition.x - Slots[MinBtnNum].anchoredPosition.x);
     }
 
     public void MoveToSelected(int idx)
     {
-        LerpToBtn(Centers[CurrentCharacter].anchoredPosition.x - Slots[idx].anchoredPosition.x);
+        IsMoving = true;
+        GoalIndex = idx;
+        Timer = 0.0f;
     }
 
     public void LerpToBtn(float position)
@@ -109,6 +116,8 @@ public class LoopScroll : MonoBehaviour
         Panel.anchoredPosition = newPosition;
         if (Timer < 1.0f)
             Timer += TickCount;
+        else if(IsMoving)
+            IsMoving = false;
     }
 
     public void StartDrag()

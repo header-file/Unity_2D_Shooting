@@ -237,7 +237,7 @@ public class GameData
                 for (int i = 0; i < count; i++)
                 {
                     GameManager.Inst().Player.MaxInventory += 10;
-                    GameManager.Inst().AddInventory();
+                    GameManager.Inst().AddInventory(10);
                 }
             }
         }

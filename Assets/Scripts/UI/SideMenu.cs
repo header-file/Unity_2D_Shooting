@@ -104,6 +104,9 @@ public class SideMenu : MonoBehaviour
         IsOpen = true;
         SideMenuOpen();
 
+        if (GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.IsOpen)
+            GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
+
         for (int i = 0; i < GameManager.Inst().StgManager.ReachedStage; i++)
             Slots[i].Show(i);
 

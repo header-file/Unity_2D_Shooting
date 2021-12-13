@@ -56,4 +56,9 @@ public class Slot : MonoBehaviour
         GameManager.Inst().UiManager.MainUI.Bottom.OnClickBulletEquipBtn();
         //GameManager.Inst().UiManager.MainUI.Bottom.OnClickSelectBullet(Index);
     }
+
+    public void OnClickSlot()
+    {
+        GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.MoveToSelected(Index);
+    }
 }

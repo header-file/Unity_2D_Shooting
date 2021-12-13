@@ -8,6 +8,7 @@ public class Inventory : MonoBehaviour
 {
     public GameObject InventoryArea;
     public InventoryDetail InventoryDetail;
+    public AddInventory AddInventory;
     public Text InventoryCount;
 
     InventoryScroll Inventories;
@@ -29,15 +30,19 @@ public class Inventory : MonoBehaviour
         Inventories.transform.SetParent(InventoryArea.transform, false);
         Inventories.SetSlotType(0);
 
-        InventoryCount.text = GameManager.Inst().Player.CurInventory.ToString() + " / " +
-                                GameManager.Inst().Player.MaxInventory.ToString();
-
+        ShowInventoryCount();
         Inventories.ShowInventory();
     }
 
     public void CloseInventory()
     {
         Inventories.ResetInventory();
+    }
+
+    public void ShowInventoryCount()
+    {
+        InventoryCount.text = GameManager.Inst().Player.CurInventory.ToString() + " / " +
+                                GameManager.Inst().Player.MaxInventory.ToString();
     }
 
     public void ShowInventoryDetail(int index)
@@ -58,5 +63,11 @@ public class Inventory : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 45)
             GameManager.Inst().Tutorials.Step++;
+    }
+
+    public void onClickAdd()
+    {
+        AddInventory.gameObject.SetActive(true);
+        AddInventory.Show();
     }
 }
