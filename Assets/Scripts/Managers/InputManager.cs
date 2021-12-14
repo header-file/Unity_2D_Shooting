@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class InputManager : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if (!IsAbleControl)
+        if (!IsAbleControl && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
             return;
 
         MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

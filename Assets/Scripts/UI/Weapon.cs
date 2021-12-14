@@ -47,7 +47,7 @@ public class Weapon : MonoBehaviour
 
     public void SetCurBulletType(int type) { CurBulletType = type; }
 
-    void Start()
+    void Awake()
     {
         IsMoving = false;
         IsFlickering = false;

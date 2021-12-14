@@ -46,7 +46,7 @@ public class SideMenu : MonoBehaviour
 
     void Opening()
     {
-        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(-600.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
+        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(-280.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
 
         if (Time.deltaTime >= 0.2f)
             IsSideMenuOpen = false;
@@ -62,7 +62,7 @@ public class SideMenu : MonoBehaviour
 
     void Closing()
     {
-        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(0.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
+        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(360.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
 
         if (Time.deltaTime >= 0.2f)
             IsSideMenuClose = false;
