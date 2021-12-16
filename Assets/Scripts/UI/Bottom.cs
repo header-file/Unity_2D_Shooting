@@ -9,6 +9,7 @@ public class Bottom : MonoBehaviour
     public Info Weapon;
     public BuySubWeapon BuySW;
     public GameObject Panel;
+    public GameObject BackBtn;
 
     public Slot[] Slots;
     public LoopScroll WeaponScroll;
@@ -23,6 +24,8 @@ public class Bottom : MonoBehaviour
     {
         for (int i = 0; i < Colors.Length; i++)
             Colors[i].gameObject.SetActive(true);
+
+        BackBtn.SetActive(false);
     }
 
     public void ShowEquipBtn(int curBulletType)
@@ -123,6 +126,8 @@ public class Bottom : MonoBehaviour
 
         GameManager.Inst().StgManager.UnlockBullet(GameManager.Inst().DatManager.GameData.ReachedStage);
 
+        BackBtn.SetActive(true);
+
         if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 5 || GameManager.Inst().Tutorials.Step == 41))
             GameManager.Inst().Tutorials.Step++;
     }
@@ -144,6 +149,8 @@ public class Bottom : MonoBehaviour
             if (GameManager.Inst().GetSubweapons(i) != null)
                 GameManager.Inst().UiManager.MainUI.Center.Turrets[i].EquipUI.SetActive(false);
         }
+
+        BackBtn.SetActive(false);
     }
 
     public void OnClickSelectBullet(int BulletType)

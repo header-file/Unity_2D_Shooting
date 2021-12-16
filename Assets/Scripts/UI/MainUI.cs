@@ -32,6 +32,8 @@ public class MainUI : MonoBehaviour
     public BossGauge BossGauge;
     public SideMenu SideMenu;
     public GameObject Resource;
+    public FloatingBubble Floating;
+    public GameObject SpecialBtn;
 
     public Bottom Bottom;
     public Center Center;
@@ -51,6 +53,14 @@ public class MainUI : MonoBehaviour
         GameManager.Inst().Player.EquipUI = PlayerEquipUI;
         GameManager.Inst().Player.EquipBar = PlayerEquipBar;
         GameManager.Inst().Player.EquipIcon = PlayerEquipIcon;
+    }
+
+    void Start()
+    {
+        if (GameManager.Inst().IsFullPrice)
+            SpecialBtn.SetActive(false);
+        else
+            SpecialBtn.SetActive(true);
     }
 
     public SideMenuSlot GetSideMenuSlot(int i)
@@ -102,5 +112,14 @@ public class MainUI : MonoBehaviour
 
         GameManager.Inst().IptManager.SetIsAbleControl(true);
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+    }
+
+    public void OnClickSpecialBtn()
+    {
+        GameManager.Inst().IptManager.SetIsAbleControl(true);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(true);
+
+        ZzinBottom.OnClickShopBtn();
+        Center.Shop.Toggles[3].isOn = true;
     }
 }

@@ -417,7 +417,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (IsAutoShot)
+        if (IsAutoShot || GameManager.Inst().IsFullPrice)
             Fire();
     }
 

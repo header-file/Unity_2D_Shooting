@@ -6,8 +6,16 @@ using System;
 
 public class AdvertiseManager : MonoBehaviour
 {
+    public enum AdType
+    {
+        SHOP_JEWEL = 0,
+        FLOATING = 1,
+        SHOP_BUFF = 2,
+    }
+
     public int AdLeft;
     public DateTime LastTime;
+    public AdType AdvType;
 
     const string GooglePlay_ID = "4142451";
     const string Rewarded_Android = "Rewarded_Android";
@@ -41,6 +49,9 @@ public class AdvertiseManager : MonoBehaviour
         if (AdLeft <= 0)
             return;
 
+        if (GameManager.Inst().IsFullPrice)
+            Process();
+
         ShowOptions options = new ShowOptions { resultCallback = HandleShowResult };
 
         if (Advertisement.IsReady(Rewarded_Android))
@@ -60,28 +71,18 @@ public class AdvertiseManager : MonoBehaviour
         {
             case ShowResult.Finished:
                 {
-                    //Debug.Log("The ad was successfully shown.");
-
                     // 광고 시청이 완료되었을 때 처리
-                    GameManager.Inst().UiManager.MainUI.Center.Shop.MinusAdLeft();
-                    GameManager.Inst().AddJewel(5);
-
+                    Process();
                     break;
                 }
             case ShowResult.Skipped:
                 {
-                    //Debug.Log("The ad was skipped before reaching the end.");
-
                     // 광고가 스킵되었을 때 처리
-                    GameManager.Inst().UiManager.MainUI.Center.Shop.MinusAdLeft();
-                    GameManager.Inst().AddJewel(5);
-
+                    Process();
                     break;
                 }
             case ShowResult.Failed:
                 {
-                    //Debug.LogError("The ad failed to be shown.");
-
                     // 광고 시청에 실패했을 때 처리
 
                     break;
@@ -93,5 +94,21 @@ public class AdvertiseManager : MonoBehaviour
     {
         LastTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
         LastTime = LastTime.AddDays(1);
+    }
+
+    void Process()
+    {
+        switch(AdvType)
+        {
+            case AdType.SHOP_JEWEL:
+                GameManager.Inst().UiManager.MainUI.Center.Shop.MinusAdLeft();
+                GameManager.Inst().AddJewel(5);
+                break;
+            case AdType.FLOATING:
+                GameManager.Inst().UiManager.MainUI.Floating.Make();
+                break;
+            case AdType.SHOP_BUFF:
+                break;
+        }
     }
 }

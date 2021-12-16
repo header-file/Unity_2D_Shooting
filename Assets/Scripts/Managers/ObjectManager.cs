@@ -21,6 +21,7 @@ public class ObjectManager : MonoBehaviour
 
     //Item
     public GameObject CoinPref;
+    public GameObject JewelPref;
     public GameObject EqAttackPref;
     public GameObject EqRangePref;
     public GameObject EqSpeedPref;
@@ -85,6 +86,7 @@ public class ObjectManager : MonoBehaviour
     GameObject Enemy_B;
 
     GameObject[] Coins;
+    GameObject[] Jewels;
     GameObject[] EqAttacks;
     GameObject[] EqRanges;
     GameObject[] EqSpeeds;
@@ -244,6 +246,10 @@ public class ObjectManager : MonoBehaviour
 
             case "Coin":
                 TargetPool = Coins;
+                break;
+
+            case "Jewel":
+                TargetPool = Jewels;
                 break;
 
             case "EqAttack":
@@ -418,6 +424,7 @@ public class ObjectManager : MonoBehaviour
         Enemy_B = new GameObject();
 
         Coins = new GameObject[100];
+        Jewels = new GameObject[5];
         EqAttacks = new GameObject[10];
         EqRanges = new GameObject[10];
         EqSpeeds = new GameObject[10];
@@ -546,6 +553,13 @@ public class ObjectManager : MonoBehaviour
             Coins[i] = Instantiate(CoinPref);
             Coins[i].transform.SetParent(ItemPool.transform, false);
             Coins[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Jewels.Length; i++)
+        {
+            Jewels[i] = Instantiate(JewelPref);
+            Jewels[i].transform.SetParent(ItemPool.transform, false);
+            Jewels[i].SetActive(false);
         }
 
         for (int i = 0; i < EqAttacks.Length; i++)

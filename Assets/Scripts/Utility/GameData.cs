@@ -64,6 +64,7 @@ public class GameData
     }
 
     public string UID;
+    public bool IsFullPrice;
 
     public int Coin;
     public int Jewel;
@@ -113,6 +114,8 @@ public class GameData
         if (GameManager.Inst().Login != null)
             if (GameManager.Inst().Login.PlayerID != "")
                 UID = GameManager.Inst().Login.PlayerID;
+
+        IsFullPrice = GameManager.Inst().IsFullPrice;
 
         if (IsEraseData || IsTutorial)
             return;
@@ -222,6 +225,8 @@ public class GameData
             IsEraseData = false;
             return;
         }
+
+        GameManager.Inst().IsFullPrice = IsFullPrice;
         
         if (Coin >= 0)
             GameManager.Inst().Player.SetCoin(Coin);

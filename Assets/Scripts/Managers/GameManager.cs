@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     public ShakeManager ShkManager;
     public EquipManager EquManager;
 
+    //정가 구매
+    public bool IsFullPrice;
+
     //튜토리얼용
     public Tutorials Tutorials;
 
@@ -84,6 +87,8 @@ public class GameManager : MonoBehaviour
 
         if(GameObject.Find("LoginManager") != null)
             Login =  GameObject.Find("LoginManager").GetComponent<Login>();
+
+        IsFullPrice = false;
     }
 
     void Start()

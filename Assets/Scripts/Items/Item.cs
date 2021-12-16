@@ -9,6 +9,7 @@ public class Item : MonoBehaviour
     {
         COIN = 0,
         RESOURCE = 1,
+        JEWEL = 2,
         EQUIPMENT = 10,
         SHIELD = 11,
         BOMB = 12,
@@ -106,6 +107,12 @@ public class Item : MonoBehaviour
 
                 case ItemType.ZZINEQUIP:
                     GameManager.Inst().Player.AddItem(gameObject.GetComponent<Item_ZzinEquipment>());
+                    break;
+
+                case ItemType.JEWEL:
+                    GameManager.Inst().AddJewel(Value);
+                    gameObject.GetComponent<Item_Jewel>().ResetData();
+                    GameManager.Inst().SodManager.PlayEffect("Coin get");
                     break;
             }
 

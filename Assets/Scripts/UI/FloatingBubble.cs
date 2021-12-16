@@ -8,9 +8,9 @@ public class FloatingBubble : MonoBehaviour
     public GameObject Bubble;
     public GameObject ConfirmWindow;
     public Text AmountText;
-    public Text TypeText;
+    public Image TypeImg;
     public int[] Amounts;
-    public string[] Types;
+    public Sprite[] Types;
 
     bool IsFloating;
     float GoalPosX;
@@ -105,20 +105,67 @@ public class FloatingBubble : MonoBehaviour
         Type = Random.Range(0, 4);
 
         AmountText.text = Amounts[Type].ToString();
-        TypeText.text = Types[Type];
+        TypeImg.sprite = Types[Type];
     }
 
-    void Make()
+    public void Make()
     {
-        switch(Type)
+        GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
+        explosion.transform.position = Bubble.transform.position;
+
+        switch (Type)
         {
             case 0:
+                for(int i = 0; i < 10; i++)
+                {
+                    Item_Coin coin = GameManager.Inst().ObjManager.MakeObj("Coin").GetComponent<Item_Coin>();
+                    coin.SetValue(100);
+                    coin.transform.position = Bubble.transform.position;
+
+                    Vector3 pos = transform.position;
+                    pos.x += Mathf.Cos(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+                    pos.y += Mathf.Sin(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+
+                    coin.SetTargetPosition(pos);
+                    coin.SetIsScatter(true);
+                    coin.SetIsAbsorb(false);
+                }
                 break;
             case 1:
+                for (int i = 0; i < 2; i++)
+                {
+                    Item_Jewel jewel = GameManager.Inst().ObjManager.MakeObj("Jewel").GetComponent<Item_Jewel>();
+                    jewel.SetValue(1);
+                    jewel.transform.position = Bubble.transform.position;
+
+                    Vector3 pos = transform.position;
+                    pos.x += Mathf.Cos(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+                    pos.y += Mathf.Sin(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+
+                    jewel.SetTargetPosition(pos);
+                    jewel.SetIsScatter(true);
+                    jewel.SetIsAbsorb(false);
+                }
                 break;
             case 2:
+                for (int i = 0; i < 5; i++)
+                {
+                    Item_Resource resource = GameManager.Inst().ObjManager.MakeObj("Resource").GetComponent<Item_Resource>();
+                    resource.transform.position = transform.position;
+
+                    Vector3 pos = transform.position;
+                    pos.x += Mathf.Cos(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+                    pos.y += Mathf.Sin(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
+
+                    resource.SetValue(10);
+                    resource.SetColor();
+                    resource.TargetPosition = pos;
+                    resource.IsScatter = true;
+                    resource.BeginAbsorb();
+                }
                 break;
             case 3:
+                GameManager.Inst().MakeReinforce(-1, 0, Bubble.transform);
                 break;
         }
     }
@@ -135,10 +182,8 @@ public class FloatingBubble : MonoBehaviour
         ConfirmWindow.SetActive(false);
         Bubble.SetActive(false);
 
-        GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
-        explosion.transform.position = Bubble.transform.position;
-
-        Make();
+        GameManager.Inst().AdsManager.AdvType = AdvertiseManager.AdType.FLOATING;
+        GameManager.Inst().AdsManager.PlayAd();
     }
 
     public void OnClickNoBtn()
