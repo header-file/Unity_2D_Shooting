@@ -11,6 +11,7 @@ public class StageLoop : MonoBehaviour
     public RectTransform Center;
     public PlanetSlot[] Planets;
     public Button LandingBtn;
+    public CanvasGroup[] Tags;
 
     float[] Distances;
     float[] DistReposition;
@@ -93,7 +94,7 @@ public class StageLoop : MonoBehaviour
         Planets[index].PlanetImage.transform.position = newPos;
 
         //행성 스케일
-        float newScale = (Slots[index].transform.position.y - 4.2f) / 5.5f * -0.5f + 1.5f;
+        float newScale = (Slots[index].transform.position.y - 4.2f) / 5.5f * -0.5f + 1.0f;
         Planets[index].PlanetImage.transform.localScale = Vector3.one * newScale;
 
         //행성 색
@@ -108,20 +109,20 @@ public class StageLoop : MonoBehaviour
         float dist = Mathf.Abs(Vector3.Distance(Planets[index].transform.position, Center.transform.position));
         if (dist <= 1.0f)
         {
-            if(!Planets[index].Name.gameObject.activeSelf)
-                Planets[index].Name.gameObject.SetActive(true);
+            if(!Tags[index].gameObject.activeSelf)
+                Tags[index].gameObject.SetActive(true);
         }            
         else
         {
-            if (Planets[index].Name.gameObject.activeSelf)
-                Planets[index].Name.gameObject.SetActive(false);
+            if (Tags[index].gameObject.activeSelf)
+                Tags[index].gameObject.SetActive(false);
         }
 
-        if(Planets[index].Name.gameObject.activeSelf)
+        if(Tags[index].gameObject.activeSelf)
         {
-            Color textColor = Planets[index].Name.color;
-            textColor.a = 1.0f - dist;
-            Planets[index].Name.color = textColor;
+            float alpha = Planets[index].Name.color.a;
+            alpha = 1.0f - dist;
+            Tags[index].alpha = alpha;
         }
     }
 

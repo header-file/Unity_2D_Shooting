@@ -26,7 +26,7 @@ public class InfoArea : MonoBehaviour
     public Sprite[] Decos;
     public Color[] GradeColors;
 
-    public void SetWeaponName(int index) { WeaponName.text = GameManager.Inst().Player.Types[index]; }
+    public void SetWeaponName(int index) { WeaponName.text = GameManager.Inst().TxtManager.BulletTypeNames[index]; }
 
     public void SetAlpha(float alpha)
     {
