@@ -11,6 +11,7 @@ public class MainUI : MonoBehaviour
     public Text CoinText;
     public Text JewelText;
     public Text[] Resources;
+    public Buff Buff;
 
     //플레이어용 UI
     public GameObject PlayerUI;
@@ -121,5 +122,33 @@ public class MainUI : MonoBehaviour
 
         ZzinBottom.OnClickShopBtn();
         Center.Shop.Toggles[3].isOn = true;
+    }
+
+    public void OnClickBuffBtn(int index)
+    {
+        Buff.BuffType = index;
+        Buff.ConfirmWindow.SetActive(true);
+
+        if (Buff.AdCount > 0)
+        {
+            Buff.AdWindow.SetActive(true);
+            Buff.JewelWindow.SetActive(false);
+        }
+        else
+        {
+            Buff.AdWindow.SetActive(false);
+            Buff.JewelWindow.SetActive(true);
+
+            if (GameManager.Inst().Jewel >= 3)
+            {
+                Buff.AmountText.color = Color.white;
+                Buff.YesBtn.interactable = true;
+            }
+            else
+            {
+                Buff.AmountText.color = Color.red;
+                Buff.YesBtn.interactable = false;
+            }
+        }
     }
 }

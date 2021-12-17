@@ -50,7 +50,10 @@ public class AdvertiseManager : MonoBehaviour
             return;
 
         if (GameManager.Inst().IsFullPrice)
+        {
             Process();
+            return;
+        }
 
         ShowOptions options = new ShowOptions { resultCallback = HandleShowResult };
 
@@ -108,6 +111,8 @@ public class AdvertiseManager : MonoBehaviour
                 GameManager.Inst().UiManager.MainUI.Floating.Make();
                 break;
             case AdType.SHOP_BUFF:
+                GameManager.Inst().UiManager.MainUI.Buff.SubtractAdCount(1);
+                GameManager.Inst().BufManager.StartBuff(GameManager.Inst().BufManager.CurrentBuffType);
                 break;
         }
     }

@@ -38,10 +38,10 @@ public class DataManager : MonoBehaviour
     void Start()
     {
         //DontDestroyOnLoad(gameObject);
-        GameData.LoadData();
+        _gameData.LoadData();
         SaveData();
 
-        GameData.MoveScene();
+        _gameData.MoveScene();
     }
 
     public void LoadData()
@@ -56,22 +56,22 @@ public class DataManager : MonoBehaviour
             _gameData = JsonUtility.FromJson<GameData>(fromJsonData);
 
             //GameData.ResetData();
-            GameData.LoadReachedStage();
+            _gameData.LoadReachedStage();
         }
         else
         {
             Debug.Log("Write New File");
 
             _gameData = new GameData();
-            //GameData.ResetData();
+            _gameData.ResetData();
         }
     }
 
     public void SaveData()
     {
-        GameData.SaveData();
+        _gameData.SaveData();
         
-        string ToJsonData = JsonUtility.ToJson(GameData);
+        string ToJsonData = JsonUtility.ToJson(_gameData);
         string filePath = Application.persistentDataPath + SaveDataFileName;
         File.WriteAllText(filePath, ToJsonData);
         //Debug.Log("Save Complete");
@@ -79,19 +79,19 @@ public class DataManager : MonoBehaviour
 
     public void UploadSaveData()
     {
-        GameData.SaveData();
-        string ToJsonData = JsonUtility.ToJson(GameData);
+        _gameData.SaveData();
+        string ToJsonData = JsonUtility.ToJson(_gameData);
         string filePath = Application.persistentDataPath + SaveDataFileName;
         File.WriteAllText(filePath, ToJsonData);
 
-        GameManager.Inst().Login.DBRef.Child("users").Child(GameData.UID).Child("SaveData").SetRawJsonValueAsync(ToJsonData);
+        GameManager.Inst().Login.DBRef.Child("users").Child(_gameData.UID).Child("SaveData").SetRawJsonValueAsync(ToJsonData);
 
         GameManager.Inst().UiManager.MainUI.Alarm.SaveComplete();
     }
 
     async public void DownloadSaveData()
     {
-        await GameManager.Inst().Login.DBRef.Child("users").Child(GameData.UID).Child("SaveData").GetValueAsync().ContinueWith(task =>
+        await GameManager.Inst().Login.DBRef.Child("users").Child(_gameData.UID).Child("SaveData").GetValueAsync().ContinueWith(task =>
         {
             if (task.IsFaulted)
             {
@@ -101,11 +101,11 @@ public class DataManager : MonoBehaviour
             else if (task.IsCompleted)
             {
                 _gameData = JsonUtility.FromJson<GameData>(task.Result.GetRawJsonValue());
-                GameData.LoadReachedStage();
+                _gameData.LoadReachedStage();
             }
         });
 
-        GameData.LoadData();
+        _gameData.LoadData();
         SaveData();
 
         GameManager.Inst().UiManager.MainUI.Alarm.LoadComplete();

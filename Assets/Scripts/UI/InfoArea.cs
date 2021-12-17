@@ -63,6 +63,11 @@ public class InfoArea : MonoBehaviour
             Coin.SetActive(true);
             Resource.SetActive(false);
             CoinText.text = GameManager.Inst().UpgManager.BData[bulletType].GetPrice().ToString();
+
+            if (GameManager.Inst().Player.GetCoin() < GameManager.Inst().UpgManager.BData[bulletType].GetPrice())
+                CoinText.color = Color.red;
+            else
+                CoinText.color = Color.white;
         }
         else
         {
@@ -72,6 +77,11 @@ public class InfoArea : MonoBehaviour
             for(int i = 0; i < Constants.MAXRESOURCETYPES; i++)
             {
                 ResourceTexts[i].text = GameManager.Inst().UpgManager.GetResourceData(GameManager.Inst().UpgManager.BData[bulletType].GetRarity(), i).ToString();
+
+                if (GameManager.Inst().Resources[i] < GameManager.Inst().UpgManager.GetResourceData(GameManager.Inst().UpgManager.BData[bulletType].GetRarity(), i))
+                    ResourceTexts[i].color = Color.red;
+                else
+                    ResourceTexts[i].color = Color.white;
 
                 if (ResourceTexts[i].text == "0")
                     Resources[i].SetActive(false);

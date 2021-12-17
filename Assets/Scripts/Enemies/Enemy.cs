@@ -364,6 +364,7 @@ public class Enemy : MonoBehaviour
             resource.SetColor();
             resource.TargetPosition = pos;
             resource.IsScatter = true;
+            resource.InvokeDisappear();
         }
     }
 

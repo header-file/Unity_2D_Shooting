@@ -426,6 +426,9 @@ public class SubWeapon : MonoBehaviour
         GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
 
         GetComponent<Animator>().SetTrigger("Revive");
+        GameObject revive = GameManager.Inst().ObjManager.MakeObj("Revive");
+        revive.transform.position = transform.position;
+
         Invoke("ReturnColor", 1.0f);
         Invoke("ReturnInvincible", 1.0f);
 

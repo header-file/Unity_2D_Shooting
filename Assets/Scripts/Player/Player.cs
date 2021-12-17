@@ -680,6 +680,9 @@ public class Player : MonoBehaviour
         TimerImage.gameObject.SetActive(false);
 
         GetComponent<Animator>().SetTrigger("Revive");
+        GameObject revive = GameManager.Inst().ObjManager.MakeObj("Revive");
+        revive.transform.position = transform.position;
+
         Invoke("ReturnInvincible", 1.0f);
     }
 

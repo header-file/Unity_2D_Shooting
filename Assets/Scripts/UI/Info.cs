@@ -15,8 +15,8 @@ public class Info : MonoBehaviour
         {
             ColorSelected[i].SetActive(false);
             //ColorChips[i].transform.localScale = Vector3.one;
-            ColorImgs[index].offsetMin = new Vector2(0, 0);
-            ColorImgs[index].offsetMax = new Vector2(0, 0);
+            ColorImgs[i].offsetMin = new Vector2(0, 0);
+            ColorImgs[i].offsetMax = new Vector2(0, 0);
         }
 
         ColorSelected[index].SetActive(true);

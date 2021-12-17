@@ -587,6 +587,10 @@ MonoBehaviour:
     type: 3}
   HealActionPref: {fileID: 842731653812544173, guid: d1d174d0979886243a57f3edba812fc2,
     type: 3}
+  RevivePref: {fileID: 951923580510868198, guid: 3d9e4911dc83d374bb06190808f1c416,
+    type: 3}
+  ResourceDiePref: {fileID: 7934615075850885251, guid: 2ac7693248262874ea5e49df00cd3711,
+    type: 3}
 --- !u!1001 &152872297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4699,6 +4703,7 @@ GameObject:
   - component: {fileID: 1707046303}
   - component: {fileID: 1707046302}
   - component: {fileID: 1707046301}
+  - component: {fileID: 1707046308}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4811,6 +4816,9 @@ MonoBehaviour:
     LastDailyTime: 
     AdLeft: 0
     LastAdTime: 
+    BuffAdLeft: 0
+    LastBuffAdTime: 
+    BuffLefts: 
     MaxInventory: 0
     CurrentStage: 0
     ReachedStage: 0
@@ -4848,6 +4856,7 @@ MonoBehaviour:
   ResManager: {fileID: 1707046302}
   AdsManager: {fileID: 1707046300}
   SodManager: {fileID: 1707046301}
+  BufManager: {fileID: 1707046308}
   Login: {fileID: 0}
   ShtManager: {fileID: 0}
   ObjManager: {fileID: 0}
@@ -4876,6 +4885,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1707046308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707046299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535846ac7db032f49ad1117696759c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentBuffType: 0
+  BuffTimers: []
 --- !u!1 &1750566642
 GameObject:
   m_ObjectHideFlags: 0
@@ -5600,6 +5623,9 @@ MonoBehaviour:
     LastDailyTime: 
     AdLeft: 0
     LastAdTime: 
+    BuffAdLeft: 0
+    LastBuffAdTime: 
+    BuffLefts: 
     MaxInventory: 0
     CurrentStage: 0
     ReachedStage: 0

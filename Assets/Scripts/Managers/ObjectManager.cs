@@ -79,6 +79,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject EquipActionPref;
     public GameObject MagnetActionPref;
     public GameObject HealActionPref;
+    public GameObject RevivePref;
+    public GameObject ResourceDiePref;
 
     GameObject[] Enemies_S;
     GameObject[] Enemies_M;
@@ -144,6 +146,8 @@ public class ObjectManager : MonoBehaviour
     GameObject[] EquipActions;
     GameObject[] MagnetActions;
     GameObject[] HealActions;
+    GameObject[] Revives;
+    GameObject[] ResourceDies;
 
 
     GameObject[] TargetPool;
@@ -399,6 +403,15 @@ public class ObjectManager : MonoBehaviour
             case "HealAction":
                 TargetPool = HealActions;
                 break;
+
+            case "Revive":
+                TargetPool = Revives;
+                break;
+
+            case "ResourceDie":
+                TargetPool = ResourceDies;
+                break;
+
         }
 
         for (int i = 0; i < TargetPool.Length; i++)
@@ -481,6 +494,8 @@ public class ObjectManager : MonoBehaviour
         EquipActions = new GameObject[10];
         MagnetActions = new GameObject[10];
         HealActions = new GameObject[10];
+        Revives = new GameObject[10];
+        ResourceDies = new GameObject[40];
 
         Generate();
     }
@@ -937,6 +952,20 @@ public class ObjectManager : MonoBehaviour
             HealActions[i] = Instantiate(HealActionPref);
             HealActions[i].transform.SetParent(EffectPool.transform, false);
             HealActions[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Revives.Length; i++)
+        {
+            Revives[i] = Instantiate(RevivePref);
+            Revives[i].transform.SetParent(EffectPool.transform, false);
+            Revives[i].SetActive(false);
+        }
+
+        for (int i = 0; i < ResourceDies.Length; i++)
+        {
+            ResourceDies[i] = Instantiate(ResourceDiePref);
+            ResourceDies[i].transform.SetParent(EffectPool.transform, false);
+            ResourceDies[i].SetActive(false);
         }
     }
 }

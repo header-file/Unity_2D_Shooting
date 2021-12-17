@@ -79,6 +79,10 @@ public class GameData
     public int AdLeft;
     public int[] LastAdTime;
 
+    public int BuffAdLeft;
+    public int[] LastBuffAdTime;
+    public int[] BuffLefts;
+
     public int MaxInventory;
 
     public int CurrentStage;
@@ -212,6 +216,10 @@ public class GameData
         AdLeft = GameManager.Inst().AdsManager.AdLeft;
         SaveLastAdTime();
 
+        BuffAdLeft = GameManager.Inst().UiManager.MainUI.Buff.AdCount;
+        for (int i = 0; i < Constants.MAXBUFFS; i++)
+            BuffLefts[i] = (int)GameManager.Inst().BufManager.BuffTimers[i];
+
         IsMuteBGM = GameManager.Inst().SodManager.IsBgmMute;
         IsMuteEffect = GameManager.Inst().SodManager.IsEffectMute;
         BGMVolume = GameManager.Inst().SodManager.BgmVolume;
@@ -227,6 +235,8 @@ public class GameData
         }
 
         GameManager.Inst().IsFullPrice = IsFullPrice;
+        if (GameManager.Inst().IsFullPrice)
+            GameManager.Inst().BufManager.StartBuff(0);
         
         if (Coin >= 0)
             GameManager.Inst().Player.SetCoin(Coin);
@@ -530,6 +540,26 @@ public class GameData
         else
             LastAdTime = new int[6];
 
+        GameManager.Inst().UiManager.MainUI.Buff.SubtractAdCount(3 - BuffAdLeft);
+        if (LastBuffAdTime != null)
+            LoadLastBuffAdTime();
+        else
+            LastBuffAdTime = new int[6];
+
+        if (BuffLefts != null)
+            for (int i = 0; i < Constants.MAXBUFFS; i++)
+            {
+                GameManager.Inst().BufManager.BuffTimers[i] = BuffLefts[i];
+
+                if (GameManager.Inst().BufManager.BuffTimers[i] > 0)
+                {
+                    GameManager.Inst().BufManager.BuffTimers[i] -= 600.0f;
+                    GameManager.Inst().BufManager.StartBuff(i);
+                }
+            }
+        else
+            BuffLefts = new int[Constants.MAXBUFFS];
+
         GameManager.Inst().SodManager.IsBgmMute = IsMuteBGM;
         GameManager.Inst().SodManager.IsEffectMute = IsMuteEffect;
         GameManager.Inst().SodManager.BgmVolume = BGMVolume;
@@ -549,8 +579,11 @@ public class GameData
         IsDailyPlus = false;
         DailyPlusLeft = 0;
 
-        AdLeft = 0;
+        AdLeft = 5;
         LastAdTime = new int[6];
+        BuffAdLeft = 3;
+        LastBuffAdTime = new int[6];
+        BuffLefts = new int[Constants.MAXBUFFS];
 
         MaxInventory = Constants.MININVENTORY;
 
@@ -692,12 +725,25 @@ public class GameData
         LastAdTime[3] = GameManager.Inst().AdsManager.LastTime.Hour;
         LastAdTime[4] = GameManager.Inst().AdsManager.LastTime.Minute;
         LastAdTime[5] = GameManager.Inst().AdsManager.LastTime.Second;
+
+        LastBuffAdTime[0] = Now.Year;
+        LastBuffAdTime[1] = Now.Month;
+        LastBuffAdTime[2] = Now.Day;
+        LastBuffAdTime[3] = 9;
+        LastBuffAdTime[4] = 0;
+        LastBuffAdTime[5] = 0;
     }
 
     void LoadLastAdTime()
     {
         GameManager.Inst().AdsManager.LastTime = new DateTime(LastAdTime[0], LastAdTime[1], LastAdTime[2],
                                                                 LastAdTime[3], LastAdTime[4], LastAdTime[5]);
+    }
+
+    void LoadLastBuffAdTime()
+    {
+        if (Now.Day != LastBuffAdTime[2] && Now.Hour >= 9)
+            GameManager.Inst().UiManager.MainUI.Buff.ResetAdCount();
     }
 
     public void LoadSubWeapon()

@@ -113,4 +113,17 @@ public class Item_Resource : Item
         Invoke("Add", 5.0f);
         IsAbsorb = true;
     }
+
+    public void InvokeDisappear()
+    {
+        Invoke("Disappear", 2.0f);
+    }
+
+    void Disappear()
+    {
+        GameObject resourceDie = GameManager.Inst().ObjManager.MakeObj("ResourceDie");
+        resourceDie.transform.position = transform.position;
+
+        gameObject.SetActive(false);
+    }
 }

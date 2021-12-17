@@ -145,6 +145,11 @@ public class StageLoop : MonoBehaviour
         IsDragging = false;
 
         GameManager.Inst().StgManager.UnlockStages(GameManager.Inst().DatManager.GameData.ReachedStage);
+        for (int i = 0; i < Constants.MAXSTAGES; i++)
+        {
+            Planets[i].Name.text = GameManager.Inst().TxtManager.PlanetNames[i];
+            Planets[i].Stage.text = "STAGE " + (i + 1).ToString();
+        }
 
         LandingBtn.interactable = false;
     }

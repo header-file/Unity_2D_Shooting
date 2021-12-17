@@ -17,6 +17,7 @@ public class Shop : MonoBehaviour
     public Text TimerText;
     public Button AdButton;
     public GameObject FullPriceLock;
+    public CanvasGroup FailMsg;
 
     //Confirm
     public GameObject Confirm;
@@ -38,12 +39,18 @@ public class Shop : MonoBehaviour
     string[,] PackageDatas;
     int CurrentPage;
     int CurrentItem;
+    bool IsFail;
+    float MsgSpeed;
 
     void Awake()
     {
         SetJewelDatas();
         SetResourceDatas();
         SetPackageDatas();
+
+        FailMsg.alpha = 0.0f;
+        IsFail = false;
+        MsgSpeed = 2.0f;
     }
 
     void Start()
@@ -60,6 +67,9 @@ public class Shop : MonoBehaviour
     {
         if (GameManager.Inst().AdsManager.AdLeft <= 0)
             SetTimer();
+
+        if (IsFail)
+            FailMessage();
     }
 
     public void ShowPage(int index)
@@ -200,7 +210,20 @@ public class Shop : MonoBehaviour
 
     public void FailBuyJewel()
     {
-        print("구매에 실패했습니다.");
+        IsFail = true;
+    }
+
+    void FailMessage()
+    {
+        FailMsg.alpha += Time.deltaTime * MsgSpeed;
+
+        if (FailMsg.alpha >= 1.0f)
+            MsgSpeed *= -1.0f;
+        else if (FailMsg.alpha <= 0.0f)
+        {
+            MsgSpeed *= -1.0f;
+            IsFail = false;
+        }
     }
 
     void BuyResource()
@@ -318,8 +341,10 @@ public class Shop : MonoBehaviour
     public void BuyFullPrice()
     {
         GameManager.Inst().IsFullPrice = true;
+        GameManager.Inst().BufManager.StartBuff(0);
 
         FullPriceLock.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.SpecialBtn.SetActive(false);
 
         GameManager.Inst().DatManager.SaveData();
         GameManager.Inst().DatManager.UploadSaveData();
