@@ -455,6 +455,7 @@ public class UpgradeManager : MonoBehaviour
         GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.SetData(0, 3);
         GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.SetData(1, 1);
 
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.gameObject.SetActive(true);
         Animation levelUpAnim = GameManager.Inst().UiManager.MainUI.Center.Weapon.UpgDataWindow.GetComponent<Animation>();
         if (levelUpAnim.isPlaying)
             levelUpAnim.Stop();

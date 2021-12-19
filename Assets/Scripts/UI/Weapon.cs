@@ -183,7 +183,6 @@ public class Weapon : MonoBehaviour
                     //Show(SlotIndices[i]);
                 }
             }
-
         }
     }
 

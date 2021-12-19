@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Boomerang : Bullet
 {
+    public SpriteRenderer Sprite;
     public AnimationCurve Curve;
-    public AnimationCurve Curve2;
 
+    Rigidbody2D Rigidbody2D;
     Vector3 StartPos;
     Vector3 TargetPos;
     Vector3[] ControlPos;
@@ -29,7 +30,6 @@ public class Boomerang : Bullet
     void Awake()
     {
         Type = BulletType.BOOMERANG;
-        GetComponent<SpriteRenderer>().color = Color.white;
 
         IsReturn = false;
         Timer = 0.0f;
@@ -38,6 +38,7 @@ public class Boomerang : Bullet
 
         StartPos = new Vector3(0.0f, 0.0f, 0.0f);
         TargetPos = new Vector3(0.0f, 0.0f, 0.0f);
+        Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     void Start()
@@ -51,24 +52,13 @@ public class Boomerang : Bullet
 
     void Update()
     {
-        transform.RotateAround(transform.position, Vector3.forward, Time.deltaTime * 500.0f);
+        Sprite.transform.RotateAround(Sprite.transform.position, Vector3.forward, Time.deltaTime * 1800.0f);
         Timer += Time.deltaTime;
-        if(!IsReturn && Timer >= 1.0f && StopTime < 1.0f)
-        {
-            StopTime += Time.deltaTime;
-            Timer = 1.0f;
-        }
+        float speed = Curve.Evaluate(Timer) * Speed;
+        Rigidbody2D.velocity = Vector3.zero;
+        Rigidbody2D.AddForce(transform.up * speed, ForceMode2D.Impulse);
 
-        float up = Curve2.Evaluate(Timer) * Speed;
-
-        transform.position = Vector3.Lerp(StartPos, TargetPos, up);
-
-        if (!IsReturn && StopTime * 2.0f >= 1.0f)
-        {
-            StopTime = 1.0f;
-            IsReturn = true;
-        }
-        if (IsReturn && Vector3.Distance(transform.position, StartPos) < 0.0001f)
+        if (Timer >= 2.0f)
         {
             GameManager.Inst().ShtManager.BoomerangCount--;
             gameObject.SetActive(false);

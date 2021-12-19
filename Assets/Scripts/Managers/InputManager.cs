@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
 
     bool IsAbleControl;
     bool IsAbleSWControl;
+    int PointerID;
 
     public bool GetIsAbleControl() { return IsAbleControl; }
     public bool GetIsAbleSWControl() { return IsAbleSWControl; }
@@ -20,6 +21,12 @@ public class InputManager : MonoBehaviour
     void Awake()
     {
         GameManager.Inst().IptManager = gameObject.GetComponent<InputManager>();
+
+#if UNITY_EDITOR
+        PointerID = -1;
+#elif UNITY_ANDROID
+        PointerID = 0;
+#endif
     }
 
     void Start()
@@ -30,7 +37,7 @@ public class InputManager : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if (!IsAbleControl && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+        if (!IsAbleControl && EventSystem.current.IsPointerOverGameObject(PointerID))
             return;
 
         MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

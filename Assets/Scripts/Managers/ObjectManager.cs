@@ -772,7 +772,7 @@ public class ObjectManager : MonoBehaviour
             for (int i = 0; i < Boomerangs.Length / maxColor; i++)
             {
                 Boomerangs[j, i] = Instantiate(BoomerangPref[j]);
-                Boomerangs[j, i].GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
+                Boomerangs[j, i].GetComponent<Boomerang>().Sprite.material.SetColor("_GlowColor", GameManager.Inst().ShtManager.GetColors(j));
                 Boomerangs[j, i].transform.SetParent(PBulletPool.transform, false);
                 Boomerangs[j, i].SetActive(false);
             }

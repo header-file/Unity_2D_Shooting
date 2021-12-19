@@ -18,5 +18,7 @@ public class UpgradeDataWindow : MonoBehaviour
     {
         for (int i = 0; i < TypeWindows.Length; i++)
             TypeWindows[i].SetActive(false);
+
+        gameObject.SetActive(false);
     }
 }
