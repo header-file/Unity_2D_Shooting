@@ -13,7 +13,7 @@ public class PlanetSlot : MonoBehaviour
 
     void Awake()
     {
-        Lock.SetActive(true);
+        SetLock(true);
     }
 
     void Update()
@@ -25,5 +25,13 @@ public class PlanetSlot : MonoBehaviour
         //    Name.gameObject.GetComponent<RectTransform>().anchoredPosition = pos;
         //}
             
+    }
+
+    public void SetLock(bool b)
+    {
+        Lock.SetActive(b);
+
+        for (int i = 0; i < Images.Length; i++)
+            Images[i].color = Color.black;
     }
 }

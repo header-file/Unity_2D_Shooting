@@ -508,6 +508,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < Player.MaxInventory; i++)
         {
             GameObject inventorySlot = ObjManager.MakeObj("InventorySlot");
+            inventory.SetPhysicalInventory(i, inventorySlot);
             inventorySlot.transform.SetParent(inventory.Contents.transform, false);
             InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
             slot.SetIndex(i);
@@ -515,6 +516,8 @@ public class GameManager : MonoBehaviour
             inventory.SetInventory(i, slot);
             inventorySlot.name = i.ToString();
         }
+
+        inventory.Contents.SetActive(false);
     }
 
     public void AddInventory(int count)
@@ -524,6 +527,7 @@ public class GameManager : MonoBehaviour
         for (int i = Player.MaxInventory - count; i < Player.MaxInventory; i++)
         {
             GameObject inventorySlot = Inst().ObjManager.MakeObj("InventorySlot");
+            inventory.SetPhysicalInventory(i, inventorySlot);
             inventorySlot.transform.SetParent(inventory.Contents.transform, false);
             InventorySlot slot = inventorySlot.GetComponent<InventorySlot>();
             slot.SetIndex(i);

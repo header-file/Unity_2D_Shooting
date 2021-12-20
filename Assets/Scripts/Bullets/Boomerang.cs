@@ -55,6 +55,8 @@ public class Boomerang : Bullet
         Sprite.transform.RotateAround(Sprite.transform.position, Vector3.forward, Time.deltaTime * 1800.0f);
         Timer += Time.deltaTime;
         float speed = Curve.Evaluate(Timer) * Speed;
+        if (Timer > 1.0f)
+            speed *= -1.0f;
         Rigidbody2D.velocity = Vector3.zero;
         Rigidbody2D.AddForce(transform.up * speed, ForceMode2D.Impulse);
 

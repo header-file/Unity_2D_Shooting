@@ -11,6 +11,7 @@ public class StageLoop : MonoBehaviour
     public RectTransform Center;
     public PlanetSlot[] Planets;
     public Button LandingBtn;
+    public Text LandingText;
     public CanvasGroup[] Tags;
 
     float[] Distances;
@@ -84,7 +85,7 @@ public class StageLoop : MonoBehaviour
     public void StartDrag()
     {
         IsDragging = true;
-        LandingBtn.interactable = false;
+        SetLandingBtn(false);
     }
 
     public void Dragging(int index)
@@ -98,11 +99,14 @@ public class StageLoop : MonoBehaviour
         Planets[index].PlanetImage.transform.localScale = Vector3.one * newScale;
 
         //행성 색
-        for (int i = 0; i < Planets[index].Images.Length; i++)
+        if (!Planets[index].Lock.activeSelf)
         {
-            float newR = Mathf.Abs((Slots[index].transform.position.y - 4.2f) / 5.5f) * -0.75f + 1.0f;
-            Color newColor = new Color(newR, newR, newR);
-            Planets[index].Images[i].color = newColor;
+            for (int i = 0; i < Planets[index].Images.Length; i++)
+            {
+                float newR = Mathf.Abs((Slots[index].transform.position.y - 4.2f) / 5.5f) * -0.75f + 1.0f;
+                Color newColor = new Color(newR, newR, newR);
+                Planets[index].Images[i].color = newColor;
+            }
         }
 
         //행성 이름
@@ -130,13 +134,10 @@ public class StageLoop : MonoBehaviour
     {
         IsDragging = false;
 
-        //if (Vector3.Distance(Panel.anchoredPosition, newPosition) < 0.001f)
-        //    LandingBtn.interactable = true;
-
-        LandingBtn.interactable = !Planets[MinBtnNum].Lock.activeSelf;
+        SetLandingBtn(!Planets[MinBtnNum].Lock.activeSelf);
 
         if (GameManager.Inst().StgManager.Stage - 1 == MinBtnNum)
-            LandingBtn.interactable = false;
+            SetLandingBtn(false);
     }
 
     public void Show()
@@ -151,7 +152,19 @@ public class StageLoop : MonoBehaviour
             Planets[i].Stage.text = "STAGE " + (i + 1).ToString();
         }
 
-        LandingBtn.interactable = false;
+        SetLandingBtn(false);
+    }
+
+    void SetLandingBtn(bool b)
+    {
+        LandingBtn.interactable = b;
+
+        Color color = LandingText.color;
+        if (!b)
+            color.a = 0.5f;
+        else
+            color.a = 1.0f;
+        LandingText.color = color;
     }
 
     public void MoveScene()

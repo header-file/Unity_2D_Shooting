@@ -256,6 +256,7 @@ public class GameData
                 }
             }
         }
+        GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Contents.SetActive(false);
 
         if (GameManager.Inst().StgManager.Stage <= CurrentStage)
             GameManager.Inst().StgManager.Stage = CurrentStage;

@@ -187,7 +187,7 @@ public class UIManager : MonoBehaviour
     //Button Interact   
     public void UnlockStage(int index)
     {
-        MainUI.Center.StageScroll.Planets[index].Lock.SetActive(false);
+        MainUI.Center.StageScroll.Planets[index].SetLock(false);
 
         if (GameManager.Inst().StgManager.ReachedStage > 1)
             MainUI.SideMenu.MakeSlot();

@@ -6,10 +6,12 @@ using System;
 public class InventoryScroll : MonoBehaviour
 {
     public GameObject Contents;
+    public GameObject Temp;
     public GameObject None;
     public GameObject Lock;
 
     InventorySlot[] Slots;
+    GameObject[] PhysicalSlots;
 
     int[] SwitchedIndices;
 
@@ -17,6 +19,7 @@ public class InventoryScroll : MonoBehaviour
     public int GetSwitchedIndex(int index) { return SwitchedIndices[index]; }
 
     public void SetInventory(int index, InventorySlot slot) { Slots[index] = slot; }
+    public void SetPhysicalInventory(int index, GameObject slot) { PhysicalSlots[index] = slot; }
     
     public void SetSlotType(int type)
     {
@@ -27,6 +30,7 @@ public class InventoryScroll : MonoBehaviour
     void Awake()
     {
         Slots = new InventorySlot[Constants.MAXINVENTORY];
+        PhysicalSlots = new GameObject[Constants.MAXINVENTORY];
     }
 
     void Start()
@@ -40,10 +44,12 @@ public class InventoryScroll : MonoBehaviour
         Lock.SetActive(false);
 
         GameManager.Inst().SetInventory();
+        Contents.SetActive(false);
     }
 
     public void ShowInventory()
     {
+        Contents.SetActive(true);
         Contents.GetComponent<RectTransform>().sizeDelta = new Vector2(540, 100 * GameManager.Inst().Player.MaxInventory / 5 + 10 * (GameManager.Inst().Player.MaxInventory / 5 - 1));
 
         for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
@@ -103,17 +109,22 @@ public class InventoryScroll : MonoBehaviour
         Array.Reverse(Slots);
 
         for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
-        {
-            for (int j = 0; j < GameManager.Inst().Player.MaxInventory; j++)
-            {
-                if (Slots[i].name == Contents.transform.GetChild(j + 1).gameObject.name)
-                {
-                    Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
+            PhysicalSlots[i].transform.SetParent(Temp.transform);
 
-                    SwitchedIndices[int.Parse(Slots[i].name)] = i;
-                    break;
-                }
-            }
+        for (int i = 0; i < GameManager.Inst().Player.MaxInventory; i++)
+        {
+            //for (int j = 0; j < GameManager.Inst().Player.MaxInventory; j++)
+            //{
+            //    if (Slots[i].name == Contents.transform.GetChild(j + 1).gameObject.name)
+            //    {
+            //        Contents.transform.GetChild(j + 1).SetSiblingIndex(i + 1);
+
+            //        SwitchedIndices[int.Parse(Slots[i].name)] = i;
+            //        break;
+            //    }
+            //}
+            PhysicalSlots[int.Parse(Slots[i].name)].transform.SetParent(Contents.transform);
+            SwitchedIndices[int.Parse(Slots[i].name)] = i;
         }
     }
 
