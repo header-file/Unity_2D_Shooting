@@ -220,7 +220,7 @@ public class Tutorials : MonoBehaviour
 
     void ExitWeaponInfo()
     {
-        GameManager.Inst().UiManager.MainUI.Center.Weapon.EquipArea.OnClickInfoBackBtn();
+        //GameManager.Inst().UiManager.MainUI.Center.Weapon.EquipArea.OnClickInfoBackBtn();
 
         AddStep();
     }

@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
 
     GameObject[] SubWeapons;
     EqData[] Inventory;
+    EqData[] ReinforceInventory;
     Vector3 OriginalPos;
     CanvasGroup canvasGroup;
     Vector3 NormalSize;
@@ -95,6 +96,7 @@ public class Player : MonoBehaviour
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
     public GameObject GetChargePos() { return ChargePos; }
     public EqData GetItem(int index) { return Inventory[index] != null ? Inventory[index] : null; }
+    public EqData GetReinforce(int index) { return ReinforceInventory[index] != null ? ReinforceInventory[index] : null; }
 
     public int GetCoin() { return Coin; }
     public int GetBulletType() { return BulletType; }
@@ -168,39 +170,17 @@ public class Player : MonoBehaviour
 
     public int AddItem(Item_Equipment item)
     {
-        for (int i = 0; i < MaxInventory; i++)
+        if (ReinforceInventory[item.GetEqType()] != null)
+            ReinforceInventory[item.GetEqType()].Quantity++;
+        else
         {
-            if (Inventory[i] != null)
-            {
-                if (Inventory[i].UID == item.GetUID())
-                {
-                    Inventory[i].Quantity++;
-
-                    return i;
-                }
-            }
+            ReinforceInventory[item.GetEqType()] = new EqData();
+            ReinforceInventory[item.GetEqType()].Icon = item.GetIcon();
+            ReinforceInventory[item.GetEqType()].Type = item.GetEqType();
+            ReinforceInventory[item.GetEqType()].Rarity = item.GetRarity();
+            ReinforceInventory[item.GetEqType()].Value = item.GetEqValue();
+            ReinforceInventory[item.GetEqType()].UID = item.GetUID();
         }
-
-        for (int i = 0; i < MaxInventory; i++)
-        {
-            if (Inventory[i] == null)
-            {
-                Inventory[i] = new EqData();
-                Inventory[i].Icon = item.GetIcon();
-                Inventory[i].Type = item.GetEqType();
-                Inventory[i].Rarity = item.GetRarity();
-                Inventory[i].Value = item.GetEqValue();
-                Inventory[i].UID = item.GetUID();
-                Inventory[i].Quantity = 1;
-                Inventory[i].CoolTime = 0.0f;
-
-                CurInventory++;
-
-                return i;
-            }
-        }
-
-        GameManager.Inst().UiManager.InventoryFull();
 
         return -1;
     }
@@ -233,40 +213,42 @@ public class Player : MonoBehaviour
 
     public int AddItem(EqData item)
     {
-        for (int i = 0; i < MaxInventory; i++)
+        if (item.UID / 100 == 3)
         {
-            if (Inventory[i] != null)
+            if (ReinforceInventory[item.Type] != null)
+                ReinforceInventory[item.Type].Quantity++;
+            else
             {
-                if (Inventory[i].UID == item.UID)
-                {
-                    if (item.UID / 100 == 6)
-                        continue;
-
-                    Inventory[i].Quantity++;
-                    return i;
-                }
+                ReinforceInventory[item.Type] = new EqData();
+                ReinforceInventory[item.Type].Icon = item.Icon;
+                ReinforceInventory[item.Type].Type = item.Type;
+                ReinforceInventory[item.Type].Rarity = item.Rarity;
+                ReinforceInventory[item.Type].Value = item.Value;
+                ReinforceInventory[item.Type].UID = item.UID;
             }
         }
-
-        for (int i = 0; i < MaxInventory; i++)
+        else
         {
-            if (Inventory[i] == null)
+            for (int i = 0; i < MaxInventory; i++)
             {
-                Inventory[i] = new EqData();
-                Inventory[i].Icon = item.Icon;
-                Inventory[i].Type = item.Type;
-                Inventory[i].Rarity = item.Rarity;
-                Inventory[i].Value = item.Value;
-                Inventory[i].UID = item.UID;
-                if (item.Quantity > 0)
-                    Inventory[i].Quantity = item.Quantity;
-                else
-                    Inventory[i].Quantity = 1;
-                Inventory[i].CoolTime = item.CoolTime;
+                if (Inventory[i] == null)
+                {
+                    Inventory[i] = new EqData();
+                    Inventory[i].Icon = item.Icon;
+                    Inventory[i].Type = item.Type;
+                    Inventory[i].Rarity = item.Rarity;
+                    Inventory[i].Value = item.Value;
+                    Inventory[i].UID = item.UID;
+                    if (item.Quantity > 0)
+                        Inventory[i].Quantity = item.Quantity;
+                    else
+                        Inventory[i].Quantity = 1;
+                    Inventory[i].CoolTime = item.CoolTime;
 
-                CurInventory++;
-                
-                return i;
+                    CurInventory++;
+
+                    return i;
+                }
             }
         }
 
@@ -355,6 +337,7 @@ public class Player : MonoBehaviour
 
         SubWeapons = new GameObject[4];
         Inventory = new EqData[Constants.MAXINVENTORY];
+        ReinforceInventory = new EqData[Constants.MAXREINFORCETYPE];
         for (int i = 0; i < Constants.MAXINVENTORY; i++)
             Inventory[i] = null;
 

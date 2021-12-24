@@ -58,9 +58,6 @@ public class InventoryScroll : MonoBehaviour
             if (eq != null)
             {
                 Sprite icon = eq.Icon;
-                if (eq.UID / 100 == 3)
-                    icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
-
                 InventorySlot slot = GetSlot(i);
 
                 slot.GetNotExist().SetActive(false);
@@ -94,6 +91,7 @@ public class InventoryScroll : MonoBehaviour
     {
         InventorySlot slot = GetSlot(i);
 
+        slot.SetDisable(false);
         slot.GetNotExist().SetActive(true);
         slot.GetExist().SetActive(false);
 

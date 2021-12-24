@@ -63,11 +63,6 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
 
         if (GameManager.Inst().Player.SortOption >= (int)SortOption.SYNTHESIS_EQUIP)
         {
-            if (ItemUID / 100 == 6 && obj.ItemUID / 100 == 3)
-                Weight += 32;
-            else if (ItemUID / 100 == 3 && obj.ItemUID / 100 == 6)
-                Weight -= 32;
-
             if (ItemRarity == GameManager.Inst().Player.SortOption - (int)SortOption.SYNTHESIS_EQUIP &&
                 obj.ItemRarity != GameManager.Inst().Player.SortOption - (int)SortOption.SYNTHESIS_EQUIP)
                 Weight += 16;

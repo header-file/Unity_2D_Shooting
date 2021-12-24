@@ -26,6 +26,7 @@ public class Weapon : MonoBehaviour
     public EquipSwitch EquipSwitch;
     public GameObject ConfirmSwitch;
     public UpgradeDataWindow UpgDataWindow;
+    public Reinforce Reinforce;
 
     InventoryScroll Inventories;
     Player.EqData CurEquip;
@@ -45,6 +46,7 @@ public class Weapon : MonoBehaviour
     public int GetCurBulletType() { return CurBulletType; }
     public Player.EqData GetCurEquip() { return CurEquip; }
 
+    public void SetCurEquip(Player.EqData eq) { CurEquip = eq; }
     public void SetCurBulletType(int type) { CurBulletType = type; }
 
     void Awake()
@@ -304,7 +306,7 @@ public class Weapon : MonoBehaviour
     {
         InfoArea.gameObject.SetActive(false);
         EquipArea.gameObject.SetActive(true);
-        EquipArea.InfoWindow.SetActive(false);
+        Reinforce.gameObject.SetActive(false);
 
         EquipArea.ShowEquipInfo(CurBulletType);
         //ShowInventory();
@@ -378,16 +380,17 @@ public class Weapon : MonoBehaviour
     {
         CurEquip = GameManager.Inst().Player.GetItem(index);
 
-        if (CurEquip.UID / 100 == 3)
-        {
-            if (CurEquip.Quantity > 0)
-                TempCount[CurEquip.Type] += (int)CurEquip.Value;
+        //if (CurEquip.UID / 100 == 3)
+        //{
+        //    if (CurEquip.Quantity > 0)
+        //        TempCount[CurEquip.Type] += (int)CurEquip.Value;
 
-            EquipArea.WindowOn(CurEquip, TempCount[CurEquip.Type] / (int)CurEquip.Value);
+        //    //Reinforce.WindowOn(CurEquip, TempCount[CurEquip.Type] / (int)CurEquip.Value);
 
-            IsFlickering = true;
-        }
-        else if (CurEquip.UID / 100 == 6)
+        //    IsFlickering = true;
+        //}
+        //else 
+        if (CurEquip.UID / 100 == 6)
         {
             if (GameManager.Inst().UpgManager.BData[CurBulletType].GetEquipIndex() == -1)
             {
@@ -547,7 +550,7 @@ public class Weapon : MonoBehaviour
 
     public void AddQuantity()
     {
-        if (IsDelay)
+        if (IsDelay || CurEquip == null)
             return;
 
         IsDelay = true;
@@ -565,9 +568,9 @@ public class Weapon : MonoBehaviour
                     {
                         TempCount[CurEquip.Type] += (int)CurEquip.Value;
                         if (TempCount[CurEquip.Type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
-                            EquipArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), TempCount[CurEquip.Type] / (int)CurEquip.Value);
                         else
-                            EquipArea.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                            Reinforce.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
                     }
                     break;
                 case 1:
@@ -575,9 +578,9 @@ public class Weapon : MonoBehaviour
                     {
                         TempCount[CurEquip.Type] += (int)CurEquip.Value;
                         if (TempCount[CurEquip.Type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
-                            EquipArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), TempCount[CurEquip.Type] / (int)CurEquip.Value);
                         else
-                            EquipArea.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                            Reinforce.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
                     }
                     break;
                 case 2:
@@ -585,9 +588,9 @@ public class Weapon : MonoBehaviour
                     {
                         TempCount[CurEquip.Type] += (int)CurEquip.Value;
                         if (TempCount[CurEquip.Type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
-                            EquipArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), TempCount[CurEquip.Type] / (int)CurEquip.Value);
                         else
-                            EquipArea.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                            Reinforce.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
                     }
                     break;
             }
@@ -605,7 +608,7 @@ public class Weapon : MonoBehaviour
         if (TempCount[CurEquip.Type] / (int)CurEquip.Value > 1)
         {
             TempCount[CurEquip.Type] -= (int)CurEquip.Value;
-            EquipArea.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
+            Reinforce.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
         }
     }
 

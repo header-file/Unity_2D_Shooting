@@ -421,6 +421,8 @@ public class GameManager : MonoBehaviour
             rand = Random.Range(0, 3);
 
         int uid = 0;
+        grade = 0;
+
         switch (rand)
         {
             case 0:
@@ -462,6 +464,7 @@ public class GameManager : MonoBehaviour
         GameObject eq;
         Item_Equipment ieq = null;
         int uid = 0;
+        grade = 0;
 
         switch (rand)
         {
