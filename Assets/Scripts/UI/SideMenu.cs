@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SideMenu : MonoBehaviour
 {
     public GameObject BackBtn;
+    public RectTransform SideBarBtn;
     public RectTransform SideBar;
     public SideMenuSlot[] Slots;
     public Transform ContentTransform;
@@ -26,6 +27,7 @@ public class SideMenu : MonoBehaviour
 
         Slots = new SideMenuSlot[Constants.MAXSTAGES];
         MakeSlot();
+        SideBar.gameObject.SetActive(false);
     }
 
     void Update()
@@ -40,6 +42,7 @@ public class SideMenu : MonoBehaviour
     {
         IsSideMenuOpen = true;
         IsSideMenuClose = false;
+        SideBar.gameObject.SetActive(true);
         BtnArrow.transform.Rotate(Reverse);
         BackBtn.SetActive(true);
     }
@@ -47,8 +50,9 @@ public class SideMenu : MonoBehaviour
     void Opening()
     {
         SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(-280.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
+        SideBarBtn.anchoredPosition = Vector3.Lerp(SideBarBtn.anchoredPosition, new Vector3(-150.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
 
-        if (Time.deltaTime >= 0.2f)
+        if (Mathf.Abs(SideBar.anchoredPosition.x + 280.0f) <= 0.01f)
             IsSideMenuOpen = false;
     }
 
@@ -63,9 +67,13 @@ public class SideMenu : MonoBehaviour
     void Closing()
     {
         SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(360.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
+        SideBarBtn.anchoredPosition = Vector3.Lerp(SideBarBtn.anchoredPosition, new Vector3(480.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
 
-        if (Time.deltaTime >= 0.2f)
+        if (Mathf.Abs(SideBar.anchoredPosition.x - 360.0f) <= 0.01f)
+        {
+            SideBar.gameObject.SetActive(false);
             IsSideMenuClose = false;
+        }
     }
 
     public void MakeSlot()

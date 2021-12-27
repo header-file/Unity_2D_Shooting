@@ -631,8 +631,9 @@ public class Weapon : MonoBehaviour
         TempCount[CurEquip.Type] = 0;
         IsFlickering = false;
 
-        EquipArea.PaintGauge(CurEquip.Type, CurBulletType, TempCount[CurEquip.Type]);
-        ShowInventory();
+        ShowInfoArea(CurBulletType);
+        //EquipArea.PaintGauge(CurEquip.Type, CurBulletType, TempCount[CurEquip.Type]);
+        //ShowInventory();
     }
 
     void ResetDelay()

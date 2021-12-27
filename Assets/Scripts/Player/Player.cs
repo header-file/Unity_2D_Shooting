@@ -225,6 +225,7 @@ public class Player : MonoBehaviour
                 ReinforceInventory[item.Type].Rarity = item.Rarity;
                 ReinforceInventory[item.Type].Value = item.Value;
                 ReinforceInventory[item.Type].UID = item.UID;
+                ReinforceInventory[item.Type].Quantity = item.Quantity;
             }
         }
         else

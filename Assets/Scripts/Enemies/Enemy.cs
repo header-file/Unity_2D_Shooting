@@ -288,7 +288,7 @@ public class Enemy : MonoBehaviour
 
 #if UNITY_EDITOR
                 rand = Random.Range(0, 2);
-                if (rand > 0)
+                if (rand >= 0)
                     GameManager.Inst().MakeReinforce(-1, -1, transform);
                 else
                     GameManager.Inst().MakeEquip(-1, -1, transform);

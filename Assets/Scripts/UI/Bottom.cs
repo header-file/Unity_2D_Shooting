@@ -26,6 +26,7 @@ public class Bottom : MonoBehaviour
             Colors[i].gameObject.SetActive(true);
 
         BackBtn.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     public void ShowEquipBtn(int curBulletType)
@@ -70,8 +71,8 @@ public class Bottom : MonoBehaviour
     //Button Interaction
     public void OnClickManageBtn(int Type)
     {
-        //Time.timeScale = 0.0f;
         GameManager.Inst().IptManager.SetIsAbleControl(false);
+        gameObject.SetActive(true);
 
         CurrentPlayerNum = Type;
         WeaponScroll.SetCurrentCharacter(CurrentPlayerNum);
@@ -178,6 +179,7 @@ public class Bottom : MonoBehaviour
 
     public void OnClickSubWeapon(int index)
     {
+        gameObject.SetActive(true);
         BuySW.ShowBuy(index);
         if (!GameManager.Inst().UiManager.GetIsMoveUp())
             GameManager.Inst().UiManager.SetTimer(0.0f);

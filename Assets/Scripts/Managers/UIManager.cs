@@ -150,6 +150,7 @@ public class UIManager : MonoBehaviour
         if (Timer >= 1.0f)
         {
             IsMoveDown = false;
+            MainUI.Bottom.gameObject.SetActive(false);
             
             if (!IsEquip)
             {

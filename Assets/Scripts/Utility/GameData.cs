@@ -93,6 +93,7 @@ public class GameData
     public float[] Weapons;
 
     public int[] Inventories;
+    public int[] ReinforceInventories;
 
     public int[] Quests;
 
@@ -194,6 +195,21 @@ public class GameData
                 Inventories[Constants.INVDATASIZE * i + (int)InvData.ID] = eq.UID;
                 Inventories[Constants.INVDATASIZE * i + (int)InvData.COOLTIME] = (int)eq.CoolTime;
             }
+        }
+
+        ReinforceInventories = new int[Constants.INVDATASIZE * Constants.MAXREINFORCETYPE];
+        for(int i = 0; i < Constants.MAXREINFORCETYPE; i++)
+        {
+            Player.EqData reinf = GameManager.Inst().Player.GetReinforce(i);
+            if (reinf == null)
+                continue;
+
+            ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.TYPE] = reinf.Type;
+            ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.GRADE] = reinf.Rarity;
+            ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.VALUE] = (int)reinf.Value;
+            ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.AMOUNT] = reinf.Quantity;
+            ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.ID] = reinf.UID;
+            ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.COOLTIME] = (int)reinf.CoolTime;
         }
 
         for (int i = 0; i < Constants.MAXBULLETS; i++)
@@ -401,6 +417,28 @@ public class GameData
 
             Inventories = new int[GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE];
         }
+
+        if (ReinforceInventories != null && ReinforceInventories.Length == Constants.MAXREINFORCETYPE * Constants.INVDATASIZE)
+        {
+            for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
+            {
+                Player.EqData eq = new Player.EqData();
+                eq.Quantity = ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.AMOUNT];
+                if (eq.Quantity <= 0)
+                    continue;
+
+                eq.Type = ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.TYPE];
+                eq.Rarity = ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.GRADE];
+                eq.Value = ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.VALUE];
+                eq.UID = ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.ID];
+                eq.CoolTime = ReinforceInventories[Constants.INVDATASIZE * i + (int)InvData.COOLTIME];
+                eq.Icon = GameManager.Inst().UiManager.FoodImages[eq.Type + eq.Rarity * Constants.MAXREINFORCETYPE];
+
+                GameManager.Inst().Player.AddItem(eq);
+            }
+        }
+        else
+            ReinforceInventories = new int[Constants.MAXREINFORCETYPE * Constants.INVDATASIZE];
 
 
         if (SubWeaponDatas != null && SubWeaponDatas.Length == Constants.MAXSTAGES * Constants.MAXSUBWEAPON * Constants.SWDATASIZE)

@@ -13,8 +13,11 @@ public class Reinforce : MonoBehaviour
     public Text StatCount;
     public Text LeftCount;
     public Button FeedBtn;
+    public Button PlusBtn;
+    public Button MinBtn;
 
     string[] statNames;
+    int CurType;
     bool IsPressing;
     bool IsPlus;
 
@@ -44,17 +47,20 @@ public class Reinforce : MonoBehaviour
     {
         InfoWindow.SetActive(true);
 
-        //Line.color = LineColor[eq.Type];
+        CurType = type;
         Player.EqData eq = GameManager.Inst().Player.GetReinforce(type);
         Icon.sprite = GameManager.Inst().UiManager.FoodImages[type];
         StatName.text = statNames[type];
         StatName.color = LineColor[type];
-        if(eq != null)
+        StatCount.text = "+0";
+        LeftCount.text = "0";
+
+        if (eq != null)
         {
             GameManager.Inst().UiManager.MainUI.Center.Weapon.SetCurEquip(eq);
 
-            StatCount.text = "+" + eq.Value.ToString();
-            LeftCount.text = eq.Quantity.ToString();
+            PlusBtn.interactable = true;
+            MinBtn.interactable = false;
             FeedBtn.interactable = true;
 
             switch (eq.Type)
@@ -75,8 +81,8 @@ public class Reinforce : MonoBehaviour
         }
         else
         {
-            StatCount.text = "+0";
-            LeftCount.text = "0";
+            PlusBtn.interactable = false;
+            MinBtn.interactable = false;
             FeedBtn.interactable = false;
         }
     }
@@ -85,6 +91,21 @@ public class Reinforce : MonoBehaviour
     {
         StatCount.text = "+" + value.ToString();
         LeftCount.text = now.ToString();
+
+        if (now >= 1)
+            FeedBtn.interactable = true;
+        else
+            FeedBtn.interactable = false;
+
+        if (now >= GameManager.Inst().Player.GetReinforce(CurType).Quantity)
+            PlusBtn.interactable = false;
+        else
+            PlusBtn.interactable = true;
+
+        if (now <= 0)
+            MinBtn.interactable = false;
+        else
+            MinBtn.interactable = true;
     }
 
     public void OnClickInfoBackBtn()

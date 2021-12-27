@@ -89,6 +89,9 @@ public class InfoArea : MonoBehaviour
                     Resources[i].SetActive(true);
             } 
         }
+
+        for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
+            PaintGauge(i, bulletType);
     }
 
     public void PaintGauge(int type, int bulletType)
