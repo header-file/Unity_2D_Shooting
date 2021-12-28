@@ -71,6 +71,9 @@ public class Bottom : MonoBehaviour
     //Button Interaction
     public void OnClickManageBtn(int Type)
     {
+        if (GameManager.Inst().UiManager.GetIsMoveDown())
+            return;
+
         GameManager.Inst().IptManager.SetIsAbleControl(false);
         gameObject.SetActive(true);
 
@@ -135,6 +138,9 @@ public class Bottom : MonoBehaviour
 
     public void OnClickManageCancel()
     {
+        if (GameManager.Inst().UiManager.GetIsMoveUp())
+            return;
+
         if (!GameManager.Inst().UiManager.GetIsMoveDown())
             GameManager.Inst().UiManager.SetTimer(0.0f);
 

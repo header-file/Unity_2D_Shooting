@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
     float GatlingGyesu;
     int ColorIndex;
     bool IsAutoShot;
+    bool IsBossMode;
     
 
     public GameObject GetSubWeapon(int index) { return SubWeapons[index]; }
@@ -129,6 +130,7 @@ public class Player : MonoBehaviour
     public void BossMode()
     {
         IsMovable = true;
+        IsBossMode = true;
 
         gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
 
@@ -343,6 +345,7 @@ public class Player : MonoBehaviour
             Inventory[i] = null;
 
         IsMovable = false;
+        IsBossMode = false;
         IsShield = false;
         OriginalPos = new Vector3(0.0f, 1.2f, 0.0f);
 
@@ -375,7 +378,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        SetUIPos();
+        if(!IsBossMode)
+            SetUIPos();
 
         EquipCount();
 
@@ -547,6 +551,7 @@ public class Player : MonoBehaviour
         {
             CancelInvoke("MoveBack");
             IsInvincible = false;
+            IsBossMode = false;
             for (int i = 0; i < 4; i++)
             {
                 if (GameManager.Inst().GetSubweapons(i) != null)

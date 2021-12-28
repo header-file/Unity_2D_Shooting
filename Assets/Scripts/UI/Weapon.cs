@@ -166,8 +166,10 @@ public class Weapon : MonoBehaviour
                     if (SlotIndices[i] >= Constants.MAXBULLETS)
                         SlotIndices[i] -= Constants.MAXBULLETS;
                     SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
-                    InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
-                    //Show(SlotIndices[i]);
+                    if(SlotIndices[i] == GameManager.Inst().Player.GetBulletType())
+                        SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(2) + 1);
+                    else
+                        SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.BaseColor[SlotIndices[i]] + 1);
                 }
 
                 if (SwitchWindows[i].transform.position.x < -6.0f)
@@ -181,8 +183,10 @@ public class Weapon : MonoBehaviour
                     if (SlotIndices[i] < 0)
                         SlotIndices[i] += Constants.MAXBULLETS;
                     SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
-                    InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
-                    //Show(SlotIndices[i]);
+                    if (SlotIndices[i] == GameManager.Inst().Player.GetBulletType())
+                        SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(2) + 1);
+                    else
+                        SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.BaseColor[SlotIndices[i]] + 1);
                 }
             }
         }
@@ -228,9 +232,11 @@ public class Weapon : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
-            InfoArea.Anim[i].SetInteger("Color", InfoArea.DefaultColor[SlotIndices[i]]);
+            if(i != 1)
+                SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.BaseColor[SlotIndices[i]] + 1);
+            else
+                SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(2) + 1);
         }
-
         
         ShowInfoArea();
         ShowInventory();

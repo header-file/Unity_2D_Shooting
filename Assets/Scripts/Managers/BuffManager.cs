@@ -47,6 +47,7 @@ public class BuffManager : MonoBehaviour
         {
             case 0:
                 GameManager.Inst().Player.StartAutoShot();
+                GameManager.Inst().UiManager.MainUI.Buff.BuffSlots[index].TweenImg.enabled = true;
                 BuffTimers[index] += 600.0f;
 
                 if (GameManager.Inst().IsFullPrice)
@@ -67,6 +68,7 @@ public class BuffManager : MonoBehaviour
             case 0:
                 GameManager.Inst().Player.EndAutoShot();
                 GameManager.Inst().UiManager.MainUI.Buff.BuffSlots[index].TimerText.text = "";
+                GameManager.Inst().UiManager.MainUI.Buff.BuffSlots[index].TweenImg.enabled = false;
                 break;
         }
     }

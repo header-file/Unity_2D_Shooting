@@ -49,8 +49,8 @@ public class SideMenu : MonoBehaviour
 
     void Opening()
     {
-        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(-280.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
-        SideBarBtn.anchoredPosition = Vector3.Lerp(SideBarBtn.anchoredPosition, new Vector3(-150.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
+        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(-280.0f, 0.0f, 0.0f), Time.deltaTime * 7.5f);
+        SideBarBtn.anchoredPosition = Vector3.Lerp(SideBarBtn.anchoredPosition, new Vector3(-150.0f, 0.0f, 0.0f), Time.deltaTime * 7.5f);
 
         if (Mathf.Abs(SideBar.anchoredPosition.x + 280.0f) <= 0.01f)
             IsSideMenuOpen = false;
@@ -66,8 +66,8 @@ public class SideMenu : MonoBehaviour
 
     void Closing()
     {
-        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(360.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
-        SideBarBtn.anchoredPosition = Vector3.Lerp(SideBarBtn.anchoredPosition, new Vector3(480.0f, 0.0f, 0.0f), Time.deltaTime * 5.0f);
+        SideBar.anchoredPosition = Vector3.Lerp(SideBar.anchoredPosition, new Vector3(360.0f, 0.0f, 0.0f), Time.deltaTime * 7.5f);
+        SideBarBtn.anchoredPosition = Vector3.Lerp(SideBarBtn.anchoredPosition, new Vector3(480.0f, 0.0f, 0.0f), Time.deltaTime * 7.5f);
 
         if (Mathf.Abs(SideBar.anchoredPosition.x - 360.0f) <= 0.01f)
         {

@@ -86,7 +86,7 @@ public class UIManager : MonoBehaviour
         PanelPosUI = new Vector3(0.0f, 2.0f, 90.0f);
 
         Timer = 0.0f;
-        TickCount = 1.0f / 12.0f;
+        TickCount = 1.0f / 30.0f;
 
         IsMoveUp = false;
         IsMoveDown = false;
@@ -125,7 +125,7 @@ public class UIManager : MonoBehaviour
         MainUI.Center.Turret.transform.position = Vector3.MoveTowards(MainUI.Center.Turret.transform.position, TurretPosUI, Timer);
         Background.transform.position = Vector3.MoveTowards(Background.transform.position, BackgroundPosUI, Timer);
         MainUI.Bottom.Panel.transform.position = Vector3.MoveTowards(MainUI.Bottom.Panel.transform.position, PanelPosUI, Timer);
-
+        
         Timer += TickCount;
 
         if (Timer >= 1.0f)
@@ -133,7 +133,6 @@ public class UIManager : MonoBehaviour
             IsMoveUp = false;
             GameManager.Inst().IptManager.SetIsAbleControl(false);
             GameManager.Inst().IptManager.SetIsAbleSWControl(false);
-
         }
     }
 
