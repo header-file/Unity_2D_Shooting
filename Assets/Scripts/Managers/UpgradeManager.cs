@@ -95,7 +95,7 @@ public class UpgradeManager : MonoBehaviour
             Price = 10;
             Rarity = 0;
 
-            Health = 10;
+            Health = 100 * (Rarity + 1);
 
             ReloadTime = 0.0f;
             Duration = 0.0f;
@@ -125,7 +125,7 @@ public class UpgradeManager : MonoBehaviour
             Duration = float.Parse(data[index]["Duration"].ToString());
             Speed = float.Parse(data[index]["Speed"].ToString());
             Rarity = index / Constants.MAXBULLETS;
-            Health = 10;
+            Health = 150 * (Rarity + 1);
             MaxAtk = 0;
             MaxHp = 0;
             MaxSpd = 0;
@@ -379,6 +379,7 @@ public class UpgradeManager : MonoBehaviour
         BData[UpgType].SetPowerLevel(1);
         BData[UpgType].SetRarity(BData[UpgType].GetRarity() + 1);
         BData[UpgType].SetPrice((int)Mathf.Pow(10.0f, BData[UpgType].GetRarity()));
+        BData[UpgType].SetHealth((BData[UpgType].GetRarity() + 1) * 150 + BData[UpgType].GetPowerLevel() * 3);
         BData[UpgType].SetMaxAtk(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 0]);
         BData[UpgType].SetMaxHp(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 1]);
         BData[UpgType].SetMaxSpd(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 2]);
@@ -407,6 +408,7 @@ public class UpgradeManager : MonoBehaviour
         BData[UpgType].SetRarity(BData[UpgType].GetRarity() - 1);
         BData[UpgType].SetPowerLevel(BData[UpgType].GetMaxBulletLevel());
         BData[UpgType].SetPrice((int)Mathf.Pow(10.0f, BData[UpgType].GetRarity()));
+        BData[UpgType].SetHealth((BData[UpgType].GetRarity() + 1) * 150 + BData[UpgType].GetPowerLevel() * 3);
         BData[UpgType].SetMaxAtk(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 0]);
         BData[UpgType].SetMaxHp(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 1]);
         BData[UpgType].SetMaxSpd(WeaponReinforceMaxData[UpgType, BData[UpgType].GetRarity(), 2]);
@@ -428,7 +430,7 @@ public class UpgradeManager : MonoBehaviour
         //BData 처리
         BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() + 1);
         BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel() - 1]);
-        BData[UpgType].SetHealth(BData[UpgType].GetRarity() * 30 + BData[UpgType].GetPowerLevel() * 3);
+        BData[UpgType].SetHealth((BData[UpgType].GetRarity() + 1) * 150 + BData[UpgType].GetPowerLevel() * 3);
 
         //UI
         ShowLevelupWindow();
@@ -444,7 +446,7 @@ public class UpgradeManager : MonoBehaviour
         //BData 처리
         BData[UpgType].SetPowerLevel(BData[UpgType].GetPowerLevel() - 1);
         BData[UpgType].SetPrice(WeaponPriceData[BData[UpgType].GetPowerLevel() - 1]);
-        BData[UpgType].SetHealth(BData[UpgType].GetRarity() * 30 + BData[UpgType].GetPowerLevel() * 3);
+        BData[UpgType].SetHealth((BData[UpgType].GetRarity() + 1) * 150 + BData[UpgType].GetPowerLevel() * 3);
 
         //HP적용
         SetHPData(UpgType);

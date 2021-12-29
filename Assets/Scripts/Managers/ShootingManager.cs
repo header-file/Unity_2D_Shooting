@@ -239,8 +239,9 @@ public class ShootingManager : MonoBehaviour
                     bullets[i].IsVamp = isVamp;
                     bullets[i].Vamp = shooter;
                     bullets[i].IsReinforce = IsReinforce;
+                    bullets[i].SetDuration(duration);
                     bullets[i].Shoot(SpreadPos[i].transform.up);
-                    bullets[i].Invoke("Deactivate", duration);
+                    //bullets[i].Invoke("Deactivate", duration);
                 }
                 break;
 
@@ -256,8 +257,9 @@ public class ShootingManager : MonoBehaviour
                     bullets[i - 1].IsVamp = isVamp;
                     bullets[i - 1].Vamp = shooter;
                     bullets[i - 1].IsReinforce = IsReinforce;
+                    bullets[i - 1].SetDuration(duration);
                     bullets[i - 1].Shoot(SpreadPos[i].transform.up);
-                    bullets[i - 1].Invoke("Deactivate", duration);
+                    //bullets[i - 1].Invoke("Deactivate", duration);
                 }
                 break;
         }

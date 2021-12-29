@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
     
 
     Vector3 PlayerPos;
+    Vector3 UIOriPos;
     bool IsReload;
     int Coin;
     int BulletType;
@@ -378,7 +379,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(!IsBossMode)
+        if(IsBossMode)
             SetUIPos();
 
         EquipCount();
@@ -415,6 +416,11 @@ public class Player : MonoBehaviour
         PlayerPos.y += 3.0f;
         PlayerPos.z = 90.0f;
         UI.transform.position = PlayerPos;
+    }
+
+    void SetUIPosOri()
+    {
+        UI.transform.position = UIOriPos;
     }
 
     void EquipCount()
@@ -460,6 +466,10 @@ public class Player : MonoBehaviour
         EquipUI.SetActive(false);
         EquipBar.fillAmount = 0.0f;
         QuestionMark = EquipIcon.sprite;
+
+        UIOriPos = transform.position;
+        UIOriPos.y += 3.0f;
+        UIOriPos.z = 90.0f;
     }
 
     public void ShowEquipUI()
@@ -552,6 +562,9 @@ public class Player : MonoBehaviour
             CancelInvoke("MoveBack");
             IsInvincible = false;
             IsBossMode = false;
+
+            SetUIPosOri();
+
             for (int i = 0; i < 4; i++)
             {
                 if (GameManager.Inst().GetSubweapons(i) != null)
