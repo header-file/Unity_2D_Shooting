@@ -1146,6 +1146,7 @@ GameObject:
   - component: {fileID: 183907259}
   - component: {fileID: 183907258}
   - component: {fileID: 183907257}
+  - component: {fileID: 183907264}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1268,6 +1269,7 @@ MonoBehaviour:
     SubWeaponDatas: 
     Weapons: []
     Inventories: 
+    ReinforceInventories: 
     Quests: 
     FeverGauges: 
     FullFevers: 
@@ -1327,6 +1329,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &183907264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183907255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535846ac7db032f49ad1117696759c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentBuffType: 0
+  BuffTimers: []
 --- !u!1 &194856848
 GameObject:
   m_ObjectHideFlags: 0
@@ -4884,8 +4900,10 @@ MonoBehaviour:
     type: 3}
   HealActionPref: {fileID: 842731653812544173, guid: d1d174d0979886243a57f3edba812fc2,
     type: 3}
-  RevivePref: {fileID: 0}
-  ResourceDiePref: {fileID: 0}
+  RevivePref: {fileID: 951923580510868198, guid: 3d9e4911dc83d374bb06190808f1c416,
+    type: 3}
+  ResourceDiePref: {fileID: 7934615075850885251, guid: 2ac7693248262874ea5e49df00cd3711,
+    type: 3}
 --- !u!1 &1412651303
 GameObject:
   m_ObjectHideFlags: 0
@@ -5696,6 +5714,7 @@ MonoBehaviour:
     SubWeaponDatas: 
     Weapons: []
     Inventories: 
+    ReinforceInventories: 
     Quests: 
     FeverGauges: 
     FullFevers: 
