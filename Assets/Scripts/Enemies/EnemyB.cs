@@ -53,7 +53,7 @@ public class EnemyB : Enemy
             pos.y -= Speed;
             gameObject.transform.position = pos;
             
-            if (transform.position.y < 8.9f)
+            if (transform.position.y < 8f)
             {
                 Invoke("AbleAttack", 1.0f);
                 IsReady = true;

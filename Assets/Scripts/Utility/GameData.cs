@@ -290,7 +290,7 @@ public class GameData
         else
         {
             if(Resources != null)
-                for(int i = 0; i < Resources.Length; i++)
+                for(int i = 0; i < Constants.MAXRESOURCETYPES; i++)
                     GameManager.Inst().SetResource(i + 1, Resources[i]);
 
             Resources = new int[Constants.MAXRESOURCETYPES];
@@ -775,8 +775,14 @@ public class GameData
 
     void LoadLastAdTime()
     {
+        if (LastAdTime[0] == 0)
+        {
+            GameManager.Inst().AdsManager.LastTime = DateTime.Now;
+            return;
+        }
+
         GameManager.Inst().AdsManager.LastTime = new DateTime(LastAdTime[0], LastAdTime[1], LastAdTime[2],
-                                                                LastAdTime[3], LastAdTime[4], LastAdTime[5]);
+                                                                LastAdTime[3], LastAdTime[4], LastAdTime[5]);        
     }
 
     void LoadLastBuffAdTime()
