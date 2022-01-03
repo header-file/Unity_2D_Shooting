@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Turret : MonoBehaviour
 {
     public GameObject HPUI;
+    public GameObject Button;
     public Image HPBar;
     public Text CoolTime;
     public ObjectShake Shaker;

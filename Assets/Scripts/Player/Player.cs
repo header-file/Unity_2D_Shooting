@@ -421,6 +421,8 @@ public class Player : MonoBehaviour
     void SetUIPosOri()
     {
         UI.transform.position = UIOriPos;
+        for(int i = 0; i < 4; i++)
+            GameManager.Inst().UiManager.MainUI.Center.Turrets[i].Button.transform.localPosition = Vector3.zero;
     }
 
     void EquipCount()

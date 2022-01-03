@@ -13,6 +13,7 @@ public class StageLoop : MonoBehaviour
     public Button LandingBtn;
     public Text LandingText;
     public CanvasGroup[] Tags;
+    public GameObject[] Heres;
 
     float[] Distances;
     float[] DistReposition;
@@ -29,6 +30,9 @@ public class StageLoop : MonoBehaviour
 
         SlotDistance = (int)Mathf.Abs(Slots[1].GetComponent<RectTransform>().anchoredPosition.y -
                                     Slots[0].GetComponent<RectTransform>().anchoredPosition.y);
+
+        for (int i = 0; i < Constants.MAXSTAGES; i++)
+            Heres[i].SetActive(false);
 
         gameObject.SetActive(false);
     }
@@ -150,6 +154,10 @@ public class StageLoop : MonoBehaviour
         {
             Planets[i].Name.text = GameManager.Inst().TxtManager.PlanetNames[i];
             Planets[i].Stage.text = "STAGE " + (i + 1).ToString();
+            Heres[i].SetActive(false);
+
+            if (i == GameManager.Inst().StgManager.Stage - 1)
+                Heres[i].SetActive(true);
         }
 
         SetLandingBtn(false);

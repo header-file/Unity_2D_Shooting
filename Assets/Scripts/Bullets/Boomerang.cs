@@ -15,7 +15,6 @@ public class Boomerang : Bullet
     float Timer;
     float Duration;
     float Speed;
-    float StopTime;
 
     public void SetTargetpos(Vector3 pos)
     {
@@ -34,7 +33,6 @@ public class Boomerang : Bullet
         IsReturn = false;
         Timer = 0.0f;
         Duration = 0.0f;
-        StopTime = 0.0f;
 
         StartPos = new Vector3(0.0f, 0.0f, 0.0f);
         TargetPos = new Vector3(0.0f, 0.0f, 0.0f);
@@ -61,17 +59,13 @@ public class Boomerang : Bullet
         Rigidbody2D.AddForce(transform.up * speed, ForceMode2D.Impulse);
 
         if (Timer >= 2.0f)
-        {
-            GameManager.Inst().ShtManager.BoomerangCount--;
-            gameObject.SetActive(false);
-        }
+           gameObject.SetActive(false);
     }
 
     public void SetStart()
     {
         IsReturn = false;
         Timer = 0.0f;
-        StopTime = 0.0f;
         Duration = GameManager.Inst().UpgManager.BData[(int)BulletType.BOOMERANG].GetDuration();
     }
 

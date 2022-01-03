@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class ShootingManager : MonoBehaviour
 {
     public int MAXCOLOR = 8;
-    public int BoomerangCount;
     public int[] BaseColor;
 
     GameObject[] NormalPos;
@@ -45,8 +44,6 @@ public class ShootingManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
             ColorSelection[i] = 0;
-
-        BoomerangCount = 0;
     }
 
     void Start()
@@ -364,27 +361,18 @@ public class ShootingManager : MonoBehaviour
 
     void Boomerang(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
-        if (BoomerangCount >= ((Rarity + 2) / 2))
-            return;
-
-        BoomerangCount++;
-        
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
         Objs[0].transform.rotation = NormalPos[0].transform.rotation;
         Objs[0].transform.localScale = Vector3.one;
-        if (Rarity == 4)
-            Objs[0].transform.localScale = Vector3.one * 2.0f;
-        else if(Rarity > 1)
-            Objs[0].transform.localScale = Vector3.one * 1.5f;
 
         Boomerang bullet = Objs[0].gameObject.GetComponent<Boomerang>();
         bullet.IsVamp = isVamp;
         bullet.Vamp = shooter;
         bullet.IsReinforce = IsReinforce;
-        bullet.SetStartPos(Objs[0].transform.position);
-        bullet.SetTargetpos(Objs[0].transform.position + NormalPos[0].transform.up/*GameManager.Inst().IptManager.MousePosition*/);
         bullet.SetStart();
+        bullet.SetStartPos(Objs[0].transform.position);
+        bullet.SetTargetpos(Objs[0].transform.position + NormalPos[0].transform.up);
 
         GameManager.Inst().SodManager.PlayEffect("Wp_Boomerang");
     }
