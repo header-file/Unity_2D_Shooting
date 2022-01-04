@@ -549,10 +549,7 @@ public class StageManager : MonoBehaviour
     public void UnlockBullet(int stage)
     {
         for (int i = 0; i < Constants.MAXBULLETS; i++)
-        {
             GameManager.Inst().UpgManager.BData[i].SetActive(BulletUnlockData[stage, i]);
-            GameManager.Inst().UiManager.SetSlotsActive(i, BulletUnlockData[stage, i], UnlockBulletStages[i]);
-        }
     }
 
     public bool CheckBulletUnlocked(int type)

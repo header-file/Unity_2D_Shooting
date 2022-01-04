@@ -140,7 +140,7 @@ public class StageLoop : MonoBehaviour
 
         SetLandingBtn(!Planets[MinBtnNum].Lock.activeSelf);
 
-        if (GameManager.Inst().StgManager.Stage - 1 == MinBtnNum)
+        if (GameManager.Inst().StgManager.Stage - 1 == MinBtnNum || GameManager.Inst().Player.GetBossMode())
             SetLandingBtn(false);
     }
 

@@ -150,6 +150,7 @@ public class UIManager : MonoBehaviour
         {
             IsMoveDown = false;
             MainUI.Bottom.gameObject.SetActive(false);
+            GameManager.Inst().Player.SetUIPosOri();
             
             if (!IsEquip)
             {

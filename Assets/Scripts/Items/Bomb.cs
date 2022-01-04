@@ -48,10 +48,13 @@ public class Bomb : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             Enemy.EnemyType type = (Enemy.EnemyType)enemy.GetEnemyType();
+
+            Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
+
             if (type == Enemy.EnemyType.BOSS)
-                enemy.OnHit(100.0f, false);
+                enemy.OnHit(100.0f, false, hitPoint);
             else
-                enemy.OnHit(999999.0f, false);
+                enemy.OnHit(999999.0f, false, hitPoint);
         }
     }
 

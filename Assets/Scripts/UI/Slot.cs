@@ -47,7 +47,7 @@ public class Slot : MonoBehaviour
         Grades[GameManager.Inst().UpgManager.BData[index].GetRarity()].SetActive(true);
 
         if (Locked.gameObject.activeSelf == true &&
-            GameManager.Inst().StgManager.UnlockBulletStages[index] < GameManager.Inst().StgManager.Stage)
+            GameManager.Inst().StgManager.UnlockBulletStages[index] < GameManager.Inst().StgManager.ReachedStage)
             Locked.gameObject.SetActive(false);
     }
 

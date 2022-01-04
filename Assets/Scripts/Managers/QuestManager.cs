@@ -188,9 +188,8 @@ public class QuestManager : MonoBehaviour
             return;
 
         GameManager.Inst().StgManager.ReachedStage = stage;
-        GameManager.Inst().UiManager.UnlockStage(stage - 1);
+        GameManager.Inst().StgManager.UnlockStages(stage);
         MakeQuestSlot();
-        GameManager.Inst().StgManager.UnlockBullet(stage);
         GameManager.Inst().ResManager.StartCount(stage - 2);
     }
 }

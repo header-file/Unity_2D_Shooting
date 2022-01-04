@@ -33,14 +33,15 @@ public class InventoryDetail : MonoBehaviour
         int type = equip.Type;
         SetTypeName(type);
 
-        if (equip.UID / 100 == 3)
-        {
-            Icon.gameObject.SetActive(false);
-            int val = (int)equip.Value;
-            Grade.SetActive(true);
-            SetValue(val);
-        }
-        else if (equip.UID / 100 == 6)
+        //if (equip.UID / 100 == 3)
+        //{
+        //    Icon.gameObject.SetActive(false);
+        //    int val = (int)equip.Value;
+        //    Grade.SetActive(true);
+        //    SetValue(val);
+        //}
+        //else 
+        if (equip.UID / 100 == 6)
         {
             Icon.gameObject.SetActive(true);
             Grade.SetActive(false);

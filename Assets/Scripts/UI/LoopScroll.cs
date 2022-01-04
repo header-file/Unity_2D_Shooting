@@ -53,6 +53,8 @@ public class LoopScroll : MonoBehaviour
 
         IsOpen = false;
         IsMoving = false;
+
+        GameManager.Inst().UiManager.MainUI.Bottom.gameObject.SetActive(false);
     }
 
     void Update()

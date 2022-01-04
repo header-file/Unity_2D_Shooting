@@ -69,7 +69,7 @@ public class Dot : Bullet
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
         hit.transform.position = SelfBullet.transform.position;
 
-        AttachedObj.OnHit(dmg, SelfBullet.IsReinforce);
+        AttachedObj.OnHit(dmg, SelfBullet.IsReinforce, AttachedObj.transform.position);
     }
 
     void OnTriggerEnter2D(Collider2D collision)

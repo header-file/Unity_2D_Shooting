@@ -26,7 +26,6 @@ public class Bottom : MonoBehaviour
             Colors[i].gameObject.SetActive(true);
 
         BackBtn.SetActive(false);
-        //gameObject.SetActive(false);
     }
 
     public void ShowEquipBtn(int curBulletType)

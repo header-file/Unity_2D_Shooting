@@ -99,6 +99,7 @@ public class Player : MonoBehaviour
     public GameObject GetChargePos() { return ChargePos; }
     public EqData GetItem(int index) { return Inventory[index] != null ? Inventory[index] : null; }
     public EqData GetReinforce(int index) { return ReinforceInventory[index] != null ? ReinforceInventory[index] : null; }
+    public bool GetBossMode() { return IsBossMode; }
 
     public int GetCoin() { return Coin; }
     public int GetBulletType() { return BulletType; }
@@ -379,7 +380,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(IsBossMode)
+        if(IsBossMode || GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.IsOpen)
             SetUIPos();
 
         EquipCount();
@@ -418,10 +419,11 @@ public class Player : MonoBehaviour
         UI.transform.position = PlayerPos;
     }
 
-    void SetUIPosOri()
+    public void SetUIPosOri()
     {
         UI.transform.position = UIOriPos;
-        for(int i = 0; i < 4; i++)
+        GameManager.Inst().UiManager.MainUI.Center.Turret.transform.localPosition = Vector3.zero;
+        for (int i = 0; i < 4; i++)
             GameManager.Inst().UiManager.MainUI.Center.Turrets[i].Button.transform.localPosition = Vector3.zero;
     }
 

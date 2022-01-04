@@ -188,7 +188,7 @@ public class Enemy : MonoBehaviour
         StartMove(0.0f);
     }
 
-    public void OnHit(float Damage, bool isReinforced)
+    public void OnHit(float Damage, bool isReinforced, Vector2 HitPoint)
     {
         if (IsInvincible)
             return;
@@ -222,8 +222,10 @@ public class Enemy : MonoBehaviour
             Invoke("ReturnInvincible", 0.1f);
         }
 
-        //DamageText
-        GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, Damage, (int)TextManager.DamageType.BYPLYAER, isReinforced);
+        GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+        hit.transform.position = HitPoint;
+
+        GameManager.Inst().TxtManager.ShowDmgText(HitPoint, Damage, (int)TextManager.DamageType.BYPLYAER, isReinforced);
 
         IsInvincible = true;
 
@@ -378,7 +380,7 @@ public class Enemy : MonoBehaviour
         IsInvincible = false;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "HitArea")
             return;
@@ -393,10 +395,9 @@ public class Enemy : MonoBehaviour
                 dmg *= 2;
             bullet.BloodSuck(dmg);
 
-            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = bullet.transform.position;
+            Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
 
-            OnHit(dmg, bullet.IsReinforce);
+            OnHit(dmg, bullet.IsReinforce, hitPoint);
 
             collision.gameObject.SetActive(false);
         }
@@ -410,10 +411,9 @@ public class Enemy : MonoBehaviour
                 dmg *= 2;
             bullet.BloodSuck(dmg);
 
-            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = collision.gameObject.GetComponent<BoxCollider2D>().ClosestPoint(transform.position);
-            
-            OnHit(dmg, bullet.IsReinforce);
+            Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
+
+            OnHit(dmg, bullet.IsReinforce, hitPoint);
         }
         else if (collision.gameObject.tag == "PierceBullet")
         {
@@ -427,10 +427,9 @@ public class Enemy : MonoBehaviour
                 dmg *= 2;
             bullet.BloodSuck(dmg);
 
-            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = bullet.transform.position;
-            
-            OnHit(dmg, bullet.IsReinforce);
+            Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
+
+            OnHit(dmg, bullet.IsReinforce, hitPoint);
         }
         else if (collision.gameObject.tag == "Chain")
         {
@@ -446,18 +445,19 @@ public class Enemy : MonoBehaviour
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;
-            
-            OnHit(dmg, bullet.IsReinforce);
+
+            Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
+
+            OnHit(dmg, bullet.IsReinforce, hitPoint);
         }
         else if(collision.gameObject.tag == "EquipBullet")
         {
             Bullet bullet = collision.gameObject.GetComponent<Bullet>();
-            float damage = GameManager.Inst().Player.GetItem(bullet.InventoryIndex).Value;
-
-            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = bullet.transform.position;
+            float dmg = GameManager.Inst().Player.GetItem(bullet.InventoryIndex).Value;
             
-            OnHit(damage, bullet.IsReinforce);
+            Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
+
+            OnHit(dmg, bullet.IsReinforce, hitPoint);
         }
         else if(collision.gameObject.name == "Bottom")
         {
