@@ -9,13 +9,16 @@ public class InventoryDetail : MonoBehaviour
     public Image Icon;
     public GameObject Type;
     public Text Value;
-    public GameObject[] Grades;
+    //public GameObject[] Grades;
     public Image Frame;
     public GameObject Values;
     public GameObject Detail;
     public Text DetailText;
     public GameObject Grade;
     public SellConfirm SellConfirm;
+    public GameObject Success;
+    public GameObject Fail;
+    public Animation ResultAnim;
 
     int Index;
 
@@ -51,11 +54,11 @@ public class InventoryDetail : MonoBehaviour
 
     void SetRarityColor(int rarity)
     {
-        //Item_Equipment.Rarity rare = (Item_Equipment.Rarity)rarity;
-        for (int i = 0; i < 5; i++)
-            Grades[i].SetActive(false);
+        ////Item_Equipment.Rarity rare = (Item_Equipment.Rarity)rarity;
+        //for (int i = 0; i < 5; i++)
+        //    Grades[i].SetActive(false);
 
-        Grades[rarity].SetActive(true);
+        //Grades[rarity].SetActive(true);
     }
 
     void SetTypeName(int type)

@@ -14,13 +14,14 @@ public class Synthesis : MonoBehaviour
     public GameObject SuccessRate;
     public Text RateText;
     public GameObject ConfirmWindow;
-    public GameObject EquipDetail;
+    public InventoryDetail EquipDetail;
     public GameObject SelectDetail;
     public GameObject UnequipConfirmWindow;
     public Text Need;
     public Sprite[] Frames;
     public Button MergetBtn;
     public Animator Anim;
+    public ParticleSystem Shine;
 
     InventoryScroll Inventories;
     Sprite OriginalSprite;
@@ -51,7 +52,7 @@ public class Synthesis : MonoBehaviour
         Need.text = "0";
         SuccessRate.SetActive(false);
         ConfirmWindow.SetActive(false);
-        EquipDetail.SetActive(false);
+        EquipDetail.gameObject.SetActive(false);
         SelectDetail.SetActive(false);
         UnequipConfirmWindow.SetActive(false);
         MergetBtn.interactable = false;
@@ -300,26 +301,21 @@ public class Synthesis : MonoBehaviour
     {
         if (!IsAbleSynthesize)
             return;
-        if(GameManager.Inst().Player.GetItem(SelectedIndex[0]).Quantity > 1 &&
-            GameManager.Inst().Player.CurInventory >= GameManager.Inst().Player.MaxInventory)
-        {
-            GameManager.Inst().UiManager.MainUI.Center.PlayInventoryFull();
-            return;
-        }
+        //if(GameManager.Inst().Player.GetItem(SelectedIndex[0]).Quantity > 1 &&
+        //    GameManager.Inst().Player.CurInventory >= GameManager.Inst().Player.MaxInventory)
+        //{
+        //    GameManager.Inst().UiManager.MainUI.Center.PlayInventoryFull();
+        //    return;
+        //}
         if (GameManager.Inst().Player.GetCoin() < int.Parse(Need.text))
             return;
         else
             GameManager.Inst().Player.MinusCoin(int.Parse(Need.text));
 
         int rarity = GameManager.Inst().Player.GetItem(SelectedIndex[0]).Rarity;
-        
-        for (int i = 0; i < 3; i++)
-        {
-            GameManager.Inst().Player.GetItem(SelectedIndex[i]).Quantity--;
 
-            if (GameManager.Inst().Player.GetItem(SelectedIndex[i]).Quantity <= 0)
-                GameManager.Inst().Player.RemoveItem(SelectedIndex[i]);
-        }
+        for (int i = 0; i < 3; i++)
+            GameManager.Inst().Player.RemoveItem(SelectedIndex[i]);
 
         int rand = Random.Range(0, 100);
         if (rand < Rate)
@@ -332,9 +328,9 @@ public class Synthesis : MonoBehaviour
 
 
         int add = -1;
-        if(SelectedUIDs[0] / 100 == 3)
-            add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeReinforceData(SynthType, rarity));
-        else if(SelectedUIDs[0] / 100 == 6)
+        //if(SelectedUIDs[0] / 100 == 3)
+        //    add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeReinforceData(SynthType, rarity));
+        //else if(SelectedUIDs[0] / 100 == 6)
             add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEquipData(SynthType, rarity));
 
         EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
@@ -342,23 +338,36 @@ public class Synthesis : MonoBehaviour
 
         GameManager.Inst().SodManager.PlayEffect("Synth try");
         Anim.speed = 1.0f;
+        Shine.gameObject.SetActive(true);
+        Shine.Play();
     }
 
     public void ShowResultWindow()
     {
         Anim.speed = 0.0f;
-
-        if (IsSynthSuccess)
-            GameManager.Inst().SodManager.PlayEffect("Synth success");
-        else
-            GameManager.Inst().SodManager.PlayEffect("Synth fail");
+        Shine.Stop();
+        Shine.gameObject.SetActive(false);
 
         //결과창
+        if (IsSynthSuccess)
+        {
+            EquipDetail.Fail.SetActive(false);
+            EquipDetail.Success.SetActive(true);
+            GameManager.Inst().SodManager.PlayEffect("Synth success");
+        }
+        else
+        {
+            EquipDetail.Fail.SetActive(true);
+            EquipDetail.Success.SetActive(false);
+            GameManager.Inst().SodManager.PlayEffect("Synth fail");
+        }
+
         ResetSprites();
 
-        SortAsDefault();
+        Sort();
 
-        EquipDetail.SetActive(true);
+        EquipDetail.gameObject.SetActive(true);
+        EquipDetail.ResultAnim.Play();
     }
 
     public void ResetSprites()
@@ -378,7 +387,7 @@ public class Synthesis : MonoBehaviour
 
         SuccessRate.SetActive(false);
         SelectDetail.SetActive(false);
-        EquipDetail.SetActive(false);
+        EquipDetail.gameObject.SetActive(false);
         Buttons[3].Icon.sprite = QuestionSprite;
         Buttons[3].Frame.sprite = Frames[0];
 
@@ -407,7 +416,7 @@ public class Synthesis : MonoBehaviour
 
     public void CloseResult()
     {
-        EquipDetail.SetActive(false);
+        EquipDetail.gameObject.SetActive(false);
     }
 
     public void CloseDetail()
@@ -444,6 +453,16 @@ public class Synthesis : MonoBehaviour
         }
 
         return count;
+    }
+
+    public void OnClickMergeBtn()
+    {
+        ConfirmWindow.SetActive(true);
+    }
+
+    public void OnClickCancelBtn()
+    {
+        ConfirmWindow.SetActive(false);
     }
 
     public void OnClickSynthesisConfirmBtn()

@@ -80,6 +80,9 @@ public class Laser : Bullet
 
         ColSize.x = Line.widthMultiplier * 2.0f;
         ColSize.y = Vector3.Distance(Line.GetPosition(0), Line.GetPosition(1)) * 1.2f;
+
+        if (GameManager.Inst().Player.GetBossMode())
+            ColSize.y *= 2.0f;
         Col.size = ColSize;
 
         Vector2 offset = Col.offset;

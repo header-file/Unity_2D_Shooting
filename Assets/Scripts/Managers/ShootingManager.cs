@@ -174,6 +174,9 @@ public class ShootingManager : MonoBehaviour
     void Normal(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Normal[] bullets = new Normal[5];
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
 
         switch (Rarity)
         {
@@ -185,7 +188,7 @@ public class ShootingManager : MonoBehaviour
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;
                     Objs[i].transform.rotation = NormalPos[i].transform.rotation;
-                    Objs[i].transform.localScale = NormalPos[i].transform.localScale;
+                    Objs[i].transform.localScale = scale;
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Normal>();
                     bullets[i].IsVamp = isVamp;
@@ -202,7 +205,7 @@ public class ShootingManager : MonoBehaviour
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;
                     Objs[i].transform.rotation = NormalPos[i].transform.rotation;
-                    Objs[i].transform.localScale = NormalPos[i].transform.localScale;
+                    Objs[i].transform.localScale = scale;
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Normal>();
                     bullets[i].IsVamp = isVamp;
@@ -219,6 +222,9 @@ public class ShootingManager : MonoBehaviour
     void Spread(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Spread[] bullets = new Spread[7];
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
         float duration = GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.SPREAD].GetDuration();
 
         switch (Rarity)
@@ -231,6 +237,7 @@ public class ShootingManager : MonoBehaviour
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Spread", Index);
                     Objs[i].transform.position = SpreadPos[i].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
+                    Objs[i].transform.localScale = scale;
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Spread>();
                     bullets[i].IsVamp = isVamp;
@@ -249,6 +256,7 @@ public class ShootingManager : MonoBehaviour
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Spread", Index);
                     Objs[i].transform.position = SpreadPos[i].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
+                    Objs[i].transform.localScale = scale;
 
                     bullets[i - 1] = Objs[i].gameObject.GetComponent<Spread>();
                     bullets[i - 1].IsVamp = isVamp;
@@ -267,6 +275,9 @@ public class ShootingManager : MonoBehaviour
     void Missile(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Missile[] bullets = new Missile[5];
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
         float rad = GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.MISSILE].GetDuration();
 
         switch (Rarity)
@@ -275,6 +286,7 @@ public class ShootingManager : MonoBehaviour
                 Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
                 Objs[0].transform.position = SpreadPos[0].transform.position;
                 Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
+                Objs[0].transform.localScale = scale;
 
                 bullets[0] = Objs[0].gameObject.GetComponent<Missile>();
                 bullets[0].IsVamp = isVamp;
@@ -292,6 +304,7 @@ public class ShootingManager : MonoBehaviour
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
                     Objs[i].transform.position = SpreadPos[i + 1].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i + 1].transform.rotation;
+                    Objs[0].transform.localScale = scale;
 
                     bullets[i] = Objs[0].gameObject.GetComponent<Missile>();
                     bullets[i].IsVamp = isVamp;
@@ -311,6 +324,7 @@ public class ShootingManager : MonoBehaviour
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Missile", Index);
                     Objs[i].transform.position = SpreadPos[i].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
+                    Objs[0].transform.localScale = scale;
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Missile>();
                     bullets[i].IsVamp = isVamp;
@@ -345,9 +359,14 @@ public class ShootingManager : MonoBehaviour
 
     void Charge(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
+
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Charge", Index);
         Objs[0].transform.position = ChargePos.transform.position;
         Objs[0].transform.rotation = ChargePos.transform.rotation;
+        Objs[0].transform.localScale = scale;
 
         Charge bullet = Objs[0].gameObject.GetComponent<Charge>();
         bullet.IsVamp = isVamp;
@@ -361,10 +380,14 @@ public class ShootingManager : MonoBehaviour
 
     void Boomerang(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
+
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
         Objs[0].transform.rotation = NormalPos[0].transform.rotation;
-        Objs[0].transform.localScale = Vector3.one;
+        Objs[0].transform.localScale = scale;
 
         Boomerang bullet = Objs[0].gameObject.GetComponent<Boomerang>();
         bullet.IsVamp = isVamp;
@@ -379,9 +402,14 @@ public class ShootingManager : MonoBehaviour
 
     void Chain(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
+
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Chain", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
         Objs[0].transform.rotation = NormalPos[0].transform.rotation;
+        Objs[0].transform.localScale = scale;
 
         Chain bullet = Objs[0].gameObject.GetComponent<Chain>();
         bullet.IsVamp = isVamp;
@@ -395,12 +423,17 @@ public class ShootingManager : MonoBehaviour
 
     void Gatling(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
+
         Gatling[] bullets = new Gatling[2];
         for (int i = 0; i < 2; i++)
         {
             Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Gatling", Index);
             Objs[i].transform.position = GatlingPos[i].transform.position;
             Objs[i].transform.rotation = GatlingPos[i].transform.rotation;
+            Objs[i].transform.localScale = scale;
 
             bullets[i] = Objs[i].gameObject.GetComponent<Gatling>();
             bullets[i].IsVamp = isVamp;
@@ -414,9 +447,14 @@ public class ShootingManager : MonoBehaviour
 
     void Explosion(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
+
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Explosion", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
         Objs[0].transform.rotation = NormalPos[0].transform.rotation;
+        Objs[0].transform.localScale = scale;
 
         Explosion bullet = Objs[0].gameObject.GetComponent<Explosion>();
         bullet.IsVamp = isVamp;
@@ -430,6 +468,9 @@ public class ShootingManager : MonoBehaviour
     void Dot(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Dot[] bullets = new Dot[3];
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
 
         switch (Rarity)
         {
@@ -439,6 +480,7 @@ public class ShootingManager : MonoBehaviour
                 Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Dot", Index);
                 Objs[0].transform.position = SpreadPos[0].transform.position;
                 Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
+                Objs[0].transform.localScale = scale;
 
                 bullets[0] = Objs[0].gameObject.GetComponent<Dot>();
                 bullets[0].IsVamp = isVamp;
@@ -454,6 +496,7 @@ public class ShootingManager : MonoBehaviour
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Dot", Index);
                     Objs[i].transform.position = SpreadPos[i].transform.position;
                     Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
+                    Objs[i].transform.localScale = scale;
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Dot>();
                     bullets[i].IsVamp = isVamp;
@@ -473,9 +516,14 @@ public class ShootingManager : MonoBehaviour
         Missile bullet;
         float rad = 2.0f;
 
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
+
         Objs[0] = GameManager.Inst().ObjManager.MakeObj("EqMissile");
         Objs[0].transform.position = SpreadPos[0].transform.position;
         Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
+        Objs[0].transform.localScale = scale;
 
         bullet = Objs[0].gameObject.GetComponent<Missile>();
         bullet.SetBulletType((int)Bullet.BulletType.EQUIP_MISSILE);
@@ -491,10 +539,14 @@ public class ShootingManager : MonoBehaviour
     void Equip_Knockback(int index)
     {
         KnockBack bullet;
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeObj("EqKnockback");
         Objs[0].transform.position = NormalPos[0].transform.position;
         Objs[0].transform.rotation = NormalPos[0].transform.rotation;
+        Objs[0].transform.localScale = scale;
 
         bullet = Objs[0].gameObject.GetComponent<KnockBack>();
         bullet.SetBulletType((int)Bullet.BulletType.EQUIP_KNOCKBACK);
@@ -510,10 +562,14 @@ public class ShootingManager : MonoBehaviour
     void Equip_Slow()
     {
         Slow bullet;
+        Vector3 scale = Vector3.one;
+        if (GameManager.Inst().Player.GetBossMode())
+            scale *= 0.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeObj("EqSlow");
         Objs[0].transform.position = NormalPos[0].transform.position;
         Objs[0].transform.rotation = NormalPos[0].transform.rotation;
+        Objs[0].transform.localScale = scale;
 
         bullet = Objs[0].gameObject.GetComponent<Slow>();
         bullet.SetBulletType((int)Bullet.BulletType.EQUIP_SLOW);
