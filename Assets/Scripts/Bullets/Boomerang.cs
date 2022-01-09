@@ -8,51 +8,26 @@ public class Boomerang : Bullet
     public AnimationCurve Curve;
 
     Rigidbody2D Rigidbody2D;
-    Vector3 StartPos;
-    Vector3 TargetPos;
-    Vector3[] ControlPos;
-    bool IsReturn;
     float Timer;
     float Duration;
     float Speed;
-
-    public void SetTargetpos(Vector3 pos)
-    {
-        float rad = Mathf.Atan2(pos.y - StartPos.y, pos.x - StartPos.x);
-        TargetPos.x = StartPos.x + (Duration * Mathf.Sin(Mathf.PI / 2 - rad) * 2);
-        TargetPos.y = StartPos.y + (Duration * Mathf.Cos(Mathf.PI / 2 - rad) * 2);
-    }
-    public void SetStartPos(Vector3 pos) { StartPos = pos; }
-    public void SetIsReturn(bool b) { IsReturn = b; }
 
 
     void Awake()
     {
         Type = BulletType.BOOMERANG;
 
-        IsReturn = false;
         Timer = 0.0f;
         Duration = 0.0f;
-
-        StartPos = new Vector3(0.0f, 0.0f, 0.0f);
-        TargetPos = new Vector3(0.0f, 0.0f, 0.0f);
+        
         Rigidbody2D = GetComponent<Rigidbody2D>();
-    }
-
-    void Start()
-    {
-        Speed = GameManager.Inst().UpgManager.BData[(int)BulletType.BOOMERANG].GetSpeed();
-
-        ControlPos = new Vector3[2];
-        ControlPos[0] = GameManager.Inst().Player.BoomerangPos[1].transform.position;
-        ControlPos[1] = GameManager.Inst().Player.BoomerangPos[2].transform.position;
     }
 
     void Update()
     {
         Sprite.transform.RotateAround(Sprite.transform.position, Vector3.forward, Time.deltaTime * 1800.0f);
         Timer += Time.deltaTime;
-        float speed = Curve.Evaluate(Timer) * Speed;
+        float speed = Curve.Evaluate(Timer) * Speed * Duration;
         if (Timer > 1.0f)
             speed *= -1.0f;
         Rigidbody2D.velocity = Vector3.zero;
@@ -64,8 +39,8 @@ public class Boomerang : Bullet
 
     public void SetStart()
     {
-        IsReturn = false;
         Timer = 0.0f;
+        Speed = GameManager.Inst().UpgManager.BData[(int)BulletType.BOOMERANG].GetSpeed();
         Duration = GameManager.Inst().UpgManager.BData[(int)BulletType.BOOMERANG].GetDuration();
     }
 

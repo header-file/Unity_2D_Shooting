@@ -188,7 +188,7 @@ public class ShootingManager : MonoBehaviour
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;
                     Objs[i].transform.rotation = NormalPos[i].transform.rotation;
-                    Objs[i].transform.localScale = scale;
+                    Objs[i].transform.localScale = scale * NormalPos[i].transform.localScale.x;
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Normal>();
                     bullets[i].IsVamp = isVamp;
@@ -205,7 +205,7 @@ public class ShootingManager : MonoBehaviour
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;
                     Objs[i].transform.rotation = NormalPos[i].transform.rotation;
-                    Objs[i].transform.localScale = scale;
+                    Objs[i].transform.localScale = scale * NormalPos[i].transform.localScale.x;
 
                     bullets[i] = Objs[i].gameObject.GetComponent<Normal>();
                     bullets[i].IsVamp = isVamp;
@@ -394,8 +394,6 @@ public class ShootingManager : MonoBehaviour
         bullet.Vamp = shooter;
         bullet.IsReinforce = IsReinforce;
         bullet.SetStart();
-        bullet.SetStartPos(Objs[0].transform.position);
-        bullet.SetTargetpos(Objs[0].transform.position + NormalPos[0].transform.up);
 
         GameManager.Inst().SodManager.PlayEffect("Wp_Boomerang");
     }

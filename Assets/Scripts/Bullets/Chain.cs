@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Chain : Bullet
 {
+    public SpriteRenderer Sprite;
     public GameObject LinePref;
 
+    Color OriColor;
     GameObject Target;
     Rigidbody2D Rig;
     int DeathCount;
@@ -14,7 +16,7 @@ public class Chain : Bullet
     void Awake()
     {
         Type = BulletType.CHAIN;
-        GetComponent<SpriteRenderer>().color = Color.white;
+        OriColor = Sprite.color;
         DeathCount = (int)GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
         Speed = GameManager.Inst().UpgManager.BData[(int)Type].GetSpeed();
         Rig = gameObject.GetComponent<Rigidbody2D>();
@@ -88,15 +90,14 @@ public class Chain : Bullet
         Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
         scale.x = Vector3.Distance(transform.position, Target.transform.position);
         scale.y = 1.0f;
-        Color glowColor = gameObject.GetComponent<SpriteRenderer>().material.GetColor("_GlowColor");
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        Sprite.color = Color.clear;
 
         GameObject line = Instantiate(LinePref);
         line.transform.position = mid;
         line.transform.right = v;
         scale.x *= line.transform.localScale.x;
         line.transform.localScale = scale;
-        line.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", glowColor);
+        line.GetComponent<SpriteRenderer>().color = OriColor;
         line.GetComponent<ActivationTimer>().IsStart = true;
 
         transform.position = Target.transform.position;
@@ -106,14 +107,14 @@ public class Chain : Bullet
     {
         DeathCount = (int)GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
         Target = null;
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        Sprite.color = OriColor;
         gameObject.SetActive(false);
     }
 
     public void ResetData()
     {
         DeathCount = (int)GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        Sprite.color = OriColor;
         Target = null;
     }
 }
