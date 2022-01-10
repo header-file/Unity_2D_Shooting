@@ -14,7 +14,15 @@ public class Item_Resource : Item
     bool IsAbsorb;
     float Speed;
     int stage;
+    bool IsDeathCount;
+    float DeathCount;
    
+
+    void Awake()
+    {
+        Speed = 8.0f;
+        IsDeathCount = false;
+    }
 
     void Start()
     {
@@ -22,7 +30,6 @@ public class Item_Resource : Item
 
         Rig = GetComponent<Rigidbody2D>();
         InitPos = GameObject.Find("ResourceGoal").transform.position;
-        Speed = 8.0f;
     }
 
     protected override void Update()
@@ -31,6 +38,9 @@ public class Item_Resource : Item
             Scatter();
         else if (IsAbsorb)
             Absorb();
+
+        if (IsDeathCount)
+            Count();
     }
 
     void Scatter()
@@ -41,13 +51,15 @@ public class Item_Resource : Item
         {
             IsScatter = false;
             transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
-            Timer.IsStart = true;
         }
             
     }
 
     void Absorb()
     {
+        if (IsScatter)
+            return;
+
         Vector2 pointTarget = (Vector2)transform.position - (Vector2)InitPos;
         pointTarget.Normalize();
 
@@ -116,14 +128,35 @@ public class Item_Resource : Item
 
     public void InvokeDisappear()
     {
-        Invoke("Disappear", 2.0f);
+        //Invoke("Disappear", 2.0f);
+        IsDeathCount = true;
+        DeathCount = 2.0f;
+    }
+
+    void Count()
+    {
+        DeathCount -= Time.deltaTime;
+
+        if (DeathCount <= 0.0f)
+            Disappear();
     }
 
     void Disappear()
     {
+        if (IsAbsorb || !gameObject.activeSelf)
+            return;
+
         GameObject resourceDie = GameManager.Inst().ObjManager.MakeObj("ResourceDie");
         resourceDie.transform.position = transform.position;
 
         gameObject.SetActive(false);
+    }
+
+    void OnDisable()
+    {
+        IsScatter = false;
+        IsAbsorb = false;
+        IsDeathCount = false;
+        DeathCount = 2.0f;
     }
 }

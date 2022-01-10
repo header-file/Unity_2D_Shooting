@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 101279056857090795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2965167142080791142}
   m_RootOrder: 0
@@ -93,9 +93,9 @@ GameObject:
   - component: {fileID: 2965167142080791142}
   - component: {fileID: 8449805667141273643}
   - component: {fileID: 5096001656881782263}
-  - component: {fileID: 2272006343782985195}
   - component: {fileID: 8149898688013356945}
   - component: {fileID: 1396892656413902004}
+  - component: {fileID: 7511423176499331241}
   m_Layer: 0
   m_Name: Bullet_charge
   m_TagString: PierceBullet
@@ -190,22 +190,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!70 &2272006343782985195
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 429405220833893478}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.08, y: 0.11}
-  m_Direction: 0
 --- !u!114 &8149898688013356945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,3 +221,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetTime: 3
   IsStart: 0
+--- !u!58 &7511423176499331241
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429405220833893478}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.24
