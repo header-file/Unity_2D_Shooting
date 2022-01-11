@@ -18,6 +18,8 @@ public class ShootingManager : MonoBehaviour
     Color[] Colors;
 
     int[] ColorSelection;
+    int DotCount;
+    int[] DotDirs;
 
 
     public Color GetColors(int index) { return Colors[index]; }
@@ -44,11 +46,15 @@ public class ShootingManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
             ColorSelection[i] = 0;
+
+        DotDirs = new int[8];
     }
 
     void Start()
     {
         SetColor();
+
+        SetDotDirs();
     }
 
     void SetColor()
@@ -66,6 +72,18 @@ public class ShootingManager : MonoBehaviour
                 if (GameManager.Inst().GetSubweapons(i) != null)
                     ColorSelection[i] = GameManager.Inst().GetSubweapons(i).GetColorIndex();
         }
+    }
+
+    void SetDotDirs()
+    {
+        DotDirs[0] = 4;
+        DotDirs[1] = 2;
+        DotDirs[2] = 0;
+        DotDirs[3] = 1;
+        DotDirs[4] = 3;
+        DotDirs[5] = 1;
+        DotDirs[6] = 0;
+        DotDirs[7] = 2;
     }
 
     public void Shoot(Bullet.BulletType Type, GameObject Shooter, int ID, bool IsVamp, bool IsReinfoce, int index)
@@ -465,46 +483,24 @@ public class ShootingManager : MonoBehaviour
 
     void Dot(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
-        Dot[] bullets = new Dot[3];
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
 
-        switch (Rarity)
-        {
-            case 0:
-            case 1:
-            case 2:
-                Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Dot", Index);
-                Objs[0].transform.position = SpreadPos[0].transform.position;
-                Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
-                Objs[0].transform.localScale = scale;
+        Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Dot", Index);
+        Objs[0].transform.position = SpreadPos[DotDirs[DotCount]].transform.position;
+        Objs[0].transform.rotation = SpreadPos[DotDirs[DotCount]].transform.rotation;
+        Objs[0].transform.localScale = scale;
 
-                bullets[0] = Objs[0].gameObject.GetComponent<Dot>();
-                bullets[0].IsVamp = isVamp;
-                bullets[0].Vamp = shooter;
-                bullets[0].Speed = GameManager.Inst().UpgManager.BData[(int)bullets[0].GetBulletType()].GetSpeed() * 2.0f;
-                bullets[0].Shoot(SpreadPos[0].transform.up);
-                break;
-
-            case 3:
-            case 4:
-                for (int i = 0; i < 3; i++)
-                {
-                    Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Dot", Index);
-                    Objs[i].transform.position = SpreadPos[i].transform.position;
-                    Objs[i].transform.rotation = SpreadPos[i].transform.rotation;
-                    Objs[i].transform.localScale = scale;
-
-                    bullets[i] = Objs[i].gameObject.GetComponent<Dot>();
-                    bullets[i].IsVamp = isVamp;
-                    bullets[i].Vamp = shooter;
-                    bullets[i].IsReinforce = IsReinforce;
-                    bullets[0].Speed = GameManager.Inst().UpgManager.BData[(int)bullets[0].GetBulletType()].GetSpeed() * 2.0f;
-                    bullets[i].Shoot(SpreadPos[i].transform.up);
-                }
-                break;
-        }
+        Dot bullet = Objs[0].gameObject.GetComponent<Dot>();
+        bullet.IsVamp = isVamp;
+        bullet.Vamp = shooter;
+        bullet.IsReinforce = IsReinforce;
+        bullet.Speed = GameManager.Inst().UpgManager.BData[(int)bullet.GetBulletType()].GetSpeed() * 2.0f;
+        bullet.Shoot(SpreadPos[DotDirs[DotCount]].transform.up);
+        DotCount++;
+        if (DotCount >= DotDirs.Length)
+            DotCount = 0;
 
         GameManager.Inst().SodManager.PlayEffect("Wp_Dot");
     }

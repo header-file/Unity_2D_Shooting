@@ -53,6 +53,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject EqMissilePref;
     public GameObject EqKnockBackPref;
     public GameObject EqSlowPref;
+    public GameObject ExplosivePref;
 
     //BossBullet
     public GameObject BossNormalPref;
@@ -119,6 +120,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] EqMissiles;
     GameObject[] EqKnockbacks;
     GameObject[] EqSlows;
+    GameObject[] Explosives;
 
     GameObject[] BossNormals;
     GameObject[] BossLasers;
@@ -328,6 +330,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = EqSlows;
                 break;
 
+            case "Explosive":
+                TargetPool = Explosives;
+                break;
+
             case "Resource":
                 TargetPool = Resources;
                 break;
@@ -468,6 +474,7 @@ public class ObjectManager : MonoBehaviour
         EqMissiles = new GameObject[10];
         EqKnockbacks = new GameObject[10];
         EqSlows = new GameObject[10];
+        Explosives = new GameObject[10];
 
         BossNormals = new GameObject[60];
         BossLasers = new GameObject[5];
@@ -701,6 +708,13 @@ public class ObjectManager : MonoBehaviour
             EqSlows[i] = Instantiate(EqSlowPref);
             EqSlows[i].transform.SetParent(PBulletPool.transform, false);
             EqSlows[i].SetActive(false);
+        }
+
+        for (int i = 0; i < Explosives.Length; i++)
+        {
+            Explosives[i] = Instantiate(ExplosivePref);
+            Explosives[i].transform.SetParent(PBulletPool.transform, false);
+            Explosives[i].SetActive(false);
         }
 
         for (int i = 0; i < Resources.Length; i++)

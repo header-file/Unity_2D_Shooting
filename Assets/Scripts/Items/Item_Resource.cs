@@ -112,7 +112,7 @@ public class Item_Resource : Item
         else if (collision.gameObject.name == "ResourceGoal")
         {
             Add();
-
+            GameManager.Inst().UiManager.MainUI.ResourceAnim.Play();
             GameManager.Inst().SodManager.PlayEffect("Resource get");
 
             //퀘스트 처리

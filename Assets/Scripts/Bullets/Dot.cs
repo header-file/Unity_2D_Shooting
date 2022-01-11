@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Dot : Bullet
 {
-    public GameObject Sparkle;
     public float Speed;
-    public SpriteRenderer SpriteRenderer;
     public AnimationCurve Curve;
+    public CircleCollider2D Col;
 
     Rigidbody2D Rig;
     bool IsAttach;
@@ -15,6 +14,8 @@ public class Dot : Bullet
     float Timer;
     float TickTimer;
     Bullet SelfBullet;
+    int DmgCount;
+    Vector3 AttachPoint;
 
 
     void Awake()
@@ -23,6 +24,7 @@ public class Dot : Bullet
         Rig = GetComponent<Rigidbody2D>();
         IsAttach = false;
         TickTimer = 0.0f;
+        DmgCount = 0;
         SelfBullet = gameObject.GetComponent<Bullet>();
     }
 
@@ -30,11 +32,9 @@ public class Dot : Bullet
     {
         if (IsAttach)
         {
-            transform.position = AttachedObj.transform.position;
+            transform.localPosition = AttachPoint;
 
             TickDmg();
-
-            CheckDie();
         }
         else
         {
@@ -42,8 +42,6 @@ public class Dot : Bullet
             TickTimer += Time.deltaTime;
             if (TickTimer > 0.5f)
                 TickTimer = 0.5f;
-            //if (Speed < GameManager.Inst().UpgManager.BData[(int)Type].GetSpeed())
-            //    Speed = GameManager.Inst().UpgManager.BData[(int)Type].GetSpeed();
 
             Rig.velocity = transform.up * Speed;
         }
@@ -52,10 +50,15 @@ public class Dot : Bullet
     void TickDmg()
     {
         TickTimer += Time.fixedDeltaTime;
-        if (TickTimer < 1.0f)
+        if (TickTimer < 0.5f)
             return;
 
         TickTimer = 0.0f;
+        if (DmgCount <= 0)
+        {
+            Die();
+            return;
+        }
 
         if (SelfBullet == null)
             SelfBullet = transform.parent.GetComponent<Bullet>();
@@ -67,47 +70,58 @@ public class Dot : Bullet
         SelfBullet.BloodSuck(dmg);
 
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-        hit.transform.position = SelfBullet.transform.position;
+        //hit.transform.position = Col.ClosestPoint(AttachedObj.transform.position);
+        hit.transform.position = AttachedObj.transform.position + AttachPoint;
 
-        AttachedObj.OnHit(dmg, SelfBullet.IsReinforce, AttachedObj.transform.position);
+        AttachedObj.OnHit(dmg, SelfBullet.IsReinforce, hit.transform.position);
+        DmgCount--;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy")
+        if (collision.tag == "Enemy")
         {
             if (IsAttach)
                 return;
 
-            TickTimer = 0.0f;
-            IsAttach = true;
             AttachedObj = collision.GetComponent<Enemy>();
+            if (AttachedObj != null && AttachedObj.IsDot)
+            {
+                Die();
+                return;
+            }
 
-            SpriteRenderer.gameObject.SetActive(false);
-            Sparkle.SetActive(true);
+            TickTimer = 0.5f;
+            IsAttach = true;
+            AttachedObj.IsDot = true;
+            Vector2 hitPoint = collision.ClosestPoint(transform.position);
+            transform.SetParent(AttachedObj.gameObject.transform);
+            AttachPoint = transform.localPosition;
+            Rig.velocity = Vector3.zero;
 
-            Timer = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
-            Invoke("Disappear", Timer);
+            //Timer = GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
+            //DmgCount = (int)(Timer / 0.5f);
+            DmgCount = (int)GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
         }
+        else if (collision.tag == "Border")
+        {
+            if (!IsAttach)
+                Die();
+        }            
     }
 
-    void CheckDie()
+    public void Die()
     {
-        if (!AttachedObj.gameObject.activeSelf)
-            Disappear();
-    }
-
-    void Disappear()
-    {
-        if (!gameObject.activeSelf)
-            return;
-
-        Sparkle.SetActive(false);
         IsAttach = false;
+        transform.SetParent(GameManager.Inst().ObjManager.PBulletPool.transform);
+        gameObject.SetActive(false);
+    }
+
+    void OnDisable()
+    {
+        if (AttachedObj != null)
+            AttachedObj.IsDot = false;
         AttachedObj = null;
         TickTimer = 0.0f;
-        SpriteRenderer.gameObject.SetActive(true);
-
-        gameObject.SetActive(false);
     }
 }

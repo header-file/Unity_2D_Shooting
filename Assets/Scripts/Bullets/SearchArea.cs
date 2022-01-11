@@ -11,34 +11,47 @@ public class SearchArea : MonoBehaviour
     }
 
     public ParentType PType;
+    public GameObject Parent;
 
-    BossMissile ParentB;
-    Missile ParentP;
+    BossMissile BM;
+    Missile MS;
+    Chain CH;
     CircleCollider2D Col;
 
-    void Awake()
+    void Start()
     {
-        ParentP = transform.parent.gameObject.GetComponent<Missile>();
-        ParentB = transform.parent.gameObject.GetComponent<BossMissile>();
         Col = gameObject.GetComponent<CircleCollider2D>();
 
-        if (ParentP != null)
-            PType = ParentType.PLAYER;
-        else if (ParentB != null)
-            PType = ParentType.ENEMY;
+        if (PType == ParentType.PLAYER)
+        {
+            if (Parent.GetComponent<Missile>())
+                MS = Parent.GetComponent<Missile>();
+            else
+                CH = Parent.GetComponent<Chain>();
+        }
+        else
+        {
+            if (Parent.GetComponent<BossMissile>())
+                BM = Parent.GetComponent<BossMissile>();
+        }
     }
 
     void Update()
     {
-        if (PType == ParentType.PLAYER)
+        if (MS != null)
         {
-            if (ParentP.Target != null && !ParentP.Target.activeSelf)
-                ParentP.Target = null;
+            if (MS.Target != null && !MS.Target.activeSelf)
+                MS.Target = null;
         }
-        else
+        else if (CH != null)
         {
-            if (ParentB.Target != null && !ParentB.Target.activeSelf)
-                ParentB.Target = null;
+            if (CH.Target != null && !CH.Target.activeSelf)
+                CH.Target = null;
+        }
+        else if (BM != null)
+        {
+            if (BM.Target != null && !BM.Target.activeSelf)
+                BM.Target = null;
         }
     }
 
@@ -48,8 +61,16 @@ public class SearchArea : MonoBehaviour
         {
             if (collision.gameObject.tag == "Enemy")
             {
-                if (ParentP.Target == null || ParentP.Target.activeSelf == false)
-                    ParentP.Target = collision.gameObject;
+                if (MS != null)
+                {
+                    if(MS.Target == null || MS.Target.activeSelf == false)
+                    MS.Target = collision.gameObject;
+                }                   
+                else if(CH != null)
+                {
+                    if (CH.Target == null || CH.Target.activeSelf == false)
+                        CH.Target = collision.gameObject;
+                }
             }
         }
         else
@@ -57,8 +78,8 @@ public class SearchArea : MonoBehaviour
             if (collision.gameObject.tag == "Player" ||
                 collision.gameObject.tag == "SubWeapon")
             {
-                if (ParentB.Target == null || ParentB.Target.activeSelf == false)
-                    ParentB.Target = collision.gameObject;
+                if (BM.Target == null || BM.Target.activeSelf == false)
+                    BM.Target = collision.gameObject;
             }
         }
     }

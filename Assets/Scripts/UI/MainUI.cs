@@ -12,6 +12,7 @@ public class MainUI : MonoBehaviour
     public Text JewelText;
     public Text[] Resources;
     public Buff Buff;
+    public Animation ResourceAnim;
 
     //플레이어용 UI
     public GameObject PlayerUI;

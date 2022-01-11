@@ -6,9 +6,10 @@ public class Chain : Bullet
 {
     public SpriteRenderer Sprite;
     public GameObject LinePref;
+    public GameObject Target;
 
     Color OriColor;
-    GameObject Target;
+    public GameObject Enemy;
     Rigidbody2D Rig;
     int DeathCount;
     float Speed;
@@ -24,10 +25,21 @@ public class Chain : Bullet
 
     void Update()
     {
-        if (Target != null)
+        if (Enemy != null)
         {
-            if (!Target.activeSelf)
+            if (!Enemy.activeSelf)
                 Die();
+        }
+        else if(Target != null)
+        {
+            Vector2 pointTarget = (Vector2)transform.position - (Vector2)Target.transform.position;
+            pointTarget.Normalize();
+
+            float val = Vector3.Cross(pointTarget, transform.up).z;
+
+            Rig.angularVelocity = 50.0f * val;
+
+            Rig.velocity = transform.up * Speed;
         }
     }
 
@@ -44,9 +56,9 @@ public class Chain : Bullet
             return;
         }
 
-        Target = enemy;
+        Enemy = enemy;
         CheckNearestEnemy();
-        if (Target == null || !Target.activeSelf)
+        if (Enemy == null || !Enemy.activeSelf)
         {
             Die();
             return;
@@ -67,10 +79,10 @@ public class Chain : Bullet
 
         foreach(GameObject e in enemies)
         {
-            if (Target == e)
+            if (Enemy == e)
                 continue;
 
-            float d = Vector3.Distance(transform.position, e.transform.position);
+            float d = Vector2.Distance(transform.position, e.transform.position);
             if (d < dist)
             {
                 dist = d;
@@ -78,17 +90,17 @@ public class Chain : Bullet
             }
         }
 
-        Target = closest;
+        Enemy = closest;
     }
 
     void DrawLine()
     {
-        Vector3 v = Target.transform.position - transform.position;
+        Vector3 v = Enemy.transform.position - transform.position;
         v = Vector3.Normalize(v);
         float angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
-        Vector3 mid = (Target.transform.position + transform.position) / 2.0f;
+        Vector3 mid = (Enemy.transform.position + transform.position) / 2.0f;
         Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
-        scale.x = Vector3.Distance(transform.position, Target.transform.position);
+        scale.x = Vector3.Distance(transform.position, Enemy.transform.position);
         scale.y = 1.0f;
         Sprite.color = Color.clear;
 
@@ -100,12 +112,13 @@ public class Chain : Bullet
         line.GetComponent<SpriteRenderer>().color = OriColor;
         line.GetComponent<ActivationTimer>().IsStart = true;
 
-        transform.position = Target.transform.position;
+        transform.position = Enemy.transform.position;
     }
 
    public void Die()
     {
         DeathCount = (int)GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
+        Enemy = null;
         Target = null;
         Sprite.color = OriColor;
         gameObject.SetActive(false);
@@ -115,6 +128,7 @@ public class Chain : Bullet
     {
         DeathCount = (int)GameManager.Inst().UpgManager.BData[(int)Type].GetDuration();
         Sprite.color = OriColor;
+        Enemy = null;
         Target = null;
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossGauge : MonoBehaviour
 {
     public GameObject[] FeverZones;
+    public RectTransform Here;
 
     void Start()
     {

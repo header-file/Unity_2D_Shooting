@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
     public float SpeedMultiplier;
     public float RotGyesu;
     public float CurveTime;
+    public bool IsDot;
 
     protected float Speed;
     protected float Health;
@@ -85,6 +86,7 @@ public class Enemy : MonoBehaviour
 
         IsReflected = false;
         CurveTime = 0.0f;
+        IsDot = false;
     }
 
     void Start()
@@ -188,9 +190,9 @@ public class Enemy : MonoBehaviour
         StartMove(0.0f);
     }
 
-    public void OnHit(float Damage, bool isReinforced, Vector2 HitPoint)
+    public void OnHit(float Damage, bool isReinforced, Vector2 HitPoint, bool IsTrueDgm = false)
     {
-        if (IsInvincible)
+        if (IsInvincible && !IsTrueDgm)
             return;
 
         GameManager.Inst().SodManager.PlayEffect("Enemy hit");
@@ -271,6 +273,8 @@ public class Enemy : MonoBehaviour
             explosion.transform.position = transform.position;
 
             IsReflected = false;
+            IsDot = false;
+            DotCheck();
             CurHP = Health;
             BodyScale = Vector3.one;
             CancelInvoke("StartMove");
@@ -380,6 +384,24 @@ public class Enemy : MonoBehaviour
         IsInvincible = false;
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Explosion")
+        {
+            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+            float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
+            float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
+            float dmg = damage * 9.0f + atk;
+            if (bullet.IsReinforce)
+                dmg *= 2;
+            bullet.BloodSuck(dmg);
+
+            Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
+
+            OnHit(dmg, bullet.IsReinforce, hitPoint, true);
+        }
+    }
+
     void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "HitArea")
@@ -487,6 +509,8 @@ public class Enemy : MonoBehaviour
             CurHP = Health;
             IsReflected = false;
             IsInvincible = false;
+            IsDot = false;
+            DotCheck();
             BodyScale = Vector3.one;
             CancelInvoke("StartMove");
             gameObject.SetActive(false);
@@ -525,6 +549,17 @@ public class Enemy : MonoBehaviour
     {
         Canvas.SetActive(false);
         IsBarVisible = false;
+    }
+
+    void DotCheck()
+    {
+        Dot[] dots = GetComponentsInChildren<Dot>();
+        for(int i = 0; i < dots.Length; i++)
+        {
+            if (dots[i])
+                dots[i].Die();
+        }
+        
     }
 
     //void SlowGame()

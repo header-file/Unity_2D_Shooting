@@ -142,12 +142,20 @@ public class StageManager : MonoBehaviour
     {
         float percent = (float)BossCount[Stage - 1] / BossMax;
         GameManager.Inst().UiManager.MainUI.BossGaugeBar.fillAmount = percent;
+
+        Vector2 herePos = GameManager.Inst().UiManager.MainUI.BossGauge.Here.anchoredPosition;
+        herePos.x = -300.0f + 600.0f * percent;
+        GameManager.Inst().UiManager.MainUI.BossGauge.Here.anchoredPosition = herePos;
     }
 
     public void FillGauge()
     {
         float percent = (float)BossCount[Stage - 1] / BossMax;
         GameManager.Inst().UiManager.MainUI.BossGaugeBar.fillAmount = percent;
+
+        Vector2 herePos = GameManager.Inst().UiManager.MainUI.BossGauge.Here.anchoredPosition;
+        herePos.x = -300.0f + 600.0f * percent;
+        GameManager.Inst().UiManager.MainUI.BossGauge.Here.anchoredPosition = herePos;
 
         for (int i = 0; i < FullFever[Stage - 1]; i++)
         {
