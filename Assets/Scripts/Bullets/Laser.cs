@@ -7,6 +7,7 @@ public class Laser : Bullet
     public LineRenderer Line;
     public BoxCollider2D Col;
     public LayerMask WallMask;
+    public GameObject LaserPos;
 
     Vector3 Pos;
     Vector3 Dir;
@@ -23,11 +24,6 @@ public class Laser : Bullet
         ColSize = Vector2.zero;
     }
 
-    private void Start()
-    {
-        SetStartPos();
-    }
-
     void Update()
     {
         ShootRay();
@@ -36,9 +32,9 @@ public class Laser : Bullet
         SetCol();
     }
 
-    public void SetStartPos()
+    public void SetStartPos(GameObject Pos)
     {
-        //transform.parent = GameManager.Inst().Player.LaserPos.transform;
+        LaserPos = Pos;
 
         SizeGyesu = 1.0f;
         Line.positionCount = 2;        
@@ -47,8 +43,8 @@ public class Laser : Bullet
 
     void ShootRay()
     {
-        Pos = GameManager.Inst().Player.LaserPos.transform.position;
-        Dir = GameManager.Inst().Player.LaserPos.transform.up;
+        Pos = LaserPos.transform.position;
+        Dir = LaserPos.transform.up;
         Hit = Physics2D.Raycast(Pos, Dir, 20.0f, WallMask);
 
         Line.SetPosition(0, Pos);
@@ -74,8 +70,8 @@ public class Laser : Bullet
 
     void SetCol()
     {
-        transform.position = GameManager.Inst().Player.LaserPos.transform.position;
-        transform.rotation = GameManager.Inst().Player.LaserPos.transform.rotation;
+        transform.position = LaserPos.transform.position;
+        transform.rotation = LaserPos.transform.rotation;
         transform.localScale = Vector3.one;
 
         ColSize.x = Line.widthMultiplier * 2.0f;

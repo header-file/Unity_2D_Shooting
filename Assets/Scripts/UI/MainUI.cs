@@ -37,6 +37,9 @@ public class MainUI : MonoBehaviour
     public FloatingBubble Floating;
     public GameObject SpecialBtn;
 
+    //UI용 컬러
+    public Color[] GradeColors;
+
     public Bottom Bottom;
     public Center Center;
     public ZzinBottom ZzinBottom;

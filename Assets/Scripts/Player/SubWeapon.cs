@@ -486,6 +486,11 @@ public class SubWeapon : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    void LevelupSound()
+    {
+        GameManager.Inst().SodManager.PlayEffect("Level up");
+    }
+
     private void OnMouseDown()
     {
         IsDown = true;

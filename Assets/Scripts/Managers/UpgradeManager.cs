@@ -488,6 +488,7 @@ public class UpgradeManager : MonoBehaviour
     {
         GameObject subWeapon = GameManager.Inst().ObjManager.MakeObj("SubWeapon");
         int index = curIndex;
+        SubWeaponLevel[GameManager.Inst().StgManager.Stage - 1, index]++;
         Vector3 pos = GameManager.Inst().UiManager.SubPositions[curIndex].transform.position;
         subWeapon.transform.position = pos;
         SubWeapon sub = subWeapon.GetComponent<SubWeapon>();

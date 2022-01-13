@@ -1,0 +1,215 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6819180830412356684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6819180830412356724}
+  - component: {fileID: 6819180830412356725}
+  - component: {fileID: 6819180830412356683}
+  - component: {fileID: 6819180830412356726}
+  - component: {fileID: 6819180830412356727}
+  - component: {fileID: 6819180830412356680}
+  - component: {fileID: 6819180830412356681}
+  - component: {fileID: 6819180830412356682}
+  - component: {fileID: 6819180830412356723}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6819180830412356724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819180830412356684}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6819180830412356725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819180830412356684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25106e162ecc5684b82c8cd69008400e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgManager: {fileID: 6819180830412356680}
+  StgManager: {fileID: 6819180830412356727}
+  DatManager: {fileID: 6819180830412356726}
+  ResManager: {fileID: 6819180830412356681}
+  AdsManager: {fileID: 6819180830412356683}
+  SodManager: {fileID: 6819180830412356682}
+  BufManager: {fileID: 6819180830412356723}
+  Login: {fileID: 0}
+  ShtManager: {fileID: 0}
+  ObjManager: {fileID: 0}
+  IptManager: {fileID: 0}
+  TxtManager: {fileID: 0}
+  UiManager: {fileID: 0}
+  QstManager: {fileID: 0}
+  ShkManager: {fileID: 0}
+  EquManager: {fileID: 0}
+  IsFullPrice: 0
+  Tutorials: {fileID: 0}
+  Player: {fileID: 0}
+  Jewel: 0
+  Resources: 
+--- !u!114 &6819180830412356683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819180830412356684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c682bd5c9fb0474d8354788f50f0098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AdLeft: 0
+  AdvType: 0
+--- !u!114 &6819180830412356726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819180830412356684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf01308257f29254dab3ae7845ca86e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SaveDataFileName: SavedData.json
+  _gameData:
+    UID: 
+    IsFullPrice: 0
+    Coin: 0
+    Jewel: 0
+    Resources: 
+    IsDaily: 0
+    DailyLeft: 0
+    IsDailyPlus: 0
+    DailyPlusLeft: 0
+    LastDailyTime: 
+    AdLeft: 0
+    LastAdTime: 
+    BuffAdLeft: 0
+    LastBuffAdTime: 
+    BuffLefts: 
+    MaxInventory: 0
+    CurrentStage: 0
+    ReachedStage: 0
+    PlayerDatas: 
+    SubWeaponDatas: 
+    Weapons: []
+    Inventories: 
+    ReinforceInventories: 
+    Quests: 
+    FeverGauges: 
+    FullFevers: 
+    BossGauges: 
+    BossDeathCounts: 
+    CountStartTimes: 
+    BGMVolume: 0.5
+    EffectVolume: 0.5
+    IsMuteBGM: 0
+    IsMuteEffect: 0
+    IsEraseData: 0
+    IsTutorial: 0
+--- !u!114 &6819180830412356727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819180830412356684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a077c99ca62a5a4a8ae44d9992543ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stage: 0
+  ReachedStage: 1
+  BossCount: 
+  IsBoss: 0
+  BossTimer: 0
+  Boss: {fileID: 0}
+  UnlockBulletStages: 
+  BossDeathCounts: 
+  MinFever: []
+  MaxFever: []
+  FullFever: 
+  FeverPref: {fileID: 541396381167271569, guid: 2ea04b759206de841a456f3850bdf36a,
+    type: 3}
+--- !u!114 &6819180830412356680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819180830412356684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae10abd8e1afcd64d98f6f39bc1fad37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6819180830412356681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819180830412356684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cf0ff19f0678f24e9b009c24405eb9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6819180830412356682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819180830412356684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9521d488bd977394ea5cab51dd017ddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BgmVolume: 0
+  EffectVolume: 0
+  IsBgmMute: 0
+  IsEffectMute: 0
+--- !u!114 &6819180830412356723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819180830412356684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535846ac7db032f49ad1117696759c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentBuffType: 0
+  BuffTimers: []

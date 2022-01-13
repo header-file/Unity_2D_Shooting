@@ -18,9 +18,10 @@ public class SearchArea : MonoBehaviour
     Chain CH;
     CircleCollider2D Col;
 
-    void Start()
+    void Awake()
     {
         Col = gameObject.GetComponent<CircleCollider2D>();
+        Parent = gameObject.transform.parent.gameObject;
 
         if (PType == ParentType.PLAYER)
         {

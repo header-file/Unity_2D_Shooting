@@ -14,7 +14,7 @@ public class InventoryDetail : MonoBehaviour
     public GameObject Values;
     public GameObject Detail;
     public Text DetailText;
-    public GameObject Grade;
+    public SpriteRenderer Grade;
     public SellConfirm SellConfirm;
     public GameObject Success;
     public GameObject Fail;
@@ -30,8 +30,7 @@ public class InventoryDetail : MonoBehaviour
 
         Icon.sprite = equip.Icon;
         
-        int rarity = equip.Rarity;
-        SetRarityColor(rarity);
+        Grade.color = GameManager.Inst().UiManager.MainUI.GradeColors[equip.Rarity];
 
         int type = equip.Type;
         SetTypeName(type);
@@ -47,18 +46,9 @@ public class InventoryDetail : MonoBehaviour
         if (equip.UID / 100 == 6)
         {
             Icon.gameObject.SetActive(true);
-            Grade.SetActive(false);
+            Grade.gameObject.SetActive(false);
             SetDetail(equip.Type, equip.Rarity, equip.Value);
         }
-    }    
-
-    void SetRarityColor(int rarity)
-    {
-        ////Item_Equipment.Rarity rare = (Item_Equipment.Rarity)rarity;
-        //for (int i = 0; i < 5; i++)
-        //    Grades[i].SetActive(false);
-
-        //Grades[rarity].SetActive(true);
     }
 
     void SetTypeName(int type)

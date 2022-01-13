@@ -617,6 +617,8 @@ MonoBehaviour:
     type: 3}
   EqSlowPref: {fileID: 6874623759900405838, guid: 4422373c4a5b3764c9acc541a2ca281c,
     type: 3}
+  ExplosivePref: {fileID: 7724121830208840607, guid: 10838ca81764fdf49b5281847ab1af3a,
+    type: 3}
   BossNormalPref: {fileID: 7496376629194563644, guid: cd4f85827a40c4440a768b2b8a5f811a,
     type: 3}
   BossLaserPref: {fileID: 429405220833893478, guid: 7bc63558587f9a646bafe230fb6f9fb7,
@@ -4740,219 +4742,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1707046299
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1707046307}
-  - component: {fileID: 1707046306}
-  - component: {fileID: 1707046300}
-  - component: {fileID: 1707046305}
-  - component: {fileID: 1707046304}
-  - component: {fileID: 1707046303}
-  - component: {fileID: 1707046302}
-  - component: {fileID: 1707046301}
-  - component: {fileID: 1707046308}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1707046300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707046299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c682bd5c9fb0474d8354788f50f0098, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AdLeft: 0
-  AdvType: 0
---- !u!114 &1707046301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707046299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9521d488bd977394ea5cab51dd017ddc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BgmVolume: 0
-  EffectVolume: 0
-  IsBgmMute: 0
-  IsEffectMute: 0
---- !u!114 &1707046302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707046299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cf0ff19f0678f24e9b009c24405eb9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1707046303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707046299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae10abd8e1afcd64d98f6f39bc1fad37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1707046304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707046299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a077c99ca62a5a4a8ae44d9992543ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Stage: 0
-  ReachedStage: 1
-  BossCount: 
-  IsBoss: 0
-  BossTimer: 0
-  Boss: {fileID: 0}
-  UnlockBulletStages: 
-  BossDeathCounts: 
-  MinFever: []
-  MaxFever: []
-  FullFever: 
-  FeverPref: {fileID: 541396381167271569, guid: 2ea04b759206de841a456f3850bdf36a,
-    type: 3}
---- !u!114 &1707046305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707046299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf01308257f29254dab3ae7845ca86e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SaveDataFileName: SavedData.json
-  _gameData:
-    UID: 
-    IsFullPrice: 0
-    Coin: 0
-    Jewel: 0
-    Resources: 
-    IsDaily: 0
-    DailyLeft: 0
-    IsDailyPlus: 0
-    DailyPlusLeft: 0
-    LastDailyTime: 
-    AdLeft: 0
-    LastAdTime: 
-    BuffAdLeft: 0
-    LastBuffAdTime: 
-    BuffLefts: 
-    MaxInventory: 0
-    CurrentStage: 0
-    ReachedStage: 0
-    PlayerDatas: 
-    SubWeaponDatas: 
-    Weapons: []
-    Inventories: 
-    ReinforceInventories: 
-    Quests: 
-    FeverGauges: 
-    FullFevers: 
-    BossGauges: 
-    BossDeathCounts: 
-    CountStartTimes: 
-    BGMVolume: 0.5
-    EffectVolume: 0.5
-    IsMuteBGM: 0
-    IsMuteEffect: 0
-    IsEraseData: 0
-    IsTutorial: 0
---- !u!114 &1707046306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707046299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25106e162ecc5684b82c8cd69008400e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UpgManager: {fileID: 1707046303}
-  StgManager: {fileID: 1707046304}
-  DatManager: {fileID: 1707046305}
-  ResManager: {fileID: 1707046302}
-  AdsManager: {fileID: 1707046300}
-  SodManager: {fileID: 1707046301}
-  BufManager: {fileID: 0}
-  Login: {fileID: 0}
-  ShtManager: {fileID: 0}
-  ObjManager: {fileID: 0}
-  IptManager: {fileID: 0}
-  TxtManager: {fileID: 0}
-  UiManager: {fileID: 0}
-  QstManager: {fileID: 0}
-  ShkManager: {fileID: 0}
-  EquManager: {fileID: 0}
-  IsFullPrice: 0
-  Tutorials: {fileID: 0}
-  Player: {fileID: 851484969}
-  Jewel: 0
-  Resources: 
---- !u!4 &1707046307
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707046299}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1707046308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707046299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 535846ac7db032f49ad1117696759c11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentBuffType: 0
-  BuffTimers: []
 --- !u!1 &1750566642
 GameObject:
   m_ObjectHideFlags: 0
@@ -5158,6 +4947,80 @@ Transform:
   m_Father: {fileID: 488546396}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1828391959
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6819180830412356684, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356724, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819180830412356725, guid: 9eb2808d85b80444eb765f8eb7c4739d,
+        type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 851484969}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9eb2808d85b80444eb765f8eb7c4739d, type: 3}
 --- !u!1 &1837650259
 GameObject:
   m_ObjectHideFlags: 0

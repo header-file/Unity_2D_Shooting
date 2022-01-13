@@ -159,7 +159,7 @@ public class GameData
 
                 if (GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j) > 0)
                 {
-                    if (i == GameManager.Inst().StgManager.Stage - 1)
+                    //if (i == GameManager.Inst().StgManager.Stage - 1)
                     {
                         SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP] = GameManager.Inst().GetSubweapons(j).GetCurHP();
                         SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP] = GameManager.Inst().GetSubweapons(j).GetMaxHP();
