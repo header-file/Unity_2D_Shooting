@@ -192,8 +192,8 @@ public class ZzinBottom : MonoBehaviour
             GameManager.Inst().UiManager.MainUI.SideMenu.OnClickSideBarBackBtn();
         if (GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.IsOpen)
             GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
-
-        GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Contents.SetActive(false);
+        if(GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Contents.activeSelf)
+            GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Contents.SetActive(false);
 
         if (SceneManager.GetActiveScene().name == "Stage0" &&
             (GameManager.Inst().Tutorials.Step == 23 || GameManager.Inst().Tutorials.Step == 26 || GameManager.Inst().Tutorials.Step == 27 || GameManager.Inst().Tutorials.Step == 23 ||

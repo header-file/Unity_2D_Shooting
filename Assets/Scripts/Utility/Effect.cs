@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class Effect : MonoBehaviour
 {
-    ParticleSystem PS_Explosion;
+    ParticleSystem PS;
 
     void Awake()
     {
-        PS_Explosion = GetComponent<ParticleSystem>();
+        PS = GetComponent<ParticleSystem>();
+    }
+
+    void Start()
+    {
+        //if (gameObject.tag == "ForTest")
+        //    Debug.Log("Eff Start" + transform.position);
     }
 
     void Update()
     {
-        if (PS_Explosion.isStopped)
+        if (PS.isStopped)
+        {
+            //if (gameObject.tag == "ForTest")
+            //    Debug.Log("Eff End" + transform.position);
             gameObject.SetActive(false);
+        }
     }
 }

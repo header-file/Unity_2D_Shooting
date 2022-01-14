@@ -14,7 +14,7 @@ public class InventoryDetail : MonoBehaviour
     public GameObject Values;
     public GameObject Detail;
     public Text DetailText;
-    public SpriteRenderer Grade;
+    public Image Grade;
     public SellConfirm SellConfirm;
     public GameObject Success;
     public GameObject Fail;

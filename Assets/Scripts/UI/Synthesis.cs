@@ -364,7 +364,7 @@ public class Synthesis : MonoBehaviour
 
         ResetSprites();
 
-        Sort();
+        ShowInventory();
 
         EquipDetail.gameObject.SetActive(true);
         EquipDetail.ResultAnim.Play();

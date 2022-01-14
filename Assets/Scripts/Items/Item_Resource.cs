@@ -7,7 +7,6 @@ public class Item_Resource : Item
     public Color[] Colors;
     public Vector3 TargetPosition;
     public bool IsScatter;
-    public ActivationTimer Timer;
 
     Rigidbody2D Rig;
     Vector3 InitPos;
@@ -30,6 +29,14 @@ public class Item_Resource : Item
 
         Rig = GetComponent<Rigidbody2D>();
         InitPos = GameObject.Find("ResourceGoal").transform.position;
+    }
+
+    public void SetStart()
+    {
+        IsScatter = false;
+        IsAbsorb = false;
+        IsDeathCount = false;
+        DeathCount = 2.0f;
     }
 
     protected override void Update()
@@ -57,9 +64,6 @@ public class Item_Resource : Item
 
     void Absorb()
     {
-        if (IsScatter)
-            return;
-
         Vector2 pointTarget = (Vector2)transform.position - (Vector2)InitPos;
         pointTarget.Normalize();
 
@@ -90,6 +94,7 @@ public class Item_Resource : Item
 
         if (GameManager.Inst().StgManager.Stage == 0)
             stage++;
+
         GameManager.Inst().AddResource(stage, Value);
         IsAbsorb = false;
         gameObject.SetActive(false);
@@ -104,10 +109,10 @@ public class Item_Resource : Item
     {
         if (collision.gameObject.tag == "BlockBullet" || collision.gameObject.tag == "PierceBullet" ||
             collision.gameObject.tag == "Chain" || collision.gameObject.tag == "Laser" ||
+            collision.gameObject.tag == "Explosion" || collision.gameObject.tag == "Dot" ||
             collision.gameObject.tag == "Border")
         {
-            Invoke("Add", 5.0f);
-            IsAbsorb = true;
+            BeginAbsorb();
         }
         else if (collision.gameObject.name == "ResourceGoal")
         {
@@ -145,10 +150,10 @@ public class Item_Resource : Item
     {
         if (IsAbsorb || !gameObject.activeSelf)
             return;
-
+        Debug.Log("Resource Die / " + transform.position);
         GameObject resourceDie = GameManager.Inst().ObjManager.MakeObj("ResourceDie");
         resourceDie.transform.position = transform.position;
-
+        
         gameObject.SetActive(false);
     }
 
