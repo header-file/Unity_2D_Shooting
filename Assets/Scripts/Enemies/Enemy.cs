@@ -361,7 +361,6 @@ public class Enemy : MonoBehaviour
 
             Item_Resource resource = res.GetComponent<Item_Resource>();
             resource.transform.position = transform.position;
-            resource.SetStart();
 
             Vector3 pos = transform.position;
             pos.x += Mathf.Cos(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;

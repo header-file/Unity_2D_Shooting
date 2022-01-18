@@ -31,14 +31,6 @@ public class Item_Resource : Item
         InitPos = GameObject.Find("ResourceGoal").transform.position;
     }
 
-    public void SetStart()
-    {
-        IsScatter = false;
-        IsAbsorb = false;
-        IsDeathCount = false;
-        DeathCount = 2.0f;
-    }
-
     protected override void Update()
     {
         if (IsScatter)
@@ -155,6 +147,14 @@ public class Item_Resource : Item
         resourceDie.transform.position = transform.position;
         
         gameObject.SetActive(false);
+    }
+
+    void OnEnable()
+    {
+        IsScatter = false;
+        IsAbsorb = false;
+        IsDeathCount = false;
+        DeathCount = 2.0f;
     }
 
     void OnDisable()
