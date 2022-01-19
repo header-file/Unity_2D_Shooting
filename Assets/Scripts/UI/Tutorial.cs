@@ -36,7 +36,9 @@ public class Tutorial : MonoBehaviour
         Pos = Vector2.zero;
 
         SkipWindow.SetActive(false);
-        //gameObject.SetActive(false);
+
+        if(GameManager.Inst().StgManager.Stage != 0)
+            gameObject.SetActive(false);
     }
 
     void Update()

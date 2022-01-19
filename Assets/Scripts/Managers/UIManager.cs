@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour
 
     //기능 구현용
     public MainUI MainUI;
-    public Tutorial Tutorial;
 
     //기타 UI
     public GameObject RedMask;

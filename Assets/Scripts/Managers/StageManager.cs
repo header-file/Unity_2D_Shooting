@@ -352,7 +352,8 @@ public class StageManager : MonoBehaviour
         SpawnEnemies();
 
         GameManager.Inst().SodManager.StopBGM();
-        GameManager.Inst().SodManager.PlayBGM("Stage" + Stage.ToString());
+        if(Stage >= 1)
+            GameManager.Inst().SodManager.PlayBGM("Stage" + Stage.ToString());
     }
 
     public void CancelEnemies()
@@ -541,7 +542,8 @@ public class StageManager : MonoBehaviour
            RandFever();
         StartEnemy();
 
-        GameManager.Inst().SodManager.PlayBGM("Stage" + Stage.ToString());
+        if(Stage >= 1)
+            GameManager.Inst().SodManager.PlayBGM("Stage" + Stage.ToString());
     }
 
     public void UnlockStages(int stage)

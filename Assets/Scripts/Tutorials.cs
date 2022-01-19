@@ -66,12 +66,12 @@ public class Tutorials : MonoBehaviour
 
     void GoStep()
     {
-        GameManager.Inst().UiManager.Tutorial.Size = TutDatas[Step].Size;
-        GameManager.Inst().UiManager.Tutorial.Pos = TutDatas[Step].Pos;
-        GameManager.Inst().UiManager.Tutorial.TxtSize = TutDatas[Step].TxtSize;
-        GameManager.Inst().UiManager.Tutorial.TxtPos = TutDatas[Step].TxtPos;
-        GameManager.Inst().UiManager.Tutorial.TutorialText.text = TutDatas[Step].Txt;
-        GameManager.Inst().UiManager.Tutorial.SetWindow();
+        GameManager.Inst().UiManager.MainUI.Tutorial.Size = TutDatas[Step].Size;
+        GameManager.Inst().UiManager.MainUI.Tutorial.Pos = TutDatas[Step].Pos;
+        GameManager.Inst().UiManager.MainUI.Tutorial.TxtSize = TutDatas[Step].TxtSize;
+        GameManager.Inst().UiManager.MainUI.Tutorial.TxtPos = TutDatas[Step].TxtPos;
+        GameManager.Inst().UiManager.MainUI.Tutorial.TutorialText.text = TutDatas[Step].Txt;
+        GameManager.Inst().UiManager.MainUI.Tutorial.SetWindow();
 
         switch (Step)
         {

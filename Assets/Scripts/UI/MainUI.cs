@@ -44,6 +44,9 @@ public class MainUI : MonoBehaviour
     public Center Center;
     public ZzinBottom ZzinBottom;
 
+    //Tutorial용
+    public Tutorial Tutorial;
+
     void Awake()
     {
         for (int i = 0; i < 5; i++)
