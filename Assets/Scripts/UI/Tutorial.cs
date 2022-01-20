@@ -30,15 +30,14 @@ public class Tutorial : MonoBehaviour
     float Height = 1280.0f;
     float Width = 720.0f;
 
-    void Start()
+    void Awake()
     {
         Size = new Vector2(100, 100);
         Pos = Vector2.zero;
 
         SkipWindow.SetActive(false);
 
-        if(GameManager.Inst().StgManager.Stage != 0)
-            gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     void Update()

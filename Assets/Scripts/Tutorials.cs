@@ -51,6 +51,7 @@ public class Tutorials : MonoBehaviour
 
     IEnumerator TutorialStart()
     {
+        GameManager.Inst().UiManager.MainUI.Tutorial.gameObject.SetActive(true);
         int goal = Step + 1;
 
         while(true)

@@ -263,6 +263,9 @@ public class StageManager : MonoBehaviour
 
         GameManager.Inst().UiManager.MainUI.BossGauge.gameObject.SetActive(true);
 
+        if (SceneManager.GetActiveScene().name == "Stage0")
+            return;
+
         InvokeRepeating("SpawnSmall", 0.0f, SmallTime);
         InvokeRepeating("SpawnMedium", 0.0f, MediumTime);
         InvokeRepeating("SpawnLarge", 0.0f, LargeTime);
