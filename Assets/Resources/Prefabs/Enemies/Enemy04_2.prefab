@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 605807053899396518}
   m_LocalRotation: {x: -0, y: -0, z: 0.9890361, w: 0.14767425}
   m_LocalPosition: {x: 0.023, y: 0, z: 0}
-  m_LocalScale: {x: 0.70000017, y: 0.70000017, z: 1}
+  m_LocalScale: {x: 0.5962041, y: 0.5962041, z: 0.85172}
   m_Children: []
   m_Father: {fileID: 759201982729006194}
   m_RootOrder: 0
@@ -199,8 +199,17 @@ MonoBehaviour:
   Body: {fileID: 2725468006031315321}
   Collider: {fileID: 4184720528981176348}
   Skin: {fileID: 0}
+  Curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  FallEffect: {fileID: 0}
   SpeedMultiplier: 0
   RotGyesu: 0
+  CurveTime: 0
+  IsDot: 0
 --- !u!58 &4184720528981176348
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -216,7 +225,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.08}
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.28
 --- !u!50 &1953892360650323740
 Rigidbody2D:
   serializedVersion: 4
@@ -281,7 +290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2725468006031315321}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.297, z: 0}
+  m_LocalPosition: {x: 0, y: 0.085, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 5676116343161488503}
@@ -341,7 +350,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.28
 --- !u!114 &892525670
 MonoBehaviour:
   m_ObjectHideFlags: 0
