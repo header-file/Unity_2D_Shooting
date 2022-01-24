@@ -230,41 +230,46 @@ public class Enemy : MonoBehaviour
         GameManager.Inst().TxtManager.ShowDmgText(HitPoint, Damage, (int)TextManager.DamageType.BYPLYAER, isReinforced);
 
         IsInvincible = true;
+        int rand = 0;
 
         if (CurHP <= 0)
         {
-            int rand = Random.Range(0, 5);
-
-            if(rand >= 1)
-                MakeCoin();
-            else
+            if (!GameManager.Inst().Player.GetBossMode() ||
+                (GameManager.Inst().Player.GetBossMode() && Type == EnemyType.BOSS))
             {
-                if (Type == EnemyType.BOSS)
+                rand = Random.Range(0, 5);
+
+                if (rand >= 1)
                     MakeCoin();
-            }
-            MakeResource();
-
-            //퀘스트 처리
-            GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.KILL, (int)Type, 1);
-            
-
-            if(Type == EnemyType.LARGE)
-            {
-                rand = Random.Range(0, 2);
-                GameObject item;
-
-                switch (rand)
+                else
                 {
-                    case 0:
-                        item = GameManager.Inst().ObjManager.MakeObj("Shield");
-                        item.transform.position = transform.position;
-                        item.GetComponent<Item>().StartAbsorb(1.0f);
-                        break;
-                    case 1:
-                        item = GameManager.Inst().ObjManager.MakeObj("ItemBomb");
-                        item.transform.position = transform.position;
-                        item.GetComponent<Item>().StartAbsorb(1.0f);
-                        break;
+                    if (Type == EnemyType.BOSS)
+                        MakeCoin();
+                }
+                MakeResource();
+
+                //퀘스트 처리
+                GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.KILL, (int)Type, 1);
+
+
+                if (Type == EnemyType.LARGE)
+                {
+                    rand = Random.Range(0, 2);
+                    GameObject item;
+
+                    switch (rand)
+                    {
+                        case 0:
+                            item = GameManager.Inst().ObjManager.MakeObj("Shield");
+                            item.transform.position = transform.position;
+                            item.GetComponent<Item>().StartAbsorb(1.0f);
+                            break;
+                        case 1:
+                            item = GameManager.Inst().ObjManager.MakeObj("ItemBomb");
+                            item.transform.position = transform.position;
+                            item.GetComponent<Item>().StartAbsorb(1.0f);
+                            break;
+                    }
                 }
             }
 

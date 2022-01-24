@@ -20,6 +20,9 @@ public class SideMenuSlot : MonoBehaviour
         PlanetName.text = GameManager.Inst().TxtManager.PlanetNames[stage];
         PlanetImg.sprite = GameManager.Inst().UiManager.MainUI.SideMenu.PlanetImgs[stage];
 
+        if(ResourceIcon != null)
+            ResourceIcon.sprite = GameManager.Inst().UiManager.MainUI.SideMenu.ResourceImgs[stage];
+
         if (stage == GameManager.Inst().StgManager.ReachedStage - 1)
             return;
 

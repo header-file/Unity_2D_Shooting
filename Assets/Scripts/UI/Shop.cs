@@ -5,14 +5,10 @@ using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
-    public Toggle[] Toggles;
-    public GameObject[] Pages;
     public ShopSlot[] Jewels;
-    public ShopSlot[] Resources;
-    public ShopSlot[] Packages;
+    public ShopSlot[] Coins;
     public Sprite[] JewelIcons;
-    public Sprite[] ResourceIcons;
-    public Sprite[] PackageIcons;
+    public Sprite[] CoinIcons;
     public Text AdLeftText;
     public Text TimerText;
     public Button AdButton;
@@ -35,8 +31,7 @@ public class Shop : MonoBehaviour
 
     List<Dictionary<string, object>> Data;
     string[,] JewelDatas;
-    string[,] ResourceDatas;
-    string[,] PackageDatas;
+    string[,] CoinDatas;
     int CurrentPage;
     int CurrentItem;
     bool IsFail;
@@ -45,8 +40,7 @@ public class Shop : MonoBehaviour
     void Awake()
     {
         SetJewelDatas();
-        SetResourceDatas();
-        SetPackageDatas();
+        SetCoinDatas();
 
         FailMsg.alpha = 0.0f;
         IsFail = false;
@@ -57,6 +51,8 @@ public class Shop : MonoBehaviour
     {
         CurrentPage = 0;
         CurrentItem = -1;
+
+        ShowPage();
 
         Confirm.SetActive(false);
         FullPriceLock.SetActive(false);
@@ -72,58 +68,41 @@ public class Shop : MonoBehaviour
             FailMessage();
     }
 
-    public void ShowPage(int index)
+    public void ShowPage()
     {
         if (JewelDatas == null)
             return;
 
-        switch (index)
+        for (int i = 0; i < Jewels.Length; i++)
         {
-            case 0:
-                for (int i = 0; i < Jewels.Length; i++)
-                {
-                    Jewels[i].NameText.text = JewelDatas[i, 0];
-                    Jewels[i].PriceText.text = JewelDatas[i, 2];
-                    Jewels[i].Icon.sprite = JewelIcons[i];
-                    Jewels[i].Jewel.SetActive(false);
+            Jewels[i].NameText.text = JewelDatas[i, 1];
+            Jewels[i].PriceText.text = JewelDatas[i, 2];
+            Jewels[i].Icon.sprite = JewelIcons[i];
 
-                    if (i > 4)
-                    {
-                        if (GameManager.Inst().DatManager.GameData.DailyLeft > 0)
-                            Jewels[5].Button.interactable = false;
-                        else
-                            Jewels[5].Button.interactable = true;
+            if (i > 4)
+            {
+                if (GameManager.Inst().DatManager.GameData.DailyLeft > 0)
+                    Jewels[5].Button.interactable = false;
+                else
+                    Jewels[5].Button.interactable = true;
 
-                        if (GameManager.Inst().DatManager.GameData.DailyPlusLeft > 0)
-                            Jewels[6].Button.interactable = false;
-                        else
-                            Jewels[6].Button.interactable = true;
-                    }
-                }
-                break;
-            case 1:
-                for (int i = 0; i < Resources.Length; i++)
-                {
-                    Resources[i].NameText.text = ResourceDatas[i, 0];
-                    Resources[i].PriceText.text = ResourceDatas[i, 2];
-                    Resources[i].Icon.sprite = ResourceIcons[int.Parse(ResourceDatas[i, 3])];
-                    Resources[i].Jewel.SetActive(true);
-                }
-                break;
-            case 2:
-                for (int i = 0; i < Packages.Length; i++)
-                {
-                    Packages[i].NameText.text = PackageDatas[i, 0];
-                    Packages[i].PriceText.text = PackageDatas[i, 2];
-                    Packages[i].Icon.sprite = PackageIcons[i];
-                    Packages[i].Jewel.SetActive(true);
-                }
-                break;
-            case 3:
-                if (GameManager.Inst().IsFullPrice)
-                    FullPriceLock.SetActive(true);
-                break;
+                if (GameManager.Inst().DatManager.GameData.DailyPlusLeft > 0)
+                    Jewels[6].Button.interactable = false;
+                else
+                    Jewels[6].Button.interactable = true;
+            }
         }
+
+        for (int i = 0; i < Coins.Length; i++)
+        {
+            Coins[i].NameText.text = CoinDatas[i, 0];
+            Coins[i].PriceText.text = CoinDatas[i, 2];
+            Coins[i].Icon.sprite = CoinIcons[int.Parse(CoinDatas[i, 3])];
+            Coins[i].Jewel.SetActive(true);
+        }
+
+        if (GameManager.Inst().IsFullPrice)
+            FullPriceLock.SetActive(true);
     }
 
     void SetJewelDatas()
@@ -140,38 +119,19 @@ public class Shop : MonoBehaviour
         }
     }
 
-    void SetResourceDatas()
+    void SetCoinDatas()
     {
         Data = CSVReader.Read("Datas/ShopResourceData");
-        ResourceDatas = new string[Constants.MAX_SHOP_RESOURCE, Constants.SHOP_RESOURCE_TYPES];
+        CoinDatas = new string[Constants.MAX_SHOP_RESOURCE, Constants.SHOP_RESOURCE_TYPES];
 
         for (int i = 0; i < Constants.MAX_SHOP_RESOURCE; i++)
         {
-            ResourceDatas[i, 0] = Data[i]["Name"].ToString();
-            ResourceDatas[i, 1] = Data[i]["Amount"].ToString();
-            ResourceDatas[i, 2] = Data[i]["Price"].ToString();
-            ResourceDatas[i, 3] = Data[i]["Icon"].ToString();
-            ResourceDatas[i, 4] = Data[i]["Type"].ToString();
-            ResourceDatas[i, 5] = Data[i]["Detail"].ToString();
-        }
-    }
-
-    void SetPackageDatas()
-    {
-        Data = CSVReader.Read("Datas/ShopPackageData");
-        PackageDatas = new string[Constants.MAX_SHOP_PACKAGE, Constants.SHOP_PACKAGE_TYPES];
-
-        for (int i = 0; i < Constants.MAX_SHOP_PACKAGE; i++)
-        {
-            PackageDatas[i, 0] = Data[i]["Name"].ToString();
-            PackageDatas[i, 1] = Data[i]["Amount"].ToString();
-            PackageDatas[i, 2] = Data[i]["Price"].ToString();
-            PackageDatas[i, 3] = Data[i]["Detail"].ToString();
-            PackageDatas[i, 4] = Data[i]["Coin"].ToString();
-            PackageDatas[i, 5] = Data[i]["A"].ToString();
-            PackageDatas[i, 6] = Data[i]["B"].ToString();
-            PackageDatas[i, 7] = Data[i]["C"].ToString();
-            PackageDatas[i, 8] = Data[i]["D"].ToString();
+            CoinDatas[i, 0] = Data[i]["Name"].ToString();
+            CoinDatas[i, 1] = Data[i]["Amount"].ToString();
+            CoinDatas[i, 2] = Data[i]["Price"].ToString();
+            CoinDatas[i, 3] = Data[i]["Icon"].ToString();
+            CoinDatas[i, 4] = Data[i]["Type"].ToString();
+            CoinDatas[i, 5] = Data[i]["Detail"].ToString();
         }
     }
 
@@ -226,11 +186,11 @@ public class Shop : MonoBehaviour
         }
     }
 
-    void BuyResource()
+    void BuyCoin()
     {
-        int price = int.Parse(ResourceDatas[CurrentItem, 1]);
-        int amount = int.Parse(ResourceDatas[CurrentItem, 0]);
-        int type = int.Parse(ResourceDatas[CurrentItem, 3]);
+        int price = int.Parse(CoinDatas[CurrentItem, 1]);
+        int amount = int.Parse(CoinDatas[CurrentItem, 0]);
+        int type = int.Parse(CoinDatas[CurrentItem, 3]);
 
         if (GameManager.Inst().Jewel < price)
             return;
@@ -250,20 +210,7 @@ public class Shop : MonoBehaviour
                 break;
         }
     }
-
-    void BuyPackage()
-    {
-        int price = int.Parse(PackageDatas[CurrentItem, 1]);
-
-        if (GameManager.Inst().Jewel < price)
-            return;
-
-        GameManager.Inst().AddJewel(-price);
-
-        GameManager.Inst().Player.AddCoin(int.Parse(PackageDatas[CurrentItem, 4]));
-        for (int i = 0; i < Constants.MAXSTAGES; i++)
-            GameManager.Inst().AddResource(i, int.Parse(PackageDatas[CurrentItem, i + 5]));
-    }
+    
 
     void ShowConfirm()
     {
@@ -278,20 +225,12 @@ public class Shop : MonoBehaviour
                 DetailText.text = JewelDatas[CurrentItem, 3];
                 break;
             case 1:
-                Icon.sprite = ResourceIcons[CurrentItem];
-                NameText.text = ResourceDatas[CurrentItem, 0];
+                Icon.sprite = CoinIcons[CurrentItem];
+                NameText.text = CoinDatas[CurrentItem, 0];
                 Money.SetActive(false);
                 Jewel.SetActive(true);
-                PriceText.text = ResourceDatas[CurrentItem, 2];
-                DetailText.text = ResourceDatas[CurrentItem, 5];
-                break;
-            case 2:
-                Icon.sprite = PackageIcons[CurrentItem];
-                NameText.text = PackageDatas[CurrentItem, 0];
-                Money.SetActive(false);
-                Jewel.SetActive(true);
-                PriceText.text = PackageDatas[CurrentItem, 2];
-                DetailText.text = PackageDatas[CurrentItem, 3];
+                PriceText.text = CoinDatas[CurrentItem, 2];
+                DetailText.text = CoinDatas[CurrentItem, 5];
                 break;
         }
     }
@@ -350,15 +289,6 @@ public class Shop : MonoBehaviour
         GameManager.Inst().DatManager.UploadSaveData();
     }
 
-    public void OnSelectToggle(int index)
-    {
-        Pages[index].SetActive(Toggles[index].isOn);
-        CurrentPage = index;
-        
-        if (Toggles[index].isOn)
-            ShowPage(index);
-    }
-
     public void OnClickItem(int index)
     {
         CurrentItem = index;
@@ -369,15 +299,7 @@ public class Shop : MonoBehaviour
 
     public void OnClickBuyBtn()
     {
-        switch(CurrentPage)
-        {
-            case 1:
-                BuyResource();
-                break;
-            case 2:
-                BuyPackage();
-                break;
-        }
+        BuyCoin();
 
         Confirm.SetActive(false);
 

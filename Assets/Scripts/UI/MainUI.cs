@@ -128,7 +128,7 @@ public class MainUI : MonoBehaviour
         GameManager.Inst().IptManager.SetIsAbleSWControl(true);
 
         ZzinBottom.OnClickShopBtn();
-        Center.Shop.Toggles[3].isOn = true;
+        //Center.Shop.Toggles[3].isOn = true;
     }
 
     public void OnClickBuffBtn(int index)

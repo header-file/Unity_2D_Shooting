@@ -65,11 +65,11 @@ public class SearchArea : MonoBehaviour
                 if (MS != null)
                 {
                     if(MS.Target == null || MS.Target.activeSelf == false)
-                    MS.Target = collision.gameObject;
+                        MS.Target = collision.gameObject;
                 }                   
                 else if(CH != null)
                 {
-                    if (CH.Target == null || CH.Target.activeSelf == false)
+                    //if (CH.Target == null || CH.Target.activeSelf == false)
                         CH.Target = collision.gameObject;
                 }
             }

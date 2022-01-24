@@ -13,6 +13,7 @@ public class SideMenu : MonoBehaviour
     public Transform ContentTransform;
     public GameObject BtnArrow;
     public Sprite[] PlanetImgs;
+    public Sprite[] ResourceImgs;
 
     public bool IsOpen = false;
 
