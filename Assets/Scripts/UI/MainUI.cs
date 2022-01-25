@@ -48,6 +48,7 @@ public class MainUI : MonoBehaviour
     public Tutorial Tutorial;
 
     //Popup
+    public GameObject PopUpPref;
     public PopupReward PopupReward;
     public PopupStageopen PopupStageopen;
 
@@ -65,6 +66,10 @@ public class MainUI : MonoBehaviour
         GameManager.Inst().Player.EquipUI = PlayerEquipUI;
         GameManager.Inst().Player.EquipBar = PlayerEquipBar;
         GameManager.Inst().Player.EquipIcon = PlayerEquipIcon;
+
+        PopupReward = Instantiate(PopUpPref).GetComponent<PopupReward>();
+        PopupReward.transform.SetParent(transform);
+        PopupReward.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
 
     void Start()
