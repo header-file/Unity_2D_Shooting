@@ -102,6 +102,14 @@ public class SideMenu : MonoBehaviour
         }
     }
 
+    public void RemakeSlot()
+    {
+        for (int i = 0; i < Slots.Length; i++)
+            Slots[i].gameObject.SetActive(false);
+
+        MakeSlot();
+    }
+
     public void OnClickSideBarBtn()
     {
         if (IsOpen)

@@ -188,27 +188,18 @@ public class Shop : MonoBehaviour
 
     void BuyCoin()
     {
-        int price = int.Parse(CoinDatas[CurrentItem, 1]);
-        int amount = int.Parse(CoinDatas[CurrentItem, 0]);
-        int type = int.Parse(CoinDatas[CurrentItem, 3]);
+        int price = int.Parse(CoinDatas[CurrentItem, 2]);
+        int amount = int.Parse(CoinDatas[CurrentItem, 1]);
+        int type = int.Parse(CoinDatas[CurrentItem, 4]);
 
         if (GameManager.Inst().Jewel < price)
             return;
 
         GameManager.Inst().AddJewel(-price);
+        GameManager.Inst().Player.AddCoin(amount);
 
-        switch (type)
-        {
-            case 0:
-                GameManager.Inst().Player.AddCoin(amount);
-                break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-                GameManager.Inst().AddResource(type, amount);
-                break;
-        }
+        GameManager.Inst().UiManager.MainUI.PopupReward.gameObject.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.COIN, amount);
     }
     
 
@@ -291,6 +282,7 @@ public class Shop : MonoBehaviour
 
     public void OnClickItem(int index)
     {
+        CurrentPage = 1;
         CurrentItem = index;
 
         Confirm.SetActive(true);
@@ -315,13 +307,24 @@ public class Shop : MonoBehaviour
     public void OnClickBuyJewel(int index)
     {
         Confirm.SetActive(false);
-        Result.SetActive(true);
-        SetResultData(index);
+        //Result.SetActive(true);
+        //SetResultData(index);
+
+        int amount = int.Parse(JewelDatas[index, 1]);
 
         if (index > 4)
+        {
+            //Daily 보상팝업
+
             BuyDailyJewel(index - 5);
+        }
         else
-            GameManager.Inst().AddJewel(int.Parse(JewelDatas[index, 1]));
+        {
+            GameManager.Inst().UiManager.MainUI.PopupReward.gameObject.SetActive(true);
+            GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL, amount);
+
+            GameManager.Inst().AddJewel(amount);
+        }
 
         //자동 저장 및 데이터 업로드
         GameManager.Inst().DatManager.AutoSave();

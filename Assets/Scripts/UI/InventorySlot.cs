@@ -149,7 +149,6 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
 
     public void OnClick()
     {
-        //Debug.Log(Index);
         switch(Type)
         {
             case 0:
@@ -160,6 +159,8 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
                 break;
             case 2:
                 GameManager.Inst().UiManager.MainUI.Center.Synthesis.OnClickSynthesisSelectBtn(Index);
+                break;
+            default:
                 break;
         }
 

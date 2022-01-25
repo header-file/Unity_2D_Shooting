@@ -174,12 +174,25 @@ public class QuestManager : MonoBehaviour
         }
 
         //Check All Clear
-        if(FinQuests >= CurStageQuests)
-        {
-            int nextStage = GameManager.Inst().StgManager.Stage + 1;
+        if (FinQuests >= CurStageQuests &&
+            GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.Stage - 1].Clear != null)
+            GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.Stage - 1].Clear.SetActive(true);
+    }
 
-            OpenNextStage(nextStage);
-        }
+    public void Clear()
+    {
+        //클리어팝업
+        GameManager.Inst().UiManager.MainUI.PopupStageopen.gameObject.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.PopupStageopen.Show(GameManager.Inst().StgManager.Stage);
+
+        GameManager.Inst().UiManager.MainUI.SideMenu.OnClickSideBarBackBtn();
+
+        //사이드메뉴 재생성
+        GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.Stage - 1].Clear.SetActive(false);
+        GameManager.Inst().UiManager.MainUI.SideMenu.RemakeSlot();
+
+        int nextStage = GameManager.Inst().StgManager.Stage + 1;
+        OpenNextStage(nextStage);
     }
 
     public void OpenNextStage(int stage)

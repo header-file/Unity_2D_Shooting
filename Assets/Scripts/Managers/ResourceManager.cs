@@ -145,6 +145,10 @@ public class ResourceManager : MonoBehaviour
 
     public void GetTempResources(int stage)
     {
+        GameManager.Inst().UiManager.MainUI.PopupReward.gameObject.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.COIN, TempResources[stage, 0]);
+        GameManager.Inst().UiManager.MainUI.PopupReward.Show(stage + 3, TempResources[stage, 1]);
+
         GameManager.Inst().AddResource(stage + 1, TempResources[stage, 1]);
         GameManager.Inst().Player.AddCoin(TempResources[stage, 0]);
 

@@ -47,6 +47,10 @@ public class MainUI : MonoBehaviour
     //Tutorial용
     public Tutorial Tutorial;
 
+    //Popup
+    public PopupReward PopupReward;
+    public PopupStageopen PopupStageopen;
+
     void Awake()
     {
         for (int i = 0; i < 5; i++)

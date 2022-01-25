@@ -13,10 +13,10 @@ public class SideMenuSlot : MonoBehaviour
     public Image ResourceIcon;
     public Text[] Resources;
     public int Index;
+    public GameObject Clear;
 
     public void Show(int stage)
     {
-
         PlanetName.text = GameManager.Inst().TxtManager.PlanetNames[stage];
         PlanetImg.sprite = GameManager.Inst().UiManager.MainUI.SideMenu.PlanetImgs[stage];
 
@@ -38,5 +38,10 @@ public class SideMenuSlot : MonoBehaviour
     public void OnClickGetBtn()
     {
         GameManager.Inst().ResManager.GetTempResources(Index);
+    }
+
+    public void OnClickClearBtn()
+    {
+        GameManager.Inst().QstManager.Clear();
     }
 }
