@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ef_cross
-  m_Shader: {fileID: -6465566751694194690, guid: 42495b76e47560c4092ca712873f73eb,
-    type: 3}
+  m_Shader: {fileID: 4800000, guid: ecfa8f5732b504ef98fba10aa18d0326, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -56,6 +55,7 @@ Material:
     - _CameraFadingEnabled: 0
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
+    - _ColorMask: 15
     - _ColorMode: 0
     - _Cull: 2
     - _Cutoff: 0.5
@@ -73,11 +73,17 @@ Material:
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0
     - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
     - _ZWrite: 1
     m_Colors:
     - Color_6C2731AF: {r: 1.4509804, g: 1.4980392, b: 0.84705883, a: 0}
     - Color_F2720158: {r: 1, g: 1, b: 1, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
+    - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
