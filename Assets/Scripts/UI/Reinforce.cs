@@ -6,15 +6,13 @@ using UnityEngine.UI;
 public class Reinforce : MonoBehaviour
 {
     public GameObject InfoWindow;
-    //public Image Line;
-    public Color[] LineColor;
-    public Image Icon;
-    public Text StatName;
-    public Text StatCount;
-    public Text LeftCount;
+    public Text[] StatName;
+    public Text[] StatCount;
+    public Text[] MaxCount;
+    public Text[] LeftCount;
     public Button FeedBtn;
-    public Button PlusBtn;
-    public Button MinBtn;
+    public Button[] PlusBtn;
+    public Button[] MinBtn;
 
     string[] statNames;
     int CurType;
@@ -37,60 +35,63 @@ public class Reinforce : MonoBehaviour
         if (IsPressing)
         {
             if (IsPlus)
-                GameManager.Inst().UiManager.MainUI.Center.Weapon.AddQuantity();
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.AddQuantity(CurType);
             else
                 GameManager.Inst().UiManager.MainUI.Center.Weapon.SubTQuantity();
         }
     }
 
-    public void WindowOn(int type)
+    public void WindowOn()
     {
         InfoWindow.SetActive(true);
+        FeedBtn.interactable = false;
 
-        CurType = type;
-        Player.EqData eq = GameManager.Inst().Player.GetReinforce(type);
-        Icon.sprite = GameManager.Inst().UiManager.FoodImages[type];
-        StatName.text = statNames[type];
-        StatName.color = LineColor[type];
-        StatCount.text = "+0";
-        LeftCount.text = "0";
-
-        if (eq != null)
+        for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
         {
-            GameManager.Inst().UiManager.MainUI.Center.Weapon.SetCurEquip(eq);
+            Player.EqData eq = GameManager.Inst().Player.GetReinforce(i);
 
-            PlusBtn.interactable = true;
-            MinBtn.interactable = false;
-            FeedBtn.interactable = true;
+            StatName[i].text = statNames[i];
+            StatCount[i].text = "+0";
+            LeftCount[i].text = "0";
+            MaxCount[i].text = eq.Quantity.ToString();
 
-            switch (eq.Type)
+
+            if (eq != null)
             {
-                case 0:
-                    if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxAtk())
-                        FeedBtn.interactable = false;
-                    break;
-                case 1:
-                    if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxHp())
-                        FeedBtn.interactable = false;
-                    break;
-                case 2:
-                    if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxSpd())
-                        FeedBtn.interactable = false;
-                    break;
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.SetCurEquip(eq);
+
+                PlusBtn[i].interactable = true;
+                MinBtn[i].interactable = false;
+                FeedBtn.interactable = true;
+
+                switch (eq.Type)
+                {
+                    case 0:
+                        if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxAtk())
+                            FeedBtn.interactable = false;
+                        break;
+                    case 1:
+                        if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxHp())
+                            FeedBtn.interactable = false;
+                        break;
+                    case 2:
+                        if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxSpd())
+                            FeedBtn.interactable = false;
+                        break;
+                }
             }
-        }
-        else
-        {
-            PlusBtn.interactable = false;
-            MinBtn.interactable = false;
-            FeedBtn.interactable = false;
+            else
+            {
+                PlusBtn[i].interactable = false;
+                MinBtn[i].interactable = false;
+            }
         }
     }
 
     public void SetInfo(int value, int now)
     {
-        StatCount.text = "+" + value.ToString();
-        LeftCount.text = now.ToString();
+        StatCount[CurType].text = "+" + value.ToString();
+        LeftCount[CurType].text = now.ToString();
 
         if (now >= 1)
             FeedBtn.interactable = true;
@@ -98,14 +99,14 @@ public class Reinforce : MonoBehaviour
             FeedBtn.interactable = false;
 
         if (now >= GameManager.Inst().Player.GetReinforce(CurType).Quantity)
-            PlusBtn.interactable = false;
+            PlusBtn[CurType].interactable = false;
         else
-            PlusBtn.interactable = true;
+            PlusBtn[CurType].interactable = true;
 
         if (now <= 0)
-            MinBtn.interactable = false;
+            MinBtn[CurType].interactable = false;
         else
-            MinBtn.interactable = true;
+            MinBtn[CurType].interactable = true;
     }
 
     public void OnClickInfoBackBtn()
@@ -113,50 +114,19 @@ public class Reinforce : MonoBehaviour
         InfoWindow.SetActive(false);
 
         GameManager.Inst().UiManager.MainUI.Center.Weapon.ResetData();
-
-        //for (int i = 0; i < 3; i++)
-        //{
-        //    AddGauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2(0, 30);
-
-        //    switch (i)
-        //    {
-        //        case 0:
-        //            Gauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2((float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxAtk() * 160, 30);
-        //            GaugeTexts[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk().ToString();
-        //            break;
-        //        case 1:
-        //            Gauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2((float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxHp() * 160, 30);
-        //            GaugeTexts[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp().ToString();
-        //            break;
-        //        case 2:
-        //            Gauges[i].GetComponent<RectTransform>().sizeDelta = new Vector2((float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxSpd() * 160, 30);
-        //            GaugeTexts[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd().ToString();
-        //            break;
-        //    }
-        //}
     }
 
     public void OnClickFeedBtn()
     {
         Player.EqData eq = GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurEquip();
-        //AddGauges[eq.Type].GetComponent<RectTransform>().sizeDelta = new Vector2(0, 30);
         GameManager.Inst().UiManager.MainUI.Center.Weapon.SetStatChange();
 
-        StatCount.text = "+ 0";
-        LeftCount.text = "0";
-
-        //switch (eq.Type)
-        //{
-        //    case 0:
-        //        GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk().ToString();
-        //        break;
-        //    case 1:
-        //        GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp().ToString();
-        //        break;
-        //    case 2:
-        //        GaugeTexts[eq.Type].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd().ToString();
-        //        break;
-        //}
+        for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
+        {
+            StatCount[i].text = "+ 0";
+            LeftCount[i].text = "0";
+            MaxCount[i].text = GameManager.Inst().Player.GetReinforce(i).Quantity.ToString();
+        }
     }
 
     public void OnClickInfoBack()
@@ -164,10 +134,11 @@ public class Reinforce : MonoBehaviour
         InfoWindow.SetActive(false);
     }
 
-    public void StartPress(bool isPlus)
+    public void StartPress(int index)
     {
         IsPressing = true;
-        IsPlus = isPlus;
+        IsPlus = index % 2 == 0 ? false : true;
+        CurType = index / 2;
     }
 
     public void EndPress()

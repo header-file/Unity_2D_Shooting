@@ -58,7 +58,7 @@ public class QuestManager : MonoBehaviour
 
         int id = 0;
 
-        for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+        for(int i = 0; i < (Constants.MAXSTAGES + 1) * Constants.MAXQUESTS; i++)
         {
             int qid = int.Parse(data[i]["ID"].ToString());
             string desc = data[i]["Desc"].ToString();
@@ -76,7 +76,7 @@ public class QuestManager : MonoBehaviour
             GameManager.Inst().DatManager.GameData.Quests.Length == 0)
             return;
 
-        for(int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+        for(int i = 0; i < (Constants.MAXSTAGES + 1) * Constants.MAXQUESTS; i++)
         {
             if(Quests[i].QuestId == GameManager.Inst().DatManager.GameData.Quests[Constants.QSTDATASIZE * i + 0])
                 Quests[i].CurrentCount = GameManager.Inst().DatManager.GameData.Quests[Constants.QSTDATASIZE * i + 1];
@@ -175,23 +175,33 @@ public class QuestManager : MonoBehaviour
 
         //Check All Clear
         if (FinQuests >= CurStageQuests &&
-            GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.Stage - 1].Clear != null)
-            GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.Stage - 1].Clear.SetActive(true);
+            GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.ReachedStage - 1].Clear != null)
+        {
+            GameManager.Inst().UiManager.MainUI.SideMenu.Eff_Notice.SetActive(true);
+            GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.ReachedStage - 1].Clear.SetActive(true);
+        }
     }
 
     public void Clear()
     {
+        if(GameManager.Inst().StgManager.ReachedStage == Constants.MAXSTAGES)
+        {
+            //엔딩
+            return;
+        }
+
         //클리어팝업
         GameManager.Inst().UiManager.MainUI.PopupStageopen.gameObject.SetActive(true);
-        GameManager.Inst().UiManager.MainUI.PopupStageopen.Show(GameManager.Inst().StgManager.Stage);
+        GameManager.Inst().UiManager.MainUI.PopupStageopen.Show(GameManager.Inst().StgManager.ReachedStage);
 
+        GameManager.Inst().UiManager.MainUI.SideMenu.Eff_Notice.SetActive(false);
         GameManager.Inst().UiManager.MainUI.SideMenu.OnClickSideBarBackBtn();
 
         //사이드메뉴 재생성
-        GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.Stage - 1].Clear.SetActive(false);
+        GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.ReachedStage - 1].Clear.SetActive(false);
         GameManager.Inst().UiManager.MainUI.SideMenu.RemakeSlot();
 
-        int nextStage = GameManager.Inst().StgManager.Stage + 1;
+        int nextStage = GameManager.Inst().StgManager.ReachedStage + 1;
         OpenNextStage(nextStage);
     }
 

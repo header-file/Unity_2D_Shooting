@@ -554,9 +554,9 @@ public class Weapon : MonoBehaviour
         EquipDetail[1].text = detail;
     }
 
-    public void AddQuantity()
+    public void AddQuantity(int type)
     {
-        if (IsDelay || CurEquip == null)
+        if (IsDelay)
             return;
 
         IsDelay = true;
@@ -565,38 +565,40 @@ public class Weapon : MonoBehaviour
         if (!IsFlickering)
             IsFlickering = true;
 
-        if(CurEquip.Quantity > TempCount[CurEquip.Type] / (int)CurEquip.Value)
+        CurEquip = GameManager.Inst().Player.GetReinforce(type);
+
+        if(CurEquip.Quantity > TempCount[type] / (int)CurEquip.Value)
         {
-            switch(CurEquip.Type)
+            switch(type)
             {
                 case 0:
-                    if (TempCount[CurEquip.Type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
+                    if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
                     {
-                        TempCount[CurEquip.Type] += (int)CurEquip.Value;
-                        if (TempCount[CurEquip.Type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
-                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                        TempCount[type] += (int)CurEquip.Value;
+                        if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
+                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), TempCount[type] / (int)CurEquip.Value);
                         else
-                            Reinforce.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                            Reinforce.SetInfo(TempCount[type], TempCount[type] / (int)CurEquip.Value);
                     }
                     break;
                 case 1:
-                    if (TempCount[CurEquip.Type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
+                    if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
                     {
-                        TempCount[CurEquip.Type] += (int)CurEquip.Value;
-                        if (TempCount[CurEquip.Type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
-                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                        TempCount[type] += (int)CurEquip.Value;
+                        if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
+                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), TempCount[type] / (int)CurEquip.Value);
                         else
-                            Reinforce.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                            Reinforce.SetInfo(TempCount[type], TempCount[type] / (int)CurEquip.Value);
                     }
                     break;
                 case 2:
-                    if (TempCount[CurEquip.Type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
+                    if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
                     {
-                        TempCount[CurEquip.Type] += (int)CurEquip.Value;
-                        if (TempCount[CurEquip.Type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
-                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                        TempCount[type] += (int)CurEquip.Value;
+                        if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
+                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), TempCount[type] / (int)CurEquip.Value);
                         else
-                            Reinforce.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
+                            Reinforce.SetInfo(TempCount[type], TempCount[type] / (int)CurEquip.Value);
                     }
                     break;
             }
@@ -620,26 +622,31 @@ public class Weapon : MonoBehaviour
 
     public void SetStatChange()
     {
-        switch(CurEquip.Type)
+        for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
         {
-            case 0:
-                GameManager.Inst().UpgManager.BData[CurBulletType].SetAtk(GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() + TempCount[CurEquip.Type]);
-                break;
-            case 1:
-                GameManager.Inst().UpgManager.BData[CurBulletType].SetHp(GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() + TempCount[CurEquip.Type]);
-                break;
-            case 2:
-                GameManager.Inst().UpgManager.BData[CurBulletType].SetSpd(GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() + TempCount[CurEquip.Type]);
-                break;
-        }
+            if (TempCount[i] <= 0)
+                continue;
 
-        CurEquip.Quantity -= (TempCount[CurEquip.Type] / (int)CurEquip.Value);
-        TempCount[CurEquip.Type] = 0;
+            switch (i)
+            {
+                case 0:
+                    GameManager.Inst().UpgManager.BData[CurBulletType].SetAtk(GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() + TempCount[i]);
+                    break;
+                case 1:
+                    GameManager.Inst().UpgManager.BData[CurBulletType].SetHp(GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() + TempCount[i]);
+                    break;
+                case 2:
+                    GameManager.Inst().UpgManager.BData[CurBulletType].SetSpd(GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() + TempCount[i]);
+                    break;
+            }
+
+            CurEquip = GameManager.Inst().Player.GetReinforce(i);
+            CurEquip.Quantity -= (TempCount[i] / (int)CurEquip.Value);
+            TempCount[i] = 0;
+        }
         IsFlickering = false;
 
         ShowInfoArea(CurBulletType);
-        //EquipArea.PaintGauge(CurEquip.Type, CurBulletType, TempCount[CurEquip.Type]);
-        //ShowInventory();
     }
 
     void ResetDelay()

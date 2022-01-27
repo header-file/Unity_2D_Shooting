@@ -14,6 +14,7 @@ public class SideMenu : MonoBehaviour
     public GameObject BtnArrow;
     public Sprite[] PlanetImgs;
     public Sprite[] ResourceImgs;
+    public GameObject Eff_Notice;
 
     public bool IsOpen = false;
 
@@ -25,6 +26,7 @@ public class SideMenu : MonoBehaviour
     void Start()
     {
         BackBtn.SetActive(false);
+        Eff_Notice.SetActive(false);
 
         Slots = new SideMenuSlot[Constants.MAXSTAGES];
         MakeSlot();
@@ -91,8 +93,11 @@ public class SideMenu : MonoBehaviour
             }
 
             if (i == GameManager.Inst().StgManager.ReachedStage - 1)
+            {
                 Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideNow").GetComponent<SideMenuSlot>();
-            else if(i > GameManager.Inst().StgManager.ReachedStage - 1)
+                Slots[i].Clear.SetActive(false);
+            }
+            else if (i > GameManager.Inst().StgManager.ReachedStage - 1)
                 Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideNotYet").GetComponent<SideMenuSlot>();
             else
                 Slots[i] = GameManager.Inst().ObjManager.MakeObj("SideCleared").GetComponent<SideMenuSlot>();
