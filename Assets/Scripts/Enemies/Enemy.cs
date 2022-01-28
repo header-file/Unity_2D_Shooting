@@ -524,7 +524,7 @@ public class Enemy : MonoBehaviour
         {
             if(GameManager.Inst().StgManager.Stage == 2)
             {
-                if (IsReflected)
+                if (Type == EnemyType.BOSS || IsReflected)
                     return;
 
                 float rotZ = transform.rotation.eulerAngles.z;

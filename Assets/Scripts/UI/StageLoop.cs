@@ -14,7 +14,11 @@ public class StageLoop : MonoBehaviour
     public Text LandingText;
     public CanvasGroup[] Tags;
     public GameObject[] Heres;
+    public Image BG;
+    public float MoveSpeed;
 
+    Material Mat_BG;
+    Vector2 Offset;
     float[] Distances;
     float[] DistReposition;
     bool IsDragging = false;
@@ -33,6 +37,8 @@ public class StageLoop : MonoBehaviour
 
         for (int i = 0; i < Constants.MAXSTAGES; i++)
             Heres[i].SetActive(false);
+
+        Mat_BG = BG.material;
 
         gameObject.SetActive(false);
     }
@@ -132,6 +138,10 @@ public class StageLoop : MonoBehaviour
             alpha = 1.0f - dist;
             Tags[index].alpha = alpha;
         }
+
+        //배경
+        Offset = (Planets[0].PlanetImage.transform.position * MoveSpeed);
+        Mat_BG.SetTextureOffset("_MainTex", Offset);
     }
 
     public void EndDrag()
