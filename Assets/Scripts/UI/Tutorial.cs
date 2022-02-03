@@ -42,7 +42,7 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
-        //SetWindow();
+        SetWindow();
     }
 
     void SetEmpSize()
@@ -58,17 +58,17 @@ public class Tutorial : MonoBehaviour
     {
         SetEmpSize();
 
-        Blurs[0].sizeDelta = new Vector2(Width, Height / 2.0f - (Emp.anchoredPosition.y + (Emp.sizeDelta.y / 2.0f)));
-        Blurs[0].anchoredPosition = new Vector2(0.0f, -Blurs[0].sizeDelta.y / 2.0f);
+        Blurs[0].sizeDelta = new Vector2(Width, Height / 2.0f - (Emp.anchoredPosition.y + Emp.sizeDelta.y / 2.0f));
+        Blurs[0].anchoredPosition = Vector2.zero;
 
-        Blurs[1].sizeDelta = new Vector2(Width, Height / 2.0f + (Emp.anchoredPosition.y - (Emp.sizeDelta.y / 2.0f)));
-        Blurs[1].anchoredPosition = new Vector2(0.0f, Blurs[1].sizeDelta.y / 2.0f);
+        Blurs[1].sizeDelta = new Vector2(Width, Height / 2.0f + (Emp.anchoredPosition.y - Emp.sizeDelta.y / 2.0f));
+        Blurs[1].anchoredPosition = Vector2.zero;
 
-        Blurs[2].sizeDelta = new Vector2(Width / 2.0f + (Emp.anchoredPosition.x - (Emp.sizeDelta.x / 2.0f)), Emp.sizeDelta.y);
-        Blurs[2].anchoredPosition = new Vector2(Blurs[2].sizeDelta.x / 2.0f, Emp.anchoredPosition.y);
+        Blurs[2].sizeDelta = new Vector2(Width / 2.0f + (Emp.anchoredPosition.x - Emp.sizeDelta.x / 2.0f), Emp.sizeDelta.y);
+        Blurs[2].anchoredPosition = new Vector2(0.0f, Pos.y);
 
-        Blurs[3].sizeDelta = new Vector2(Width / 2.0f - (Emp.anchoredPosition.x + (Emp.sizeDelta.x / 2.0f)), Emp.sizeDelta.y);
-        Blurs[3].anchoredPosition = new Vector2(-Blurs[3].sizeDelta.x / 2.0f, Emp.anchoredPosition.y);
+        Blurs[3].sizeDelta = new Vector2(Width / 2.0f - (Emp.anchoredPosition.x + Emp.sizeDelta.x / 2.0f), Emp.sizeDelta.y);
+        Blurs[3].anchoredPosition = new Vector2(0.0f, Pos.y);
     }
 
     public void OnClickSkip()
