@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if (!IsAbleControl && EventSystem.current.IsPointerOverGameObject(PointerID))
+        if (!IsAbleControl || EventSystem.current.IsPointerOverGameObject(PointerID))
             return;
 
         MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

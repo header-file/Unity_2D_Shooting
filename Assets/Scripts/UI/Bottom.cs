@@ -133,6 +133,8 @@ public class Bottom : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 5 || GameManager.Inst().Tutorials.Step == 41))
             GameManager.Inst().Tutorials.Step++;
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 11)
+            OnClickManageCancel();
     }
 
     public void OnClickManageCancel()

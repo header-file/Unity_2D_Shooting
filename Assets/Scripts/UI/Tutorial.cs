@@ -10,6 +10,7 @@ public class Tutorial : MonoBehaviour
     public RectTransform TextBg;
     public Text TutorialText;
     public GameObject SkipWindow;
+    public Image EmpImg;
 
     public Vector2 Size;
     public Vector2 Pos;

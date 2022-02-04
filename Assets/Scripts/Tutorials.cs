@@ -116,7 +116,6 @@ public class Tutorials : MonoBehaviour
                 break;
             case 11:
                 GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
-                ZzinBottomBlock.SetActive(true);
                 break;
             case 12:
             case 13:
@@ -124,10 +123,11 @@ public class Tutorials : MonoBehaviour
             case 15:
             case 16:
             case 17:
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
                 Invoke("AddStep", 2.0f);
                 break;
             case 18:
-                ZzinBottomBlock.SetActive(false);
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
             case 25:
                 GameManager.Inst().MakeEquipData(0, 0);

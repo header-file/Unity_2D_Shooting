@@ -125,6 +125,7 @@ public class Enemy : MonoBehaviour
     {
         switch(GameManager.Inst().StgManager.Stage)
         {
+            case 0:
             case 1:
                 Rig.velocity = -transform.up * Speed * SpeedMultiplier;
                 break;
