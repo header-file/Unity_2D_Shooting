@@ -281,12 +281,6 @@ public class Weapon : MonoBehaviour
         InfoArea.UpgradeBtn.interactable = GameManager.Inst().UpgManager.BData[CurBulletType].GetActive();
         InfoArea.EquipAreaBtn.interactable = GameManager.Inst().UpgManager.BData[CurBulletType].GetActive();
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
-        {
-            InfoArea.UpgradeBtn.interactable = true;
-            InfoArea.EquipAreaBtn.interactable = true;
-        }
-
         for (int i = 0; i < 3; i++)
             InfoArea.PaintGauge(i, CurBulletType);
 
@@ -756,7 +750,7 @@ public class Weapon : MonoBehaviour
     {
         ShowEquipArea();
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 37)
             GameManager.Inst().Tutorials.Step++;
     }
 

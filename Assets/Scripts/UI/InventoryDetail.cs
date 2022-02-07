@@ -116,7 +116,7 @@ public class InventoryDetail : MonoBehaviour
             SellConfirm.DownBtn.interactable = false;
         }
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 5 || GameManager.Inst().Tutorials.Step == 41))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 46)
             GameManager.Inst().Tutorials.Step++;
     }
 

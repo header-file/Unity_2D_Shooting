@@ -97,8 +97,8 @@ public class Tutorials : MonoBehaviour
             case 24:
             case 28:
             case 33:
-            case 37:
-            case 42:
+            case 40:
+            case 43:
             case 50:
             case 55:
             case 60:
@@ -135,29 +135,33 @@ public class Tutorials : MonoBehaviour
                 Invoke("AddStep", 5.0f);
                 break;
             case 29:
-                WeaponInventoryBlock.SetActive(true);
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
                 Invoke("AddStep", 5.0f);
                 break;
             case 30:
-                WeaponInventoryBlock.SetActive(false);
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
             case 32:
                 GameManager.Inst().Player.AddCoin(20);
                 break;
             case 35:
-                WeaponInventoryBlock.SetActive(true);
-                Invoke("AddStep", 3.0f);
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
+                Invoke("AddStep", 5.0f);
                 break;
             case 36:
-                WeaponInventoryBlock.SetActive(false);
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
+                break;
+            case 38:
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
+                Invoke("AddStep", 5.0f);
                 break;
             case 39:
-                Invoke("ExitWeaponInfo", 5.0f);
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
-            case 43:
+            case 44:
                 GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
                 break;
-            case 46:
+            case 47:
                 Invoke("ExitSell", 5.0f);
                 break;
             case 64:
@@ -217,13 +221,6 @@ public class Tutorials : MonoBehaviour
     void ToggleResUI()
     {
         GameManager.Inst().UiManager.MainUI.OnClickResourceToggleBtn();
-    }
-
-    void ExitWeaponInfo()
-    {
-        //GameManager.Inst().UiManager.MainUI.Center.Weapon.EquipArea.OnClickInfoBackBtn();
-
-        AddStep();
     }
 
     void ExitSell()

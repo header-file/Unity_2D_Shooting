@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Reinforce : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public class Reinforce : MonoBehaviour
     {
         InfoWindow.SetActive(true);
         FeedBtn.interactable = false;
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.SwitchWindow.SetActive(false);
 
         for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
         {
@@ -86,6 +88,9 @@ public class Reinforce : MonoBehaviour
                 MinBtn[i].interactable = false;
             }
         }
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public void SetInfo(int value, int now)
@@ -127,10 +132,17 @@ public class Reinforce : MonoBehaviour
             LeftCount[i].text = "0";
             MaxCount[i].text = GameManager.Inst().Player.GetReinforce(i).Quantity.ToString();
         }
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 36)
+        {
+            OnClickInfoBack();
+            GameManager.Inst().Tutorials.Step++;
+        }
     }
 
     public void OnClickInfoBack()
     {
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.SwitchWindow.SetActive(true);
         InfoWindow.SetActive(false);
     }
 
