@@ -198,7 +198,7 @@ public class ZzinBottom : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Stage0" &&
             (GameManager.Inst().Tutorials.Step == 23 || GameManager.Inst().Tutorials.Step == 26 || GameManager.Inst().Tutorials.Step == 27 || GameManager.Inst().Tutorials.Step == 23 ||
             GameManager.Inst().Tutorials.Step == 41 || GameManager.Inst().Tutorials.Step == 44 || GameManager.Inst().Tutorials.Step == 48 || GameManager.Inst().Tutorials.Step == 49 ||
-            GameManager.Inst().Tutorials.Step == 61))
+            GameManager.Inst().Tutorials.Step == 58))
             GameManager.Inst().Tutorials.Step++;
     }
 }

@@ -290,7 +290,7 @@ public class Enemy : MonoBehaviour
                 GameManager.Inst().StgManager.AddBossCount();
                 gameObject.SetActive(false);
 
-                if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 1 || GameManager.Inst().Tutorials.Step == 67))
+                if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 1 || GameManager.Inst().Tutorials.Step == 64))
                 {
                     GameManager.Inst().Tutorials.Step++;
                     return;

@@ -405,7 +405,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && Tutorials.Step == 46)
+        if (SceneManager.GetActiveScene().name == "Stage0" && Tutorials.Step == 25)
         {
             Player.AddItem(eqp);
             eqp.gameObject.SetActive(false);
@@ -496,7 +496,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && Tutorials.Step == 46)
+        if (SceneManager.GetActiveScene().name == "Stage0" && Tutorials.Step == 25)
         {
             Player.AddItem(ieq);
             ieq.gameObject.SetActive(false);

@@ -484,7 +484,7 @@ public class Synthesis : MonoBehaviour
     {
         UnSetButtons(SelectedIndex[index], index);
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 51 || GameManager.Inst().Tutorials.Step == 56))
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 55)
             GameManager.Inst().Tutorials.Step++;
     }
 

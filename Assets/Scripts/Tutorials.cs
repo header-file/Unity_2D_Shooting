@@ -52,6 +52,8 @@ public class Tutorials : MonoBehaviour
     IEnumerator TutorialStart()
     {
         GameManager.Inst().UiManager.MainUI.Tutorial.gameObject.SetActive(true);
+        SetFeverGauge();
+
         int goal = Step + 1;
 
         while(true)
@@ -100,15 +102,14 @@ public class Tutorials : MonoBehaviour
             case 40:
             case 43:
             case 50:
-            case 55:
+            case 54:
+            case 57:
+            case 59:
             case 60:
-            case 61:
             case 62:
-            case 63:
             case 65:
+            case 67:
             case 68:
-            case 70:
-            case 71:
                 Invoke("AddStep", 5.0f);
                 break;
             case 9:
@@ -131,6 +132,10 @@ public class Tutorials : MonoBehaviour
                 break;
             case 25:
                 GameManager.Inst().MakeEquipData(0, 0);
+                GameManager.Inst().MakeEquipData(0, 0);
+                GameManager.Inst().MakeEquipData(0, 0);
+                GameManager.Inst().MakeEquipData(0, 0);
+                GameManager.Inst().MakeEquipData(1, 0);
                 GameManager.Inst().MakeReinforceData(0, 0);
                 Invoke("AddStep", 5.0f);
                 break;
@@ -164,34 +169,45 @@ public class Tutorials : MonoBehaviour
             case 47:
                 Invoke("ExitSell", 5.0f);
                 break;
-            case 64:
+            case 58:
+                SetFeverGauge();
+                break;
+            case 61:
                 Invoke("FeverMode", 3.0f);
                 break;
-            case 66:
-                GameManager.Inst().StgManager.SetBossCount(1, 31);
+            case 63:
+                GameManager.Inst().StgManager.SetBossCount(1, 66);
                 Invoke("AddStep", 5.0f);
                 break;
-            case 67:
+            case 64:
                 EnemyFin.SetActive(true);
                 EnemySpawn(1);
                 break;
-            case 69:
-                GameManager.Inst().StgManager.SetBossCount(1, 50);
+            case 66:
+                GameManager.Inst().StgManager.SetBossCount(1, 100);
                 Invoke("AddStep", 6.0f);
                 break;
-            case 72:
+            case 69:
                 GameManager.Inst().StgManager.BossTimer = 0.1f;
                 Invoke("AddStep", 5.0f);
                 break;
-            case 73:
+            case 70:
                 Invoke("EndTutorial", 5.0f);
                 break;
         }
     }
 
-    void AddStep()
+    public void AddStep()
     {
         Step++;
+    }
+
+    void SetFeverGauge()
+    {
+        GameManager.Inst().StgManager.SetFever(GameManager.Inst().StgManager.Stage, 0, 0.35f, 0.65f);
+        GameManager.Inst().StgManager.SetFever(GameManager.Inst().StgManager.Stage, 1, 0.0f, 0.0f);
+        GameManager.Inst().StgManager.SetFever(GameManager.Inst().StgManager.Stage, 2, 0.0f, 0.0f);
+        GameManager.Inst().StgManager.SetFeverGauge();
     }
 
     void SetAbleControl()
@@ -241,7 +257,7 @@ public class Tutorials : MonoBehaviour
 
     void FeverMode()
     {
-        GameManager.Inst().StgManager.SetBossCount(1, 21);
+        GameManager.Inst().StgManager.SetBossCount(1, 36);
         AddStep();
     }
 

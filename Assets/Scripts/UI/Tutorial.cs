@@ -77,6 +77,11 @@ public class Tutorial : MonoBehaviour
         SkipWindow.SetActive(true);
     }
 
+    public void OnClickNext()
+    {
+        GameManager.Inst().Tutorials.AddStep();
+    }
+
     public void OnClickYes()
     {
         GameManager.Inst().Tutorials.EndTutorial();

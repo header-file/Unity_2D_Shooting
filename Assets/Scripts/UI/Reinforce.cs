@@ -55,11 +55,13 @@ public class Reinforce : MonoBehaviour
             StatName[i].text = statNames[i];
             StatCount[i].text = "+0";
             LeftCount[i].text = "0";
-            MaxCount[i].text = eq.Quantity.ToString();
+            MaxCount[i].text = "0";
 
 
             if (eq != null)
             {
+                MaxCount[i].text = eq.Quantity.ToString();
+
                 GameManager.Inst().UiManager.MainUI.Center.Weapon.SetCurEquip(eq);
 
                 PlusBtn[i].interactable = true;
@@ -130,7 +132,10 @@ public class Reinforce : MonoBehaviour
         {
             StatCount[i].text = "+ 0";
             LeftCount[i].text = "0";
-            MaxCount[i].text = GameManager.Inst().Player.GetReinforce(i).Quantity.ToString();
+            MaxCount[i].text = "0";
+
+            if(GameManager.Inst().Player.GetReinforce(i) != null)
+                MaxCount[i].text = GameManager.Inst().Player.GetReinforce(i).Quantity.ToString();
         }
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 36)
