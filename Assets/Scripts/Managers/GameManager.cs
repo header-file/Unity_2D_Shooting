@@ -295,7 +295,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public Item_ZzinEquipment MakeEquipData(int type, int grade)
+    public int MakeEquipData(int type, int grade)
     {
         int rand = type;
         if (rand == -1)
@@ -405,13 +405,10 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && Tutorials.Step == 25)
-        {
-            Player.AddItem(eqp);
-            eqp.gameObject.SetActive(false);
-        }
+        int index = Player.AddItem(eqp);
+        eqp.gameObject.SetActive(false);
         
-        return eqp;
+        return index;
     }
 
     public void MakeReinforce(int type, int grade, Transform transform)
@@ -455,7 +452,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public Item_Equipment MakeReinforceData(int type, int grade)
+    public int MakeReinforceData(int type, int grade)
     {
         int rand = type;
         if (rand == -1)
@@ -496,13 +493,10 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && Tutorials.Step == 25)
-        {
-            Player.AddItem(ieq);
-            ieq.gameObject.SetActive(false);
-        }
+        int index = Player.AddItem(ieq);
+        ieq.gameObject.SetActive(false);
 
-        return ieq;
+        return index;
     }
 
     public void SetInventory()

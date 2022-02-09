@@ -331,7 +331,7 @@ public class Synthesis : MonoBehaviour
         //if(SelectedUIDs[0] / 100 == 3)
         //    add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeReinforceData(SynthType, rarity));
         //else if(SelectedUIDs[0] / 100 == 6)
-            add = GameManager.Inst().Player.AddItem(GameManager.Inst().MakeEquipData(SynthType, rarity));
+        add = GameManager.Inst().MakeEquipData(SynthType, rarity);
 
         EquipDetail.GetComponent<InventoryDetail>().ShowDetail(add);
         ConfirmWindow.SetActive(false);
