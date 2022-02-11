@@ -3,33 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Experimental.U2D.Animation;
 
 public class Reinforce : MonoBehaviour
 {
-    public GameObject InfoWindow;
-    public Text[] StatName;
-    public Text[] StatCount;
-    public Text[] MaxCount;
+    public CanvasGroup InfoGroup;
+    public Text[] CurCount;
     public Text[] LeftCount;
+    public Image[] GaugeBars;
+    public Image[] AddBars;
+    public Text[] CurValues;
+    public Text[] AddValues;
     public Button FeedBtn;
     public Button[] PlusBtn;
     public Button[] MinBtn;
-
-    string[] statNames;
+    public SpriteResolver Skin;
+    public SpriteRenderer Player;
+    public Animator PlayerAnim;
+    public GameObject Lock;
+    public Text LockText;
+    
     int CurType;
-    bool IsPressing;
+    bool IsPressing = false;
     bool IsPlus;
-
-    void Start()
-    {
-        statNames = new string[3];
-        statNames[0] = "ATK";
-        statNames[1] = "H  P";
-        statNames[2] = "SPD";
-
-        InfoWindow.SetActive(false);
-        IsPressing = false;
-    }
+    Color PlayerColor = Color.white;
 
     void Update()
     {
@@ -42,25 +39,47 @@ public class Reinforce : MonoBehaviour
         }
     }
 
+    public void SetAlpha(float alpha)
+    {
+        InfoGroup.alpha = alpha;
+        PlayerColor.a = alpha;
+        Player.color = PlayerColor;
+    }
+
     public void WindowOn()
     {
-        InfoWindow.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoArea.gameObject.SetActive(false);
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.EquipArea.gameObject.SetActive(false);
+        gameObject.SetActive(true);
+
+        Show();
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
+            GameManager.Inst().Tutorials.Step++;
+    }
+
+    public void Show()
+    {
         FeedBtn.interactable = false;
-        GameManager.Inst().UiManager.MainUI.Center.Weapon.SwitchWindow.SetActive(false);
+
+        Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()]);
+        PlayerAnim.SetInteger("Color", GameManager.Inst().ShtManager.BaseColor[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()] + 1);
 
         for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
         {
             Player.EqData eq = GameManager.Inst().Player.GetReinforce(i);
 
-            StatName[i].text = statNames[i];
-            StatCount[i].text = "+0";
             LeftCount[i].text = "0";
-            MaxCount[i].text = "0";
+            CurCount[i].text = "0";
 
+            GaugeBars[i].fillAmount = (float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxAtk();
+            AddBars[i].fillAmount = 0.0f;
+            CurValues[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk().ToString();
+            AddValues[i].text = "+0";
 
             if (eq != null)
             {
-                MaxCount[i].text = eq.Quantity.ToString();
+                LeftCount[i].text = eq.Quantity.ToString();
 
                 GameManager.Inst().UiManager.MainUI.Center.Weapon.SetCurEquip(eq);
 
@@ -90,27 +109,25 @@ public class Reinforce : MonoBehaviour
                 MinBtn[i].interactable = false;
             }
         }
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
-            GameManager.Inst().Tutorials.Step++;
     }
 
-    public void SetInfo(int value, int now)
+    public void SetInfo(int value, int max)
     {
-        StatCount[CurType].text = "+" + value.ToString();
-        LeftCount[CurType].text = now.ToString();
+        CurCount[CurType].text = value.ToString();
+        AddValues[CurType].text = "+" + value.ToString();
+        AddBars[CurType].fillAmount = (float)value / max;
 
-        if (now >= 1)
+        if (value >= 1)
             FeedBtn.interactable = true;
         else
             FeedBtn.interactable = false;
 
-        if (now >= GameManager.Inst().Player.GetReinforce(CurType).Quantity)
+        if (value >= GameManager.Inst().Player.GetReinforce(CurType).Quantity)
             PlusBtn[CurType].interactable = false;
         else
             PlusBtn[CurType].interactable = true;
 
-        if (now <= 0)
+        if (value <= 0)
             MinBtn[CurType].interactable = false;
         else
             MinBtn[CurType].interactable = true;
@@ -118,8 +135,6 @@ public class Reinforce : MonoBehaviour
 
     public void OnClickInfoBackBtn()
     {
-        InfoWindow.SetActive(false);
-
         GameManager.Inst().UiManager.MainUI.Center.Weapon.ResetData();
     }
 
@@ -130,12 +145,11 @@ public class Reinforce : MonoBehaviour
 
         for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
         {
-            StatCount[i].text = "+ 0";
             LeftCount[i].text = "0";
-            MaxCount[i].text = "0";
+            CurCount[i].text = "0";
 
             if(GameManager.Inst().Player.GetReinforce(i) != null)
-                MaxCount[i].text = GameManager.Inst().Player.GetReinforce(i).Quantity.ToString();
+                LeftCount[i].text = GameManager.Inst().Player.GetReinforce(i).Quantity.ToString();
         }
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 36)
@@ -148,7 +162,7 @@ public class Reinforce : MonoBehaviour
     public void OnClickInfoBack()
     {
         GameManager.Inst().UiManager.MainUI.Center.Weapon.SwitchWindow.SetActive(true);
-        InfoWindow.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void StartPress(int index)

@@ -26,7 +26,7 @@ public class Weapon : MonoBehaviour
     public EquipSwitch EquipSwitch;
     public GameObject ConfirmSwitch;
     public UpgradeDataWindow UpgDataWindow;
-    public Reinforce Reinforce;
+    public Reinforce ReinforceArea;
 
     InventoryScroll Inventories;
     Player.EqData CurEquip;
@@ -111,17 +111,20 @@ public class Weapon : MonoBehaviour
         {
             InfoArea.SetAlpha(1.0f - MoveTimer * 2.0f);
             EquipArea.SetAlpha(1.0f - MoveTimer * 2.0f);
+            ReinforceArea.SetAlpha(1.0f - MoveTimer * 2.0f);
         }
         else if (MoveTimer <= 1.0f)
         {
             InfoArea.SetAlpha(MoveTimer * 2.0f - 1.0f);
             EquipArea.SetAlpha(MoveTimer * 2.0f - 1.0f);
+            ReinforceArea.SetAlpha(MoveTimer * 2.0f - 1.0f);
         }
 
         if (MoveTimer - 0.5f <= 0.001f)
         {
             ShowInfoArea();
             EquipArea.ShowEquipInfo(CurBulletType);
+            ReinforceArea.Show();
         }
 
         WeaponCellScroll.MoveToSelected(CurBulletType);
@@ -194,35 +197,34 @@ public class Weapon : MonoBehaviour
 
     void Flickering()
     {
-        GaugeColor.a -= 0.1f;
-        if (GaugeColor.a < 0.0f)
-            GaugeColor.a = 1.0f;
+        //GaugeColor.a -= 0.1f;
+        //if (GaugeColor.a < 0.0f)
+        //    GaugeColor.a = 1.0f;
 
-        for(int i = 0; i < 3; i++)
-        {
-            switch(i)
-            {
-                case 0:
-                    if (TempCount[i] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
-                        EquipArea.FlickeringGauge(i, CurBulletType, GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), GaugeColor);
-                    else
-                        EquipArea.FlickeringGauge(i, CurBulletType, TempCount[i], GaugeColor);
-                    break;
-                case 1:
-                    if (TempCount[i] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
-                        EquipArea.FlickeringGauge(i, CurBulletType, GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), GaugeColor);
-                    else
-                        EquipArea.FlickeringGauge(i, CurBulletType, TempCount[i], GaugeColor);
-                    break;
-                case 2:
-                    if (TempCount[i] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
-                        EquipArea.FlickeringGauge(i, CurBulletType, GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), GaugeColor);
-                    else
-                        EquipArea.FlickeringGauge(i, CurBulletType, TempCount[i], GaugeColor);
-                    break;
-            }
-        }
-            
+        //for(int i = 0; i < 3; i++)
+        //{
+        //    switch(i)
+        //    {
+        //        case 0:
+        //            if (TempCount[i] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
+        //                EquipArea.FlickeringGauge(i, CurBulletType, GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), GaugeColor);
+        //            else
+        //                EquipArea.FlickeringGauge(i, CurBulletType, TempCount[i], GaugeColor);
+        //            break;
+        //        case 1:
+        //            if (TempCount[i] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
+        //                EquipArea.FlickeringGauge(i, CurBulletType, GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), GaugeColor);
+        //            else
+        //                EquipArea.FlickeringGauge(i, CurBulletType, TempCount[i], GaugeColor);
+        //            break;
+        //        case 2:
+        //            if (TempCount[i] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
+        //                EquipArea.FlickeringGauge(i, CurBulletType, GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), GaugeColor);
+        //            else
+        //                EquipArea.FlickeringGauge(i, CurBulletType, TempCount[i], GaugeColor);
+        //            break;
+        //    }
+        //}            
     }
 
     public void ShowUI()
@@ -239,6 +241,8 @@ public class Weapon : MonoBehaviour
         }
         
         ShowInfoArea();
+        EquipArea.gameObject.SetActive(false);
+        ReinforceArea.gameObject.SetActive(false);
         ShowInventory();
     }
 
@@ -306,7 +310,7 @@ public class Weapon : MonoBehaviour
     {
         InfoArea.gameObject.SetActive(false);
         EquipArea.gameObject.SetActive(true);
-        Reinforce.gameObject.SetActive(false);
+        ReinforceArea.gameObject.SetActive(false);
 
         EquipArea.ShowEquipInfo(CurBulletType);
         //ShowInventory();
@@ -570,9 +574,9 @@ public class Weapon : MonoBehaviour
                     {
                         TempCount[type] += (int)CurEquip.Value;
                         if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
-                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), TempCount[type] / (int)CurEquip.Value);
+                            ReinforceArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), TempCount[type] / (int)CurEquip.Value);
                         else
-                            Reinforce.SetInfo(TempCount[type], TempCount[type] / (int)CurEquip.Value);
+                            ReinforceArea.SetInfo(TempCount[type], GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk());
                     }
                     break;
                 case 1:
@@ -580,9 +584,9 @@ public class Weapon : MonoBehaviour
                     {
                         TempCount[type] += (int)CurEquip.Value;
                         if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
-                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), TempCount[type] / (int)CurEquip.Value);
+                            ReinforceArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), TempCount[type] / (int)CurEquip.Value);
                         else
-                            Reinforce.SetInfo(TempCount[type], TempCount[type] / (int)CurEquip.Value);
+                            ReinforceArea.SetInfo(TempCount[type], GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp());
                     }
                     break;
                 case 2:
@@ -590,9 +594,9 @@ public class Weapon : MonoBehaviour
                     {
                         TempCount[type] += (int)CurEquip.Value;
                         if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
-                            Reinforce.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), TempCount[type] / (int)CurEquip.Value);
+                            ReinforceArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), TempCount[type] / (int)CurEquip.Value);
                         else
-                            Reinforce.SetInfo(TempCount[type], TempCount[type] / (int)CurEquip.Value);
+                            ReinforceArea.SetInfo(TempCount[type], GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd());
                     }
                     break;
             }
@@ -610,7 +614,20 @@ public class Weapon : MonoBehaviour
         if (TempCount[CurEquip.Type] / (int)CurEquip.Value > 1)
         {
             TempCount[CurEquip.Type] -= (int)CurEquip.Value;
-            Reinforce.SetInfo(TempCount[CurEquip.Type], TempCount[CurEquip.Type] / (int)CurEquip.Value);
+
+            switch(CurEquip.Type)
+            {
+                case 0:
+                    ReinforceArea.SetInfo(TempCount[CurEquip.Type], GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk());
+                    break;
+                case 1:
+                    ReinforceArea.SetInfo(TempCount[CurEquip.Type], GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp());
+                    break;
+                case 2:
+                    ReinforceArea.SetInfo(TempCount[CurEquip.Type], GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd());
+                    break;
+            }
+            
         }
     }
 
@@ -666,7 +683,7 @@ public class Weapon : MonoBehaviour
 
     void PaintGauge(int type, int bulletType)
     {
-        EquipArea.PaintGauge(type, bulletType, TempCount[type]);
+        //EquipArea.PaintGauge(type, bulletType, TempCount[type]);
     }
 
     public void ShowInfoArea(int Type)
@@ -721,6 +738,7 @@ public class Weapon : MonoBehaviour
         {
             SwitchWindows[ShowBulletType].Lock.SetActive(false);
             EquipArea.Lock.SetActive(false);
+            ReinforceArea.Lock.SetActive(false);
             GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Lock.SetActive(false);
         }
         else
@@ -730,6 +748,9 @@ public class Weapon : MonoBehaviour
 
             EquipArea.Lock.SetActive(true);
             EquipArea.LockText.text = "Stage" + GameManager.Inst().StgManager.UnlockBulletStages[SlotIndices[ShowBulletType]] + "\n클리어 시 해금";
+
+            ReinforceArea.Lock.SetActive(true);
+            ReinforceArea.LockText.text = EquipArea.LockText.text;
 
             GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Lock.SetActive(true);
         }
