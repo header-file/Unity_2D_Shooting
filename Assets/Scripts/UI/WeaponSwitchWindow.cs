@@ -10,4 +10,5 @@ public class WeaponSwitchWindow : MonoBehaviour
     public GameObject Lock;
     public Text LockText;
     public Animator Anim;
+    public SpriteRenderer Renderer;
 }

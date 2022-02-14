@@ -133,7 +133,11 @@ public class Weapon : MonoBehaviour
         {
             IsMoving = false;
             MoveTimer = 0.0f;
-            
+
+            InfoArea.SetAlpha(1.0f);
+            EquipArea.SetAlpha(1.0f);
+            ReinforceArea.SetAlpha(1.0f);
+
             for (int i = 0; i < 4; i++)
                 ArrowButtons[i].interactable = true;
 
@@ -611,7 +615,7 @@ public class Weapon : MonoBehaviour
         IsDelay = true;
         Invoke("ResetDelay", 0.1f);
 
-        if (TempCount[CurEquip.Type] / (int)CurEquip.Value > 1)
+        if (TempCount[CurEquip.Type] / (int)CurEquip.Value >= 1)
         {
             TempCount[CurEquip.Type] -= (int)CurEquip.Value;
 
@@ -737,6 +741,7 @@ public class Weapon : MonoBehaviour
         if (GameManager.Inst().StgManager.CheckBulletUnlocked(SlotIndices[ShowBulletType]))
         {
             SwitchWindows[ShowBulletType].Lock.SetActive(false);
+            SwitchWindows[ShowBulletType].Renderer.color = Color.white;
             EquipArea.Lock.SetActive(false);
             ReinforceArea.Lock.SetActive(false);
             GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Lock.SetActive(false);
@@ -745,6 +750,7 @@ public class Weapon : MonoBehaviour
         {
             SwitchWindows[ShowBulletType].Lock.SetActive(true);
             SwitchWindows[ShowBulletType].LockText.text = "Stage" + GameManager.Inst().StgManager.UnlockBulletStages[SlotIndices[ShowBulletType]] + "\n클리어 시 해금";
+            SwitchWindows[ShowBulletType].Renderer.color = Color.black;
 
             EquipArea.Lock.SetActive(true);
             EquipArea.LockText.text = "Stage" + GameManager.Inst().StgManager.UnlockBulletStages[SlotIndices[ShowBulletType]] + "\n클리어 시 해금";

@@ -49,44 +49,8 @@ public class Item_Equipment : Item
 
     void SetGrade(int grade)
     {
-        int rand = grade * 100;
-        if (grade < 0)
-            rand = Random.Range(0, 100);
-        
-        if (grade == 0)
-        {
-            Grade = Rarity.WHITE;
-
-            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopW");
-        }
-        //else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "GREEN") || grade == 1)
-        //{
-        //    Grade = Rarity.GREEN;
-
-        //    Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopG");
-        //}
-        //else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "BLUE") || grade == 2)
-        //{
-        //    Grade = Rarity.BLUE;
-
-        //    Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopB");
-        //}
-        //else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "PURPLE") || grade == 3)
-        //{
-        //    Grade = Rarity.PURPLE;
-
-        //    Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopP");
-        //}
-        //else if(rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "YELLOW") || grade == 4)
-        //{
-        //    Grade = Rarity.YELLOW;
-
-        //    Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopY");
-        //}
-        //SetEqValue((int)Grade);
-
-        Pop.transform.position = transform.position;
-        Pop.GetComponent<ActivationTimer>().IsStart = true;
+        //SetEqValue(0);
+        Eq_Value = 1;
     }
 
     void SetEqValue(int num)
@@ -119,34 +83,4 @@ public class Item_Equipment : Item
     {
         base.Update();
     }
-
-    /*
-         switch (rand)
-        {
-            case 0:
-                Grade = Rarity.WHITE;
-                SetEqValue(rand);
-                break;
-
-            case 1:
-                Grade = Rarity.GREEN;
-                SetEqValue(rand);
-                break;
-
-            case 2:
-                Grade = Rarity.BLUE;
-                SetEqValue(rand);
-                break;
-
-            case 3:
-                Grade = Rarity.PURPLE;
-                SetEqValue(rand);
-                break;
-
-            case 4:
-                Grade = Rarity.YELLOW;
-                SetEqValue(rand);
-                break;
-        }
-     */
 }

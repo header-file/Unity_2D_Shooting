@@ -115,7 +115,7 @@ public class Reinforce : MonoBehaviour
     {
         CurCount[CurType].text = value.ToString();
         AddValues[CurType].text = "+" + value.ToString();
-        AddBars[CurType].fillAmount = (float)value / max;
+        AddBars[CurType].fillAmount = (float)value / max + GaugeBars[CurType].fillAmount;
 
         if (value >= 1)
             FeedBtn.interactable = true;

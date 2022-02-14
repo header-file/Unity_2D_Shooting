@@ -287,6 +287,9 @@ public class Enemy : MonoBehaviour
 
             if (Type != EnemyType.BOSS)
             {
+                //이펙트
+
+
                 GameManager.Inst().StgManager.AddBossCount();
                 gameObject.SetActive(false);
 
@@ -377,6 +380,28 @@ public class Enemy : MonoBehaviour
             resource.TargetPosition = pos;
             resource.IsScatter = true;
             resource.InvokeDisappear();
+        }
+    }
+
+    void PopEffect()
+    {
+        switch(Type)
+        {
+            case EnemyType.SMALL:
+                GameObject eff_Pop = GameManager.Inst().ObjManager.MakeObj("EnemyDieS");
+                eff_Pop.transform.position = transform.position;
+                eff_Pop.GetComponent<ActivationTimer>().IsStart = true;
+                break;
+            case EnemyType.MEDIUM:
+                eff_Pop = GameManager.Inst().ObjManager.MakeObj("EnemyDieM");
+                eff_Pop.transform.position = transform.position;
+                eff_Pop.GetComponent<ActivationTimer>().IsStart = true;
+                break;
+            case EnemyType.LARGE:
+                eff_Pop = GameManager.Inst().ObjManager.MakeObj("EnemyDieL");
+                eff_Pop.transform.position = transform.position;
+                eff_Pop.GetComponent<ActivationTimer>().IsStart = true;
+                break;
         }
     }
 
@@ -487,7 +512,7 @@ public class Enemy : MonoBehaviour
 
             OnHit(dmg, bullet.IsReinforce, hitPoint);
         }
-        else if(collision.gameObject.name == "Bottom")
+        else if(collision.gameObject.name == "EnemyBottom")
         {
             GameManager.Inst().UiManager.RedMask.gameObject.GetComponent<RedMask>().SetIsAlert(true);
             
@@ -510,6 +535,9 @@ public class Enemy : MonoBehaviour
 
             if (GameManager.Inst().StgManager.Stage == 3)
                 FallEffect.gameObject.SetActive(false);
+
+            GameObject flame = GameManager.Inst().ObjManager.MakeObj("DamageFlame");
+            flame.transform.position = collision.ClosestPoint(gameObject.transform.position);
 
             //적 사망 처리
             CurHP = Health;

@@ -8,17 +8,21 @@ public class CutScene : MonoBehaviour
     public int MaxCount;
 
     int SceneCount;
+    bool IsAbleNext;
+    bool IsEnd;
 
 
     void Start()
     {
         SceneCount = 0;
         gameObject.SetActive(false);
+        IsAbleNext = false;
+        IsEnd = false;
     }
 
     void NextScene()
     {
-        Invoke("ToNext", 1.0f);
+        IsAbleNext = true;
     }
 
     public void ToNext()
@@ -33,6 +37,19 @@ public class CutScene : MonoBehaviour
 
     void End()
     {
-        gameObject.SetActive(false);
+        IsEnd = true;
+    }
+
+    void OnMouseDown()
+    {
+        if (!IsAbleNext)
+            return;
+
+        IsAbleNext = false;
+
+        if (IsEnd)
+            gameObject.SetActive(false);
+        else
+            ToNext();
     }
 }

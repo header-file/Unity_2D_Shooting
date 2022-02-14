@@ -56,36 +56,23 @@ public class Item_ZzinEquipment : Item
         if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "WHITE") || grade == 0)
         {
             Grade = Rarity.WHITE;
-
-            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopW");
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "GREEN") || grade == 1)
         {
             Grade = Rarity.GREEN;
-
-            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopG");
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "BLUE") || grade == 2)
         {
             Grade = Rarity.BLUE;
-
-            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopB");
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "PURPLE") || grade == 3)
         {
             Grade = Rarity.PURPLE;
-
-            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopP");
         }
         else if (rand <= GameManager.Inst().GetDropRate(GameManager.Inst().StgManager.Stage, "YELLOW") || grade == 4)
         {
             Grade = Rarity.YELLOW;
-
-            Pop = GameManager.Inst().ObjManager.MakeObj("EquipPopY");
         }
-
-        Pop.transform.position = transform.position;
-        Pop.GetComponent<ActivationTimer>().IsStart = true;
 
         return (int)Grade;
     }

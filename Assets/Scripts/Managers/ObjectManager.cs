@@ -76,12 +76,13 @@ public class ObjectManager : MonoBehaviour
     //Effect
     public GameObject ExplosionPref;
     public GameObject HitPref;
-    public GameObject[] EquipPopPref;
+    public GameObject[] EnemyDiePref;
     public GameObject EquipActionPref;
     public GameObject MagnetActionPref;
     public GameObject HealActionPref;
     public GameObject RevivePref;
     public GameObject ResourceDiePref;
+    public GameObject DamageFlamePref;
 
     GameObject[] Enemies_S;
     GameObject[] Enemies_M;
@@ -140,16 +141,15 @@ public class ObjectManager : MonoBehaviour
 
     GameObject[] Explosions;
     GameObject[] Hits;
-    GameObject[] EquipPopsW;
-    GameObject[] EquipPopsG;
-    GameObject[] EquipPopsB;
-    GameObject[] EquipPopsP;
-    GameObject[] EquipPopsY;
+    GameObject[] EnemyDie_S;
+    GameObject[] EnemyDie_M;
+    GameObject[] EnemyDie_L;
     GameObject[] EquipActions;
     GameObject[] MagnetActions;
     GameObject[] HealActions;
     GameObject[] Revives;
     GameObject[] ResourceDies;
+    GameObject[] DamageFlames;
 
 
     GameObject[] TargetPool;
@@ -378,24 +378,16 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = Hits;
                 break;
 
-            case "EquipPopW":
-                TargetPool = EquipPopsW;
+            case "EnemyDieS":
+                TargetPool = EnemyDie_S;
                 break;
 
-            case "EquipPopG":
-                TargetPool = EquipPopsG;
+            case "EnemyDieM":
+                TargetPool = EnemyDie_M;
                 break;
 
-            case "EquipPopB":
-                TargetPool = EquipPopsB;
-                break;
-
-            case "EquipPopP":
-                TargetPool = EquipPopsP;
-                break;
-
-            case "EquipPopY":
-                TargetPool = EquipPopsY;
+            case "EnemyDieL":
+                TargetPool = EnemyDie_L;
                 break;
 
             case "EquipAction":
@@ -416,6 +408,10 @@ public class ObjectManager : MonoBehaviour
 
             case "ResourceDie":
                 TargetPool = ResourceDies;
+                break;
+
+            case "DamageFlame":
+                TargetPool = DamageFlames;
                 break;
 
         }
@@ -493,16 +489,15 @@ public class ObjectManager : MonoBehaviour
 
         Explosions = new GameObject[50];
         Hits = new GameObject[50];
-        EquipPopsW = new GameObject[25];
-        EquipPopsG = new GameObject[25];
-        EquipPopsB = new GameObject[25];
-        EquipPopsP = new GameObject[25];
-        EquipPopsY = new GameObject[25];
+        EnemyDie_S = new GameObject[25];
+        EnemyDie_M = new GameObject[25];
+        EnemyDie_L = new GameObject[25];
         EquipActions = new GameObject[10];
         MagnetActions = new GameObject[10];
         HealActions = new GameObject[10];
         Revives = new GameObject[10];
         ResourceDies = new GameObject[40];
+        DamageFlames = new GameObject[20];
 
         Generate();
     }
@@ -903,39 +898,25 @@ public class ObjectManager : MonoBehaviour
             Hits[i].SetActive(false);
         }
 
-        for(int i = 0; i < EquipPopsW.Length; i++)
+        for(int i = 0; i < EnemyDie_S.Length; i++)
         {
-            EquipPopsW[i] = Instantiate(EquipPopPref[0]);
-            EquipPopsW[i].transform.SetParent(EffectPool.transform, false);
-            EquipPopsW[i].SetActive(false);
+            EnemyDie_S[i] = Instantiate(EnemyDiePref[0]);
+            EnemyDie_S[i].transform.SetParent(EffectPool.transform, false);
+            EnemyDie_S[i].SetActive(false);
         }
 
-        for (int i = 0; i < EquipPopsG.Length; i++)
+        for (int i = 0; i < EnemyDie_M.Length; i++)
         {
-            EquipPopsG[i] = Instantiate(EquipPopPref[1]);
-            EquipPopsG[i].transform.SetParent(EffectPool.transform, false);
-            EquipPopsG[i].SetActive(false);
+            EnemyDie_M[i] = Instantiate(EnemyDiePref[1]);
+            EnemyDie_M[i].transform.SetParent(EffectPool.transform, false);
+            EnemyDie_M[i].SetActive(false);
         }
 
-        for (int i = 0; i < EquipPopsB.Length; i++)
+        for (int i = 0; i < EnemyDie_L.Length; i++)
         {
-            EquipPopsB[i] = Instantiate(EquipPopPref[2]);
-            EquipPopsB[i].transform.SetParent(EffectPool.transform, false);
-            EquipPopsB[i].SetActive(false);
-        }
-
-        for (int i = 0; i < EquipPopsP.Length; i++)
-        {
-            EquipPopsP[i] = Instantiate(EquipPopPref[3]);
-            EquipPopsP[i].transform.SetParent(EffectPool.transform, false);
-            EquipPopsP[i].SetActive(false);
-        }
-
-        for (int i = 0; i < EquipPopsY.Length; i++)
-        {
-            EquipPopsY[i] = Instantiate(EquipPopPref[4]);
-            EquipPopsY[i].transform.SetParent(EffectPool.transform, false);
-            EquipPopsY[i].SetActive(false);
+            EnemyDie_L[i] = Instantiate(EnemyDiePref[2]);
+            EnemyDie_L[i].transform.SetParent(EffectPool.transform, false);
+            EnemyDie_L[i].SetActive(false);
         }
 
         for (int i = 0; i < EquipActions.Length; i++)
@@ -971,6 +952,13 @@ public class ObjectManager : MonoBehaviour
             ResourceDies[i] = Instantiate(ResourceDiePref);
             ResourceDies[i].transform.SetParent(EffectPool.transform, false);
             ResourceDies[i].SetActive(false);
+        }
+
+        for (int i = 0; i < DamageFlames.Length; i++)
+        {
+            DamageFlames[i] = Instantiate(DamageFlamePref);
+            DamageFlames[i].transform.SetParent(EffectPool.transform, false);
+            DamageFlames[i].SetActive(false);
         }
     }
 }
