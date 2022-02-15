@@ -193,6 +193,7 @@ public class SubWeapon : MonoBehaviour
     {
         //IsBoss = false;
         transform.parent = GameManager.Inst().ObjManager.SubWeaponPool.transform;
+        SetBulletType(BulletType);
     }
 
     public void Damage(int damage)

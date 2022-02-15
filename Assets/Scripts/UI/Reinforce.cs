@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Experimental.U2D.Animation;
 
-public class Reinforce : MonoBehaviour
+public class Reinforce : MonoBehaviour 
 {
     public CanvasGroup InfoGroup;
     public Text[] CurCount;
@@ -22,11 +23,18 @@ public class Reinforce : MonoBehaviour
     public Animator PlayerAnim;
     public GameObject Lock;
     public Text LockText;
-    
-    int CurType;
-    bool IsPressing = false;
-    bool IsPlus;
+
+    public bool IsPressing;
+    public int CurType;
+    public bool IsPlus;
+
     Color PlayerColor = Color.white;
+
+    void Awake()
+    {
+        IsPressing = false;
+        CurType = -1;
+    }
 
     void Update()
     {
@@ -72,9 +80,9 @@ public class Reinforce : MonoBehaviour
             LeftCount[i].text = "0";
             CurCount[i].text = "0";
 
-            GaugeBars[i].fillAmount = (float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxAtk();
+            GaugeBars[i].fillAmount = GetFillAmount(i);
             AddBars[i].fillAmount = 0.0f;
-            CurValues[i].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk().ToString();
+            CurValues[i].text = GetCurrentValue(i);
             AddValues[i].text = "+0";
 
             if (eq != null)
@@ -133,6 +141,44 @@ public class Reinforce : MonoBehaviour
             MinBtn[CurType].interactable = true;
     }
 
+    float GetFillAmount(int type)
+    {
+        float fill = 0.0f;
+        switch(type)
+        {
+            case 0:
+                fill = (float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxAtk();
+                break;
+            case 1:
+                fill = (float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxHp();
+                break;
+            case 2:
+                fill = (float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetMaxSpd();
+                break;
+        }
+
+        return fill;
+    }
+
+    string GetCurrentValue(int type)
+    {
+        int val = 0;
+        switch (type)
+        {
+            case 0:
+                val = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetAtk();
+                break;
+            case 1:
+                val = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetHp();
+                break;
+            case 2:
+                val = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurBulletType()].GetSpd();
+                break;
+        }
+
+        return val.ToString();
+    }
+
     public void OnClickInfoBackBtn()
     {
         GameManager.Inst().UiManager.MainUI.Center.Weapon.ResetData();
@@ -143,14 +189,7 @@ public class Reinforce : MonoBehaviour
         Player.EqData eq = GameManager.Inst().UiManager.MainUI.Center.Weapon.GetCurEquip();
         GameManager.Inst().UiManager.MainUI.Center.Weapon.SetStatChange();
 
-        for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
-        {
-            LeftCount[i].text = "0";
-            CurCount[i].text = "0";
-
-            if(GameManager.Inst().Player.GetReinforce(i) != null)
-                LeftCount[i].text = GameManager.Inst().Player.GetReinforce(i).Quantity.ToString();
-        }
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.Show();
 
         if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 36)
         {
@@ -167,13 +206,13 @@ public class Reinforce : MonoBehaviour
 
     public void StartPress(int index)
     {
-        IsPressing = true;
-        IsPlus = index % 2 == 0 ? false : true;
-        CurType = index / 2;
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.IsPressing = true;
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.IsPlus = index % 2 == 0 ? false : true;
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.CurType = index / 2;
     }
 
     public void EndPress()
     {
-        IsPressing = false;
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.IsPressing = false;
     }
 }

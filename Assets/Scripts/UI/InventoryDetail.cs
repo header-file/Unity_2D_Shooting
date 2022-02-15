@@ -10,7 +10,6 @@ public class InventoryDetail : MonoBehaviour
     public GameObject Type;
     public Text Value;
     //public GameObject[] Grades;
-    public Image Frame;
     public GameObject Values;
     public GameObject Detail;
     public Text DetailText;
@@ -29,24 +28,15 @@ public class InventoryDetail : MonoBehaviour
         Index = index;
 
         Icon.sprite = equip.Icon;
-        
+
         Grade.color = GameManager.Inst().UiManager.MainUI.GradeColors[equip.Rarity];
 
         int type = equip.Type;
         SetTypeName(type);
 
-        //if (equip.UID / 100 == 3)
-        //{
-        //    Icon.gameObject.SetActive(false);
-        //    int val = (int)equip.Value;
-        //    Grade.SetActive(true);
-        //    SetValue(val);
-        //}
-        //else 
         if (equip.UID / 100 == 6)
         {
             Icon.gameObject.SetActive(true);
-            Grade.gameObject.SetActive(false);
             SetDetail(equip.Type, equip.Rarity, equip.Value);
         }
     }

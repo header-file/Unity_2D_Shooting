@@ -194,8 +194,8 @@ public class Synthesis : MonoBehaviour
     public void SetButtons(int index)
     {
         Player.EqData eq = GameManager.Inst().Player.GetItem(index);
-        if (eq.Rarity >= Constants.MAXRARITY - 1)
-            return;
+        //if (eq.Rarity >= Constants.MAXRARITY - 1)
+        //    return;
 
         if (eq.UID / 100 == 6)
         {
@@ -244,16 +244,14 @@ public class Synthesis : MonoBehaviour
             MergetBtn.interactable = true;
             EnterItemText.SetActive(false);
             SuccessRate.SetActive(true);
-            Rate = 100 - eq.Rarity * 10;
+            Rate = eq.Rarity != 4 ? 100 - eq.Rarity * 10 : 100;
             RateText.text = Rate.ToString();
             int need = (int)Mathf.Pow(10, (eq.Rarity + 2));
             Need.text = need.ToString();
 
-            if (eq.UID / 100 == 3)
-                Buttons[3].Icon.sprite = GameManager.Inst().UiManager.FoodImages[eq.Type + (eq.Rarity + 1) * 3];
-            else if (eq.UID / 100 == 6)
+            if (eq.UID / 100 == 6)
             {
-                if (InputTypes[0] == InputTypes[1] && InputTypes[1] == InputTypes[2])
+                if (InputTypes[0] == InputTypes[1] && InputTypes[1] == InputTypes[2] && eq.Rarity != 4)
                 {
                     Buttons[3].Icon.sprite = eq.Icon;
                     SynthType = InputTypes[0];
@@ -264,7 +262,9 @@ public class Synthesis : MonoBehaviour
                     SynthType = -1;
                 }
             }
-            Buttons[3].Frame.sprite = Frames[eq.Rarity + 1];
+
+            int rarity = eq.Rarity != 4 ? eq.Rarity + 1 : eq.Rarity;
+            Buttons[3].Frame.sprite = Frames[rarity];
         }
     }
 
@@ -320,7 +320,10 @@ public class Synthesis : MonoBehaviour
         int rand = Random.Range(0, 100);
         if (rand < Rate)
         {
-            rarity++;
+            if (rarity < Constants.MAXRARITY - 1)
+                rarity++;
+            else
+                SynthType = -1;
             IsSynthSuccess = true;
         }
         else

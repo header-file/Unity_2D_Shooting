@@ -12,10 +12,10 @@ public class LoopScroll : MonoBehaviour
     public GameObject ChangeMsg;
 
     public bool IsOpen;
+    public bool IsDragging = false;        //True when drag the panel
 
     float[] Distances;              //Distance of buttons compare to Center
     float[] DistReposition;
-    bool IsDragging = false;        //True when drag the panel
     int SlotDistance;                //Hold the distance between buttons
     int MinBtnNum;                  //Hold the index of Button which is the nearest to Center
     int SlotLength;
@@ -124,12 +124,12 @@ public class LoopScroll : MonoBehaviour
 
     public void StartDrag()
     {
-        IsDragging = true;
+        GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.IsDragging = true;
     }
 
     public void EndDrag()
     {
-        IsDragging = false;
+        GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.IsDragging = false;
         Timer = 0.0f;
     }
 

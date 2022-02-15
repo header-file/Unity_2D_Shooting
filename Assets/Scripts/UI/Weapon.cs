@@ -73,10 +73,6 @@ public class Weapon : MonoBehaviour
         for (int i = 0; i < Constants.MAXBULLETS; i++)
             WeaponCells[i].Icon.sprite = WeaponIcons[i];
 
-        InfoArea.gameObject.SetActive(true);
-        EquipArea.gameObject.SetActive(false);
-        gameObject.SetActive(false);
-
         DefaultEquipImg = EquipImage[0].sprite;
         for(int i = 0; i < 2; i++)
         {
@@ -86,6 +82,14 @@ public class Weapon : MonoBehaviour
         EquipSwitch.gameObject.SetActive(false);
 
         DefaultWindowPos = SwitchWindow.GetComponent<RectTransform>().anchoredPosition;
+    }
+
+    void Start()
+    {
+        InfoArea.gameObject.SetActive(true);
+        ReinforceArea.gameObject.SetActive(false);
+        EquipArea.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     void Update()
@@ -569,7 +573,7 @@ public class Weapon : MonoBehaviour
 
         CurEquip = GameManager.Inst().Player.GetReinforce(type);
 
-        if(CurEquip.Quantity > TempCount[type] / (int)CurEquip.Value)
+        if(CurEquip.Quantity > TempCount[type])
         {
             switch(type)
             {
@@ -615,7 +619,7 @@ public class Weapon : MonoBehaviour
         IsDelay = true;
         Invoke("ResetDelay", 0.1f);
 
-        if (TempCount[CurEquip.Type] / (int)CurEquip.Value >= 1)
+        if (TempCount[CurEquip.Type] >= 1)
         {
             TempCount[CurEquip.Type] -= (int)CurEquip.Value;
 
