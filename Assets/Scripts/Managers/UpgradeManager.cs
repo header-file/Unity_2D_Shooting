@@ -67,7 +67,7 @@ public class UpgradeManager : MonoBehaviour
 
         public int GetMaxBulletLevel() { return MaxBulletLevel * (Rarity + 1); }
         public int GetPowerLevel() { return PowerLevel; }
-        public int GetHealth() { return Health; }
+        public int GetHealth() { return Health != 0 ? Health : 150 * (Rarity + 1) + 3 * PowerLevel; }
         public int GetPrice() { return Price; }
         public int GetAtk() { return Atk; }
         public int GetHp() { return Hp; }
@@ -95,7 +95,7 @@ public class UpgradeManager : MonoBehaviour
             Price = 10;
             Rarity = 0;
 
-            Health = 100 * (Rarity + 1);
+            Health = 150 * (Rarity + 1);
 
             ReloadTime = 0.0f;
             Duration = 0.0f;
@@ -105,7 +105,7 @@ public class UpgradeManager : MonoBehaviour
             Hp = 0;
             Spd = 0;
             MaxAtk = 0;
-            MaxHp = 0;
+            MaxHp = 150;
             MaxSpd = 0;
 
             EquipIndex = -1;
@@ -243,6 +243,13 @@ public class UpgradeManager : MonoBehaviour
         CurrentSubWeaponIndex = -1;
 
         PlayerLevel = 1;
+
+        GameManager.Inst().Player.SetHPs();
+        for(int i = 0; i < Constants.MAXSUBWEAPON; i++)
+        {
+            if (GameManager.Inst().GetSubweapons(i) != null)
+                GameManager.Inst().GetSubweapons(i).SetHPs();
+        }
     }
 
     void Start()

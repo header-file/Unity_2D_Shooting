@@ -115,7 +115,6 @@ public class Player : MonoBehaviour
     public void SetBulletType(int type)
     {
         BulletType = type;
-        GameManager.Inst().UpgManager.SetHPData(BulletType);
         SetSkin();
         SetSkinColor(GameManager.Inst().ShtManager.BaseColor[BulletType]);
 
