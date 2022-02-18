@@ -111,7 +111,8 @@ public class GameData
 
     public bool IsEraseData;
 
-    public bool IsTutorial;
+    public int BeforeStage;
+    //public bool IsTutorial;
 
 
     public void SaveData()
@@ -119,10 +120,12 @@ public class GameData
         if (GameManager.Inst().Login != null)
             if (GameManager.Inst().Login.PlayerID != "")
                 UID = GameManager.Inst().Login.PlayerID;
+        if (GameManager.Inst().IsTutorial)
+            return;
 
         IsFullPrice = GameManager.Inst().IsFullPrice;
 
-        if (IsEraseData || IsTutorial)
+        if (IsEraseData/* || IsTutorial*/)
             return;
 
         Coin = GameManager.Inst().Player.GetCoin();
@@ -132,7 +135,7 @@ public class GameData
 
         MaxInventory = GameManager.Inst().Player.MaxInventory;
         
-        PlayerDatas[(int)PlaData.LEVEL] = GameManager.Inst().UpgManager.GetPlayerLevel();
+        //PlayerDatas[(int)PlaData.LEVEL] = GameManager.Inst().UpgManager.GetPlayerLevel();
         PlayerDatas[(int)PlaData.CURHP] = GameManager.Inst().Player.GetCurHP();
         PlayerDatas[(int)PlaData.MAXHP] = GameManager.Inst().Player.GetMaxHP();
         PlayerDatas[(int)PlaData.BULLETTYPE] = GameManager.Inst().Player.GetBulletType();
@@ -348,9 +351,8 @@ public class GameData
 
         if (PlayerDatas != null && PlayerDatas.Length == Constants.PLADATASIZE)
         {
-            GameManager.Inst().UpgManager.SetPlayerLevel(PlayerDatas[(int)PlaData.LEVEL]);
+            //GameManager.Inst().UpgManager.SetPlayerLevel(PlayerDatas[(int)PlaData.LEVEL]);
             GameManager.Inst().Player.SetCurHP(PlayerDatas[(int)PlaData.CURHP]);
-            GameManager.Inst().Player.SetMaxHP(PlayerDatas[(int)PlaData.MAXHP]);
             GameManager.Inst().Player.SetBulletType(PlayerDatas[(int)PlaData.BULLETTYPE]);
             GameManager.Inst().Player.SetSkinColor(PlayerDatas[(int)PlaData.COLOR]);
         }
@@ -358,9 +360,8 @@ public class GameData
         {
             if (PlayerDatas != null)
             {
-                GameManager.Inst().UpgManager.SetPlayerLevel(PlayerDatas[(int)PlaData.LEVEL]);
+                //GameManager.Inst().UpgManager.SetPlayerLevel(PlayerDatas[(int)PlaData.LEVEL]);
                 GameManager.Inst().Player.SetCurHP(PlayerDatas[(int)PlaData.CURHP]);
-                GameManager.Inst().Player.SetMaxHP(PlayerDatas[(int)PlaData.MAXHP]);
                 GameManager.Inst().Player.SetBulletType(PlayerDatas[(int)PlaData.BULLETTYPE]);
                 GameManager.Inst().Player.SetSkinColor(PlayerDatas[(int)PlaData.COLOR]);
             }
@@ -455,7 +456,6 @@ public class GameData
                         GameManager.Inst().UpgManager.AddSW(j);
 
                         GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
-                        GameManager.Inst().GetSubweapons(j).SetMaxHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP]);
                         GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
                         int id = j;
                         if (id > 1)
@@ -483,7 +483,6 @@ public class GameData
                             GameManager.Inst().UpgManager.AddSW(j);
 
                             GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
-                            GameManager.Inst().GetSubweapons(j).SetMaxHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP]);
                             GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
                             int id = j;
                             if (id > 1)
@@ -659,20 +658,21 @@ public class GameData
         IsMuteBGM = false;
         IsMuteEffect = false;
 
-        IsTutorial = true;
+        //IsTutorial = true;
     }
 
     public void LoadReachedStage()
     {
-        if (GameManager.Inst().StgManager.ReachedStage < ReachedStage)
-            GameManager.Inst().StgManager.ReachedStage = ReachedStage;
+        if (!GameManager.Inst().IsTutorial &&
+            GameManager.Inst().StgManager.ReachedStage < GameManager.Inst().DatManager.GameData.ReachedStage)
+            GameManager.Inst().StgManager.ReachedStage = GameManager.Inst().DatManager.GameData.ReachedStage;
     }
 
     public void MoveScene()
     {
-        if (IsTutorial)
-            SceneManager.LoadScene("Stage0");
-        else if (GameManager.Inst().StgManager.Stage >= 1)
+        //if (IsTutorial)
+        //    SceneManager.LoadScene("Stage0");
+        if (GameManager.Inst().StgManager.Stage > 0)
         {
             if (SceneManager.GetActiveScene().name != ("Stage" + GameManager.Inst().StgManager.Stage.ToString()))
                 SceneManager.LoadScene("Stage" + GameManager.Inst().StgManager.Stage.ToString());
@@ -804,7 +804,6 @@ public class GameData
                         GameManager.Inst().UpgManager.AddSW(j);
 
                         GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
-                        GameManager.Inst().GetSubweapons(j).SetMaxHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP]);
                         GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
                         int id = j;
                         if (id > 1)
@@ -829,7 +828,6 @@ public class GameData
                             GameManager.Inst().UpgManager.AddSW(j);
 
                             GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
-                            GameManager.Inst().GetSubweapons(j).SetMaxHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.MAXHP]);
                             GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
                             int id = j;
                             if (id > 1)

@@ -263,9 +263,9 @@ public class Tutorials : MonoBehaviour
 
     public void EndTutorial()
     {
-        GameManager.Inst().DatManager.GameData.ResetData();
+        GameManager.Inst().IsTutorial = false;
         GameManager.Inst().DatManager.GameData.LoadData();
-        GameManager.Inst().DatManager.GameData.IsTutorial = false;
-        SceneManager.LoadScene("Stage1");
+        //GameManager.Inst().DatManager.GameData.IsTutorial = false;
+        SceneManager.LoadScene("Stage" + GameManager.Inst().DatManager.GameData.BeforeStage.ToString());
     }
 }

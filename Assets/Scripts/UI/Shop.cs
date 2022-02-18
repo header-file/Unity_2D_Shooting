@@ -271,6 +271,7 @@ public class Shop : MonoBehaviour
     public void BuyFullPrice()
     {
         GameManager.Inst().IsFullPrice = true;
+        GameManager.Inst().DatManager.GameData.IsFullPrice = true;
         GameManager.Inst().BufManager.StartBuff(0);
 
         FullPriceLock.SetActive(true);

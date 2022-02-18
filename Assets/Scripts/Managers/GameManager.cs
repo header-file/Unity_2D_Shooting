@@ -33,8 +33,7 @@ public class GameManager : MonoBehaviour
 
     //튜토리얼용
     public Tutorials Tutorials;
-
-    //Firebase.FirebaseApp App;
+    public bool IsTutorial;
 
     public Player Player;
 
@@ -48,7 +47,7 @@ public class GameManager : MonoBehaviour
     List<Dictionary<string, object>> DropRateData;
 
     public static GameManager Inst() { return Instance; }
-    public SubWeapon GetSubweapons(int index) { return SubWeapons[StgManager.Stage - 1, index]; }
+    public SubWeapon GetSubweapons(int index) { return SubWeapons[StgManager.Stage - 1, index] != null ? SubWeapons[StgManager.Stage - 1, index] : null; }
     public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[StgManager.Stage - 1, index] = Sub; }
@@ -101,37 +100,17 @@ public class GameManager : MonoBehaviour
         //StgManager.BeginStage();
     }
 
-    //void CheckGooglePlayVersion()
-    //{
-    //    Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
-    //        var dependencyStatus = task.Result;
-    //        if (dependencyStatus == Firebase.DependencyStatus.Available)
-    //        {
-    //            // Create and hold a reference to your FirebaseApp,
-    //            // where app is a Firebase.FirebaseApp property of your application class.
-    //            App = Firebase.FirebaseApp.DefaultInstance;
-
-    //            // Set a flag here to indicate whether Firebase is ready to use by your app.
-    //        }
-    //        else
-    //        {
-    //            UnityEngine.Debug.LogError(System.String.Format(
-    //              "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-    //            // Firebase Unity SDK is not safe to use here.
-    //        }
-    //    });
-    //}
-
-    public void SetManagers()
+    public void ResetSetManagers()
     {
-        ShtManager = FindObjectOfType<ShootingManager>();
-        ObjManager = FindObjectOfType<ObjectManager>();
-        IptManager = FindObjectOfType<InputManager>();
-        TxtManager = FindObjectOfType<TextManager>();
-        UiManager = FindObjectOfType<UIManager>();
-        QstManager = FindObjectOfType<QuestManager>();
-        ShkManager = FindObjectOfType<ShakeManager>();
-        EquManager = FindObjectOfType<EquipManager>();
+        UpgManager.ResetTutorial();
+        StgManager.Stage = 1;
+        StgManager.ReachedStage = 1;
+        QstManager.ResetQuestData();
+        BufManager.BuffTimers[0] = 0.0f;
+        IsFullPrice = false;
+        Player.SetCoin(0);
+        Player.ResetInventories();
+        Jewel = 0;
     }
 
     void SetTexts()

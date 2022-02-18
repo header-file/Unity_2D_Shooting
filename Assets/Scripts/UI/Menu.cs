@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
@@ -44,5 +45,14 @@ public class Menu : MonoBehaviour
     public void OnClickCreditBackBtn()
     {
         Credit.SetActive(false);
+    }
+
+    public void OnClickTutorialBtn()
+    {
+        GameManager.Inst().DatManager.GameData.BeforeStage = GameManager.Inst().StgManager.Stage;
+        GameManager.Inst().DatManager.GameData.SaveData();
+        GameManager.Inst().IsTutorial = true;
+        GameManager.Inst().ResetSetManagers();
+        SceneManager.LoadScene("Stage0");
     }
 }

@@ -115,8 +115,10 @@ public class Player : MonoBehaviour
     public void SetBulletType(int type)
     {
         BulletType = type;
+
         SetSkin();
-        SetSkinColor(GameManager.Inst().ShtManager.BaseColor[BulletType]);
+        if (!IsDead)
+            SetSkinColor(GameManager.Inst().ShtManager.BaseColor[BulletType]);
 
         SetHPs();
     }
@@ -257,6 +259,14 @@ public class Player : MonoBehaviour
         }
 
         return -1;
+    }
+
+    public void ResetInventories()
+    {
+        for (int i = 0; i < MaxInventory; i++)
+            Inventory[i] = null;
+        for (int i = 0; i < Constants.MAXREINFORCETYPE; i++)
+            ReinforceInventory[i] = null;
     }
 
     public int FindQuantityAsGrade(int rarity)
@@ -680,6 +690,7 @@ public class Player : MonoBehaviour
     {
         IsDead = false;
         IsInvincible = true;
+        SetHPs();
         CurHP = MaxHP;
 
         TimerImage.gameObject.SetActive(false);

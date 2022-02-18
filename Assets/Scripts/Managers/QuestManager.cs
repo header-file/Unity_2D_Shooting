@@ -73,13 +73,23 @@ public class QuestManager : MonoBehaviour
     void LoadQuestData()
     {
         if (GameManager.Inst().DatManager.GameData.Quests == null ||
-            GameManager.Inst().DatManager.GameData.Quests.Length == 0)
+            GameManager.Inst().DatManager.GameData.Quests.Length == 0 ||
+            GameManager.Inst().IsTutorial)
             return;
 
         for(int i = 0; i < (Constants.MAXSTAGES + 1) * Constants.MAXQUESTS; i++)
         {
             if(Quests[i].QuestId == GameManager.Inst().DatManager.GameData.Quests[Constants.QSTDATASIZE * i + 0])
                 Quests[i].CurrentCount = GameManager.Inst().DatManager.GameData.Quests[Constants.QSTDATASIZE * i + 1];
+        }
+    }
+
+    public void ResetQuestData()
+    {
+        for (int i = Constants.MAXQUESTS; i < 2 * Constants.MAXQUESTS; i++)
+        {
+            if (Quests[i].QuestId == GameManager.Inst().DatManager.GameData.Quests[Constants.QSTDATASIZE * i + 0])
+                Quests[i].CurrentCount = 0;
         }
     }
 
@@ -121,6 +131,9 @@ public class QuestManager : MonoBehaviour
 
     public void QuestProgress(int qType, int objType, int value)
     {
+        if (GameManager.Inst().IsTutorial)
+            return;
+
         for (int i = 0; i < Quests.Count; i++)
         {
             int id = Quests[i].QuestId;
@@ -149,6 +162,9 @@ public class QuestManager : MonoBehaviour
 
     public void CheckFinish(int index)
     {
+        if (GameManager.Inst().IsTutorial)
+            return;
+
         int found = -1;
         for(int i = 0; i < QuestSlots.Count; i++)
         {
@@ -211,6 +227,7 @@ public class QuestManager : MonoBehaviour
             return;
 
         GameManager.Inst().StgManager.ReachedStage = stage;
+        GameManager.Inst().DatManager.GameData.ReachedStage = GameManager.Inst().StgManager.ReachedStage;
         GameManager.Inst().StgManager.UnlockStages(stage);
         MakeQuestSlot();
         GameManager.Inst().ResManager.StartCount(stage - 2);
