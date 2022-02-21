@@ -99,6 +99,7 @@ public class Tutorials : MonoBehaviour
             case 24:
             case 28:
             case 33:
+            case 36:
             case 40:
             case 43:
             case 50:
@@ -153,9 +154,9 @@ public class Tutorials : MonoBehaviour
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
                 Invoke("AddStep", 5.0f);
                 break;
-            case 36:
-                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
-                break;
+            //case 36:
+            //    GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
+            //    break;
             case 38:
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
                 Invoke("AddStep", 5.0f);

@@ -93,11 +93,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        SetTexts();
         SetDropRateData();
         SetEquipDatas();
         SetResources();
-        //StgManager.BeginStage();
     }
 
     public void ResetSetManagers()
@@ -111,19 +109,8 @@ public class GameManager : MonoBehaviour
         Player.SetCoin(0);
         Player.ResetInventories();
         Jewel = 0;
-    }
-
-    void SetTexts()
-    {
-        //for (int i = 0; i < Constants.MAXBULLETS; i++)
-        //{
-        //    TxtManager.SetBLevels(i, UpgManager.BData[i].GetPowerLevel());
-        //    TxtManager.SetBPrices(i, UpgManager.BData[i].GetPrice());
-        //}
-
-        //TxtManager.SetSPrice(UpgManager.GetSubWeaponPrice(0));
-
-        UiManager.MainUI.JewelText.text = Jewel.ToString();
+        for (int i = 1; i <= Constants.MAXRESOURCETYPES; i++)
+            SetResource(i, 0);
     }
 
     void SetDropRateData()
@@ -149,10 +136,7 @@ public class GameManager : MonoBehaviour
     void SetResources()
     {
         for (int i = 0; i < Constants.MAXRESOURCETYPES; i++)
-        {
-            Resources[i] = 0;
             UiManager.MainUI.Resources[i].text = Resources[i].ToString();
-        }
     }
 
     public void MakeEquip(int type, int grade, Transform transform)

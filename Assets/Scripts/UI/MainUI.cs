@@ -70,6 +70,12 @@ public class MainUI : MonoBehaviour
         PopupReward = Instantiate(PopUpPref).GetComponent<PopupReward>();
         PopupReward.transform.SetParent(transform);
         PopupReward.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+        CoinText.text = GameManager.Inst().Player.GetCoin().ToString();
+        JewelText.text = GameManager.Inst().Jewel.ToString();
+
+        if (SceneManager.GetActiveScene().name == "Stage0")
+            Floating.gameObject.SetActive(false);
     }
 
     void Start()
