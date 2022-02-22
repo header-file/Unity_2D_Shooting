@@ -32,7 +32,7 @@ public class ShootingManager : MonoBehaviour
         GameManager.Inst().ShtManager = gameObject.GetComponent<ShootingManager>();
 
         Objs = new GameObject[10];
-        NormalPos = new GameObject[5];
+        NormalPos = new GameObject[7];
         SpreadPos = new GameObject[7];
         LaserPos = new GameObject();
         ChargePos = new GameObject();
@@ -159,7 +159,7 @@ public class ShootingManager : MonoBehaviour
         if(Shooter.tag == "Player")
         {
             Player player = GameManager.Inst().Player;
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < 7; i++)
                 NormalPos[i] = player.NormalPos[i];
             for (int i = 0; i < 7; i++)
                 SpreadPos[i] = player.SpreadPos[i];
@@ -177,7 +177,7 @@ public class ShootingManager : MonoBehaviour
             //else
             sub = GameManager.Inst().GetSubweapons(ID);
             
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 7; j++)
                 NormalPos[j] = sub.NormalPos[j];
             for (int j = 0; j < 7; j++)
                 SpreadPos[j] = sub.SpreadPos[j];
@@ -191,10 +191,12 @@ public class ShootingManager : MonoBehaviour
 
     void Normal(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
-        Normal[] bullets = new Normal[5];
+        Normal[] bullets = new Normal[7];
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
 
         switch (Rarity)
         {
@@ -218,7 +220,7 @@ public class ShootingManager : MonoBehaviour
 
             case 1:
             case 3:
-                for(int i = 1; i <= Rarity + 1; i++)
+                for(int i = 6 - Rarity; i <= 6; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;
@@ -229,7 +231,7 @@ public class ShootingManager : MonoBehaviour
                     bullets[i].IsVamp = isVamp;
                     bullets[i].Vamp = shooter;
                     bullets[i].IsReinforce = IsReinforce;
-                    bullets[i].Shoot(NormalPos[0].transform.up);
+                    bullets[i].Shoot(NormalPos[i].transform.up);
                 }
                 break;
         }
@@ -243,6 +245,8 @@ public class ShootingManager : MonoBehaviour
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
         float duration = GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.SPREAD].GetDuration();
 
         switch (Rarity)
@@ -296,6 +300,8 @@ public class ShootingManager : MonoBehaviour
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
         float rad = GameManager.Inst().UpgManager.BData[(int)Bullet.BulletType.MISSILE].GetDuration();
 
         switch (Rarity)
@@ -364,6 +370,8 @@ public class ShootingManager : MonoBehaviour
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Laser", Index);
         Objs[0].transform.localScale = scale;
@@ -382,6 +390,8 @@ public class ShootingManager : MonoBehaviour
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Charge", Index);
         Objs[0].transform.position = ChargePos.transform.position;
@@ -403,6 +413,8 @@ public class ShootingManager : MonoBehaviour
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Boomerang", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
@@ -423,6 +435,8 @@ public class ShootingManager : MonoBehaviour
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Chain", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
@@ -444,6 +458,8 @@ public class ShootingManager : MonoBehaviour
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
 
         Gatling[] bullets = new Gatling[2];
         for (int i = 0; i < 2; i++)
@@ -468,6 +484,8 @@ public class ShootingManager : MonoBehaviour
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Explosion", Index);
         Objs[0].transform.position = NormalPos[0].transform.position;
@@ -488,6 +506,8 @@ public class ShootingManager : MonoBehaviour
         Vector3 scale = Vector3.one;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
+        if (IsReinforce)
+            scale *= 1.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Dot", Index);
         Objs[0].transform.position = SpreadPos[DotDirs[DotCount]].transform.position;

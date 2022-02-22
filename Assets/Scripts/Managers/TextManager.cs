@@ -54,6 +54,7 @@ public class TextManager : MonoBehaviour
         float time = GameManager.Inst().StgManager.BossTimer;
         time = (float)System.Math.Truncate((double)time * 100) / 100;
         GameManager.Inst().UiManager.MainUI.BossTimer.text = time.ToString();
+        GameManager.Inst().UiManager.MainUI.BossTimerGaugeBar.fillAmount = time / Constants.MAXBOSSTIME;
 
         GameManager.Inst().StgManager.BossTimer -= Time.deltaTime;
 

@@ -335,6 +335,7 @@ public class StageManager : MonoBehaviour
         pos.z = 0.05f * EnemyCount++;
         Boss.transform.position = pos;
         Boss.ResetData();
+        GameManager.Inst().UiManager.MainUI.BossLevel.text = ("LV " + BossDeathCounts[Stage - 1] + 1).ToString();
 
         CheckEnemyCount();
 

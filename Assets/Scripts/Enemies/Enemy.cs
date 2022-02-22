@@ -277,6 +277,7 @@ public class Enemy : MonoBehaviour
             //폭발 이펙트
             GameObject explosion = GameManager.Inst().ObjManager.MakeObj("Explosion");
             explosion.transform.position = transform.position;
+            PopEffect();
 
             IsReflected = false;
             IsDot = false;
@@ -446,7 +447,8 @@ public class Enemy : MonoBehaviour
             float dmg = damage + atk;
             if (bullet.IsReinforce)
                 dmg *= 2;
-            bullet.BloodSuck(dmg);
+            if(CurHP <= dmg)
+                bullet.BloodSuck(dmg);
 
             Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
 
@@ -462,7 +464,8 @@ public class Enemy : MonoBehaviour
             float dmg = damage + atk;
             if (bullet.IsReinforce)
                 dmg *= 2;
-            bullet.BloodSuck(dmg);
+            if (CurHP <= dmg)
+                bullet.BloodSuck(dmg);
 
             Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
 
@@ -478,7 +481,8 @@ public class Enemy : MonoBehaviour
             float dmg = damage + atk;
             if (bullet.IsReinforce)
                 dmg *= 2;
-            bullet.BloodSuck(dmg);
+            if (CurHP <= dmg)
+                bullet.BloodSuck(dmg);
 
             Vector2 hitPoint = collision.ClosestPoint(gameObject.transform.position);
 
@@ -494,7 +498,8 @@ public class Enemy : MonoBehaviour
             float dmg = damage + atk;
             if (bullet.IsReinforce)
                 dmg *= 2;
-            bullet.BloodSuck(dmg);
+            if (CurHP <= dmg)
+                bullet.BloodSuck(dmg);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
             hit.transform.position = bullet.transform.position;

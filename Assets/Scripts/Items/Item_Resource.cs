@@ -127,7 +127,7 @@ public class Item_Resource : Item
     {
         //Invoke("Disappear", 2.0f);
         IsDeathCount = true;
-        DeathCount = 2.0f;
+        DeathCount = 10.0f;
     }
 
     void Count()

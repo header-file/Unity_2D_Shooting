@@ -30,6 +30,8 @@ public class MainUI : MonoBehaviour
     public Text BossHPBarText;
     public Image BossGaugeBar;
     public Text BossTimer;
+    public Image BossTimerGaugeBar;
+    public Text BossLevel;
 
     public BossGauge BossGauge;
     public SideMenu SideMenu;

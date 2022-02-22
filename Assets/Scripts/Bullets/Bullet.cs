@@ -67,7 +67,7 @@ public class Bullet : MonoBehaviour
 
         if (Vamp.GetComponent<Player>())
         {
-            float heal = dmg * (GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[GameManager.Inst().Player.GetBulletType()].GetEquipIndex()).Value / 100.0f);
+            float heal = dmg * (GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[GameManager.Inst().Player.GetBulletType()].GetEquipIndex()).Value / 1000.0f);
             if (heal < 1)
                 heal = 1;
 
@@ -76,7 +76,7 @@ public class Bullet : MonoBehaviour
         else
         {
             SubWeapon sub = Vamp.GetComponent<SubWeapon>();
-            float heal = dmg * (GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[sub.GetBulletType()].GetEquipIndex()).Value / 100.0f);
+            float heal = dmg * (GameManager.Inst().Player.GetItem(GameManager.Inst().UpgManager.BData[sub.GetBulletType()].GetEquipIndex()).Value / 1000.0f);
             if (heal < 1)
                 heal = 1;
 

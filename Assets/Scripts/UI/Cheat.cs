@@ -654,4 +654,9 @@ public class Cheat : MonoBehaviour
 
         Application.Quit();
     }
+
+    public void OnClickBossShowBtn()
+    {
+        GameManager.Inst().StgManager.SetBossCount(GameManager.Inst().StgManager.Stage, 1000);
+    }
 }

@@ -555,7 +555,12 @@ public class Weapon : MonoBehaviour
             detail += GameManager.Inst().EquipDatas[eqData.Type, eqData.Rarity, 0].ToString();
         detail += GameManager.Inst().TxtManager.EquipDetailFront[eqData.Type];
         if (eqData.Value > 0)
-            detail += eqData.Value.ToString();
+        {
+            if (eqData.Type == 3)
+                detail += (eqData.Value / 10).ToString();
+            else
+                detail += eqData.Value.ToString();
+        }
         detail += GameManager.Inst().TxtManager.EquipDetailBack[eqData.Type];
         EquipDetail[1].text = detail;
     }
