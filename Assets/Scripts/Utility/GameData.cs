@@ -102,7 +102,7 @@ public class GameData
     public int[] BossGauges;
     public int[] BossDeathCounts;
 
-    public int[] CountStartTimes;
+    public int[] CountGoalTimes;
 
     public float BGMVolume = 0.5f;
     public float EffectVolume = 0.5f;
@@ -176,12 +176,12 @@ public class GameData
             }
             //for(int j = 0; j < Constants.TIMEDATASIZE; j++)
             {
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = GameManager.Inst().ResManager.StartTimes[i].Year;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = GameManager.Inst().ResManager.StartTimes[i].Month;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = GameManager.Inst().ResManager.StartTimes[i].Day;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = GameManager.Inst().ResManager.StartTimes[i].Hour;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = GameManager.Inst().ResManager.StartTimes[i].Minute;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = GameManager.Inst().ResManager.StartTimes[i].Second;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = GameManager.Inst().ResManager.GoalTimes[i].Year;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = GameManager.Inst().ResManager.GoalTimes[i].Month;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = GameManager.Inst().ResManager.GoalTimes[i].Day;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = GameManager.Inst().ResManager.GoalTimes[i].Hour;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = GameManager.Inst().ResManager.GoalTimes[i].Minute;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = GameManager.Inst().ResManager.GoalTimes[i].Second;
             }
         }
 
@@ -284,7 +284,7 @@ public class GameData
         //    GameManager.Inst().StgManager.UnlockStages(ReachedStage);
 
         if(ReachedStage > 1)
-            for (int i = 0; i < ReachedStage; i++)
+            for (int i = 0; i < ReachedStage - 1; i++)
                 GameManager.Inst().ResManager.StartCount(i);
 
         if (Resources != null && Resources.Length == Constants.MAXRESOURCETYPES)
@@ -538,32 +538,32 @@ public class GameData
             Weapons = new float[Constants.MAXBULLETS * Constants.WPDATASIZE];
         }
 
-        if (CountStartTimes != null && CountStartTimes.Length == (Constants.MAXSTAGES * Constants.TIMEDATASIZE))
+        if (CountGoalTimes != null && CountGoalTimes.Length == (Constants.MAXSTAGES * Constants.TIMEDATASIZE))
             for (int i = 0; i < Constants.MAXSTAGES; i++)
             {
-                GameManager.Inst().ResManager.StartTimes[i] = new DateTime(CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE],
-                                                                            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND]);
+                GameManager.Inst().ResManager.GoalTimes[i] = new DateTime(CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR], CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH], CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE],
+                                                                            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR], CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE], CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND]);
                 GameManager.Inst().ResManager.LoadCount(i);
             }
         else
         {
-            if (CountStartTimes != null)
-                for (int i = 0; i < (CountStartTimes.Length / Constants.TIMEDATASIZE); i++)
+            if (CountGoalTimes != null)
+                for (int i = 0; i < (CountGoalTimes.Length / Constants.TIMEDATASIZE); i++)
                 {
-                    GameManager.Inst().ResManager.StartTimes[i] = new DateTime(CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE],
-                                                                                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE], CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND]);
+                    GameManager.Inst().ResManager.GoalTimes[i] = new DateTime(CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR], CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH], CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE],
+                                                                                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR], CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE], CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND]);
                     GameManager.Inst().ResManager.LoadCount(i);
                 }
 
-            CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
+            CountGoalTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
             for (int i = 0; i < Constants.MAXSTAGES; i++)
             {
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = Now.Year;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = Now.Month;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = Now.Day;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = Now.Hour;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = Now.Minute;
-                CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = Now.Second;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = Now.Year;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = Now.Month;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = Now.Day;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = Now.Hour;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = Now.Minute;
+                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = Now.Second;
             }
         }
 
@@ -642,15 +642,15 @@ public class GameData
 
         Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
 
-        CountStartTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
+        CountGoalTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
         for(int i = 0; i < Constants.MAXSTAGES; i++)
         {
-            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = Now.Year;
-            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = Now.Month;
-            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = Now.Day;
-            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = Now.Hour;
-            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = Now.Minute;
-            CountStartTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = Now.Second;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = Now.Year;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = Now.Month;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = Now.Day;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = Now.Hour;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = Now.Minute;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = Now.Second;
         }
 
         BGMVolume = 0.5f;

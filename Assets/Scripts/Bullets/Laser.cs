@@ -37,17 +37,17 @@ public class Laser : Bullet
         LaserPos = Pos;
 
         SizeGyesu = 1.0f;
-        Line.positionCount = 2;        
+        Line.positionCount = 2;
         Line.widthMultiplier = 0.0f;
     }
 
     void ShootRay()
     {
-        Pos = LaserPos.transform.position;
+        Pos = LaserPos.transform.localPosition;
         Dir = LaserPos.transform.up;
         Hit = Physics2D.Raycast(Pos, Dir, 20.0f, WallMask);
 
-        Line.SetPosition(0, Pos);
+        Line.SetPosition(0, Vector3.zero);
         Line.SetPosition(1, Hit.point);
     }
 

@@ -11,7 +11,8 @@ public class SideMenuSlot : MonoBehaviour
     public Transform ContentTransform;
     public Text Timer;
     public Image ResourceIcon;
-    public Text[] Resources;
+    public Text[] ResourceTexts;
+    public GameObject[] Resources;
     public int Index;
     public GameObject Clear;
 
@@ -28,11 +29,6 @@ public class SideMenuSlot : MonoBehaviour
 
         if (GatherBtn == null)
             return;
-
-        if (GameManager.Inst().ResManager.CheckAble(stage))
-            GatherBtn.interactable = true;
-        else
-            GatherBtn.interactable = false;
     }
 
     public void OnClickGetBtn()

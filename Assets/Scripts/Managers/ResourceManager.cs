@@ -5,30 +5,48 @@ using static System.DateTime;
 
 public class ResourceManager : MonoBehaviour
 {
-    public System.DateTime[] StartTimes;
+    public System.DateTime[] GoalTimes;
 
+    struct ResourceData
+    {
+        public int hour;
+        public int min;
+        public int resource;
+        public int coin;
+        public int jewel;
+    }
+
+    ResourceData[] ResourceDatas;
     bool[] IsStartCount;
     int[] NowSec;
-    int[,] TempResources;
     string time;
 
-    public int GetTempResources(int stage, int type) { return TempResources[stage, type]; }
+
+    void Awake()
+    {
+        ResourceDatas = new ResourceData[Constants.MAXSTAGES];
+        List<Dictionary<string, object>> data = CSVReader.Read("Datas/SideMenuData");
+        for(int i = 0; i < Constants.MAXSTAGES; i++)
+        {
+            ResourceDatas[i].hour = int.Parse(data[i]["Hour"].ToString());
+            ResourceDatas[i].min = int.Parse(data[i]["Minute"].ToString());
+            ResourceDatas[i].resource = int.Parse(data[i]["Resource"].ToString());
+            ResourceDatas[i].coin = int.Parse(data[i]["Coin"].ToString());
+            ResourceDatas[i].jewel = int.Parse(data[i]["Jewel"].ToString());
+        }
+    }
 
     void Start()
     {
         IsStartCount = new bool[Constants.MAXSTAGES];
         NowSec = new int[Constants.MAXSTAGES];
-        StartTimes = new System.DateTime[Constants.MAXSTAGES];
-        TempResources = new int[Constants.MAXSTAGES, 2];
+        GoalTimes = new System.DateTime[Constants.MAXSTAGES];
 
         for (int i = 0; i < Constants.MAXSTAGES; i++)
         {
             IsStartCount[i] = false;
             NowSec[i] = 0;
-            StartTimes[i] = Now;
-
-            TempResources[i, 1] = 0;
-            TempResources[i, 0] = 0;
+            GoalTimes[i] = Now;
         }
     }
 
@@ -51,7 +69,8 @@ public class ResourceManager : MonoBehaviour
     {
         IsStartCount[stage] = true;
         NowSec[stage] = Now.Second;
-        StartTimes[stage] = Now;
+        GoalTimes[stage] = Now.AddHours(ResourceDatas[stage].hour);
+        GoalTimes[stage] = GoalTimes[stage].AddMinutes(ResourceDatas[stage].min);
     }
 
     public void LoadCount(int stage)
@@ -59,42 +78,17 @@ public class ResourceManager : MonoBehaviour
         if (!IsStartCount[stage])
             return;
 
-        System.TimeSpan comp = Now - StartTimes[stage];
-
-        if (comp.Hours >= 12 || comp.Days > 0)
-        {
-            FullTime(stage);
-            return;
-        }
-
-        if (comp.Hours > 0)
-        {
-            TempResources[stage, 0] = 100 * (stage + 1) * 6 * comp.Hours;
-            TempResources[stage, 1] = 5 * (stage + 1) * 6 * comp.Hours;
-        }
-        if(comp.Minutes > 10)
-        {
-            TempResources[stage, 0] = 100 * (stage + 1)  * (comp.Minutes / 10);
-            TempResources[stage, 1] = 5 * (stage + 1) * (comp.Minutes / 10);
-        }
-
-        //SideMenuSlot에 표시
-        if (GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage) != null &&
-            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources.Length == 2)
-        {
-            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
-            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
-        }
+        Count(stage);
     }
 
     void Count(int stage)
     {
         time = "";
-        System.TimeSpan comp = Now - StartTimes[stage];
+        System.TimeSpan comp = GoalTimes[stage] - Now;
 
-        if(comp.Hours >= 12 || comp.Days > 0)
+        if(comp.Hours <= 0 && comp.Minutes <= 0 && comp.Seconds <= 0)
         {
-            FullTime(stage);
+            Finish(stage);
             return;
         }
 
@@ -108,37 +102,51 @@ public class ResourceManager : MonoBehaviour
             time += "0";
         time += comp.Seconds.ToString();
 
-        if(comp.Minutes > 10 && comp.Minutes % 10 == 0 && comp.Seconds == 0)
-        {
-            //자원 상승
-            TempResources[stage, 0] += 100 * (stage + 1);
-            TempResources[stage, 1] += 5 * (stage + 1);
-
-            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).GatherBtn.interactable = true;
-        }
-
         ShowData(stage, time);
     }
 
     void ShowData(int stage, string str)
     {
+        if (!IsStartCount[stage])
+            return;
+
         //SideMenuSlot에 표시
-        if (GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources.Length == 2)
+        if (ResourceDatas[stage].coin > 0)
         {
-            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
-            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[0].gameObject.SetActive(true);
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).ResourceTexts[0].text = ResourceDatas[stage].coin.ToString();
         }
+        else
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[0].gameObject.SetActive(false);
+
+        if (ResourceDatas[stage].resource > 0)
+        {
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[1].gameObject.SetActive(true);
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).ResourceTexts[1].text = ResourceDatas[stage].resource.ToString();
+        }
+        else
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[1].gameObject.SetActive(false);
+
+        if (ResourceDatas[stage].jewel > 0)
+        {
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[2].gameObject.SetActive(true);
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).ResourceTexts[2].text = ResourceDatas[stage].jewel.ToString();
+        }
+        else
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[2].gameObject.SetActive(false);
 
         if (GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Timer != null)
             GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Timer.text = str;
+
+        if (str == "00 : 00 : 00")
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).GatherBtn.gameObject.SetActive(true);
+        else
+            GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).GatherBtn.gameObject.SetActive(false);
     }
 
-    void FullTime(int stage)
+    void Finish(int stage)
     {
-        string str = "12 : 00 : 00";
-
-        TempResources[stage, 0] = 100 * (stage + 1) * 6 * 12;
-        TempResources[stage, 1] = 5 * (stage + 1) * 6 * 12;
+        string str = "00 : 00 : 00";
 
         ShowData(stage, str);
     }
@@ -146,30 +154,19 @@ public class ResourceManager : MonoBehaviour
     public void GetTempResources(int stage)
     {
         GameManager.Inst().UiManager.MainUI.PopupReward.gameObject.SetActive(true);
-        GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.COIN, TempResources[stage, 0]);
-        GameManager.Inst().UiManager.MainUI.PopupReward.Show(stage + 3, TempResources[stage, 1]);
+        if (ResourceDatas[stage].coin > 0)
+            GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.COIN, ResourceDatas[stage].coin);
+        if (ResourceDatas[stage].jewel > 0)
+            GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL, ResourceDatas[stage].jewel);
+        if (ResourceDatas[stage].resource > 0)
+            GameManager.Inst().UiManager.MainUI.PopupReward.Show(stage + 3, ResourceDatas[stage].resource);
 
-        GameManager.Inst().AddResource(stage + 1, TempResources[stage, 1]);
-        GameManager.Inst().Player.AddCoin(TempResources[stage, 0]);
+        GameManager.Inst().AddResource(stage + 1, ResourceDatas[stage].resource);
+        GameManager.Inst().Player.AddCoin(ResourceDatas[stage].coin);
+        GameManager.Inst().AddJewel(ResourceDatas[stage].jewel);
 
-        for(int i = 0; i < 2; i++)
-            TempResources[stage, i] = 0;
+        GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).GatherBtn.gameObject.SetActive(false);
 
-        GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[0].text = TempResources[stage, 0].ToString();
-        GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Resources[1].text = TempResources[stage, 1].ToString();
-
-        GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).Timer.text = "00 : 00 : 00";
-
-        GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).GatherBtn.interactable = false;
-
-        StartTimes[stage] = Now;
-    }
-
-    public bool CheckAble(int stage)
-    {
-        if (TempResources[stage, 0] > 0)
-            return true;
-
-        return false;
+        StartCount(stage);
     }
 }
