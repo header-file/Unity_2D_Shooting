@@ -74,8 +74,7 @@ public class Player : MonoBehaviour
     Vector3 OriginalPos;
     CanvasGroup canvasGroup;
     Vector3 NormalSize;
-    Vector3 BossSize;
-    
+    Vector3 BossSize;    
 
     Vector3 PlayerPos;
     Vector3 UIOriPos;
@@ -84,8 +83,6 @@ public class Player : MonoBehaviour
     int BulletType;
     bool IsMovable;
     bool IsShield;
-    int MaxHP;
-    int CurHP;
     bool IsDead;
     bool IsInvincible;
     float DeathTimer;
@@ -104,13 +101,9 @@ public class Player : MonoBehaviour
     public int GetCoin() { return Coin; }
     public int GetBulletType() { return BulletType; }
     public bool GetIsMovable() { return IsMovable; }
-    public int GetMaxHP() { return MaxHP; }
-    public int GetCurHP() { return CurHP; }
     public int GetColorIndex() { return ColorIndex; }
 
-
-    public void SetMaxHP(int hp) { MaxHP = hp; }
-    public void SetCurHP(int hp) { CurHP = hp; }
+    
     public void SetSubWeapon(GameObject obj, int index) { SubWeapons[index] = obj; }
     public void SetBulletType(int type)
     {
@@ -120,15 +113,15 @@ public class Player : MonoBehaviour
         if (!IsDead)
             SetSkinColor(GameManager.Inst().ShtManager.BaseColor[BulletType]);
 
-        SetHPs();
+        SetHPBar();
     }
 
-    public void SetHPs()
-    {
-        int dam = MaxHP - CurHP;
-        MaxHP = GameManager.Inst().UpgManager.BData[BulletType].GetHealth() + GameManager.Inst().UpgManager.BData[BulletType].GetHp();
-        CurHP = MaxHP - dam;
-    }
+    //public void SetHPs()
+    //{
+    //    int MaxHP = GameManager.Inst().UpgManager.BData[BulletType].GetHealth() + GameManager.Inst().UpgManager.BData[BulletType].GetHp();
+    //    int dam = MaxHP - GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP();
+    //    GameManager.Inst().UpgManager.BData[BulletType].SetCurrentHP(MaxHP - dam);
+    //}
 
     public void BossMode()
     {
@@ -363,7 +356,6 @@ public class Player : MonoBehaviour
         IsDead = false;
         IsInvincible = false;
         DeathTimer = 0.0f;
-        CurHP = MaxHP = 0;
 
         ShootCount = 0;
 
@@ -612,7 +604,8 @@ public class Player : MonoBehaviour
             }
         }
 
-        CurHP -= damage;
+        GameManager.Inst().UpgManager.BData[BulletType].SetCurrentHP(
+            GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() - damage);
 
         //DamageText
         GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, damage, (int)TextManager.DamageType.BYENEMY, false);
@@ -623,10 +616,10 @@ public class Player : MonoBehaviour
         GameManager.Inst().SodManager.PlayEffect("Player hit");
 
         HPUI.SetActive(true);
-        HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+        SetHPBar();
         Invoke("HideHPUI", 1.0f);
 
-        if (CurHP <= 0)
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() <= 0)
             Dead();
     }
 
@@ -635,15 +628,17 @@ public class Player : MonoBehaviour
         if (heal < 1)
             heal = 1;
 
-        CurHP += heal;
-        if (CurHP > MaxHP)
-            CurHP = MaxHP;
+        GameManager.Inst().UpgManager.BData[BulletType].SetCurrentHP(
+            GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() + heal);
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() > GameManager.Inst().UpgManager.BData[BulletType].GetFullHP())
+            GameManager.Inst().UpgManager.BData[BulletType].SetCurrentHP(
+                GameManager.Inst().UpgManager.BData[BulletType].GetFullHP()); 
 
         //DamageText
         GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, heal, (int)TextManager.DamageType.PLAYERHEAL, false);
 
         HPUI.SetActive(true);
-        HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+        SetHPBar();
         Invoke("HideHPUI", 1.0f);
     }
 
@@ -690,8 +685,11 @@ public class Player : MonoBehaviour
     {
         IsDead = false;
         IsInvincible = true;
-        SetHPs();
-        CurHP = MaxHP;
+
+        GameManager.Inst().UpgManager.BData[BulletType].SetCurrentHP(
+            GameManager.Inst().UpgManager.BData[BulletType].GetFullHP());
+
+        SetHPBar();
 
         TimerImage.gameObject.SetActive(false);
 
@@ -700,6 +698,12 @@ public class Player : MonoBehaviour
         revive.transform.position = transform.position;
 
         Invoke("ReturnInvincible", 1.0f);
+    }
+
+    void SetHPBar()
+    {
+        HPBar.fillAmount = (GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() /
+            GameManager.Inst().UpgManager.BData[BulletType].GetFullHP()) * 0.415f;
     }
 
     void LevelupSound()

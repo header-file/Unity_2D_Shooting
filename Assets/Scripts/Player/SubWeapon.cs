@@ -45,20 +45,13 @@ public class SubWeapon : MonoBehaviour
     int ColorIndex;
 
     const int COOLTIME = 300;
-    int MaxHP;
-    int CurHP;
 
     Vector3 UIPos;
 
     public int GetBulletType() { return BulletType; }
-    public int GetCurHP() { return CurHP; }
-    public int GetMaxHP() { return MaxHP; }
     public int GetColorIndex() { return ColorIndex; }
     
     public void SetNumID(int id) { NumID = id; }
-    public void SetHP(int hp) { CurHP = MaxHP = hp; }
-    public void SetCurHP(int hp) { CurHP = hp; }
-    public void SetMaxHP(int hp) { MaxHP = hp; }
 
     public void SetBulletType(int T)
     {
@@ -66,15 +59,15 @@ public class SubWeapon : MonoBehaviour
         SetSkin();
         SetSkinColor(GameManager.Inst().ShtManager.BaseColor[BulletType]);
 
-        SetHPs();
+        SetHPBar();
     }
 
-    public void SetHPs()
-    {
-        int dam = MaxHP - CurHP;
-        MaxHP = GameManager.Inst().UpgManager.BData[BulletType].GetHealth() + GameManager.Inst().UpgManager.BData[BulletType].GetHp();
-        CurHP = MaxHP - dam;
-    }
+    //public void SetHPs()
+    //{
+    //    int dam = MaxHP - CurHP;
+    //    MaxHP = GameManager.Inst().UpgManager.BData[BulletType].GetHealth() + GameManager.Inst().UpgManager.BData[BulletType].GetHp();
+    //    CurHP = MaxHP - dam;
+    //}
 
     public void ShowShield()
     {
@@ -98,8 +91,6 @@ public class SubWeapon : MonoBehaviour
         CoolTime = 0;
         IsInvincible = false;
         IsShaking = false;
-
-        MaxHP = CurHP = 0;
 
         for (int i = 0; i < ShieldParts.Length; i++)
             ShieldParts[i].gameObject.SetActive(false);
@@ -221,7 +212,8 @@ public class SubWeapon : MonoBehaviour
             }
         }
 
-        CurHP -= damage;
+        GameManager.Inst().UpgManager.BData[BulletType].SetCurrentHP(
+            GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() - damage);
 
         //DamageText
         GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, damage, (int)TextManager.DamageType.BYENEMY, false);
@@ -239,10 +231,10 @@ public class SubWeapon : MonoBehaviour
         hit.transform.position = transform.position;
 
         GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPUI.SetActive(true);
-        GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+        SetHPBar();
         Invoke("HideHPUI", 1.0f);
 
-        if (CurHP <= 0)
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() <= 0)
             Dead();
     }
 
@@ -251,15 +243,17 @@ public class SubWeapon : MonoBehaviour
         if (heal < 1)
             heal = 1;
 
-        CurHP += heal;
-        if (CurHP > MaxHP)
-            CurHP = MaxHP;
+        GameManager.Inst().UpgManager.BData[BulletType].SetCurrentHP(
+            GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() + heal);
+        if (GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() > GameManager.Inst().UpgManager.BData[BulletType].GetFullHP())
+            GameManager.Inst().UpgManager.BData[BulletType].SetCurrentHP(
+                GameManager.Inst().UpgManager.BData[BulletType].GetFullHP());
 
         //DamageText
         GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, heal, (int)TextManager.DamageType.PLAYERHEAL, false);
 
         GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPUI.SetActive(true);
-        GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+        SetHPBar();
         Invoke("HideHPUI", 1.0f);
     }
 
@@ -422,8 +416,11 @@ public class SubWeapon : MonoBehaviour
     {
         IsAlive = true;
         IsInvincible = true;
-        CurHP = MaxHP;
-        GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = (float)CurHP / MaxHP * 0.415f;
+
+        GameManager.Inst().UpgManager.BData[BulletType].SetCurrentHP(
+            GameManager.Inst().UpgManager.BData[BulletType].GetFullHP());
+
+        SetHPBar();
 
         GetComponent<Animator>().SetTrigger("Revive");
         GameObject revive = GameManager.Inst().ObjManager.MakeObj("Revive");
@@ -433,6 +430,12 @@ public class SubWeapon : MonoBehaviour
         Invoke("ReturnInvincible", 1.0f);
 
         GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].CoolTime.gameObject.SetActive(false);
+    }
+
+    void SetHPBar()
+    {
+        GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = (GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() /
+            GameManager.Inst().UpgManager.BData[BulletType].GetFullHP()) * 0.415f;
     }
 
     void ReturnColor()
@@ -477,7 +480,6 @@ public class SubWeapon : MonoBehaviour
     public void Disable()
     {
         GameManager.Inst().SetSubWeapons(null, NumID);
-        GameManager.Inst().UpgManager.SetSubWeaponLevel(GameManager.Inst().StgManager.Stage, NumID, 0);
         int id = NumID;
         if (id > 1)
             id++;

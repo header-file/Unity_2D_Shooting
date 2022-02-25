@@ -42,15 +42,15 @@ public class GameManager : MonoBehaviour
     public int[] Resources;
     public int[,,] EquipDatas;
 
-    SubWeapon[,] SubWeapons;
+    SubWeapon[] SubWeapons;
     
     List<Dictionary<string, object>> DropRateData;
 
     public static GameManager Inst() { return Instance; }
-    public SubWeapon GetSubweapons(int index) { return SubWeapons[StgManager.Stage - 1, index] != null ? SubWeapons[StgManager.Stage - 1, index] : null; }
+    public SubWeapon GetSubweapons(int index) { return SubWeapons[index] != null ? SubWeapons[index] : null; }
     public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
-    public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[StgManager.Stage - 1, index] = Sub; }
+    public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[index] = Sub; }
     public void SetJewel(int value) { Jewel = value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
     public void AddJewel(int value) { Jewel += value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
     public void SubtractJewel(int value) { Jewel -= value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
         Jewel = 0;
         Resources = new int[Constants.MAXSTAGES];
 
-        SubWeapons = new SubWeapon[Constants.MAXSTAGES, 4];
+        SubWeapons = new SubWeapon[Constants.MAXSUBWEAPON];
         SubWID = new int[Constants.MAXSTAGES, 4];
 
         EquipDatas = new int[Constants.MAXEQUIPTYPE, Constants.MAXRARITY, Constants.MAXEQUIPDATAS];

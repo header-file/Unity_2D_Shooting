@@ -30,7 +30,7 @@ public class BuySubWeapon : MonoBehaviour
     public void ShowBuy(int index)
     {
         gameObject.SetActive(true);
-        PriceText.text = GameManager.Inst().UpgManager.GetSubWeaponBuyPrice().ToString();
+        PriceText.text = GameManager.Inst().UpgManager.GetSubWeaponPrice().ToString();
 
         if (!BuyBtn.IsInteractable())
             BuyBtn.interactable = true;
@@ -38,8 +38,12 @@ public class BuySubWeapon : MonoBehaviour
         SelectedIndex = index;
         GameManager.Inst().UpgManager.SetCurrentSubWeaponIndex(index);
 
-        //GameManager.Inst().TxtManager.SetSPrice(GameManager.Inst().UpgManager.GetSubWeaponPrice(index));
         GameManager.Inst().TxtManager.SetSName(index);
+
+        if (GameManager.Inst().Player.GetCoin() < GameManager.Inst().UpgManager.GetSubWeaponPrice())
+            BuyBtn.interactable = false;
+        else
+            BuyBtn.interactable = true;
     }
 
     public void Cancel()
@@ -53,6 +57,6 @@ public class BuySubWeapon : MonoBehaviour
     {
         GameManager.Inst().UpgManager.AddLevel((int)UpgradeManager.UpgradeType.SUBWEAPON);
         BuyBtn.interactable = false;
-        PriceText.text = GameManager.Inst().UpgManager.GetSubWeaponBuyPrice().ToString();
+        PriceText.text = GameManager.Inst().UpgManager.GetSubWeaponPrice().ToString();
     }
 }

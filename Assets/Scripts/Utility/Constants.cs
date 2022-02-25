@@ -23,8 +23,7 @@ static class Constants
     public const int MAXEQUIPTYPE = 9;
     public const int MAXEQUIPDATAS = 3;
 
-    public const int MAXPLAYERLEVEL = 30;
-    public const int MAXSUBLEVEL = 5;
+    public const int MAXPLAYERLEVEL = 50;
 
     public const int MAX_SHOP_JEWEL = 7;
     public const int MAX_SHOP_EXPAND = 4;
@@ -35,9 +34,8 @@ static class Constants
     public const int SHOP_RESOURCE_TYPES = 6;
     public const int SHOP_PACKAGE_TYPES = 9;
 
-    public const int PLADATASIZE = 5;
+    public const int PLADATASIZE = 2;
     public const int INVDATASIZE = 6;
-    public const int SWDATASIZE = 5;
     public const int WPDATASIZE = 7;
     public const int QSTDATASIZE = 2;
     public const int TIMEDATASIZE = 6;
