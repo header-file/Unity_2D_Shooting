@@ -200,7 +200,7 @@ public class Reinforce : MonoBehaviour
 
     public void OnClickInfoBack()
     {
-        GameManager.Inst().UiManager.MainUI.Center.Weapon.SwitchWindow.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoArea.gameObject.SetActive(true);
         gameObject.SetActive(false);
     }
 

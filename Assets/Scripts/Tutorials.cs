@@ -99,7 +99,6 @@ public class Tutorials : MonoBehaviour
             case 24:
             case 28:
             case 33:
-            case 36:
             case 40:
             case 43:
             case 50:
@@ -113,8 +112,9 @@ public class Tutorials : MonoBehaviour
             case 68:
                 Invoke("AddStep", 5.0f);
                 break;
-            case 9:
-                GameManager.Inst().Player.AddCoin(1000);
+            case 8:
+                GameManager.Inst().Player.AddCoin(10000);
+                GameManager.Inst().MakeReinforceData(0, 0);
                 break;
             case 11:
                 GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
@@ -154,9 +154,9 @@ public class Tutorials : MonoBehaviour
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
                 Invoke("AddStep", 5.0f);
                 break;
-            //case 36:
-            //    GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
-            //    break;
+            case 36:
+                Invoke("CloseAndNext", 5.0f);
+                break;
             case 38:
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
                 Invoke("AddStep", 5.0f);
@@ -259,6 +259,13 @@ public class Tutorials : MonoBehaviour
     void FeverMode()
     {
         GameManager.Inst().StgManager.SetBossCount(1, 36);
+        AddStep();
+    }
+
+    void CloseAndNext()
+    {
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.OnClickInfoBack();
+        GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
         AddStep();
     }
 

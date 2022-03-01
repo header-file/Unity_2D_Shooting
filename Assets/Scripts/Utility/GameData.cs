@@ -100,7 +100,6 @@ public class GameData
     public bool IsEraseData;
 
     public int BeforeStage;
-    //public bool IsTutorial;
 
     public void SaveData()
     {
@@ -140,15 +139,13 @@ public class GameData
             }
             FullFevers[i] = GameManager.Inst().StgManager.FullFever[i];
 
-            //for(int j = 0; j < Constants.TIMEDATASIZE; j++)
-            {
-                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = GameManager.Inst().ResManager.GoalTimes[i].Year;
-                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = GameManager.Inst().ResManager.GoalTimes[i].Month;
-                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = GameManager.Inst().ResManager.GoalTimes[i].Day;
-                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = GameManager.Inst().ResManager.GoalTimes[i].Hour;
-                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = GameManager.Inst().ResManager.GoalTimes[i].Minute;
-                CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = GameManager.Inst().ResManager.GoalTimes[i].Second;
-            }
+
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = GameManager.Inst().ResManager.GoalTimes[i].Year;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = GameManager.Inst().ResManager.GoalTimes[i].Month;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.DATE] = GameManager.Inst().ResManager.GoalTimes[i].Day;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.HOUR] = GameManager.Inst().ResManager.GoalTimes[i].Hour;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MINUTE] = GameManager.Inst().ResManager.GoalTimes[i].Minute;
+            CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.SECOND] = GameManager.Inst().ResManager.GoalTimes[i].Second;
         }
 
         for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
