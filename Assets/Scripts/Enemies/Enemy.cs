@@ -288,9 +288,6 @@ public class Enemy : MonoBehaviour
 
             if (Type != EnemyType.BOSS)
             {
-                //이펙트
-
-
                 GameManager.Inst().StgManager.AddBossCount();
                 gameObject.SetActive(false);
 
@@ -360,6 +357,8 @@ public class Enemy : MonoBehaviour
     void MakeResource()
     {
         int rand = Random.Range(1 + (int)Type, 3 + (int)Type);
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 1)
+            rand = 1;
         if (Type == EnemyType.BOSS)
             rand = Random.Range(5, 8);
 
@@ -381,6 +380,9 @@ public class Enemy : MonoBehaviour
             resource.TargetPosition = pos;
             resource.IsScatter = true;
             resource.InvokeDisappear();
+
+            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 1)
+                GameManager.Inst().UiManager.MainUI.Tutorial.SetResource(resource.gameObject);
         }
     }
 

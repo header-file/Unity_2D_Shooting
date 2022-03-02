@@ -36,7 +36,7 @@ public class Tutorials : MonoBehaviour
             tData.Pos = new Vector2(int.Parse(data[i]["PosX"].ToString()), int.Parse(data[i]["PosY"].ToString()));
             tData.TxtSize = new Vector2(int.Parse(data[i]["TxtSizeX"].ToString()), int.Parse(data[i]["TxtSizeY"].ToString()));
             tData.TxtPos = new Vector2(int.Parse(data[i]["TxtPosX"].ToString()), int.Parse(data[i]["TxtPosY"].ToString()));
-            tData.Txt = data[i]["Txt"].ToString();
+            tData.Txt = data[i]["Txt"].ToString().Replace("n", "\n");
 
             TutDatas.Add(tData);
         }

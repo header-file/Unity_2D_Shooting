@@ -16,6 +16,8 @@ public class Tutorial : MonoBehaviour
     public Vector2 Pos;
     public Vector2 TxtSize;
     public Vector2 TxtPos;
+
+    GameObject Resource;
     
 
     public enum TutorialTypes
@@ -51,6 +53,12 @@ public class Tutorial : MonoBehaviour
         Emp.anchoredPosition = Pos;
         Emp.sizeDelta = Size;
 
+        if(Resource != null && Resource.activeSelf)
+        {
+            Emp.transform.position = Resource.transform.position;
+            Emp.sizeDelta = Vector2.one * 100.0f;
+        }
+
         TextBg.anchoredPosition = TxtPos;
         TextBg.sizeDelta = TxtSize;
     }
@@ -66,10 +74,15 @@ public class Tutorial : MonoBehaviour
         Blurs[1].anchoredPosition = Vector2.zero;
 
         Blurs[2].sizeDelta = new Vector2(Width / 2.0f + (Emp.anchoredPosition.x - Emp.sizeDelta.x / 2.0f), Emp.sizeDelta.y);
-        Blurs[2].anchoredPosition = new Vector2(0.0f, Pos.y);
+        Blurs[2].anchoredPosition = new Vector2(0.0f, Emp.anchoredPosition.y);
 
         Blurs[3].sizeDelta = new Vector2(Width / 2.0f - (Emp.anchoredPosition.x + Emp.sizeDelta.x / 2.0f), Emp.sizeDelta.y);
-        Blurs[3].anchoredPosition = new Vector2(0.0f, Pos.y);
+        Blurs[3].anchoredPosition = new Vector2(0.0f, Emp.anchoredPosition.y);
+    }
+
+    public void SetResource(GameObject obj)
+    {
+        Resource = obj;
     }
 
     public void OnClickSkip()
