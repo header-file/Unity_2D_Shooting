@@ -200,7 +200,13 @@ public class StageManager : MonoBehaviour
 
     void RandFever()
     {
-        for(int i = 0; i < 3; i++)
+        if (SceneManager.GetActiveScene().name == "Stage0")
+        {
+            GameManager.Inst().Tutorials.SetFeverGauge();
+            return;
+        }
+
+        for (int i = 0; i < 3; i++)
         {
             MinFever[(Stage - 1) * 3 + i] = 0.0f;
             MaxFever[(Stage - 1) * 3 + i] = 0.0f;

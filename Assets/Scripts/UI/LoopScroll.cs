@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LoopScroll : MonoBehaviour
 {
@@ -94,7 +95,6 @@ public class LoopScroll : MonoBehaviour
             {
                 MinBtnNum = i;
                 GameManager.Inst().UiManager.MainUI.Bottom.ShowEquipBtn(MinBtnNum);
-                //GameManager.Inst().UiManager.SelectBullet(i);
             }
         }
 
@@ -131,6 +131,9 @@ public class LoopScroll : MonoBehaviour
     {
         GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.IsDragging = false;
         Timer = 0.0f;
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 5)
+            GameManager.Inst().Tutorials.Step++;
     }
 
     public int OnClickEquipBtn()
@@ -181,6 +184,9 @@ public class LoopScroll : MonoBehaviour
         }
 
         GameManager.Inst().UiManager.MainUI.Bottom.OnClickSelectBullet(MinBtnNum);
+
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 6)
+            GameManager.Inst().Tutorials.Step++;
 
         return MinBtnNum;
     }

@@ -52,7 +52,6 @@ public class Tutorials : MonoBehaviour
     IEnumerator TutorialStart()
     {
         GameManager.Inst().UiManager.MainUI.Tutorial.gameObject.SetActive(true);
-        SetFeverGauge();
 
         int goal = Step + 1;
 
@@ -84,51 +83,45 @@ public class Tutorials : MonoBehaviour
                 EnemySpawn(0);
                 break;
             case 4:
-                Invoke("ToggleResUI", 3.0f);
-                GameManager.Inst().IptManager.SetIsAbleControl(false);
-                EnemySpawn(0);
+                Invoke("ToggleResUI", 2.0f);
                 break;
-            case 5:
-                GameManager.Inst().IptManager.SetIsAbleControl(true);
-                break;
-            case 6:
-            case 10:
-            case 19:
-            case 20:
-            case 21:
-            case 24:
-            case 28:
-            case 33:
-            case 40:
-            case 43:
-            case 50:
-            case 54:
-            case 57:
-            case 59:
-            case 60:
-            case 62:
-            case 65:
-            case 67:
-            case 68:
+            case 7:
+                GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
                 Invoke("AddStep", 5.0f);
                 break;
             case 8:
-                GameManager.Inst().Player.AddCoin(10000);
-                GameManager.Inst().MakeReinforceData(0, 0);
+                //Emp 이미지 변경
+                Invoke("AddStep", 5.0f);
+                break;
+            case 10:
+                Invoke("AddStep", 5.0f);
                 break;
             case 11:
-                GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
+                GameManager.Inst().StgManager.SetBossCount(1, 50);
+                Invoke("AddStep", 5.0f);
                 break;
             case 12:
+                GameManager.Inst().StgManager.SetBossCount(1, 100);
+                Invoke("AddStep", 5.0f);
+                break;
+            case 9:
             case 13:
-            case 14:
-            case 15:
             case 16:
             case 17:
-                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
-                Invoke("AddStep", 2.0f);
+                Invoke("AddStep", 5.0f);
+                break;
+            case 14:
+                Invoke("EndBoss", 5.0f);
                 break;
             case 18:
+                GameManager.Inst().UiManager.MainUI.SideMenu.OnClickSideBarBackBtn();
+                //하단 메뉴 설명 글씨
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
+                Invoke("AddStep", 5.0f);
+                break;
+            case 19:
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
             case 25:
@@ -203,11 +196,11 @@ public class Tutorials : MonoBehaviour
         Step++;
     }
 
-    void SetFeverGauge()
+    public void SetFeverGauge()
     {
-        GameManager.Inst().StgManager.SetFever(GameManager.Inst().StgManager.Stage, 0, 0.35f, 0.65f);
-        GameManager.Inst().StgManager.SetFever(GameManager.Inst().StgManager.Stage, 1, 0.0f, 0.0f);
-        GameManager.Inst().StgManager.SetFever(GameManager.Inst().StgManager.Stage, 2, 0.0f, 0.0f);
+        GameManager.Inst().StgManager.SetFever(0, 0, 35.0f, 65.0f);
+        GameManager.Inst().StgManager.SetFever(0, 1, 0.0f, 0.0f);
+        GameManager.Inst().StgManager.SetFever(0, 2, 0.0f, 0.0f);
         GameManager.Inst().StgManager.SetFeverGauge();
     }
 
@@ -256,16 +249,16 @@ public class Tutorials : MonoBehaviour
         GameManager.Inst().MakeEquipData(1, 0);
     }
 
-    void FeverMode()
-    {
-        GameManager.Inst().StgManager.SetBossCount(1, 36);
-        AddStep();
-    }
-
     void CloseAndNext()
     {
         GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.OnClickInfoBack();
         GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
+        AddStep();
+    }
+
+    void EndBoss()
+    {
+        GameManager.Inst().StgManager.BossTimer = 0.1f;
         AddStep();
     }
 
