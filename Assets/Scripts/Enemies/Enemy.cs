@@ -299,6 +299,8 @@ public class Enemy : MonoBehaviour
 
                 GameManager.Inst().SodManager.PlayEffect("Enemy die");
 
+                if (SceneManager.GetActiveScene().name == "Stage0")
+                    return;
 #if UNITY_EDITOR
                 rand = Random.Range(0, 2);
                 if (rand == 0)

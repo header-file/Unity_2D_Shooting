@@ -11,6 +11,7 @@ public class Tutorial : MonoBehaviour
     public Text TutorialText;
     public GameObject SkipWindow;
     public Image EmpImg;
+    public GameObject Arrows;
 
     public Vector2 Size;
     public Vector2 Pos;

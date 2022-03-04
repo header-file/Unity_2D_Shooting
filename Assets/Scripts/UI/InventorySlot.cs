@@ -164,9 +164,9 @@ public class InventorySlot : MonoBehaviour, IComparable<InventorySlot>
                 break;
         }
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 36 || GameManager.Inst().Tutorials.Step == 39 || GameManager.Inst().Tutorials.Step == 45 ||
-            GameManager.Inst().Tutorials.Step == 49 || GameManager.Inst().Tutorials.Step == 51 || GameManager.Inst().Tutorials.Step == 52 || GameManager.Inst().Tutorials.Step == 53  ||
-            GameManager.Inst().Tutorials.Step == 56))
+        if (SceneManager.GetActiveScene().name == "Stage0" && (GameManager.Inst().Tutorials.Step == 26 || 
+            GameManager.Inst().Tutorials.Step == 27 || GameManager.Inst().Tutorials.Step == 28 ||
+            GameManager.Inst().Tutorials.Step == 29))
             GameManager.Inst().Tutorials.Step++;
     }
 }

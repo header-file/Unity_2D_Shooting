@@ -78,6 +78,7 @@ public class Tutorials : MonoBehaviour
         switch (Step)
         {
             case 1:
+                GameManager.Inst().UiManager.MainUI.Tutorial.Arrows.SetActive(false);
                 GameManager.Inst().IptManager.SetIsAbleControl(false);
                 Invoke("SetAbleControl", 2.0f);
                 EnemySpawn(0);
@@ -94,22 +95,26 @@ public class Tutorials : MonoBehaviour
                 //Emp 이미지 변경
                 Invoke("AddStep", 5.0f);
                 break;
+            case 9:
+                //Emp 이미지 원래대로 변경
+                Invoke("AddStep", 5.0f);
+                break;
             case 10:
                 Invoke("AddStep", 5.0f);
                 break;
             case 11:
-                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 GameManager.Inst().StgManager.SetBossCount(1, 50);
                 Invoke("AddStep", 5.0f);
                 break;
             case 12:
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 GameManager.Inst().StgManager.SetBossCount(1, 100);
                 Invoke("AddStep", 5.0f);
                 break;
-            case 9:
             case 13:
             case 16:
             case 17:
+            case 25:
                 Invoke("AddStep", 5.0f);
                 break;
             case 14:
@@ -124,14 +129,24 @@ public class Tutorials : MonoBehaviour
             case 19:
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
-            case 25:
-                GameManager.Inst().MakeEquipData(0, 0);
-                GameManager.Inst().MakeEquipData(0, 0);
-                GameManager.Inst().MakeEquipData(0, 0);
+            case 22:
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
+                Invoke("AddStep", 5.0f);
+                break;
+            case 23:
+                //Emp 이미지 변경
+                //메뉴 설명 글씨
+                Invoke("AddStep", 5.0f);
+                break;
+            case 24:
+                //Emp 이미지 원래대로 변경
                 GameManager.Inst().MakeEquipData(0, 0);
                 GameManager.Inst().MakeEquipData(1, 0);
-                GameManager.Inst().MakeReinforceData(0, 0);
-                Invoke("AddStep", 5.0f);
+                GameManager.Inst().MakeEquipData(2, 0);
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
+                break;
+            case 26:
+                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
             case 29:
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
@@ -140,52 +155,7 @@ public class Tutorials : MonoBehaviour
             case 30:
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
-            case 32:
-                GameManager.Inst().Player.AddCoin(20);
-                break;
-            case 35:
-                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
-                Invoke("AddStep", 5.0f);
-                break;
-            case 36:
-                Invoke("CloseAndNext", 5.0f);
-                break;
-            case 38:
-                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
-                Invoke("AddStep", 5.0f);
-                break;
-            case 39:
-                GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
-                break;
-            case 44:
-                GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
-                break;
-            case 47:
-                Invoke("ExitSell", 5.0f);
-                break;
-            case 58:
-                SetFeverGauge();
-                break;
-            case 61:
-                Invoke("FeverMode", 3.0f);
-                break;
-            case 63:
-                GameManager.Inst().StgManager.SetBossCount(1, 66);
-                Invoke("AddStep", 5.0f);
-                break;
-            case 64:
-                EnemyFin.SetActive(true);
-                EnemySpawn(1);
-                break;
-            case 66:
-                GameManager.Inst().StgManager.SetBossCount(1, 100);
-                Invoke("AddStep", 6.0f);
-                break;
-            case 69:
-                GameManager.Inst().StgManager.BossTimer = 0.1f;
-                Invoke("AddStep", 5.0f);
-                break;
-            case 70:
+            case 31:
                 Invoke("EndTutorial", 5.0f);
                 break;
         }
