@@ -7,6 +7,7 @@ public class ShootingManager : MonoBehaviour
 {
     public int MAXCOLOR = 8;
     public int[] BaseColor;
+    public GameObject EnemyBottom;
 
     GameObject[] NormalPos;
     GameObject[] SpreadPos;
@@ -537,17 +538,18 @@ public class ShootingManager : MonoBehaviour
             scale *= 0.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeObj("EqMissile");
-        Objs[0].transform.position = SpreadPos[0].transform.position;
-        Objs[0].transform.rotation = SpreadPos[0].transform.rotation;
+        Objs[0].transform.position = LaserPos.transform.position;
+        Objs[0].transform.rotation = LaserPos.transform.rotation;
         Objs[0].transform.localScale = scale;
 
         bullet = Objs[0].gameObject.GetComponent<Missile>();
         bullet.SetBulletType((int)Bullet.BulletType.EQUIP_MISSILE);
         bullet.InventoryIndex = index;
         bullet.ResetTarget();
+        bullet.StartTraceTimer();
 
         bullet.SearchArea.GetComponent<SearchArea>().SetArea(rad);
-        bullet.ShootEquip(SpreadPos[0].transform.up, (int)Bullet.BulletType.MISSILE);
+        bullet.ShootEquip(LaserPos.transform.up, (int)Bullet.BulletType.MISSILE);
 
         GameManager.Inst().SodManager.PlayEffect("Wp_Missile");
     }

@@ -6,6 +6,7 @@ using static System.DateTime;
 public class ResourceManager : MonoBehaviour
 {
     public System.DateTime[] GoalTimes;
+    public bool[] IsStartCount;
 
     struct ResourceData
     {
@@ -17,7 +18,6 @@ public class ResourceManager : MonoBehaviour
     }
 
     ResourceData[] ResourceDatas;
-    bool[] IsStartCount;
     int[] NowSec;
     string time;
 

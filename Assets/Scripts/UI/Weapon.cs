@@ -242,10 +242,11 @@ public class Weapon : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             SwitchWindows[i].Skin.SetCategoryAndLabel("Skin", GameManager.Inst().Player.Types[SlotIndices[i]]);
-            if(i != 1)
-                SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.BaseColor[SlotIndices[i]] + 1);
-            else
-                SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(2) + 1);
+            //if(i != 1)
+            //    SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.BaseColor[SlotIndices[i]] + 1);
+            //else
+            //    SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.GetColorSelection(2) + 1);
+            SwitchWindows[i].Anim.SetInteger("Color", GameManager.Inst().ShtManager.BaseColor[SlotIndices[i]] + 1);
         }
         
         ShowInfoArea();
@@ -264,7 +265,7 @@ public class Weapon : MonoBehaviour
             SwitchWindows[i].GetComponent<RectTransform>().anchoredPosition = pos;
         }
 
-        CurBulletType = GameManager.Inst().Player.GetBulletType();
+        //CurBulletType = GameManager.Inst().Player.GetBulletType();
         ShowBulletType = 1;
 
         SlotIndices[1] = CurBulletType;
@@ -565,13 +566,17 @@ public class Weapon : MonoBehaviour
         EquipDetail[1].text = detail;
     }
 
-    public void AddQuantity(int type)
+    public void AddQuantity(int type, bool IsTen)
     {
         if (IsDelay)
             return;
 
         IsDelay = true;
         Invoke("ResetDelay", 0.1f);
+
+        int count = 1;
+        if (IsTen)
+            count = 10;
 
         if (!IsFlickering)
             IsFlickering = true;
@@ -585,7 +590,7 @@ public class Weapon : MonoBehaviour
                 case 0:
                     if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
                     {
-                        TempCount[type] += (int)CurEquip.Value;
+                        TempCount[type] += count;
                         if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
                             ReinforceArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), TempCount[type] / (int)CurEquip.Value);
                         else
@@ -595,7 +600,7 @@ public class Weapon : MonoBehaviour
                 case 1:
                     if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
                     {
-                        TempCount[type] += (int)CurEquip.Value;
+                        TempCount[type] += count;
                         if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
                             ReinforceArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), TempCount[type] / (int)CurEquip.Value);
                         else
@@ -605,7 +610,7 @@ public class Weapon : MonoBehaviour
                 case 2:
                     if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
                     {
-                        TempCount[type] += (int)CurEquip.Value;
+                        TempCount[type] += count;
                         if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
                             ReinforceArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), TempCount[type] / (int)CurEquip.Value);
                         else
@@ -616,7 +621,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void SubTQuantity()
+    public void SubTQuantity(bool IsTen)
     {
         if (IsDelay)
             return;
@@ -624,11 +629,17 @@ public class Weapon : MonoBehaviour
         IsDelay = true;
         Invoke("ResetDelay", 0.1f);
 
+        int count = 1;
+        if (IsTen)
+            count = 10;
+
         if (TempCount[CurEquip.Type] >= 1)
         {
-            TempCount[CurEquip.Type] -= (int)CurEquip.Value;
+            TempCount[CurEquip.Type] -= count;
+            if (TempCount[CurEquip.Type] < 1)
+                TempCount[CurEquip.Type] = 1;
 
-            switch(CurEquip.Type)
+            switch (CurEquip.Type)
             {
                 case 0:
                     ReinforceArea.SetInfo(TempCount[CurEquip.Type], GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk());
@@ -769,25 +780,16 @@ public class Weapon : MonoBehaviour
 
             GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().Lock.SetActive(true);
         }
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 30)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickBulletUpgradeBtn()
     {
         GameManager.Inst().UpgManager.AddLevel(CurBulletType);
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 32)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickEquipAreaBtn()
     {
         ShowEquipArea();
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 37)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickWeaponTypeSortBtn(int index)
@@ -820,8 +822,5 @@ public class Weapon : MonoBehaviour
         }
         else
             InfoWindow.gameObject.SetActive(false);
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 31)
-            GameManager.Inst().Tutorials.Step++;
     }
 }

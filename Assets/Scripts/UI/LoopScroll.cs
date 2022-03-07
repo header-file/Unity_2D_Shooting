@@ -132,7 +132,8 @@ public class LoopScroll : MonoBehaviour
         GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.IsDragging = false;
         Timer = 0.0f;
 
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 5)
+        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 5 &&
+            GameManager.Inst().UiManager.MainUI.Bottom.Slots[MinBtnNum].SelectBtn.gameObject.activeSelf)
             GameManager.Inst().Tutorials.Step++;
     }
 

@@ -94,9 +94,9 @@ public class InventoryDetail : MonoBehaviour
         SellConfirm.PriceText.text = Mathf.Pow(10, equip.Rarity + 1).ToString();
         SellConfirm.QuantityText.text = "1";
 
-        if(equip.UID / 100 == 3)
+        if (equip.UID / 100 == 3)
         {
-            if(equip.Quantity > 1)
+            if (equip.Quantity > 1)
                 SellConfirm.UpBtn.interactable = true;
             SellConfirm.DownBtn.interactable = false;
         }
@@ -105,9 +105,6 @@ public class InventoryDetail : MonoBehaviour
             SellConfirm.UpBtn.interactable = false;
             SellConfirm.DownBtn.interactable = false;
         }
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 46)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickUpBtn()

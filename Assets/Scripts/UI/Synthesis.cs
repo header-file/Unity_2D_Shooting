@@ -486,9 +486,6 @@ public class Synthesis : MonoBehaviour
     public void OnClickSynthesisUnselectBtn(int index)
     {
         UnSetButtons(SelectedIndex[index], index);
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 55)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickSynthesisResultBackBtn()

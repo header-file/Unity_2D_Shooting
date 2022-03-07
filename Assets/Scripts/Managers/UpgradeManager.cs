@@ -220,7 +220,7 @@ public class UpgradeManager : MonoBehaviour
         }
 
         data = CSVReader.Read("Datas/SubWpPriceData");
-        SubWpPriceData = new int[Constants.MAXSUBWEAPON];
+        SubWpPriceData = new int[Constants.MAXSUBWEAPON + 1];
         for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
             SubWpPriceData[i] = int.Parse(data[i]["Price"].ToString());
 

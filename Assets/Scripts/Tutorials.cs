@@ -52,6 +52,7 @@ public class Tutorials : MonoBehaviour
     IEnumerator TutorialStart()
     {
         GameManager.Inst().UiManager.MainUI.Tutorial.gameObject.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(false);
 
         int goal = Step + 1;
 
@@ -89,20 +90,16 @@ public class Tutorials : MonoBehaviour
             case 7:
                 GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
-                Invoke("AddStep", 5.0f);
+                GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(true);
                 break;
             case 8:
                 //Emp 이미지 변경
-                Invoke("AddStep", 5.0f);
                 break;
             case 9:
                 //Emp 이미지 원래대로 변경
-                Invoke("AddStep", 5.0f);
-                break;
-            case 10:
-                Invoke("AddStep", 5.0f);
                 break;
             case 11:
+                GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(false);
                 GameManager.Inst().StgManager.SetBossCount(1, 50);
                 Invoke("AddStep", 5.0f);
                 break;
@@ -112,26 +109,27 @@ public class Tutorials : MonoBehaviour
                 Invoke("AddStep", 5.0f);
                 break;
             case 13:
-            case 16:
-            case 17:
-            case 25:
+            case 20:
                 Invoke("AddStep", 5.0f);
                 break;
             case 14:
                 Invoke("EndBoss", 5.0f);
                 break;
+            case 16:
+                GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(true);
+                break;
             case 18:
                 GameManager.Inst().UiManager.MainUI.SideMenu.OnClickSideBarBackBtn();
                 //하단 메뉴 설명 글씨
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
-                Invoke("AddStep", 5.0f);
                 break;
             case 19:
+                GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(false);
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
             case 22:
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = true;
-                Invoke("AddStep", 5.0f);
+                GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(true);
                 break;
             case 23:
                 //Emp 이미지 변경
@@ -139,13 +137,18 @@ public class Tutorials : MonoBehaviour
                 Invoke("AddStep", 5.0f);
                 break;
             case 24:
+                GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(false);
                 //Emp 이미지 원래대로 변경
                 GameManager.Inst().MakeEquipData(0, 0);
                 GameManager.Inst().MakeEquipData(1, 0);
                 GameManager.Inst().MakeEquipData(2, 0);
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
+            case 25:
+                GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(true);
+                break;
             case 26:
+                GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(false);
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
             case 29:
@@ -156,7 +159,7 @@ public class Tutorials : MonoBehaviour
                 GameManager.Inst().UiManager.MainUI.Tutorial.EmpImg.raycastTarget = false;
                 break;
             case 31:
-                Invoke("EndTutorial", 5.0f);
+                GameManager.Inst().UiManager.MainUI.Tutorial.NextBtn.gameObject.SetActive(true);
                 break;
         }
     }

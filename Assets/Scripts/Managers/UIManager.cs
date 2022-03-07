@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
     public bool GetIsMoveUp() { return IsMoveUp; }
     public bool GetIsMoveDown() { return IsMoveDown; }
 
-    public void SetCoinText(int coin) { MainUI.CoinText.text = coin.ToString(); }
+    public void SetCoinText(int coin) { MainUI.CoinText.text = string.Format("{0:#,###}", coin); }
     public void SetHitAreas(GameObject sub, int index) { PlayerHitAreas[index].Object = sub; }
     public void SetIsMoveUp(bool b) { IsMoveUp = b; }
     public void SetIsMoveDown(bool b) { IsMoveDown = b; }
@@ -101,8 +101,11 @@ public class UIManager : MonoBehaviour
         //GameManager.Inst().AddJewel(0);
         for (int i = 1; i <= Constants.MAXRESOURCETYPES; i++)
             GameManager.Inst().AddResource(i, 0);
-        GameManager.Inst().DatManager.GameData.LoadSubWeapon();
-        GameManager.Inst().DatManager.GameData.LoadDaily();
+        if (SceneManager.GetActiveScene().name != "Stage0")
+        {
+            GameManager.Inst().DatManager.GameData.LoadSubWeapon();
+            GameManager.Inst().DatManager.GameData.LoadDaily();
+        }
 
         if (GameManager.Inst().StgManager.Stage > 0)
             GameManager.Inst().StgManager.BeginStage();

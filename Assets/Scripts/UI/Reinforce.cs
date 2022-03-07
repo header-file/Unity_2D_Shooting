@@ -27,6 +27,8 @@ public class Reinforce : MonoBehaviour
     public bool IsPressing;
     public int CurType;
     public bool IsPlus;
+    public float PressCount;
+    public bool IsTen;
 
     Color PlayerColor = Color.white;
 
@@ -34,16 +36,25 @@ public class Reinforce : MonoBehaviour
     {
         IsPressing = false;
         CurType = -1;
+        IsTen = false;
     }
 
     void Update()
     {
         if (IsPressing)
         {
+            if(!IsTen)
+            {
+                PressCount += Time.deltaTime;
+                    
+                if(PressCount >= 1.0f)
+                    IsTen = true;
+            }            
+
             if (IsPlus)
-                GameManager.Inst().UiManager.MainUI.Center.Weapon.AddQuantity(CurType);
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.AddQuantity(CurType, IsTen);
             else
-                GameManager.Inst().UiManager.MainUI.Center.Weapon.SubTQuantity();
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.SubTQuantity(IsTen);
         }
     }
 
@@ -61,9 +72,6 @@ public class Reinforce : MonoBehaviour
         gameObject.SetActive(true);
 
         Show();
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 34)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void Show()
@@ -190,12 +198,6 @@ public class Reinforce : MonoBehaviour
         GameManager.Inst().UiManager.MainUI.Center.Weapon.SetStatChange();
 
         GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.Show();
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 36)
-        {
-            OnClickInfoBack();
-            GameManager.Inst().Tutorials.Step++;
-        }
     }
 
     public void OnClickInfoBack()
@@ -214,5 +216,7 @@ public class Reinforce : MonoBehaviour
     public void EndPress()
     {
         GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.IsPressing = false;
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.PressCount = 0.0f;
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ReinforceArea.IsTen = false;
     }
 }

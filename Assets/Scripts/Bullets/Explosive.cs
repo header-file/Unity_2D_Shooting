@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Explosive : Bullet
 {
+    public SpriteRenderer SpriteRenderer;
+
     void Awake()
     {
         Type = BulletType.EXPLOSION;

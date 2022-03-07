@@ -92,6 +92,8 @@ public class SubWeapon : MonoBehaviour
         IsInvincible = false;
         IsShaking = false;
 
+        Shield.SetActive(false);
+
         for (int i = 0; i < ShieldParts.Length; i++)
             ShieldParts[i].gameObject.SetActive(false);
 
@@ -198,6 +200,10 @@ public class SubWeapon : MonoBehaviour
         {
             IsShield = false;
             Shield.SetActive(false);
+
+            GameObject shieldBreak = GameManager.Inst().ObjManager.MakeObj("ShieldBreak");
+            shieldBreak.transform.position = transform.position;
+            shieldBreak.transform.localScale = Vector3.one * 0.4f;
             return;
         }
         else
@@ -502,17 +508,9 @@ public class SubWeapon : MonoBehaviour
     {
         IsDown = false;
         if (IsEditMode)
-        {
             EndEditMode();
-
-            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 11)
-                GameManager.Inst().Tutorials.Step++;
-        }
         else
         {
-            if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 11)
-                return;
-
             int id = NumID;
             if (id > 1)
                 id++;

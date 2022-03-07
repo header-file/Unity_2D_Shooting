@@ -61,4 +61,10 @@ public class Slot : MonoBehaviour
     {
         GameManager.Inst().UiManager.MainUI.Bottom.WeaponScroll.MoveToSelected(Index);
     }
+
+    public void OnClickInfo()
+    {
+        GameManager.Inst().UiManager.MainUI.Bottom.OnClickManageCancel();
+        GameManager.Inst().UiManager.MainUI.ZzinBottom.OnClickWeaponBtn(Index);
+    }
 }

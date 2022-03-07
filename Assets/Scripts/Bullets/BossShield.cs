@@ -30,27 +30,32 @@ public class BossShield : Bullet
             collision.gameObject.tag == "PierceBullet" ||
             collision.gameObject.tag == "Chain")
         {
+            Vector2 hitPos = collision.ClosestPoint(gameObject.transform.position);
+            HitEffect(hitPos);
+
             collision.gameObject.SetActive(false);
         }
         else if (collision.gameObject.tag == "SubWeapon")
         {
-            HitEffect(collision.gameObject);
+            Vector2 hitPos = collision.ClosestPoint(gameObject.transform.position);
+            HitEffect(hitPos);
             collision.gameObject.GetComponent<SubWeapon>().Damage(Damage);
 
             gameObject.SetActive(false);
         }
         else if (collision.gameObject.tag == "Player")
         {
-            HitEffect(collision.gameObject);
+            Vector2 hitPos = collision.ClosestPoint(gameObject.transform.position);
+            HitEffect(hitPos);
             collision.gameObject.GetComponent<Player>().Damage(Damage);
 
             gameObject.SetActive(false);
         }
     }
 
-    void HitEffect(GameObject obj)
+    void HitEffect(Vector2 pos)
     {
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-        hit.transform.position = obj.transform.position;
+        hit.transform.position = pos;
     }
 }

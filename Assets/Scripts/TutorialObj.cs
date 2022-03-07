@@ -30,20 +30,6 @@ public class TutorialObj : MonoBehaviour
 
                 GameManager.Inst().Tutorials.EnemySpawn(0);
             }
-            else if(GameManager.Inst().Tutorials.Step == 4)
-            {
-                GameManager.Inst().Player.Damage(0);
-                collision.gameObject.SetActive(false);
-
-                GameManager.Inst().Tutorials.Step++;
-                gameObject.SetActive(false);
-            }
-            else if(GameManager.Inst().Tutorials.Step == 67)
-            {
-                collision.gameObject.SetActive(false);
-
-                GameManager.Inst().Tutorials.EnemySpawn(1);
-            }
         }
         else if(index == 2 && collision.tag == "Resource")
         {

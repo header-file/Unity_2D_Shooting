@@ -83,6 +83,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject RevivePref;
     public GameObject ResourceDiePref;
     public GameObject DamageFlamePref;
+    public GameObject ShieldBreakPref;
 
     GameObject[] Enemies_S;
     GameObject[] Enemies_M;
@@ -150,6 +151,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] Revives;
     GameObject[] ResourceDies;
     GameObject[] DamageFlames;
+    GameObject[] ShieldBreaks;
 
 
     GameObject[] TargetPool;
@@ -414,6 +416,10 @@ public class ObjectManager : MonoBehaviour
                 TargetPool = DamageFlames;
                 break;
 
+            case "ShieldBreak":
+                TargetPool = ShieldBreaks;
+                break;
+
         }
 
         for (int i = 0; i < TargetPool.Length; i++)
@@ -498,6 +504,7 @@ public class ObjectManager : MonoBehaviour
         Revives = new GameObject[10];
         ResourceDies = new GameObject[40];
         DamageFlames = new GameObject[20];
+        ShieldBreaks = new GameObject[5];
 
         Generate();
     }
@@ -959,6 +966,13 @@ public class ObjectManager : MonoBehaviour
             DamageFlames[i] = Instantiate(DamageFlamePref);
             DamageFlames[i].transform.SetParent(EffectPool.transform, false);
             DamageFlames[i].SetActive(false);
+        }
+
+        for (int i = 0; i < ShieldBreaks.Length; i++)
+        {
+            ShieldBreaks[i] = Instantiate(ShieldBreakPref);
+            ShieldBreaks[i].transform.SetParent(EffectPool.transform, false);
+            ShieldBreaks[i].SetActive(false);
         }
     }
 }

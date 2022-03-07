@@ -60,9 +60,6 @@ public class Inventory : MonoBehaviour
     public void OnClickSell()
     {
         InventoryDetail.ShowSell();
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 45)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void onClickAdd()

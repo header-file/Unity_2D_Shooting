@@ -51,12 +51,12 @@ public class GameManager : MonoBehaviour
     public int GetDropRate(int stage, string grade) { return int.Parse(DropRateData[stage][grade].ToString()); }
 
     public void SetSubWeapons(SubWeapon Sub, int index) { SubWeapons[index] = Sub; }
-    public void SetJewel(int value) { Jewel = value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
-    public void AddJewel(int value) { Jewel += value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
-    public void SubtractJewel(int value) { Jewel -= value; UiManager.MainUI.JewelText.text = Jewel.ToString(); }
-    public void SetResource(int stage, int value) { Resources[stage - 1] = value; UiManager.MainUI.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
-    public void AddResource(int stage, int value) { Resources[stage - 1] += value; UiManager.MainUI.Resources[stage - 1].text = Resources[stage - 1].ToString(); }
-    public void SubtractResource(int stage, int value) { Resources[stage] -= value; UiManager.MainUI.Resources[stage].text = Resources[stage].ToString(); }
+    public void SetJewel(int value) { Jewel = value; UiManager.MainUI.JewelText.text = string.Format("{0:#,###}", Jewel); }
+    public void AddJewel(int value) { Jewel += value; UiManager.MainUI.JewelText.text = string.Format("{0:#,###}", Jewel); }
+    public void SubtractJewel(int value) { Jewel -= value; UiManager.MainUI.JewelText.text = string.Format("{0:#,###}", Jewel); }
+    public void SetResource(int stage, int value) { Resources[stage - 1] = value; UiManager.MainUI.Resources[stage - 1].text = string.Format("{0:#,###}", Resources[stage - 1]); }
+    public void AddResource(int stage, int value) { Resources[stage - 1] += value; UiManager.MainUI.Resources[stage - 1].text = string.Format("{0:#,###}", Resources[stage - 1]); }
+    public void SubtractResource(int stage, int value) { Resources[stage] -= value; UiManager.MainUI.Resources[stage].text = string.Format("{0:#,###}", Resources[stage]); }
 
     void Awake()
     {
@@ -105,9 +105,13 @@ public class GameManager : MonoBehaviour
         StgManager.ReachedStage = 1;
         QstManager.ResetQuestData();
         BufManager.BuffTimers[0] = 0.0f;
+        for (int i = 0; i < Constants.MAXSTAGES; i++)
+            ResManager.IsStartCount[i] = false;
         IsFullPrice = false;
+
         Player.SetCoin(0);
         Player.ResetInventories();
+        Player.SetBulletType(0);
         Jewel = 0;
         for (int i = 1; i <= Constants.MAXRESOURCETYPES; i++)
             SetResource(i, 0);

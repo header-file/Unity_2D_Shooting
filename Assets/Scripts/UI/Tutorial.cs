@@ -12,6 +12,7 @@ public class Tutorial : MonoBehaviour
     public GameObject SkipWindow;
     public Image EmpImg;
     public GameObject Arrows;
+    public Button NextBtn;
 
     public Vector2 Size;
     public Vector2 Pos;
@@ -93,6 +94,12 @@ public class Tutorial : MonoBehaviour
 
     public void OnClickNext()
     {
+        if (GameManager.Inst().Tutorials.Step == 31)
+        {
+            GameManager.Inst().Tutorials.EndTutorial();
+            return;
+        }
+
         GameManager.Inst().Tutorials.AddStep();
     }
 

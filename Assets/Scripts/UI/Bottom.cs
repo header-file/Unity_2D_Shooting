@@ -33,7 +33,7 @@ public class Bottom : MonoBehaviour
         for (int i = 0; i < Constants.MAXBULLETS; i++)
             Slots[i].SelectBtn.gameObject.SetActive(false);
 
-        if(GameManager.Inst().StgManager.UnlockBulletStages[curBulletType] < GameManager.Inst().DatManager.GameData.ReachedStage)
+        if(GameManager.Inst().StgManager.UnlockBulletStages[curBulletType] < GameManager.Inst().StgManager.ReachedStage)
         {
             if (CurrentPlayerNum == 2)
             {
@@ -201,9 +201,6 @@ public class Bottom : MonoBehaviour
         Arrows.transform.GetChild(index).gameObject.SetActive(true);
 
         CurrentPlayerNum = index;
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 8)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickBuySWBtn()
@@ -211,9 +208,6 @@ public class Bottom : MonoBehaviour
         BuySW.Buy();
 
         OnClickManageBtn(CurrentPlayerNum);
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 9)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickSubWeaponCancel()
@@ -240,9 +234,6 @@ public class Bottom : MonoBehaviour
                 idx--;
             GameManager.Inst().GetSubweapons(idx).SetSkinColor(index);
         }
-
-        if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 7)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void OnClickBulletEquipBtn()
@@ -253,6 +244,7 @@ public class Bottom : MonoBehaviour
 
         GameManager.Inst().UiManager.CurrentBulletType = num;
         GameManager.Inst().UiManager.MainUI.Bottom.SetBulletSelected();
+        OnClickColorBtn(GameManager.Inst().ShtManager.BaseColor[num]);
     }
 
     public void OnClickChangeEquipBtn()

@@ -78,6 +78,30 @@ public class ZzinBottom : MonoBehaviour
         GameManager.Inst().IptManager.SetIsAbleSWControl(false);
     }
 
+    public void OnClickWeaponBtn(int type)
+    {
+        OnClickHomeBtn();
+
+        GameManager.Inst().UiManager.MainUI.Center.Inventory.gameObject.SetActive(false);
+        GameManager.Inst().UiManager.MainUI.Center.Inventory.InventoryDetail.gameObject.SetActive(false);
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.gameObject.SetActive(true);
+
+        GameManager.Inst().UiManager.CurrentBulletType = type;
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.SetCurBulletType(GameManager.Inst().UiManager.CurrentBulletType);
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.ShowUI();
+        GameManager.Inst().UiManager.SetIsEquip(true);
+
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoArea.gameObject.SetActive(true);
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.EquipArea.gameObject.SetActive(false);
+
+        WeaponIcon[0].SetActive(false);
+        WeaponIcon[1].SetActive(true);
+        HomeBtn.SetActive(true);
+
+        GameManager.Inst().IptManager.SetIsAbleControl(false);
+        GameManager.Inst().IptManager.SetIsAbleSWControl(false);
+    }
+
     public void OnClickWeaponBackBtn()
     {
         GameManager.Inst().UiManager.MainUI.Center.Weapon.ResetData();

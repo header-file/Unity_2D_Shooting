@@ -13,12 +13,14 @@ public class Missile : Bullet
 
     float RotateSpeed;
     float Speed;
+    bool IsDisableTrace;
     
 
     void Awake()
     {
         InitPos = new Vector3(0.0f, 12.0f, 0.0f);
         Rig = GetComponent<Rigidbody2D>();
+        IsDisableTrace = false;
 
         //Damage = 1.0f;
         Type = BulletType.MISSILE;
@@ -30,34 +32,43 @@ public class Missile : Bullet
 
     void Update()
     {
-        if(Target != null)
-        {
-            Vector2 pointTarget = (Vector2)transform.position - (Vector2)Target.transform.position;
-            pointTarget.Normalize();
-
-            float val = Vector3.Cross(pointTarget, transform.up).z;
-
-            Rig.angularVelocity = RotateSpeed * val;
-
+        if(IsDisableTrace)
             Rig.velocity = transform.up * Speed;
-        }
-        else if (Target == null)
+        else
         {
-            Vector2 pointTarget = (Vector2)transform.position - (Vector2)InitPos;
-            pointTarget.Normalize();
+            if (Target == null)
+            {
+                Rig.velocity = transform.up * Speed;
+                Rig.angularVelocity = 0.0f;
+            }
+            else if (Target != null)
+            {
+                Vector2 pointTarget = (Vector2)transform.position - (Vector2)Target.transform.position;
+                pointTarget.Normalize();
 
-            float val = Vector3.Cross(pointTarget, transform.up).z;
+                float val = Vector3.Cross(pointTarget, transform.up).z;
 
-            //Rig.angularVelocity = RotateSpeed * val;
+                Rig.angularVelocity = RotateSpeed * val;
 
-            Rig.velocity = transform.up * Speed;
-            Rig.angularVelocity = 0.0f;
+                Rig.velocity = transform.up * Speed;
+            }
         }
     }
 
     public void ResetTarget()
     {
         Target = null;
+        IsDisableTrace = false;
+    }
+
+    public void StartTraceTimer()
+    {
+        Invoke("DisableTrace", 12.0f);
+    }
+
+    void DisableTrace()
+    {
+        IsDisableTrace = true;
     }
 
     void OnDisable()

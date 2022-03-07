@@ -135,6 +135,8 @@ public class Player : MonoBehaviour
             if (GameManager.Inst().GetSubweapons(i) != null)
                 GameManager.Inst().GetSubweapons(i).BossMode();
         }
+
+        GameManager.Inst().ShtManager.EnemyBottom.SetActive(false);
     }
 
     public void EndBossMode()
@@ -142,7 +144,8 @@ public class Player : MonoBehaviour
         IsMovable = false;
         IsInvincible = true;
 
-        InvokeRepeating("MoveBack", 0.0f, Time.deltaTime);        
+        InvokeRepeating("MoveBack", 0.0f, Time.deltaTime);
+        GameManager.Inst().ShtManager.EnemyBottom.SetActive(true);
     }
 
     public void SetCoin(int c)
@@ -590,6 +593,9 @@ public class Player : MonoBehaviour
         {
             IsShield = false;
             Shield.SetActive(false);
+
+            GameObject shiledBreak = GameManager.Inst().ObjManager.MakeObj("ShieldBreak");
+            shiledBreak.transform.position = transform.position;
             return;
         }
         else

@@ -152,9 +152,6 @@ public class StageLoop : MonoBehaviour
 
         if (GameManager.Inst().StgManager.Stage - 1 == MinBtnNum || GameManager.Inst().Player.GetBossMode())
             SetLandingBtn(false);
-
-        if(SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 20)
-            GameManager.Inst().Tutorials.Step++;
     }
 
     public void Show()

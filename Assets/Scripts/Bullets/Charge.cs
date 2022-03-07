@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Charge : Bullet
 {
+    public CircleCollider2D Col;
+
     GameObject ChargePos;
 
     float ChargeTime;
@@ -32,7 +34,8 @@ public class Charge : Bullet
         gameObject.transform.localScale = Vector3.one * 0.1f;
 
         InvokeRepeating("Charging", 0.0f, TickRate);
-        Scale = scale;
+        Scale = scale * 0.5f;
+        Col.enabled = false;
     }
 
     public void Charging()
@@ -41,6 +44,7 @@ public class Charge : Bullet
         {
             ChargeTime = 0.0f;
             CancelInvoke("Charging");
+            Col.enabled = true;
             Release();
         }
         else
