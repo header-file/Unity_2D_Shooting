@@ -32,7 +32,7 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         IsAbleControl = true;
-        IsAbleSWControl = false;
+        IsAbleSWControl = true;
     }
 
     void OnMouseDrag()

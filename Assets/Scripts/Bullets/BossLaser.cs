@@ -52,19 +52,19 @@ public class BossLaser : Bullet
     {
         if (collision.gameObject.tag == "SubWeapon")
         {
-            HitEffect(collision.gameObject);
+            HitEffect(collision.ClosestPoint(transform.position));
             collision.gameObject.GetComponent<SubWeapon>().Damage(Damage);
         }
         else if (collision.gameObject.tag == "Player")
         {
-            HitEffect(collision.gameObject);
+            HitEffect(collision.ClosestPoint(transform.position));
             collision.gameObject.GetComponent<Player>().Damage(Damage);
         }
     }
 
-    void HitEffect(GameObject obj)
+    void HitEffect(Vector2 pos)
     {
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-        hit.transform.position = obj.transform.position;
+        hit.transform.position = pos;
     }
 }

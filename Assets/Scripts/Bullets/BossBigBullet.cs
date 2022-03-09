@@ -155,9 +155,6 @@ public class BossBigBullet : MonoBehaviour
         if(!IsInvincible)
             HP -= dmg;
 
-        GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-        hit.transform.position = gameObject.transform.position;
-
         GameManager.Inst().TxtManager.ShowDmgText(gameObject.transform.position, dmg, (int)TextManager.DamageType.BYPLYAER, isReinforced);
 
         IsInvincible = true;
@@ -191,7 +188,7 @@ public class BossBigBullet : MonoBehaviour
             collision.gameObject.SetActive(false);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = bullet.transform.position;
+            hit.transform.position = collision.ClosestPoint(transform.position);
 
             Damage(dmg, bullet.IsReinforce);
         }
@@ -206,7 +203,7 @@ public class BossBigBullet : MonoBehaviour
             bullet.BloodSuck(dmg);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = collision.gameObject.GetComponent<BoxCollider2D>().ClosestPoint(transform.position);
+            hit.transform.position = collision.ClosestPoint(transform.position);
 
             Damage(dmg, bullet.IsReinforce);
         }
@@ -221,7 +218,7 @@ public class BossBigBullet : MonoBehaviour
             bullet.BloodSuck(dmg);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = bullet.transform.position;
+            hit.transform.position = collision.ClosestPoint(transform.position);
 
             Damage(dmg, bullet.IsReinforce);
         }
@@ -238,7 +235,22 @@ public class BossBigBullet : MonoBehaviour
             bullet.BloodSuck(dmg);
 
             GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-            hit.transform.position = bullet.transform.position;
+            hit.transform.position = collision.ClosestPoint(transform.position);
+
+            Damage(dmg, bullet.IsReinforce);
+        }
+        else if (collision.gameObject.tag == "EquipBullet")
+        {
+            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+            float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
+            float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
+            float dmg = damage + atk;
+            if (bullet.IsReinforce)
+                dmg *= 2;
+            bullet.BloodSuck(dmg);
+
+            GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
+            hit.transform.position = collision.ClosestPoint(transform.position);
 
             Damage(dmg, bullet.IsReinforce);
         }

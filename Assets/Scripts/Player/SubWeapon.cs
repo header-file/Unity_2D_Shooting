@@ -103,6 +103,13 @@ public class SubWeapon : MonoBehaviour
     void Start()
     {
         GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = 0.415f;
+
+        if(GameManager.Inst().DatManager.GameData.SWDeathTimer[NumID] > 0)
+        {
+            Dead();
+            CoolTime = GameManager.Inst().DatManager.GameData.SWDeathTimer[NumID];
+            GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].SetCoolTime(CoolTime);
+        }
     }
 
     void Update()
@@ -390,7 +397,7 @@ public class SubWeapon : MonoBehaviour
         HideHPUI();
         GetComponent<Animator>().SetInteger("Color", 0);
 
-        CoolTime = COOLTIME + 300 * GameManager.Inst().UpgManager.BData[GetBulletType()].GetRarity();
+        CoolTime = COOLTIME + 300;
         
         //int id = NumID;
         //if (id > 1)

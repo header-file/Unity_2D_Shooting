@@ -28,7 +28,6 @@ public class BossMirror : Bullet
         BounceCount = 3;
         Speed = 20.0f;
         Poses = new Vector3[3];
-        //WallMask.value = 4;
         HitWalls = new GameObject[4];
     }
 
@@ -97,6 +96,9 @@ public class BossMirror : Bullet
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!gameObject.GetComponent<BossMirror>())
+            return;
+
         if (collision.gameObject.tag == "Border")
         {
             BounceCount--;
@@ -114,7 +116,8 @@ public class BossMirror : Bullet
         }
         else if (collision.gameObject.tag == "SubWeapon")
         {
-            HitEffect(collision.gameObject);
+            
+            HitEffect(collision.ClosestPoint(transform.position));
             collision.gameObject.GetComponent<SubWeapon>().Damage(Damage);
             
             Line.widthMultiplier = 1.0f;
@@ -122,7 +125,7 @@ public class BossMirror : Bullet
         }
         else if (collision.gameObject.tag == "Player")
         {
-            HitEffect(collision.gameObject);
+            HitEffect(collision.ClosestPoint(transform.position));
             collision.gameObject.GetComponent<Player>().Damage(Damage);
 
             Line.widthMultiplier = 1.0f;
@@ -130,9 +133,9 @@ public class BossMirror : Bullet
         }
     }
 
-    void HitEffect(GameObject obj)
+    void HitEffect(Vector2 pos)
     {
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-        hit.transform.position = obj.transform.position;
+        hit.transform.position = pos;
     }
 }

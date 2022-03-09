@@ -78,6 +78,7 @@ public class GameData
 
     public int[] PlayerDatas;
     public int[] SubWeaponDatas;
+    public int[] SWDeathTimer;
     public float[] Weapons;
 
     public int[] Inventories;
@@ -157,11 +158,13 @@ public class GameData
                 if (id > 1)
                     id++;
                 SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.COLOR] = GameManager.Inst().ShtManager.GetColorSelection(id);
+                SWDeathTimer[i] = GameManager.Inst().GetSubweapons(i).CoolTime;
             }
             else
             {
                 SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.BULLETTYPE] = -1;
                 SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.COLOR] = -1;
+                SWDeathTimer[i] = 0;
             }
         }
 
@@ -438,27 +441,24 @@ public class GameData
             }
         }
         else
-        {
-            //if (SubWeaponDatas != null)
-            //    for (int i = 0; i < (SubWeaponDatas.Length / (Constants.MAXSUBWEAPON * Constants.PLADATASIZE)); i++)
-            //    {
-            //        if (SubWeaponDatas[i])
-            //        {
-            //            GameManager.Inst().UpgManager.AddSW(i);
-
-            //            GameManager.Inst().GetSubweapons(i).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
-            //            int id = i;
-            //            if (id > 1)
-            //                id++;
-            //            GameManager.Inst().ShtManager.SetColorSelection(id, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
-            //            GameManager.Inst().GetSubweapons(j).SetSkinColor(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
-
-            //            GameManager.Inst().UpgManager.SWUiInteract(j);
-            //        }
-            //    }
-
             SubWeaponDatas = new int[Constants.MAXSUBWEAPON * Constants.PLADATASIZE];
+
+        if(SWDeathTimer != null && SWDeathTimer.Length == Constants.MAXSUBWEAPON)
+        {
+            for(int i = 0; i < Constants.MAXSUBWEAPON; i++)
+            {
+                if(GameManager.Inst().GetSubweapons(i) != null)
+                {
+                    if (SWDeathTimer[i] > 0)
+                    {
+                        GameManager.Inst().GetSubweapons(i).Dead();
+                        GameManager.Inst().GetSubweapons(i).CoolTime = SWDeathTimer[i];
+                    }
+                }
+            }            
         }
+        else
+            SWDeathTimer = new int[Constants.MAXSUBWEAPON];
 
         if (Weapons != null && Weapons.Length == Constants.MAXBULLETS * Constants.WPDATASIZE)
         {
@@ -598,6 +598,8 @@ public class GameData
             SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.BULLETTYPE] = -1;
             SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.COLOR] = -1;
         }
+
+        SWDeathTimer = new int[Constants.MAXSUBWEAPON];
 
         Inventories = new int[GameManager.Inst().Player.MaxInventory * Constants.INVDATASIZE];
 

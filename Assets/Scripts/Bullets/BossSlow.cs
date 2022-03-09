@@ -16,7 +16,7 @@ public class BossSlow : Bullet
     {
         if (collision.gameObject.tag == "Player")
         {
-            HitEffect(collision.gameObject);
+            HitEffect(collision.ClosestPoint(transform.position));
             GameManager.Inst().Player.Damage(Damage);
 
             if (GameManager.Inst().IptManager.SpeedMultiplier >= 1.0f)
@@ -33,9 +33,9 @@ public class BossSlow : Bullet
         }
     }
 
-    void HitEffect(GameObject obj)
+    void HitEffect(Vector2 pos)
     {
         GameObject hit = GameManager.Inst().ObjManager.MakeObj("Hit");
-        hit.transform.position = obj.transform.position;
+        hit.transform.position = pos;
     }
 }
