@@ -11,6 +11,8 @@ public class FloatingBubble : MonoBehaviour
     public Image TypeImg;
     public int[] Amounts;
     public Sprite[] Types;
+    public Sprite[] ResImgs;
+    public Sprite[] ReinImgs;
 
     bool IsFloating;
     float GoalPosX;
@@ -21,6 +23,7 @@ public class FloatingBubble : MonoBehaviour
     float Frequency;
     float Timer;
     int Type;
+    int DetailType;
 
 
     void Awake()
@@ -106,6 +109,17 @@ public class FloatingBubble : MonoBehaviour
 
         AmountText.text = Amounts[Type].ToString();
         TypeImg.sprite = Types[Type];
+
+        if (Type == 2)
+        {
+            DetailType = Random.Range(0, 4);
+            TypeImg.sprite = ResImgs[DetailType];
+        }
+        else if (Type == 3)
+        {
+            DetailType = Random.Range(0, 3);
+            TypeImg.sprite = ReinImgs[DetailType];
+        }
     }
 
     public void Make()
@@ -158,14 +172,14 @@ public class FloatingBubble : MonoBehaviour
                     pos.y += Mathf.Sin(Mathf.Deg2Rad * Random.Range(0.0f, 180.0f)) * 1.0f;
 
                     resource.SetValue(10);
-                    resource.SetColor();
+                    resource.SetColor(DetailType);
                     resource.TargetPosition = pos;
                     resource.IsScatter = true;
                     resource.BeginAbsorb();
                 }
                 break;
             case 3:
-                GameManager.Inst().MakeReinforce(-1, 0, Bubble.transform);
+                GameManager.Inst().MakeReinforce(DetailType, 0, Bubble.transform);
                 break;
         }
     }

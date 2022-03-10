@@ -79,6 +79,14 @@ public class Item_Resource : Item
         GetComponent<SpriteRenderer>().material.SetFloat("_Intensity", 1.5f);
     }
 
+    public void SetColor(int type)
+    {
+        stage = type;
+
+        GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", Colors[stage]);
+        GetComponent<SpriteRenderer>().material.SetFloat("_Intensity", 1.5f);
+    }
+
     void Add()
     {
         if (!gameObject.activeSelf)

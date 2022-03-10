@@ -708,7 +708,7 @@ public class Player : MonoBehaviour
 
     void SetHPBar()
     {
-        HPBar.fillAmount = (GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() /
+        HPBar.fillAmount = ((float)GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() /
             GameManager.Inst().UpgManager.BData[BulletType].GetFullHP()) * 0.415f;
     }
 

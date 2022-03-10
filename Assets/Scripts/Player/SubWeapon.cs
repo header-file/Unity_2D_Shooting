@@ -447,7 +447,7 @@ public class SubWeapon : MonoBehaviour
 
     void SetHPBar()
     {
-        GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = (GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() /
+        GameManager.Inst().UiManager.MainUI.Center.Turrets[NumID].HPBar.fillAmount = ((float)GameManager.Inst().UpgManager.BData[BulletType].GetCurrentHP() /
             GameManager.Inst().UpgManager.BData[BulletType].GetFullHP()) * 0.415f;
     }
 

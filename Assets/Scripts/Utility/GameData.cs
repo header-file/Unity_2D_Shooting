@@ -421,27 +421,27 @@ public class GameData
             ReinforceInventories = new int[Constants.MAXREINFORCETYPE * Constants.INVDATASIZE];
 
 
-        if (SubWeaponDatas != null && SubWeaponDatas.Length == Constants.MAXSUBWEAPON * Constants.PLADATASIZE)
-        {
-            for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
-            {
-                if (SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.BULLETTYPE] >= 0)
-                {
-                    GameManager.Inst().UpgManager.AddSW(i);
+        //if (SubWeaponDatas != null && SubWeaponDatas.Length == Constants.MAXSUBWEAPON * Constants.PLADATASIZE)
+        //{
+        //    for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
+        //    {
+        //        if (SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.BULLETTYPE] >= 0)
+        //        {
+        //            GameManager.Inst().UpgManager.AddSW(i);
 
-                    GameManager.Inst().GetSubweapons(i).SetBulletType(SubWeaponDatas[Constants.PLADATASIZE * i +(int)PlaData.BULLETTYPE]);
-                    int id = i;
-                    if (id > 1)
-                        id++;
-                    GameManager.Inst().ShtManager.SetColorSelection(id, SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.COLOR]);
-                    GameManager.Inst().GetSubweapons(i).SetSkinColor(SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.COLOR]);
+        //            GameManager.Inst().GetSubweapons(i).SetBulletType(SubWeaponDatas[Constants.PLADATASIZE * i +(int)PlaData.BULLETTYPE]);
+        //            int id = i;
+        //            if (id > 1)
+        //                id++;
+        //            GameManager.Inst().ShtManager.SetColorSelection(id, SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.COLOR]);
+        //            GameManager.Inst().GetSubweapons(i).SetSkinColor(SubWeaponDatas[Constants.PLADATASIZE * i + (int)PlaData.COLOR]);
 
-                    GameManager.Inst().UpgManager.SWUiInteract(i);
-                }
-            }
-        }
-        else
-            SubWeaponDatas = new int[Constants.MAXSUBWEAPON * Constants.PLADATASIZE];
+        //            GameManager.Inst().UpgManager.SWUiInteract(i);
+        //        }
+        //    }
+        //}
+        //else
+        //    SubWeaponDatas = new int[Constants.MAXSUBWEAPON * Constants.PLADATASIZE];
 
         if(SWDeathTimer != null && SWDeathTimer.Length == Constants.MAXSUBWEAPON)
         {
@@ -778,32 +778,7 @@ public class GameData
                 }
             }
         else
-        {
-            //if (SubWeaponDatas != null)
-            //    for (int i = 0; i < (SubWeaponDatas.Length / (Constants.MAXSUBWEAPON * Constants.SWDATASIZE)); i++)
-            //    {
-            //        for (int j = 0; j < Constants.MAXSUBWEAPON; j++)
-            //        {
-            //            if (i == GameManager.Inst().StgManager.Stage &&
-            //                GameManager.Inst().UpgManager.GetSubWeaponLevel(i, j) > 0)
-            //            {
-            //                GameManager.Inst().UpgManager.AddSW(j);
-
-            //                GameManager.Inst().GetSubweapons(j).SetCurHP(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.CURHP]);
-            //                GameManager.Inst().GetSubweapons(j).SetBulletType(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.BULLETTYPE]);
-            //                int id = j;
-            //                if (id > 1)
-            //                    id++;
-            //                GameManager.Inst().ShtManager.SetColorSelection(id, SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
-            //                GameManager.Inst().GetSubweapons(j).SetSkinColor(SubWeaponDatas[Constants.MAXSUBWEAPON * Constants.SWDATASIZE * i + Constants.SWDATASIZE * j + (int)SWData.COLOR]);
-
-            //                GameManager.Inst().UpgManager.SWUiInteract(j);
-            //            }
-            //        }
-            //    }
-
             SubWeaponDatas = new int[Constants.MAXSUBWEAPON * Constants.PLADATASIZE];
-        }
     }
 
     public void LoadQuests()
