@@ -197,6 +197,7 @@ public class Enemy : MonoBehaviour
             return;
 
         GameManager.Inst().SodManager.PlayEffect("Enemy hit");
+        GameManager.Inst().ShkManager.Timelag();
 
         BeforeHP = CurHP;
         CurHP -= Damage;
@@ -252,6 +253,7 @@ public class Enemy : MonoBehaviour
                 //퀘스트 처리
                 GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.KILL, (int)Type, 1);
 
+                GameManager.Inst().ShkManager.Light();
 
                 if (Type == EnemyType.LARGE)
                 {
@@ -548,6 +550,8 @@ public class Enemy : MonoBehaviour
             GameObject flame = GameManager.Inst().ObjManager.MakeObj("DamageFlame");
             flame.transform.position = collision.ClosestPoint(gameObject.transform.position);
 
+            GameManager.Inst().ShkManager.Damage();
+
             //적 사망 처리
             CurHP = Health;
             IsReflected = false;
@@ -604,11 +608,4 @@ public class Enemy : MonoBehaviour
         }
         
     }
-
-    //void SlowGame()
-    //{
-    //    GameObject gm = GameObject.Find("GameManager");
-    //    GameManager manager = gm.gameObject.GetComponent<GameManager>();
-    //    manager.SlowGame();
-    //}
 }

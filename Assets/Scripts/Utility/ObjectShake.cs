@@ -24,6 +24,7 @@ public class ObjectShake : MonoBehaviour
         if(ShakeTime > 0.0f)
         {
             transform.position = transform.position + Random.insideUnitSphere * Scale;
+            Scale *= 0.7f;
 
             ShakeTime -= Time.deltaTime;
         }

@@ -884,52 +884,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Object: {fileID: 0}
---- !u!1 &385163077
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 385163078}
-  - component: {fileID: 385163079}
-  m_Layer: 0
-  m_Name: Shake Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &385163078
+--- !u!4 &385163078 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6661966216167511231}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 385163077}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1259868506}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &385163079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 385163077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3758aa8afd6af054f86c89c3a395db4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BgShaker: {fileID: 1750566643}
-  ShakeScale: 0.05
-  ShakeTime: 0.07
 --- !u!1 &470749563
 GameObject:
   m_ObjectHideFlags: 0
@@ -3495,6 +3455,7 @@ MonoBehaviour:
     ReachedStage: 0
     PlayerDatas: 
     SubWeaponDatas: 
+    SWDeathTimer: 
     Weapons: []
     Inventories: 
     ReinforceInventories: 
@@ -3634,6 +3595,85 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58eba2b42eed80d48a41670a72d901a6, type: 3}
+--- !u!1001 &6661966216167511231
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1259868506}
+    m_Modifications:
+    - target: {fileID: 6661966215870958584, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: BgShaker
+      value: 
+      objectReference: {fileID: 1750566643}
+    - target: {fileID: 6661966215870958584, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: GlobalLight
+      value: 
+      objectReference: {fileID: 160994577}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958585, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661966215870958586, guid: 989d7126e45126a4e92ba385931d685f,
+        type: 3}
+      propertyPath: m_Name
+      value: Shake Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 989d7126e45126a4e92ba385931d685f, type: 3}
 --- !u!1001 &6819180828709276119
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -46,6 +46,7 @@ public class Laser : Bullet
         Pos = LaserPos.transform.localPosition;
         Dir = LaserPos.transform.up;
         Hit = Physics2D.Raycast(Pos, Dir, 20.0f, WallMask);
+        Debug.Log(Hit.point);
 
         Line.SetPosition(0, Vector3.zero);
         Line.SetPosition(1, Hit.point);
