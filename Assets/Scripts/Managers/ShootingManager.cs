@@ -369,11 +369,6 @@ public class ShootingManager : MonoBehaviour
     void Laser(GameObject shooter, int Rarity, int Index, bool isVamp, bool IsReinforce)
     {
         Vector3 scale = Vector3.one;
-        if (GameManager.Inst().Player.GetBossMode())
-            scale *= 0.5f;
-        if (IsReinforce)
-            scale *= 1.5f;
-
         Objs[0] = GameManager.Inst().ObjManager.MakeBullet("Laser", Index);
         Objs[0].transform.localScale = scale;
 

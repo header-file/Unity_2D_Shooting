@@ -34,7 +34,7 @@ public class TutorialObj : MonoBehaviour
         else if(index == 2 && collision.tag == "Resource")
         {
             Count++;
-            Debug.Log(Count);
+            //Debug.Log(Count);
         }
     }
 
@@ -43,7 +43,7 @@ public class TutorialObj : MonoBehaviour
         if (index == 2 && collision.tag == "Resource")
         {
             Count--;
-            Debug.Log(Count);
+            //Debug.Log(Count);
 
             if (Count <= 0 && GameManager.Inst().Tutorials.Step == 2)
             {

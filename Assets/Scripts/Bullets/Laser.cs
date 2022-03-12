@@ -5,6 +5,7 @@ using UnityEngine;
 public class Laser : Bullet
 {
     public LineRenderer Line;
+    public GameObject Ball;
     public BoxCollider2D Col;
     public LayerMask WallMask;
     public GameObject LaserPos;
@@ -20,6 +21,7 @@ public class Laser : Bullet
     {
         Type = BulletType.LASER;
         IsStopped = false;
+        IsReinforce = false;
         SizeGyesu = 1.0f;
         ColSize = Vector2.zero;
     }
@@ -37,18 +39,21 @@ public class Laser : Bullet
         LaserPos = Pos;
 
         SizeGyesu = 1.0f;
+        if (GameManager.Inst().Player.GetBossMode())
+            SizeGyesu = 0.5f;
+        if (IsReinforce)
+            SizeGyesu *= 1.5f;
         Line.positionCount = 2;
         Line.widthMultiplier = 0.0f;
     }
 
     void ShootRay()
     {
-        Pos = LaserPos.transform.localPosition;
+        Pos = LaserPos.transform.position;
         Dir = LaserPos.transform.up;
         Hit = Physics2D.Raycast(Pos, Dir, 20.0f, WallMask);
-        Debug.Log(Hit.point);
 
-        Line.SetPosition(0, Vector3.zero);
+        Line.SetPosition(0, Pos);
         Line.SetPosition(1, Hit.point);
     }
 
@@ -56,27 +61,25 @@ public class Laser : Bullet
     {
         Line.widthMultiplier += (Time.deltaTime * SizeGyesu);
 
-        if (SizeGyesu > 0.0f && Line.widthMultiplier >= 0.25f)
+        if (SizeGyesu > 0.0f && Line.widthMultiplier >= (0.25f * SizeGyesu))
         {
             IsStopped = true;
             SizeGyesu *= -1.0f;
             Invoke("Restart", GameManager.Inst().UpgManager.BData[(int)Type].GetDuration());
         }
         else if (Line.widthMultiplier <= 0.0f)
-        {
-            transform.SetParent(GameManager.Inst().ObjManager.PBulletPool.transform);
             gameObject.SetActive(false);
-        }
     }
 
     void SetCol()
     {
-        transform.position = LaserPos.transform.position;
-        transform.rotation = LaserPos.transform.rotation;
-        transform.localScale = Vector3.one;
+        Ball.transform.position = LaserPos.transform.position;
 
-        ColSize.x = Line.widthMultiplier * 2.0f;
-        ColSize.y = Vector3.Distance(Line.GetPosition(0), Line.GetPosition(1)) * 1.2f;
+        Col.transform.position = LaserPos.transform.position;
+        Col.transform.rotation = LaserPos.transform.rotation;
+
+        ColSize.x = Line.widthMultiplier;
+        ColSize.y = Vector3.Distance(Line.GetPosition(0), Line.GetPosition(1));
 
         if (GameManager.Inst().Player.GetBossMode())
             ColSize.y *= 2.0f;

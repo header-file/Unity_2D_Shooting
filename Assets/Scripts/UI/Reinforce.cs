@@ -54,7 +54,7 @@ public class Reinforce : MonoBehaviour
             if (IsPlus)
                 GameManager.Inst().UiManager.MainUI.Center.Weapon.AddQuantity(CurType, IsTen);
             else
-                GameManager.Inst().UiManager.MainUI.Center.Weapon.SubTQuantity(IsTen);
+                GameManager.Inst().UiManager.MainUI.Center.Weapon.SubTQuantity(CurType, IsTen);
         }
     }
 

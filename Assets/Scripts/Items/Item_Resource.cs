@@ -150,7 +150,6 @@ public class Item_Resource : Item
     {
         if (IsAbsorb || !gameObject.activeSelf)
             return;
-        Debug.Log("Resource Die / " + transform.position);
         GameObject resourceDie = GameManager.Inst().ObjManager.MakeObj("ResourceDie");
         resourceDie.transform.position = transform.position;
         

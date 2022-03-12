@@ -464,7 +464,7 @@ public class Enemy : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Laser")
         {
-            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+            Bullet bullet = collision.transform.parent.gameObject.GetComponent<Bullet>();
             float damage = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetDamage();
             float atk = GameManager.Inst().UpgManager.BData[bullet.GetBulletType()].GetAtk();
             float dmg = damage + atk;

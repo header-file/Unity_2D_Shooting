@@ -585,12 +585,15 @@ public class Weapon : MonoBehaviour
 
         if(CurEquip.Quantity > TempCount[type])
         {
-            switch(type)
+            TempCount[type] += count;
+            if (TempCount[type] > CurEquip.Quantity)
+                TempCount[type] = CurEquip.Quantity;
+
+            switch (type)
             {
                 case 0:
                     if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
                     {
-                        TempCount[type] += count;
                         if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk())
                             ReinforceArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxAtk() - GameManager.Inst().UpgManager.BData[CurBulletType].GetAtk(), TempCount[type] / (int)CurEquip.Value);
                         else
@@ -600,7 +603,6 @@ public class Weapon : MonoBehaviour
                 case 1:
                     if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
                     {
-                        TempCount[type] += count;
                         if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetHp() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp())
                             ReinforceArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxHp() - GameManager.Inst().UpgManager.BData[CurBulletType].GetHp(), TempCount[type] / (int)CurEquip.Value);
                         else
@@ -610,7 +612,6 @@ public class Weapon : MonoBehaviour
                 case 2:
                     if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() < GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
                     {
-                        TempCount[type] += count;
                         if (TempCount[type] + GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd() > GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd())
                             ReinforceArea.SetInfo(GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxSpd() - GameManager.Inst().UpgManager.BData[CurBulletType].GetSpd(), TempCount[type] / (int)CurEquip.Value);
                         else
@@ -621,7 +622,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void SubTQuantity(bool IsTen)
+    public void SubTQuantity(int type, bool IsTen)
     {
         if (IsDelay)
             return;
@@ -632,6 +633,8 @@ public class Weapon : MonoBehaviour
         int count = 1;
         if (IsTen)
             count = 10;
+
+        CurEquip = GameManager.Inst().Player.GetReinforce(type);
 
         if (TempCount[CurEquip.Type] >= 1)
         {

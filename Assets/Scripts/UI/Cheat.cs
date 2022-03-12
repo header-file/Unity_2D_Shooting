@@ -390,7 +390,6 @@ public class Cheat : MonoBehaviour
     {
         Vector3 mPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         int val = (int)(GameManager.Inst().UpgManager.BData[CurrentBulletType].GetMaxAtk() * (0.5f + mPos.x * 0.5f));
-        Debug.Log(val);
         if (val < 0)
             val = 0;
 
