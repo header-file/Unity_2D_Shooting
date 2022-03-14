@@ -426,7 +426,7 @@ public class Player : MonoBehaviour
     public void SetUIPosOri()
     {
         UI.transform.position = UIOriPos;
-        GameManager.Inst().UiManager.MainUI.Center.Turret.transform.localPosition = Vector3.zero;
+        //GameManager.Inst().UiManager.MainUI.Center.Turret.transform.localPosition = Vector3.zero;
         for (int i = 0; i < 4; i++)
             GameManager.Inst().UiManager.MainUI.Center.Turrets[i].Button.transform.localPosition = Vector3.zero;
     }
@@ -762,6 +762,9 @@ public class Player : MonoBehaviour
         ColorIndex = index;
         GameManager.Inst().ShtManager.SetColorSelection(2, index);
         GetComponent<Animator>().SetInteger("Color", ++index);
+        
+        if (IsDead)
+            GetComponent<Animator>().SetInteger("Color", 0);
     }
 
     public void RestoreShield(int amount)

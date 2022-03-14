@@ -6,10 +6,12 @@ public class CutScene : MonoBehaviour
 {
     public Animator Anim;
     public int MaxCount;
+    public bool IsOutro;
 
     int SceneCount;
     bool IsAbleNext;
     bool IsEnd;
+    bool IsOutroStart;
 
 
     void Start()
@@ -18,6 +20,9 @@ public class CutScene : MonoBehaviour
         gameObject.SetActive(false);
         IsAbleNext = false;
         IsEnd = false;
+
+        if (IsOutro)
+            IsOutroStart = true;
     }
 
     void NextScene()
@@ -45,11 +50,34 @@ public class CutScene : MonoBehaviour
         if (!IsAbleNext)
             return;
 
+        if (IsOutro)
+        {
+            if (!IsEnd)
+                ToNext();
+        }
+
         IsAbleNext = false;
 
         if (IsEnd)
             gameObject.SetActive(false);
         else
             ToNext();
+    }
+
+    IEnumerator OutroStart()
+    {
+        yield return new WaitUntil(Outro_Start);
+        Anim.SetTrigger("Start");
+        IsOutroStart = false;
+    }
+
+    bool Outro_Start()
+    {
+        return IsOutroStart;
+    }
+
+    void OutroEnd()
+    {
+        gameObject.SetActive(false);
     }
 }

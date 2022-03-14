@@ -29,7 +29,7 @@ public class ShakeManager : MonoBehaviour
             GlobalLight.intensity = Curve.Evaluate(LightTime);
             LightTime += Time.deltaTime;
 
-            if(LightTime >= 0.5f)
+            if(LightTime >= 1.0f)
             {
                 IsLightOn = false;
                 GlobalLight.intensity = 0.9f;
@@ -39,7 +39,7 @@ public class ShakeManager : MonoBehaviour
 
     public void Damage()
     {
-        Timelag();
+        Timelag(0.05f);
 
         BgShaker.Shake(ShakeTime, ShakeScale);
 
@@ -55,18 +55,29 @@ public class ShakeManager : MonoBehaviour
             GameManager.Inst().UiManager.MainUI.Center.Turrets[i].Shaker.Shake(ShakeTime, ShakeScale);
     }
 
-    public void Hit()
+    public void Hit(float scale)
     {
-        
+        BgShaker.Shake(ShakeTime, scale);
+
+        GameManager.Inst().Player.Shaker.Shake(ShakeTime, scale);
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (GameManager.Inst().GetSubweapons(i) != null)
+                GameManager.Inst().GetSubweapons(i).Shaker.Shake(ShakeTime, scale);
+        }
+
+        for (int i = 0; i < 4; i++)
+            GameManager.Inst().UiManager.MainUI.Center.Turrets[i].Shaker.Shake(ShakeTime, scale);
     }
 
-    public void Timelag()
+    public void Timelag(float time)
     {
         if (IsTimelag)
             return;
 
         Time.timeScale = 0.0f;
-        StartCoroutine(Wait(0.05f));
+        StartCoroutine(Wait(time));
     }
 
     IEnumerator Wait(float time)

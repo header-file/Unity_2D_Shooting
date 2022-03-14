@@ -479,6 +479,9 @@ public class SubWeapon : MonoBehaviour
             id++;
         GameManager.Inst().ShtManager.SetColorSelection(id, index);
         GetComponent<Animator>().SetInteger("Color", ++index);
+
+        if(!IsAlive)
+            GetComponent<Animator>().SetInteger("Color", 0);
     }
 
     public void RestoreShield(int amount)

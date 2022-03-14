@@ -197,7 +197,7 @@ public class Enemy : MonoBehaviour
             return;
 
         GameManager.Inst().SodManager.PlayEffect("Enemy hit");
-        GameManager.Inst().ShkManager.Timelag();
+        GameManager.Inst().ShkManager.Timelag(0.025f);
 
         BeforeHP = CurHP;
         CurHP -= Damage;
@@ -243,17 +243,17 @@ public class Enemy : MonoBehaviour
 
                 if (rand >= 1)
                     MakeCoin();
-                else
-                {
-                    if (Type == EnemyType.BOSS)
-                        MakeCoin();
-                }
-                MakeResource();
+                else if (Type == EnemyType.BOSS)
+                    MakeCoin();
+
+                if (rand >= 3)
+                    MakeResource();
 
                 //퀘스트 처리
                 GameManager.Inst().QstManager.QuestProgress((int)QuestManager.QuestType.KILL, (int)Type, 1);
 
                 GameManager.Inst().ShkManager.Light();
+                GameManager.Inst().ShkManager.Hit(0.1f);
 
                 if (Type == EnemyType.LARGE)
                 {

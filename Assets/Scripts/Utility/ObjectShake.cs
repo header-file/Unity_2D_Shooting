@@ -43,7 +43,6 @@ public class ObjectShake : MonoBehaviour
 
         IsShake = true;
         ShakeTime = time;
-        BasePos = transform.position;
     }
 
     public void Shake(float time, float scale)
@@ -54,6 +53,5 @@ public class ObjectShake : MonoBehaviour
         IsShake = true;
         ShakeTime = time;
         Scale = scale;
-        BasePos = transform.position;
     }
 }
