@@ -319,6 +319,9 @@ public class UpgradeManager : MonoBehaviour
 
     public void RarityUp(int UpgType)
     {
+        if (BData[UpgType].GetRarity() >= Constants.MAXRARITY - 1)
+            return;
+
         //BData 처리
         BData[UpgType].SetPowerLevel(1);
         BData[UpgType].SetRarity(BData[UpgType].GetRarity() + 1);
@@ -345,6 +348,9 @@ public class UpgradeManager : MonoBehaviour
 
     public void RarityDown(int UpgType)
     {
+        if (BData[UpgType].GetRarity() <= 0)
+            return;
+
         //BData 처리
         BData[UpgType].SetRarity(BData[UpgType].GetRarity() - 1);
         BData[UpgType].SetPowerLevel(BData[UpgType].GetMaxBulletLevel());

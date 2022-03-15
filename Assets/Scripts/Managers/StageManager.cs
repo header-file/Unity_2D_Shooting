@@ -577,7 +577,7 @@ public class StageManager : MonoBehaviour
         return BulletUnlockData[GameManager.Inst().DatManager.GameData.ReachedStage, type];
     }
 
-    void EraseCurEnemies()
+    public void EraseCurEnemies()
     {
         EnemyS[] enemies = new EnemyS[100];
         enemies = FindObjectsOfType<EnemyS>();

@@ -66,6 +66,8 @@ public class CutScene : MonoBehaviour
 
     IEnumerator OutroStart()
     {
+        GameManager.Inst().StgManager.CancelEnemies();
+        GameManager.Inst().StgManager.EraseCurEnemies();
         yield return new WaitUntil(Outro_Start);
         Anim.SetTrigger("Start");
         IsOutroStart = false;
@@ -78,6 +80,7 @@ public class CutScene : MonoBehaviour
 
     void OutroEnd()
     {
+        GameManager.Inst().StgManager.RestartStage();
         gameObject.SetActive(false);
     }
 }

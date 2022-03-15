@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     public ShakeManager ShkManager;
     public EquipManager EquManager;
 
+    public CutScene Outro;
+
     //정가 구매
     public bool IsFullPrice;
 

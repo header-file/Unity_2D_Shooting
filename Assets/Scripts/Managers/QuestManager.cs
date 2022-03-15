@@ -203,6 +203,7 @@ public class QuestManager : MonoBehaviour
         if(GameManager.Inst().StgManager.ReachedStage == Constants.MAXSTAGES)
         {
             //엔딩
+            GameManager.Inst().Outro.gameObject.SetActive(true);
             return;
         }
 

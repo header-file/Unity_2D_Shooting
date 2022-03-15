@@ -209,7 +209,7 @@ public class GameData
             Weapons[Constants.WPDATASIZE * i + (int)WPData.EQUIP] = GameManager.Inst().UpgManager.BData[i].GetEquipIndex();
         }
         
-        for (int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+        for (int i = 0; i < (Constants.MAXSTAGES + 1) * Constants.MAXQUESTS; i++)
         {
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID] = GameManager.Inst().QstManager.Quests[i].QuestId;
             Quests[Constants.QSTDATASIZE * i + (int)QSTData.COUNT] = GameManager.Inst().QstManager.Quests[i].CurrentCount;
@@ -607,7 +607,7 @@ public class GameData
         for (int i = 0; i < Constants.MAXBULLETS; i++)
             Weapons[Constants.WPDATASIZE * i + (int)WPData.EQUIP] = -1.0f;
 
-        Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
+        Quests = new int[(Constants.MAXSTAGES + 1) * Constants.MAXQUESTS * Constants.QSTDATASIZE];
 
         CountGoalTimes = new int[Constants.MAXSTAGES * Constants.TIMEDATASIZE];
         for(int i = 0; i < Constants.MAXSTAGES; i++)
@@ -783,8 +783,8 @@ public class GameData
 
     public void LoadQuests()
     {
-        if (Quests != null && Quests.Length == (Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE))
-            for (int i = 0; i < Constants.MAXSTAGES * Constants.MAXQUESTS; i++)
+        if (Quests != null && Quests.Length == ((Constants.MAXSTAGES + 1) * Constants.MAXQUESTS * Constants.QSTDATASIZE))
+            for (int i = 0; i < (Constants.MAXSTAGES + 1) * Constants.MAXQUESTS; i++)
             {
                 if (GameManager.Inst().QstManager.Quests[i].QuestId == Quests[Constants.QSTDATASIZE * i + (int)QSTData.ID])
                 {
@@ -804,7 +804,7 @@ public class GameData
                     }
                 }
 
-            Quests = new int[Constants.MAXSTAGES * Constants.MAXQUESTS * Constants.QSTDATASIZE];
+            Quests = new int[(Constants.MAXSTAGES + 1) * Constants.MAXQUESTS * Constants.QSTDATASIZE];
         }
     }
 
