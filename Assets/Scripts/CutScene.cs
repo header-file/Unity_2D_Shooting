@@ -7,6 +7,7 @@ public class CutScene : MonoBehaviour
     public Animator Anim;
     public int MaxCount;
     public bool IsOutro;
+    public Intro Intro;
 
     int SceneCount;
     bool IsAbleNext;
@@ -59,7 +60,7 @@ public class CutScene : MonoBehaviour
         IsAbleNext = false;
 
         if (IsEnd)
-            gameObject.SetActive(false);
+            Intro.EndIntro();
         else
             ToNext();
     }
