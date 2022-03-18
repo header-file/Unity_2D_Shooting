@@ -15,6 +15,7 @@ public class Login : MonoBehaviour
     public DatabaseReference DBRef;
     public FirebaseDatabase DB;
     public string PlayerID;
+    public Intro Intro;
 
     // Auth 용 instance
     FirebaseAuth auth = null;
@@ -166,7 +167,7 @@ public class Login : MonoBehaviour
     {
         Debug.Log("Stage 1 으로...");
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     // 익명 로그인
@@ -422,10 +423,16 @@ public class Login : MonoBehaviour
             {
                 // DB에 저장 후 디바이스 user정보에도 저장한다.
                 User.Instance.mainInventory = newUserInventory;
-                // 다음씬으로 이동
-                NextSecne();
+                
+                ShowIntro();
             });
         });
+    }
+
+    void ShowIntro()
+    {
+        Intro.IntroObj.GetComponent<CutScene>().IsFirstTime = true;
+        Intro.OnClickIntroBtn();
     }
 
     // 연동 해제

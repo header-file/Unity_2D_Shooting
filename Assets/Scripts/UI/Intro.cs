@@ -7,6 +7,7 @@ public class Intro : MonoBehaviour
     public GameObject IntroObj;
     public Canvas Canvas;
     public GameObject Glow;
+    public Login LoginManager;
 
     public void OnClickIntroBtn()
     {
