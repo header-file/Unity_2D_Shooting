@@ -552,14 +552,16 @@ public class ShootingManager : MonoBehaviour
     void Equip_Knockback(int index)
     {
         KnockBack bullet;
-        Vector3 scale = Vector3.one;
+        float scale = 1.0f;
         if (GameManager.Inst().Player.GetBossMode())
             scale *= 0.5f;
 
         Objs[0] = GameManager.Inst().ObjManager.MakeObj("EqKnockback");
-        Objs[0].transform.position = NormalPos[0].transform.position;
-        Objs[0].transform.rotation = NormalPos[0].transform.rotation;
-        Objs[0].transform.localScale = scale;
+        Vector3 pos = ChargePos.transform.position;
+        pos.y += 1.0f;
+        Objs[0].transform.position = pos;
+        Objs[0].transform.rotation = ChargePos.transform.rotation;
+        Objs[0].transform.localScale *= scale;
 
         bullet = Objs[0].gameObject.GetComponent<KnockBack>();
         bullet.SetBulletType((int)Bullet.BulletType.EQUIP_KNOCKBACK);

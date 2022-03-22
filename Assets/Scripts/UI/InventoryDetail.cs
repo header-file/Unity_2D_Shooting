@@ -9,7 +9,6 @@ public class InventoryDetail : MonoBehaviour
     public Image Icon;
     public GameObject Type;
     public Text Value;
-    //public GameObject[] Grades;
     public GameObject Values;
     public GameObject Detail;
     public Text DetailText;
@@ -29,7 +28,7 @@ public class InventoryDetail : MonoBehaviour
 
         Icon.sprite = equip.Icon;
 
-        Grade.color = GameManager.Inst().UiManager.MainUI.GradeColors[equip.Rarity];
+        Grade.sprite = GameManager.Inst().UiManager.InventoryScroll.GetComponent<InventoryScroll>().GetSlot(0).Grades[equip.Rarity];
 
         int type = equip.Type;
         SetTypeName(type);

@@ -71,11 +71,11 @@ public class InventoryScroll : MonoBehaviour
                 slot.SetItemQuantity(eq.Quantity);
                 slot.SetItemUID(eq.UID);
 
-                if (eq.Quantity > 0)
-                {
-                    slot.Quantity.SetActive(true);
-                    slot.QuantityText.text = eq.Quantity.ToString();
-                }
+                //if (eq.Quantity > 0)
+                //{
+                //    slot.Quantity.SetActive(true);
+                //    slot.QuantityText.text = eq.Quantity.ToString();
+                //}
             }
             else
                 HideSlot(i);

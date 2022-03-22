@@ -833,9 +833,6 @@ public class ObjectManager : MonoBehaviour
         for (int i = 0; i < SubWeapons.Length; i++)
         {
             SubWeapons[i] = Instantiate(SubWeaponPref);
-            //SubWeapon sub = SubWeapons[i].gameObject.GetComponent<SubWeapon>();
-            //GameManager.Inst().SetSubWeapons(sub, i);
-            //GameManager.Inst().SubWID[i] = SubWeapons[i].GetInstanceID();
             SubWeapons[i].transform.SetParent(SubWeaponPool.transform, false);
             SubWeapons[i].SetActive(false);
         }

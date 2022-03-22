@@ -11,6 +11,8 @@ public class ObjectShake : MonoBehaviour
     Vector3 BasePos;
     bool IsShake;
 
+    public void SetBasePos(Vector3 pos) { BasePos = pos; }
+
     void Awake()
     {
         BasePos = transform.position;

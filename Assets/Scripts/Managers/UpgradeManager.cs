@@ -432,6 +432,7 @@ public class UpgradeManager : MonoBehaviour
         subWeapon.transform.position = pos;
 
         SubWeapon sub = subWeapon.GetComponent<SubWeapon>();
+        sub.Shaker.SetBasePos(pos);
 
         GameManager.Inst().SetSubWeapons(sub, curIndex);
         GameManager.Inst().UiManager.SetHitAreas(subWeapon, curIndex);

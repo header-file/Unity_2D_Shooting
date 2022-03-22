@@ -327,7 +327,7 @@ public class Enemy : MonoBehaviour
                 else
                     GameManager.Inst().MakeEquip(-1, -1, transform);
 
-                if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 10)
+                if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 9)
                     GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1]++;
                 GameManager.Inst().StgManager.IsBoss = false;
                 GameManager.Inst().StgManager.RestartStage();
