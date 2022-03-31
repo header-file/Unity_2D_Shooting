@@ -16,7 +16,6 @@ public class Center : MonoBehaviour
     public Menu Menu;
     public Animation InventoryFull;
     public Animation BossWarning;
-    public DailyJewel DailyJewelUI;
     public GameObject Turret;
     public Turret[] Turrets;
 

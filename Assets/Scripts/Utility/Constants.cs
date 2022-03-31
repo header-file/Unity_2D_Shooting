@@ -47,4 +47,7 @@ static class Constants
     public const int TUTORIALCOUNT = 6;
 
     public const int MAXBUFFS = 1;
+
+    public const int DAILYJEWEL = 4;
+    public const int DAILYJEWELPLUS = 12;
 }

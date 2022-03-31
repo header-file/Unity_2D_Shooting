@@ -13,12 +13,13 @@ public class PopupReward : MonoBehaviour
         RESOURCE_2 = 4,
         RESOURCE_3 = 5,
         RESOURCE_4 = 6,
+        CRYSTAL_2 = 7,
     }
 
     public InventorySlot[] RewardSlots;
     public Jun_TweenRuntime Tween;
 
-    void Start()
+    void Awake()
     {
         for (int i = 0; i < RewardSlots.Length; i++)
         {

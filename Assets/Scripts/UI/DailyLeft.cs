@@ -7,7 +7,7 @@ public class DailyLeft : MonoBehaviour
 {
     public Text LeftText;
 
-    void Start()
+    void Awake()
     {
         gameObject.SetActive(false);
     }

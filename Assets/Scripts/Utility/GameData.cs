@@ -656,35 +656,48 @@ public class GameData
             IsDailyPlus = true;
         }
 
-        if (DailyLeft > 0)
+        if (DailyLeft > 0 && IsDailyPlus)
             GameManager.Inst().UiManager.MainUI.Center.DailyLeft.Show(DailyLeft);
-        if (DailyPlusLeft > 0)
+        if(DailyPlusLeft > 0 && IsDailyPlus)
             GameManager.Inst().UiManager.MainUI.Center.DailyPlusLeft.Show(DailyPlusLeft);
 
         if (Now.Date <= last.Date || Now.Hour < 9)
             return;
 
         GiveDaily();
+        ProcessDailyJewel();
     }
 
     public void GiveDaily()
     {
+        GameManager.Inst().UiManager.MainUI.PopupReward.gameObject.SetActive(true);
+
         if (DailyLeft > 0 && IsDaily)
         {
             if (DailyPlusLeft > 0 && IsDailyPlus)
-                GameManager.Inst().UiManager.MainUI.Center.DailyJewelUI.Show(2);
+            {
+                GameManager.Inst().AddJewel(Constants.DAILYJEWEL);
+                GameManager.Inst().AddJewel(Constants.DAILYJEWELPLUS);
+                GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL, Constants.DAILYJEWEL);
+                GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL_2, Constants.DAILYJEWELPLUS);
+            }
             else
-                GameManager.Inst().UiManager.MainUI.Center.DailyJewelUI.Show(0);
+            {
+                GameManager.Inst().AddJewel(Constants.DAILYJEWEL);
+                GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL, Constants.DAILYJEWEL);
+            }
         }
         else if (DailyPlusLeft > 0 && IsDailyPlus)
-            GameManager.Inst().UiManager.MainUI.Center.DailyJewelUI.Show(1);
+        {
+            GameManager.Inst().AddJewel(Constants.DAILYJEWELPLUS);
+            GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL, Constants.DAILYJEWELPLUS);
+        }
     }
 
     public void ProcessDailyJewel()
     {
         if (DailyLeft > 0 && IsDailyPlus)
         {
-            GameManager.Inst().AddJewel(4);
             DailyLeft--;
 
             GameManager.Inst().UiManager.MainUI.Center.DailyLeft.Show(DailyLeft);
@@ -695,7 +708,6 @@ public class GameData
 
         if (DailyPlusLeft > 0 && IsDailyPlus)
         {
-            GameManager.Inst().AddJewel(12);
             DailyPlusLeft--;
 
             GameManager.Inst().UiManager.MainUI.Center.DailyPlusLeft.Show(DailyPlusLeft);

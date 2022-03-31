@@ -7,11 +7,6 @@ public class DailyJewel : MonoBehaviour
 {
     public Text AmountText;
 
-    void Start()
-    {
-        gameObject.SetActive(false);
-    }
-
     public void Show(int type)
     {
         gameObject.SetActive(true);

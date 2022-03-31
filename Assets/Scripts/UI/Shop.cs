@@ -316,6 +316,8 @@ public class Shop : MonoBehaviour
         if (index > 4)
         {
             //Daily 보상팝업
+            GameManager.Inst().UiManager.MainUI.PopupReward.gameObject.SetActive(true);
+            GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL, amount);
 
             BuyDailyJewel(index - 5);
         }
