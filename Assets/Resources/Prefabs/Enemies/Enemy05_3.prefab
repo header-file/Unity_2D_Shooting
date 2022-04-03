@@ -468,8 +468,8 @@ MonoBehaviour:
   - {fileID: 3689931259796399752}
   - {fileID: 3711219192205309103}
   m_Bounds:
-    m_Center: {x: 0.00000011920929, y: 0.013601303, z: 0.03}
-    m_Extent: {x: 0.59000003, y: 11.7864, z: 0.01}
+    m_Center: {x: 0.00000011920929, y: 0.013601303, z: 0.029999997}
+    m_Extent: {x: 0.59000003, y: 11.7864, z: 0.010000001}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!114 &7469102192865954658
@@ -512,7 +512,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6236965393710514749}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.571, z: 0}
+  m_LocalPosition: {x: 0, y: 2.065, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 733005666362182418}
@@ -1145,7 +1145,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 10
+    type: 5
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -1153,7 +1153,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 1, y: 4, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -5374,8 +5374,17 @@ MonoBehaviour:
   Body: {fileID: 6650237309260907962}
   Collider: {fileID: 6042909846966938334}
   Skin: {fileID: 7469102192865954658}
+  Curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  FallEffect: {fileID: 0}
   SpeedMultiplier: 0
   RotGyesu: 0
+  CurveTime: 0
+  IsDot: 0
 --- !u!50 &3516071698608699769
 Rigidbody2D:
   serializedVersion: 4
