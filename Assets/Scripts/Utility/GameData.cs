@@ -282,6 +282,18 @@ public class GameData
             Resources = new int[Constants.MAXRESOURCETYPES];
         }
 
+        if (BossGauges != null && BossGauges.Length == Constants.MAXSTAGES)
+            for (int i = 0; i < Constants.MAXSTAGES; i++)
+                GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
+        else
+        {
+            if (BossGauges != null)
+                for (int i = 0; i < BossGauges.Length; i++)
+                    GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
+
+            BossGauges = new int[Constants.MAXSTAGES];
+        }
+
         if (FeverGauges != null && FeverGauges.Length == 6 * Constants.MAXSTAGES)
             for (int j = 0; j < Constants.MAXSTAGES; j++)
                 for (int i = 0; i < 3; i++)
@@ -306,18 +318,6 @@ public class GameData
                     GameManager.Inst().StgManager.FullFever[i] = FullFevers[i];
 
             FullFevers = new int[Constants.MAXSTAGES];
-        }            
-
-        if (BossGauges != null && BossGauges.Length == Constants.MAXSTAGES)
-            for (int i = 0; i < Constants.MAXSTAGES; i++)
-                GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
-        else
-        {
-            if (BossGauges != null)
-                for (int i = 0; i < BossGauges.Length; i++)
-                    GameManager.Inst().StgManager.BossCount[i] = BossGauges[i];
-
-            BossGauges = new int[Constants.MAXSTAGES];
         }
 
         if (BossDeathCounts != null && BossDeathCounts.Length == Constants.MAXSTAGES)

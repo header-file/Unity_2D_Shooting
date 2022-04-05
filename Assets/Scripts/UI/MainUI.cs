@@ -50,6 +50,7 @@ public class MainUI : MonoBehaviour
     public GameObject PopUpPref;
     public PopupReward PopupReward;
     public PopupStageopen PopupStageopen;
+    public PopupBossclear PopupBossclear;
 
     void Awake()
     {

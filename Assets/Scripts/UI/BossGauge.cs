@@ -9,19 +9,16 @@ public class BossGauge : MonoBehaviour
 
     void Start()
     {
-        //for (int i = 0; i < FeverZones.Length; i++)
-        //    FeverZones[i].gameObject.SetActive(false);
-
         GameManager.Inst().StgManager.SetFeverGauge();
         GameManager.Inst().StgManager.FillGauge();
     }
 
-    public void SetFeverZones(int index, float pos, float size)
+    public void SetFeverZones(int index, float pos, float size, float barSize)
     {
         Vector2 p = Vector2.zero;
         Vector2 s = Vector2.one * 12;
-        p.x = (pos - 0.5f) * 600;
-        s.x = size * 600;
+        p.x = (pos - 0.5f) * barSize;
+        s.x = size * barSize;
         s.y = 46.0f;
 
         FeverZones[index].GetComponent<RectTransform>().anchoredPosition = p;

@@ -290,7 +290,7 @@ public class Enemy : MonoBehaviour
 
             if (Type != EnemyType.BOSS)
             {
-                GameManager.Inst().StgManager.AddBossCount();
+                GameManager.Inst().StgManager.AddBossCount((int)Type + 1);
                 gameObject.SetActive(false);
 
                 if (SceneManager.GetActiveScene().name == "Stage0" && GameManager.Inst().Tutorials.Step == 1)
@@ -303,20 +303,24 @@ public class Enemy : MonoBehaviour
 
                 if (SceneManager.GetActiveScene().name == "Stage0")
                     return;
+
+                if (!GameManager.Inst().Player.GetBossMode())
+                {
 #if UNITY_EDITOR
-                rand = Random.Range(0, 2);
-                if (rand == 0)
-                    GameManager.Inst().MakeReinforce(-1, -1, transform);
-                else
-                    GameManager.Inst().MakeEquip(-1, -1, transform);
+                    rand = Random.Range(0, 2);
+                    if (rand == 0)
+                        GameManager.Inst().MakeReinforce(-1, -1, transform);
+                    else
+                        GameManager.Inst().MakeEquip(-1, -1, transform);
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
-                rand = Random.Range(0, 20);
-                if (rand == 0)
-                    GameManager.Inst().MakeReinforce(-1, -1, transform);
-                else if (rand == 1)
-                    GameManager.Inst().MakeEquip(-1, -1, transform);
+                    rand = Random.Range(0, 20);
+                    if (rand == 0)
+                        GameManager.Inst().MakeReinforce(-1, -1, transform);
+                    else if (rand == 1)
+                        GameManager.Inst().MakeEquip(-1, -1, transform);
 #endif
+                }
             }
             else
             {
@@ -327,8 +331,29 @@ public class Enemy : MonoBehaviour
                 else
                     GameManager.Inst().MakeEquip(-1, -1, transform);
 
+                GameManager.Inst().UiManager.MainUI.PopupBossclear.gameObject.SetActive(true);
+                GameManager.Inst().UiManager.MainUI.PopupBossclear.BossIcon.sprite = GameManager.Inst().UiManager.MainUI.PopupBossclear.BossImages[GameManager.Inst().StgManager.Stage - 1];
                 if (GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] < 9)
+                {
+
+                    GameManager.Inst().UiManager.MainUI.PopupBossclear.LevelMax.SetActive(false);
+                    GameManager.Inst().UiManager.MainUI.PopupBossclear.LevelUp.SetActive(true);
+                    GameManager.Inst().UiManager.MainUI.PopupBossclear.Before.text = GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1].ToString();
                     GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1]++;
+                    if(GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1] >= 9)
+                    {
+                        GameManager.Inst().UiManager.MainUI.PopupBossclear.After.gameObject.SetActive(false);
+                        GameManager.Inst().UiManager.MainUI.PopupBossclear.Max.SetActive(true);
+                    }
+                    else
+                        GameManager.Inst().UiManager.MainUI.PopupBossclear.After.text = GameManager.Inst().StgManager.BossDeathCounts[GameManager.Inst().StgManager.Stage - 1].ToString();
+                }
+                else
+                {
+                    GameManager.Inst().UiManager.MainUI.PopupBossclear.LevelMax.SetActive(true);
+                    GameManager.Inst().UiManager.MainUI.PopupBossclear.LevelUp.SetActive(false);
+                }
+
                 GameManager.Inst().StgManager.IsBoss = false;
                 GameManager.Inst().StgManager.RestartStage();
             }

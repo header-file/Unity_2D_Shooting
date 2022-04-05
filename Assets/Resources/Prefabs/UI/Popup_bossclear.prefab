@@ -366,7 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 43032118519306120}
   - component: {fileID: 5346436208672875635}
-  - component: {fileID: 101182686704223864}
+  - component: {fileID: 2493486834700663717}
   m_Layer: 5
   m_Name: Popup_bossclear
   m_TagString: Untagged
@@ -415,7 +415,7 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &101182686704223864
+--- !u!114 &2493486834700663717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -424,21 +424,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 43032118519306121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1157f469a116d704d8288ac6fd9c4cbd, type: 3}
+  m_Script: {fileID: 11500000, guid: f8d4bb42edc7de241ac67cb060858d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Anim: {fileID: 5346436208672875635}
-  PlanetImgs:
-  - {fileID: 21300000, guid: f061bf5184b3cf144908499a8c1905d5, type: 3}
-  - {fileID: 21300000, guid: c38a8e32ab68556479508f6faf36499c, type: 3}
-  - {fileID: 21300000, guid: cc75f4ed8829eb046b81f563861426dc, type: 3}
-  - {fileID: 21300000, guid: d4c7c68582287bc4593ec5aa8dfc4a49, type: 3}
-  - {fileID: 21300000, guid: 6ea2d5679899e024185d097311b6d62f, type: 3}
-  Player: {fileID: 0}
-  WeaponSkin: {fileID: 0}
-  Planet: {fileID: 0}
-  WeaponName: {fileID: 0}
-  PlanetName: {fileID: 0}
+  LevelUp: {fileID: 7608726047014235885}
+  LevelMax: {fileID: 2976464752523582}
+  Before: {fileID: 2432175450482990899}
+  After: {fileID: 4785298444433612812}
+  Max: {fileID: 5413383875949276193}
+  BossIcon: {fileID: 7401522180176159200}
+  BossImages:
+  - {fileID: 21300000, guid: fce951162cee007499eee99aa638a21a, type: 3}
+  - {fileID: 21300000, guid: ccdaafc4c31479743b6e48ce1900da28, type: 3}
+  - {fileID: 21300000, guid: ba15ad90c3c24b0448ec08ed94f36990, type: 3}
+  - {fileID: 21300000, guid: 4bdab58404e3c6e4bbe52ba0d548bd96, type: 3}
+  - {fileID: 21300000, guid: e783c292450408a4fa3028057bf51881, type: 3}
 --- !u!1 &43032118681681251
 GameObject:
   m_ObjectHideFlags: 0
@@ -5818,9 +5818,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 101182686704223864}
-        m_MethodName: OnClickExit
-        m_Mode: 1
+      - m_Target: {fileID: 43032118519306121}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
