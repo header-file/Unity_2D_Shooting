@@ -97,8 +97,6 @@ public class UIManager : MonoBehaviour
     {
         PlayerHitAreas[4].Object = GameManager.Inst().Player.gameObject;
 
-        //GameManager.Inst().Player.AddCoin(0);
-        //GameManager.Inst().AddJewel(0);
         for (int i = 1; i <= Constants.MAXRESOURCETYPES; i++)
             GameManager.Inst().AddResource(i, 0);
         if (SceneManager.GetActiveScene().name != "Stage0")

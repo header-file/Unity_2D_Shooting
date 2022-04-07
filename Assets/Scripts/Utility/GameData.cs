@@ -87,7 +87,6 @@ public class GameData
     public int[] Quests;
 
     public int[] FeverGauges;
-    public int[] FullFevers;
     public int[] BossGauges;
     public int[] BossDeathCounts;
 
@@ -138,8 +137,6 @@ public class GameData
                 FeverGauges[i * 6 + j * 2] = Mathf.FloorToInt(GameManager.Inst().StgManager.MinFever[i * 3 + j] * 100.0f);
                 FeverGauges[i * 6 + j * 2 + 1] = Mathf.FloorToInt(GameManager.Inst().StgManager.MaxFever[i * 3 + j] * 100.0f);
             }
-            FullFevers[i] = GameManager.Inst().StgManager.FullFever[i];
-
 
             CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.YEAR] = GameManager.Inst().ResManager.GoalTimes[i].Year;
             CountGoalTimes[Constants.TIMEDATASIZE * i + (int)TIMEData.MONTH] = GameManager.Inst().ResManager.GoalTimes[i].Month;
@@ -306,18 +303,6 @@ public class GameData
                         GameManager.Inst().StgManager.SetFever(j, i, FeverGauges[i * 2], FeverGauges[i * 2 + 1]);
 
             FeverGauges = new int[2 * 3 * Constants.MAXSTAGES];
-        }
-
-        if (FullFevers != null && FullFevers.Length == Constants.MAXSTAGES)
-            for (int i = 0; i < Constants.MAXSTAGES; i++)
-                GameManager.Inst().StgManager.FullFever[i] = FullFevers[i];
-        else
-        {
-            if (FullFevers != null)
-                for (int i = 0; i < FullFevers.Length; i++)
-                    GameManager.Inst().StgManager.FullFever[i] = FullFevers[i];
-
-            FullFevers = new int[Constants.MAXSTAGES];
         }
 
         if (BossDeathCounts != null && BossDeathCounts.Length == Constants.MAXSTAGES)
@@ -587,7 +572,6 @@ public class GameData
 
         CurrentStage = 1;
         ReachedStage = 1;
-        FullFevers = new int[Constants.MAXSTAGES];
         FeverGauges = new int[2 * 3 * Constants.MAXSTAGES];
         BossGauges = new int[Constants.MAXSTAGES];
         BossDeathCounts = new int[Constants.MAXSTAGES];
@@ -637,8 +621,6 @@ public class GameData
 
     public void MoveScene()
     {
-        //if (IsTutorial)
-        //    SceneManager.LoadScene("Stage0");
         if (GameManager.Inst().StgManager.Stage > 0)
         {
             if (SceneManager.GetActiveScene().name != ("Stage" + GameManager.Inst().StgManager.Stage.ToString()))

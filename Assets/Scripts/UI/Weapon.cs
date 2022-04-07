@@ -253,6 +253,7 @@ public class Weapon : MonoBehaviour
         EquipArea.gameObject.SetActive(false);
         ReinforceArea.gameObject.SetActive(false);
         ShowInventory();
+        InfoWindow.gameObject.SetActive(false);
     }
 
     void ResetSwitchWindow()
@@ -291,6 +292,13 @@ public class Weapon : MonoBehaviour
     {
         InfoArea.SetWeaponName(CurBulletType);
         InfoArea.ShowDetail(CurBulletType);
+
+        if (GameManager.Inst().UpgManager.BData[CurBulletType].GetRarity() >= (Constants.MAXRARITY - 1) &&
+            GameManager.Inst().UpgManager.BData[CurBulletType].GetPowerLevel() >= GameManager.Inst().UpgManager.BData[CurBulletType].GetMaxBulletLevel())
+            InfoArea.ShowMaxLevel(true);
+        else
+            InfoArea.ShowMaxLevel(false);
+
         InfoArea.UpgradeBtn.interactable = GameManager.Inst().UpgManager.BData[CurBulletType].GetActive();
         InfoArea.EquipAreaBtn.interactable = GameManager.Inst().UpgManager.BData[CurBulletType].GetActive();
 
@@ -759,6 +767,8 @@ public class Weapon : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
             ArrowButtons[i].interactable = false;
+
+        InfoWindow.Show(CurBulletType);
 
         //Lock
         if (GameManager.Inst().StgManager.CheckBulletUnlocked(SlotIndices[ShowBulletType]))

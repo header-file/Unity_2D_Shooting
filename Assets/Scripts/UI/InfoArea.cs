@@ -17,6 +17,7 @@ public class InfoArea : MonoBehaviour
     public CanvasGroup[] CanvasGps;
     public Animator[] Anim;
     public Button UpgradeBtn;
+    public GameObject MaxLevel;
     public Button EquipAreaBtn;
     public Image[] GradeDeco;
     public Image GradeBg;
@@ -117,6 +118,12 @@ public class InfoArea : MonoBehaviour
     {
         GradeBg.color = GradeColors[GameManager.Inst().UpgManager.BData[bulletType].GetRarity()];
         GradeUpAnim.Play();
+    }
+
+    public void ShowMaxLevel(bool b)
+    {
+        MaxLevel.SetActive(b);
+        UpgradeBtn.gameObject.SetActive(!b);
     }
 }
 

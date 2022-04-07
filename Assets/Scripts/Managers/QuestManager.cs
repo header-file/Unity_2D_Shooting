@@ -23,6 +23,7 @@ public class QuestManager : MonoBehaviour
 
     public Dictionary<int, QuestData> Quests;
     public bool IsOpen;
+    public bool IsClear;
 
     List<QuestSlot> QuestSlots;
     int CurStageQuests;
@@ -38,6 +39,7 @@ public class QuestManager : MonoBehaviour
         Quests = new Dictionary<int, QuestData>();
         GenerateData();
         IsOpen = false;
+        IsClear = false;
     }
 
     void Start()
@@ -187,12 +189,14 @@ public class QuestManager : MonoBehaviour
             Quests[index].IsFinish = true;
             FinQuests++;
             QuestSlots[found].Check.SetActive(true);
+            QuestSlots[found].Count.gameObject.SetActive(false);
         }
 
         //Check All Clear
         if (FinQuests >= CurStageQuests &&
             GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.ReachedStage - 1].Clear != null)
         {
+            IsClear = true;
             GameManager.Inst().UiManager.MainUI.SideMenu.Eff_Notice.SetActive(true);
             GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.ReachedStage - 1].Clear.SetActive(true);
         }
@@ -211,7 +215,9 @@ public class QuestManager : MonoBehaviour
         GameManager.Inst().UiManager.MainUI.PopupStageopen.gameObject.SetActive(true);
         GameManager.Inst().UiManager.MainUI.PopupStageopen.Show(GameManager.Inst().StgManager.ReachedStage);
 
-        GameManager.Inst().UiManager.MainUI.SideMenu.Eff_Notice.SetActive(false);
+        IsClear = false;
+        if(!GameManager.Inst().ResManager.IsFinish)
+            GameManager.Inst().UiManager.MainUI.SideMenu.Eff_Notice.SetActive(false);
         GameManager.Inst().UiManager.MainUI.SideMenu.OnClickSideBarBackBtn();
 
         //사이드메뉴 재생성

@@ -342,6 +342,7 @@ public class UpgradeManager : MonoBehaviour
         //UI
         ShowRarityupWindow(UpgType);
         GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoArea.GradeUp(UpgType);
+        GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoWindow.Show(UpgType);
 
         GameManager.Inst().SodManager.PlayEffect("Weapon advance");
     }
@@ -378,6 +379,10 @@ public class UpgradeManager : MonoBehaviour
 
         //UI
         ShowLevelupWindow();
+
+        if (BData[UpgType].GetRarity() >= (Constants.MAXRARITY - 1) &&
+            BData[UpgType].GetPowerLevel() >= BData[UpgType].GetMaxBulletLevel())
+            GameManager.Inst().UiManager.MainUI.Center.Weapon.InfoArea.ShowMaxLevel(true);
 
         GameManager.Inst().SodManager.PlayEffect("Weapon forge");
     }

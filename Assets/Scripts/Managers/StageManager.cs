@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Experimental.U2D.Animation;
 
 public class StageManager : MonoBehaviour
 {
@@ -149,14 +150,14 @@ public class StageManager : MonoBehaviour
 
         for (int i = 0; i < FullFever[Stage - 1]; i++)
         {
-            if (!IsFeverMode && percent >= MinFever[i] && percent < MaxFever[i])
+            if (!IsFeverMode && percent >= MinFever[(Stage - 1) * 3 + i] && percent < MaxFever[(Stage - 1) * 3 + i])
             {
                 FeverMode();
                 return;
             }
             else if (IsFeverMode && percent > MaxFever[i])
             {
-                if (i < FullFever[Stage - 1] - 1 && percent < MinFever[i + 1])
+                if (i < FullFever[Stage - 1] - 1 && percent < MinFever[(Stage - 1) * 3 + i + 1])
                 {
                     EndFeverMode();
                     return;
@@ -268,8 +269,7 @@ public class StageManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Stage0")
             return;
 
-        if (IsFeverMode)
-            return;
+        AddBossCount(0);
 
         InvokeRepeating("SpawnSmall", 0.0f, SmallTime);
         InvokeRepeating("SpawnMedium", 0.0f, MediumTime);
@@ -278,7 +278,7 @@ public class StageManager : MonoBehaviour
 
     void SpawnSmall()
     {
-        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").GetComponent<Enemy>();
         SetTransform(enemy, new Vector3(0.0f, 0.0f, 0.05f * EnemyCount++));
 
         CheckEnemyCount();
@@ -286,7 +286,7 @@ public class StageManager : MonoBehaviour
 
     public void SpawnSmall(Vector3 pos)
     {
-        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").gameObject.GetComponent<Enemy>();
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").GetComponent<Enemy>();
         pos.z = 0.05f * EnemyCount++;
         enemy.transform.position = pos;
         SetTransform(enemy, pos);
@@ -296,7 +296,7 @@ public class StageManager : MonoBehaviour
 
     public void SpawnMedium()
     {
-        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyM").gameObject.GetComponent<Enemy>();
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyM").GetComponent<Enemy>();
         SetTransform(enemy, new Vector3(0.0f, 0.0f, 0.05f * EnemyCount++));
 
         CheckEnemyCount();
@@ -304,7 +304,7 @@ public class StageManager : MonoBehaviour
 
     public void SpawnMedium(Vector3 pos)
     {
-        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyM").gameObject.GetComponent<Enemy>();
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyM").GetComponent<Enemy>();
         pos.z = 0.05f * EnemyCount++;
         enemy.transform.position = pos;
         SetTransform(enemy, pos);
@@ -314,7 +314,7 @@ public class StageManager : MonoBehaviour
 
     public void SpawnLarge()
     {
-        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").gameObject.GetComponent<Enemy>();
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").GetComponent<Enemy>();
         SetTransform(enemy, new Vector3(0.0f, 0.0f, 0.05f * EnemyCount++));
 
         CheckEnemyCount();
@@ -322,7 +322,7 @@ public class StageManager : MonoBehaviour
 
     public void SpawnLarge(Vector3 pos)
     {
-        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").gameObject.GetComponent<Enemy>();
+        Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyL").GetComponent<Enemy>();
         pos.z = 0.05f * EnemyCount++;
         enemy.transform.position = pos;
         SetTransform(enemy, pos);
@@ -334,7 +334,7 @@ public class StageManager : MonoBehaviour
     {
         //EraseCurEnemies();
 
-        Boss = GameManager.Inst().ObjManager.MakeObj("EnemyB").gameObject.GetComponent<EnemyB>();
+        Boss = GameManager.Inst().ObjManager.MakeObj("EnemyB").GetComponent<EnemyB>();
         Vector3 pos = Vector3.zero;
         pos.y = 13.0f;
         pos.z = 0.05f * EnemyCount++;
@@ -496,7 +496,18 @@ public class StageManager : MonoBehaviour
         }
 
         int rand = Random.Range(1, 4);
+
+        if (!Enemy.name.Contains("05"))
+        {
+            Enemy.gameObject.SetActive(false);
+            return;
+        }
+
+        if (!Enemy.Skin)
+            Enemy.Skin = Enemy.transform.Find("Enemy05").Find("skin").GetComponent<SpriteResolver>();
         Enemy.Skin.SetCategoryAndLabel("color", "skin" + rand.ToString());
+        if (!Enemy.Body)
+            Enemy.Body = Enemy.transform.Find("Enemy05").Find("bone_1").Find("bone_2").gameObject;
         Enemy.Body.transform.localScale = Vector3.one;
         Enemy.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         Enemy.StartMove(Time.deltaTime);

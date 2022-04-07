@@ -7,6 +7,7 @@ public class ResourceManager : MonoBehaviour
 {
     public System.DateTime[] GoalTimes;
     public bool[] IsStartCount;
+    public bool IsFinish;
 
     struct ResourceData
     {
@@ -34,6 +35,7 @@ public class ResourceManager : MonoBehaviour
             ResourceDatas[i].coin = int.Parse(data[i]["Coin"].ToString());
             ResourceDatas[i].jewel = int.Parse(data[i]["Jewel"].ToString());
         }
+        IsFinish = false;
     }
 
     void Start()
@@ -149,6 +151,9 @@ public class ResourceManager : MonoBehaviour
         string str = "00 : 00 : 00";
 
         ShowData(stage, str);
+
+        IsFinish = true;
+        GameManager.Inst().UiManager.MainUI.SideMenu.Eff_Notice.SetActive(true);
     }
 
     public void GetTempResources(int stage)
@@ -166,6 +171,10 @@ public class ResourceManager : MonoBehaviour
         GameManager.Inst().AddJewel(ResourceDatas[stage].jewel);
 
         GameManager.Inst().UiManager.MainUI.GetSideMenuSlot(stage).GatherBtn.gameObject.SetActive(false);
+
+        IsFinish = false;
+        if(!GameManager.Inst().QstManager.IsClear)
+            GameManager.Inst().UiManager.MainUI.SideMenu.Eff_Notice.SetActive(false);
 
         StartCount(stage);
     }
