@@ -486,7 +486,7 @@ public class ObjectManager : MonoBehaviour
         SubWeapons = new GameObject[4];
 
         DmgTexts = new GameObject[40];
-        InventorySlots = new GameObject[Constants.MAXINVENTORY];
+        InventorySlots = new GameObject[Constants.MAXINVENTORY + 20];
         Lines = new GameObject[3];
         QuestSlots = new GameObject[10];
         SideMenuSlotNows = new GameObject[4];

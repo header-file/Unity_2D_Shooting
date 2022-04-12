@@ -277,6 +277,8 @@ public class Shop : MonoBehaviour
         FullPriceLock.SetActive(true);
         GameManager.Inst().UiManager.MainUI.SpecialBtn.SetActive(false);
 
+        GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.COIN, 50000);
+
         GameManager.Inst().DatManager.SaveData();
         GameManager.Inst().DatManager.UploadSaveData();
     }
@@ -342,5 +344,23 @@ public class Shop : MonoBehaviour
     {
         GameManager.Inst().AdsManager.AdvType = AdvertiseManager.AdType.SHOP_JEWEL;
         GameManager.Inst().AdsManager.PlayAd();
+    }
+
+    public void OnClickBuyResourcePackage()
+    {
+        for (int i = 0; i < Constants.MAXRESOURCETYPES; i++)
+        {
+            GameManager.Inst().AddResource(i + 1, 200);
+            GameManager.Inst().UiManager.MainUI.PopupReward.Show(i + (int)PopupReward.RewardType.RESOURCE_1, 200);
+        }
+    }
+
+    public void OnClickBuyEquipPackage()
+    {
+        for (int i = 0; i < Constants.MAXEQUIPTYPE; i++)
+        {
+            GameManager.Inst().MakeEquipData(i, 2);
+            GameManager.Inst().UiManager.MainUI.PopupReward.Show(i + (int)PopupReward.RewardType.EQUIP_MAGNET, 0, 2);
+        }
     }
 }

@@ -661,7 +661,7 @@ public class GameData
                 GameManager.Inst().AddJewel(Constants.DAILYJEWEL);
                 GameManager.Inst().AddJewel(Constants.DAILYJEWELPLUS);
                 GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL, Constants.DAILYJEWEL);
-                GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL_2, Constants.DAILYJEWELPLUS);
+                GameManager.Inst().UiManager.MainUI.PopupReward.Show((int)PopupReward.RewardType.CRYSTAL, Constants.DAILYJEWELPLUS);
             }
             else
             {

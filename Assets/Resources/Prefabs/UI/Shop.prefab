@@ -5905,6 +5905,26 @@ PrefabInstance:
       propertyPath: productId
       value: resource_200
       objectReference: {fileID: 0}
+    - target: {fileID: 2049397887098934418, guid: 5013456066a787e4e9d38b7d41cb8f1a,
+        type: 3}
+      propertyPath: onPurchaseFailed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FailBuyJewel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2049397887098934418, guid: 5013456066a787e4e9d38b7d41cb8f1a,
+        type: 3}
+      propertyPath: onPurchaseComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6195473195295157750}
+    - target: {fileID: 2049397887098934418, guid: 5013456066a787e4e9d38b7d41cb8f1a,
+        type: 3}
+      propertyPath: onPurchaseComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickBuyResourcePackage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2049397887098934418, guid: 5013456066a787e4e9d38b7d41cb8f1a,
+        type: 3}
+      propertyPath: onPurchaseFailed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6195473195295157750}
     - target: {fileID: 4803367858164441705, guid: 5013456066a787e4e9d38b7d41cb8f1a,
         type: 3}
       propertyPath: onPurchaseComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -6462,6 +6482,26 @@ PrefabInstance:
       propertyPath: productId
       value: ' equip_blue'
       objectReference: {fileID: 0}
+    - target: {fileID: 8908362369096445082, guid: 4c2baa48b4c49a443b1c6b53c1117919,
+        type: 3}
+      propertyPath: onPurchaseComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6195473195295157750}
+    - target: {fileID: 8908362369096445082, guid: 4c2baa48b4c49a443b1c6b53c1117919,
+        type: 3}
+      propertyPath: onPurchaseComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickBuyEquipPackage
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908362369096445082, guid: 4c2baa48b4c49a443b1c6b53c1117919,
+        type: 3}
+      propertyPath: onPurchaseFailed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6195473195295157750}
+    - target: {fileID: 8908362369096445082, guid: 4c2baa48b4c49a443b1c6b53c1117919,
+        type: 3}
+      propertyPath: onPurchaseFailed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FailBuyJewel
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c2baa48b4c49a443b1c6b53c1117919, type: 3}
 --- !u!224 &2195573827038110618 stripped
@@ -6619,11 +6659,6 @@ PrefabInstance:
       objectReference: {fileID: 6195473195295157750}
     - target: {fileID: 5906153979874148978, guid: 58da1c30f7960d24db1ae15ea6521698,
         type: 3}
-      propertyPath: onPurchaseFailed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 6195473195295157750}
-    - target: {fileID: 5906153979874148978, guid: 58da1c30f7960d24db1ae15ea6521698,
-        type: 3}
       propertyPath: onPurchaseFailed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClickConfirmCancel
       objectReference: {fileID: 0}
@@ -6640,6 +6675,46 @@ PrefabInstance:
     - target: {fileID: 5906153979874148978, guid: 58da1c30f7960d24db1ae15ea6521698,
         type: 3}
       propertyPath: onPurchaseComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6754898079110603736, guid: 58da1c30f7960d24db1ae15ea6521698,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6754898079110603736, guid: 58da1c30f7960d24db1ae15ea6521698,
+        type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924777176372852188, guid: 58da1c30f7960d24db1ae15ea6521698,
+        type: 3}
+      propertyPath: onPurchaseComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6195473195295157750}
+    - target: {fileID: 6924777176372852188, guid: 58da1c30f7960d24db1ae15ea6521698,
+        type: 3}
+      propertyPath: onPurchaseComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BuyFullPrice
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924777176372852188, guid: 58da1c30f7960d24db1ae15ea6521698,
+        type: 3}
+      propertyPath: onPurchaseComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924777176372852188, guid: 58da1c30f7960d24db1ae15ea6521698,
+        type: 3}
+      propertyPath: onPurchaseFailed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6195473195295157750}
+    - target: {fileID: 6924777176372852188, guid: 58da1c30f7960d24db1ae15ea6521698,
+        type: 3}
+      propertyPath: onPurchaseFailed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FailBuyJewel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924777176372852188, guid: 58da1c30f7960d24db1ae15ea6521698,
+        type: 3}
+      propertyPath: onPurchaseFailed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -176,7 +176,7 @@ public class ZzinBottom : MonoBehaviour
         OnClickHomeBtn();
 
         GameManager.Inst().UiManager.MainUI.Center.Shop.gameObject.SetActive(true);
-        //GameManager.Inst().UiManager.MainUI.Center.Shop.OnSelectToggle(0);
+        GameManager.Inst().UiManager.MainUI.Center.Shop.ShowPage();
 
         ShopIcon[0].SetActive(false);
         ShopIcon[1].SetActive(true);

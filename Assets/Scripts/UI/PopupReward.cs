@@ -8,41 +8,77 @@ public class PopupReward : MonoBehaviour
     {
         COIN = 0,
         CRYSTAL = 1,
-        EQUIPMENT = 2,
-        RESOURCE_1 = 3,
-        RESOURCE_2 = 4,
-        RESOURCE_3 = 5,
-        RESOURCE_4 = 6,
-        CRYSTAL_2 = 7,
+        RESOURCE_1 = 2,
+        RESOURCE_2 = 3,
+        RESOURCE_3 = 4,
+        RESOURCE_4 = 5,
+        EQUIP_MAGNET = 6,
+        EQUIP_HOMING = 7,
+        EQUIP_HEAL = 8,
+        EQUIP_VAMP = 9,
+        EQUIP_SHIELD = 10,
+        EQUIP_REVIVE = 11,
+        EQUIP_REINFORCE = 12,
+        EQUIP_KNOCKBACK = 13,
+        EQUIP_SLOW = 14,
     }
 
-    public InventorySlot[] RewardSlots;
     public Jun_TweenRuntime Tween;
+    public GameObject Content;
+    public Sprite[] SlotImages;
+
+    List<InventorySlot> RewardSlots;
+
 
     void Awake()
     {
-        for (int i = 0; i < RewardSlots.Length; i++)
-        {
-            RewardSlots[i].gameObject.SetActive(false);
-            RewardSlots[i].SetType(-1);
-        }
-
+        RewardSlots = new List<InventorySlot>();
+        Hide();
         gameObject.SetActive(false);
     }
 
     void Hide()
     {
-        for (int i = 0; i < RewardSlots.Length; i++)
+        if (RewardSlots.Count <= 0)
+            return;
+
+        for (int i = RewardSlots.Count - 1; i >= 0; i--)
+        {
+            RewardSlots[i].Grade.SetActive(true);
+            RewardSlots[i].Quantity.SetActive(false);
+            RewardSlots[i].transform.SetParent(GameManager.Inst().ObjManager.UIPool.transform, false);
             RewardSlots[i].gameObject.SetActive(false);
+            RewardSlots.Remove(RewardSlots[i]);
+        }
     }
 
     public void Show(int Type, int Amount, int Grade = -1)
     {
-        RewardSlots[Type].gameObject.SetActive(true);
-        RewardSlots[Type].QuantityText.text = Amount.ToString();
+        gameObject.SetActive(true);
+
+        InventorySlot slot = GameManager.Inst().ObjManager.MakeObj("InventorySlot").GetComponent<InventorySlot>();
+        slot.transform.SetParent(Content.transform, false);
+
+        slot.SetIcon(SlotImages[Type]);
+
+        slot.QuantityText.text = "";
+        if (Amount != 0)
+        {
+            slot.Quantity.SetActive(true);
+            slot.QuantityText.text = Amount.ToString();
+        }
+        else
+            slot.Quantity.SetActive(false);
 
         if (Grade != -1)
-            RewardSlots[Type].SetGradeSprite(Grade);
+        {
+            slot.Grade.SetActive(true);
+            slot.SetGradeSprite(Grade);
+        }
+        else
+            slot.Grade.SetActive(false);
+
+        RewardSlots.Add(slot);
     }
 
     public void OnClickExitBtn()
