@@ -204,19 +204,8 @@ public class QuestManager : MonoBehaviour
 
     public void Clear()
     {
-        if(GameManager.Inst().StgManager.ReachedStage == Constants.MAXSTAGES)
-        {
-            //엔딩
-            GameManager.Inst().Outro.gameObject.SetActive(true);
-            return;
-        }
-
-        //클리어팝업
-        GameManager.Inst().UiManager.MainUI.PopupStageopen.gameObject.SetActive(true);
-        GameManager.Inst().UiManager.MainUI.PopupStageopen.Show(GameManager.Inst().StgManager.ReachedStage);
-
         IsClear = false;
-        if(!GameManager.Inst().ResManager.IsFinish)
+        if (!GameManager.Inst().ResManager.IsFinish)
             GameManager.Inst().UiManager.MainUI.SideMenu.Eff_Notice.SetActive(false);
         GameManager.Inst().UiManager.MainUI.SideMenu.OnClickSideBarBackBtn();
 
@@ -224,8 +213,21 @@ public class QuestManager : MonoBehaviour
         GameManager.Inst().UiManager.MainUI.SideMenu.Slots[GameManager.Inst().StgManager.ReachedStage - 1].Clear.SetActive(false);
         GameManager.Inst().UiManager.MainUI.SideMenu.RemakeSlot();
 
-        int nextStage = GameManager.Inst().StgManager.ReachedStage + 1;
-        OpenNextStage(nextStage);
+        if (GameManager.Inst().StgManager.ReachedStage == Constants.MAXSTAGES)
+        {
+            //엔딩
+            GameManager.Inst().UiManager.MainUI.gameObject.SetActive(false);
+            GameManager.Inst().Outro.gameObject.SetActive(true);
+        }
+        else
+        {
+            //클리어팝업
+            GameManager.Inst().UiManager.MainUI.PopupStageopen.gameObject.SetActive(true);
+            GameManager.Inst().UiManager.MainUI.PopupStageopen.Show(GameManager.Inst().StgManager.ReachedStage);
+
+            int nextStage = GameManager.Inst().StgManager.ReachedStage + 1;
+            OpenNextStage(nextStage);
+        }
     }
 
     public void OpenNextStage(int stage)

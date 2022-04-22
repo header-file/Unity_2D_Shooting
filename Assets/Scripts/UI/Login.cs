@@ -16,6 +16,7 @@ public class Login : MonoBehaviour
     public FirebaseDatabase DB;
     public string PlayerID;
     public Intro Intro;
+    public GameObject NetworkErrMsg;
 
     // Auth 용 instance
     FirebaseAuth auth = null;
@@ -40,6 +41,12 @@ public class Login : MonoBehaviour
 
     // 기기 연동이 되어 있는 상태인지 체크한다.
     private bool signedIn = false;
+
+    //네트워크 연결 확인용
+    bool IsCheckOnline;
+
+    //연결 지연 시간 체크
+    float LinkTime;
 
     // 임시저장용 클래스
     private User.userLoginData.LoginType tempLoginType = User.userLoginData.LoginType.None;
@@ -84,7 +91,7 @@ public class Login : MonoBehaviour
         NicknamePanel.SetActive(false);
     }
 
-    private void Start()
+    void Start()
     {
         //#if UNITY_EDITOR
         //        TestInit();
@@ -92,6 +99,23 @@ public class Login : MonoBehaviour
 
         DBRef = FirebaseDatabase.DefaultInstance.RootReference;
         DB = FirebaseDatabase.DefaultInstance;
+    }
+
+    void Update()
+    {
+        if (IsCheckOnline)
+        {
+            LinkTime += Time.deltaTime;
+
+            if(LinkTime >= 30.0f)
+            {
+                IsCheckOnline = false;
+                LinkTime = 0.0f;
+
+                LoadingPanel.SetActive(false);
+                NetworkErrMsg.SetActive(true);
+            }
+        }
     }
 
     // 테스트용 초기화 함수
@@ -105,7 +129,6 @@ public class Login : MonoBehaviour
             //auth.CurrentUser.DeleteAsync();
         }
     }
-
 
     // 계정 로그인에 어떠한 변경점이 발생시 진입.
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
@@ -148,17 +171,21 @@ public class Login : MonoBehaviour
     public IEnumerator CurrentUserDataGet()
     {
         LoadingPanel.SetActive(true);
+
+        IsCheckOnline = true;
+
         // 유저 정보
         User.Instance.GetUserData(auth.CurrentUser.UserId, new System.Action(() => {
             Debug.Log("유저 정보 로드 완료!");
             // 유저 인벤 정보
             User.Instance.GetUserInven(auth.CurrentUser.UserId, new System.Action(() => {
+                IsCheckOnline = false;
                 // 다음 씬으로 넘긴다.
                 PlayerID = auth.CurrentUser.UserId;
                 NextSecne();
             }));
         }));
-
+        
         yield return null;
     }
 

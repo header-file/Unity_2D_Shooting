@@ -88,6 +88,7 @@ public class CutScene : MonoBehaviour
 
     void OutroEnd()
     {
+        GameManager.Inst().UiManager.MainUI.gameObject.SetActive(true);
         GameManager.Inst().StgManager.RestartStage();
         gameObject.SetActive(false);
     }
