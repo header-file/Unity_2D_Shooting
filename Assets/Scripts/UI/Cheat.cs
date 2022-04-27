@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class Cheat : MonoBehaviour
 {
+    interface PageType
+    {
+        void ShowPage();
+    }
+
     public Toggle[] Toggles;
     public GameObject[] Pages;
     public NumInput NumInput;
@@ -43,18 +48,24 @@ public class Cheat : MonoBehaviour
     public QuestSlot[] QuestSlots;
     public Button[] QuestBtns;
 
-    int CurrentBulletType;
-    int ReinforceType;
-    int ReinforceRarity;
-    int EquipType;
-    int EquipRarity;
+    PageType Page;
+    PageType[] PageTypes;
+
     bool[] IsQstUps;
     bool[] IsQstDowns;
 
-    void Start()
-    {
-        CurrentBulletType = 0;
+    int CurrentBulletType = 0;
 
+    int ReinforceType = 0;
+    int ReinforceRarity = 0;
+    int EquipType = 0;
+    int EquipRarity = 0;
+
+    bool IsStarted;
+
+
+    void Awake()
+    {
         IsQstUps = new bool[4];
         IsQstDowns = new bool[4];
         for (int i = 0; i < 4; i++)
@@ -63,11 +74,27 @@ public class Cheat : MonoBehaviour
             IsQstDowns[i] = false;
         }
 
+        PageTypes = new PageType[6];
+        PageTypes[0] = new CharacterPage();
+        PageTypes[1] = new WeaponPage();
+        PageTypes[2] = new ResourcePage();
+        PageTypes[3] = new StagePage();
+        PageTypes[4] = new ItemPage();
+        PageTypes[5] = new DataPage();
+        Page = PageTypes[0];
+    }
+
+    void Start()
+    {
+        IsStarted = true;
         gameObject.SetActive(false);
     }
 
     void Update()
     {
+        if (!Toggles[3].isOn)
+            return;
+
         for(int i = 0; i < 4; i++)
         {
             if (IsQstUps[i])
@@ -82,176 +109,18 @@ public class Cheat : MonoBehaviour
         if (Toggles[index].isOn == false)
             return;
 
-        for (int i = 0; i < Pages.Length; i++)
-            Pages[i].SetActive(false);
+        if(IsStarted)
+            for (int i = 0; i < Pages.Length; i++)
+                Pages[i].SetActive(false);
 
-        Toggles[index].Select();
         Pages[index].SetActive(true);
-        ShowPage(index);
+        Page = GameManager.Inst().UiManager.MainUI.Center.Cheat.PageTypes[index];
+        ShowPage();
     }
 
-    void ShowPage(int index)
+    public void ShowPage()
     {
-        switch(index)
-        {
-            case 0:
-                ShowCharacterPage();
-                break;
-            case 1:
-                ShowWeaponPage();
-                break;
-            case 2:
-                ShowResourcePage();
-                break;
-            case 3:
-                ShowStagePage();
-                break;
-            case 4:
-                ShowItemPage();
-                break;
-            case 5:
-                ShowDataPage();
-                break;
-        }
-    }
-
-    void ShowCharacterPage()
-    {
-        for(int i = 0; i < Constants.MAXSUBWEAPON; i++)
-        {
-            if (GameManager.Inst().GetSubweapons(i) == null)
-                CharacterOffButtons(i);
-            else
-                CharacterOnButtons(i);
-        }
-    }
-
-    void CharacterOnButtons(int i)
-    {
-        CharCreateBtns[i].interactable = false;
-        CharDeleteBtns[i].interactable = true;
-        CharReviveBtns[i + 1].interactable = true;
-        CharGodModeBtns[i + 1].interactable = true;
-    }
-
-    void CharacterOffButtons(int i)
-    {
-        CharCreateBtns[i].interactable = true;
-        CharDeleteBtns[i].interactable = false;
-        CharReviveBtns[i + 1].interactable = false;
-        CharGodModeBtns[i + 1].interactable = false;
-    }
-
-    void ShowWeaponPage()
-    {
-        CurrentBulletType = 0;
-
-        ShowWeaponData();
-    }
-
-    void ShowWeaponData()
-    {
-        BulletName.text = GameManager.Inst().TxtManager.BulletTypeNames[CurrentBulletType];
-        BulletLevelText.text = GameManager.Inst().UpgManager.BData[CurrentBulletType].GetPowerLevel().ToString();
-        RarityText.text = GameManager.Inst().TxtManager.RarityNames[GameManager.Inst().UpgManager.BData[CurrentBulletType].GetRarity()];
-
-        StatusText[0].text = GameManager.Inst().UpgManager.BData[CurrentBulletType].GetDamage().ToString();
-        StatusText[1].text = GameManager.Inst().UpgManager.BData[CurrentBulletType].GetSpeed().ToString();
-        StatusText[2].text = GameManager.Inst().UpgManager.BData[CurrentBulletType].GetHealth().ToString();
-
-        ReinforceText[0].text = GameManager.Inst().UpgManager.BData[CurrentBulletType].GetAtk().ToString();
-        ReinforceText[1].text = GameManager.Inst().UpgManager.BData[CurrentBulletType].GetSpd().ToString();
-        ReinforceText[2].text = GameManager.Inst().UpgManager.BData[CurrentBulletType].GetHp().ToString();
-
-        ReinforceImage[0].fillAmount = (float)GameManager.Inst().UpgManager.BData[CurrentBulletType].GetAtk() / GameManager.Inst().UpgManager.BData[CurrentBulletType].GetMaxAtk();
-        ReinforceImage[1].fillAmount = (float)GameManager.Inst().UpgManager.BData[CurrentBulletType].GetSpd() / GameManager.Inst().UpgManager.BData[CurrentBulletType].GetMaxSpd();
-        ReinforceImage[2].fillAmount = (float)GameManager.Inst().UpgManager.BData[CurrentBulletType].GetHp() / GameManager.Inst().UpgManager.BData[CurrentBulletType].GetMaxHp();
-
-        if (GameManager.Inst().UpgManager.BData[CurrentBulletType].GetRarity() == Constants.MAXRARITY - 1 &&
-            GameManager.Inst().UpgManager.BData[CurrentBulletType].GetPowerLevel() >= GameManager.Inst().UpgManager.BData[CurrentBulletType].GetMaxBulletLevel())
-            PlusLevelBtn.interactable = false;
-        else
-            PlusLevelBtn.interactable = true;
-
-        if (GameManager.Inst().UpgManager.BData[CurrentBulletType].GetRarity() == 0 &&
-            GameManager.Inst().UpgManager.BData[CurrentBulletType].GetPowerLevel() <= 1)
-            MinusLevelBtn.interactable = false;
-        else
-            MinusLevelBtn.interactable = true;
-
-        if (GameManager.Inst().UpgManager.BData[CurrentBulletType].GetAtk() >= GameManager.Inst().UpgManager.BData[CurrentBulletType].GetMaxAtk())
-            PlusReinforceBtn[0].interactable = false;
-        else
-            PlusReinforceBtn[0].interactable = true;
-
-        if (GameManager.Inst().UpgManager.BData[CurrentBulletType].GetAtk() <= 0)
-            MinusReinforceBtn[0].interactable = false;
-        else
-            MinusReinforceBtn[0].interactable = true;
-
-        if (GameManager.Inst().UpgManager.BData[CurrentBulletType].GetSpd() >= GameManager.Inst().UpgManager.BData[CurrentBulletType].GetMaxSpd())
-            PlusReinforceBtn[1].interactable = false;
-        else
-            PlusReinforceBtn[1].interactable = true;
-
-        if (GameManager.Inst().UpgManager.BData[CurrentBulletType].GetSpd() <= 0)
-            MinusReinforceBtn[1].interactable = false;
-        else
-            MinusReinforceBtn[1].interactable = true;
-
-        if (GameManager.Inst().UpgManager.BData[CurrentBulletType].GetHp() >= GameManager.Inst().UpgManager.BData[CurrentBulletType].GetMaxHp())
-            PlusReinforceBtn[2].interactable = false;
-        else
-            PlusReinforceBtn[2].interactable = true;
-
-        if (GameManager.Inst().UpgManager.BData[CurrentBulletType].GetHp() <= 0)
-            MinusReinforceBtn[2].interactable = false;
-        else
-            MinusReinforceBtn[2].interactable = true;
-    }
-
-    void ShowResourcePage()
-    {
-        CoinText.text = GameManager.Inst().Player.GetCoin().ToString();
-        JewelText.text = GameManager.Inst().Jewel.ToString();
-        for (int i = 0; i < Constants.MAXSTAGES; i++)
-            ResourceTexts[i].text = GameManager.Inst().Resources[i].ToString();
-    }
-
-    void ShowStagePage()
-    {
-        for (int i = 0; i < GameManager.Inst().StgManager.ReachedStage; i++)
-            StageBtns[i].interactable = false;
-
-        int count = 0;
-        for(int i = 0; i < GameManager.Inst().QstManager.Quests.Count; i++)
-        {
-            if(GameManager.Inst().QstManager.Quests[i].QuestId / 10000 == GameManager.Inst().StgManager.ReachedStage)
-            {
-                QuestSlots[count].Desc.text = GameManager.Inst().QstManager.Quests[i].QuestDesc;
-                QuestSlots[count].Count.text = GameManager.Inst().QstManager.Quests[i].CurrentCount.ToString() + " / " + GameManager.Inst().QstManager.Quests[i].GoalCount.ToString();
-                QuestSlots[count].ProgressBar.fillAmount = (float)GameManager.Inst().QstManager.Quests[i].CurrentCount / GameManager.Inst().QstManager.Quests[i].GoalCount;
-                QuestSlots[count].QuestID = GameManager.Inst().QstManager.Quests[i].QuestId;
-
-                if (GameManager.Inst().QstManager.Quests[i].CurrentCount <= 0)
-                    QuestBtns[count * 2 + 1].interactable = false;
-                else
-                    QuestBtns[count * 2 + 1].interactable = true;
-
-                if (GameManager.Inst().QstManager.Quests[i].CurrentCount >= GameManager.Inst().QstManager.Quests[i].GoalCount)
-                {
-                    QuestSlots[count].Check.SetActive(true);
-                    QuestBtns[count * 2].interactable = false;
-                }
-                else
-                {
-                    QuestSlots[count].Check.SetActive(false);
-                    QuestBtns[count * 2].interactable = true;
-                }                    
-
-                count++;
-            }
-        }
+        Page.ShowPage();
     }
 
     void QuestUp(int index)
@@ -259,7 +128,7 @@ public class Cheat : MonoBehaviour
         int id = QuestSlots[index].QuestID;
 
         GameManager.Inst().QstManager.QuestProgress(id % 10000 / 1000, id % 1000 / 100, 1);
-        ShowStagePage();
+        Page.ShowPage();
     }
 
     void QuestDown(int index)
@@ -267,31 +136,241 @@ public class Cheat : MonoBehaviour
         int id = QuestSlots[index].QuestID;
 
         GameManager.Inst().QstManager.QuestProgress(id % 10000 / 1000, id % 1000 / 100, -1);
-        ShowStagePage();
+        Page.ShowPage();
     }
 
-    void ShowItemPage()
+    class CharacterPage : PageType
     {
-        MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
+        public void ShowPage()
+        {
+            for (int i = 0; i < Constants.MAXSUBWEAPON; i++)
+            {
+                if (GameManager.Inst().GetSubweapons(i) == null)
+                    CharacterOffButtons(i);
+                else
+                    CharacterOnButtons(i);
+            }
+        }
 
-        for (int i = 0; i < 2; i++)
-            InventoryBtns[i].interactable = true;
+        void CharacterOnButtons(int i)
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.CharCreateBtns[i].interactable = false;
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.CharDeleteBtns[i].interactable = true;
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.CharReviveBtns[i + 1].interactable = true;
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.CharGodModeBtns[i + 1].interactable = true;
+        }
 
-        if (GameManager.Inst().Player.MaxInventory >= Constants.MAXINVENTORY)
-            InventoryBtns[0].interactable = false;
-        else if (GameManager.Inst().Player.MaxInventory <= Constants.MININVENTORY)
-            InventoryBtns[1].interactable = false;
+        void CharacterOffButtons(int i)
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.CharCreateBtns[i].interactable = true;
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.CharDeleteBtns[i].interactable = false;
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.CharReviveBtns[i + 1].interactable = false;
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.CharGodModeBtns[i + 1].interactable = false;
+        }
     }
 
-    void ShowDataPage()
+    class WeaponPage : PageType
     {
+        public void ShowPage()
+        {
+            ShowWeaponData();
+        }
 
+        void ShowWeaponData()
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.BulletName.text = GameManager.Inst().TxtManager.BulletTypeNames[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType];
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.BulletLevelText.text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetPowerLevel().ToString();
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.RarityText.text = GameManager.Inst().TxtManager.RarityNames[GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetRarity()];
+
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.StatusText[0].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetDamage().ToString();
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.StatusText[1].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetSpeed().ToString();
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.StatusText[2].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetHealth().ToString();
+
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.ReinforceText[0].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetAtk().ToString();
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.ReinforceText[1].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetSpd().ToString();
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.ReinforceText[2].text = GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetHp().ToString();
+
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.ReinforceImage[0].fillAmount = (float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetAtk() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetMaxAtk();
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.ReinforceImage[1].fillAmount = (float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetSpd() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetMaxSpd();
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.ReinforceImage[2].fillAmount = (float)GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetHp() / GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetMaxHp();
+
+            if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetRarity() == Constants.MAXRARITY - 1 &&
+                GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetPowerLevel() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetMaxBulletLevel())
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.PlusLevelBtn.interactable = false;
+            else
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.PlusLevelBtn.interactable = true;
+
+            if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetRarity() == 0 &&
+                GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetPowerLevel() <= 1)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.MinusLevelBtn.interactable = false;
+            else
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.MinusLevelBtn.interactable = true;
+
+            if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetAtk() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetMaxAtk())
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.PlusReinforceBtn[0].interactable = false;
+            else
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.PlusReinforceBtn[0].interactable = true;
+
+            if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetAtk() <= 0)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.MinusReinforceBtn[0].interactable = false;
+            else
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.MinusReinforceBtn[0].interactable = true;
+
+            if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetSpd() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetMaxSpd())
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.PlusReinforceBtn[1].interactable = false;
+            else
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.PlusReinforceBtn[1].interactable = true;
+
+            if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetSpd() <= 0)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.MinusReinforceBtn[1].interactable = false;
+            else
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.MinusReinforceBtn[1].interactable = true;
+
+            if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetHp() >= GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetMaxHp())
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.PlusReinforceBtn[2].interactable = false;
+            else
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.PlusReinforceBtn[2].interactable = true;
+
+            if (GameManager.Inst().UpgManager.BData[GameManager.Inst().UiManager.MainUI.Center.Cheat.CurrentBulletType].GetHp() <= 0)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.MinusReinforceBtn[2].interactable = false;
+            else
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.MinusReinforceBtn[2].interactable = true;
+        }
     }
 
-    //Button
+    class ResourcePage : PageType
+    {
+        public void ShowPage()
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.CoinText.text = GameManager.Inst().Player.GetCoin().ToString();
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.JewelText.text = GameManager.Inst().Jewel.ToString();
+            for (int i = 0; i < Constants.MAXRESOURCETYPES; i++)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.ResourceTexts[i].text = GameManager.Inst().Resources[i].ToString();
+        }
+    }
+
+    class StagePage : PageType
+    {
+        public void ShowPage()
+        {
+            for (int i = 0; i < GameManager.Inst().StgManager.ReachedStage; i++)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.StageBtns[i].interactable = false;
+
+            int count = 0;
+            for (int i = 0; i < GameManager.Inst().QstManager.Quests.Count; i++)
+            {
+                if (GameManager.Inst().QstManager.Quests[i].QuestId / 10000 == GameManager.Inst().StgManager.ReachedStage)
+                {
+                    GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestSlots[count].Desc.text = 
+                        GameManager.Inst().QstManager.Quests[i].QuestDesc;
+                    GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestSlots[count].Count.text = 
+                        GameManager.Inst().QstManager.Quests[i].CurrentCount.ToString() + " / " + GameManager.Inst().QstManager.Quests[i].GoalCount.ToString();
+                    GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestSlots[count].ProgressBar.fillAmount = 
+                        (float)GameManager.Inst().QstManager.Quests[i].CurrentCount / GameManager.Inst().QstManager.Quests[i].GoalCount;
+                    GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestSlots[count].QuestID = 
+                        GameManager.Inst().QstManager.Quests[i].QuestId;
+
+                    if (GameManager.Inst().QstManager.Quests[i].CurrentCount <= 0)
+                        GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestBtns[count * 2 + 1].interactable = false;
+                    else
+                        GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestBtns[count * 2 + 1].interactable = true;
+
+                    if (GameManager.Inst().QstManager.Quests[i].CurrentCount >= GameManager.Inst().QstManager.Quests[i].GoalCount)
+                    {
+                        GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestSlots[count].Check.SetActive(true);
+                        GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestBtns[count * 2].interactable = false;
+                    }
+                    else
+                    {
+                        GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestSlots[count].Check.SetActive(false);
+                        GameManager.Inst().UiManager.MainUI.Center.Cheat.QuestBtns[count * 2].interactable = true;
+                    }
+
+                    count++;
+                }
+            }
+        }
+    }
+
+    class ItemPage : PageType
+    {
+        public void ShowPage()
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
+
+            for (int i = 0; i < 2; i++)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.InventoryBtns[i].interactable = true;
+
+            if (GameManager.Inst().Player.MaxInventory >= Constants.MAXINVENTORY)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.InventoryBtns[0].interactable = false;
+            else if (GameManager.Inst().Player.MaxInventory <= Constants.MININVENTORY)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.InventoryBtns[1].interactable = false;
+
+            ShowReinforceDetail();
+            ShowEquipDetail();
+        }
+
+        void ShowReinforceDetail()
+        {
+            string str = GameManager.Inst().UiManager.MainUI.Center.Cheat.ReinforceTypes[GameManager.Inst().UiManager.MainUI.Center.Cheat.ReinforceType];
+            str += " + 1";
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.ReinforceValueText.text = str;
+        }
+
+        void ShowEquipValue()
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueText.text = GameManager.Inst().EquipDatas[GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipType, GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipRarity, 1].ToString();
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueBtns[1].interactable = false;
+            if (GameManager.Inst().EquipDatas[GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipType, GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipRarity, 2] <= 0)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueBtns[0].interactable = false;
+            else
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueBtns[0].interactable = true;
+        }
+
+        void ShowEquipDetail()
+        {
+            ShowEquipValue();
+
+            string detail = "";
+            if (GameManager.Inst().EquipDatas[GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipType, GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipRarity, 0] > 0)
+                detail += GameManager.Inst().EquipDatas[GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipType, GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipRarity, 0].ToString();
+            detail += GameManager.Inst().TxtManager.EquipDetailFront[GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipType];
+            if (int.Parse(GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueText.text) > 0)
+                detail += GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueText.text;
+            detail += GameManager.Inst().TxtManager.EquipDetailBack[GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipType];
+
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipDetailText.text = detail;
+        }
+    }
+
+    class DataPage : PageType
+    {
+        public void ShowPage()
+        {
+
+        }
+    }
+
+    //Button Interaction
+    //Character
+    public void OnClickCreate(int index)
+    {
+        GameManager.Inst().UpgManager.AddSW(index);
+        GameManager.Inst().UpgManager.AfterWork(index);
+
+        ShowPage();
+    }
+
+    public void OnClickDelete(int index)
+    {
+        GameManager.Inst().GetSubweapons(index).Disable();
+
+        ShowPage();
+    }
+
     public void OnClickRevive(int index)
     {
-        if(index == 0)
+        if (index == 0)
             GameManager.Inst().Player.Revive();
         else
         {
@@ -315,7 +394,7 @@ public class Cheat : MonoBehaviour
                 GodModeBtnTexts[index].color = Color.yellow;
             }
         }
-            
+
         else
         {
             int i = index - 1;
@@ -333,28 +412,14 @@ public class Cheat : MonoBehaviour
         }
     }
 
-    public void OnClickCreate(int index)
-    {
-        GameManager.Inst().UpgManager.AddSW(index);
-        GameManager.Inst().UpgManager.AfterWork(index);
-
-        CharacterOnButtons(index);
-    }
-
-    public void OnClickDelete(int index)
-    {
-        GameManager.Inst().GetSubweapons(index).Disable();
-
-        CharacterOffButtons(index);
-    }
-
+    //Weapon
     public void OnClickNextWeaponBtn()
     {
         CurrentBulletType++;
         if (CurrentBulletType >= Constants.MAXBULLETS)
             CurrentBulletType = 0;
 
-        ShowWeaponData();
+        ShowPage();
     }
 
     public void OnClickPrevWeaponBtn()
@@ -363,7 +428,7 @@ public class Cheat : MonoBehaviour
         if (CurrentBulletType <= 0)
             CurrentBulletType = Constants.MAXBULLETS - 1;
 
-        ShowWeaponData();
+        ShowPage();
     }
 
     public void OnClickPlusWeaponLevelBtn()
@@ -373,7 +438,7 @@ public class Cheat : MonoBehaviour
         else
             GameManager.Inst().UpgManager.RarityUp(CurrentBulletType);
 
-        ShowWeaponData();
+        ShowPage();
     }
 
     public void OnClickMinusWeaponLevelBtn()
@@ -383,7 +448,7 @@ public class Cheat : MonoBehaviour
         else
             GameManager.Inst().UpgManager.RarityDown(CurrentBulletType);
 
-        ShowWeaponData();
+        ShowPage();
     }
 
     public void OnClickReinforceGauge(int index)
@@ -406,12 +471,12 @@ public class Cheat : MonoBehaviour
                 break;
         }
 
-        ShowWeaponData();
+        ShowPage();
     }
 
     public void OnClickPlusWeaponReinforceBtn(int index)
     {
-        switch(index)
+        switch (index)
         {
             case 0:
                 GameManager.Inst().UpgManager.BData[CurrentBulletType].SetAtk(GameManager.Inst().UpgManager.BData[CurrentBulletType].GetAtk() + 1);
@@ -424,7 +489,7 @@ public class Cheat : MonoBehaviour
                 break;
         }
 
-        ShowWeaponData();
+        ShowPage();
     }
 
     public void OnClickMinusWeaponReinforceBtn(int index)
@@ -442,65 +507,14 @@ public class Cheat : MonoBehaviour
                 break;
         }
 
-        ShowWeaponData();
+        ShowPage();
     }
 
-    void ShowReinforceDetail()
-    {
-        string str = ReinforceTypes[ReinforceType];
-        str += " + ";
-        switch (ReinforceRarity)
-        {
-            case 0:
-                str += "1";
-                break;
-
-            case 1:
-                str += "5";
-                break;
-
-            case 2:
-                str += "20";
-                break;
-
-            case 3:
-                str += "75";
-                break;
-
-            case 4:
-                str += "250";
-                break;
-        }
-        ReinforceValueText.text = str;
-    }
-
-    void ShowEquipValue()
-    {
-        EquipValueText.text = GameManager.Inst().EquipDatas[EquipType, EquipRarity, 1].ToString();
-        EquipValueBtns[1].interactable = false;
-        if (GameManager.Inst().EquipDatas[EquipType, EquipRarity, 2] <= 0)
-            EquipValueBtns[0].interactable = false;
-        else
-            EquipValueBtns[0].interactable = true;
-    }
-
-    void ShowEquipDetail()
-    {
-        string detail = "";
-        if (GameManager.Inst().EquipDatas[EquipType, EquipRarity, 0] > 0)
-            detail += GameManager.Inst().EquipDatas[EquipType, EquipRarity, 0].ToString();
-        detail += GameManager.Inst().TxtManager.EquipDetailFront[EquipType];
-        if (int.Parse(EquipValueText.text) > 0)
-            detail += EquipValueText.text;
-        detail += GameManager.Inst().TxtManager.EquipDetailBack[EquipType];
-
-        EquipDetailText.text = detail;
-    }
-
-   public void OnClickInputBtn(int type)
+    //Resource
+    public void OnClickInputBtn(int type)
     {
         string str = "";
-        switch(type)
+        switch (type)
         {
             case 0:
                 str = CoinText.text;
@@ -531,99 +545,13 @@ public class Cheat : MonoBehaviour
         NumInput.Show(str, type);
     }
 
-    public void OnSelectReinforceType(int type)
-    {
-        ReinforceType = type;
-
-        ShowReinforceDetail();
-    }
-
-    public void OnSelectReinforceRarity(int rarity)
-    {
-        ReinforceRarity = rarity;
-
-        ShowReinforceDetail();
-    }
-
-    public void OnClickMakeReinforceBtn()
-    {
-        GameManager.Inst().MakeReinforceData(ReinforceType, ReinforceRarity);
-    }
-
-    public void OnSelectEquipType(int type)
-    {
-        EquipType = type;
-
-        ShowEquipValue();
-        ShowEquipDetail();
-    }
-
-    public void OnSelectEquipRarity(int rarity)
-    {
-        EquipRarity = rarity;
-
-        ShowEquipValue();
-        ShowEquipDetail();
-    }
-
-    public void OnClickEquipValueBtn(int index)
-    {
-        if (index == 0)
-        {
-            EquipValueBtns[1].interactable = true;
-
-            EquipValueText.text = (int.Parse(EquipValueText.text) + 1).ToString();
-            if (int.Parse(EquipValueText.text) >= GameManager.Inst().EquipDatas[EquipType, EquipRarity, 2])
-                EquipValueBtns[0].interactable = false;
-        }
-        else
-        {
-            EquipValueBtns[0].interactable = true;
-
-            EquipValueText.text = (int.Parse(EquipValueText.text) - 1).ToString();
-            if (int.Parse(EquipValueText.text) <= GameManager.Inst().EquipDatas[EquipType, EquipRarity, 1])
-                EquipValueBtns[1].interactable = false;
-        }
-
-        ShowEquipDetail();
-    }
-
-    public void OnClickMakeEquipBtn()
-    {
-        GameManager.Inst().MakeEquipData(EquipType, EquipRarity);
-    }
-
-    public void OnClickInventoryBtn(int index)
-    {
-        if(index == 0)
-        {
-            InventoryBtns[1].interactable = true;
-
-            GameManager.Inst().Player.MaxInventory += 10;
-            GameManager.Inst().AddInventory(10);
-            MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
-
-            if (GameManager.Inst().Player.MaxInventory >= Constants.MAXINVENTORY)
-                InventoryBtns[0].interactable = false;
-        }
-        else
-        {
-            InventoryBtns[0].interactable = true;
-
-            GameManager.Inst().Player.MaxInventory -= 10;
-            MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
-
-            if (GameManager.Inst().Player.MaxInventory <= Constants.MININVENTORY)
-                InventoryBtns[1].interactable = false;
-        }
-    }
-
+    //Stage
     public void OnClickStageBtn(int index)
     {
-        for(int i = GameManager.Inst().StgManager.ReachedStage - 1; i < index; i++)
+        for (int i = GameManager.Inst().StgManager.ReachedStage - 1; i < index; i++)
             GameManager.Inst().QstManager.OpenNextStage(index + 1);
 
-        ShowStagePage();
+        ShowPage();
     }
 
     public void OnClickQuestUpBtn(int index)
@@ -646,6 +574,97 @@ public class Cheat : MonoBehaviour
         IsQstDowns[index] = false;
     }
 
+    //Item
+    public void OnSelectReinforceType(int type)
+    {
+        ReinforceType = type;
+
+        ShowPage();
+    }
+
+    public void OnSelectReinforceRarity(int rarity)
+    {
+        ReinforceRarity = rarity;
+
+        ShowPage();
+    }
+
+    public void OnClickMakeReinforceBtn()
+    {
+        GameManager.Inst().MakeReinforceData(ReinforceType, ReinforceRarity);
+    }
+
+    public void OnSelectEquipType(int type)
+    {
+        EquipType = type;
+
+        ShowPage();
+    }
+
+    public void OnSelectEquipRarity(int rarity)
+    {
+        EquipRarity = rarity;
+
+        ShowPage();
+    }
+
+    public void OnClickEquipValueBtn(int index)
+    {
+        if (index == 0)
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueBtns[1].interactable = true;
+
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueText.text =
+                (int.Parse(GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueText.text) + 1).ToString();
+            if (int.Parse(GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueText.text) >=
+                GameManager.Inst().EquipDatas[EquipType, EquipRarity, 2])
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueBtns[0].interactable = false;
+        }
+        else
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueBtns[0].interactable = true;
+
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueText.text =
+                (int.Parse(GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueText.text) - 1).ToString();
+            if (int.Parse(GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueText.text) <=
+                GameManager.Inst().EquipDatas[EquipType, EquipRarity, 1])
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.EquipValueBtns[1].interactable = false;
+        }
+
+        ShowPage();
+    }
+
+    public void OnClickMakeEquipBtn()
+    {
+        GameManager.Inst().MakeEquipData(EquipType, EquipRarity);
+    }
+
+    public void OnClickInventoryBtn(int index)
+    {
+        if (index == 0)
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.InventoryBtns[1].interactable = true;
+
+            GameManager.Inst().Player.MaxInventory += 10;
+            GameManager.Inst().AddInventory(10);
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
+
+            if (GameManager.Inst().Player.MaxInventory >= Constants.MAXINVENTORY)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.InventoryBtns[0].interactable = false;
+        }
+        else
+        {
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.InventoryBtns[0].interactable = true;
+
+            GameManager.Inst().Player.MaxInventory -= 10;
+            GameManager.Inst().UiManager.MainUI.Center.Cheat.MaxInventoryText.text = GameManager.Inst().Player.MaxInventory.ToString();
+
+            if (GameManager.Inst().Player.MaxInventory <= Constants.MININVENTORY)
+                GameManager.Inst().UiManager.MainUI.Center.Cheat.InventoryBtns[1].interactable = false;
+        }
+    }
+
+    //Data
     public void OnClickDateDeleteBtn()
     {
         GameManager.Inst().DatManager.GameData.ResetData();

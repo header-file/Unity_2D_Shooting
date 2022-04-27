@@ -27,6 +27,7 @@ public class StageManager : MonoBehaviour
     bool IsFeverMode;
     int EnemyCount;
     float BossGaugeBarSize;
+
     
     void StartEnemy() { Invoke("SpawnEnemies", 2.0f); }
 
@@ -276,7 +277,7 @@ public class StageManager : MonoBehaviour
         InvokeRepeating("SpawnLarge", 0.0f, LargeTime);
     }
 
-    void SpawnSmall()
+    public void SpawnSmall()
     {
         Enemy enemy = GameManager.Inst().ObjManager.MakeObj("EnemyS").GetComponent<Enemy>();
         SetTransform(enemy, new Vector3(0.0f, 0.0f, 0.05f * EnemyCount++));
@@ -427,7 +428,7 @@ public class StageManager : MonoBehaviour
     {
         Vector3 pos = fixedPos;
         if (fixedPos.y == 0)
-        {            
+        {
             pos.x = Random.Range(-2.0f, 2.0f);
             pos.y = Random.Range(9.0f, 11.0f);
             pos.z = 0.05f * EnemyCount++;

@@ -221,7 +221,7 @@ public class ShootingManager : MonoBehaviour
 
             case 1:
             case 3:
-                for(int i = 6 - Rarity; i <= 6; i++)
+                for (int i = 6 - Rarity; i <= 6; i++)
                 {
                     Objs[i] = GameManager.Inst().ObjManager.MakeBullet("Normal", Index);
                     Objs[i].transform.position = NormalPos[i].transform.position;

@@ -120,6 +120,7 @@ public class MainUI : MonoBehaviour
         ZzinBottom.OnClickHomeBtn();
 
         Center.Cheat.gameObject.SetActive(true);
+        Center.Cheat.ShowPage();
 
         GameManager.Inst().UiManager.MainUI.ZzinBottom.HomeBtn.SetActive(true);
 
